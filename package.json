@@ -1,0 +1,20 @@
+{
+  "name": "letgo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.weoa.com:mumblefe/letgo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@webank/eslint-config-ts": "^1.0.9",
+    "typescript": "^4.7.4"
+  }
+}

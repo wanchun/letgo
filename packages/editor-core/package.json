@@ -1,5 +1,5 @@
 {
-  "name": "editor-core",
+  "name": "letgo-editor-core",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,18 +9,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@fesjs/builder-vite": "^3.0.0-beta.8",
-    "@fesjs/fes": "^3.0.0-beta.4",
-    "@fesjs/fes-design": "^0.5.15",
-    "@fesjs/plugin-request": "^3.0.0-beta.7",
-    "@vueuse/core": "^8.9.0",
-    "lodash-es": "^4.17.21",
-    "vue": "^3.2.37"
-  },
-  "devDependencies": {
-    "@vue/compiler-sfc": "^3.2.37"
-  },
   "publishConfig": {
     "access": "public"
   }

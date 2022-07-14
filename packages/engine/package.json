@@ -1,5 +1,5 @@
 {
-  "name": "@webank/letgo-renderer",
+  "name": "@webank/letgo-engine",
   "version": "1.0.0",
   "description": "",
   "files": [
@@ -11,6 +11,12 @@
   "module": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "semver": "^7.3.5",
+    "@webank/letgo-editor-core": "^1.0.0",
+    "@webank/letgo-utils": "^1.0.0",
+    "@webank/letgo-designer": "^1.0.0"
   },
   "keywords": [],
   "author": "",

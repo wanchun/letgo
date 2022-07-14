@@ -15,7 +15,8 @@
     "@fesjs/plugin-request": "^3.0.0-beta.7",
     "@vueuse/core": "^8.9.0",
     "lodash-es": "^4.17.21",
-    "vue": "^3.2.37"
+    "vue": "^3.2.37",
+    "core-js": "^3.19.2"
   },
   "devDependencies": {
     "@vue/compiler-sfc": "^3.2.37"

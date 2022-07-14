@@ -10,7 +10,34 @@ importers:
       '@webank/eslint-config-ts': 1.0.9_typescript@4.7.4
       typescript: 4.7.4
 
+  packages/designer:
+    specifiers: {}
+
   packages/editor-core:
+    specifiers: {}
+
+  packages/editor-skeleton:
+    specifiers: {}
+
+  packages/engine:
+    specifiers:
+      '@webank/letgo-designer': ^1.0.0
+      '@webank/letgo-editor-core': ^1.0.0
+      '@webank/letgo-utils': ^1.0.0
+      semver: ^7.3.5
+    dependencies:
+      '@webank/letgo-designer': link:../designer
+      '@webank/letgo-editor-core': link:../editor-core
+      '@webank/letgo-utils': link:../utils
+      semver: 7.3.7
+
+  packages/renderer:
+    specifiers: {}
+
+  packages/simulator-renderer:
+    specifiers: {}
+
+  packages/template:
     specifiers:
       '@fesjs/builder-vite': ^3.0.0-beta.8
       '@fesjs/fes': ^3.0.0-beta.4
@@ -18,18 +45,31 @@ importers:
       '@fesjs/plugin-request': ^3.0.0-beta.7
       '@vue/compiler-sfc': ^3.2.37
       '@vueuse/core': ^8.9.0
+      core-js: ^3.19.2
       lodash-es: ^4.17.21
       vue: ^3.2.37
     dependencies:
-      '@fesjs/builder-vite': 3.0.0-beta.8_baee973b25f3f0b9a5569e04c0fd6d0e
+      '@fesjs/builder-vite': 3.0.0-beta.8_88c6520f264388468397e59bd0252c0e
       '@fesjs/fes': 3.0.0-beta.4_d630c6e62e57883073e01353ac259b01
       '@fesjs/fes-design': 0.5.15_vue@3.2.37
       '@fesjs/plugin-request': 3.0.0-beta.7_0f340a8695750b487e8c7eb8e64aafde
       '@vueuse/core': 8.9.0_vue@3.2.37
+      core-js: 3.23.3
       lodash-es: 4.17.21
       vue: 3.2.37
     devDependencies:
       '@vue/compiler-sfc': 3.2.37
+
+  packages/types:
+    specifiers: {}
+
+  packages/utils:
+    specifiers:
+      lodash: ^4.17.21
+      zen-logger: ^1.1.0
+    dependencies:
+      lodash: 4.17.21
+      zen-logger: 1.1.4
 
 packages:
 
@@ -1252,7 +1292,7 @@ packages:
       - supports-color
     dev: true
 
-  /@fesjs/builder-vite/3.0.0-beta.8_baee973b25f3f0b9a5569e04c0fd6d0e:
+  /@fesjs/builder-vite/3.0.0-beta.8_88c6520f264388468397e59bd0252c0e:
     resolution: {integrity: sha512-zm5E04nfkpMJN5mbRYQYzRwEw2ALsujlVtCUDKJtjw0M/AYMg+sfIp1dkEWxOjg35E0hchKL3JeFmTGbt46BXg==}
     peerDependencies:
       '@fesjs/fes': ^3.0.0-beta.0
@@ -1268,6 +1308,7 @@ packages:
       '@vue/compiler-sfc': 3.2.37
       autoprefixer: 10.4.7
       babel-plugin-polyfill-corejs3: 0.5.2_@babel+core@7.18.6
+      core-js: 3.23.3
       less: 4.1.3
       postcss-flexbugs-fixes: 5.0.2
       postcss-safe-parser: 6.0.0
@@ -1492,7 +1533,7 @@ packages:
     dev: false
 
   /@nodelib/fs.scandir/2.1.5:
-    resolution: {integrity: sha1-dhnC6yGyVIP20WdUi0z9WnSIw9U=, tarball: '@nodelib/fs.scandir/download/@nodelib/fs.scandir-2.1.5.tgz'}
+    resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
     dependencies:
       '@nodelib/fs.stat': 2.0.5
@@ -2290,7 +2331,7 @@ packages:
     dev: false
 
   /concat-map/0.0.1:
-    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=, tarball: concat-map/download/concat-map-0.0.1.tgz}
+    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
   /connect-history-api-fallback/1.6.0:
     resolution: {integrity: sha512-e54B99q/OUoH64zYYRf3HBP5z24G38h5D3qXu23JGRoigpX5Ss4r9ZnDk3g0Z8uQC2x2lPaJ+UlWBc1ZWBWdLg==}
@@ -2320,7 +2361,7 @@ packages:
     dev: false
 
   /cookie-signature/1.0.6:
-    resolution: {integrity: sha1-4wOogrNCzD7oylE6eZmXNNqzriw=, tarball: cookie-signature/download/cookie-signature-1.0.6.tgz}
+    resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
     dev: false
 
   /cookie/0.5.0:
@@ -3220,7 +3261,7 @@ packages:
     dev: false
 
   /forwarded/0.2.0:
-    resolution: {integrity: sha1-ImmTZCiq1MFcfr6XeahL8LKoGBE=, tarball: forwarded/download/forwarded-0.2.0.tgz}
+    resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -3800,7 +3841,7 @@ packages:
     dev: false
 
   /media-typer/0.3.0:
-    resolution: {integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=, tarball: media-typer/download/media-typer-0.3.0.tgz}
+    resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -4464,7 +4505,7 @@ packages:
     dev: false
 
   /setprototypeof/1.2.0:
-    resolution: {integrity: sha1-ZsmiSnP5/CjL5msJ/tPTPcrxtCQ=, tarball: setprototypeof/download/setprototypeof-1.2.0.tgz}
+    resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==}
     dev: false
 
   /shallow-clone/3.0.1:
@@ -4628,7 +4669,7 @@ packages:
       is-number: 7.0.0
 
   /toidentifier/1.0.1:
-    resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==, tarball: toidentifier/download/toidentifier-1.0.1.tgz}
+    resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==}
     engines: {node: '>=0.6'}
     dev: false
 
@@ -4749,7 +4790,7 @@ packages:
     dev: true
 
   /utils-merge/1.0.1:
-    resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=, tarball: utils-merge/download/utils-merge-1.0.1.tgz}
+    resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
     dev: false
 
@@ -4923,4 +4964,8 @@ packages:
       string-width: 4.2.3
       y18n: 5.0.8
       yargs-parser: 21.0.1
+    dev: false
+
+  /zen-logger/1.1.4:
+    resolution: {integrity: sha512-Aidoas1IyoaJ+wxV0lefJsMtWTMfiKduICtNpni03CRu4GKIuEXd38/CWDQzGNfhhoNfkHKKF1nLOpKcTb4jXw==}
     dev: false

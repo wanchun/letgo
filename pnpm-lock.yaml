@@ -14,13 +14,23 @@ importers:
     specifiers: {}
 
   packages/editor-core:
-    specifiers: {}
+    specifiers:
+      '@webank/letgo-types': ^1.0.0
+      events: ^3.3.0
+      lodash-es: ^4.17.21
+      strict-event-emitter-types: ^2.0.0
+    dependencies:
+      '@webank/letgo-types': link:../types
+      events: 3.3.0
+      lodash-es: 4.17.21
+      strict-event-emitter-types: 2.0.0
 
   packages/editor-skeleton:
     specifiers: {}
 
   packages/engine:
     specifiers:
+      '@types/semver': 7.3.9
       '@webank/letgo-designer': ^1.0.0
       '@webank/letgo-editor-core': ^1.0.0
       '@webank/letgo-types': ^1.0.0
@@ -32,6 +42,8 @@ importers:
       '@webank/letgo-types': link:../types
       '@webank/letgo-utils': link:../utils
       semver: 7.3.7
+    devDependencies:
+      '@types/semver': 7.3.9
 
   packages/renderer:
     specifiers: {}
@@ -1596,6 +1608,10 @@ packages:
     resolution: {integrity: sha512-SzWYVzP7Q8w4/976Gi3a6+J/8/VNTq6AW7wDafXorr1MYTxyZqJTbUvwQt1hiG3PXyFUMIKr+s6q3+MLz2c/TQ==}
     dev: false
 
+  /@types/semver/7.3.9:
+    resolution: {integrity: sha512-L/TMpyURfBkf+o/526Zb6kd/tchUP3iBDEPjqjb+U2MAJhVRxxrmr2fwpe08E7QsV7YLcpq0tUaQ9O9x97ZIxQ==}
+    dev: true
+
   /@types/web-bluetooth/0.0.14:
     resolution: {integrity: sha512-5d2RhCard1nQUC3aHcq/gHzWYO6K0WJmAbjO7mQJgCQKtZpgXxv1rOM6O/dBDhDYYVutk1sciOgNSe+5YyfM8A==}
     dev: false
@@ -3108,6 +3124,11 @@ packages:
     engines: {node: '>= 0.6'}
     dev: false
 
+  /events/3.3.0:
+    resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
+    engines: {node: '>=0.8.x'}
+    dev: false
+
   /express/4.18.1:
     resolution: {integrity: sha512-zZBcOX9TfehHQhtupq57OF8lFZ3UZi08Y97dwFCkD8p9d/d2Y3M+ykKcwaMDEL+4qyUolgBDX6AblpR3fL212Q==}
     engines: {node: '>= 0.10.0'}
@@ -4571,6 +4592,10 @@ packages:
 
   /stickybits/3.7.9:
     resolution: {integrity: sha512-wSEH/RO0TPIeI1rYI6p3Hv9FFSKr6+58Ru4xyYbEgd4PfE1r3TGgbYUWvW6SwnfoRY3DMDLxOuvUoW+8LWblQQ==}
+    dev: false
+
+  /strict-event-emitter-types/2.0.0:
+    resolution: {integrity: sha512-Nk/brWYpD85WlOgzw5h173aci0Teyv8YdIAEtV+N88nDB0dLlazZyJMIsN6eo1/AR61l+p6CJTG1JIyFaoNEEA==}
     dev: false
 
   /string-width/4.2.3:

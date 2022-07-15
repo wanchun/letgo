@@ -1,5 +1,5 @@
 import { NpmInfo } from './npm';
-import { JSExpression, JSFunction } from './valueType';
+import { JSExpression, JSFunction } from './value-type';
 
 export type InternalUtils = {
     name: string;

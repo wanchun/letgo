@@ -11,5 +11,7 @@ module.exports = {
         node: true,
         jest: true,
     },
-    rules: {},
+    rules: {
+        'no-undefined': 'off',
+    },
 };

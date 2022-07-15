@@ -12,6 +12,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "dependencies": {
+    "lodash-es": "^4.17.21",
+    "events": "^3.3.0",
+    "strict-event-emitter-types": "^2.0.0",
+    "@webank/letgo-types": "^1.0.0"
+  },
+  "devDependencies": {
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

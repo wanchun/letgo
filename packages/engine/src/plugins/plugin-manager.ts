@@ -1,41 +1,39 @@
 import { Editor, engineConfig } from '@webank/letgo-editor-core';
 import { getLogger } from '@webank/letgo-utils';
 import {
-    ILowCodePlugin,
-    ILowCodePluginConfig,
-    ILowCodePluginManager,
-    ILowCodePluginContext,
-    ILowCodeRegisterOptions,
-    IPluginContextOptions,
     PreferenceValueType,
-    ILowCodePluginConfigMeta,
+    IPluginManager,
+    IPlugin,
     PluginPreference,
-    ILowCodePluginPreferenceDeclaration,
-    isLowCodeRegisterOptions,
+    IPluginRegisterOptions,
+    IPluginContextOptions,
+    IPluginConfig,
+    isPluginRegisterOptions,
+    IPluginPreferenceDeclaration,
 } from './plugin-types';
-import { filterValidOptions } from './plugin-utils';
-import { LowCodePlugin } from './plugin';
-import LowCodePluginContext from './plugin-context';
+import { Plugin } from './plugin';
+import PluginContext from './plugin-context';
 import { invariant } from '../utils';
 import sequencify from './sequencify';
 import semverSatisfies from 'semver/functions/satisfies';
 
 const logger = getLogger({ level: 'warn', bizName: 'engine:pluginManager' });
 
-export class LowCodePluginManager implements ILowCodePluginManager {
-    private plugins: ILowCodePlugin[] = [];
+export class PluginManager implements IPluginManager {
+    editor: Editor;
 
-    private pluginsMap: Map<string, ILowCodePlugin> = new Map();
+    private plugins: IPlugin[] = [];
+
+    private pluginsMap: Map<string, IPlugin> = new Map();
 
     private pluginPreference?: PluginPreference = new Map();
-    private editor: Editor;
 
     constructor(editor: Editor) {
         this.editor = editor;
     }
 
-    private _getLowCodePluginContext(options: IPluginContextOptions) {
-        return new LowCodePluginContext(this, options);
+    private _getPluginContext(options: IPluginContextOptions) {
+        return new PluginContext(this, options);
     }
 
     isEngineVersionMatched(versionExp: string): boolean {
@@ -54,42 +52,23 @@ export class LowCodePluginManager implements ILowCodePluginManager {
      * @param registerOptions - the plugin register options
      */
     async register(
-        pluginConfigCreator: (
-            ctx: ILowCodePluginContext,
-            options: any,
-        ) => ILowCodePluginConfig,
+        pluginConfig: IPluginConfig,
         options?: any,
-        registerOptions?: ILowCodeRegisterOptions,
+        registerOptions?: IPluginRegisterOptions,
     ): Promise<void> {
         // registerOptions maybe in the second place
-        if (isLowCodeRegisterOptions(options)) {
+        if (isPluginRegisterOptions(options)) {
             registerOptions = options;
             options = {};
         }
-        let { pluginName, meta = {} } = pluginConfigCreator as any;
-        const { preferenceDeclaration, engines } =
-            meta as ILowCodePluginConfigMeta;
-        const ctx = this._getLowCodePluginContext({ pluginName });
-        const customFilterValidOptions = engineConfig.get(
-            'customPluginFilterOptions',
-            filterValidOptions,
-        );
-        const config = pluginConfigCreator(
-            ctx,
-            customFilterValidOptions(options, preferenceDeclaration!),
-        );
-        // compat the legacy way to declare pluginName
-        // @ts-ignore
-        pluginName = pluginName || config.name;
-        invariant(
-            pluginName,
-            'pluginConfigCreator.pluginName required',
-            config,
-        );
+        const { name: pluginName, meta = {} } = pluginConfig;
+        const { preferenceDeclaration, engines } = meta;
+        const ctx = this._getPluginContext({ pluginName });
+        invariant(pluginName, 'pluginConfig.pluginName required', pluginConfig);
 
         ctx.setPreference(
             pluginName,
-            preferenceDeclaration as ILowCodePluginPreferenceDeclaration,
+            preferenceDeclaration as IPluginPreferenceDeclaration,
         );
 
         const allowOverride = registerOptions?.override === true;
@@ -111,7 +90,7 @@ export class LowCodePluginManager implements ILowCodePluginManager {
             }
         }
 
-        const engineVersionExp = engines && engines.lowcodeEngine;
+        const engineVersionExp = engines && engines.version;
         if (
             engineVersionExp &&
             !this.isEngineVersionMatched(engineVersionExp)
@@ -119,11 +98,18 @@ export class LowCodePluginManager implements ILowCodePluginManager {
             throw new Error(
                 `plugin ${pluginName} skipped, engine check failed, current engine version is ${engineConfig.get(
                     'ENGINE_VERSION',
-                )}, meta.engines.lowcodeEngine is ${engineVersionExp}`,
+                )}, meta.engines.version is ${engineVersionExp}`,
             );
         }
 
-        const plugin = new LowCodePlugin(pluginName, this, config, meta);
+        const plugin = new Plugin(
+            pluginName,
+            this,
+            pluginConfig,
+            meta,
+            ctx,
+            options,
+        );
         // support initialization of those plugins which registered after normal initialization by plugin-manager
         if (registerOptions?.autoInit) {
             await plugin.init();
@@ -131,15 +117,15 @@ export class LowCodePluginManager implements ILowCodePluginManager {
         this.plugins.push(plugin);
         this.pluginsMap.set(pluginName, plugin);
         logger.log(
-            `plugin registered with pluginName: ${pluginName}, config: ${config}, meta: ${meta}`,
+            `plugin registered with pluginName: ${pluginName}, config: ${pluginConfig}, meta: ${meta}`,
         );
     }
 
-    get(pluginName: string): ILowCodePlugin | undefined {
+    get(pluginName: string): IPlugin | undefined {
         return this.pluginsMap.get(pluginName);
     }
 
-    getAll(): ILowCodePlugin[] {
+    getAll(): IPlugin[] {
         return this.plugins;
     }
 
@@ -161,7 +147,7 @@ export class LowCodePluginManager implements ILowCodePluginManager {
 
     async init(pluginPreference?: PluginPreference) {
         const pluginNames: string[] = [];
-        const pluginObj: { [name: string]: ILowCodePlugin } = {};
+        const pluginObj: { [name: string]: IPlugin } = {};
         this.pluginPreference = pluginPreference;
         this.plugins.forEach((plugin) => {
             pluginNames.push(plugin.name);

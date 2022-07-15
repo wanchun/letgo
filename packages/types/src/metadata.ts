@@ -1,4 +1,4 @@
-import { PropConfig, PropType } from './propConfig';
+import { PropConfig, PropType } from './prop-config';
 import { NpmInfo } from './npm';
 import { NodeSchema } from './schema';
 

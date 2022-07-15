@@ -1,5 +1,6 @@
 import { Logger } from '@webank/letgo-utils';
 import { EngineConfig, Editor } from '@webank/letgo-editor-core';
+import { Designer } from '@webank/letgo-designer';
 import { Skeleton, Hotkey, Setters, Project, Material } from '../shell';
 import { CompositeObject } from '@webank/letgo-types';
 
@@ -31,10 +32,17 @@ export interface IPluginPreferenceDeclaration {
     properties: IPluginPreferenceDeclarationProperty[];
 }
 
+export type PluginPreference = Map<string, Record<string, PreferenceValueType>>;
+
+export interface IPluginConfigMetaEngineConfig {
+    version?: string;
+}
+
 export interface IPluginConfigMeta {
     preferenceDeclaration?: IPluginPreferenceDeclaration;
     // 依赖插件名
     dependencies?: string[];
+    engines?: IPluginConfigMetaEngineConfig;
 }
 
 export interface IPluginPreferenceManager {
@@ -46,13 +54,14 @@ export interface IPluginPreferenceManager {
 }
 
 export interface IPluginContext {
+    editor: Editor;
+    designer: Designer;
     skeleton: Skeleton;
     hotkey: Hotkey;
     logger: Logger;
     plugins: IPluginManager;
     setters: Setters;
     config: EngineConfig;
-    editor: Editor;
     material: Material;
     project: Project;
     preference: IPluginPreferenceManager;
@@ -62,6 +71,9 @@ export interface IPluginConfig {
     name: string;
     init: (ctx: IPluginContext, options: any) => void;
     meta: IPluginConfigMeta;
+    dep?: string | string[];
+    destroy?(): void;
+    exports?(): any;
 }
 
 export interface IPluginCore {
@@ -87,6 +99,7 @@ interface IPluginExportsAccessor {
 export type IPlugin = IPluginCore & IPluginExportsAccessor;
 
 export interface IPluginManagerCore {
+    editor: Editor;
     register(
         pluginConfig: IPluginConfig,
         pluginOptions?: any,
@@ -108,3 +121,19 @@ interface IPluginManagerPluginAccessor {
 }
 
 export type IPluginManager = IPluginManagerCore & IPluginManagerPluginAccessor;
+
+export interface IPluginRegisterOptions {
+    autoInit?: boolean;
+    // allow overriding existing plugin with same name when override === true
+    override?: boolean;
+}
+
+export function isPluginRegisterOptions(
+    opts: any,
+): opts is IPluginRegisterOptions {
+    return opts && ('autoInit' in opts || 'override' in opts);
+}
+
+export interface IPluginContextOptions {
+    pluginName: string;
+}

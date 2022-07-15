@@ -4,10 +4,10 @@ import {
     JSSlot,
     CompositeObject,
     JSONObject,
-} from './valueType';
+} from './value-type';
 import { ComponentsMap } from './npm';
 import { UtilsMap } from './utils';
-import { AppConfig } from './appConfig';
+import { AppConfig } from './app-config';
 
 export interface Directive {
     name: string;

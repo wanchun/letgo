@@ -1,8 +1,9 @@
-export * from './appConfig';
+export * from './app-config';
 export * from './npm';
 export * from './schema';
 export * from './utils';
-export * from './valueType';
+export * from './value-type';
 export * from './assets';
 export * from './metadata';
-export * from './propConfig';
+export * from './prop-config';
+export * as GlobalEvent from './event';

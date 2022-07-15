@@ -23,11 +23,13 @@ importers:
     specifiers:
       '@webank/letgo-designer': ^1.0.0
       '@webank/letgo-editor-core': ^1.0.0
+      '@webank/letgo-types': ^1.0.0
       '@webank/letgo-utils': ^1.0.0
       semver: ^7.3.5
     dependencies:
       '@webank/letgo-designer': link:../designer
       '@webank/letgo-editor-core': link:../editor-core
+      '@webank/letgo-types': link:../types
       '@webank/letgo-utils': link:../utils
       semver: 7.3.7
 

@@ -1,6 +1,7 @@
 import { Logger } from '@webank/letgo-utils';
 import { EngineConfig, Editor } from '@webank/letgo-editor-core';
 import { Skeleton, Hotkey, Setters, Project, Material } from '../shell';
+import { CompositeObject } from '@webank/letgo-types';
 
 export type PreferenceValueType = string | number | boolean;
 
@@ -63,29 +64,6 @@ export interface IPluginConfig {
     meta: IPluginConfigMeta;
 }
 
-interface IPluginManagerPluginAccessor {
-    [pluginName: string]: IPlugin | any;
-}
-
-export interface IPluginManagerCore {
-    register(
-        pluginConfig: IPluginConfig,
-        pluginOptions?: any,
-        registerOptions?: CompositeObject,
-    ): Promise<void>;
-    init(
-        pluginPreference?: Map<string, Record<string, PreferenceValueType>>,
-    ): Promise<void>;
-    get(pluginName: string): ILowCodePlugin | undefined;
-    getAll(): ILowCodePlugin[];
-    has(pluginName: string): boolean;
-    delete(pluginName: string): any;
-    setDisabled(pluginName: string, flag: boolean): void;
-    dispose(): void;
-}
-
-export type IPluginManager = IPluginManagerCore & IPluginManagerPluginAccessor;
-
 export interface IPluginCore {
     name: string;
     dep: string[];
@@ -107,3 +85,26 @@ interface IPluginExportsAccessor {
 }
 
 export type IPlugin = IPluginCore & IPluginExportsAccessor;
+
+export interface IPluginManagerCore {
+    register(
+        pluginConfig: IPluginConfig,
+        pluginOptions?: any,
+        registerOptions?: CompositeObject,
+    ): Promise<void>;
+    init(
+        pluginPreference?: Map<string, Record<string, PreferenceValueType>>,
+    ): Promise<void>;
+    get(pluginName: string): IPlugin | undefined;
+    getAll(): IPlugin[];
+    has(pluginName: string): boolean;
+    delete(pluginName: string): any;
+    setDisabled(pluginName: string, flag: boolean): void;
+    dispose(): void;
+}
+
+interface IPluginManagerPluginAccessor {
+    [pluginName: string]: IPlugin | any;
+}
+
+export type IPluginManager = IPluginManagerCore & IPluginManagerPluginAccessor;

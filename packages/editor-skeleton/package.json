@@ -12,6 +12,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "dependencies": {
+    "@webank/letgo-utils": "^1.0.0",
+    "@webank/letgo-editor-core": "^1.0.0"
+  },
   "peerDependencies": {
     "vue": "^3.2.37"
   },

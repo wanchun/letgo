@@ -95,7 +95,7 @@ export class Plugin implements IPlugin {
     async init(forceInit?: boolean) {
         if (this._inited && !forceInit) return;
         this.logger.log('method init called');
-        await this.config.init?.call(null, this._ctx, this._options);
+        await this.config.init?.call(undefined, this._ctx, this._options);
         this._inited = true;
     }
 

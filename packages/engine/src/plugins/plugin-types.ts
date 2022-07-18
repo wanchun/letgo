@@ -70,7 +70,7 @@ export interface IPluginContext {
 export interface IPluginConfig {
     name: string;
     init: (ctx: IPluginContext, options: any) => void;
-    meta: IPluginConfigMeta;
+    meta?: IPluginConfigMeta;
     dep?: string | string[];
     destroy?(): void;
     exports?(): any;

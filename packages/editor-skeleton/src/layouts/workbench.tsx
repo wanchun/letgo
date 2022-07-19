@@ -1,4 +1,5 @@
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
+import { Skeleton } from '../skeleton';
 import TopArea from './top-area';
 import LeftArea from './left-area';
 import LeftFloatArea from './left-float-area';
@@ -10,13 +11,18 @@ import RightArea from './right-area';
 import './workbench.less';
 
 export default defineComponent({
-    setup() {
+    props: {
+        skeleton: {
+            type: Object as PropType<Skeleton>,
+        },
+    },
+    setup(props) {
         return () => {
             return (
                 <div class={'letgo-workbench'}>
-                    <TopArea />
+                    <TopArea area={props.skeleton.topArea} />
                     <div className="letgo-workbench-body">
-                        <LeftArea />
+                        <LeftArea area={props.skeleton.leftArea} />
                         <LeftFloatArea />
                         <LeftFixedArea />
                         <div className="letgo-workbench-center">

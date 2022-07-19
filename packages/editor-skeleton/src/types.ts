@@ -1,4 +1,4 @@
-import { VNode, Ref } from 'vue';
+import { VNode, Ref, VNodeTypes } from 'vue';
 import { Skeleton } from './skeleton';
 import { Editor } from '@webank/letgo-editor-core';
 
@@ -23,7 +23,6 @@ export type IWidgetConfigArea =
     | 'leftFloatArea';
 
 export interface ContentArgument {
-    [extra: string]: any;
     config: IWidgetBaseConfig;
     editor: Editor;
 }
@@ -33,8 +32,7 @@ export interface IWidgetBaseConfig {
     name: string;
     area: IWidgetConfigArea;
     props?: Record<string, any>;
-    content: (arg: ContentArgument) => VNode;
-    contentProps?: Record<string, any>;
+    content: (arg: ContentArgument) => VNode | string;
     // index?: number;
     [extra: string]: any;
 }
@@ -49,6 +47,15 @@ export interface WidgetProps {
 export interface IWidgetConfig extends IWidgetBaseConfig {
     type: 'Widget';
     props?: WidgetProps;
+}
+
+export interface IDialogWidgetConfig extends IWidgetBaseConfig {
+    type: 'DialogWidget';
+    props?: WidgetProps;
+    dialogProps?: {
+        title?: string;
+        [key: string]: any;
+    };
 }
 
 export interface PanelProps {
@@ -84,12 +91,12 @@ export interface IPanelWidgetConfig extends IWidgetBaseConfig {
 
 export interface IWidget {
     readonly name: string;
-    readonly content: VNode;
+    readonly content: VNodeTypes;
     readonly align?: string;
     readonly isWidget: true;
     readonly visible: Ref<boolean>;
     readonly disabled?: Ref<boolean>;
-    readonly body: VNode;
+    readonly body: VNodeTypes;
     readonly skeleton: Skeleton;
     readonly config: IWidgetBaseConfig;
     readonly onClick?: () => void;

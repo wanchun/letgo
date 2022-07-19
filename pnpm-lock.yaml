@@ -38,6 +38,7 @@ importers:
       '@types/semver': 7.3.9
       '@webank/letgo-designer': ^1.0.0
       '@webank/letgo-editor-core': ^1.0.0
+      '@webank/letgo-editor-skeleton': ^1.0.0
       '@webank/letgo-types': ^1.0.0
       '@webank/letgo-utils': ^1.0.0
       lodash-es: ^4.17.21
@@ -45,6 +46,7 @@ importers:
     dependencies:
       '@webank/letgo-designer': link:../designer
       '@webank/letgo-editor-core': link:../editor-core
+      '@webank/letgo-editor-skeleton': link:../editor-skeleton
       '@webank/letgo-types': link:../types
       '@webank/letgo-utils': link:../utils
       lodash-es: 4.17.21

@@ -1,10 +1,10 @@
-import { ref, h, VNode, VNodeTypes, Ref } from 'vue';
+import { ref, h, VNode, Ref } from 'vue';
 import { uniqueId } from '@webank/letgo-utils';
 import { Skeleton } from '../skeleton';
 import { IWidget, IWidgetConfig } from '../types';
 import WidgetView from '../views/widget';
 
-export class Widget implements IWidget {
+export class Panel implements IWidget {
     readonly isWidget = true;
 
     readonly id = uniqueId('widget');
@@ -23,7 +23,7 @@ export class Widget implements IWidget {
 
     private _disabled = ref(false);
 
-    private _body: VNodeTypes;
+    private _body: VNode;
 
     get visible(): Ref<boolean> {
         return this._visible;
@@ -34,8 +34,9 @@ export class Widget implements IWidget {
             return this._body;
         }
         this._isReady.value = true;
-        const { content } = this.config;
+        const { content, contentProps } = this.config;
         this._body = content({
+            ...contentProps,
             config: this.config,
             editor: this.skeleton.editor,
         });

@@ -15,6 +15,7 @@
   "dependencies": {
     "semver": "^7.3.5",
     "@webank/letgo-editor-core": "^1.0.0",
+    "@webank/letgo-editor-skeleton": "^1.0.0",
     "@webank/letgo-utils": "^1.0.0",
     "@webank/letgo-designer": "^1.0.0",
     "@webank/letgo-types": "^1.0.0",

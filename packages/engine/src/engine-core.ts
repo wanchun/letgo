@@ -1,10 +1,15 @@
 import { createApp } from 'vue';
 import { isPlainObject } from 'lodash-es';
 import { editor, EngineOptions, engineConfig } from '@webank/letgo-editor-core';
+import { Skeleton } from '@webank/letgo-editor-skeleton';
 import { PluginManager, IPluginContext, PluginPreference } from './plugins';
 import { Workbench } from '../../editor-skeleton/src';
 
 const plugins = new PluginManager(editor);
+editor.set('plugins' as any, plugins);
+
+const skeleton = new Skeleton(editor);
+editor.set('skeleton' as any, skeleton);
 
 export const version = '1.0.0';
 engineConfig.set('ENGINE_VERSION', 1);
@@ -27,7 +32,7 @@ export async function init(
     container?: HTMLElement,
     options?: EngineOptions,
     pluginPreference?: PluginPreference,
-) {
+): Promise<() => void> {
     if (isEngineMounted) return;
     isEngineMounted = true;
     let engineOptions = null;
@@ -48,7 +53,15 @@ export async function init(
     engineConfig.setEngineOptions(engineOptions);
     await plugins.init(pluginPreference);
 
-    const app = createApp(Workbench);
+    const app = createApp(Workbench, {
+        skeleton,
+    });
     app.mount(engineContainer);
-    return app;
+
+    /**
+     * 清除实例
+     */
+    return function destroy() {
+        app.unmount();
+    };
 }

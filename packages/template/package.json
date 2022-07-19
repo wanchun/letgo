@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "dev": "fes dev",
+    "build": "fes build",
+    "prod": "FES_ENV=prod fes build",
+    "analyze": "ANALYZE=1 fes build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -16,7 +20,8 @@
     "@vueuse/core": "^8.9.0",
     "lodash-es": "^4.17.21",
     "vue": "^3.2.37",
-    "core-js": "^3.19.2"
+    "core-js": "^3.19.2",
+    "@webank/letgo-engine": "^1.0.0"
   },
   "devDependencies": {
     "@vue/compiler-sfc": "^3.2.37"

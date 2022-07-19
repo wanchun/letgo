@@ -9,6 +9,8 @@ const plugins = new PluginManager(editor);
 export const version = '1.0.0';
 engineConfig.set('ENGINE_VERSION', 1);
 
+export { plugins };
+
 // 注册一批内置插件
 (async function registerPlugins() {
     //注册默认的面板
@@ -46,5 +48,7 @@ export async function init(
     engineConfig.setEngineOptions(engineOptions);
     await plugins.init(pluginPreference);
 
-    return createApp(engineContainer, Workbench);
+    const app = createApp(Workbench);
+    app.mount(engineContainer);
+    return app;
 }

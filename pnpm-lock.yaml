@@ -66,6 +66,7 @@ importers:
       '@fesjs/plugin-request': ^3.0.0-beta.7
       '@vue/compiler-sfc': ^3.2.37
       '@vueuse/core': ^8.9.0
+      '@webank/letgo-engine': ^1.0.0
       core-js: ^3.19.2
       lodash-es: ^4.17.21
       vue: ^3.2.37
@@ -75,6 +76,7 @@ importers:
       '@fesjs/fes-design': 0.5.15_vue@3.2.37
       '@fesjs/plugin-request': 3.0.0-beta.7_0f340a8695750b487e8c7eb8e64aafde
       '@vueuse/core': 8.9.0_vue@3.2.37
+      '@webank/letgo-engine': link:../engine
       core-js: 3.23.3
       lodash-es: 4.17.21
       vue: 3.2.37

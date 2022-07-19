@@ -20,7 +20,7 @@ export default defineComponent({
             }
             if (widget.disabled.value) {
                 return (
-                    <div class="letgo-widget letgo-widget-disabled">
+                    <div class={'letgo-widget letgo-widget-disabled'}>
                         {widget.body}
                     </div>
                 );

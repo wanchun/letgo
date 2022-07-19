@@ -1,0 +1,73 @@
+.letgo-workbench {
+    * {
+        box-sizing: border-box;
+    }
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #edeff3;
+    .letgo-top-area {
+        height: 48px;
+        width: 100%;
+        margin-bottom: 2px;
+        padding: 8px 12px 8px 16px;
+        background-color: #fff;
+    }
+    .letgo-workbench-body {
+        position: relative;
+        flex: 1;
+        display: flex;
+        .letgo-left-area {
+            height: 100%;
+            width: 48px;
+            background-color: #fff;
+            flex-shrink: 0;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+        .letgo-left-float-area {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 300px;
+            left: 49px;
+            background-color: #fff;
+            box-shadow: 4px 6px 6px 0 rgb(31 50 88 / 8%);
+            z-index: 820;
+            display: none;
+        }
+        .letgo-left-fixed-area {
+            margin-left: 1px;
+            width: 300px;
+            background-color: #fff;
+            height: 100%;
+            display: none;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 820;
+        }
+        .letgo-workbench-center {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+            .letgo-main-area {
+                flex: 1;
+            }
+            .letgo-bottom-area {
+                display: none;
+                height: 32px;
+                width: 100%;
+            }
+        }
+        .letgo-right-area {
+            height: 100%;
+            width: 300px;
+            background-color: #fff;
+            flex-shrink: 0;
+            margin-left: 2px;
+            position: relative;
+        }
+    }
+}

@@ -1,5 +1,5 @@
 <template>
-    <div ref="containerRef"></div>
+    <div ref="containerRef" class="engine"></div>
 </template>
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
@@ -19,7 +19,7 @@ export default defineComponent({
 });
 </script>
 <style>
-#engine {
+.engine {
     width: 100%;
     height: 100%;
 }

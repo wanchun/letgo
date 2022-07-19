@@ -19,21 +19,21 @@ export default class Widget implements IWidget {
 
     private _visible = ref(true);
 
-    get visible(): Ref<boolean> {
-        return this._visible;
-    }
-
-    isReady = ref(false);
+    private _isReady = ref(false);
 
     private _disabled = ref(false);
 
     private _body: VNode;
 
+    get visible(): Ref<boolean> {
+        return this._visible;
+    }
+
     get body() {
-        if (this.isReady.value) {
+        if (this._isReady.value) {
             return this._body;
         }
-        this.isReady.value = true;
+        this._isReady.value = true;
         const { content, contentProps } = this.config;
         this._body = content({
             ...contentProps,
@@ -78,7 +78,7 @@ export default class Widget implements IWidget {
         }
         if (flag) {
             this._visible.value = true;
-        } else if (this.isReady.value) {
+        } else if (this._isReady.value) {
             this._visible.value = false;
         }
     }

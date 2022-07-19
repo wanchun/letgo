@@ -33,7 +33,7 @@ export interface IWidgetBaseConfig {
     name: string;
     area: IWidgetConfigArea;
     props?: Record<string, any>;
-    content?: (arg: ContentArgument) => VNode;
+    content: (arg: ContentArgument) => VNode;
     contentProps?: Record<string, any>;
     // index?: number;
     [extra: string]: any;
@@ -75,8 +75,8 @@ export interface IPanelConfig extends IWidgetBaseConfig {
 export interface IPanelWidgetConfig extends IWidgetBaseConfig {
     type: 'PanelWidget';
     props?: WidgetProps;
-    panelName?: string;
-    panelContent?: () => VNode;
+    panelName: string;
+    panelContent: () => VNode;
     panelProps?: PanelProps & {
         area?: IWidgetConfigArea;
     };

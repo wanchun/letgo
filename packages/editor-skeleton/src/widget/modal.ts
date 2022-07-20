@@ -3,7 +3,6 @@ import { uniqueId } from '@webank/letgo-utils';
 import { Skeleton } from '../skeleton';
 import { IWidget, IModalConfig, IModalProps } from '../types';
 import ModalView from '../views/modal';
-import { debug } from 'console';
 
 export class Modal implements IWidget {
     readonly isPanel = true;

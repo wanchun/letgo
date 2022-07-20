@@ -4,7 +4,6 @@ import { Skeleton } from '../skeleton';
 import { IWidget, IWidgetModalConfig } from '../types';
 import WidgetView from '../views/widget';
 import { Modal } from './modal';
-import { debug } from 'console';
 
 export class WidgetModal implements IWidget {
     readonly isWidget = true;

@@ -8,7 +8,10 @@ import { HomeOutlined } from '@fesjs/fes-design/icon';
 
 plugins.register({
     name: 'skeleton',
-    init({ skeleton }) {
+    init({ skeleton, editor }) {
+        editor.on('skeleton.widget.show', (...arg) => {
+            console.log(arg);
+        });
         skeleton.add({
             name: 'logo',
             area: 'topArea',

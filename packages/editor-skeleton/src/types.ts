@@ -83,6 +83,7 @@ export function isModalConfig(obj: any): obj is IModalConfig {
 export interface IWidgetModalConfig extends IWidgetBaseConfig {
     type: 'WidgetModal';
     props?: IWidgetProps;
+    modalName?: string;
     modalContent: (arg: IContentArgument) => VNode | string;
     modalProps?: IModalProps;
 }
@@ -94,7 +95,6 @@ export function isWidgetModalConfig(obj: any): obj is IWidgetModalConfig {
 export interface IPanelProps {
     title?: string;
     description?: string;
-    hideTitleBar?: boolean; // panel.props 兼容，不暴露
     width?: number; // panel.props
     height?: number; // panel.props
     maxWidth?: number; // panel.props
@@ -102,9 +102,6 @@ export interface IPanelProps {
     condition?: (widget: IWidget) => any;
     onInit?: (widget: IWidget) => any;
     onDestroy?: () => any;
-    shortcut?: string; // 只有在特定位置，可触发 toggle show
-    enableDrag?: boolean; // 是否开启通过 drag 调整 宽度
-    keepVisibleWhileDragging?: boolean; // 是否在该 panel 范围内拖拽时保持 visible 状态
 }
 
 export interface IPanelConfig extends IWidgetBaseConfig {
@@ -121,19 +118,18 @@ export interface IWidgetPanelConfig extends IWidgetBaseConfig {
     props?: IWidgetProps;
     panelName: string;
     panelContent: () => VNode | string;
-    IPanelProps?: IPanelProps & {
+    panelProps?: IPanelProps & {
         area?: IWidgetConfigArea;
     };
 }
 
-export function isPanelWidgetConfig(obj: any): obj is IWidgetPanelConfig {
+export function isWidgetPanelConfig(obj: any): obj is IWidgetPanelConfig {
     return obj && obj.type === 'PanelWidget';
 }
 
 export interface IWidget {
     readonly name: string;
     readonly content: VNodeTypes;
-    readonly align?: string;
     readonly isWidget: true;
     readonly visible: Ref<boolean>;
     readonly disabled?: Ref<boolean>;
@@ -154,4 +150,11 @@ export function isWidget(obj: any): obj is IWidget {
 
 export function isModal(obj: any): obj is Modal {
     return obj && obj.isModal;
+}
+
+export enum SkeletonEvents {
+    WIDGET_SHOW = 'skeleton.widget.show',
+    WIDGET_HIDE = 'skeleton.widget.hide',
+    WIDGET_DISABLE = 'skeleton.widget.disable',
+    WIDGET_ENABLE = 'skeleton.widget.enable',
 }

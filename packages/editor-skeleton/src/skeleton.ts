@@ -11,6 +11,7 @@ import {
     isWidget,
     isModalConfig,
     isModal,
+    SkeletonEvents,
 } from './types';
 import { Area } from './area';
 import { Panel, Widget, Modal, WidgetModal } from './widget';
@@ -103,5 +104,9 @@ export class Skeleton {
             default:
             // do nothing
         }
+    }
+
+    postEvent(event: SkeletonEvents, ...args: any[]) {
+        this.editor.emit(event, ...args);
     }
 }

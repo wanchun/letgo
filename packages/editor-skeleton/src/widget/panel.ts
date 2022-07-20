@@ -1,4 +1,4 @@
-import { ref, h, VNode, Ref } from 'vue';
+import { ref, h, VNode, VNodeTypes, Ref } from 'vue';
 import { uniqueId } from '@webank/letgo-utils';
 import { Skeleton } from '../skeleton';
 import { IWidget, IWidgetConfig } from '../types';
@@ -6,6 +6,8 @@ import WidgetView from '../views/widget';
 
 export class Panel implements IWidget {
     readonly isWidget = true;
+
+    readonly isPanel = true;
 
     readonly id = uniqueId('widget');
 
@@ -15,7 +17,7 @@ export class Panel implements IWidget {
 
     readonly title: string;
 
-    readonly onClick: () => void;
+    readonly onClick: (widget: IWidget) => void;
 
     private _visible = ref(true);
 
@@ -23,7 +25,7 @@ export class Panel implements IWidget {
 
     private _disabled = ref(false);
 
-    private _body: VNode;
+    private _body: VNodeTypes;
 
     get visible(): Ref<boolean> {
         return this._visible;
@@ -34,9 +36,8 @@ export class Panel implements IWidget {
             return this._body;
         }
         this._isReady.value = true;
-        const { content, contentProps } = this.config;
+        const { content } = this.config;
         this._body = content({
-            ...contentProps,
             config: this.config,
             editor: this.skeleton.editor,
         });
@@ -48,7 +49,7 @@ export class Panel implements IWidget {
             widget: this,
             key: this.id,
             onClick: () => {
-                this.onClick?.();
+                this.onClick?.(this);
             },
         });
     }
@@ -103,8 +104,4 @@ export class Panel implements IWidget {
     get disabled(): Ref<boolean> {
         return this._disabled;
     }
-}
-
-export function isWidget(obj: any): obj is IWidget {
-    return obj && obj.isWidget;
 }

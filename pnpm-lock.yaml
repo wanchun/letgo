@@ -27,9 +27,11 @@ importers:
 
   packages/editor-skeleton:
     specifiers:
+      '@fesjs/fes-design': ^0.5.18
       '@webank/letgo-editor-core': ^1.0.0
       '@webank/letgo-utils': ^1.0.0
     dependencies:
+      '@fesjs/fes-design': 0.5.18
       '@webank/letgo-editor-core': link:../editor-core
       '@webank/letgo-utils': link:../utils
 
@@ -1389,6 +1391,28 @@ packages:
       - '@vue/composition-api'
     dev: false
 
+  /@fesjs/fes-design/0.5.18:
+    resolution: {integrity: sha512-sFha7Q2sB/DpsQLo7yA++vbZydV80C/xeNd0y/Ox8kng0ZGnUR0W3J3f7t04hIgtf0O2gLvayVar4BCU6AcESA==}
+    peerDependencies:
+      vue: ^3.2.7
+    dependencies:
+      '@babel/runtime': 7.18.6
+      '@floating-ui/dom': 0.4.5
+      '@juggle/resize-observer': 3.3.1
+      '@types/lodash-es': 4.17.6
+      '@types/normalize-wheel': 1.0.0
+      '@vue/shared': 3.2.37
+      '@vueuse/core': 6.9.2
+      async-validator: 4.2.5
+      csstype: 3.1.0
+      date-fns: 2.28.0
+      lodash-es: 4.17.21
+      normalize-wheel: 1.0.1
+      stickybits: 3.7.9
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+    dev: false
+
   /@fesjs/fes/3.0.0-beta.4_d630c6e62e57883073e01353ac259b01:
     resolution: {integrity: sha512-MUaDOdnODGSORJNlHmv3AhyOzT2l8QVKAVUR3F7D+56U2levSLN1l1l+XPCEMFGyqjM6tDvhujvgXIpz9ZArhA==}
     engines: {node: ^10.12.0 || ^12.0.0 || >= 14.0.0}
@@ -1894,6 +1918,21 @@ packages:
   /@vue/shared/3.2.37:
     resolution: {integrity: sha512-4rSJemR2NQIo9Klm1vabqWjD8rs/ZaJSzMxkMNeJS6lHiUjjUeYFbooN19NgFjztubEKh3WlZUeOLVdbbUWHsw==}
 
+  /@vueuse/core/6.9.2:
+    resolution: {integrity: sha512-FRwl4ccSFuHZBHLGgS9TMv/+Dd6XFaL4o9nph2qtgQIV+z29RBFokw08XjHfykiENRzB01MjYHJ7iRUnsIFQXg==}
+    peerDependencies:
+      '@vue/composition-api': ^1.1.0
+      vue: ^2.6.0 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      '@vueuse/shared': 6.9.2
+      vue-demi: 0.13.2
+    dev: false
+
   /@vueuse/core/6.9.2_vue@3.2.37:
     resolution: {integrity: sha512-FRwl4ccSFuHZBHLGgS9TMv/+Dd6XFaL4o9nph2qtgQIV+z29RBFokw08XjHfykiENRzB01MjYHJ7iRUnsIFQXg==}
     peerDependencies:
@@ -1930,6 +1969,20 @@ packages:
 
   /@vueuse/metadata/8.9.0:
     resolution: {integrity: sha512-pjkIbQgJPRUrxK5/iXVKQFGC+OhJ+Vd6fhBsdwgj+NNJEHUotRliYymwdvhnEke/o+kkulT0xMvoK19nyPoiMw==}
+    dev: false
+
+  /@vueuse/shared/6.9.2:
+    resolution: {integrity: sha512-lAiMh6XROs0kSKVd0Yb/6GKoQMxC1fYrFDi6opvQWISPtcqRNluRrQxLUZ3WTI78ovtoKRLktjhkFAtydcfFDg==}
+    peerDependencies:
+      '@vue/composition-api': ^1.1.0
+      vue: ^2.6.0 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      vue-demi: 0.13.2
     dev: false
 
   /@vueuse/shared/6.9.2_vue@3.2.37:
@@ -4884,6 +4937,19 @@ packages:
       rollup: 2.75.7
     optionalDependencies:
       fsevents: 2.3.2
+    dev: false
+
+  /vue-demi/0.13.2:
+    resolution: {integrity: sha512-41ukrclEbMddAyP7PvxMSYqnOSzPV6r7GNnyTSKSCNTaz19GehxmTiXyP9kwHSUv2+Dr6hHqiUiF7L1VAw2KdQ==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
     dev: false
 
   /vue-demi/0.13.2_vue@3.2.37:

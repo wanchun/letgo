@@ -1,4 +1,4 @@
-import { defineComponent, PropType, VNode, watch } from 'vue';
+import { defineComponent, PropType, VNode } from 'vue';
 import { Area } from '../area';
 import {
     IWidgetConfig,
@@ -15,8 +15,6 @@ export default defineComponent({
         },
     },
     setup(props) {
-        console.log(props.area);
-
         return () => {
             const { area } = props;
             const left: VNode[] = [];

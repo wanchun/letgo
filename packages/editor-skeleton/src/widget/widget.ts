@@ -103,7 +103,3 @@ export class Widget implements IWidget {
         return this._disabled;
     }
 }
-
-export function isWidget(obj: any): obj is IWidget {
-    return obj && obj.isWidget;
-}

@@ -5,23 +5,24 @@ import {
     IWidgetConfig,
     IPanelConfig,
     IPanelWidgetConfig,
-    IDialogWidgetConfig,
+    IWidgetModalConfig,
+    isWidgetModalConfig,
+    isWidget,
 } from './types';
 import { Area } from './area';
-import { Panel } from './widget/panel';
-import { Widget, isWidget } from './widget/widget';
+import { Panel, Widget, WidgetModal } from './widget';
 
 export class Skeleton {
     readonly leftArea: Area<
-        IWidgetConfig | IPanelWidgetConfig | IDialogWidgetConfig
+        IWidgetConfig | IPanelWidgetConfig | IWidgetModalConfig
     >;
 
     readonly topArea: Area<
-        IWidgetConfig | IPanelWidgetConfig | IDialogWidgetConfig
+        IWidgetConfig | IPanelWidgetConfig | IWidgetModalConfig
     >;
 
     readonly toolbar: Area<
-        IWidgetConfig | IPanelWidgetConfig | IDialogWidgetConfig
+        IWidgetConfig | IPanelWidgetConfig | IWidgetModalConfig
     >;
 
     readonly leftFixedArea: Area<IPanelConfig, Panel>;
@@ -124,7 +125,12 @@ export class Skeleton {
         if (isWidget(config)) {
             return config;
         }
-        const widget = new Widget(this, config as IWidgetConfig);
+        let widget;
+        if (isWidgetModalConfig(config)) {
+            widget = new WidgetModal(this, config as IWidgetModalConfig);
+        } else {
+            widget = new Widget(this, config as IWidgetConfig);
+        }
         this.widgets.push(widget);
         return widget;
     }

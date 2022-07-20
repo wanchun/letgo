@@ -18,6 +18,19 @@ plugins.register({
                 align: 'left',
             },
         });
+        skeleton.add({
+            name: 'test',
+            area: 'leftArea',
+            type: 'WidgetModal',
+            content: () => h(HomeOutlined),
+            props: {
+                align: 'top',
+            },
+            modalContent: () => '我是内容',
+            modalProps: {
+                title: '我是标题',
+            },
+        });
     },
 });
 

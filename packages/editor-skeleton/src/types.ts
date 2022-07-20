@@ -49,13 +49,30 @@ export interface IWidgetConfig extends IWidgetBaseConfig {
     props?: WidgetProps;
 }
 
-export interface IDialogWidgetConfig extends IWidgetBaseConfig {
-    type: 'DialogWidget';
-    props?: WidgetProps;
-    dialogProps?: {
+export interface IWidgetModalConfig extends IWidgetConfig {
+    modalContent: (arg: ContentArgument) => VNode | string;
+    modalProps?: {
         title?: string;
-        [key: string]: any;
+        closable?: boolean;
+        mask?: boolean;
+        maskClosable?: boolean;
+        footer?: boolean;
+        okText?: string;
+        cancelText?: string;
+        width?: string | number;
+        top?: string | number;
+        verticalCenter?: boolean;
+        center?: boolean;
+        fullScreen?: boolean;
+        contentClass?: string;
+        getContainer?: () => HTMLElement;
+        onOk: () => void;
+        onCancel: () => void;
     };
+}
+
+export function isWidgetModalConfig(obj: any): obj is IWidgetModalConfig {
+    return obj && obj.type === 'WidgetModal';
 }
 
 export interface PanelProps {
@@ -79,14 +96,22 @@ export interface IPanelConfig extends IWidgetBaseConfig {
     props?: PanelProps;
 }
 
+export function isPanelConfig(obj: any): obj is IPanelConfig {
+    return obj && obj.type === 'Panel';
+}
+
 export interface IPanelWidgetConfig extends IWidgetBaseConfig {
     type: 'PanelWidget';
     props?: WidgetProps;
     panelName: string;
-    panelContent: () => VNode;
+    panelContent: () => VNode | string;
     panelProps?: PanelProps & {
         area?: IWidgetConfigArea;
     };
+}
+
+export function isPanelWidgetConfig(obj: any): obj is IPanelWidgetConfig {
+    return obj && obj.type === 'PanelWidget';
 }
 
 export interface IWidget {
@@ -106,4 +131,8 @@ export interface IWidget {
     toggle(): void;
     enable?(): void;
     disable?(): void;
+}
+
+export function isWidget(obj: any): obj is IWidget {
+    return obj && obj.isWidget;
 }

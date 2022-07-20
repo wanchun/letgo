@@ -2,15 +2,15 @@ import { defineComponent, PropType, VNode } from 'vue';
 import { Area } from '../area';
 import {
     IWidgetConfig,
-    IPanelWidgetConfig,
-    IDialogWidgetConfig,
+    IWidgetPanelConfig,
+    IWidgetModalConfig,
 } from '../types';
 
 export default defineComponent({
     props: {
         area: {
             type: Object as PropType<
-                Area<IWidgetConfig | IPanelWidgetConfig | IDialogWidgetConfig>
+                Area<IWidgetConfig | IWidgetPanelConfig | IWidgetModalConfig>
             >,
         },
     },

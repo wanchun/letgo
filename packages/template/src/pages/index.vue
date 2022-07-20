@@ -7,7 +7,7 @@ import { init, plugins } from '@webank/letgo-engine';
 import { HomeOutlined } from '@fesjs/fes-design/icon';
 
 plugins.register({
-    name: 'logo',
+    name: 'skeleton',
     init({ skeleton }) {
         skeleton.add({
             name: 'logo',
@@ -29,6 +29,12 @@ plugins.register({
             modalContent: () => '我是内容',
             modalProps: {
                 title: '我是标题',
+                onOk: (widget) => {
+                    widget.hide();
+                },
+                onCancel: (widget) => {
+                    widget.hide();
+                },
             },
         });
     },

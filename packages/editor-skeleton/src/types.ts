@@ -1,6 +1,7 @@
 import { VNode, Ref, VNodeTypes } from 'vue';
 import { Skeleton } from './skeleton';
 import { Editor } from '@webank/letgo-editor-core';
+import { Modal } from './widget';
 
 /**
  * 所有可能的停靠位置
@@ -20,9 +21,11 @@ export type IWidgetConfigArea =
     | 'bottomArea'
     | 'bottom'
     | 'leftFixedArea'
-    | 'leftFloatArea';
+    | 'leftFloatArea'
+    | 'global'
+    | 'globalArea';
 
-export interface ContentArgument {
+export interface IContentArgument {
     config: IWidgetBaseConfig;
     editor: Editor;
 }
@@ -32,50 +35,63 @@ export interface IWidgetBaseConfig {
     name: string;
     area: IWidgetConfigArea;
     props?: Record<string, any>;
-    content: (arg: ContentArgument) => VNode | string;
+    content: (arg: IContentArgument) => VNode | string;
     // index?: number;
     [extra: string]: any;
 }
 
-export interface WidgetProps {
+export interface IWidgetProps {
     align?: 'left' | 'right' | 'bottom' | 'center' | 'top';
-    onInit?: (widget: IWidget) => any;
     title?: string;
-    onClick?: () => void;
+    onInit?: (widget: IWidget) => any;
+    onClick?: (widget: IWidget) => any;
 }
 
 export interface IWidgetConfig extends IWidgetBaseConfig {
     type: 'Widget';
-    props?: WidgetProps;
+    props?: IWidgetProps;
 }
 
-export interface IWidgetModalConfig extends IWidgetConfig {
-    modalContent: (arg: ContentArgument) => VNode | string;
-    modalProps?: {
-        title?: string;
-        closable?: boolean;
-        mask?: boolean;
-        maskClosable?: boolean;
-        footer?: boolean;
-        okText?: string;
-        cancelText?: string;
-        width?: string | number;
-        top?: string | number;
-        verticalCenter?: boolean;
-        center?: boolean;
-        fullScreen?: boolean;
-        contentClass?: string;
-        getContainer?: () => HTMLElement;
-        onOk: () => void;
-        onCancel: () => void;
-    };
+export interface IModalProps {
+    title?: string;
+    closable?: boolean;
+    mask?: boolean;
+    maskClosable?: boolean;
+    footer?: boolean;
+    okText?: string;
+    cancelText?: string;
+    width?: string | number;
+    top?: string | number;
+    verticalCenter?: boolean;
+    center?: boolean;
+    fullScreen?: boolean;
+    contentClass?: string;
+    getContainer?: () => HTMLElement;
+    onOk?: (widget: IWidget) => any;
+    onCancel?: (widget: IWidget) => any;
+}
+
+export interface IModalConfig extends IWidgetBaseConfig {
+    type: 'Modal';
+    props?: IModalProps;
+}
+
+export function isModalConfig(obj: any): obj is IModalConfig {
+    return obj && obj.type === 'Modal';
+}
+
+export interface IWidgetModalConfig extends IWidgetBaseConfig {
+    type: 'WidgetModal';
+    props?: IWidgetProps;
+    modalContent: (arg: IContentArgument) => VNode | string;
+    modalProps?: IModalProps;
 }
 
 export function isWidgetModalConfig(obj: any): obj is IWidgetModalConfig {
     return obj && obj.type === 'WidgetModal';
 }
 
-export interface PanelProps {
+export interface IPanelProps {
     title?: string;
     description?: string;
     hideTitleBar?: boolean; // panel.props 兼容，不暴露
@@ -93,24 +109,24 @@ export interface PanelProps {
 
 export interface IPanelConfig extends IWidgetBaseConfig {
     type: 'Panel';
-    props?: PanelProps;
+    props?: IPanelProps;
 }
 
 export function isPanelConfig(obj: any): obj is IPanelConfig {
     return obj && obj.type === 'Panel';
 }
 
-export interface IPanelWidgetConfig extends IWidgetBaseConfig {
+export interface IWidgetPanelConfig extends IWidgetBaseConfig {
     type: 'PanelWidget';
-    props?: WidgetProps;
+    props?: IWidgetProps;
     panelName: string;
     panelContent: () => VNode | string;
-    panelProps?: PanelProps & {
+    IPanelProps?: IPanelProps & {
         area?: IWidgetConfigArea;
     };
 }
 
-export function isPanelWidgetConfig(obj: any): obj is IPanelWidgetConfig {
+export function isPanelWidgetConfig(obj: any): obj is IWidgetPanelConfig {
     return obj && obj.type === 'PanelWidget';
 }
 
@@ -124,7 +140,6 @@ export interface IWidget {
     readonly body: VNodeTypes;
     readonly skeleton: Skeleton;
     readonly config: IWidgetBaseConfig;
-    readonly onClick?: () => void;
 
     show(): void;
     hide(): void;
@@ -135,4 +150,8 @@ export interface IWidget {
 
 export function isWidget(obj: any): obj is IWidget {
     return obj && obj.isWidget;
+}
+
+export function isModal(obj: any): obj is Modal {
+    return obj && obj.isModal;
 }

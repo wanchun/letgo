@@ -38,7 +38,7 @@ export class Area<C extends IWidgetBaseConfig, T extends IWidget = IWidget> {
         const newItem = this.handle(config);
         this._items.value = [...this._items.value, newItem];
         this._itemMaps[config.name] = newItem;
-        return item;
+        return newItem;
     }
 
     remove(item: string | T): number {

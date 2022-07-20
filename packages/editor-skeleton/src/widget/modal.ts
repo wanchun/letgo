@@ -1,23 +1,22 @@
 import { ref, h, VNode, VNodeTypes, Ref } from 'vue';
 import { uniqueId } from '@webank/letgo-utils';
 import { Skeleton } from '../skeleton';
-import { IWidget, IWidgetConfig } from '../types';
-import WidgetView from '../views/widget';
+import { IWidget, IModalConfig, IModalProps } from '../types';
+import ModalView from '../views/modal';
+import { debug } from 'console';
 
-export class Widget implements IWidget {
+export class Modal implements IWidget {
+    readonly isPanel = true;
+
     readonly isWidget = true;
 
     readonly id = uniqueId('widget');
 
     readonly name: string;
 
-    readonly align?: string;
+    readonly props: IModalProps;
 
-    readonly title: string;
-
-    readonly onClick: (widget: IWidget) => void;
-
-    private _visible = ref(true);
+    private _visible = ref(false);
 
     private _isReady = ref(false);
 
@@ -43,24 +42,27 @@ export class Widget implements IWidget {
     }
 
     get content(): VNode {
-        return h(WidgetView, {
+        return h(ModalView, {
             widget: this,
             key: this.id,
-            onClick: () => {
-                this.onClick?.(this);
-            },
         });
     }
 
-    constructor(readonly skeleton: Skeleton, readonly config: IWidgetConfig) {
+    constructor(readonly skeleton: Skeleton, readonly config: IModalConfig) {
         const { props = {}, name } = config;
+        const { onOk, onCancel } = props;
+        props.onOk = () => {
+            if (onOk) {
+                onOk.call(this, this);
+            }
+        };
+        props.onCancel = () => {
+            if (onCancel) {
+                onCancel.call(this, this);
+            }
+        };
         this.name = name;
-        this.align = props.align;
-        this.title = props.title || name;
-        this.onClick = props.onClick;
-        if (props.onInit) {
-            props.onInit.call(this, this);
-        }
+        this.props = props;
     }
 
     hide() {

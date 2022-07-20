@@ -45,6 +45,9 @@ function normalizeArea(area: IWidgetConfigArea | undefined) {
         case 'leftArea':
         case 'left':
             return 'leftArea';
+        case 'globalArea':
+        case 'global':
+            return 'globalArea';
         case 'rightArea':
         case 'right':
             return 'rightArea';

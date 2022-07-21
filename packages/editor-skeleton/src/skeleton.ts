@@ -45,8 +45,6 @@ export class Skeleton {
 
     readonly rightArea: Area<IPanelConfig, Panel>;
 
-    readonly leftFixedArea: Area<IPanelConfig, Panel>;
-
     readonly leftFloatArea: Area<IPanelConfig, Panel>;
 
     readonly mainArea: Area<IWidgetConfig | IPanelConfig, Widget | Panel>;
@@ -85,6 +83,13 @@ export class Skeleton {
             return this.createWidget(config) as Modal;
         });
         this.rightArea = new Area(this, 'rightArea', (config) => {
+            if (isPanel(config)) {
+                return config;
+            }
+            const panel = this.createWidget(config) as Panel;
+            return panel;
+        });
+        this.leftFloatArea = new Area(this, 'leftFloatArea', (config) => {
             if (isPanel(config)) {
                 return config;
             }
@@ -141,6 +146,9 @@ export class Skeleton {
             case 'bottom':
             case 'bottomArea':
                 return this.bottomArea.add(parsedConfig as IWidgetConfig);
+            case 'leftFloatArea':
+                return this.leftFloatArea.add(parsedConfig as IPanelConfig);
+
             default:
             // do nothing
         }

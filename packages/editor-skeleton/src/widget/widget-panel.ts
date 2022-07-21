@@ -44,9 +44,9 @@ export class WidgetPanel extends BaseWidget implements IWidget {
             props.onInit.call(this, this);
         }
         this._panel = this.skeleton.add({
-            type: 'Modal',
+            type: 'Panel',
             name: panelName ?? `${this.name}Panel`,
-            area: panelProps.area ?? 'left',
+            area: panelProps.area ?? 'leftFloatArea',
             props: panelProps,
             content: panelContent,
         }) as Panel;

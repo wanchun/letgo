@@ -13,7 +13,7 @@ plugins.register({
             console.log('skeleton.widget.show', arg);
         });
         skeleton.add({
-            name: 'logo',
+            name: 'widget',
             area: 'topArea',
             type: 'Widget',
             content: () => 'Letgo 低代码平台',
@@ -22,7 +22,7 @@ plugins.register({
             },
         });
         skeleton.add({
-            name: 'test',
+            name: 'widgetModal',
             area: 'leftArea',
             type: 'WidgetModal',
             content: () => h(HomeOutlined),
@@ -38,6 +38,19 @@ plugins.register({
                 onCancel: (widget) => {
                     widget.hide();
                 },
+            },
+        });
+        skeleton.add({
+            name: 'widgetPanel',
+            area: 'leftArea',
+            type: 'WidgetPanel',
+            content: () => h(HomeOutlined),
+            props: {
+                align: 'top',
+            },
+            panelContent: () => '我是内容',
+            panelProps: {
+                title: '我是标题',
             },
         });
         const panel = skeleton.add({

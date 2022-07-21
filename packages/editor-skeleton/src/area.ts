@@ -2,10 +2,6 @@ import { shallowRef, Ref } from 'vue';
 import { IWidgetBaseConfig, IWidget, isPanel } from './types';
 import { Skeleton } from './skeleton';
 
-export interface WidgetItem {
-    name: string;
-}
-
 export class Area<C extends IWidgetBaseConfig, T extends IWidget = IWidget> {
     private _items: Ref<T[]> = shallowRef([]);
 

@@ -3,7 +3,6 @@ import { Skeleton } from '../skeleton';
 import TopArea from './top-area';
 import LeftArea from './left-area';
 import LeftFloatArea from './left-float-area';
-import LeftFixedArea from './left-fixed-area';
 import Toolbar from './toolbar';
 import MainArea from './main-area';
 import BottomArea from './bottom-area';
@@ -25,8 +24,7 @@ export default defineComponent({
                     <TopArea area={skeleton.topArea} />
                     <div className="letgo-workbench-body">
                         <LeftArea area={skeleton.leftArea} />
-                        <LeftFloatArea />
-                        <LeftFixedArea />
+                        <LeftFloatArea area={skeleton.leftFloatArea} />
                         <div className="letgo-workbench-center">
                             <Toolbar area={skeleton.toolbar} />
                             <MainArea />

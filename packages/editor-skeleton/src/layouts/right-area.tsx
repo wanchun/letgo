@@ -13,7 +13,7 @@ export default defineComponent({
         return () => {
             const { area } = props;
             return (
-                <div class="letgo-right-area">
+                <div v-show={area.items.value.length} class="letgo-right-area">
                     {area.items.value.map((item) => item.content)}
                 </div>
             );

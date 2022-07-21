@@ -55,12 +55,33 @@
             position: absolute;
             top: 0;
             bottom: 0;
-            width: 300px;
             left: 49px;
+            width: 300px;
             background-color: #fff;
             box-shadow: 4px 6px 6px 0 rgb(31 50 88 / 8%);
             z-index: 820;
-            display: none;
+            display: flex;
+            flex-direction: column;
+            .letgo-left-float-area-header {
+                font-weight: 500;
+                font-size: 16px;
+                padding: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                .area-header-icons {
+                    .header-icon {
+                        margin-right: 8px;
+                        &:last-child {
+                            margin-right: 0;
+                        }
+                    }
+                }
+            }
+            .letgo-left-float-area-body {
+                position: relative;
+                flex: 1;
+            }
         }
         .letgo-left-fixed-area {
             margin-left: 1px;

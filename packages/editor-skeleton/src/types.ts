@@ -95,6 +95,10 @@ export function isWidgetModalConfig(obj: any): obj is IWidgetModalConfig {
 export interface IPanelProps {
     title?: string;
     description?: string;
+    width?: number; // panel.props
+    height?: number; // panel.props
+    maxWidth?: number; // panel.props
+    maxHeight?: number; // panel.props
 }
 
 export interface IPanelConfig extends IWidgetBaseConfig {

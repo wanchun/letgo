@@ -20,7 +20,6 @@ export type IWidgetConfigArea =
     | 'centerArea'
     | 'bottomArea'
     | 'bottom'
-    | 'leftFixedArea'
     | 'leftFloatArea'
     | 'global'
     | 'globalArea';

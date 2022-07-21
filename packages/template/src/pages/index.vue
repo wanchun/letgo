@@ -10,36 +10,52 @@ plugins.register({
     name: 'skeleton',
     init({ skeleton, editor }) {
         editor.on('skeleton.widget.show', (...arg) => {
-            console.log(arg);
+            console.log('skeleton.widget.show', arg);
         });
-        skeleton.add({
-            name: 'logo',
-            area: 'topArea',
-            type: 'Widget',
-            content: () => 'Letgo 低代码平台',
-            props: {
-                align: 'left',
-            },
+        // skeleton.add({
+        //     name: 'logo',
+        //     area: 'topArea',
+        //     type: 'Widget',
+        //     content: () => 'Letgo 低代码平台',
+        //     props: {
+        //         align: 'left',
+        //     },
+        // });
+        // skeleton.add({
+        //     name: 'test',
+        //     area: 'leftArea',
+        //     type: 'WidgetModal',
+        //     content: () => h(HomeOutlined),
+        //     props: {
+        //         align: 'top',
+        //     },
+        //     modalContent: () => '我是内容',
+        //     modalProps: {
+        //         title: '我是标题',
+        //         onOk: (widget) => {
+        //             widget.hide();
+        //         },
+        //         onCancel: (widget) => {
+        //             widget.hide();
+        //         },
+        //     },
+        // });
+        const panel = skeleton.add({
+            name: 'setter',
+            area: 'rightArea',
+            type: 'Panel',
+            content: () => '我是设置器',
         });
-        skeleton.add({
-            name: 'test',
-            area: 'leftArea',
-            type: 'WidgetModal',
-            content: () => h(HomeOutlined),
-            props: {
-                align: 'top',
-            },
-            modalContent: () => '我是内容',
-            modalProps: {
-                title: '我是标题',
-                onOk: (widget) => {
-                    widget.hide();
-                },
-                onCancel: (widget) => {
-                    widget.hide();
-                },
-            },
-        });
+        panel.show();
+        setTimeout(() => {
+            const panel1 = skeleton.add({
+                name: 'setter2',
+                area: 'rightArea',
+                type: 'Panel',
+                content: () => '我是设置器2',
+            });
+            panel1.show();
+        }, 3000);
     },
 });
 

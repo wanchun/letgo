@@ -31,6 +31,5 @@ export class Modal extends BaseWidget implements IWidget {
             }
         };
         this.props = props;
-        this.hide();
     }
 }

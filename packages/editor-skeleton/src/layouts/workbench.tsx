@@ -19,11 +19,12 @@ export default defineComponent({
     },
     setup(props) {
         return () => {
+            const { skeleton } = props;
             return (
                 <div class={'letgo-workbench'}>
-                    <TopArea area={props.skeleton.topArea} />
+                    <TopArea area={skeleton.topArea} />
                     <div className="letgo-workbench-body">
-                        <LeftArea area={props.skeleton.leftArea} />
+                        <LeftArea area={skeleton.leftArea} />
                         <LeftFloatArea />
                         <LeftFixedArea />
                         <div className="letgo-workbench-center">
@@ -31,9 +32,9 @@ export default defineComponent({
                             <MainArea />
                             <BottomArea />
                         </div>
-                        <RightArea />
+                        <RightArea area={skeleton.rightArea} />
                     </div>
-                    <GlobalArea area={props.skeleton.globalArea} />
+                    <GlobalArea area={skeleton.globalArea} />
                 </div>
             );
         };

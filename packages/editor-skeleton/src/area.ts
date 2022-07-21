@@ -1,11 +1,18 @@
-import { shallowRef, ref, Ref } from 'vue';
-import { IWidgetBaseConfig, IWidget } from './types';
+import { shallowRef, Ref } from 'vue';
+import { IWidgetBaseConfig, IWidget, isPanel } from './types';
 import { Skeleton } from './skeleton';
+
+export interface WidgetItem {
+    name: string;
+}
 
 export class Area<C extends IWidgetBaseConfig, T extends IWidget = IWidget> {
     private _items: Ref<T[]> = shallowRef([]);
+
     private _itemMaps: { [name: string]: T } = {};
-    private _current: Ref<T | null> = ref(null);
+
+    private _current: Ref<T | null> = shallowRef(null);
+
     handle: (config: C | T) => T;
 
     get items() {
@@ -14,6 +21,47 @@ export class Area<C extends IWidgetBaseConfig, T extends IWidget = IWidget> {
 
     get current() {
         return this._current;
+    }
+
+    active(nameOrItem?: T | string | null) {
+        let item: any = nameOrItem;
+        if (nameOrItem && typeof nameOrItem === 'string') {
+            item = this.get(nameOrItem);
+        }
+        if (!isPanel(item)) {
+            item = null;
+        }
+        const currentItem = this._current.value;
+        if (currentItem === item) {
+            return;
+        }
+        if (currentItem) {
+            currentItem.hide();
+        }
+        this._current.value = item;
+        if (item) {
+            item.show();
+        }
+    }
+
+    unActive(nameOrItem?: T | string | null) {
+        let item: any = nameOrItem;
+        if (nameOrItem && typeof nameOrItem === 'string') {
+            item = this.get(nameOrItem);
+        }
+        if (!isPanel(item)) {
+            item = null;
+        }
+        if (this._current.value === item) {
+            this._current.value = null;
+        }
+        if (item) {
+            item.hide();
+        }
+    }
+
+    unActiveAll() {
+        Object.keys(this._itemMaps).forEach((name) => this.unActive(name));
     }
 
     constructor(
@@ -38,6 +86,9 @@ export class Area<C extends IWidgetBaseConfig, T extends IWidget = IWidget> {
         const newItem = this.handle(config);
         this._items.value = [...this._items.value, newItem];
         this._itemMaps[config.name] = newItem;
+        if (isPanel(newItem)) {
+            newItem.setParent(this);
+        }
         return newItem;
     }
 

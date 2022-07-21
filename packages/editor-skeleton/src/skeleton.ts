@@ -11,7 +11,10 @@ import {
     isWidget,
     isModalConfig,
     isModal,
+    IPanelProps,
     SkeletonEvents,
+    isPanel,
+    isPanelConfig,
 } from './types';
 import { Area } from './area';
 import { Panel, Widget, Modal, WidgetModal } from './widget';
@@ -27,6 +30,8 @@ export class Skeleton {
 
     readonly globalArea: Area<IModalConfig, Modal>;
 
+    readonly rightArea: Area<IPanelConfig, Panel>;
+
     readonly toolbar: Area<
         IWidgetConfig | IWidgetPanelConfig | IWidgetModalConfig
     >;
@@ -35,11 +40,11 @@ export class Skeleton {
 
     readonly leftFloatArea: Area<IPanelConfig, Panel>;
 
-    readonly rightArea: Area<IPanelConfig, Panel>;
-
     readonly mainArea: Area<IWidgetConfig | IPanelConfig, Widget | Panel>;
 
-    readonly bottomArea: Area<IPanelConfig, Panel>;
+    readonly bottomArea: Area<
+        IWidgetConfig | IWidgetPanelConfig | IWidgetModalConfig
+    >;
 
     readonly widgets: IWidget[] = [];
 
@@ -63,6 +68,13 @@ export class Skeleton {
             }
             return this.createWidget(config) as Modal;
         });
+        this.rightArea = new Area(this, 'rightArea', (config) => {
+            if (isPanel(config)) {
+                return config;
+            }
+            const panel = this.createWidget(config) as Panel;
+            return panel;
+        });
     }
 
     createWidget(config: IWidgetBaseConfig | IWidget) {
@@ -74,6 +86,8 @@ export class Skeleton {
             widget = new Modal(this, config as IModalConfig);
         } else if (isWidgetModalConfig(config)) {
             widget = new WidgetModal(this, config as IWidgetModalConfig);
+        } else if (isPanelConfig(config)) {
+            widget = new Panel(this, config as IPanelConfig);
         } else {
             widget = new Widget(this, config as IWidgetConfig);
         }
@@ -82,7 +96,8 @@ export class Skeleton {
     }
 
     add(
-        config: IWidgetBaseConfig | IWidgetConfig | IWidgetModalConfig,
+        config: IWidgetBaseConfig &
+            (IWidgetConfig | IWidgetModalConfig | IPanelProps),
         extraConfig?: Record<string, any>,
     ) {
         const parsedConfig = {
@@ -100,6 +115,9 @@ export class Skeleton {
             case 'global':
             case 'globalArea':
                 return this.globalArea.add(parsedConfig as IModalConfig);
+            case 'right':
+            case 'rightArea':
+                return this.rightArea.add(parsedConfig as IPanelConfig);
 
             default:
             // do nothing

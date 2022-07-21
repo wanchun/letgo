@@ -1,9 +1,22 @@
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
+import { Area } from '../area';
+import { IPanelConfig } from '../types';
+import { Panel } from '../widget';
 
 export default defineComponent({
-    setup() {
+    props: {
+        area: {
+            type: Object as PropType<Area<IPanelConfig, Panel>>,
+        },
+    },
+    setup(props) {
         return () => {
-            return <div class={'letgo-right-area'}></div>;
+            const { area } = props;
+            return (
+                <div class="letgo-right-area">
+                    {area.items.value.map((item) => item.content)}
+                </div>
+            );
         };
     },
 });

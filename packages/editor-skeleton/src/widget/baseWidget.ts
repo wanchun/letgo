@@ -12,11 +12,11 @@ export class BaseWidget {
 
     protected isReady = ref(false);
 
-    private _visible = ref(true);
+    protected _visible = ref(true);
 
-    private _disabled = ref(false);
+    protected _disabled = ref(false);
 
-    private _body: VNodeTypes;
+    protected _body: VNodeTypes;
 
     get body() {
         if (this.isReady.value) {
@@ -31,7 +31,7 @@ export class BaseWidget {
         return this._body;
     }
 
-    setVisible(flag: boolean) {
+    protected setVisible(flag: boolean) {
         if (flag === this._visible.value) {
             return;
         }
@@ -58,7 +58,7 @@ export class BaseWidget {
         this.setVisible(!this._visible);
     }
 
-    private setDisabled(flag: boolean) {
+    protected setDisabled(flag: boolean) {
         if (this._disabled.value === flag) return;
         this._disabled.value = flag;
     }

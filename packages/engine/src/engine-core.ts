@@ -63,5 +63,6 @@ export async function init(
      */
     return function destroy() {
         app.unmount();
+        //TODO 清除创建的各种实例
     };
 }

@@ -15,26 +15,35 @@ import {
     SkeletonEvents,
     isPanel,
     isPanelConfig,
+    isWidgetPanelConfig,
 } from './types';
 import { Area } from './area';
-import { Panel, Widget, Modal, WidgetModal } from './widget';
+import { Panel, Widget, Modal, WidgetModal, WidgetPanel } from './widget';
 
 export class Skeleton {
     readonly leftArea: Area<
-        IWidgetConfig | IWidgetPanelConfig | IWidgetModalConfig
+        IWidgetConfig | IWidgetPanelConfig | IWidgetModalConfig,
+        Widget | WidgetModal | WidgetPanel
     >;
 
     readonly topArea: Area<
-        IWidgetConfig | IWidgetPanelConfig | IWidgetModalConfig
+        IWidgetConfig | IWidgetPanelConfig | IWidgetModalConfig,
+        Widget | WidgetModal | WidgetPanel
+    >;
+
+    readonly toolbar: Area<
+        IWidgetConfig | IWidgetPanelConfig | IWidgetModalConfig,
+        Widget | WidgetModal | WidgetPanel
+    >;
+
+    readonly bottomArea: Area<
+        IWidgetConfig | IWidgetPanelConfig | IWidgetModalConfig,
+        Widget | WidgetModal | WidgetPanel
     >;
 
     readonly globalArea: Area<IModalConfig, Modal>;
 
     readonly rightArea: Area<IPanelConfig, Panel>;
-
-    readonly toolbar: Area<
-        IWidgetConfig | IWidgetPanelConfig | IWidgetModalConfig
-    >;
 
     readonly leftFixedArea: Area<IPanelConfig, Panel>;
 
@@ -42,25 +51,32 @@ export class Skeleton {
 
     readonly mainArea: Area<IWidgetConfig | IPanelConfig, Widget | Panel>;
 
-    readonly bottomArea: Area<
-        IWidgetConfig | IWidgetPanelConfig | IWidgetModalConfig
-    >;
-
     readonly widgets: IWidget[] = [];
 
     constructor(readonly editor: Editor) {
-        this.editor = editor;
         this.leftArea = new Area(this, 'leftArea', (config) => {
             if (isWidget(config)) {
                 return config;
             }
-            return this.createWidget(config);
+            return this.createWidget(config) as Widget;
         });
         this.topArea = new Area(this, 'topArea', (config) => {
             if (isWidget(config)) {
                 return config;
             }
-            return this.createWidget(config);
+            return this.createWidget(config) as Widget;
+        });
+        this.toolbar = new Area(this, 'toolbar', (config) => {
+            if (isWidget(config)) {
+                return config;
+            }
+            return this.createWidget(config) as Widget;
+        });
+        this.bottomArea = new Area(this, 'bottomArea', (config) => {
+            if (isWidget(config)) {
+                return config;
+            }
+            return this.createWidget(config) as Widget;
         });
         this.globalArea = new Area(this, 'globalArea', (config) => {
             if (isModal(config)) {
@@ -88,6 +104,8 @@ export class Skeleton {
             widget = new WidgetModal(this, config as IWidgetModalConfig);
         } else if (isPanelConfig(config)) {
             widget = new Panel(this, config as IPanelConfig);
+        } else if (isWidgetPanelConfig(config)) {
+            widget = new WidgetPanel(this, config as IWidgetPanelConfig);
         } else {
             widget = new Widget(this, config as IWidgetConfig);
         }
@@ -118,7 +136,11 @@ export class Skeleton {
             case 'right':
             case 'rightArea':
                 return this.rightArea.add(parsedConfig as IPanelConfig);
-
+            case 'toolbar':
+                return this.toolbar.add(parsedConfig as IWidgetConfig);
+            case 'bottom':
+            case 'bottomArea':
+                return this.bottomArea.add(parsedConfig as IWidgetConfig);
             default:
             // do nothing
         }

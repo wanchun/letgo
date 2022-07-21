@@ -11,10 +11,11 @@ export default defineComponent({
     setup(props) {
         return () => {
             const { widget } = props;
-            if (!widget.visible.value) {
-                return null;
-            }
-            return <div class="letgo-panel">{widget.body}</div>;
+            return (
+                <div v-show={widget.visible.value} class="letgo-panel">
+                    {widget.body}
+                </div>
+            );
         };
     },
 });

@@ -5,12 +5,16 @@ import {
     IWidgetPanelConfig,
     IWidgetModalConfig,
 } from '../types';
+import { Widget, WidgetModal, WidgetPanel } from '../widget';
 
 export default defineComponent({
     props: {
         area: {
             type: Object as PropType<
-                Area<IWidgetConfig | IWidgetPanelConfig | IWidgetModalConfig>
+                Area<
+                    IWidgetConfig | IWidgetPanelConfig | IWidgetModalConfig,
+                    Widget | WidgetModal | WidgetPanel
+                >
             >,
         },
     },

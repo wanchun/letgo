@@ -28,9 +28,9 @@ export default defineComponent({
                         <LeftFloatArea />
                         <LeftFixedArea />
                         <div className="letgo-workbench-center">
-                            <Toolbar />
+                            <Toolbar area={skeleton.toolbar} />
                             <MainArea />
-                            <BottomArea />
+                            <BottomArea area={skeleton.bottomArea} />
                         </div>
                         <RightArea area={skeleton.rightArea} />
                     </div>

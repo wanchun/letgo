@@ -95,7 +95,6 @@ export function isWidgetModalConfig(obj: any): obj is IWidgetModalConfig {
 export interface IPanelProps {
     title?: string;
     description?: string;
-    onInit?: (widget: IWidget) => any;
 }
 
 export interface IPanelConfig extends IWidgetBaseConfig {
@@ -108,9 +107,9 @@ export function isPanelConfig(obj: any): obj is IPanelConfig {
 }
 
 export interface IWidgetPanelConfig extends IWidgetBaseConfig {
-    type: 'PanelWidget';
+    type: 'WidgetPanel';
     props?: IWidgetProps;
-    panelName: string;
+    panelName?: string;
     panelContent: () => VNode | string;
     panelProps?: IPanelProps & {
         area?: IWidgetConfigArea;
@@ -118,7 +117,7 @@ export interface IWidgetPanelConfig extends IWidgetBaseConfig {
 }
 
 export function isWidgetPanelConfig(obj: any): obj is IWidgetPanelConfig {
-    return obj && obj.type === 'PanelWidget';
+    return obj && obj.type === 'WidgetPanel';
 }
 
 export interface IWidget {

@@ -1,25 +1,25 @@
 import { h, VNode } from 'vue';
 import { Skeleton } from '../skeleton';
-import { IWidget, IWidgetModalConfig } from '../types';
+import { IWidget, IWidgetPanelConfig } from '../types';
 import WidgetView from '../views/widget';
-import { Modal } from './modal';
+import { Panel } from './panel';
 import { BaseWidget } from './baseWidget';
 
-export class WidgetModal extends BaseWidget implements IWidget {
+export class WidgetPanel extends BaseWidget implements IWidget {
     readonly align?: string;
 
     readonly title: string;
 
     readonly onClick: (widget: IWidget) => void;
 
-    private _modal?: Modal;
+    private _panel?: Panel;
 
     get content(): VNode {
         return h(WidgetView, {
             widget: this,
             key: this.id,
             onClick: () => {
-                this._modal.show();
+                this._panel.show();
                 this.onClick?.(this);
             },
         });
@@ -27,15 +27,15 @@ export class WidgetModal extends BaseWidget implements IWidget {
 
     constructor(
         readonly skeleton: Skeleton,
-        readonly config: IWidgetModalConfig,
+        readonly config: IWidgetPanelConfig,
     ) {
         super(skeleton, config);
         const {
             props = {},
             name,
-            modalName,
-            modalContent,
-            modalProps = {},
+            panelName,
+            panelContent,
+            panelProps = {},
         } = config;
         this.align = props.align;
         this.title = props.title || name;
@@ -43,12 +43,12 @@ export class WidgetModal extends BaseWidget implements IWidget {
         if (props.onInit) {
             props.onInit.call(this, this);
         }
-        this._modal = this.skeleton.add({
+        this._panel = this.skeleton.add({
             type: 'Modal',
-            name: modalName ?? `${this.name}Modal`,
-            area: 'globalArea',
-            props: modalProps,
-            content: modalContent,
-        }) as Modal;
+            name: panelName ?? `${this.name}Panel`,
+            area: panelProps.area ?? 'left',
+            props: panelProps,
+            content: panelContent,
+        }) as Panel;
     }
 }

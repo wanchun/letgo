@@ -66,8 +66,6 @@ function normalizeArea(area: IWidgetConfigArea | undefined) {
         case 'bottomArea':
         case 'bottom':
             return 'bottomArea';
-        case 'leftFixedArea':
-            return 'leftFixedArea';
         case 'leftFloatArea':
             return 'leftFloatArea';
         default:

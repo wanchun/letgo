@@ -112,7 +112,7 @@ export class EngineConfig {
         const val = this.config?.[key];
         if (val !== undefined) {
             fn(val);
-            return () => {};
+            return () => void 0;
         } else {
             this.setWait(key, fn);
             return () => {

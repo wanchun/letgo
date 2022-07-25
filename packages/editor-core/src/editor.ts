@@ -1,7 +1,6 @@
 import { StrictEventEmitter } from 'strict-event-emitter-types';
 import { EventEmitter } from 'events';
-import { GlobalEvent } from '@webank/letgo-types';
-import { engineConfig } from './config';
+import { GlobalEvent, AssetsJson } from '@webank/letgo-types';
 
 export type KeyType = (new (...args: any[]) => any) | symbol | string;
 export type ClassType = new (...args: any[]) => any;
@@ -48,16 +47,12 @@ export declare interface Editor
     eventNames(): Array<string | symbol>;
 }
 
-const keyBlacklist = [
-    'designer',
-    'skeleton',
-    'currentDocument',
-    'simulator',
-    'plugins',
-];
-
 export class Editor extends (EventEmitter as any) {
     private context = new Map<KeyType, any>();
+
+    async setAssets(assets: AssetsJson) {
+        this.set('assets', assets);
+    }
 
     get<T = undefined, KeyOrType = any>(
         keyOrType: KeyOrType,
@@ -70,10 +65,6 @@ export class Editor extends (EventEmitter as any) {
     }
 
     set(key: KeyType, data: any): void {
-        // store the data to engineConfig while invoking editor.set()
-        if (!keyBlacklist.includes(key as string)) {
-            engineConfig.set(key as any, data);
-        }
         this.context.set(key, data);
         this.notifyGot(key);
     }
@@ -97,7 +88,7 @@ export class Editor extends (EventEmitter as any) {
         const x = this.context.get(keyOrType);
         if (x !== undefined) {
             fn(x);
-            return () => {};
+            return () => void 0;
         } else {
             this.setWait(keyOrType, fn);
             return () => {
@@ -166,6 +157,10 @@ export class Editor extends (EventEmitter as any) {
         if (waits.length < 1) {
             this.waits.delete(key);
         }
+    }
+
+    destroy(): void {
+        this.context.clear();
     }
 }
 

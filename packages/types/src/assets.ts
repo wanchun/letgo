@@ -16,7 +16,7 @@ export interface AssetsJson {
     /**
      * 所有组件的描述协议列表所有组件的列表
      */
-    components: Array<ComponentDescription>;
+    components?: Array<ComponentDescription>;
     sort?: ComponentSort;
 }
 
@@ -88,8 +88,5 @@ export interface Package {
  * 本地物料描述
  */
 export interface ComponentDescription extends ComponentMetadata {
-    /**
-     * @todo 待补充文档 @jinchan
-     */
     keywords: string[];
 }

@@ -7,9 +7,9 @@ export class Material {
     private readonly [editorSymbol]: Editor;
     private readonly [designerSymbol]: Designer;
 
-    constructor(editor: Editor) {
+    constructor(editor: Editor, designer: Designer) {
         this[editorSymbol] = editor;
-        this[designerSymbol] = editor.get('designer')!;
+        this[designerSymbol] = designer;
     }
 
     /**

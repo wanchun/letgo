@@ -37,7 +37,7 @@ export default class PluginContext implements IPluginContext {
         this.project = new Project();
         this.skeleton = new Skeleton(skeleton);
         this.setters = new Setters();
-        this.material = new Material();
+        this.material = new Material(this.editor, designer);
         this.config = engineConfig;
         this.plugins = plugins;
         this.logger = getLogger({

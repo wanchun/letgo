@@ -4,7 +4,10 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted, onBeforeUnmount, h } from 'vue';
 import { init, plugins } from '@webank/letgo-engine';
-import { HomeOutlined } from '@fesjs/fes-design/icon';
+import PluginComponentsPanel from '@webank/letgo-plugin-components-panel';
+import Logo from './components/logo.vue';
+
+plugins.register(PluginComponentsPanel);
 
 plugins.register({
     name: 'skeleton',
@@ -16,43 +19,43 @@ plugins.register({
             name: 'widget',
             area: 'topArea',
             type: 'Widget',
-            content: () => 'Letgo 低代码平台',
+            content: () => h(Logo),
             props: {
                 align: 'left',
             },
         });
-        skeleton.add({
-            name: 'widgetModal',
-            area: 'leftArea',
-            type: 'WidgetModal',
-            content: () => h(HomeOutlined),
-            props: {
-                align: 'top',
-            },
-            modalContent: () => '我是内容',
-            modalProps: {
-                title: '我是标题',
-                onOk: (widget) => {
-                    widget.hide();
-                },
-                onCancel: (widget) => {
-                    widget.hide();
-                },
-            },
-        });
-        skeleton.add({
-            name: 'widgetPanel',
-            area: 'leftArea',
-            type: 'WidgetPanel',
-            content: () => h(HomeOutlined),
-            props: {
-                align: 'top',
-            },
-            panelContent: () => '我是内容',
-            panelProps: {
-                title: '我是标题',
-            },
-        });
+        // skeleton.add({
+        //     name: 'widgetModal',
+        //     area: 'leftArea',
+        //     type: 'WidgetModal',
+        //     content: () => h(HomeOutlined),
+        //     props: {
+        //         align: 'top',
+        //     },
+        //     modalContent: () => '我是内容',
+        //     modalProps: {
+        //         title: '我是标题',
+        //         onOk: (widget) => {
+        //             widget.hide();
+        //         },
+        //         onCancel: (widget) => {
+        //             widget.hide();
+        //         },
+        //     },
+        // });
+        // skeleton.add({
+        //     name: 'widgetPanel',
+        //     area: 'leftArea',
+        //     type: 'WidgetPanel',
+        //     content: () => h(HomeOutlined),
+        //     props: {
+        //         align: 'top',
+        //     },
+        //     panelContent: () => '我是内容',
+        //     panelProps: {
+        //         title: '我是标题',
+        //     },
+        // });
         const panel = skeleton.add({
             name: 'setter',
             area: 'rightArea',

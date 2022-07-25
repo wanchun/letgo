@@ -1,5 +1,6 @@
 import { version } from './engine-core';
 export * from './engine-core';
+export * from './plugins/plugin-types';
 
 console.log(
     `%c LetgoLowCodeEngine %c v${version} `,

@@ -5,7 +5,7 @@ import { Skeleton } from '@webank/letgo-editor-skeleton';
 import { PluginManager, IPluginContext, PluginPreference } from './plugins';
 import { Workbench } from '../../editor-skeleton/src';
 
-const plugins = new PluginManager(editor);
+const plugins = new PluginManager(editor).toProxy();
 editor.set('plugins' as any, plugins);
 
 const skeleton = new Skeleton(editor);

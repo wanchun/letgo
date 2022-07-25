@@ -1,0 +1,29 @@
+{
+  "name": "@webank/letgo-plugin-components-panel",
+  "version": "1.0.0",
+  "description": "",
+  "files": [
+    "es",
+    "lib",
+    "src"
+  ],
+  "main": "src/index.tsx",
+  "module": "src/index.tsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@webank/letgo-engine": "^1.0.0",
+    "@webank/letgo-editor-core": "^1.0.0",
+    "@fesjs/fes-design": "^0.5.15"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.37"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -6,6 +6,14 @@ import { defineComponent, ref, onMounted, onBeforeUnmount, h } from 'vue';
 import { init, plugins } from '@webank/letgo-engine';
 import PluginComponentsPanel from '@webank/letgo-plugin-components-panel';
 import Logo from './components/logo.vue';
+import assets from './components/assets.json';
+
+plugins.register({
+    name: 'editor-init',
+    init({ material }) {
+        material.setAssets(assets);
+    },
+});
 
 plugins.register(PluginComponentsPanel);
 

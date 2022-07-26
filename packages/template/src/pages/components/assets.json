@@ -1,0 +1,110 @@
+{
+    "packages": [
+        {
+            "package": "moment",
+            "version": "2.24.0",
+            "urls": [
+                "https://g.alicdn.com/mylib/moment/2.24.0/min/moment.min.js"
+            ],
+            "library": "moment"
+        },
+        {
+            "package": "lodash",
+            "library": "_",
+            "urls": [
+                "https://g.alicdn.com/platform/c/lodash/4.6.1/lodash.min.js"
+            ]
+        }
+    ],
+    "components": [
+        {
+            "componentName": "FGrid",
+            "description": "布局",
+            "devMode": "proCode",
+            "npm": {},
+            "props": {},
+            "configure": {},
+            "snippets": [
+                {
+                    "title": "布局",
+                    "screenshot": "https://alifd.oss-cn-hangzhou.aliyuncs.com/fusion-cool/icons/icon-light/ic_light_button.png",
+                    "schema": {}
+                }
+            ],
+            "group": "精选组件",
+            "category": "布局容器类",
+            "priority": 0
+        },
+        {
+            "componentName": "FButton",
+            "description": "按钮",
+            "devMode": "proCode",
+            "npm": {},
+            "props": {},
+            "configure": {},
+            "snippets": [
+                {
+                    "title": "按钮",
+                    "screenshot": "https://alifd.oss-cn-hangzhou.aliyuncs.com/fusion-cool/icons/icon-light/ic_light_button.png",
+                    "schema": {}
+                }
+            ],
+            "group": "原子组件",
+            "category": "基础元素",
+            "priority": 0
+        },
+        {
+            "componentName": "FImage",
+            "description": "图片",
+            "devMode": "proCode",
+            "npm": {},
+            "props": {},
+            "configure": {},
+            "snippets": [
+                {
+                    "title": "图片",
+                    "screenshot": "https://img.alicdn.com/imgextra/i3/O1CN01tnhXhk1GUIFhsXwzA_!!6000000000625-55-tps-56-56.svg",
+                    "schema": {}
+                }
+            ],
+            "group": "原子组件",
+            "category": "基础元素",
+            "priority": 0
+        },
+        {
+            "componentName": "FInput",
+            "description": "输入框",
+            "devMode": "proCode",
+            "npm": {},
+            "props": {},
+            "configure": {},
+            "snippets": [
+                {
+                    "title": "输入框",
+                    "screenshot": "https://img.alicdn.com/tfs/TB1CHN3u4z1gK0jSZSgXXavwpXa-112-64.png",
+                    "schema": {}
+                }
+            ],
+            "group": "原子组件",
+            "category": "信息输入",
+            "priority": 0
+        }
+    ],
+    "sort": {
+        "groupList": ["精选组件", "原子组件"],
+        "categoryList": [
+            "基础元素",
+            "布局容器类",
+            "表格类",
+            "表单详情类",
+            "帮助类",
+            "对话框类",
+            "业务类",
+            "通用",
+            "引导",
+            "信息输入",
+            "信息展示",
+            "信息反馈"
+        ]
+    }
+}

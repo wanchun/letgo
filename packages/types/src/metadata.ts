@@ -19,7 +19,7 @@ export interface Snippet {
     /**
      * 待插入的 schema
      */
-    schema?: NodeSchema;
+    schema: NodeSchema;
 }
 
 /**
@@ -45,21 +45,17 @@ export interface ComponentMetadata {
      */
     componentName: string;
     /**
-     * title or description
+     * title or 组件描述
      */
-    title?: string;
-    /**
-     * 组件标签
-     */
-    tags?: string[];
-    /**
-     * 组件描述
-     */
-    description?: string;
+    title: string;
     /**
      * 组件快照
      */
     screenshot?: string;
+    /**
+     * 组件标签
+     */
+    tags?: string[];
     /**
      * 组件研发模式
      */

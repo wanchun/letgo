@@ -61,10 +61,12 @@ importers:
       '@fesjs/fes-design': ^0.5.15
       '@webank/letgo-editor-core': ^1.0.0
       '@webank/letgo-engine': ^1.0.0
+      '@webank/letgo-types': ^1.0.0
     dependencies:
       '@fesjs/fes-design': 0.5.18
       '@webank/letgo-editor-core': link:../editor-core
       '@webank/letgo-engine': link:../engine
+      '@webank/letgo-types': link:../types
 
   packages/renderer:
     specifiers: {}

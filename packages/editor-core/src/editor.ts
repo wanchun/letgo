@@ -97,11 +97,6 @@ export class Editor extends (EventEmitter as any) {
         }
     }
 
-    register(data: any, key?: KeyType): void {
-        this.context.set(key || data, data);
-        this.notifyGot(key || data);
-    }
-
     private waits = new Map<
         KeyType,
         Array<{

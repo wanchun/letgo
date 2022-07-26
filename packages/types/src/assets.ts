@@ -8,7 +8,7 @@ export interface AssetsJson {
     /**
      * 资产包协议版本号
      */
-    version: string;
+    version?: string;
     /**
      * 大包列表，external与package的概念相似，融合在一起
      */

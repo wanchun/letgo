@@ -30,10 +30,13 @@
                         v-for="(snippet, index) in item.snippets"
                         :key="index"
                         class="category-body-item"
+                        draggable="true"
+                        @dragstart="handleDragstart($event, snippet)"
                     >
                         <div class="category-body-item-icon">
                             <img
                                 :src="snippet.screenshot"
+                                draggable="false"
                                 v-if="snippet.screenshot"
                             />
                         </div>
@@ -51,11 +54,11 @@ import {
     defineComponent,
     PropType,
     ref,
+    shallowRef,
     Ref,
     computed,
     onBeforeUnmount,
     onBeforeMount,
-    reactive,
 } from 'vue';
 import { Editor } from '@webank/letgo-editor-core';
 import { AssetsJson, Snippet } from '@webank/letgo-types';
@@ -69,7 +72,7 @@ import {
 interface CategoryType {
     category: string;
     snippets: Snippet[];
-    show: boolean;
+    show: Ref<boolean>;
 }
 
 export default defineComponent({
@@ -87,7 +90,7 @@ export default defineComponent({
         DownOutlined,
     },
     setup(props) {
-        const assetsRef: Ref<AssetsJson> = ref({});
+        const assetsRef: Ref<AssetsJson> = shallowRef({});
 
         const searchText: Ref<string> = ref();
 
@@ -103,11 +106,11 @@ export default defineComponent({
             groupListRef.value.forEach((group) => {
                 res[group] = [];
                 categoryList.forEach((category) => {
-                    const categoryObj: CategoryType = reactive({
+                    const categoryObj: CategoryType = {
                         category,
                         snippets: [],
-                        show: true,
-                    });
+                        show: ref(true),
+                    };
                     assetsRef.value.components.forEach((component) => {
                         if (
                             component.group === group &&
@@ -117,6 +120,7 @@ export default defineComponent({
                                 component.snippets
                                     .map((snippet) => {
                                         return {
+                                            component,
                                             title: component.title,
                                             screenshot: component.screenshot,
                                             ...snippet,
@@ -124,9 +128,13 @@ export default defineComponent({
                                     })
                                     .filter((snippet) => {
                                         if (!searchText.value) {
-                                            return true
+                                            return true;
                                         }
-                                        return snippet.title.indexOf(searchText.value) !== -1
+                                        return (
+                                            snippet.title.indexOf(
+                                                searchText.value,
+                                            ) !== -1
+                                        );
                                     }),
                             );
                         }
@@ -140,7 +148,7 @@ export default defineComponent({
         });
 
         const toggle = (item: CategoryType) => {
-            item.show = !item.show;
+            item.show.value = !item.show.value;
         };
 
         const onSearch = (val: string) => {
@@ -160,12 +168,24 @@ export default defineComponent({
             }
         });
 
+        const handleDragstart = (event: DragEvent, snippet: Snippet) => {
+            console.log(event, snippet);
+            const target = event.target as HTMLElement;
+            const image = target.children[0].children[0];
+            event.dataTransfer.setDragImage(
+                image,
+                image.clientWidth / 2,
+                image.clientHeight / 2,
+            );
+        };
+
         return {
             assetsRef,
             groupListRef,
             categoryListRef,
             toggle,
             onSearch,
+            handleDragstart,
         };
     },
 });
@@ -204,6 +224,12 @@ export default defineComponent({
         flex-grow: 0;
         border-right: 1px solid #eaeaea;
         border-bottom: 1px solid #eaeaea;
+        box-shadow: 0 0 0 0 rgb(0 0 0 / 15%);
+        transition: box-shadow 0.2s ease, -webkit-box-shadow 0.2s ease;
+        &:hover {
+            box-shadow: 0 6px 16px 0 rgb(0 0 0 / 15%);
+            border-color: transparent;
+        }
         &-icon {
             width: 56px;
             height: 56px;

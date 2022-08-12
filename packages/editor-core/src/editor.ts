@@ -1,21 +1,12 @@
 import { StrictEventEmitter } from 'strict-event-emitter-types';
 import { EventEmitter } from 'events';
-import { GlobalEvent, AssetsJson } from '@webank/letgo-types';
-
-export type KeyType = (new (...args: any[]) => any) | symbol | string;
-export type ClassType = new (...args: any[]) => any;
-
-export interface GetOptions {
-    forceNew?: boolean;
-    sourceCls?: ClassType;
-}
-export type GetReturnType<T, ClsType> = T extends undefined
-    ? ClsType extends {
-          prototype: infer R;
-      }
-        ? R
-        : any
-    : T;
+import {
+    IEditor,
+    KeyType,
+    GlobalEvent,
+    GetReturnType,
+    AssetsJson,
+} from '@webank/letgo-types';
 
 export declare interface Editor
     extends StrictEventEmitter<EventEmitter, GlobalEvent.EventConfig> {
@@ -47,7 +38,7 @@ export declare interface Editor
     eventNames(): Array<string | symbol>;
 }
 
-export class Editor extends (EventEmitter as any) {
+export class Editor extends (EventEmitter as any) implements IEditor {
     private context = new Map<KeyType, any>();
 
     async setAssets(assets: AssetsJson) {

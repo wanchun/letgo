@@ -11,7 +11,16 @@ importers:
       typescript: 4.7.4
 
   packages/designer:
-    specifiers: {}
+    specifiers:
+      '@webank/letgo-types': ^1.0.0
+      '@webank/letgo-utils': ^1.0.0
+      events: ^3.3.0
+      lodash-es: ^4.17.21
+    dependencies:
+      '@webank/letgo-types': link:../types
+      '@webank/letgo-utils': link:../utils
+      events: 3.3.0
+      lodash-es: 4.17.21
 
   packages/editor-core:
     specifiers:

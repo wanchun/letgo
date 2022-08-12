@@ -1,0 +1,1509 @@
+{
+  "statistics": {
+    "detectionDate": "2022-08-12T07:11:46.803Z",
+    "formats": {
+      "markup": {
+        "sources": {
+          "/Users/harrywan/company/git/letgo/packages/template/src/pages/components/logo.vue": {
+            "lines": 17,
+            "tokens": 99,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/template/src/pages/index.vue": {
+            "lines": 115,
+            "tokens": 665,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/plugin-components-panel/src/panel.vue": {
+            "lines": 251,
+            "tokens": 1428,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/plugin-components-panel/src/content.vue": {
+            "lines": 21,
+            "tokens": 110,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/template/index.html": {
+            "lines": 16,
+            "tokens": 115,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          }
+        },
+        "total": {
+          "lines": 420,
+          "tokens": 2417,
+          "sources": 5,
+          "clones": 0,
+          "duplicatedLines": 0,
+          "duplicatedTokens": 0,
+          "percentage": 0,
+          "percentageTokens": 0,
+          "newDuplicatedLines": 0,
+          "newClones": 0
+        }
+      },
+      "typescript": {
+        "sources": {
+          "/Users/harrywan/company/git/letgo/packages/types/src/event/prop.ts": {
+            "lines": 15,
+            "tokens": 77,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/types/src/event/node.ts": {
+            "lines": 9,
+            "tokens": 65,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/types/src/event/index.ts": {
+            "lines": 9,
+            "tokens": 122,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/engine/src/utils/invariant.ts": {
+            "lines": 4,
+            "tokens": 60,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/engine/src/shell/symbols.ts": {
+            "lines": 20,
+            "tokens": 292,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/engine/src/shell/skeleton.ts": {
+            "lines": 73,
+            "tokens": 441,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/engine/src/shell/material.ts": {
+            "lines": 72,
+            "tokens": 493,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/engine/src/shell/index.ts": {
+            "lines": 5,
+            "tokens": 52,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/engine/src/plugins/sequencify.ts": {
+            "lines": 39,
+            "tokens": 378,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/engine/src/plugins/plugin.ts": {
+            "lines": 128,
+            "tokens": 1008,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/engine/src/plugins/plugin-utils.ts": {
+            "lines": 33,
+            "tokens": 286,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/engine/src/plugins/plugin-types.ts": {
+            "lines": 138,
+            "tokens": 1059,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/engine/src/plugins/plugin-manager.ts": {
+            "lines": 220,
+            "tokens": 1733,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/engine/src/plugins/plugin-context.ts": {
+            "lines": 81,
+            "tokens": 681,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/engine/src/plugins/index.ts": {
+            "lines": 3,
+            "tokens": 34,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/widget/widget.ts": {
+            "lines": 33,
+            "tokens": 321,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/widget/widget-panel.ts": {
+            "lines": 53,
+            "tokens": 459,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 8,
+            "duplicatedTokens": 85,
+            "percentage": 15.09,
+            "percentageTokens": 18.52,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/widget/widget-modal.ts": {
+            "lines": 53,
+            "tokens": 452,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 8,
+            "duplicatedTokens": 85,
+            "percentage": 15.09,
+            "percentageTokens": 18.81,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/widget/panel.ts": {
+            "lines": 48,
+            "tokens": 427,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/widget/modal.ts": {
+            "lines": 34,
+            "tokens": 322,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/widget/index.ts": {
+            "lines": 4,
+            "tokens": 43,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/widget/baseWidget.ts": {
+            "lines": 103,
+            "tokens": 751,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/designer/src/project/project.ts": {
+            "lines": 194,
+            "tokens": 1540,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/designer/src/node/node.ts": {
+            "lines": 70,
+            "tokens": 404,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/designer/src/document/selection.ts": {
+            "lines": 165,
+            "tokens": 1239,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/designer/src/document/document.ts": {
+            "lines": 162,
+            "tokens": 1038,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/designer/src/designer/designer.ts": {
+            "lines": 42,
+            "tokens": 354,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/utils/src/unique-id.ts": {
+            "lines": 3,
+            "tokens": 53,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/utils/src/logger.ts": {
+            "lines": 6,
+            "tokens": 68,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/types/src/value-type.ts": {
+            "lines": 97,
+            "tokens": 428,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/types/src/utils.ts": {
+            "lines": 16,
+            "tokens": 134,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/types/src/schema.ts": {
+            "lines": 176,
+            "tokens": 736,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/types/src/prop-config.ts": {
+            "lines": 75,
+            "tokens": 392,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/types/src/npm.ts": {
+            "lines": 31,
+            "tokens": 98,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/types/src/metadata.ts": {
+            "lines": 247,
+            "tokens": 860,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/types/src/index.ts": {
+            "lines": 9,
+            "tokens": 92,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/types/src/editor.ts": {
+            "lines": 38,
+            "tokens": 416,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/types/src/assets.ts": {
+            "lines": 91,
+            "tokens": 305,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/types/src/app-config.ts": {
+            "lines": 18,
+            "tokens": 121,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/engine/src/index.ts": {
+            "lines": 8,
+            "tokens": 54,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/engine/src/engine-core.ts": {
+            "lines": 67,
+            "tokens": 553,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/types.ts": {
+            "lines": 159,
+            "tokens": 1253,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/skeleton.ts": {
+            "lines": 159,
+            "tokens": 1439,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/area.ts": {
+            "lines": 118,
+            "tokens": 1126,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 16,
+            "duplicatedTokens": 182,
+            "percentage": 13.56,
+            "percentageTokens": 16.16,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-core/src/index.ts": {
+            "lines": 3,
+            "tokens": 34,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-core/src/editor.ts": {
+            "lines": 152,
+            "tokens": 1502,
+            "sources": 1,
+            "clones": 3,
+            "duplicatedLines": 44,
+            "duplicatedTokens": 412,
+            "percentage": 28.95,
+            "percentageTokens": 27.43,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-core/src/config.ts": {
+            "lines": 169,
+            "tokens": 1190,
+            "sources": 1,
+            "clones": 3,
+            "duplicatedLines": 44,
+            "duplicatedTokens": 412,
+            "percentage": 26.04,
+            "percentageTokens": 34.62,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/designer/src/types.ts": {
+            "lines": 41,
+            "tokens": 343,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          }
+        },
+        "total": {
+          "lines": 3493,
+          "tokens": 25328,
+          "sources": 48,
+          "clones": 5,
+          "duplicatedLines": 60,
+          "duplicatedTokens": 588,
+          "percentage": 1.72,
+          "percentageTokens": 2.32,
+          "newDuplicatedLines": 0,
+          "newClones": 0
+        }
+      },
+      "javascript": {
+        "sources": {
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/views/widget.tsx": {
+            "lines": 6,
+            "tokens": 44,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/views/panel.tsx": {
+            "lines": 0,
+            "tokens": 7,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/views/modal.tsx": {
+            "lines": 0,
+            "tokens": 3,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/workbench.tsx": {
+            "lines": 12,
+            "tokens": 138,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/top-area.tsx": {
+            "lines": 0,
+            "tokens": 9,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/toolbar.tsx": {
+            "lines": 0,
+            "tokens": 9,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/right-area.tsx": {
+            "lines": 0,
+            "tokens": 9,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/main-area.tsx": {
+            "lines": 0,
+            "tokens": 3,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/left-float-area.tsx": {
+            "lines": 10,
+            "tokens": 69,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/left-area.tsx": {
+            "lines": 10,
+            "tokens": 95,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/bottom-area.tsx": {
+            "lines": 0,
+            "tokens": 9,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/plugin-components-panel/src/index.tsx": {
+            "lines": 0,
+            "tokens": 3,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          }
+        },
+        "total": {
+          "lines": 38,
+          "tokens": 398,
+          "sources": 12,
+          "clones": 0,
+          "duplicatedLines": 0,
+          "duplicatedTokens": 0,
+          "percentage": 0,
+          "percentageTokens": 0,
+          "newDuplicatedLines": 0,
+          "newClones": 0
+        }
+      },
+      "tsx": {
+        "sources": {
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/views/widget.tsx": {
+            "lines": 34,
+            "tokens": 276,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/views/panel.tsx": {
+            "lines": 20,
+            "tokens": 161,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/views/modal.tsx": {
+            "lines": 24,
+            "tokens": 194,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/workbench.tsx": {
+            "lines": 39,
+            "tokens": 352,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/top-area.tsx": {
+            "lines": 54,
+            "tokens": 541,
+            "sources": 1,
+            "clones": 5,
+            "duplicatedLines": 131,
+            "duplicatedTokens": 1293,
+            "percentage": 242.59,
+            "percentageTokens": 239,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/toolbar.tsx": {
+            "lines": 59,
+            "tokens": 573,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 45,
+            "duplicatedTokens": 460,
+            "percentage": 76.27,
+            "percentageTokens": 80.28,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/right-area.tsx": {
+            "lines": 21,
+            "tokens": 204,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/main-area.tsx": {
+            "lines": 8,
+            "tokens": 66,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/left-float-area.tsx": {
+            "lines": 74,
+            "tokens": 674,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/left-area.tsx": {
+            "lines": 50,
+            "tokens": 480,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 33,
+            "duplicatedTokens": 330,
+            "percentage": 66,
+            "percentageTokens": 68.75,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/global-area.tsx": {
+            "lines": 21,
+            "tokens": 192,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/bottom-area.tsx": {
+            "lines": 61,
+            "tokens": 577,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 53,
+            "duplicatedTokens": 503,
+            "percentage": 86.89,
+            "percentageTokens": 87.18,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/plugin-components-panel/src/index.tsx": {
+            "lines": 22,
+            "tokens": 179,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          }
+        },
+        "total": {
+          "lines": 487,
+          "tokens": 4469,
+          "sources": 13,
+          "clones": 5,
+          "duplicatedLines": 131,
+          "duplicatedTokens": 1293,
+          "percentage": 26.9,
+          "percentageTokens": 28.93,
+          "newDuplicatedLines": 0,
+          "newClones": 0
+        }
+      },
+      "less": {
+        "sources": {
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/views/widget.less": {
+            "lines": 3,
+            "tokens": 18,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/views/panel.less": {
+            "lines": 6,
+            "tokens": 39,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/workbench.less": {
+            "lines": 161,
+            "tokens": 997,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 42,
+            "duplicatedTokens": 242,
+            "percentage": 26.09,
+            "percentageTokens": 24.27,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "/Users/harrywan/company/git/letgo/packages/template/src/global.less": {
+            "lines": 15,
+            "tokens": 74,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          }
+        },
+        "total": {
+          "lines": 185,
+          "tokens": 1128,
+          "sources": 4,
+          "clones": 1,
+          "duplicatedLines": 21,
+          "duplicatedTokens": 121,
+          "percentage": 11.35,
+          "percentageTokens": 10.73,
+          "newDuplicatedLines": 0,
+          "newClones": 0
+        }
+      },
+      "json": {
+        "sources": {
+          "/Users/harrywan/company/git/letgo/tsconfig.json": {
+            "lines": 23,
+            "tokens": 144,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          }
+        },
+        "total": {
+          "lines": 23,
+          "tokens": 144,
+          "sources": 1,
+          "clones": 0,
+          "duplicatedLines": 0,
+          "duplicatedTokens": 0,
+          "percentage": 0,
+          "percentageTokens": 0,
+          "newDuplicatedLines": 0,
+          "newClones": 0
+        }
+      }
+    },
+    "total": {
+      "lines": 4646,
+      "tokens": 33884,
+      "sources": 83,
+      "clones": 11,
+      "duplicatedLines": 212,
+      "duplicatedTokens": 2002,
+      "percentage": 4.56,
+      "percentageTokens": 5.91,
+      "newDuplicatedLines": 0,
+      "newClones": 0
+    }
+  },
+  "duplicates": [
+    {
+      "format": "typescript",
+      "lines": 9,
+      "fragment": "= {},\n        } = config;\n        this.align = props.align;\n        this.title = props.title || name;\n        this.onClick = props.onClick;\n        if (props.onInit) {\n            props.onInit.call(this, this);\n        }\n        this._modal",
+      "tokens": 0,
+      "firstFile": {
+        "name": "Users/harrywan/company/git/letgo/packages/editor-skeleton/src/widget/widget-modal.ts",
+        "start": 38,
+        "end": 46,
+        "startLoc": {
+          "line": 38,
+          "column": 2,
+          "position": 297
+        },
+        "endLoc": {
+          "line": 46,
+          "column": 7,
+          "position": 382
+        }
+      },
+      "secondFile": {
+        "name": "Users/harrywan/company/git/letgo/packages/editor-skeleton/src/widget/widget-panel.ts",
+        "start": 38,
+        "end": 46,
+        "startLoc": {
+          "line": 38,
+          "column": 2,
+          "position": 297
+        },
+        "endLoc": {
+          "line": 46,
+          "column": 7,
+          "position": 382
+        }
+      }
+    },
+    {
+      "format": "less",
+      "lines": 22,
+      "fragment": ";\n                background-color: #fff;\n                display: flex;\n                align-items: center;\n                &-left {\n                    display: flex;\n                    justify-content: center;\n                    align-items: center;\n                }\n                &-center {\n                    flex: 1;\n                    display: flex;\n                    justify-content: center;\n                    align-items: center;\n                }\n                &-right {\n                    display: flex;\n                    justify-content: center;\n                    align-items: center;\n                }\n            }\n        }",
+      "tokens": 0,
+      "firstFile": {
+        "name": "Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/workbench.less",
+        "start": 131,
+        "end": 152,
+        "startLoc": {
+          "line": 131,
+          "column": 4,
+          "position": 821
+        },
+        "endLoc": {
+          "line": 152,
+          "column": 2,
+          "position": 942
+        }
+      },
+      "secondFile": {
+        "name": "Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/workbench.less",
+        "start": 104,
+        "end": 125,
+        "startLoc": {
+          "line": 104,
+          "column": 5,
+          "position": 660
+        },
+        "endLoc": {
+          "line": 125,
+          "column": 17,
+          "position": 781
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 27,
+      "fragment": "import { defineComponent, PropType, VNode } from 'vue';\nimport { Area } from '../area';\nimport {\n    IWidgetConfig,\n    IWidgetPanelConfig,\n    IWidgetModalConfig,\n} from '../types';\nimport { Widget, WidgetModal, WidgetPanel } from '../widget';\n\nexport default defineComponent({\n    props: {\n        area: {\n            type: Object as PropType<\n                Area<\n                    IWidgetConfig | IWidgetPanelConfig | IWidgetModalConfig,\n                    Widget | WidgetModal | WidgetPanel\n                >\n            >,\n        },\n    },\n    setup(props) {\n        return () => {\n            const { area } = props;\n            const left: VNode[] = [];\n            const center: VNode[] = [];\n            const right: VNode[] = [];\n            const",
+      "tokens": 0,
+      "firstFile": {
+        "name": "Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/toolbar.tsx",
+        "start": 1,
+        "end": 27,
+        "startLoc": {
+          "line": 1,
+          "column": 1,
+          "position": 0
+        },
+        "endLoc": {
+          "line": 27,
+          "column": 6,
+          "position": 229
+        }
+      },
+      "secondFile": {
+        "name": "Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/top-area.tsx",
+        "start": 1,
+        "end": 27,
+        "startLoc": {
+          "line": 1,
+          "column": 1,
+          "position": 0
+        },
+        "endLoc": {
+          "line": 27,
+          "column": 5,
+          "position": 229
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 20,
+      "fragment": ".slice()\n                .sort((a, b) => {\n                    const index1 = a.config?.index || 0;\n                    const index2 = b.config?.index || 0;\n                    return index1 === index2 ? 0 : index1 > index2 ? 1 : -1;\n                })\n                .forEach((item) => {\n                    const content = (\n                        <div key={`toolbar-${item.name}`}>{item.content}</div>\n                    );\n                    if (item.align === 'center') {\n                        center.push(content);\n                    } else if (item.align === 'left') {\n                        left.push(content);\n                    } else {\n                        right.push(content);\n                    }\n                });\n            return (\n                <div class=\"letgo-toolbar",
+      "tokens": 0,
+      "firstFile": {
+        "name": "Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/toolbar.tsx",
+        "start": 33,
+        "end": 52,
+        "startLoc": {
+          "line": 33,
+          "column": 17,
+          "position": 268
+        },
+        "endLoc": {
+          "line": 52,
+          "column": 14,
+          "position": 499
+        }
+      },
+      "secondFile": {
+        "name": "Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/top-area.tsx",
+        "start": 28,
+        "end": 47,
+        "startLoc": {
+          "line": 28,
+          "column": 17,
+          "position": 236
+        },
+        "endLoc": {
+          "line": 47,
+          "column": 15,
+          "position": 467
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 22,
+      "fragment": "import { defineComponent, PropType, VNode } from 'vue';\nimport { Area } from '../area';\nimport {\n    IWidgetConfig,\n    IWidgetPanelConfig,\n    IWidgetModalConfig,\n} from '../types';\nimport { Widget, WidgetModal, WidgetPanel } from '../widget';\n\nexport default defineComponent({\n    props: {\n        area: {\n            type: Object as PropType<\n                Area<\n                    IWidgetConfig | IWidgetPanelConfig | IWidgetModalConfig,\n                    Widget | WidgetModal | WidgetPanel\n                >\n            >,\n        },\n    },\n    setup(props) {\n        const",
+      "tokens": 0,
+      "firstFile": {
+        "name": "Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/left-area.tsx",
+        "start": 1,
+        "end": 22,
+        "startLoc": {
+          "line": 1,
+          "column": 1,
+          "position": 0
+        },
+        "endLoc": {
+          "line": 22,
+          "column": 6,
+          "position": 157
+        }
+      },
+      "secondFile": {
+        "name": "Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/top-area.tsx",
+        "start": 1,
+        "end": 22,
+        "startLoc": {
+          "line": 1,
+          "column": 1,
+          "position": 0
+        },
+        "endLoc": {
+          "line": 22,
+          "column": 7,
+          "position": 157
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 13,
+      "fragment": ": VNode[] = [];\n        area.items.value\n            .slice()\n            .sort((a, b) => {\n                const index1 = a.config?.index || 0;\n                const index2 = b.config?.index || 0;\n                return index1 === index2 ? 0 : index1 > index2 ? 1 : -1;\n            })\n            .forEach((item) => {\n                const content = (\n                    <div key={`left-area-${item.name}`}>{item.content}</div>\n                );\n                if (item.align === 'bottom'",
+      "tokens": 0,
+      "firstFile": {
+        "name": "Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/left-area.tsx",
+        "start": 24,
+        "end": 36,
+        "startLoc": {
+          "line": 24,
+          "column": 7,
+          "position": 190
+        },
+        "endLoc": {
+          "line": 36,
+          "column": 9,
+          "position": 363
+        }
+      },
+      "secondFile": {
+        "name": "Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/top-area.tsx",
+        "start": 26,
+        "end": 38,
+        "startLoc": {
+          "line": 26,
+          "column": 6,
+          "position": 216
+        },
+        "endLoc": {
+          "line": 38,
+          "column": 9,
+          "position": 389
+        }
+      }
+    },
+    {
+      "format": "tsx",
+      "lines": 54,
+      "fragment": "import { defineComponent, PropType, VNode } from 'vue';\nimport { Area } from '../area';\nimport {\n    IWidgetConfig,\n    IWidgetPanelConfig,\n    IWidgetModalConfig,\n} from '../types';\nimport { Widget, WidgetModal, WidgetPanel } from '../widget';\n\nexport default defineComponent({\n    props: {\n        area: {\n            type: Object as PropType<\n                Area<\n                    IWidgetConfig | IWidgetPanelConfig | IWidgetModalConfig,\n                    Widget | WidgetModal | WidgetPanel\n                >\n            >,\n        },\n    },\n    setup(props) {\n        return () => {\n            const { area } = props;\n            const left: VNode[] = [];\n            const center: VNode[] = [];\n            const right: VNode[] = [];\n            const itemsValue = area.items.value;\n            if (!itemsValue.length) {\n                return null;\n            }\n\n            itemsValue\n                .slice()\n                .sort((a, b) => {\n                    const index1 = a.config?.index || 0;\n                    const index2 = b.config?.index || 0;\n                    return index1 === index2 ? 0 : index1 > index2 ? 1 : -1;\n                })\n                .forEach((item) => {\n                    const content = (\n                        <div key={`bottom-area-${item.name}`}>\n                            {item.content}\n                        </div>\n                    );\n                    if (item.align === 'center') {\n                        center.push(content);\n                    } else if (item.align === 'left') {\n                        left.push(content);\n                    } else {\n                        right.push(content);\n                    }\n                });\n            return (\n                <div class=\"letgo-bottom-area",
+      "tokens": 0,
+      "firstFile": {
+        "name": "Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/bottom-area.tsx",
+        "start": 1,
+        "end": 54,
+        "startLoc": {
+          "line": 1,
+          "column": 1,
+          "position": 0
+        },
+        "endLoc": {
+          "line": 54,
+          "column": 18,
+          "position": 503
+        }
+      },
+      "secondFile": {
+        "name": "Users/harrywan/company/git/letgo/packages/editor-skeleton/src/layouts/top-area.tsx",
+        "start": 1,
+        "end": 47,
+        "startLoc": {
+          "line": 1,
+          "column": 1,
+          "position": 0
+        },
+        "endLoc": {
+          "line": 47,
+          "column": 15,
+          "position": 467
+        }
+      }
+    },
+    {
+      "format": "typescript",
+      "lines": 9,
+      "fragment": "(nameOrItem?: T | string | null) {\n        let item: any = nameOrItem;\n        if (nameOrItem && typeof nameOrItem === 'string') {\n            item = this.get(nameOrItem);\n        }\n        if (!isPanel(item)) {\n            item = null;\n        }\n        if",
+      "tokens": 0,
+      "firstFile": {
+        "name": "Users/harrywan/company/git/letgo/packages/editor-skeleton/src/area.ts",
+        "start": 43,
+        "end": 51,
+        "startLoc": {
+          "line": 43,
+          "column": 9,
+          "position": 396
+        },
+        "endLoc": {
+          "line": 51,
+          "column": 3,
+          "position": 487
+        }
+      },
+      "secondFile": {
+        "name": "Users/harrywan/company/git/letgo/packages/editor-skeleton/src/area.ts",
+        "start": 22,
+        "end": 30,
+        "startLoc": {
+          "line": 22,
+          "column": 7,
+          "position": 214
+        },
+        "endLoc": {
+          "line": 30,
+          "column": 6,
+          "position": 305
+        }
+      }
+    },
+    {
+      "format": "typescript",
+      "lines": 21,
+      "fragment": ") {\n        let waits = this.waits.get(key);\n        if (!waits) {\n            return;\n        }\n        waits = waits.slice().reverse();\n        let i = waits.length;\n        while (i--) {\n            waits[i].resolve(this.get(key));\n            if (waits[i].once) {\n                waits.splice(i, 1);\n            }\n        }\n        if (waits.length > 0) {\n            this.waits.set(key, waits);\n        } else {\n            this.waits.delete(key);\n        }\n    }\n\n    private setWait(key: string",
+      "tokens": 0,
+      "firstFile": {
+        "name": "Users/harrywan/company/git/letgo/packages/editor-core/src/config.ts",
+        "start": 124,
+        "end": 144,
+        "startLoc": {
+          "line": 124,
+          "column": 7,
+          "position": 738
+        },
+        "endLoc": {
+          "line": 144,
+          "column": 7,
+          "position": 925
+        }
+      },
+      "secondFile": {
+        "name": "Users/harrywan/company/git/letgo/packages/editor-core/src/editor.ts",
+        "start": 99,
+        "end": 120,
+        "startLoc": {
+          "line": 99,
+          "column": 8,
+          "position": 1019
+        },
+        "endLoc": {
+          "line": 120,
+          "column": 8,
+          "position": 1208
+        }
+      }
+    },
+    {
+      "format": "typescript",
+      "lines": 10,
+      "fragment": ") {\n        const waits = this.waits.get(key);\n        if (waits) {\n            waits.push({ resolve, once });\n        } else {\n            this.waits.set(key, [{ resolve, once }]);\n        }\n    }\n\n    private delWait(key: string",
+      "tokens": 0,
+      "firstFile": {
+        "name": "Users/harrywan/company/git/letgo/packages/editor-core/src/config.ts",
+        "start": 144,
+        "end": 153,
+        "startLoc": {
+          "line": 144,
+          "column": 8,
+          "position": 948
+        },
+        "endLoc": {
+          "line": 153,
+          "column": 7,
+          "position": 1039
+        }
+      },
+      "secondFile": {
+        "name": "Users/harrywan/company/git/letgo/packages/editor-core/src/editor.ts",
+        "start": 123,
+        "end": 132,
+        "startLoc": {
+          "line": 123,
+          "column": 5,
+          "position": 1236
+        },
+        "endLoc": {
+          "line": 132,
+          "column": 8,
+          "position": 1327
+        }
+      }
+    },
+    {
+      "format": "typescript",
+      "lines": 16,
+      "fragment": ", fn: any) {\n        const waits = this.waits.get(key);\n        if (!waits) {\n            return;\n        }\n        let i = waits.length;\n        while (i--) {\n            if (waits[i].resolve === fn) {\n                waits.splice(i, 1);\n            }\n        }\n        if (waits.length < 1) {\n            this.waits.delete(key);\n        }\n    }\n}",
+      "tokens": 0,
+      "firstFile": {
+        "name": "Users/harrywan/company/git/letgo/packages/editor-core/src/config.ts",
+        "start": 153,
+        "end": 168,
+        "startLoc": {
+          "line": 153,
+          "column": 7,
+          "position": 1040
+        },
+        "endLoc": {
+          "line": 168,
+          "column": 2,
+          "position": 1174
+        }
+      },
+      "secondFile": {
+        "name": "Users/harrywan/company/git/letgo/packages/editor-core/src/editor.ts",
+        "start": 132,
+        "end": 148,
+        "startLoc": {
+          "line": 132,
+          "column": 8,
+          "position": 1328
+        },
+        "endLoc": {
+          "line": 148,
+          "column": 8,
+          "position": 1464
+        }
+      }
+    }
+  ]
+}

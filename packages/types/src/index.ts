@@ -7,3 +7,5 @@ export * from './assets';
 export * from './metadata';
 export * from './prop-config';
 export * as GlobalEvent from './event';
+export * from './editor';
+export * from './transform-stage';

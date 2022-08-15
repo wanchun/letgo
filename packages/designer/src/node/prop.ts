@@ -24,13 +24,6 @@ export type ValueTypes =
     | 'function'
     | 'slot';
 
-export interface IPropParent {
-    delete(prop: Prop): void;
-    readonly props: Props;
-    readonly owner: Node;
-    readonly path: string[];
-}
-
 export class Prop {
     readonly isProp = true;
 
@@ -44,6 +37,8 @@ export class Prop {
 
     private _type: ValueTypes = 'unset';
 
+    private purged = false;
+
     key: string | number;
 
     /**
@@ -54,12 +49,12 @@ export class Prop {
     }
 
     constructor(
-        parent: IPropParent,
-        key: string | number,
+        parent: Props,
         value: CompositeValue | UNSET = UNSET,
+        key: string | number,
     ) {
         this.owner = parent.owner;
-        this.props = parent.props;
+        this.props = parent;
         this.key = key;
         if (value !== UNSET) {
             this.setValue(value);
@@ -144,5 +139,20 @@ export class Prop {
 
     isUnset() {
         return this._type === 'unset';
+    }
+
+    /**
+     * 从父级移除本身
+     */
+    remove() {
+        this.props.delete(this);
+    }
+
+    purge() {
+        if (this.purged) {
+            return;
+        }
+        this.purged = true;
+        // TODO 其他的销毁
     }
 }

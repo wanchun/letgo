@@ -72,7 +72,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     ) {}
 
     getProp(path: string, createIfNone = true): Prop | null {
-        return this.props.query(path, createIfNone) || null;
+        return this.props.getProp(path, createIfNone) || null;
     }
 
     emitPropChange(val: PropChangeOptions) {

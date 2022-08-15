@@ -61,7 +61,6 @@ export interface NodeSchema {
 
 export type PropsMap = CompositeObject;
 export type PropsList = Array<{
-    spread?: boolean;
     name?: string;
     value: CompositeValue;
 }>;

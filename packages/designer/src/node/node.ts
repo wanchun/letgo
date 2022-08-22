@@ -1,7 +1,13 @@
-import { NodeSchema, GlobalEvent } from '@webank/letgo-types';
+import {
+    NodeSchema,
+    PageSchema,
+    ComponentSchema,
+    GlobalEvent,
+} from '@webank/letgo-types';
 import { EventEmitter } from 'events';
 import {} from 'vue';
 import { Document } from '../document';
+import { NodeChildren } from './node-children';
 import { Props } from './props';
 import { Prop } from './prop';
 
@@ -9,6 +15,21 @@ export type PropChangeOptions = Omit<
     GlobalEvent.Node.Prop.ChangeOptions,
     'node'
 >;
+
+export interface ParentalNode<T extends NodeSchema = NodeSchema>
+    extends Node<T> {
+    readonly children: NodeChildren;
+}
+
+export interface LeafNode extends Node {
+    readonly children: null;
+}
+
+export type PageNode = ParentalNode<PageSchema>;
+
+export type ComponentNode = ParentalNode<ComponentSchema>;
+
+export type RootNode = PageNode | ComponentNode;
 
 export class Node<Schema extends NodeSchema = NodeSchema> {
     private emitter = new EventEmitter();
@@ -65,6 +86,10 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         return 0;
     }
 
+    get componentMeta(): ComponentMeta {
+        return this.document.getComponentMeta(this.componentName);
+    }
+
     constructor(
         readonly document: Document,
         nodeSchema: Schema,
@@ -78,4 +103,18 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     emitPropChange(val: PropChangeOptions) {
         this.emitter?.emit('propChange', val);
     }
+
+    remove() {}
+
+    setVisible(visible: boolean) {}
+
+    purge() {}
+}
+
+export function isNode(node: any): node is Node {
+    return node && node.isNode;
+}
+
+export function isRootNode(node: Node): node is RootNode {
+    return node && node.isRoot();
 }

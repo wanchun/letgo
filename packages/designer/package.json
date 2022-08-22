@@ -16,7 +16,8 @@
     "lodash-es": "^4.17.21",
     "events": "^3.3.0",
     "@webank/letgo-types": "^1.0.0",
-    "@webank/letgo-utils": "^1.0.0"
+    "@webank/letgo-utils": "^1.0.0",
+    "@fesjs/fes-design": "^0.6.0"
   },
   "keywords": [],
   "author": "",

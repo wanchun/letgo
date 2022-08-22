@@ -1,3 +1,4 @@
+import { VNode } from 'vue';
 import { PropConfig, PropType } from './prop-config';
 import { NpmInfo } from './npm';
 import { NodeSchema } from './schema';
@@ -45,9 +46,13 @@ export interface ComponentMetadata {
      */
     componentName: string;
     /**
-     * title or 组件描述
+     * title
      */
     title: string;
+    /**
+     * 组件描述
+     */
+    description?: string;
     /**
      * 组件快照
      */
@@ -138,10 +143,6 @@ export interface ComponentConfigure {
      */
     isNullNode?: boolean;
     /**
-     * 组件树描述信息
-     */
-    descriptor?: string;
-    /**
      * 嵌套控制：防止错误的节点嵌套
      * 比如 a 嵌套 a, FormField 只能在 Form 容器下，Column 只能在 Table 下等
      */
@@ -208,7 +209,7 @@ export interface ActionContentObject {
     /**
      * 图标
      */
-    icon?: string;
+    icon?: string | VNode;
     /**
      * 描述
      */

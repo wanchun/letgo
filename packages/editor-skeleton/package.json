@@ -15,7 +15,7 @@
   "dependencies": {
     "@webank/letgo-utils": "^1.0.0",
     "@webank/letgo-editor-core": "^1.0.0",
-    "@fesjs/fes-design": "^0.5.18"
+    "@fesjs/fes-design": "^0.6.0"
   },
   "peerDependencies": {
     "vue": "^3.2.37"

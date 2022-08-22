@@ -19,7 +19,7 @@
     "components": [
         {
             "componentName": "FGrid",
-            "description": "布局",
+            "title": "布局",
             "devMode": "proCode",
             "npm": {},
             "props": {},
@@ -37,7 +37,7 @@
         },
         {
             "componentName": "FButton",
-            "description": "按钮",
+            "title": "按钮",
             "devMode": "proCode",
             "npm": {},
             "props": {},
@@ -55,7 +55,7 @@
         },
         {
             "componentName": "FImage",
-            "description": "图片",
+            "title": "图片",
             "devMode": "proCode",
             "npm": {},
             "props": {},
@@ -73,7 +73,7 @@
         },
         {
             "componentName": "FInput",
-            "description": "输入框",
+            "title": "输入框",
             "devMode": "proCode",
             "npm": {},
             "props": {},

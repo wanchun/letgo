@@ -3,13 +3,20 @@ import {
     PageSchema,
     ComponentSchema,
     GlobalEvent,
+    isDOMText,
+    isJSExpression,
 } from '@webank/letgo-types';
 import { EventEmitter } from 'events';
 import {} from 'vue';
+import { ComponentMeta } from '../component-meta';
 import { Document } from '../document';
 import { NodeChildren } from './node-children';
 import { Props } from './props';
-import { Prop } from './prop';
+
+export interface NodeOption {
+    slotName?: string;
+    slotArgs?: string;
+}
 
 export type PropChangeOptions = Omit<
     GlobalEvent.Node.Prop.ChangeOptions,
@@ -57,13 +64,23 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     readonly componentName: string;
 
     /**
-     * 属性抽象
+     * 节点是插槽的话，插槽名称
      */
-    props: Props;
+    readonly slotName: string;
+
+    /**
+     * 节点是插槽的话，插槽参数
+     */
+    readonly slotArgs: string;
 
     private _children?: NodeChildren;
 
     private _parent: ParentalNode | null = null;
+
+    /**
+     * 属性抽象
+     */
+    props: Props;
 
     /**
      * 父级节点
@@ -93,22 +110,73 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     constructor(
         readonly document: Document,
         nodeSchema: Schema,
-        options: any = {},
-    ) {}
+        option: NodeOption,
+    ) {
+        const { componentName, id, children, props, ...extras } = nodeSchema;
+        this.id = document.nextId(id);
+        this.componentName = componentName;
+        this.slotArgs = option.slotArgs;
+        this.slotName = option.slotName;
+        if (this.componentName === 'Leaf') {
+            this.props = new Props(this, {
+                children:
+                    children.length === 1 &&
+                    (isDOMText(children[0]) || isJSExpression(children[0]))
+                        ? children[0]
+                        : '',
+            });
+        } else {
+            this.props = new Props(this, props, extras);
+            this._children = new NodeChildren(this as ParentalNode, children);
+            this._children.initParent();
+        }
+    }
 
-    getProp(path: string, createIfNone = true): Prop | null {
-        return this.props.getProp(path, createIfNone) || null;
+    setParent(parent: ParentalNode | null) {
+        if (this._parent === parent) {
+            return;
+        }
+
+        // 解除老的父子关系，但不需要真的删除节点
+        if (this._parent) {
+            this._parent.children.unlinkChild(this);
+        }
+
+        if (parent) {
+            // 建立新的父子关系
+            this._parent = parent;
+        }
     }
 
     emitPropChange(val: PropChangeOptions) {
         this.emitter?.emit('propChange', val);
     }
 
-    remove() {}
+    remove(purge = true) {
+        if (this._parent) {
+            this._parent._children?.deleteChild(this, purge);
+        }
+    }
 
     setVisible(visible: boolean) {}
 
-    purge() {}
+    private purged = false;
+
+    /**
+     * 是否已销毁
+     */
+    get isPurged() {
+        return this.purged;
+    }
+
+    purge() {
+        if (this.purged) {
+            return;
+        }
+        this.purged = true;
+        this.props.purge();
+        // this.settingEntry?.purge();
+    }
 }
 
 export function isNode(node: any): node is Node {

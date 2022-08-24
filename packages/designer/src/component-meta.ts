@@ -187,7 +187,7 @@ export class ComponentMeta {
         return result;
     }
 
-    private setMetadata(metadata: ComponentMetadata) {
+    setMetadata(metadata: ComponentMetadata) {
         // 额外转换逻辑
         const transformedMetadata = this.transformMetadata(metadata);
         const { componentName, npm, title, description, configure } =

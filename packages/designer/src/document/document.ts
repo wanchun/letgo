@@ -1,10 +1,16 @@
 import { uniqueId } from '@webank/letgo-utils';
-import { RootSchema } from '@webank/letgo-types';
+import {
+    RootSchema,
+    isDOMText,
+    isJSSlot,
+    isJSExpression,
+} from '@webank/letgo-types';
 import { EventEmitter } from 'events';
 import { RootNode, ISimulator, GetDataType } from '../types';
 import { Designer } from '../designer';
 import { Project } from '../project';
-import { Node } from '../node/node';
+import { Node, NodeOption } from '../node/node';
+import { ComponentMeta } from '../component-meta';
 import { Selection } from './selection';
 
 export class Document {
@@ -64,13 +70,14 @@ export class Document {
 
     get fileName(): string {
         return (
-            this.rootNode?.getExtraProp('fileName', false)?.getAsString() ||
-            this.id
+            this.rootNode?.props
+                .getExtraProp('fileName', false)
+                ?.getAsString() || this.id
         );
     }
 
     set fileName(fileName: string) {
-        this.rootNode?.getExtraProp('fileName', true)?.setValue(fileName);
+        this.rootNode?.props.getExtraProp('fileName', true)?.setValue(fileName);
     }
 
     get isActive(): boolean {
@@ -113,6 +120,29 @@ export class Document {
         this.isMounted = true;
     }
 
+    getComponentMeta(componentName: string): ComponentMeta {
+        return this.designer.getComponentMeta(
+            componentName,
+            () =>
+                // this.simulator?.generateComponentMetadata(componentName) ||
+                null,
+        );
+    }
+
+    /**
+     * 生成唯一id
+     */
+    nextId(possibleId: string | undefined) {
+        let id = possibleId;
+        while (!id || this.nodesMap.get(id)) {
+            id = `node_${(
+                String(this.id).slice(-10) + (++this.seqId).toString(36)
+            ).toLocaleLowerCase()}`;
+        }
+
+        return id;
+    }
+
     /**
      * 从项目中移除
      */
@@ -124,9 +154,9 @@ export class Document {
 
     purge() {
         this.rootNode?.purge();
+        this.rootNode = null;
         this.nodes.clear();
         this._nodesMap.clear();
-        this.rootNode = null;
     }
 
     isBlank() {
@@ -138,8 +168,33 @@ export class Document {
      */
     createNode<T extends Node = Node, C = undefined>(
         data: GetDataType<C, T>,
-        checkId = true,
-    ): T {}
+    ): T {
+        let schema: any;
+        const option: NodeOption = {};
+        if (isDOMText(data) || isJSExpression(data)) {
+            schema = {
+                componentName: 'Leaf',
+                children: data,
+            };
+        } else if (isJSSlot(data)) {
+            schema = data.value;
+            option.slotArgs = data.value.args;
+            option.slotName = data.value.name;
+        } else {
+            schema = data;
+        }
+
+        let node: Node | null = null;
+        if (this.hasNode(schema?.id)) {
+            schema.id = null;
+        }
+        node = new Node(this, schema, option);
+        this._nodesMap.set(node.id, node);
+        this.nodes.add(node);
+
+        this.emitter.emit('nodeCreated', node);
+        return node as any;
+    }
 
     /**
      * 移除一个节点

@@ -45,7 +45,7 @@ export interface JSSlot {
         /**
          * 插槽参数
          */
-        props?: string;
+        args?: string;
         components: NodeSchema[];
     };
 }
@@ -86,13 +86,13 @@ export interface CompositeObject {
 }
 
 export function isJSExpression(data: any): data is JSExpression {
-    return data && data.type === 'JSExpression';
+    return data && typeof data === 'object' && data.type === 'JSExpression';
 }
 
-export function isJSFunction(x: any): x is JSFunction {
-    return typeof x === 'object' && x && x.type === 'JSFunction';
+export function isJSFunction(data: any): data is JSFunction {
+    return data && typeof data === 'object' && data.type === 'JSFunction';
 }
 
 export function isJSSlot(data: any): data is JSSlot {
-    return data && data.type === 'JSSlot';
+    return data && typeof data === 'object' && data.type === 'JSSlot';
 }

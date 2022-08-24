@@ -129,6 +129,13 @@ export class Prop {
         return this.export(TransformStage.Serialize);
     }
 
+    getAsString(): string {
+        if (this.type === 'literal') {
+            return this._value ? String(this._value) : '';
+        }
+        return '';
+    }
+
     get value(): CompositeValue | UNSET {
         return this.getValue();
     }

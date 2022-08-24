@@ -1,7 +1,31 @@
 import { uniqueId } from '@webank/letgo-utils';
-import { PropsList, PropsMap, CompositeValue } from '@webank/letgo-types';
+import {
+    PropsList,
+    PropsMap,
+    CompositeValue,
+    TransformStage,
+} from '@webank/letgo-types';
 import { Node } from './node';
 import { Prop, UNSET } from './prop';
+
+interface ExtrasObject {
+    [key: string]: any;
+}
+
+export const EXTRA_KEY_PREFIX = '___';
+export function getConvertedExtraKey(key: string): string {
+    if (!key) {
+        return '';
+    }
+    let _key = key;
+    if (key.indexOf('.') > 0) {
+        _key = key.split('.')[0];
+    }
+    return EXTRA_KEY_PREFIX + _key + EXTRA_KEY_PREFIX + key.slice(_key.length);
+}
+export function getOriginalExtraKey(key: string): string {
+    return key.replace(new RegExp(`${EXTRA_KEY_PREFIX}`, 'g'), '');
+}
 
 export class Props {
     readonly id = uniqueId('props');
@@ -23,7 +47,11 @@ export class Props {
         return this.items.length;
     }
 
-    constructor(owner: Node, value?: PropsMap | PropsList | null) {
+    constructor(
+        owner: Node,
+        value?: PropsMap | PropsList | null,
+        extras?: ExtrasObject,
+    ) {
         this.owner = owner;
         if (Array.isArray(value)) {
             this.type = 'list';
@@ -36,10 +64,15 @@ export class Props {
                 this.add(value[key], key);
             });
         }
+        if (extras) {
+            Object.keys(extras).forEach((key) => {
+                this.add((extras as any)[key], getConvertedExtraKey(key));
+            });
+        }
     }
 
-    import(value?: PropsMap | PropsList | null) {
-        const originItems = this.items;
+    import(value?: PropsMap | PropsList | null, extras?: ExtrasObject) {
+        this.items.forEach((item) => item.purge());
         this.itemMap.clear();
         this.items = [];
         if (Array.isArray(value)) {
@@ -57,13 +90,70 @@ export class Props {
             this.items = [];
         }
 
-        originItems.forEach((item) => item.purge());
+        if (extras) {
+            Object.keys(extras).forEach((key) => {
+                this.add((extras as any)[key], getConvertedExtraKey(key));
+            });
+        }
     }
 
-    merge(value: PropsMap) {
+    export(stage: TransformStage = TransformStage.Save): {
+        props?: PropsMap | PropsList;
+        extras?: ExtrasObject;
+    } {
+        if (this.items.length < 1) {
+            return {};
+        }
+        let props: any = {};
+        const extras: any = {};
+        if (this.type === 'list') {
+            props = [];
+            this.items.forEach((item) => {
+                const value = item.export(stage);
+                let name = item.key as string;
+                if (
+                    name &&
+                    typeof name === 'string' &&
+                    name.startsWith(EXTRA_KEY_PREFIX)
+                ) {
+                    name = getOriginalExtraKey(name);
+                    extras[name] = value;
+                } else {
+                    props.push({
+                        name,
+                        value,
+                    });
+                }
+            });
+        } else {
+            this.items.forEach((item) => {
+                const value = item.export(stage);
+                let name = item.key as string;
+                if (name == null || item.isUnset()) return;
+                if (
+                    typeof name === 'string' &&
+                    name.startsWith(EXTRA_KEY_PREFIX)
+                ) {
+                    name = getOriginalExtraKey(name);
+                    extras[name] = value;
+                } else {
+                    props[name] = value;
+                }
+            });
+        }
+
+        return { props, extras };
+    }
+
+    merge(value: PropsMap, extras?: PropsMap) {
         Object.keys(value).forEach((key) => {
             this.getProp(key).setValue(value[key]);
         });
+        if (extras) {
+            Object.keys(extras).forEach((key) => {
+                this.getProp(getConvertedExtraKey(key)).setValue(extras[key]);
+            });
+        }
     }
 
     /**
@@ -81,6 +171,10 @@ export class Props {
         }
 
         return null;
+    }
+
+    getExtraProp(name: string, createIfNone = true): Prop | null {
+        return this.getProp(getConvertedExtraKey(name), createIfNone);
     }
 
     has(key: string): boolean {

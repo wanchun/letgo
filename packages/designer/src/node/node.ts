@@ -6,6 +6,7 @@ import {
     isDOMText,
     isJSExpression,
     TransformStage,
+    NodeData,
 } from '@webank/letgo-types';
 import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
 import { EventEmitter } from 'events';
@@ -109,6 +110,85 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         return this.document.getComponentMeta(this.componentName);
     }
 
+    /**
+     * 获取符合搭建协议-节点 schema 结构
+     */
+    get schema(): Schema {
+        return this.export(TransformStage.Save);
+    }
+
+    /**
+     * 获取节点在父容器中的索引
+     */
+    get index(): number {
+        if (!this.parent) {
+            return -1;
+        }
+        return this.parent.children.indexOf(this);
+    }
+
+    /**
+     * 获取下一个兄弟节点
+     */
+    get nextSibling(): Node | null {
+        if (!this.parent) {
+            return null;
+        }
+        const { index } = this;
+        if (index < 0) {
+            return null;
+        }
+        return this.parent.children.get(index + 1);
+    }
+
+    /**
+     * 获取上一个兄弟节点
+     */
+    get prevSibling(): Node | null {
+        if (!this.parent) {
+            return null;
+        }
+        const { index } = this;
+        if (index < 1) {
+            return null;
+        }
+        return this.parent.children.get(index - 1);
+    }
+
+    /**
+     * 终端节点，内容一般为 文字 或者 表达式
+     */
+    isLeaf(): this is LeafNode {
+        return this.componentName === 'Leaf';
+    }
+
+    /**
+     * 是否一个父亲类节点
+     */
+    isParental(): this is ParentalNode {
+        return !this.isLeaf();
+    }
+
+    isContainer(): boolean {
+        return this.isParental() && this.componentMeta.isContainer;
+    }
+
+    isModal(): boolean {
+        return this.componentMeta.isModal;
+    }
+
+    isRoot(): boolean {
+        return this.document.rootNode === (this as any);
+    }
+
+    isPage(): boolean {
+        return this.isRoot() && this.componentName === 'Page';
+    }
+
+    isComponent(): boolean {
+        return this.isRoot() && this.componentName === 'Component';
+    }
+
     constructor(
         readonly document: Document,
         nodeSchema: Schema,
@@ -137,6 +217,10 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
 
     private initBuiltinProps() {
         this.props.hasExtra('hidden') || this.props.addExtra(false, 'hidden');
+    }
+
+    emitPropChange(val: PropChangeOptions) {
+        this.emitter?.emit('propChange', val);
     }
 
     /**
@@ -204,8 +288,11 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         }
     }
 
-    emitPropChange(val: PropChangeOptions) {
-        this.emitter?.emit('propChange', val);
+    /**
+     * 判断是否包含特定节点
+     */
+    contains(node: Node): boolean {
+        return contains(this, node);
     }
 
     remove(purge = true) {
@@ -232,75 +319,10 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     }
 
     /**
-     * 终端节点，内容一般为 文字 或者 表达式
+     * 选择当前节点
      */
-    isLeaf(): this is LeafNode {
-        return this.componentName === 'Leaf';
-    }
-
-    /**
-     * 是否一个父亲类节点
-     */
-    isParental(): this is ParentalNode {
-        return !this.isLeaf();
-    }
-
-    isContainer(): boolean {
-        return this.isParental() && this.componentMeta.isContainer;
-    }
-
-    isModal(): boolean {
-        return this.componentMeta.isModal;
-    }
-
-    isRoot(): boolean {
-        return this.document.rootNode === (this as any);
-    }
-
-    isPage(): boolean {
-        return this.isRoot() && this.componentName === 'Page';
-    }
-
-    isComponent(): boolean {
-        return this.isRoot() && this.componentName === 'Component';
-    }
-
-    /**
-     * 获取节点在父容器中的索引
-     */
-    get index(): number {
-        if (!this.parent) {
-            return -1;
-        }
-        return this.parent.children.indexOf(this);
-    }
-
-    /**
-     * 获取下一个兄弟节点
-     */
-    get nextSibling(): Node | null {
-        if (!this.parent) {
-            return null;
-        }
-        const { index } = this;
-        if (index < 0) {
-            return null;
-        }
-        return this.parent.children.get(index + 1);
-    }
-
-    /**
-     * 获取上一个兄弟节点
-     */
-    get prevSibling(): Node | null {
-        if (!this.parent) {
-            return null;
-        }
-        const { index } = this;
-        if (index < 1) {
-            return null;
-        }
-        return this.parent.children.get(index - 1);
+    select() {
+        this.document.selection.select(this.id);
     }
 
     private purged = false;
@@ -328,4 +350,119 @@ export function isNode(node: any): node is Node {
 
 export function isRootNode(node: Node): node is RootNode {
     return node && node.isRoot();
+}
+
+export function getZLevelTop(child: Node, zLevel: number): Node | null {
+    let l = child.zLevel;
+    if (l < zLevel || zLevel < 0) {
+        return null;
+    }
+    if (l === zLevel) {
+        return child;
+    }
+    let r: any = child;
+    while (r && l-- > zLevel) {
+        r = r.parent;
+    }
+    return r;
+}
+
+// 16 node1 contains node2
+// 8  node1 contained_by node2
+// 2  node1 before or after node2
+// 0  node1 same as node2
+export enum PositionNO {
+    Contains = 16,
+    ContainedBy = 8,
+    BeforeOrAfter = 2,
+    TheSame = 0,
+}
+
+export function comparePosition(node1: Node, node2: Node): PositionNO {
+    if (node1 === node2) {
+        return PositionNO.TheSame;
+    }
+    const l1 = node1.zLevel;
+    const l2 = node2.zLevel;
+    if (l1 === l2) {
+        return PositionNO.BeforeOrAfter;
+    }
+
+    let p: any;
+    if (l1 < l2) {
+        p = getZLevelTop(node2, l1);
+        if (p && p === node1) {
+            return PositionNO.Contains;
+        }
+        return PositionNO.BeforeOrAfter;
+    }
+
+    p = getZLevelTop(node1, l2);
+    if (p && p === node2) {
+        return PositionNO.ContainedBy;
+    }
+
+    return PositionNO.BeforeOrAfter;
+}
+
+/**
+ * 测试两个节点是否为包含关系
+ * @param node1 测试的父节点
+ * @param node2 测试的被包含节点
+ * @returns 是否包含
+ */
+export function contains(node1: Node, node2: Node): boolean {
+    if (node1 === node2) {
+        return true;
+    }
+
+    if (!node1.isParental() || !node2.parent) {
+        return false;
+    }
+
+    const p = getZLevelTop(node2, node1.zLevel);
+    if (!p) {
+        return false;
+    }
+
+    return node1 === p;
+}
+
+export function insertChild(
+    container: ParentalNode,
+    thing: Node | NodeData,
+    at?: number | null,
+    copy?: boolean,
+): Node {
+    let node: Node;
+    if (isNode(thing) && copy) {
+        thing = thing.export(TransformStage.Clone);
+    }
+    if (isNode(thing)) {
+        node = thing;
+    } else {
+        node = container.document.createNode(thing);
+    }
+
+    container.children.insertChild(node, at);
+
+    return node;
+}
+
+export function insertChildren(
+    container: ParentalNode,
+    nodes: Node[] | NodeData[],
+    at?: number | null,
+    copy?: boolean,
+): Node[] {
+    let index = at;
+    let node: any;
+    const results: Node[] = [];
+    // eslint-disable-next-line no-cond-assign
+    while ((node = nodes.pop())) {
+        node = insertChild(container, node, index, copy);
+        results.push(node);
+        index = node.index;
+    }
+    return results;
 }

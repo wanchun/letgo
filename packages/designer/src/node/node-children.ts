@@ -2,6 +2,10 @@ import { NodeData, TransformStage } from '@webank/letgo-types';
 import { EventEmitter } from 'events';
 import { ParentalNode, Node } from './node';
 
+export type NodeRemoveOptions = {
+    suppressRemoveEvent?: boolean;
+};
+
 export class NodeChildren {
     private children: Node[];
 
@@ -63,6 +67,9 @@ export class NodeChildren {
         });
     }
 
+    /**
+     * 删除一个节点
+     */
     deleteChild(node: Node, purge = false) {
         // 需要在从 children 中删除 node 前记录下 index，internalSetParent 中会执行删除(unlink)操作
         const i = this.children.indexOf(node);
@@ -74,6 +81,9 @@ export class NodeChildren {
                 console.error(err);
             }
         }
+        const { document } = node;
+        document.unlinkNode(node);
+        document.selection.remove(node.id);
         this.emitter.emit('change', {
             type: 'delete',
             node,
@@ -82,6 +92,41 @@ export class NodeChildren {
         if (i > -1 && !purge) {
             this.children.splice(i, 1);
         }
+    }
+
+    /**
+     * 插入一个节点
+     */
+    insertChild(node: Node, at?: number | null): void {
+        const { children } = this;
+        let index = at == null || at === -1 ? children.length : at;
+
+        const i = children.indexOf(node);
+
+        if (i < 0) {
+            if (index < children.length) {
+                children.splice(index, 0, node);
+            } else {
+                children.push(node);
+            }
+            node.setParent(this.owner);
+        } else {
+            if (index > i) {
+                index -= 1;
+            }
+
+            if (index === i) {
+                return;
+            }
+
+            children.splice(i, 1);
+            children.splice(index, 0, node);
+        }
+
+        this.emitter.emit('change', {
+            type: 'insert',
+            node,
+        });
     }
 
     private purged = false;

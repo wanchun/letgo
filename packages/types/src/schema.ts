@@ -36,7 +36,7 @@ export interface NodeSchema {
     /**
      * 组件指令数组
      */
-    directives: Directive[];
+    directives?: Directive[];
     /**
      * 渲染条件
      */
@@ -124,7 +124,7 @@ export interface BlockSchema extends ContainerSchema {
 /**
  * @todo
  */
-export type RootSchema = PageSchema | ComponentSchema | BlockSchema;
+export type RootSchema = PageSchema | ComponentSchema;
 
 /**
  * 应用描述

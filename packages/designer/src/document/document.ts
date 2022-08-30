@@ -4,12 +4,19 @@ import {
     isDOMText,
     isJSSlot,
     isJSExpression,
+    NodeData,
 } from '@webank/letgo-types';
 import { EventEmitter } from 'events';
 import { RootNode, ISimulator, GetDataType } from '../types';
 import { Designer } from '../designer';
 import { Project } from '../project';
-import { Node, NodeOption } from '../node/node';
+import {
+    Node,
+    NodeOption,
+    ParentalNode,
+    insertChild,
+    insertChildren,
+} from '../node/node';
 import { ComponentMeta } from '../component-meta';
 import { Selection } from './selection';
 
@@ -98,6 +105,10 @@ export class Document {
         return this.rootNode;
     }
 
+    isBlank() {
+        return this._blank;
+    }
+
     constructor(project: Project, schema?: RootSchema) {
         this.project = project;
         this.designer = this.project?.designer;
@@ -106,16 +117,14 @@ export class Document {
             this._blank = true;
         }
 
-        // // 兼容 vision
-        // this.id = project.getSchema()?.id || this.id;
-
-        // this.rootNode = this.createNode<RootNode>(
-        //     schema || {
-        //         componentName: 'Page',
-        //         id: 'root',
-        //         fileName: '',
-        //     },
-        // );
+        this.rootNode = this.createNode<RootNode>(
+            schema || {
+                componentName: 'Page',
+                id: 'root',
+                fileName: '',
+                code: '',
+            },
+        );
 
         this.isMounted = true;
     }
@@ -146,21 +155,10 @@ export class Document {
     /**
      * 从项目中移除
      */
-    destroy() {
-        this.designer.postEvent('document.destroy', { id: this.id });
+    remove() {
+        this.designer.postEvent('document.remove', { id: this.id });
         this.purge();
         this.project.removeDocument(this);
-    }
-
-    purge() {
-        this.rootNode?.purge();
-        this.rootNode = null;
-        this.nodes.clear();
-        this._nodesMap.clear();
-    }
-
-    isBlank() {
-        return this._blank;
     }
 
     /**
@@ -197,11 +195,6 @@ export class Document {
     }
 
     /**
-     * 移除一个节点
-     */
-    removeNode(idOrNode: string | Node) {}
-
-    /**
      * 根据 id 获取节点
      */
     getNode(id: string): Node | null {
@@ -214,5 +207,63 @@ export class Document {
     hasNode(id: string): boolean {
         const node = this.getNode(id);
         return node ? !node.isPurged : false;
+    }
+
+    /**
+     * 插入一个节点
+     */
+    insertNode(
+        parent: ParentalNode,
+        thing: Node | NodeData,
+        at?: number | null,
+        copy?: boolean,
+    ): Node {
+        return insertChild(parent, thing, at, copy);
+    }
+
+    /**
+     * 插入多个节点
+     */
+    insertNodes(
+        parent: ParentalNode,
+        thing: Node[] | NodeData[],
+        at?: number | null,
+        copy?: boolean,
+    ) {
+        return insertChildren(parent, thing, at, copy);
+    }
+
+    /**
+     * 移除一个节点
+     */
+    removeNode(idOrNode: string | Node) {
+        let id: string;
+        let node: Node | null;
+        if (typeof idOrNode === 'string') {
+            id = idOrNode;
+            node = this.getNode(id);
+        } else {
+            node = idOrNode;
+            id = node.id;
+        }
+        if (!node) {
+            return;
+        }
+        if (!this.nodes.has(node)) {
+            return;
+        }
+        node.remove(true);
+    }
+
+    unlinkNode(node: Node) {
+        this.nodes.delete(node);
+        this._nodesMap.delete(node.id);
+    }
+
+    purge() {
+        this.rootNode?.purge();
+        this.rootNode = null;
+        this.nodes.clear();
+        this._nodesMap.clear();
     }
 }

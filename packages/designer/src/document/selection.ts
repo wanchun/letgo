@@ -1,6 +1,6 @@
 import { reactive } from 'vue';
 import { EventEmitter } from 'events';
-import { Node, comparePosition, PositionNO } from './node/node';
+import { Node, comparePosition, PositionNO } from '../node/node';
 import { Document } from './document';
 
 export class Selection {

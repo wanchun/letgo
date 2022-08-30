@@ -80,7 +80,7 @@ export class Project {
             return;
         }
         for (let i = this.documents.length - 1; i >= 0; i--) {
-            this.documents[i].destroy();
+            this.documents[i].remove();
         }
     }
 

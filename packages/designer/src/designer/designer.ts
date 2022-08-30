@@ -7,7 +7,9 @@ import {
     CompositeObject,
     PropsList,
 } from '@webank/letgo-types';
+import { Component } from 'vue';
 import { Project } from '../project';
+import { Document } from '../document';
 import { ComponentMeta } from '../component-meta';
 import { Node } from '../node';
 
@@ -16,6 +18,9 @@ export interface DesignerProps {
     defaultSchema?: ProjectSchema;
     className?: string;
     style?: object;
+    simulatorProps?: object | ((document: Document) => object);
+    simulatorComponent?: Component;
+    dragGhostComponent?: Component;
     onMount?: (designer: Designer) => void;
     onDragstart?: (e: LocateEvent) => void;
     onDrag?: (e: LocateEvent) => void;

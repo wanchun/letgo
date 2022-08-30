@@ -3,9 +3,13 @@ import {
     ProjectSchema,
     ComponentAction,
     ComponentMetadata,
+    TransformStage,
+    CompositeObject,
+    PropsList,
 } from '@webank/letgo-types';
 import { Project } from '../project';
 import { ComponentMeta } from '../component-meta';
+import { Node } from '../node';
 
 export interface DesignerProps {
     editor: IEditor;
@@ -102,4 +106,41 @@ export class Designer {
     getGlobalComponentActions(): ComponentAction[] {
         return [];
     }
+
+    private propsReducers = new Map<TransformStage, PropsReducer[]>();
+
+    transformProps(
+        props: CompositeObject | PropsList,
+        node: Node,
+        stage: TransformStage,
+    ) {
+        if (Array.isArray(props)) {
+            // current not support, make this future
+            return props;
+        }
+
+        const reducers = this.propsReducers.get(stage);
+        if (!reducers) {
+            return props;
+        }
+
+        return reducers.reduce((xProps, reducer) => {
+            try {
+                return reducer(xProps, node, {
+                    stage,
+                });
+            } catch (e) {
+                // todo: add log
+                console.warn(e);
+                return xProps;
+            }
+        }, props);
+    }
 }
+
+export type PropsReducerContext = { stage: TransformStage };
+export type PropsReducer = (
+    props: CompositeObject,
+    node: Node,
+    ctx?: PropsReducerContext,
+) => CompositeObject;

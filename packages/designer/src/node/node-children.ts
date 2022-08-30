@@ -1,4 +1,4 @@
-import { NodeData } from '@webank/letgo-types';
+import { NodeData, TransformStage } from '@webank/letgo-types';
 import { EventEmitter } from 'events';
 import { ParentalNode, Node } from './node';
 
@@ -7,14 +7,48 @@ export class NodeChildren {
 
     private emitter = new EventEmitter();
 
+    /**
+     * 元素个数
+     */
+    get size(): number {
+        return this.children.length;
+    }
+
     constructor(readonly owner: ParentalNode, data: NodeData | NodeData[]) {
         this.children = (Array.isArray(data) ? data : [data]).map((child) => {
             return this.owner.document.createNode(child);
         });
     }
 
+    /**
+     * 导出 schema
+     */
+    export(stage: TransformStage = TransformStage.Save): NodeData[] {
+        return this.children.map((node) => {
+            const data = node.export(stage);
+            if (node.isLeaf() && TransformStage.Save === stage) {
+                return data.children[0];
+            }
+            return data;
+        });
+    }
+
     initParent() {
         this.children.forEach((child) => child.setParent(this.owner));
+    }
+
+    /**
+     * 取得节点索引编号
+     */
+    indexOf(node: Node): number {
+        return this.children.indexOf(node);
+    }
+
+    /**
+     * 根据索引获得节点
+     */
+    get(index: number): Node | null {
+        return this.children.length > index ? this.children[index] : null;
     }
 
     unlinkChild(node: Node) {

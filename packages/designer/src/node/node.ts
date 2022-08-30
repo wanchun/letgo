@@ -5,7 +5,9 @@ import {
     GlobalEvent,
     isDOMText,
     isJSExpression,
+    TransformStage,
 } from '@webank/letgo-types';
+import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
 import { EventEmitter } from 'events';
 import {} from 'vue';
 import { ComponentMeta } from '../component-meta';
@@ -130,6 +132,60 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
             this._children = new NodeChildren(this as ParentalNode, children);
             this._children.initParent();
         }
+        this.initBuiltinProps();
+    }
+
+    private initBuiltinProps() {
+        this.props.hasExtra('hidden') || this.props.addExtra(false, 'hidden');
+    }
+
+    /**
+     * 导出 schema
+     */
+    export(
+        stage: TransformStage = TransformStage.Save,
+        options: any = {},
+    ): Schema {
+        const baseSchema: any = {
+            componentName: this.componentName,
+        };
+
+        if (stage !== TransformStage.Clone) {
+            baseSchema.id = this.id;
+        }
+        if (stage === TransformStage.Render) {
+            baseSchema.docId = this.document.id;
+        }
+
+        if (this.isLeaf()) {
+            if (!options.bypassChildren) {
+                baseSchema.children = [
+                    this.props.getProp('children')?.export(stage),
+                ];
+            }
+            return baseSchema;
+        }
+
+        const { props = {}, extras } = this.props.export(stage) || {};
+        const _extras_: { [key: string]: any } = {
+            ...extras,
+        };
+
+        const schema: any = {
+            ...baseSchema,
+            props: this.document.designer.transformProps(props, this, stage),
+            ...this.document.designer.transformProps(_extras_, this, stage),
+        };
+
+        if (
+            this.isParental() &&
+            this.children.size > 0 &&
+            !options.bypassChildren
+        ) {
+            schema.children = this.children.export(stage);
+        }
+
+        return schema;
     }
 
     setParent(parent: ParentalNode | null) {
@@ -158,7 +214,94 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         }
     }
 
-    setVisible(visible: boolean) {}
+    setVisible(flag: boolean) {
+        this.props.getExtraProp('hidden')?.setValue(!flag);
+        this.emitter.emit('visibleChange', flag);
+    }
+
+    getVisible(): boolean {
+        return !this.props.getExtraProp('hidden')?.getValue();
+    }
+
+    onVisibleChange(func: (flag: boolean) => any): () => void {
+        const wrappedFunc = wrapWithEventSwitch(func);
+        this.emitter.on('visibleChange', wrappedFunc);
+        return () => {
+            this.emitter.removeListener('visibleChange', wrappedFunc);
+        };
+    }
+
+    /**
+     * 终端节点，内容一般为 文字 或者 表达式
+     */
+    isLeaf(): this is LeafNode {
+        return this.componentName === 'Leaf';
+    }
+
+    /**
+     * 是否一个父亲类节点
+     */
+    isParental(): this is ParentalNode {
+        return !this.isLeaf();
+    }
+
+    isContainer(): boolean {
+        return this.isParental() && this.componentMeta.isContainer;
+    }
+
+    isModal(): boolean {
+        return this.componentMeta.isModal;
+    }
+
+    isRoot(): boolean {
+        return this.document.rootNode === (this as any);
+    }
+
+    isPage(): boolean {
+        return this.isRoot() && this.componentName === 'Page';
+    }
+
+    isComponent(): boolean {
+        return this.isRoot() && this.componentName === 'Component';
+    }
+
+    /**
+     * 获取节点在父容器中的索引
+     */
+    get index(): number {
+        if (!this.parent) {
+            return -1;
+        }
+        return this.parent.children.indexOf(this);
+    }
+
+    /**
+     * 获取下一个兄弟节点
+     */
+    get nextSibling(): Node | null {
+        if (!this.parent) {
+            return null;
+        }
+        const { index } = this;
+        if (index < 0) {
+            return null;
+        }
+        return this.parent.children.get(index + 1);
+    }
+
+    /**
+     * 获取上一个兄弟节点
+     */
+    get prevSibling(): Node | null {
+        if (!this.parent) {
+            return null;
+        }
+        const { index } = this;
+        if (index < 1) {
+            return null;
+        }
+        return this.parent.children.get(index - 1);
+    }
 
     private purged = false;
 

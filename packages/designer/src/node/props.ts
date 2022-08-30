@@ -157,13 +157,13 @@ export class Props {
     }
 
     /**
-     * 根据 name 路径查询属性
+     * 根据 key 路径查询属性
      * @param createIfNone 当没有的时候，是否创建一个
      */
-    getProp(name: string, createIfNone = true): Prop | null {
-        let prop = this.itemMap.get(name);
+    getProp(key: string, createIfNone = true): Prop | null {
+        let prop = this.itemMap.get(key);
         if (!prop && createIfNone) {
-            prop = this.add(UNSET, name);
+            prop = this.add(UNSET, key);
         }
 
         if (prop) {
@@ -173,12 +173,16 @@ export class Props {
         return null;
     }
 
-    getExtraProp(name: string, createIfNone = true): Prop | null {
-        return this.getProp(getConvertedExtraKey(name), createIfNone);
+    getExtraProp(key: string, createIfNone = true): Prop | null {
+        return this.getProp(getConvertedExtraKey(key), createIfNone);
     }
 
     has(key: string): boolean {
         return this.itemMap.has(key);
+    }
+
+    hasExtra(key: string): boolean {
+        return this.itemMap.has(getConvertedExtraKey(key));
     }
 
     add(value: CompositeValue | null | UNSET, key?: string | number): Prop {
@@ -186,6 +190,13 @@ export class Props {
         this.items.push(prop);
         this.itemMap.set(prop.key, prop);
         return prop;
+    }
+
+    addExtra(
+        value: CompositeValue | null | UNSET,
+        key?: string | number,
+    ): Prop {
+        return this.add(value, getConvertedExtraKey(String(key)));
     }
 
     delete(prop: Prop): void {

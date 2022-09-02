@@ -13,6 +13,7 @@ importers:
   packages/designer:
     specifiers:
       '@fesjs/fes-design': ^0.6.0
+      '@types/events': ^3.0.0
       '@webank/letgo-editor-core': ^1.0.0
       '@webank/letgo-types': ^1.0.0
       '@webank/letgo-utils': ^1.0.0
@@ -25,9 +26,12 @@ importers:
       '@webank/letgo-utils': link:../utils
       events: 3.3.0
       lodash-es: 4.17.21
+    devDependencies:
+      '@types/events': 3.0.0
 
   packages/editor-core:
     specifiers:
+      '@types/events': ^3.0.0
       '@webank/letgo-types': ^1.0.0
       events: ^3.3.0
       lodash-es: ^4.17.21
@@ -37,6 +41,8 @@ importers:
       events: 3.3.0
       lodash-es: 4.17.21
       strict-event-emitter-types: 2.0.0
+    devDependencies:
+      '@types/events': 3.0.0
 
   packages/editor-skeleton:
     specifiers:
@@ -116,11 +122,14 @@ importers:
 
   packages/types:
     specifiers:
+      '@types/events': ^3.0.0
       events: ^3.3.0
       strict-event-emitter-types: ^2.0.0
     dependencies:
       events: 3.3.0
       strict-event-emitter-types: 2.0.0
+    devDependencies:
+      '@types/events': 3.0.0
 
   packages/utils:
     specifiers:
@@ -1652,6 +1661,10 @@ packages:
   /@sideway/pinpoint/2.0.0:
     resolution: {integrity: sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==}
     dev: false
+
+  /@types/events/3.0.0:
+    resolution: {integrity: sha512-EaObqwIvayI5a8dCzhFrjKzVwKLxjoG9T6Ppd5CEo07LRKfQ8Yokw54r5+Wq7FaBQ+yXRvQAYPrHwya1/UFt9g==}
+    dev: true
 
   /@types/json-schema/7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}

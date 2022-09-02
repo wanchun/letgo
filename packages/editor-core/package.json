@@ -19,6 +19,7 @@
     "@webank/letgo-types": "^1.0.0"
   },
   "devDependencies": {
+    "@types/events": "^3.0.0"
   },
   "keywords": [],
   "author": "",

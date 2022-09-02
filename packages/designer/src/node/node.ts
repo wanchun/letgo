@@ -10,7 +10,6 @@ import {
 } from '@webank/letgo-types';
 import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
 import { EventEmitter } from 'events';
-import {} from 'vue';
 import { ComponentMeta } from '../component-meta';
 import { Document } from '../document';
 import { NodeChildren } from './node-children';
@@ -192,7 +191,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     constructor(
         readonly document: Document,
         nodeSchema: Schema,
-        option: NodeOption,
+        option: NodeOption = {},
     ) {
         const { componentName, id, children, props, ...extras } = nodeSchema;
         this.id = document.nextId(id);

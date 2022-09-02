@@ -323,6 +323,16 @@ const builtinComponentActions: ComponentAction[] = [
             icon: h(PlusOutlined),
             title: '复制',
             action(node: Node) {
+                const { document: doc, parent, index } = node;
+                if (parent) {
+                    const newNode = doc.insertNode(
+                        parent,
+                        node,
+                        index + 1,
+                        true,
+                    );
+                    newNode.select();
+                }
                 // TODO
             },
         },

@@ -20,6 +20,9 @@
     "@webank/letgo-editor-core": "^1.0.0",
     "@fesjs/fes-design": "^0.6.0"
   },
+  "devDependencies": {
+    "@types/events": "^3.0.0"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

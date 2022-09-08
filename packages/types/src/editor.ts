@@ -17,8 +17,9 @@ export type GetReturnType<T, ClsType> = T extends undefined
         : any
     : T;
 
-export declare interface IEditor
-    extends StrictEventEmitter<EventEmitter, GlobalEvent.EventConfig> {
+export type Emitter = StrictEventEmitter<EventEmitter, GlobalEvent.EventConfig>;
+
+export declare interface IEditor extends Emitter {
     get: <T = undefined, KeyOrType = any>(
         keyOrType: KeyOrType,
         opt?: GetOptions,

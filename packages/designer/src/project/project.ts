@@ -16,11 +16,11 @@ export class Project {
 
     private _simulator?: ISimulator;
 
-    private documentsMap = new Map<string, Document>();
-
-    private documents: Document[] = [];
-
     private _config: any = {};
+
+    readonly documentsMap = new Map<string, Document>();
+
+    readonly documents: Document[] = [];
 
     currentDocument: ShallowRef<Document | null> = shallowRef();
     /**
@@ -84,7 +84,7 @@ export class Project {
         }
     }
 
-    open(doc: string | Document | RootSchema): Document | null {
+    open(doc?: string | Document | RootSchema): Document | null {
         if (typeof doc === 'string') {
             const got = this.documents.find(
                 (item) => item.fileName === doc || item.id === doc,

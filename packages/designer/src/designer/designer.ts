@@ -21,13 +21,13 @@ export interface DesignerProps {
     simulatorProps?: object | ((document: Document) => object);
     simulatorComponent?: Component;
     dragGhostComponent?: Component;
-    onMount?: (designer: Designer) => void;
-    onDragstart?: (e: LocateEvent) => void;
-    onDrag?: (e: LocateEvent) => void;
-    onDragend?: (
-        e: { dragObject: DragObject; copy: boolean },
-        loc?: DropLocation,
-    ) => void;
+    // onMount?: (designer: Designer) => void;
+    // onDragstart?: (e: LocateEvent) => void;
+    // onDrag?: (e: LocateEvent) => void;
+    // onDragend?: (
+    //     e: { dragObject: DragObject; copy: boolean },
+    //     loc?: DropLocation,
+    // ) => void;
     [key: string]: any;
 }
 
@@ -44,13 +44,13 @@ export class Designer {
         return this.project.currentDocument;
     }
 
-    get currentHistory() {
-        return this.currentDocument?.history;
-    }
+    // get currentHistory() {
+    //     return this.currentDocument?.history;
+    // }
 
-    get currentSelection() {
-        return this.currentDocument?.selection;
-    }
+    // get currentSelection() {
+    //     return this.currentDocument?.selection;
+    // }
 
     constructor(props: DesignerProps) {
         this.project = new Project(this, props.defaultSchema);

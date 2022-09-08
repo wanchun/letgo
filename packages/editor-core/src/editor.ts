@@ -1,44 +1,16 @@
-import { StrictEventEmitter } from 'strict-event-emitter-types';
 import { EventEmitter } from 'events';
 import {
     IEditor,
     KeyType,
-    GlobalEvent,
     GetReturnType,
     AssetsJson,
+    Emitter,
 } from '@webank/letgo-types';
 
-export declare interface Editor
-    extends StrictEventEmitter<EventEmitter, GlobalEvent.EventConfig> {
-    addListener(
-        event: string | symbol,
-        listener: (...args: any[]) => void,
-    ): this;
-    once(event: string | symbol, listener: (...args: any[]) => void): this;
-    removeListener(
-        event: string | symbol,
-        listener: (...args: any[]) => void,
-    ): this;
-    off(event: string | symbol, listener: (...args: any[]) => void): this;
-    removeAllListeners(event?: string | symbol): this;
-    setMaxListeners(n: number): this;
-    getMaxListeners(): number;
-    listeners(event: string | symbol): (() => void)[];
-    rawListeners(event: string | symbol): (() => void)[];
-    listenerCount(type: string | symbol): number;
-    // Added in Node 6...
-    prependListener(
-        event: string | symbol,
-        listener: (...args: any[]) => void,
-    ): this;
-    prependOnceListener(
-        event: string | symbol,
-        listener: (...args: any[]) => void,
-    ): this;
-    eventNames(): Array<string | symbol>;
-}
-
-export class Editor extends (EventEmitter as any) implements IEditor {
+export class Editor
+    extends (EventEmitter as unknown as { new (): Emitter })
+    implements IEditor
+{
     private context = new Map<KeyType, any>();
 
     async setAssets(assets: AssetsJson) {

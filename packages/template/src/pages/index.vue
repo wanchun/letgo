@@ -10,8 +10,11 @@ import assets from './components/assets.json';
 
 plugins.register({
     name: 'editor-init',
-    init({ material }) {
+    init({ material, project }) {
         material.setAssets(assets);
+
+        project.openDocument();
+        console.log(project);
     },
 });
 

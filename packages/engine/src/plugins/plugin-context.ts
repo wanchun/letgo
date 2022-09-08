@@ -34,7 +34,7 @@ export default class PluginContext implements IPluginContext {
         const project = designer?.project;
         this.designer = designer;
         this.hotkey = new Hotkey();
-        this.project = new Project();
+        this.project = new Project(project);
         this.skeleton = new Skeleton(skeleton);
         this.setters = new Setters();
         this.material = new Material(this.editor, designer);

@@ -208,8 +208,13 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
             });
         } else {
             this.props = new Props(this, props, extras);
-            this._children = new NodeChildren(this as ParentalNode, children);
-            this._children.initParent();
+            if (children) {
+                this._children = new NodeChildren(
+                    this as ParentalNode,
+                    children,
+                );
+                this._children.initParent();
+            }
         }
         this.initBuiltinProps();
     }

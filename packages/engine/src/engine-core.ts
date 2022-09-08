@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 import { isPlainObject } from 'lodash-es';
+import { Designer } from '@webank/letgo-designer';
 import { editor, EngineOptions, engineConfig } from '@webank/letgo-editor-core';
 import { Skeleton } from '@webank/letgo-editor-skeleton';
 import { PluginManager, IPluginContext, PluginPreference } from './plugins';
@@ -7,6 +8,9 @@ import { Workbench } from '../../editor-skeleton/src';
 
 const plugins = new PluginManager(editor).toProxy();
 editor.set('plugins' as any, plugins);
+
+const designer = new Designer({ editor });
+editor.set('designer' as any, designer);
 
 const skeleton = new Skeleton(editor);
 editor.set('skeleton' as any, skeleton);

@@ -72,7 +72,7 @@ export class Document {
      * 导出 schema 数据
      */
     get schema(): RootSchema {
-        return this.rootNode?.schema as any;
+        return this.rootNode?.schema;
     }
 
     get fileName(): string {

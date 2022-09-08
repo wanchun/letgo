@@ -10,6 +10,7 @@ import {
 } from '@webank/letgo-types';
 import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
 import { EventEmitter } from 'events';
+import { computed, ComputedRef } from 'vue';
 import { ComponentMeta } from '../component-meta';
 import { Document } from '../document';
 import { NodeChildren } from './node-children';
@@ -80,6 +81,24 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     private _parent: ParentalNode | null = null;
 
     /**
+     * 【响应式】schema 结构
+     */
+    reactiveSchema: ComputedRef<Schema> = computed(() => {
+        return this.export(TransformStage.Save);
+    });
+
+    /**
+     * 获取符合搭建协议-节点 schema 结构
+     */
+    get schema(): Schema {
+        return this.export(TransformStage.Save);
+    }
+
+    set schema(data: Schema) {
+        this.import(data);
+    }
+
+    /**
      * 属性抽象
      */
     props: Props;
@@ -107,13 +126,6 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
 
     get componentMeta(): ComponentMeta {
         return this.document.getComponentMeta(this.componentName);
-    }
-
-    /**
-     * 获取符合搭建协议-节点 schema 结构
-     */
-    get schema(): Schema {
-        return this.export(TransformStage.Save);
     }
 
     /**
@@ -208,13 +220,8 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
             });
         } else {
             this.props = new Props(this, props, extras);
-            if (children) {
-                this._children = new NodeChildren(
-                    this as ParentalNode,
-                    children,
-                );
-                this._children.initParent();
-            }
+            this._children = new NodeChildren(this as ParentalNode, children);
+            this._children.initParent();
         }
         this.initBuiltinProps();
     }
@@ -274,6 +281,28 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         }
 
         return schema;
+    }
+
+    /**
+     * 导入 schema
+     */
+    import(data: Schema) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { componentName, id, children, props, ...extras } = data;
+        if (this.isParental()) {
+            this.props.import(props, extras);
+            this._children.import(children);
+        }
+        if (this.isLeaf()) {
+            this.props
+                .getProp('children', true)
+                .setValue(
+                    children.length === 1 &&
+                        (isDOMText(children[0]) || isJSExpression(children[0]))
+                        ? children[0]
+                        : '',
+                );
+        }
     }
 
     setParent(parent: ParentalNode | null) {
@@ -344,7 +373,6 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         }
         this.purged = true;
         this.props.purge();
-        // this.settingEntry?.purge();
     }
 }
 

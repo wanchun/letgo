@@ -7,6 +7,7 @@ import {
     TransformStage,
 } from '@webank/letgo-types';
 import { uniqueId } from '@webank/letgo-utils';
+import { computed, shallowRef, ShallowRef, ComputedRef } from 'vue';
 import { isPlainObject } from 'lodash-es';
 import { Node } from './node';
 import { Props } from './props';
@@ -33,20 +34,27 @@ export class Prop {
 
     readonly props: Props;
 
-    private _value: any = UNSET;
+    private _value: ShallowRef<any> = shallowRef(UNSET);
 
-    private _type: ValueTypes = 'unset';
+    private _type: ShallowRef<ValueTypes> = shallowRef('unset');
 
     private purged = false;
 
     key: string | number;
 
     /**
-     * 属性类型
+     * 属性类型【响应性】
      */
-    get type(): ValueTypes {
+    get type(): ShallowRef<ValueTypes> {
         return this._type;
     }
+
+    /**
+     * 属性值【响应性】
+     */
+    value: ComputedRef<CompositeValue | UNSET> = computed(() => {
+        return this.getValue();
+    });
 
     constructor(
         parent: Props,
@@ -62,9 +70,9 @@ export class Prop {
     }
 
     export(stage: TransformStage = TransformStage.Save): CompositeValue {
-        const type = this._type;
+        const type = this._type.value;
         if (stage === TransformStage.Render) {
-            return this._value;
+            return this._value.value;
         }
 
         if (type === 'unset') {
@@ -75,45 +83,45 @@ export class Prop {
             // TODO
         }
 
-        return this._value;
+        return this._value.value;
     }
 
     setValue(val: CompositeValue) {
-        if (val === this._value) return;
+        if (val === this._value.value) return;
         const editor = this.owner.document?.designer.editor;
-        const oldValue = this._value;
-        this._value = val;
+        const oldValue = this._value.value;
+        this._value.value = val;
         const t = typeof val;
         if (val == null) {
-            this._type = 'literal';
+            this._type.value = 'literal';
         } else if (t === 'string' || t === 'number' || t === 'boolean') {
-            this._type = 'literal';
+            this._type.value = 'literal';
         } else if (Array.isArray(val)) {
-            this._type = 'list';
+            this._type.value = 'list';
         } else if (isPlainObject(val)) {
             if (isJSSlot(val)) {
                 // TODO
             } else if (isJSExpression(val)) {
-                this._type = 'expression';
+                this._type.value = 'expression';
             } else if (isJSFunction(val)) {
-                this._type = 'function';
+                this._type.value = 'function';
             } else {
-                this._type = 'map';
+                this._type.value = 'map';
             }
         } else {
-            this._type = 'expression';
-            this._value = {
+            this._type.value = 'expression';
+            this._value.value = {
                 type: 'JSExpression',
                 value: valueToSource(val),
             };
         }
 
-        if (oldValue !== this._value) {
+        if (oldValue !== this._value.value) {
             const propsInfo = {
                 key: this.key,
                 prop: this,
                 oldValue,
-                newValue: this._value,
+                newValue: this._value.value,
             };
 
             editor?.emit(GlobalEvent.Node.Prop.InnerChange, {
@@ -130,22 +138,24 @@ export class Prop {
     }
 
     getAsString(): string {
-        if (this.type === 'literal') {
-            return this._value ? String(this._value) : '';
+        if (this.type.value === 'literal') {
+            return this._value.value ? String(this._value.value) : '';
         }
         return '';
     }
 
-    get value(): CompositeValue | UNSET {
-        return this.getValue();
-    }
-
+    /**
+     * 重置
+     */
     unset() {
-        this._type = 'unset';
+        this._type.value = 'unset';
     }
 
+    /**
+     * 是否为重置状态
+     */
     isUnset() {
-        return this._type === 'unset';
+        return this._type.value === 'unset';
     }
 
     /**
@@ -155,6 +165,9 @@ export class Prop {
         this.props.delete(this);
     }
 
+    /**
+     * 销毁
+     */
     purge() {
         if (this.purged) {
             return;

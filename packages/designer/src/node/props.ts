@@ -5,6 +5,7 @@ import {
     CompositeValue,
     TransformStage,
 } from '@webank/letgo-types';
+import { shallowRef, ShallowRef, triggerRef } from 'vue';
 import { Node } from './node';
 import { Prop, UNSET } from './prop';
 
@@ -30,7 +31,10 @@ export function getOriginalExtraKey(key: string): string {
 export class Props {
     readonly id = uniqueId('props');
 
-    private items: Prop[] = [];
+    /**
+     * 响应式
+     */
+    private items: ShallowRef<Prop[]> = shallowRef([]);
 
     private itemMap: Map<string | number, Prop> = new Map();
 
@@ -39,13 +43,6 @@ export class Props {
     readonly owner: Node;
 
     type: 'map' | 'list' = 'map';
-
-    /**
-     * 元素个数
-     */
-    get size() {
-        return this.items.length;
-    }
 
     constructor(
         owner: Node,
@@ -72,9 +69,9 @@ export class Props {
     }
 
     import(value?: PropsMap | PropsList | null, extras?: ExtrasObject) {
-        this.items.forEach((item) => item.purge());
+        this.items.value.forEach((item) => item.purge());
         this.itemMap.clear();
-        this.items = [];
+        this.items.value = [];
         if (Array.isArray(value)) {
             this.type = 'list';
             value.forEach((item) => {
@@ -87,7 +84,6 @@ export class Props {
             });
         } else {
             this.type = 'map';
-            this.items = [];
         }
 
         if (extras) {
@@ -101,14 +97,14 @@ export class Props {
         props?: PropsMap | PropsList;
         extras?: ExtrasObject;
     } {
-        if (this.items.length < 1) {
+        if (this.items.value.length < 1) {
             return {};
         }
         let props: any = {};
         const extras: any = {};
         if (this.type === 'list') {
             props = [];
-            this.items.forEach((item) => {
+            this.items.value.forEach((item) => {
                 const value = item.export(stage);
                 let name = item.key as string;
                 if (
@@ -126,7 +122,7 @@ export class Props {
                 }
             });
         } else {
-            this.items.forEach((item) => {
+            this.items.value.forEach((item) => {
                 const value = item.export(stage);
                 let name = item.key as string;
                 if (name == null || item.isUnset()) return;
@@ -187,8 +183,9 @@ export class Props {
 
     add(value: CompositeValue | null | UNSET, key?: string | number): Prop {
         const prop = new Prop(this, value, key);
-        this.items.push(prop);
+        this.items.value.push(prop);
         this.itemMap.set(prop.key, prop);
+        triggerRef(this.items);
         return prop;
     }
 
@@ -200,11 +197,12 @@ export class Props {
     }
 
     delete(prop: Prop): void {
-        const i = this.items.indexOf(prop);
+        const i = this.items.value.indexOf(prop);
         if (i > -1) {
-            this.items.splice(i, 1);
+            this.items.value.splice(i, 1);
             this.itemMap.delete(prop.key);
             prop.purge();
+            triggerRef(this.items);
         }
     }
 
@@ -221,8 +219,8 @@ export class Props {
             return;
         }
         this.purged = true;
-        this.items.forEach((item) => item.purge());
+        this.items.value.forEach((item) => item.purge());
         this.itemMap.clear();
-        this.items = [];
+        this.items.value = [];
     }
 }

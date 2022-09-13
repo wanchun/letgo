@@ -3,6 +3,7 @@ import { IWidget } from '../types';
 import './panel.less';
 
 export default defineComponent({
+    name: 'Panel',
     props: {
         widget: {
             type: Object as PropType<IWidget>,

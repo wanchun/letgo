@@ -39,6 +39,21 @@ export class Project {
         this._config = value;
     }
 
+    /**
+     * 提供给模拟器的参数
+     */
+    get simulatorProps(): object {
+        let { simulatorProps } = this.designer;
+        if (typeof simulatorProps === 'function') {
+            simulatorProps = simulatorProps(this);
+        }
+        return {
+            ...simulatorProps,
+            project: this,
+            onMount: this.mountSimulator.bind(this),
+        };
+    }
+
     constructor(readonly designer: Designer, schema?: ProjectSchema) {
         watchEffect(() => {
             this.emitter.emit('current-document.change', this.currentDocument);
@@ -179,17 +194,28 @@ export class Project {
         return Reflect.get(this.data, key);
     }
 
-    onCurrentDocumentChange(fn: (doc: Document) => void): () => void {
-        this.emitter.on('current-document.change', fn);
-        return () => {
-            this.emitter.removeListener('current-document.change', fn);
-        };
-    }
-
     private mountSimulator(simulator: ISimulator) {
         // TODO: 多设备 simulator 支持
         this._simulator = simulator;
         this.designer.editor.set('simulator', simulator);
         this.emitter.emit('letgo_engine_simulator_ready', simulator);
+    }
+
+    setRendererReady(renderer: any) {
+        this.emitter.emit('letgo_engine_renderer_ready', renderer);
+    }
+
+    onRendererReady(fn: (args: any) => void): () => void {
+        this.emitter.on('letgo_engine_renderer_ready', fn);
+        return () => {
+            this.emitter.removeListener('letgo_engine_renderer_ready', fn);
+        };
+    }
+
+    onCurrentDocumentChange(fn: (doc: Document) => void): () => void {
+        this.emitter.on('current-document.change', fn);
+        return () => {
+            this.emitter.removeListener('current-document.change', fn);
+        };
     }
 }

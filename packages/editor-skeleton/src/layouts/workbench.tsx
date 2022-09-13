@@ -11,6 +11,7 @@ import GlobalArea from './global-area';
 import './workbench.less';
 
 export default defineComponent({
+    name: 'WorkBench',
     props: {
         skeleton: {
             type: Object as PropType<Skeleton>,
@@ -27,7 +28,7 @@ export default defineComponent({
                         <LeftFloatArea area={skeleton.leftFloatArea} />
                         <div className="letgo-workbench-center">
                             <Toolbar area={skeleton.toolbar} />
-                            <MainArea />
+                            <MainArea area={skeleton.mainArea} />
                             <BottomArea area={skeleton.bottomArea} />
                         </div>
                         <RightArea area={skeleton.rightArea} />

@@ -4,6 +4,7 @@ import { IPanelConfig } from '../types';
 import { Panel } from '../widget';
 
 export default defineComponent({
+    name: 'RightArea',
     props: {
         area: {
             type: Object as PropType<Area<IPanelConfig, Panel>>,

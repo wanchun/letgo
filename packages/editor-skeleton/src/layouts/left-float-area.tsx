@@ -6,6 +6,7 @@ import { Panel } from '../widget';
 import { computed } from '@vue/reactivity';
 
 export default defineComponent({
+    name: 'LeftFloatArea',
     props: {
         area: {
             type: Object as PropType<Area<IPanelConfig, Panel>>,

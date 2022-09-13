@@ -4,6 +4,7 @@ import { IModalConfig } from '../types';
 import { Modal } from '../widget';
 
 export default defineComponent({
+    name: 'GlobalArea',
     props: {
         area: {
             type: Object as PropType<Area<IModalConfig, Modal>>,

@@ -8,6 +8,7 @@ import {
 import { Widget, WidgetModal, WidgetPanel } from '../widget';
 
 export default defineComponent({
+    name: 'LeftArea',
     props: {
         area: {
             type: Object as PropType<

@@ -4,6 +4,7 @@ import { Modal } from '../widget';
 import './modal.less';
 
 export default defineComponent({
+    name: 'Modal',
     props: {
         widget: {
             type: Object as PropType<Modal>,

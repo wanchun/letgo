@@ -26,12 +26,12 @@ export default class PluginContext implements IPluginContext {
     preference: IPluginPreferenceManager;
 
     constructor(plugins: IPluginManager, options: IPluginContextOptions) {
-        this.editor = plugins.editor;
-        const designer = this.editor.get('designer');
-        const skeleton = this.editor.get('skeleton');
-
+        const editor = plugins.editor;
         const { pluginName = 'anonymous' } = options;
+        const designer = editor.get('designer');
+        const skeleton = editor.get('skeleton');
         const project = designer?.project;
+        this.editor = editor;
         this.designer = designer;
         this.hotkey = new Hotkey();
         this.project = new Project(project);

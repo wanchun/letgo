@@ -16,12 +16,9 @@ import { Node } from '../node';
 export interface DesignerProps {
     editor: IEditor;
     defaultSchema?: ProjectSchema;
-    className?: string;
-    style?: object;
-    simulatorProps?: object | ((document: Document) => object);
+    simulatorProps?: object | ((project: Project) => object);
     simulatorComponent?: Component;
-    dragGhostComponent?: Component;
-    // onMount?: (designer: Designer) => void;
+    componentMetadatas?: ComponentMetadata[];
     // onDragstart?: (e: LocateEvent) => void;
     // onDrag?: (e: LocateEvent) => void;
     // onDragend?: (
@@ -40,20 +37,52 @@ export class Designer {
 
     private _lostComponentMetaMap = new Map<string, ComponentMeta>();
 
+    private _simulatorProps?: object | ((project: Project) => object);
+
+    private props?: DesignerProps;
+
     get currentDocument() {
-        return this.project.currentDocument;
+        return this.project.currentDocument.value;
+    }
+
+    get simulatorProps(): object | ((project: Project) => object) {
+        return this._simulatorProps || {};
     }
 
     // get currentHistory() {
     //     return this.currentDocument?.history;
     // }
 
-    // get currentSelection() {
-    //     return this.currentDocument?.selection;
-    // }
+    get currentSelection() {
+        return this.currentDocument?.selection;
+    }
 
     constructor(props: DesignerProps) {
+        this.editor = props.editor;
         this.project = new Project(this, props.defaultSchema);
+    }
+
+    setProps(nextProps: DesignerProps) {
+        const props = this.props ? { ...this.props, ...nextProps } : nextProps;
+        if (this.props) {
+            if (
+                props.componentMetadatas !== this.props.componentMetadatas &&
+                props.componentMetadatas != null
+            ) {
+                this.buildComponentMetaMap(props.componentMetadatas);
+            }
+            if (props.simulatorProps !== this.props.simulatorProps) {
+                this._simulatorProps = props.simulatorProps;
+            }
+        } else {
+            if (props.componentMetadatas != null) {
+                this.buildComponentMetaMap(props.componentMetadatas);
+            }
+            if (props.simulatorProps) {
+                this._simulatorProps = props.simulatorProps;
+            }
+        }
+        this.props = props;
     }
 
     buildComponentMetaMap(metaDataList: ComponentMetadata[]) {
@@ -141,6 +170,8 @@ export class Designer {
             }
         }, props);
     }
+
+    purge() {}
 }
 
 export type PropsReducerContext = { stage: TransformStage };

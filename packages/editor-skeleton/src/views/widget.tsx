@@ -8,12 +8,11 @@ export default defineComponent({
         widget: {
             type: Object as PropType<IWidget>,
         },
+        onClick: {
+            type: Function,
+        },
     },
-    emits: ['click'],
-    setup(props, { emit }) {
-        const handleClick = (e: Event) => {
-            emit('click', e);
-        };
+    setup(props) {
         return () => {
             const { widget } = props;
             if (!widget.visible.value) {
@@ -26,11 +25,14 @@ export default defineComponent({
                     </div>
                 );
             }
-            return (
-                <div class="letgo-widget" onClick={handleClick}>
-                    {widget.body}
-                </div>
-            );
+            if (props.onClick) {
+                return (
+                    <div class="letgo-widget" onClick={props.onClick}>
+                        {widget.body}
+                    </div>
+                );
+            }
+            return <>{widget.body}</>;
         };
     },
 });

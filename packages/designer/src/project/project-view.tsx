@@ -1,8 +1,8 @@
 import { defineComponent, PropType, ref } from 'vue';
 import { FSpin } from '@fesjs/fes-design';
 import { BuiltinSimulatorHostView } from '../builtin-simulator';
-
 import { Designer } from '../designer';
+import './project-view.less';
 
 const BuiltinLoading = defineComponent({
     setup() {

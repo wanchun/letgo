@@ -15,9 +15,11 @@ export class Widget extends BaseWidget implements IWidget {
         return h(WidgetView, {
             widget: this,
             key: this.id,
-            onClick: () => {
-                this.onClick?.(this);
-            },
+            onClick: this.onClick
+                ? () => {
+                      this.onClick(this);
+                  }
+                : undefined,
         });
     }
 

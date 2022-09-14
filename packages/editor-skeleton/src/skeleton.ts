@@ -96,6 +96,12 @@ export class Skeleton {
             const panel = this.createWidget(config) as Panel;
             return panel;
         });
+        this.mainArea = new Area(this, 'mainArea', (config) => {
+            if (isWidget(config)) {
+                return config;
+            }
+            return this.createWidget(config) as Widget;
+        });
     }
 
     createWidget(config: IWidgetBaseConfig | IWidget) {
@@ -148,6 +154,9 @@ export class Skeleton {
                 return this.bottomArea.add(parsedConfig as IWidgetConfig);
             case 'leftFloatArea':
                 return this.leftFloatArea.add(parsedConfig as IPanelConfig);
+            case 'main':
+            case 'mainArea':
+                return this.mainArea.add(parsedConfig as IWidgetConfig);
 
             default:
             // do nothing

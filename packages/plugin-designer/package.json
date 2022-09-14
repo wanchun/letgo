@@ -1,5 +1,5 @@
 {
-  "name": "@webank/letgo-engine",
+  "name": "@webank/letgo-plugin-designer",
   "version": "1.0.0",
   "description": "",
   "files": [
@@ -7,26 +7,20 @@
     "lib",
     "src"
   ],
-  "main": "src/index.ts",
-  "module": "src/index.ts",
+  "main": "src/index.tsx",
+  "module": "src/index.tsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "semver": "^7.3.5",
-    "@webank/letgo-editor-core": "^1.0.0",
-    "@webank/letgo-editor-skeleton": "^1.0.0",
-    "@webank/letgo-utils": "^1.0.0",
+    "@webank/letgo-engine": "^1.0.0",
     "@webank/letgo-designer": "^1.0.0",
+    "@webank/letgo-editor-core": "^1.0.0",
     "@webank/letgo-types": "^1.0.0",
-    "@webank/letgo-plugin-designer": "^1.0.0",
-    "lodash-es": "^4.17.21"
+    "@fesjs/fes-design": "^0.7.0"
   },
   "peerDependencies": {
     "vue": "^3.2.37"
-  },
-  "devDependencies": {
-    "@types/semver": "7.3.9"
   },
   "keywords": [],
   "author": "",

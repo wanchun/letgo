@@ -12,7 +12,7 @@ importers:
 
   packages/designer:
     specifiers:
-      '@fesjs/fes-design': ^0.6.0
+      '@fesjs/fes-design': ^0.7.0
       '@types/events': ^3.0.0
       '@webank/letgo-editor-core': ^1.0.0
       '@webank/letgo-types': ^1.0.0
@@ -20,7 +20,7 @@ importers:
       events: ^3.3.0
       lodash-es: ^4.17.21
     dependencies:
-      '@fesjs/fes-design': 0.6.1
+      '@fesjs/fes-design': 0.7.0
       '@webank/letgo-editor-core': link:../editor-core
       '@webank/letgo-types': link:../types
       '@webank/letgo-utils': link:../utils
@@ -46,11 +46,11 @@ importers:
 
   packages/editor-skeleton:
     specifiers:
-      '@fesjs/fes-design': ^0.6.0
+      '@fesjs/fes-design': ^0.7.0
       '@webank/letgo-editor-core': ^1.0.0
       '@webank/letgo-utils': ^1.0.0
     dependencies:
-      '@fesjs/fes-design': 0.6.1
+      '@fesjs/fes-design': 0.7.0
       '@webank/letgo-editor-core': link:../editor-core
       '@webank/letgo-utils': link:../utils
 
@@ -60,6 +60,7 @@ importers:
       '@webank/letgo-designer': ^1.0.0
       '@webank/letgo-editor-core': ^1.0.0
       '@webank/letgo-editor-skeleton': ^1.0.0
+      '@webank/letgo-plugin-designer': ^1.0.0
       '@webank/letgo-types': ^1.0.0
       '@webank/letgo-utils': ^1.0.0
       lodash-es: ^4.17.21
@@ -68,6 +69,7 @@ importers:
       '@webank/letgo-designer': link:../designer
       '@webank/letgo-editor-core': link:../editor-core
       '@webank/letgo-editor-skeleton': link:../editor-skeleton
+      '@webank/letgo-plugin-designer': link:../plugin-designer
       '@webank/letgo-types': link:../types
       '@webank/letgo-utils': link:../utils
       lodash-es: 4.17.21
@@ -77,12 +79,26 @@ importers:
 
   packages/plugin-components-panel:
     specifiers:
-      '@fesjs/fes-design': ^0.6.0
+      '@fesjs/fes-design': ^0.7.0
       '@webank/letgo-editor-core': ^1.0.0
       '@webank/letgo-engine': ^1.0.0
       '@webank/letgo-types': ^1.0.0
     dependencies:
-      '@fesjs/fes-design': 0.6.1
+      '@fesjs/fes-design': 0.7.0
+      '@webank/letgo-editor-core': link:../editor-core
+      '@webank/letgo-engine': link:../engine
+      '@webank/letgo-types': link:../types
+
+  packages/plugin-designer:
+    specifiers:
+      '@fesjs/fes-design': ^0.7.0
+      '@webank/letgo-designer': ^1.0.0
+      '@webank/letgo-editor-core': ^1.0.0
+      '@webank/letgo-engine': ^1.0.0
+      '@webank/letgo-types': ^1.0.0
+    dependencies:
+      '@fesjs/fes-design': 0.7.0
+      '@webank/letgo-designer': link:../designer
       '@webank/letgo-editor-core': link:../editor-core
       '@webank/letgo-engine': link:../engine
       '@webank/letgo-types': link:../types
@@ -97,7 +113,7 @@ importers:
     specifiers:
       '@fesjs/builder-vite': ^3.0.0-beta.8
       '@fesjs/fes': ^3.0.0-beta.4
-      '@fesjs/fes-design': ^0.6.0
+      '@fesjs/fes-design': ^0.7.0
       '@fesjs/plugin-request': ^3.0.0-beta.7
       '@vue/compiler-sfc': ^3.2.37
       '@vueuse/core': ^8.9.0
@@ -109,7 +125,7 @@ importers:
     dependencies:
       '@fesjs/builder-vite': 3.0.0-beta.8_rddfedzgioeena4x4wn5ajjmby
       '@fesjs/fes': 3.0.0-beta.4_2yymnzrok6eda47acnj2yjm3ae
-      '@fesjs/fes-design': 0.6.1_vue@3.2.37
+      '@fesjs/fes-design': 0.7.0_vue@3.2.37
       '@fesjs/plugin-request': 3.0.0-beta.7_b42avbuvoufuq7ump24omsvp3y
       '@vueuse/core': 8.9.0_vue@3.2.37
       '@webank/letgo-engine': link:../engine
@@ -1409,8 +1425,8 @@ packages:
       - supports-color
     dev: false
 
-  /@fesjs/fes-design/0.6.1:
-    resolution: {integrity: sha512-nFzmO8VP/5G+HVWqFogZ1uR9Ht8Cl1gE+BAPyx1MBBoaDJ7qMuOej8EmLs20D6uS/NU4zmONoXVzd7Jy6b0BzA==}
+  /@fesjs/fes-design/0.7.0:
+    resolution: {integrity: sha512-VEZzE4UUBj/Z+aeWdTY1jDeGCX1z9qs3SLzX7/movwdkLPJYzfZrCCOOioMuWEUj1Xv6NP7PjTmMxnuq/SFJjA==}
     peerDependencies:
       vue: ^3.2.7
     dependencies:
@@ -1431,8 +1447,8 @@ packages:
       - '@vue/composition-api'
     dev: false
 
-  /@fesjs/fes-design/0.6.1_vue@3.2.37:
-    resolution: {integrity: sha512-nFzmO8VP/5G+HVWqFogZ1uR9Ht8Cl1gE+BAPyx1MBBoaDJ7qMuOej8EmLs20D6uS/NU4zmONoXVzd7Jy6b0BzA==}
+  /@fesjs/fes-design/0.7.0_vue@3.2.37:
+    resolution: {integrity: sha512-VEZzE4UUBj/Z+aeWdTY1jDeGCX1z9qs3SLzX7/movwdkLPJYzfZrCCOOioMuWEUj1Xv6NP7PjTmMxnuq/SFJjA==}
     peerDependencies:
       vue: ^3.2.7
     dependencies:

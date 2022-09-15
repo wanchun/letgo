@@ -1,4 +1,4 @@
-import { Project as InnerProject, Document } from '@webank/letgo-designer';
+import { Project as InnerProject, DocumentModel } from '@webank/letgo-designer';
 import { TransformStage, RootSchema } from '@webank/letgo-types';
 
 import { projectSymbol } from './symbols';

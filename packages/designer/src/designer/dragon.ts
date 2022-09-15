@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import { NodeSchema } from '@webank/letgo-types';
-import { Document } from '../document';
+import { DocumentModel } from '../document';
 import { Node } from '../node';
 import { ISensor } from '../types';
 import { Designer } from './designer';
@@ -80,7 +80,7 @@ export interface LocateEvent {
     /**
      * 激活或目标文档
      */
-    document?: Document;
+    document?: DocumentModel;
     /**
      * 事件订正标识，初始构造时，从发起端构造，缺少 canvasX,canvasY, 需要经过订正才有
      */

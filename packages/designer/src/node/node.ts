@@ -12,7 +12,7 @@ import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
 import { EventEmitter } from 'events';
 import { computed, ComputedRef } from 'vue';
 import { ComponentMeta } from '../component-meta';
-import { Document } from '../document';
+import { DocumentModel } from '../document';
 import { NodeChildren } from './node-children';
 import { Props } from './props';
 
@@ -201,7 +201,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     }
 
     constructor(
-        readonly document: Document,
+        readonly document: DocumentModel,
         nodeSchema: Schema,
         option: NodeOption = {},
     ) {

@@ -20,7 +20,7 @@ import {
 import { ComponentMeta } from '../component-meta';
 import { Selection } from './selection';
 
-export class Document {
+export class DocumentModel {
     readonly project: Project;
 
     readonly designer: Designer;

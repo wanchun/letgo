@@ -1,14 +1,14 @@
 import { reactive } from 'vue';
 import { EventEmitter } from 'events';
 import { Node, comparePosition, PositionNO } from '../node/node';
-import { Document } from './document';
+import { DocumentModel } from './document-model';
 
 export class Selection {
     private emitter = new EventEmitter();
 
     private _selected: string[] = reactive([]);
 
-    constructor(readonly doc: Document) {}
+    constructor(readonly doc: DocumentModel) {}
     /**
      * 选中的节点 id
      */

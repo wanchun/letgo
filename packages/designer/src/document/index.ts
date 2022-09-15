@@ -1,2 +1,2 @@
-export * from './document';
+export * from './document-model';
 export * from './selection';

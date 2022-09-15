@@ -1,7 +1,7 @@
 import { Component } from 'vue';
 import { NodeSchema, PageSchema, ComponentSchema } from '@webank/letgo-types';
 import { Node, NodeChildren } from './node';
-import { Document } from './document';
+import { DocumentModel } from './document';
 import { LocateEvent } from './designer/dragon';
 
 export type GetDataType<T, NodeType> = T extends undefined
@@ -35,7 +35,7 @@ export function isRootNode(node: Node): node is RootNode {
     return node && node.isRoot();
 }
 
-export function isDocument(obj: any): obj is Document {
+export function isDocumentModel(obj: any): obj is DocumentModel {
     return obj && obj.rootNode;
 }
 

@@ -1,9 +1,9 @@
 import { shallowRef, ShallowRef, watchEffect } from 'vue';
 import { EventEmitter } from 'events';
 import { ProjectSchema, RootSchema } from '@webank/letgo-types';
-import { ISimulator, isDocument } from '../types';
+import { ISimulator, isDocumentModel } from '../types';
 import { Designer } from '../designer';
-import { Document } from '../document';
+import { DocumentModel } from '../document';
 
 export class Project {
     private emitter = new EventEmitter();
@@ -18,11 +18,11 @@ export class Project {
 
     private _config: any = {};
 
-    readonly documentsMap = new Map<string, Document>();
+    readonly documentsMap = new Map<string, DocumentModel>();
 
-    readonly documents: Document[] = [];
+    readonly documents: DocumentModel[] = [];
 
-    currentDocument: ShallowRef<Document | null> = shallowRef();
+    currentDocument: ShallowRef<DocumentModel | null> = shallowRef(null);
     /**
      * 模拟器
      */
@@ -99,7 +99,7 @@ export class Project {
         }
     }
 
-    open(doc?: string | Document | RootSchema): Document | null {
+    open(doc?: string | DocumentModel | RootSchema): DocumentModel | null {
         if (typeof doc === 'string') {
             const got = this.documents.find(
                 (item) => item.fileName === doc || item.id === doc,
@@ -119,7 +119,7 @@ export class Project {
             }
             return null;
         }
-        if (isDocument(doc)) {
+        if (isDocumentModel(doc)) {
             this.currentDocument.value = doc;
             return doc;
         }
@@ -129,14 +129,17 @@ export class Project {
         return doc;
     }
 
-    createDocument(data?: RootSchema): Document {
-        const doc = new Document(this, data || this?.data?.componentsTree?.[0]);
+    createDocument(data?: RootSchema): DocumentModel {
+        const doc = new DocumentModel(
+            this,
+            data || this?.data?.componentsTree?.[0],
+        );
         this.documents.push(doc);
         this.documentsMap.set(doc.id, doc);
         return doc;
     }
 
-    removeDocument(doc: Document) {
+    removeDocument(doc: DocumentModel) {
         const index = this.documents.indexOf(doc);
         if (index < 0) {
             return;
@@ -145,7 +148,7 @@ export class Project {
         this.documentsMap.delete(doc.id);
     }
 
-    findDocument(id: string): Document | null {
+    findDocument(id: string): DocumentModel | null {
         // 此处不能使用 this.documentsMap.get(id)，因为在乐高 rollback 场景，document.id 会被改成其他值
         return this.documents.find((doc) => doc.id === id) || null;
     }
@@ -212,7 +215,7 @@ export class Project {
         };
     }
 
-    onCurrentDocumentChange(fn: (doc: Document) => void): () => void {
+    onCurrentDocumentChange(fn: (doc: DocumentModel) => void): () => void {
         this.emitter.on('current-document.change', fn);
         return () => {
             this.emitter.removeListener('current-document.change', fn);

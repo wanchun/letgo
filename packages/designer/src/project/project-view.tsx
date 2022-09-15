@@ -1,6 +1,6 @@
 import { defineComponent, PropType, ref } from 'vue';
 import { FSpin } from '@fesjs/fes-design';
-import { BuiltinSimulatorHostView } from '../builtin-simulator';
+import { SimulatorView } from '../simulator';
 import { Designer } from '../designer';
 import './project-view.less';
 
@@ -39,7 +39,7 @@ export const ProjectView = defineComponent({
                 <div class="letgo-project">
                     <div className="letgo-project-content">
                         {!project?.simulator?.renderer && <BuiltinLoading />}
-                        <BuiltinSimulatorHostView {...simulatorProps} />
+                        <SimulatorView {...simulatorProps} />
                     </div>
                 </div>
             );

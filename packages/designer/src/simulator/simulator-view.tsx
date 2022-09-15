@@ -1,7 +1,7 @@
 import { defineComponent } from 'vue';
 
-export const BuiltinSimulatorHostView = defineComponent({
-    name: 'BuiltinSimulatorHostView',
+export const SimulatorView = defineComponent({
+    name: 'SimulatorView',
     setup() {
         return () => {
             return null;

@@ -9,7 +9,6 @@ import {
 } from '@webank/letgo-types';
 import { Component } from 'vue';
 import { Project } from '../project';
-import { Document } from '../document';
 import { ComponentMeta } from '../component-meta';
 import { Node } from '../node';
 
@@ -48,10 +47,6 @@ export class Designer {
     get simulatorProps(): object | ((project: Project) => object) {
         return this._simulatorProps || {};
     }
-
-    // get currentHistory() {
-    //     return this.currentDocument?.history;
-    // }
 
     get currentSelection() {
         return this.currentDocument?.selection;

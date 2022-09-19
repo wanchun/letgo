@@ -82,4 +82,13 @@ export interface ISensor {
 
 export interface ISimulator<P = object> extends ISensor {
     readonly isSimulator: true;
+
+    readonly contentWindow?: Window;
+    readonly contentDocument?: Document;
+
+    setProps(props: P): void;
+}
+
+export function isSimulator(obj: any): obj is ISimulator {
+    return obj && obj.isSimulator;
 }

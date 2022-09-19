@@ -103,6 +103,8 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
      */
     props: Props;
 
+    isRGLContainer: false;
+
     /**
      * 父级节点
      */
@@ -122,6 +124,17 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
             return this._parent.zLevel + 1;
         }
         return 0;
+    }
+
+    get title(): string {
+        const t = this.props.getExtraProp('title');
+        if (t) {
+            const v = t.getAsString();
+            if (v) {
+                return v;
+            }
+        }
+        return this.componentMeta.title;
     }
 
     get componentMeta(): ComponentMeta {
@@ -356,6 +369,36 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
      */
     select() {
         this.document.selection.select(this.id);
+    }
+
+    isEmpty(): boolean {
+        return this.children ? this.children.isEmpty() : true;
+    }
+
+    /**
+     * 获取磁贴相关信息
+     */
+    getRGL() {
+        const isContainerNode = this.isContainer();
+        const isEmptyNode = this.isEmpty();
+        const isRGLContainerNode = this.isRGLContainer;
+        const isRGLNode = this.parent?.isRGLContainer;
+        const isRGL =
+            isRGLContainerNode ||
+            (isRGLNode && (!isContainerNode || !isEmptyNode));
+        const rglNode: Node | null = isRGLContainerNode
+            ? this
+            : isRGL
+            ? this.parent
+            : null;
+        return {
+            isContainerNode,
+            isEmptyNode,
+            isRGLContainerNode,
+            isRGLNode,
+            isRGL,
+            rglNode,
+        };
     }
 
     private purged = false;

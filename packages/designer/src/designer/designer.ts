@@ -8,9 +8,12 @@ import {
     PropsList,
 } from '@webank/letgo-types';
 import { Component } from 'vue';
+import { EventEmitter } from 'events';
+import { ISimulator } from '../types';
 import { Project } from '../project';
 import { ComponentMeta } from '../component-meta';
 import { Node } from '../node';
+import { Dragon } from './dragon';
 
 export interface DesignerProps {
     editor: IEditor;
@@ -28,15 +31,21 @@ export interface DesignerProps {
 }
 
 export class Designer {
+    private emitter = new EventEmitter();
+
     readonly editor: IEditor;
 
     readonly project: Project;
+
+    readonly dragon = new Dragon(this);
 
     private _componentMetaMap = new Map<string, ComponentMeta>();
 
     private _lostComponentMetaMap = new Map<string, ComponentMeta>();
 
-    private _simulatorProps?: object | ((project: Project) => object);
+    private _simulator?: ISimulator;
+
+    private _simulatorProps?: object | ((designer: Designer) => object);
 
     private props?: DesignerProps;
 
@@ -44,8 +53,23 @@ export class Designer {
         return this.project.currentDocument.value;
     }
 
-    get simulatorProps(): object | ((project: Project) => object) {
-        return this._simulatorProps || {};
+    /**
+     * 模拟器
+     */
+    get simulator(): ISimulator | null {
+        return this._simulator || null;
+    }
+
+    get simulatorProps(): object {
+        let simulatorProps = this._simulatorProps;
+        if (typeof simulatorProps === 'function') {
+            simulatorProps = simulatorProps(this);
+        }
+        return {
+            ...simulatorProps,
+            designer: this,
+            onMount: this.mountSimulator.bind(this),
+        };
     }
 
     get currentSelection() {
@@ -164,6 +188,24 @@ export class Designer {
                 return xProps;
             }
         }, props);
+    }
+
+    private mountSimulator(simulator: ISimulator) {
+        // TODO: 多设备 simulator 支持
+        this._simulator = simulator;
+        this.editor.set('simulator', simulator);
+        this.emitter.emit('letgo_engine_simulator_ready', simulator);
+    }
+
+    setRendererReady(renderer: any) {
+        this.emitter.emit('letgo_engine_renderer_ready', renderer);
+    }
+
+    onRendererReady(fn: (args: any) => void): () => void {
+        this.emitter.on('letgo_engine_renderer_ready', fn);
+        return () => {
+            this.emitter.removeListener('letgo_engine_renderer_ready', fn);
+        };
     }
 
     purge() {}

@@ -30,8 +30,11 @@
                         v-for="(snippet, index) in item.snippets"
                         :key="index"
                         class="category-body-item"
-                        draggable="true"
-                        @dragstart="handleDragstart($event, snippet)"
+                        :ref="
+                            (el) => {
+                                handleDragstart(el, snippet);
+                            }
+                        "
                     >
                         <div class="category-body-item-icon">
                             <img
@@ -61,6 +64,7 @@ import {
     onBeforeMount,
 } from 'vue';
 import { Editor } from '@webank/letgo-editor-core';
+import { Designer } from '@webank/letgo-designer';
 import { AssetsJson, Snippet } from '@webank/letgo-types';
 import { FInput, FTabPane, FTabs } from '@fesjs/fes-design';
 import {
@@ -79,6 +83,9 @@ export default defineComponent({
     props: {
         editor: {
             type: Object as PropType<Editor>,
+        },
+        designer: {
+            type: Object as PropType<Designer>,
         },
     },
     components: {
@@ -168,15 +175,18 @@ export default defineComponent({
             }
         });
 
-        const handleDragstart = (event: DragEvent, snippet: Snippet) => {
-            console.log(event, snippet);
-            const target = event.target as HTMLElement;
-            const image = target.children[0].children[0];
-            event.dataTransfer.setDragImage(
-                image,
-                image.clientWidth / 2,
-                image.clientHeight / 2,
-            );
+        const designer = props.designer;
+        const dragon = designer.dragon || null;
+
+        const handleDragstart = (el: HTMLElement, snippet: Snippet) => {
+            if (!dragon) return;
+            dragon.from(el, (e: MouseEvent) => {
+                var dragTarget = {
+                    type: 'nodeData',
+                    data: snippet.schema,
+                };
+                return dragTarget;
+            });
         };
 
         return {

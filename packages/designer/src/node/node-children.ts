@@ -170,6 +170,10 @@ export class NodeChildren {
         });
     }
 
+    isEmpty() {
+        return this.size < 1;
+    }
+
     private purged = false;
 
     /**

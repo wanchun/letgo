@@ -4,7 +4,7 @@ import Panel from './panel.vue';
 
 export default {
     name: 'PluginComponentsPanel',
-    init({ skeleton, editor }) {
+    init({ skeleton, editor, designer }) {
         skeleton.add({
             name: 'ComponentsPanel',
             area: 'leftArea',
@@ -13,7 +13,7 @@ export default {
             props: {
                 align: 'top',
             },
-            panelContent: () => <Panel editor={editor} />,
+            panelContent: () => <Panel editor={editor} designer={designer} />,
             panelProps: {
                 width: '500px',
                 title: '组件库',

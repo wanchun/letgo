@@ -1,9 +1,11 @@
 import { EventEmitter } from 'events';
 import { NodeSchema } from '@webank/letgo-types';
+import { cursor } from '@webank/letgo-utils';
 import { DocumentModel } from '../document';
 import { Node } from '../node';
-import { ISensor } from '../types';
+import { ISensor, ISimulator } from '../types';
 import { Designer } from './designer';
+import { makeEventsHandler } from '../utils';
 
 export enum DragObjectType {
     Node = 'node',
@@ -18,7 +20,6 @@ export interface DragNodeObject {
 export interface DragNodeDataObject {
     type: DragObjectType.NodeData;
     data: NodeSchema | NodeSchema[];
-    thumbnail?: string;
     description?: string;
     [extra: string]: any;
 }
@@ -122,6 +123,24 @@ export function isInvalidPoint(e: any, last: any): boolean {
     );
 }
 
+export function isSameAs(
+    e1: MouseEvent | DragEvent,
+    e2: MouseEvent | DragEvent,
+): boolean {
+    return e1.clientY === e2.clientY && e1.clientX === e2.clientX;
+}
+
+function getSourceSensor(dragObject: DragObject): ISimulator | null {
+    if (!isDragNodeObject(dragObject)) {
+        return null;
+    }
+    return dragObject.nodes[0]?.document.simulator || null;
+}
+
+function isDragEvent(e: any): e is DragEvent {
+    return e?.type?.startsWith('drag');
+}
+
 /**
  * Drag-on 拖拽引擎
  */
@@ -187,5 +206,236 @@ export class Dragon {
         fromRglNode?: Node,
     ) {
         const { designer } = this;
+        const handleEvents = makeEventsHandler(boostEvent, [
+            designer.project.simulator,
+        ]);
+        const isFromDragAPI = isDragEvent(boostEvent);
+
+        let lastSensor: ISensor | undefined;
+
+        this._dragging = false;
+
+        const sourceSensor = getSourceSensor(dragObject);
+
+        const createLocateEvent = (e: MouseEvent | DragEvent): LocateEvent => {
+            const evt: any = {
+                type: 'LocateEvent',
+                dragObject,
+                target: e.target,
+                originalEvent: e,
+            };
+            const sourceDocument = e.view?.document;
+
+            // event from current document
+            if (!sourceDocument || sourceDocument === document) {
+                evt.globalX = e.clientX;
+                evt.globalY = e.clientY;
+            }
+            return evt;
+        };
+
+        const chooseSensor = (e: LocateEvent) => {
+            // this.sensors will change on dragstart
+            const sensors: ISensor[] = this.sensors.concat(
+                designer.project.simulator,
+            );
+            let sensor =
+                e.sensor && e.sensor.isEnter(e)
+                    ? e.sensor
+                    : sensors.find((s) => s.sensorAvailable && s.isEnter(e));
+            if (!sensor) {
+                if (lastSensor) {
+                    sensor = lastSensor;
+                } else if (e.sensor) {
+                    sensor = e.sensor;
+                } else if (sourceSensor) {
+                    sensor = sourceSensor;
+                }
+            }
+            if (sensor !== lastSensor) {
+                if (lastSensor) {
+                    lastSensor.deActiveSensor();
+                }
+                lastSensor = sensor;
+            }
+            if (sensor) {
+                e.sensor = sensor;
+                sensor.fixEvent(e);
+            }
+            this._activeSensor = sensor;
+            return sensor;
+        };
+
+        const getRGL = (e: MouseEvent | DragEvent) => {
+            const locateEvent = createLocateEvent(e);
+            const sensor = chooseSensor(locateEvent);
+            if (!sensor || !sensor.getNodeInstanceFromElement) return null;
+            const nodeInst = sensor.getNodeInstanceFromElement(
+                e.target as Element,
+            );
+            return nodeInst?.node?.getRGL() || null;
+        };
+
+        const dragstart = () => {
+            this._dragging = true;
+            setShaken(boostEvent);
+            const locateEvent = createLocateEvent(boostEvent);
+            chooseSensor(locateEvent);
+            this.setDraggingState(true);
+            this.emitter.emit('dragstart', locateEvent);
+        };
+
+        let lastArrive: any;
+        const drag = (e: MouseEvent | DragEvent) => {
+            if (isInvalidPoint(e, lastArrive)) return;
+
+            if (lastArrive && isSameAs(e, lastArrive)) {
+                lastArrive = e;
+                return;
+            }
+            lastArrive = e;
+
+            const locateEvent = createLocateEvent(e);
+            const sensor = chooseSensor(locateEvent);
+
+            if (sensor) {
+                sensor.fixEvent(locateEvent);
+                sensor.locate(locateEvent);
+            }
+
+            this.emitter.emit('drag', locateEvent);
+        };
+
+        const move = (e: MouseEvent | DragEvent) => {
+            /* istanbul ignore next */
+            if (isFromDragAPI) {
+                e.preventDefault();
+            }
+            if (this._dragging) {
+                // process dragging
+                drag(e);
+                return;
+            }
+
+            // first move check is shaken
+            if (isShaken(boostEvent, e)) {
+                // is shaken dragstart
+                dragstart();
+                drag(e);
+            }
+        };
+
+        const drop = (e: DragEvent) => {
+            e.preventDefault();
+            e.stopPropagation();
+        };
+
+        if (isFromDragAPI) {
+            const { dataTransfer } = boostEvent;
+
+            if (dataTransfer) {
+                dataTransfer.effectAllowed = 'all';
+
+                try {
+                    dataTransfer.setData('application/json', '{}');
+                } catch (ex) {
+                    // ignore
+                }
+            }
+
+            dragstart();
+        }
+
+        const end = (e?: MouseEvent | DragEvent) => {
+            if (e && isDragEvent(e)) {
+                e.preventDefault();
+            }
+            if (lastSensor) {
+                lastSensor.deActiveSensor();
+            }
+            let exception;
+            if (this._dragging) {
+                this._dragging = false;
+                try {
+                    this.emitter.emit('dragend', { dragObject });
+                } catch (ex) /* istanbul ignore next */ {
+                    exception = ex;
+                }
+            }
+
+            handleEvents((doc) => {
+                if (isFromDragAPI) {
+                    doc.removeEventListener('dragover', move, true);
+                    doc.removeEventListener('dragend', end, true);
+                    doc.removeEventListener('drop', drop, true);
+                } else {
+                    doc.removeEventListener('mousemove', move, true);
+                    doc.removeEventListener('mouseup', end, true);
+                }
+                doc.removeEventListener('mousedown', end, true);
+            });
+            /* istanbul ignore next */
+            if (exception) {
+                throw exception;
+            }
+        };
+
+        handleEvents((doc) => {
+            /* istanbul ignore next */
+            if (isFromDragAPI) {
+                doc.addEventListener('dragover', move, true);
+                doc.addEventListener('drop', drop, true);
+                doc.addEventListener('dragend', end, true);
+            } else {
+                doc.addEventListener('mousemove', move, true);
+                doc.addEventListener('mouseup', end, true);
+            }
+            doc.addEventListener('mousedown', end, true);
+        });
+    }
+
+    /**
+     * 添加投放感应区
+     */
+    addSensor(sensor: ISensor) {
+        this.sensors.push(sensor);
+    }
+
+    /**
+     * 移除投放感应
+     */
+    removeSensor(sensor: ISensor) {
+        const i = this.sensors.indexOf(sensor);
+        if (i > -1) {
+            this.sensors.splice(i, 1);
+        }
+    }
+
+    /**
+     * 设置拖拽态
+     */
+    private setDraggingState(state: boolean) {
+        cursor.setDragging(state);
+    }
+
+    onDragstart(func: (e: LocateEvent) => any) {
+        this.emitter.on('dragstart', func);
+        return () => {
+            this.emitter.removeListener('dragstart', func);
+        };
+    }
+
+    onDrag(func: (e: LocateEvent) => any) {
+        this.emitter.on('drag', func);
+        return () => {
+            this.emitter.removeListener('drag', func);
+        };
+    }
+
+    onDragend(func: (x: { dragObject: DragObject; copy: boolean }) => any) {
+        this.emitter.on('dragend', func);
+        return () => {
+            this.emitter.removeListener('dragend', func);
+        };
     }
 }

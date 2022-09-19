@@ -1,7 +1,7 @@
 import { shallowRef, ShallowRef, watchEffect } from 'vue';
 import { EventEmitter } from 'events';
 import { ProjectSchema, RootSchema } from '@webank/letgo-types';
-import { ISimulator, isDocumentModel } from '../types';
+import { isDocumentModel } from '../types';
 import { Designer } from '../designer';
 import { DocumentModel } from '../document';
 
@@ -14,8 +14,6 @@ export class Project {
         componentsTree: [],
     };
 
-    private _simulator?: ISimulator;
-
     private _config: any = {};
 
     readonly documentsMap = new Map<string, DocumentModel>();
@@ -23,12 +21,6 @@ export class Project {
     readonly documents: DocumentModel[] = [];
 
     currentDocument: ShallowRef<DocumentModel | null> = shallowRef(null);
-    /**
-     * 模拟器
-     */
-    get simulator(): ISimulator | null {
-        return this._simulator || null;
-    }
 
     get config(): any {
         // TODO: parse layout Component
@@ -37,21 +29,6 @@ export class Project {
 
     set config(value: any) {
         this._config = value;
-    }
-
-    /**
-     * 提供给模拟器的参数
-     */
-    get simulatorProps(): object {
-        let { simulatorProps } = this.designer;
-        if (typeof simulatorProps === 'function') {
-            simulatorProps = simulatorProps(this);
-        }
-        return {
-            ...simulatorProps,
-            project: this,
-            onMount: this.mountSimulator.bind(this),
-        };
     }
 
     constructor(readonly designer: Designer, schema?: ProjectSchema) {
@@ -195,24 +172,6 @@ export class Project {
             return this.config;
         }
         return Reflect.get(this.data, key);
-    }
-
-    private mountSimulator(simulator: ISimulator) {
-        // TODO: 多设备 simulator 支持
-        this._simulator = simulator;
-        this.designer.editor.set('simulator', simulator);
-        this.emitter.emit('letgo_engine_simulator_ready', simulator);
-    }
-
-    setRendererReady(renderer: any) {
-        this.emitter.emit('letgo_engine_renderer_ready', renderer);
-    }
-
-    onRendererReady(fn: (args: any) => void): () => void {
-        this.emitter.on('letgo_engine_renderer_ready', fn);
-        return () => {
-            this.emitter.removeListener('letgo_engine_renderer_ready', fn);
-        };
     }
 
     onCurrentDocumentChange(fn: (doc: DocumentModel) => void): () => void {

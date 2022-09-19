@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { CSSProperties } from 'vue';
+import { CSSProperties, shallowRef, ShallowRef } from 'vue';
 import { ISimulator } from '../types';
 import { Project } from '../project';
 import { Designer, LocateEvent } from '../designer';
@@ -10,8 +10,8 @@ export interface DeviceStyleProps {
 }
 
 export interface SimulatorProps {
-    designMode?: 'live' | 'design' | 'preview' | 'extend' | 'border';
     device?: 'mobile' | 'iphone' | string;
+    deviceClassName?: string;
     [key: string]: any;
 }
 
@@ -26,7 +26,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
 
     readonly designer: Designer;
 
-    _props: SimulatorProps = {};
+    _props: ShallowRef<SimulatorProps> = shallowRef({});
 
     get sensorAvailable(): boolean {
         return this._sensorAvailable;
@@ -34,6 +34,10 @@ export class Simulator implements ISimulator<SimulatorProps> {
 
     get device(): string {
         return this.get('device') || 'default';
+    }
+
+    get deviceClassName(): string | undefined {
+        return this.get('deviceClassName');
     }
 
     get deviceStyle(): DeviceStyleProps | undefined {
@@ -46,18 +50,18 @@ export class Simulator implements ISimulator<SimulatorProps> {
     }
 
     setProps(props: SimulatorProps) {
-        this._props = props;
+        this._props.value = props;
     }
 
     set(key: string, value: any) {
-        this._props = {
-            ...this._props,
+        this._props.value = {
+            ...this._props.value,
             [key]: value,
         };
     }
 
     get(key: string): any {
-        return this._props[key];
+        return this._props.value[key];
     }
 
     fixEvent(e: LocateEvent): LocateEvent {

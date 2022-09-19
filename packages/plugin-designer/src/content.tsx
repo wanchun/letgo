@@ -28,12 +28,8 @@ export default defineComponent({
 
         onBeforeMount(async () => {
             const assets = await editor.onceGot('assets');
-            const renderEnv = engineConfig.get('renderEnv');
             const device = engineConfig.get('device');
-            const locale = engineConfig.get('locale');
-            const designMode = engineConfig.get('designMode');
             const deviceClassName = engineConfig.get('deviceClassName');
-            const simulatorUrl = engineConfig.get('simulatorUrl');
 
             const { components, packages, extraEnvironment, utils } = assets;
 
@@ -43,12 +39,8 @@ export default defineComponent({
                 library: packages || [],
                 utilsMetadata: utils || [],
                 extraEnvironment,
-                renderEnv,
                 device,
-                designMode,
                 deviceClassName,
-                simulatorUrl,
-                locale,
             });
         });
 

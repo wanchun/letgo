@@ -14,6 +14,7 @@ import { Project } from '../project';
 import { ComponentMeta } from '../component-meta';
 import { Node } from '../node';
 import { Dragon } from './dragon';
+import { SimulatorProps, Simulator } from '../simulator';
 
 export interface DesignerProps {
     editor: IEditor;
@@ -45,7 +46,9 @@ export class Designer {
 
     private _simulator?: ISimulator;
 
-    private _simulatorProps?: object | ((designer: Designer) => object);
+    private _simulatorProps?:
+        | SimulatorProps
+        | ((designer: Designer) => SimulatorProps);
 
     private props?: DesignerProps;
 
@@ -60,7 +63,10 @@ export class Designer {
         return this._simulator || null;
     }
 
-    get simulatorProps(): object {
+    get simulatorProps(): SimulatorProps & {
+        designer: Designer;
+        onMount?: (host: Simulator) => void;
+    } {
         let simulatorProps = this._simulatorProps;
         if (typeof simulatorProps === 'function') {
             simulatorProps = simulatorProps(this);

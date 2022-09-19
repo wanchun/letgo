@@ -1,6 +1,7 @@
 import { defineComponent, PropType, watch } from 'vue';
 import { Simulator, SimulatorProps } from './simulator';
 import { Designer } from '../designer';
+import './simulator-view.less';
 
 export const SimulatorView = defineComponent({
     name: 'SimulatorView',
@@ -31,10 +32,21 @@ export const SimulatorView = defineComponent({
         );
 
         return () => {
+            const { device, deviceStyle, deviceClassName } = host;
             return (
                 <div class="letgo-simulator">
-                    <div class="letgo-canvas">
-                        <div class="letgo-viewport"></div>
+                    <div
+                        class={[
+                            'letgo-simulator-canvas',
+                            deviceClassName ||
+                                `letgo-simulator-device-${device}`,
+                        ]}
+                        style={deviceStyle?.canvas}
+                    >
+                        <div
+                            class="letgo-simulator-canvas-viewport"
+                            style={deviceStyle?.viewport}
+                        ></div>
                     </div>
                 </div>
             );

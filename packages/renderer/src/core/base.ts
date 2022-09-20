@@ -1,7 +1,7 @@
 import type { NodeSchema, RootSchema } from '@webank/letgo-types';
 import type { Node } from '@webank/letgo-designer';
 import { Component, ComponentPublicInstance, PropType, VNodeProps } from 'vue';
-import { BlockScope, I18nMessages, RuntimeScope } from '../utils';
+import { BlockScope, RuntimeScope } from '../utils';
 
 export const rendererProps = {
     __scope: {
@@ -22,10 +22,6 @@ export const rendererProps = {
     __locale: {
         type: String,
     },
-    __messages: {
-        type: Object as PropType<I18nMessages>,
-        default: () => ({}),
-    },
     __getNode: {
         type: Function as PropType<(id: string) => Node<NodeSchema> | null>,
         required: true,
@@ -41,7 +37,6 @@ export const rendererProps = {
 export interface RendererProps {
     __scope?: BlockScope;
     __locale?: string;
-    __messages?: I18nMessages;
     __designMode?: 'live' | 'design';
     __schema: RootSchema;
     __components: Record<string, Component>;

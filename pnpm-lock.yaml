@@ -107,11 +107,16 @@ importers:
 
   packages/renderer:
     specifiers:
+      '@types/lodash-es': ^4.17.6
       '@webank/letgo-designer': ^1.0.0
       '@webank/letgo-types': ^1.0.0
+      lodash-es: ^4.17.21
     dependencies:
       '@webank/letgo-designer': link:../designer
       '@webank/letgo-types': link:../types
+      lodash-es: 4.17.21
+    devDependencies:
+      '@types/lodash-es': 4.17.6
 
   packages/simulator-renderer:
     specifiers: {}
@@ -1701,11 +1706,9 @@ packages:
     resolution: {integrity: sha512-R+zTeVUKDdfoRxpAryaQNRKk3105Rrgx2CFRClIgRGaqDTdjsm8h6IYA8ir584W3ePzkZfst5xIgDwYrlh9HLg==}
     dependencies:
       '@types/lodash': 4.14.182
-    dev: false
 
   /@types/lodash/4.14.182:
     resolution: {integrity: sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==}
-    dev: false
 
   /@types/normalize-wheel/1.0.0:
     resolution: {integrity: sha512-SzWYVzP7Q8w4/976Gi3a6+J/8/VNTq6AW7wDafXorr1MYTxyZqJTbUvwQt1hiG3PXyFUMIKr+s6q3+MLz2c/TQ==}

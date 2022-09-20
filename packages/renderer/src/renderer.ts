@@ -11,7 +11,7 @@ import type { Node } from '@webank/letgo-designer';
 
 import config from './config';
 import { RENDERER_COMPS } from './renderers';
-import { I18nMessages, BlockScope } from './utils';
+import { BlockScope } from './utils';
 
 interface RendererProps {
     scope?: BlockScope;
@@ -20,7 +20,6 @@ interface RendererProps {
     designMode?: 'live' | 'design';
     device?: string;
     locale?: string;
-    messages?: I18nMessages;
     getNode?: (id: string) => Node<NodeSchema> | null;
     onCompGetCtx?: (schema: NodeSchema, ref: ComponentPublicInstance) => void;
 }
@@ -53,10 +52,6 @@ const Renderer = defineComponent({
         locale: {
             type: String,
             default: undefined,
-        },
-        messages: {
-            type: Object as PropType<I18nMessages>,
-            default: () => ({}),
         },
         getNode: {
             type: Function as PropType<(id: string) => Node<NodeSchema> | null>,

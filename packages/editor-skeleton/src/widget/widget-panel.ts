@@ -25,6 +25,10 @@ export class WidgetPanel extends BaseWidget implements IWidget {
         });
     }
 
+    get panel(): Panel {
+        return this._panel;
+    }
+
     constructor(
         readonly skeleton: Skeleton,
         readonly config: IWidgetPanelConfig,

@@ -47,7 +47,7 @@ export const ProjectView = defineComponent({
             return (
                 <div class="letgo-project">
                     <div className="letgo-project-content">
-                        {!designer?.simulator?.renderer && <BuiltinLoading />}
+                        {/* {!designer?.simulator?.renderer && <BuiltinLoading />} */}
                         <SimulatorView simulatorProps={simulatorProps} />
                     </div>
                 </div>

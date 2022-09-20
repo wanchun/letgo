@@ -207,7 +207,7 @@ export class Dragon {
     ) {
         const { designer } = this;
         const handleEvents = makeEventsHandler(boostEvent, [
-            designer.project.simulator,
+            designer.simulator,
         ]);
         const isFromDragAPI = isDragEvent(boostEvent);
 
@@ -236,9 +236,7 @@ export class Dragon {
 
         const chooseSensor = (e: LocateEvent) => {
             // this.sensors will change on dragstart
-            const sensors: ISensor[] = this.sensors.concat(
-                designer.project.simulator,
-            );
+            const sensors: ISensor[] = [...this.sensors, designer.simulator];
             let sensor =
                 e.sensor && e.sensor.isEnter(e)
                     ? e.sensor

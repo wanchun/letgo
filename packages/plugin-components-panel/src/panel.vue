@@ -12,6 +12,7 @@
             :key="group"
             :name="group"
             :value="group"
+            displayDirective="show"
         >
             <div
                 v-for="(item, index) in categoryListRef[group]"
@@ -32,7 +33,7 @@
                         class="category-body-item"
                         :ref="
                             (el) => {
-                                handleDragstart(el, snippet);
+                                handleDrag(el, snippet);
                             }
                         "
                     >
@@ -60,8 +61,8 @@ import {
     shallowRef,
     Ref,
     computed,
-    onBeforeUnmount,
     onBeforeMount,
+    onUnmounted
 } from 'vue';
 import { Editor } from '@webank/letgo-editor-core';
 import { Designer } from '@webank/letgo-designer';
@@ -169,25 +170,38 @@ export default defineComponent({
             });
         });
 
-        onBeforeUnmount(() => {
+        onUnmounted(() => {
             if (unwatch) {
                 unwatch();
             }
         });
 
         const designer = props.designer;
-        const dragon = designer.dragon || null;
+        const dragon = designer.dragon;
 
-        const handleDragstart = (el: HTMLElement, snippet: Snippet) => {
+        const dragonMap = new Map<Element, () => void>();
+
+        const handleDrag = (el: Element, snippet: Snippet) => {
             if (!dragon) return;
-            dragon.from(el, (e: MouseEvent) => {
+            const lastClear = dragonMap.get(el);
+            if (lastClear) {
+                lastClear();
+            }
+            const clear = dragon.from(el, (e: MouseEvent) => {
                 var dragTarget = {
                     type: 'nodeData',
                     data: snippet.schema,
                 };
                 return dragTarget;
             });
+            dragonMap.set(el, clear);
         };
+
+        onUnmounted(() => {
+            dragonMap.forEach((clear) => {
+                clear();
+            });
+        });
 
         return {
             assetsRef,
@@ -195,7 +209,7 @@ export default defineComponent({
             categoryListRef,
             toggle,
             onSearch,
-            handleDragstart,
+            handleDrag,
         };
     },
 });

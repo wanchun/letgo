@@ -9,7 +9,7 @@ export class Area<C extends IWidgetBaseConfig, T extends IWidget = IWidget> {
 
     private _current: Ref<T | null> = shallowRef(null);
 
-    handle: (config: C | T) => T;
+    handle: (config: C) => T;
 
     get items() {
         return this._items;
@@ -63,7 +63,7 @@ export class Area<C extends IWidgetBaseConfig, T extends IWidget = IWidget> {
     constructor(
         readonly skeleton: Skeleton,
         readonly name: string,
-        handle: (item: T | C) => T,
+        handle: (item: C) => T,
     ) {
         this.skeleton = skeleton;
         this.name = name;
@@ -74,7 +74,7 @@ export class Area<C extends IWidgetBaseConfig, T extends IWidget = IWidget> {
         return this._items.value.length < 1;
     }
 
-    add(config: T | C): T {
+    add(config: C): T {
         const item = this.get(config.name);
         if (item) {
             return item;

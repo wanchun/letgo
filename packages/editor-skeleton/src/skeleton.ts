@@ -1,24 +1,39 @@
 import { Editor } from '@webank/letgo-editor-core';
 import {
     IWidget,
-    IWidgetBaseConfig,
     IWidgetConfig,
+    isWidgetConfig,
     IPanelConfig,
     IWidgetPanelConfig,
     IWidgetModalConfig,
     IModalConfig,
     isWidgetModalConfig,
-    isWidget,
     isModalConfig,
-    isModal,
-    IPanelProps,
     SkeletonEvents,
-    isPanel,
     isPanelConfig,
     isWidgetPanelConfig,
 } from './types';
 import { Area } from './area';
 import { Panel, Widget, Modal, WidgetModal, WidgetPanel } from './widget';
+
+export type CreateWidgetParam =
+    | IWidgetConfig
+    | IWidgetModalConfig
+    | IPanelConfig
+    | IWidgetPanelConfig
+    | IModalConfig;
+
+export type ReturnTypeOfCreateWidget<T> = T extends IWidgetModalConfig
+    ? WidgetModal
+    : T extends IPanelConfig
+    ? Panel
+    : T extends IWidgetPanelConfig
+    ? WidgetPanel
+    : T extends IModalConfig
+    ? Modal
+    : T extends IWidgetConfig
+    ? Widget
+    : never;
 
 export class Skeleton {
     readonly leftArea: Area<
@@ -53,82 +68,51 @@ export class Skeleton {
 
     constructor(readonly editor: Editor) {
         this.leftArea = new Area(this, 'leftArea', (config) => {
-            if (isWidget(config)) {
-                return config;
-            }
-            return this.createWidget(config) as Widget;
+            return this.createWidget(config);
         });
         this.topArea = new Area(this, 'topArea', (config) => {
-            if (isWidget(config)) {
-                return config;
-            }
-            return this.createWidget(config) as Widget;
+            return this.createWidget(config);
         });
         this.toolbar = new Area(this, 'toolbar', (config) => {
-            if (isWidget(config)) {
-                return config;
-            }
-            return this.createWidget(config) as Widget;
+            return this.createWidget(config);
         });
         this.bottomArea = new Area(this, 'bottomArea', (config) => {
-            if (isWidget(config)) {
-                return config;
-            }
-            return this.createWidget(config) as Widget;
+            return this.createWidget(config);
         });
         this.globalArea = new Area(this, 'globalArea', (config) => {
-            if (isModal(config)) {
-                return config;
-            }
-            return this.createWidget(config) as Modal;
+            return this.createWidget(config);
         });
         this.rightArea = new Area(this, 'rightArea', (config) => {
-            if (isPanel(config)) {
-                return config;
-            }
-            const panel = this.createWidget(config) as Panel;
-            return panel;
+            return this.createWidget(config);
         });
         this.leftFloatArea = new Area(this, 'leftFloatArea', (config) => {
-            if (isPanel(config)) {
-                return config;
-            }
-            const panel = this.createWidget(config) as Panel;
-            return panel;
+            return this.createWidget(config);
         });
         this.mainArea = new Area(this, 'mainArea', (config) => {
-            if (isWidget(config)) {
-                return config;
-            }
-            return this.createWidget(config) as Widget;
+            return this.createWidget(config);
         });
     }
 
-    createWidget(config: IWidgetBaseConfig | IWidget) {
-        if (isWidget(config)) {
-            return config;
-        }
+    createWidget<T = CreateWidgetParam>(config: T) {
         let widget;
         if (isModalConfig(config)) {
-            widget = new Modal(this, config as IModalConfig);
+            widget = new Modal(this, config);
         } else if (isWidgetModalConfig(config)) {
-            widget = new WidgetModal(this, config as IWidgetModalConfig);
+            widget = new WidgetModal(this, config);
         } else if (isPanelConfig(config)) {
-            widget = new Panel(this, config as IPanelConfig);
+            widget = new Panel(this, config);
         } else if (isWidgetPanelConfig(config)) {
-            widget = new WidgetPanel(this, config as IWidgetPanelConfig);
-        } else {
-            widget = new Widget(this, config as IWidgetConfig);
+            widget = new WidgetPanel(this, config);
+        } else if (isWidgetConfig(config)) {
+            widget = new Widget(this, config);
         }
-        this.widgets.push(widget);
-        return widget;
+        if (widget) {
+            this.widgets.push(widget);
+        }
+        return widget as ReturnTypeOfCreateWidget<T>;
     }
 
-    add(
-        config: IWidgetBaseConfig &
-            (IWidgetConfig | IWidgetModalConfig | IPanelProps),
-        extraConfig?: Record<string, any>,
-    ) {
+    add(config: CreateWidgetParam, extraConfig?: Record<string, any>) {
         const parsedConfig = {
             ...config,
             ...extraConfig,
@@ -137,10 +121,20 @@ export class Skeleton {
         switch (area) {
             case 'leftArea':
             case 'left':
-                return this.leftArea.add(parsedConfig as IWidgetConfig);
+                return this.leftArea.add(
+                    parsedConfig as
+                        | IWidgetConfig
+                        | IWidgetPanelConfig
+                        | IWidgetModalConfig,
+                );
             case 'topArea':
             case 'top':
-                return this.topArea.add(parsedConfig as IWidgetConfig);
+                return this.topArea.add(
+                    parsedConfig as
+                        | IWidgetConfig
+                        | IWidgetPanelConfig
+                        | IWidgetModalConfig,
+                );
             case 'global':
             case 'globalArea':
                 return this.globalArea.add(parsedConfig as IModalConfig);
@@ -148,15 +142,27 @@ export class Skeleton {
             case 'rightArea':
                 return this.rightArea.add(parsedConfig as IPanelConfig);
             case 'toolbar':
-                return this.toolbar.add(parsedConfig as IWidgetConfig);
+                return this.toolbar.add(
+                    parsedConfig as
+                        | IWidgetConfig
+                        | IWidgetPanelConfig
+                        | IWidgetModalConfig,
+                );
             case 'bottom':
             case 'bottomArea':
-                return this.bottomArea.add(parsedConfig as IWidgetConfig);
+                return this.bottomArea.add(
+                    parsedConfig as
+                        | IWidgetConfig
+                        | IWidgetPanelConfig
+                        | IWidgetModalConfig,
+                );
             case 'leftFloatArea':
                 return this.leftFloatArea.add(parsedConfig as IPanelConfig);
             case 'main':
             case 'mainArea':
-                return this.mainArea.add(parsedConfig as IWidgetConfig);
+                return this.mainArea.add(
+                    parsedConfig as IWidgetConfig | IPanelConfig,
+                );
 
             default:
             // do nothing

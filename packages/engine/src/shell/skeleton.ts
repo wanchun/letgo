@@ -2,9 +2,8 @@ import {
     Skeleton as InnerSkeleton,
     IWidgetBaseConfig,
     IWidgetConfigArea,
-    IWidgetConfig,
-    IWidgetModalConfig,
-    IPanelProps,
+    CreateWidgetParam,
+    ReturnTypeOfCreateWidget,
 } from '@webank/letgo-editor-skeleton';
 import { skeletonSymbol } from './symbols';
 
@@ -21,12 +20,14 @@ export class Skeleton {
      * @param extraConfig
      * @returns
      */
-    add(
-        config: IWidgetBaseConfig &
-            (IWidgetConfig | IWidgetModalConfig | IPanelProps),
+    add<T extends CreateWidgetParam>(
+        config: T,
         extraConfig?: Record<string, any>,
     ) {
-        return this[skeletonSymbol].add(config, extraConfig);
+        return this[skeletonSymbol].add(
+            config,
+            extraConfig,
+        ) as ReturnTypeOfCreateWidget<T>;
     }
 
     /**

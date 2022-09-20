@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { CSSProperties, shallowRef, ShallowRef } from 'vue';
+import { CSSProperties, ComputedRef, computed, reactive } from 'vue';
 import { ISimulator } from '../types';
 import { Project } from '../project';
 import { Designer, LocateEvent } from '../designer';
@@ -26,23 +26,23 @@ export class Simulator implements ISimulator<SimulatorProps> {
 
     readonly designer: Designer;
 
-    _props: ShallowRef<SimulatorProps> = shallowRef({});
+    _props: SimulatorProps = reactive({});
 
     get sensorAvailable(): boolean {
         return this._sensorAvailable;
     }
 
-    get device(): string {
+    device: ComputedRef<string> = computed(() => {
         return this.get('device') || 'default';
-    }
+    });
 
-    get deviceClassName(): string | undefined {
+    deviceClassName: ComputedRef<string | undefined> = computed(() => {
         return this.get('deviceClassName');
-    }
+    });
 
-    get deviceStyle(): DeviceStyleProps | undefined {
+    deviceStyle: ComputedRef<DeviceStyleProps | undefined> = computed(() => {
         return this.get('deviceStyle');
-    }
+    });
 
     constructor(designer: Designer) {
         this.designer = designer;
@@ -50,18 +50,18 @@ export class Simulator implements ISimulator<SimulatorProps> {
     }
 
     setProps(props: SimulatorProps) {
-        this._props.value = props;
+        for (const p in this._props) {
+            delete this._props[p];
+        }
+        Object.assign(this._props, props);
     }
 
     set(key: string, value: any) {
-        this._props.value = {
-            ...this._props.value,
-            [key]: value,
-        };
+        Object.assign(this._props, { [key]: value });
     }
 
     get(key: string): any {
-        return this._props.value[key];
+        return this._props[key];
     }
 
     fixEvent(e: LocateEvent): LocateEvent {
@@ -83,4 +83,6 @@ export class Simulator implements ISimulator<SimulatorProps> {
     ): NodeInstance<ComponentInstance> | null {
         return null;
     }
+
+    pure() {}
 }

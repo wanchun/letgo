@@ -35,7 +35,6 @@ export interface IWidgetBaseConfig {
     area: IWidgetConfigArea;
     props?: Record<string, any>;
     content: (arg: IContentArgument) => VNode | string;
-    // index?: number;
     [extra: string]: any;
 }
 
@@ -49,6 +48,10 @@ export interface IWidgetProps {
 export interface IWidgetConfig extends IWidgetBaseConfig {
     type: 'Widget';
     props?: IWidgetProps;
+}
+
+export function isWidgetConfig(obj: any): obj is IWidgetConfig {
+    return obj && obj.type === 'Widget';
 }
 
 export interface IModalProps {

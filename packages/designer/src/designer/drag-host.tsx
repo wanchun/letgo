@@ -40,30 +40,31 @@ export const DragHostView = defineComponent({
         ];
 
         const renderGhostGroup = () => {
-            if (isDragNodeObject(dragObject.value)) {
-                return dragObject.value.nodes.map((node) => {
+            const _dragObject = dragObject.value;
+            if (isDragNodeObject(_dragObject)) {
+                return _dragObject.nodes.map((node) => {
                     const ghost = (
-                        <div className="letgo-ghost" key={node.id}>
+                        <div class="letgo-ghost" key={node.id}>
                             {node.title}
                         </div>
                     );
                     return ghost;
                 });
-            } else if (isDragNodeDataObject(dragObject)) {
-                return Array.isArray(dragObject.data) ? (
-                    dragObject.data.map((item, index) => {
+            } else if (isDragNodeDataObject(_dragObject)) {
+                return Array.isArray(_dragObject.data) ? (
+                    _dragObject.data.map((item, index) => {
                         return (
-                            <div className="letgo-ghost" key={`ghost-${index}`}>
-                                <div className="letgo-ghost-title">
+                            <div class="letgo-ghost" key={`ghost-${index}`}>
+                                <div class="letgo-ghost-title">
                                     {item.componentName}
                                 </div>
                             </div>
                         );
                     })
                 ) : (
-                    <div className="letgo-ghost">
-                        <div className="letgo-ghost-title">
-                            {dragObject.data.componentName}
+                    <div class="letgo-ghost">
+                        <div class="letgo-ghost-title">
+                            {_dragObject.data.componentName}
                         </div>
                     </div>
                 );
@@ -78,13 +79,12 @@ export const DragHostView = defineComponent({
             if (!dragObject.value) {
                 return null;
             }
-
             return (
                 <div
-                    className="letgo-ghost-group"
+                    class="letgo-ghost-group"
                     style={{
-                        left: x.value,
-                        top: y.value,
+                        left: x.value + 'px',
+                        top: y.value + 'px',
                     }}
                 >
                     {renderGhostGroup()}

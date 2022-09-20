@@ -197,7 +197,6 @@ export class Designer {
     }
 
     private mountSimulator(simulator: ISimulator) {
-        // TODO: 多设备 simulator 支持
         this._simulator = simulator;
         this.editor.set('simulator', simulator);
         this.emitter.emit('letgo_engine_simulator_ready', simulator);

@@ -28,7 +28,9 @@
                 {
                     "title": "布局",
                     "screenshot": "https://alifd.oss-cn-hangzhou.aliyuncs.com/fusion-cool/icons/icon-light/ic_light_button.png",
-                    "schema": {}
+                    "schema": {
+                        "componentName": "FGrid"
+                    }
                 }
             ],
             "group": "精选组件",
@@ -46,7 +48,9 @@
                 {
                     "title": "按钮",
                     "screenshot": "https://alifd.oss-cn-hangzhou.aliyuncs.com/fusion-cool/icons/icon-light/ic_light_button.png",
-                    "schema": {}
+                    "schema": {
+                        "componentName": "FButton"
+                    }
                 }
             ],
             "group": "原子组件",
@@ -64,7 +68,9 @@
                 {
                     "title": "图片",
                     "screenshot": "https://img.alicdn.com/imgextra/i3/O1CN01tnhXhk1GUIFhsXwzA_!!6000000000625-55-tps-56-56.svg",
-                    "schema": {}
+                    "schema": {
+                        "componentName": "FImage"
+                    }
                 }
             ],
             "group": "原子组件",
@@ -82,7 +88,9 @@
                 {
                     "title": "输入框",
                     "screenshot": "https://img.alicdn.com/tfs/TB1CHN3u4z1gK0jSZSgXXavwpXa-112-64.png",
-                    "schema": {}
+                    "schema": {
+                        "componentName": "FInput"
+                    }
                 }
             ],
             "group": "原子组件",

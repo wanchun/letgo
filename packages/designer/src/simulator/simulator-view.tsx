@@ -1,4 +1,4 @@
-import { defineComponent, PropType, watch } from 'vue';
+import { defineComponent, PropType, onUnmounted, watch } from 'vue';
 import { Simulator, SimulatorProps } from './simulator';
 import { Designer } from '../designer';
 import './simulator-view.less';
@@ -20,7 +20,8 @@ export const SimulatorView = defineComponent({
 
         const host =
             (designer.simulator as Simulator) || new Simulator(designer);
-        host.setProps(props.simulatorProps);
+
+        const { device, deviceStyle, deviceClassName } = host;
 
         onMount?.(host);
 
@@ -29,27 +30,39 @@ export const SimulatorView = defineComponent({
             () => {
                 host.setProps(props.simulatorProps);
             },
+            {
+                immediate: true,
+            },
         );
 
-        return () => {
-            const { device, deviceStyle, deviceClassName } = host;
-            return (
-                <div class="letgo-simulator">
-                    <div
-                        class={[
-                            'letgo-simulator-canvas',
-                            deviceClassName ||
-                                `letgo-simulator-device-${device}`,
-                        ]}
-                        style={deviceStyle?.canvas}
-                    >
-                        <div
-                            class="letgo-simulator-canvas-viewport"
-                            style={deviceStyle?.viewport}
-                        ></div>
-                    </div>
-                </div>
-            );
+        onUnmounted(() => {
+            host.pure();
+        });
+
+        return {
+            deviceClassName,
+            device,
+            deviceStyle,
         };
+    },
+    render() {
+        const { deviceStyle, deviceClassName, device } = this;
+
+        return (
+            <div class="letgo-simulator">
+                <div
+                    class={[
+                        'letgo-simulator-canvas',
+                        deviceClassName || `letgo-simulator-device-${device}`,
+                    ]}
+                    style={deviceStyle?.canvas}
+                >
+                    <div
+                        class="letgo-simulator-canvas-viewport"
+                        style={deviceStyle?.viewport}
+                    ></div>
+                </div>
+            </div>
+        );
     },
 });

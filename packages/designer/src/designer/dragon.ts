@@ -351,6 +351,7 @@ export class Dragon {
             if (lastSensor) {
                 lastSensor.deActiveSensor();
             }
+            cursor.release();
             let exception;
             if (this._dragging) {
                 this._dragging = false;

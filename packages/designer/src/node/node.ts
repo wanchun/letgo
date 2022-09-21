@@ -81,22 +81,11 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     private _parent: ParentalNode | null = null;
 
     /**
-     * 【响应式】schema 结构
+     * 【响应式】获取符合搭建协议-节点 schema 结构
      */
-    reactiveSchema: ComputedRef<Schema> = computed(() => {
+    schema: ComputedRef<Schema> = computed(() => {
         return this.export(TransformStage.Save);
     });
-
-    /**
-     * 获取符合搭建协议-节点 schema 结构
-     */
-    get schema(): Schema {
-        return this.export(TransformStage.Save);
-    }
-
-    set schema(data: Schema) {
-        this.import(data);
-    }
 
     /**
      * 属性抽象
@@ -304,7 +293,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         const { componentName, id, children, props, ...extras } = data;
         if (this.isParental()) {
             this.props.import(props, extras);
-            this._children.import(children);
+            this.children.import(children);
         }
         if (this.isLeaf()) {
             this.props
@@ -343,7 +332,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
 
     remove(purge = true) {
         if (this._parent) {
-            this._parent._children?.deleteChild(this, purge);
+            this._parent.children?.deleteChild(this, purge);
         }
     }
 

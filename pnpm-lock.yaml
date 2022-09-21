@@ -4,10 +4,10 @@ importers:
 
   .:
     specifiers:
-      '@webank/eslint-config-ts': ^1.0.9
+      '@webank/eslint-config-ts': ^1.0.12
       typescript: ^4.7.4
     devDependencies:
-      '@webank/eslint-config-ts': 1.0.9_typescript@4.7.4
+      '@webank/eslint-config-ts': 1.0.12_typescript@4.7.4
       typescript: 4.7.4
 
   packages/designer:
@@ -106,7 +106,17 @@ importers:
       '@webank/letgo-types': link:../types
 
   packages/renderer:
-    specifiers: {}
+    specifiers:
+      '@types/lodash-es': ^4.17.6
+      '@webank/letgo-designer': ^1.0.0
+      '@webank/letgo-types': ^1.0.0
+      lodash-es: ^4.17.21
+    dependencies:
+      '@webank/letgo-designer': link:../designer
+      '@webank/letgo-types': link:../types
+      lodash-es: 4.17.21
+    devDependencies:
+      '@types/lodash-es': 4.17.6
 
   packages/simulator-renderer:
     specifiers: {}
@@ -1696,11 +1706,9 @@ packages:
     resolution: {integrity: sha512-R+zTeVUKDdfoRxpAryaQNRKk3105Rrgx2CFRClIgRGaqDTdjsm8h6IYA8ir584W3ePzkZfst5xIgDwYrlh9HLg==}
     dependencies:
       '@types/lodash': 4.14.182
-    dev: false
 
   /@types/lodash/4.14.182:
     resolution: {integrity: sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==}
-    dev: false
 
   /@types/normalize-wheel/1.0.0:
     resolution: {integrity: sha512-SzWYVzP7Q8w4/976Gi3a6+J/8/VNTq6AW7wDafXorr1MYTxyZqJTbUvwQt1hiG3PXyFUMIKr+s6q3+MLz2c/TQ==}
@@ -2078,8 +2086,8 @@ packages:
       vue-demi: 0.13.2_vue@3.2.37
     dev: false
 
-  /@webank/eslint-config-ts/1.0.9_typescript@4.7.4:
-    resolution: {integrity: sha512-e9RTUF4RGNgsmZoz1S5qCHF/Gyf6T4PhBeCpgs6NfIrTRG82DjBWGVa+IOEZqIV0X8XE6cASpB5Y5VPkh0r59g==}
+  /@webank/eslint-config-ts/1.0.12_typescript@4.7.4:
+    resolution: {integrity: sha512-L8iP/uJrZIqdKULsMuWpHXPoo/DVEGjbW7KpjrQqtDBU023zmcx3VobHpNsBNYpWodVuwGvml/KCc9rFeQ0Asw==}
     peerDependencies:
       typescript: ^4.3.5
     dependencies:
@@ -2479,7 +2487,7 @@ packages:
     dev: false
 
   /concat-map/0.0.1:
-    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
+    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=, tarball: concat-map/download/concat-map-0.0.1.tgz}
 
   /connect-history-api-fallback/1.6.0:
     resolution: {integrity: sha512-e54B99q/OUoH64zYYRf3HBP5z24G38h5D3qXu23JGRoigpX5Ss4r9ZnDk3g0Z8uQC2x2lPaJ+UlWBc1ZWBWdLg==}

@@ -202,6 +202,13 @@ export class Designer {
         this.emitter.emit('letgo_engine_simulator_ready', simulator);
     }
 
+    onSimulatorReady(fn: (args: any) => void): () => void {
+        this.emitter.on('letgo_engine_simulator_ready', fn);
+        return () => {
+            this.emitter.removeListener('letgo_engine_simulator_ready', fn);
+        };
+    }
+
     setRendererReady(renderer: any) {
         this.emitter.emit('letgo_engine_renderer_ready', renderer);
     }

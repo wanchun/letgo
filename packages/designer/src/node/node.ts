@@ -229,11 +229,28 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     }
 
     private initBuiltinProps() {
-        this.props.hasExtra('hidden') || this.props.addExtra(false, 'hidden');
+        if (this.props.hasExtra('hidden')) {
+            this.props.addExtra(false, 'hidden');
+        }
     }
 
     emitPropChange(val: PropChangeOptions) {
         this.emitter?.emit('propChange', val);
+    }
+
+    onPropChange(func: (info: PropChangeOptions) => void): () => void {
+        const wrappedFunc = wrapWithEventSwitch(func);
+        this.emitter.on('propChange', wrappedFunc);
+        return () => {
+            this.emitter.removeListener('propChange', wrappedFunc);
+        };
+    }
+
+    onChildrenChange(
+        fn: (param?: { type: string; node: Node }) => void,
+    ): (() => void) | undefined {
+        const wrappedFunc = wrapWithEventSwitch(fn);
+        return this.children?.onChange(wrappedFunc);
     }
 
     /**

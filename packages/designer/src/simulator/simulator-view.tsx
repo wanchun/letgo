@@ -1,7 +1,48 @@
-import { defineComponent, PropType, onUnmounted, watch } from 'vue';
+import {
+    defineComponent,
+    PropType,
+    onUnmounted,
+    watch,
+    CSSProperties,
+} from 'vue';
 import { Simulator, SimulatorProps } from './simulator';
 import { Designer } from '../designer';
+import { BemToolsView } from './bem-tools';
 import './simulator-view.less';
+
+const ContentView = defineComponent({
+    name: 'ContentView',
+    props: {
+        host: {
+            type: Object as PropType<Simulator>,
+        },
+    },
+    setup(props) {
+        const { host } = props;
+        return () => {
+            const { viewport } = host;
+            const frameStyle: CSSProperties = {
+                transform: `scale(${viewport.scale})`,
+                height: viewport.contentHeight,
+                width: viewport.contentWidth,
+            };
+            return (
+                <div class="letgo-simulator-content">
+                    <iframe
+                        name="SimulatorRenderer"
+                        class="letgo-simulator-content-frame"
+                        style={frameStyle}
+                        onLoad={(e) => {
+                            if (e.target instanceof HTMLIFrameElement) {
+                                host.mountContentFrame(e.target);
+                            }
+                        }}
+                    />
+                </div>
+            );
+        };
+    },
+});
 
 export const SimulatorView = defineComponent({
     name: 'SimulatorView',
@@ -43,10 +84,11 @@ export const SimulatorView = defineComponent({
             deviceClassName,
             device,
             deviceStyle,
+            host,
         };
     },
     render() {
-        const { deviceStyle, deviceClassName, device } = this;
+        const { deviceStyle, deviceClassName, device, host } = this;
 
         return (
             <div class="letgo-simulator">
@@ -58,9 +100,17 @@ export const SimulatorView = defineComponent({
                     style={deviceStyle?.canvas}
                 >
                     <div
+                        ref={(el) => {
+                            if (el instanceof HTMLElement) {
+                                host.mountViewport(el);
+                            }
+                        }}
                         class="letgo-simulator-canvas-viewport"
                         style={deviceStyle?.viewport}
-                    ></div>
+                    >
+                        <BemToolsView host={host} />
+                        <ContentView host={host} />
+                    </div>
                 </div>
             </div>
         );

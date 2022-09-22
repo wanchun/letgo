@@ -5,7 +5,10 @@ import {
     GetReturnType,
     AssetsJson,
     Emitter,
+    ComponentDescription,
+    RemoteComponentDescription,
 } from '@webank/letgo-types';
+import { AssetLoader } from '@webank/letgo-utils';
 
 export class Editor
     extends (EventEmitter as unknown as { new (): Emitter })
@@ -14,6 +17,42 @@ export class Editor
     private context = new Map<KeyType, any>();
 
     async setAssets(assets: AssetsJson) {
+        const { components } = assets;
+        if (components && components.length) {
+            const componentDescriptions: ComponentDescription[] = [];
+            const remoteComponentDescriptions: RemoteComponentDescription[] =
+                [];
+            components.forEach((component: any) => {
+                if (!component) {
+                    return;
+                }
+                if (component.exportName && component.url) {
+                    remoteComponentDescriptions.push(component);
+                } else {
+                    componentDescriptions.push(component);
+                }
+            });
+            assets.components = componentDescriptions;
+
+            // 如果有远程组件描述协议，则自动加载并补充到资产包中，同时出发 designer.incrementalAssetsReady 通知组件面板更新数据
+            if (
+                remoteComponentDescriptions &&
+                remoteComponentDescriptions.length
+            ) {
+                await Promise.all(
+                    remoteComponentDescriptions.map(async (component: any) => {
+                        const { exportName, url } = component;
+                        await new AssetLoader().load(url);
+                        if (window[exportName]) {
+                            assets.components = assets.components.concat(
+                                window[exportName].components || [],
+                            );
+                        }
+                        return window[exportName];
+                    }),
+                );
+            }
+        }
         this.set('assets', assets);
     }
 

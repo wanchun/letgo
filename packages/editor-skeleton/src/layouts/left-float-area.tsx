@@ -1,4 +1,12 @@
-import { defineComponent, PropType, ref, Ref, CSSProperties } from 'vue';
+import {
+    defineComponent,
+    PropType,
+    ref,
+    Ref,
+    CSSProperties,
+    onUnmounted,
+} from 'vue';
+import { Designer } from '@webank/letgo-designer';
 import { CloseOutlined, PasswordOutlined } from '@fesjs/fes-design/icon';
 import { Area } from '../area';
 import { IPanelConfig } from '../types';
@@ -13,9 +21,10 @@ export default defineComponent({
         },
     },
     setup(props) {
+        const { area } = props;
         const isFixedRef = ref(true);
         const style: Ref<CSSProperties> = computed(() => {
-            const { current, items } = props.area;
+            const { current, items } = area;
             if (!items.value.length || !current.value) {
                 return {
                     display: 'none',
@@ -45,8 +54,23 @@ export default defineComponent({
             isFixedRef.value = !isFixedRef.value;
         };
         const handleClose = () => {
-            props.area.unActiveAll();
+            area.unActiveAll();
         };
+
+        const designer: Designer = area.skeleton.editor.get('designer');
+
+        const clear = designer.dragon.onDragstart(() => {
+            if (isFixedRef.value) {
+                handleClose();
+            }
+        });
+
+        onUnmounted(() => {
+            if (clear) {
+                clear();
+            }
+        });
+
         return () => {
             const { area } = props;
             const { current, items } = area;

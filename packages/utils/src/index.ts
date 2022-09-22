@@ -3,3 +3,8 @@ export * from './unique-id';
 export * from './has-own-property';
 export * from './shallow-equal';
 export * from './cursor';
+export * from './is-element';
+export * from './is-css-url';
+export * from './asset';
+export * from './create-defer';
+export * from './script';

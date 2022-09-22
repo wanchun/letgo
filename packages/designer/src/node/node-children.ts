@@ -4,6 +4,11 @@ import { EventEmitter } from 'events';
 import { shallowRef, ShallowRef, triggerRef } from 'vue';
 import { ParentalNode, Node } from './node';
 
+export interface IOnChangeOptions {
+    type: string;
+    node: Node;
+}
+
 export type NodeRemoveOptions = {
     suppressRemoveEvent?: boolean;
 };
@@ -103,6 +108,13 @@ export class NodeChildren {
             type: 'unlink',
             node,
         });
+    }
+
+    onChange(fn: (info?: IOnChangeOptions) => void): () => void {
+        this.emitter.on('change', fn);
+        return () => {
+            this.emitter.removeListener('change', fn);
+        };
     }
 
     /**

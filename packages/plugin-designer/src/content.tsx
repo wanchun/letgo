@@ -31,14 +31,13 @@ export default defineComponent({
             const device = engineConfig.get('device');
             const deviceClassName = engineConfig.get('deviceClassName');
 
-            const { components, packages, extraEnvironment, utils } = assets;
+            const { components, packages, utils } = assets;
 
             componentMetadatas.value = components || [];
 
             Object.assign(simulatorProps, {
                 library: packages || [],
                 utilsMetadata: utils || [],
-                extraEnvironment,
                 device,
                 deviceClassName,
             });

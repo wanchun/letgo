@@ -33,11 +33,13 @@ importers:
     specifiers:
       '@types/events': ^3.0.0
       '@webank/letgo-types': ^1.0.0
+      '@webank/letgo-utils': ^1.0.0
       events: ^3.3.0
       lodash-es: ^4.17.21
       strict-event-emitter-types: ^2.0.0
     dependencies:
       '@webank/letgo-types': link:../types
+      '@webank/letgo-utils': link:../utils
       events: 3.3.0
       lodash-es: 4.17.21
       strict-event-emitter-types: 2.0.0
@@ -47,10 +49,12 @@ importers:
   packages/editor-skeleton:
     specifiers:
       '@fesjs/fes-design': ^0.7.0
+      '@webank/letgo-designer': ^1.0.0
       '@webank/letgo-editor-core': ^1.0.0
       '@webank/letgo-utils': ^1.0.0
     dependencies:
       '@fesjs/fes-design': 0.7.0
+      '@webank/letgo-designer': link:../designer
       '@webank/letgo-editor-core': link:../editor-core
       '@webank/letgo-utils': link:../utils
 
@@ -161,9 +165,11 @@ importers:
 
   packages/utils:
     specifiers:
+      '@webank/letgo-types': ^1.0.0
       lodash: ^4.17.21
       zen-logger: ^1.1.0
     dependencies:
+      '@webank/letgo-types': link:../types
       lodash: 4.17.21
       zen-logger: 1.1.4
 

@@ -5,7 +5,7 @@ import Panel from './panel.vue';
 export default {
     name: 'PluginComponentsPanel',
     init({ skeleton, editor, designer }) {
-        const widget = skeleton.add({
+        skeleton.add({
             name: 'ComponentsPanel',
             area: 'leftArea',
             type: 'WidgetPanel',
@@ -18,10 +18,6 @@ export default {
                 width: 500,
                 title: '组件库',
             },
-        });
-
-        designer.dragon.onDragstart(() => {
-            widget.panel.hide();
         });
     },
 } as IPluginConfig;

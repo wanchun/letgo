@@ -141,11 +141,11 @@ export class Designer {
         generateMetadata?: () => ComponentMetadata | null,
     ): ComponentMeta {
         if (this._componentMetaMap.has(componentName)) {
-            return this._componentMetaMap.get(componentName)!;
+            return this._componentMetaMap.get(componentName);
         }
 
         if (this._lostComponentMetaMap.has(componentName)) {
-            return this._lostComponentMetaMap.get(componentName)!;
+            return this._lostComponentMetaMap.get(componentName);
         }
 
         const meta = new ComponentMeta(this, {

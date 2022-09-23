@@ -2,9 +2,18 @@ import { get as lodashGet, isPlainObject } from 'lodash-es';
 
 export interface EngineOptions {
     /**
+     * 设置 simulator 相关的 url
+     */
+    simulatorUrl?: string[];
+    /**
      * 设备类型，默认值：'default'
      */
     device?: 'default' | 'mobile' | string;
+    /**
+     *
+     * 设计模式，live 模式将会实时展示变量值，默认值：'design'
+     */
+    designMode?: 'design' | 'live';
     /**
      * 指定初始化的 deviceClassName，挂载到画布的顶层节点上
      */
@@ -80,10 +89,15 @@ export class EngineConfig {
      * @memberof EngineConfig
      */
     setEngineOptions(engineOptions: EngineOptions) {
+        const defaultOptions: EngineOptions = {
+            device: 'default',
+            designMode: 'design',
+        };
         if (!engineOptions || !isPlainObject(engineOptions)) {
+            this.setConfig(defaultOptions);
             return;
         }
-        this.setConfig(engineOptions as any);
+        this.setConfig(Object.assign(defaultOptions, engineOptions));
     }
 
     /**

@@ -30,6 +30,8 @@ export default defineComponent({
             const assets = await editor.onceGot('assets');
             const device = engineConfig.get('device');
             const deviceClassName = engineConfig.get('deviceClassName');
+            const simulatorUrl = engineConfig.get('simulatorUrl');
+            const designMode = engineConfig.get('designMode');
 
             const { components, packages, utils } = assets;
 
@@ -40,6 +42,8 @@ export default defineComponent({
                 utilsMetadata: utils || [],
                 device,
                 deviceClassName,
+                simulatorUrl,
+                designMode,
             });
         });
 

@@ -1,7 +1,13 @@
 import { EventEmitter } from 'events';
 import { CSSProperties, ComputedRef, computed, reactive } from 'vue';
-import { getPublicPath } from '@webank/letgo-editor-core';
-import { Package, AssetList, AssetType, AssetLevel } from '@webank/letgo-types';
+import * as Vue from 'vue';
+import {
+    Package,
+    Asset,
+    AssetList,
+    AssetType,
+    AssetLevel,
+} from '@webank/letgo-types';
 import { assetItem, assetBundle } from '@webank/letgo-utils';
 import { ISimulator, ComponentInstance, NodeInstance } from '../types';
 import { Project } from '../project';
@@ -16,36 +22,15 @@ export interface DeviceStyleProps {
 }
 
 export interface SimulatorProps {
+    designMode?: 'live' | 'design' | 'preview' | 'extend' | 'border';
+    simulatorUrl?: Asset;
     device?: 'mobile' | 'iphone' | string;
     deviceClassName?: string;
     library?: Package[];
-    // utilsMetadata?: UtilsMetadata;
     [key: string]: any;
 }
 
-const defaultSimulatorUrl = (() => {
-    const publicPath = getPublicPath();
-    let urls;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [_, prefix = '', dev] = /^(.+?)(\/js)?\/?$/.exec(publicPath) || [];
-    if (dev) {
-        urls = [
-            `${prefix}/css/vue-simulator-renderer.css`,
-            `${prefix}/js/vue-simulator-renderer.js`,
-        ];
-    } else if (process.env.NODE_ENV === 'production') {
-        urls = [
-            `${prefix}/vue-simulator-renderer.css`,
-            `${prefix}/vue-simulator-renderer.js`,
-        ];
-    } else {
-        urls = [
-            `${prefix}/vue-simulator-renderer.css`,
-            `${prefix}/vue-simulator-renderer.js`,
-        ];
-    }
-    return urls;
-})();
+window.Vue = Vue;
 
 const defaultEnvironment = [
     assetItem(
@@ -170,10 +155,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
             assetBundle(libraryAsset, AssetLevel.Library),
 
             // required & use once
-            assetBundle(
-                this.get('simulatorUrl') || defaultSimulatorUrl,
-                AssetLevel.Runtime,
-            ),
+            assetBundle(this.get('simulatorUrl'), AssetLevel.Runtime),
         ];
 
         // wait 准备 iframe 内容、依赖库注入

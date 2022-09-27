@@ -94,6 +94,21 @@ export function isVueComponent(val: unknown): val is Component {
     return false;
 }
 
+export const genSlots = (components: NodeData[]) => {
+    const slotProps: SlotSchemaMap = {
+        default: [],
+    };
+    ensureArray(components).forEach((children) => {
+        if (isJSSlot(children)) {
+            slotProps[children.value.name] = children;
+        } else {
+            slotProps.default.push(children);
+        }
+    });
+
+    return slotProps;
+};
+
 export function useLeaf(props: LeafProps) {
     const { components, getNode, designMode } = useRendererContext();
 
@@ -196,19 +211,8 @@ export function useLeaf(props: LeafProps) {
     const buildSchema = () => {
         const { schema } = props;
 
-        const slotProps: SlotSchemaMap = {
-            default: [],
-        };
+        const slotProps: SlotSchemaMap = genSlots(schema.children);
         const normalProps: PropSchemaMap = {};
-
-        // 处理节点默认插槽，可能会被属性插槽覆盖
-        ensureArray(schema.children).forEach((children) => {
-            if (isJSSlot(children)) {
-                slotProps[children.value.name] = children;
-            } else {
-                slotProps.default.push(children);
-            }
-        });
 
         Object.entries(schema.props ?? {}).forEach(([key, val]) => {
             if (key === 'className') {

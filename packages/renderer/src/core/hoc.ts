@@ -10,8 +10,7 @@ import {
 } from 'vue';
 import { leafProps } from './base';
 import { useRendererContext } from '../context';
-import { ensureArray } from '../utils';
-import { PropSchemaMap, SlotSchemaMap, useLeaf } from './use';
+import { PropSchemaMap, SlotSchemaMap, useLeaf, genSlots } from './use';
 
 export const Hoc = defineComponent({
     name: 'Hoc',
@@ -33,7 +32,9 @@ export const Hoc = defineComponent({
         );
 
         const compProps: PropSchemaMap = reactive({});
-        const compSlots: SlotSchemaMap = reactive({});
+        const compSlots: SlotSchemaMap = reactive({
+            default: [],
+        });
         const result = buildSchema();
         Object.assign(compProps, result.props);
         Object.assign(compSlots, result.slots);
@@ -47,7 +48,7 @@ export const Hoc = defineComponent({
             disposeFunctions.push(
                 node.onChildrenChange(() => {
                     const schema = node.export(TransformStage.Render);
-                    compSlots.default = ensureArray(schema.children);
+                    Object.assign(compSlots, genSlots(schema.children));
                 }),
             );
             disposeFunctions.push(

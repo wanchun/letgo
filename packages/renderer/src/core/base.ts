@@ -1,4 +1,10 @@
-import type { NodeSchema, RootSchema } from '@webank/letgo-types';
+import type {
+    NodeSchema,
+    RootSchema,
+    NodeData,
+    JSExpression,
+    DOMText,
+} from '@webank/letgo-types';
 import type { Node } from '@webank/letgo-designer';
 import { Component, ComponentPublicInstance, PropType, VNodeProps } from 'vue';
 import { RuntimeScope } from '../utils';
@@ -76,3 +82,10 @@ export type LeafComponent = {
         $props: VNodeProps & LeafProps;
     };
 };
+
+export type SlotSchemaMap = {
+    default: RenderNode[];
+    [x: string]: NodeData | NodeData[] | undefined;
+};
+
+export type RenderNode = NodeSchema | JSExpression | DOMText;

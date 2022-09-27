@@ -5,7 +5,7 @@ import { leafProps } from './base';
 export const Live = defineComponent({
     props: leafProps,
     setup(props) {
-        const { buildSchema, buildProps, buildLoop, buildSlost, buildShow } =
+        const { buildSchema, buildProps, buildLoop, buildSlots, buildShow } =
             useLeaf(props);
 
         const { show } = buildShow(props.schema);
@@ -18,7 +18,7 @@ export const Live = defineComponent({
             loopArgs,
             compProps,
             compSlots,
-            buildSlost,
+            buildSlots,
             buildProps,
         };
     },
@@ -31,13 +31,13 @@ export const Live = defineComponent({
             compProps,
             compSlots,
             buildProps,
-            buildSlost,
+            buildSlots,
         } = this;
 
         if (!show) return null;
         if (!comp) return h('div', 'component not found');
         if (!loop) {
-            return h(comp, buildProps(compProps), buildSlost(compSlots));
+            return h(comp, buildProps(compProps), buildSlots(compSlots));
         }
 
         if (!Array.isArray(loop)) {
@@ -55,7 +55,7 @@ export const Live = defineComponent({
                 return h(
                     comp,
                     buildProps(compProps, blockScope),
-                    buildSlost(compSlots, blockScope),
+                    buildSlots(compSlots, blockScope),
                 );
             }),
         );

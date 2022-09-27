@@ -1,12 +1,9 @@
 import type { NodeSchema, RootSchema } from '@webank/letgo-types';
 import type { Node } from '@webank/letgo-designer';
 import { Component, ComponentPublicInstance, PropType, VNodeProps } from 'vue';
-import { BlockScope, RuntimeScope } from '../utils';
+import { RuntimeScope } from '../utils';
 
 export const rendererProps = {
-    __scope: {
-        type: Object as PropType<BlockScope>,
-    },
     __schema: {
         type: Object as PropType<RootSchema>,
         required: true,
@@ -18,9 +15,6 @@ export const rendererProps = {
     __components: {
         type: Object as PropType<Record<string, Component>>,
         required: true,
-    },
-    __locale: {
-        type: String,
     },
     __getNode: {
         type: Function as PropType<(id: string) => Node<NodeSchema> | null>,
@@ -35,8 +29,6 @@ export const rendererProps = {
 } as const;
 
 export interface RendererProps {
-    __scope?: BlockScope;
-    __locale?: string;
     __designMode?: 'live' | 'design';
     __schema: RootSchema;
     __components: Record<string, Component>;

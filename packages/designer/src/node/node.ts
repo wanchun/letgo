@@ -237,7 +237,9 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     emitPropChange(val: PropChangeOptions) {
         this.emitter?.emit('propChange', val);
     }
-
+    getProp(name: string) {
+        return this.props.getProp(name);
+    }
     onPropChange(func: (info: PropChangeOptions) => void): () => void {
         const wrappedFunc = wrapWithEventSwitch(func);
         this.emitter.on('propChange', wrappedFunc);

@@ -20,15 +20,14 @@ export const Hoc = defineComponent({
         const { triggerCompGetCtx } = useRendererContext();
         const {
             node,
-            locked,
             buildSchema,
             buildProps,
-            buildSlost,
+            buildSlots,
             buildLoop,
             buildShow,
         } = useLeaf(props);
 
-        const { show, hidden, condition } = buildShow(props.schema);
+        const { show, condition } = buildShow(props.schema);
         const { loop, updateLoop, updateLoopArg, buildLoopScope } = buildLoop(
             props.schema,
         );
@@ -54,12 +53,7 @@ export const Hoc = defineComponent({
             disposeFunctions.push(
                 node.onPropChange((info) => {
                     const { key, prop, newValue } = info;
-                    if (key === '___isLocked___') {
-                        locked.value = newValue;
-                    } else if (key === '___hidden___') {
-                        // 设计器控制组件渲染
-                        hidden(newValue);
-                    } else if (key === '___condition___') {
+                    if (key === '___condition___') {
                         // 条件渲染更新 v-if
                         condition(newValue);
                     } else if (key === '___loop___') {
@@ -89,7 +83,7 @@ export const Hoc = defineComponent({
             compSlots,
             compProps,
             getRef,
-            buildSlost,
+            buildSlots,
             buildProps,
             buildLoopScope,
         };
@@ -102,7 +96,7 @@ export const Hoc = defineComponent({
             compProps,
             compSlots,
             getRef,
-            buildSlost,
+            buildSlots,
             buildProps,
             buildLoopScope,
         } = this;
@@ -112,7 +106,7 @@ export const Hoc = defineComponent({
 
         if (!loop) {
             const props = buildProps(compProps, null, { ref: getRef });
-            const slots = buildSlost(compSlots);
+            const slots = buildSlots(compSlots);
             return h(comp, props, slots);
         }
 
@@ -128,7 +122,7 @@ export const Hoc = defineComponent({
                 const props = buildProps(compProps, blockScope, {
                     ref: getRef,
                 });
-                const slots = buildSlost(compSlots, blockScope);
+                const slots = buildSlots(compSlots, blockScope);
                 return h(comp, props, slots);
             }),
         );

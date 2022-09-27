@@ -45,7 +45,7 @@ export interface JSSlot {
         /**
          * 插槽参数
          */
-        args?: string;
+        args?: string[];
         components: NodeSchema[];
     };
 }

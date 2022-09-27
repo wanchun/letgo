@@ -6,6 +6,7 @@ import {
     TransformStage,
     CompositeObject,
     PropsList,
+    NpmInfo,
 } from '@webank/letgo-types';
 import { Component } from 'vue';
 import { EventEmitter } from 'events';
@@ -52,8 +53,16 @@ export class Designer {
 
     private props?: DesignerProps;
 
+    get componentMetaMap() {
+        return this._componentMetaMap;
+    }
+
     get currentDocument() {
         return this.project.currentDocument.value;
+    }
+
+    get currentSelection() {
+        return this.currentDocument?.selection;
     }
 
     /**
@@ -63,6 +72,9 @@ export class Designer {
         return this._simulator || null;
     }
 
+    /**
+     * 模拟器参数
+     */
     get simulatorProps(): SimulatorProps & {
         designer: Designer;
         onMount?: (host: Simulator) => void;
@@ -78,8 +90,25 @@ export class Designer {
         };
     }
 
-    get currentSelection() {
-        return this.currentDocument?.selection;
+    get componentsMap(): { [key: string]: NpmInfo | Component } {
+        const maps: any = {};
+        this._componentMetaMap.forEach((config, key) => {
+            const metaData = config.getMetadata();
+            if (metaData.devMode === 'lowCode') {
+                maps[key] = metaData.schema;
+            } else {
+                maps[key] = config.npm;
+            }
+        });
+        return maps;
+    }
+
+    get schema(): ProjectSchema {
+        return this.project.getSchema();
+    }
+
+    setSchema(schema?: ProjectSchema) {
+        this.project.load(schema);
     }
 
     constructor(props: DesignerProps) {

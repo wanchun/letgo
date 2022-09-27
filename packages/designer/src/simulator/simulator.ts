@@ -11,7 +11,7 @@ import {
 import { assetItem, assetBundle } from '@webank/letgo-utils';
 import { ISimulator, ComponentInstance, NodeInstance } from '../types';
 import { Project } from '../project';
-import { Designer, LocateEvent, Scroller } from '../designer';
+import { Designer, LocateEvent, Scroller, DropLocation } from '../designer';
 import { Viewport } from './viewport';
 import { ISimulatorRenderer } from './renderer';
 import { createSimulator } from './create-simulator';
@@ -74,6 +74,10 @@ export class Simulator implements ISimulator<SimulatorProps> {
      */
     autoRender = true;
 
+    get currentDocument() {
+        return this.project.currentDocument.value;
+    }
+
     get contentWindow() {
         return this._contentWindow;
     }
@@ -88,6 +92,11 @@ export class Simulator implements ISimulator<SimulatorProps> {
 
     get renderer() {
         return this._renderer;
+    }
+
+    get componentsMap() {
+        // renderer 依赖
+        return this.designer.componentsMap;
     }
 
     device: ComputedRef<string> = computed(() => {
@@ -221,11 +230,15 @@ export class Simulator implements ISimulator<SimulatorProps> {
         return libraryAsset;
     }
 
+    setupEvents() {
+        this.setupDragAndClick();
+    }
+
+    setupDragAndClick() {}
+
     postEvent(eventName: string, ...data: any[]) {
         this.emitter.emit(eventName, ...data);
     }
-
-    setupEvents() {}
 
     fixEvent(e: LocateEvent): LocateEvent {
         if (e.fixed) {
@@ -308,6 +321,27 @@ export class Simulator implements ISimulator<SimulatorProps> {
         specId?: string,
     ): NodeInstance<ComponentInstance> | null {
         return this.renderer?.getClosestNodeInstance(from, specId) || null;
+    }
+
+    /**
+     * @see ISimulator
+     */
+    setDraggingState(state: boolean) {
+        this.renderer?.setDraggingState(state);
+    }
+
+    /**
+     * @see ISimulator
+     */
+    setCopyState(state: boolean) {
+        this.renderer?.setCopyState(state);
+    }
+
+    /**
+     * @see ISimulator
+     */
+    clearState() {
+        this.renderer?.clearState();
     }
 
     pure() {}

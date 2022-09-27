@@ -6,7 +6,7 @@ import {
     ComponentMetadata,
 } from '@webank/letgo-types';
 import { h } from 'vue';
-import EventEmitter from 'events';
+import { EventEmitter } from 'events';
 import { isRegExp } from 'lodash-es';
 import { Designer } from './designer';
 import { isNode, Node, ParentalNode } from './node';
@@ -92,7 +92,7 @@ export function getRegisteredMetadataTransducers(): MetadataTransducer[] {
 export class ComponentMeta {
     readonly isComponentMeta = true;
 
-    private emitter: EventEmitter = new EventEmitter();
+    private emitter = new EventEmitter();
 
     private _npm?: NpmInfo;
 
@@ -117,6 +117,8 @@ export class ComponentMeta {
     private _isNullNode?: boolean;
 
     private _isMinimalRenderUnit?: boolean;
+
+    private _transformedMetadata?: ComponentMetadata;
 
     private disableBehaviors?: string[];
 
@@ -189,9 +191,9 @@ export class ComponentMeta {
 
     setMetadata(metadata: ComponentMetadata) {
         // 额外转换逻辑
-        const transformedMetadata = this.transformMetadata(metadata);
+        this._transformedMetadata = this.transformMetadata(metadata);
         const { componentName, npm, title, description, configure } =
-            transformedMetadata;
+            this._transformedMetadata;
         this._npm = npm || this._npm;
         this._componentName = componentName;
         this._title = title;
@@ -221,6 +223,10 @@ export class ComponentMeta {
             this._isModal = false;
         }
         this.emitter.emit('metadata_change');
+    }
+
+    getMetadata(): ComponentMetadata {
+        return this._transformedMetadata!;
     }
 
     isRootComponent(includeBlock = true) {

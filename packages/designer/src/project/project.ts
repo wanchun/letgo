@@ -1,6 +1,13 @@
 import { shallowRef, ShallowRef, watchEffect } from 'vue';
 import { EventEmitter } from 'events';
-import { ProjectSchema, RootSchema } from '@webank/letgo-types';
+import {
+    ProjectSchema,
+    RootSchema,
+    TransformStage,
+    ComponentsMap,
+    isProCodeComponentType,
+    isLowCodeComponentType,
+} from '@webank/letgo-types';
 import { isDocumentModel } from '../types';
 import { Designer } from '../designer';
 import { DocumentModel } from '../document';
@@ -36,6 +43,51 @@ export class Project {
             this.emitter.emit('current-document.change', this.currentDocument);
         });
         this.load(schema);
+    }
+
+    private getComponentsMap(): ComponentsMap {
+        return this.documents.reduce(
+            (componentsMap: ComponentsMap, curDoc: DocumentModel) => {
+                const curComponentsMap = curDoc.getComponentsMap();
+                if (Array.isArray(curComponentsMap)) {
+                    curComponentsMap.forEach((item) => {
+                        const found = componentsMap.find((eItem) => {
+                            if (
+                                isProCodeComponentType(eItem) &&
+                                isProCodeComponentType(item) &&
+                                eItem.package === item.package &&
+                                eItem.componentName === item.componentName
+                            ) {
+                                return true;
+                            } else if (
+                                isLowCodeComponentType(eItem) &&
+                                eItem.componentName === item.componentName
+                            ) {
+                                return true;
+                            }
+                            return false;
+                        });
+                        if (found) return;
+                        componentsMap.push(item);
+                    });
+                }
+                return componentsMap;
+            },
+            [] as ComponentsMap,
+        );
+    }
+
+    /**
+     * 获取项目整体 schema
+     */
+    getSchema(stage: TransformStage = TransformStage.Save): ProjectSchema {
+        return {
+            ...this.data,
+            componentsMap: this.getComponentsMap(),
+            componentsTree: this.documents
+                .filter((doc) => !doc.isBlank())
+                .map((doc) => doc.export(stage)),
+        };
     }
 
     load(schema?: ProjectSchema, autoOpen?: boolean | string) {

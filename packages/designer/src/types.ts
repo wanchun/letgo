@@ -2,8 +2,8 @@ import { Component } from 'vue';
 import { NodeSchema, PageSchema, ComponentSchema } from '@webank/letgo-types';
 import { Node, NodeChildren } from './node';
 import { DocumentModel } from './document';
-import { LocateEvent } from './designer/dragon';
-import { ScrollTarget } from './designer';
+import { ScrollTarget, LocateEvent, DropLocation } from './designer';
+import { ISimulatorRenderer } from './simulator';
 
 export type GetDataType<T, NodeType> = T extends undefined
     ? NodeType extends {
@@ -83,11 +83,25 @@ export interface ISensor {
 
 export interface ISimulator<P = object> extends ISensor {
     readonly isSimulator: true;
-
+    readonly viewport: IViewport;
     readonly contentWindow?: Window;
     readonly contentDocument?: Document;
 
+    readonly renderer?: ISimulatorRenderer;
+
     setProps(props: P): void;
+    /**
+     * 设置拖拽态
+     */
+    setDraggingState(state: boolean): void;
+    /**
+     * 设置拷贝态
+     */
+    setCopyState(state: boolean): void;
+    /**
+     * 清除所有态：拖拽态、拷贝态
+     */
+    clearState(): void;
 }
 
 export function isSimulator(obj: any): obj is ISimulator {

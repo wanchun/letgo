@@ -3,7 +3,7 @@ import { NodeSchema } from '@webank/letgo-types';
 import { cursor } from '@webank/letgo-utils';
 import { DocumentModel } from '../document';
 import { Node } from '../node';
-import { ISensor, ISimulator } from '../types';
+import { ISensor, ISimulator, isSimulator } from '../types';
 import { Designer } from './designer';
 import { makeEventsHandler } from '../utils';
 
@@ -200,15 +200,12 @@ export class Dragon {
      * @param dragObject 拖拽对象
      * @param boostEvent 拖拽初始时事件
      */
-    boost(
-        dragObject: DragObject,
-        boostEvent: MouseEvent | DragEvent,
-        fromRglNode?: Node,
-    ) {
+    boost(dragObject: DragObject, boostEvent: MouseEvent | DragEvent) {
         const { designer } = this;
         const handleEvents = makeEventsHandler(boostEvent, [
             designer.simulator,
         ]);
+        const newBie = !isDragNodeObject(dragObject);
         const isFromDragAPI = isDragEvent(boostEvent);
 
         let lastSensor: ISensor | undefined;
@@ -216,6 +213,36 @@ export class Dragon {
         this._dragging = false;
 
         const sourceSensor = getSourceSensor(dragObject);
+
+        let copy = false;
+        const checkCopy = (e: MouseEvent | DragEvent | KeyboardEvent) => {
+            /* istanbul ignore next */
+            if (isDragEvent(e) && e.dataTransfer) {
+                if (newBie) {
+                    e.dataTransfer.dropEffect = 'copy';
+                }
+                return;
+            }
+            if (newBie) {
+                return;
+            }
+
+            if (e.altKey || e.ctrlKey) {
+                copy = true;
+                this.setCopyState(true);
+                /* istanbul ignore next */
+                if (isDragEvent(e) && e.dataTransfer) {
+                    e.dataTransfer.dropEffect = 'copy';
+                }
+            } else {
+                copy = false;
+                this.setCopyState(false);
+                /* istanbul ignore next */
+                if (isDragEvent(e) && e.dataTransfer) {
+                    e.dataTransfer.dropEffect = 'move';
+                }
+            }
+        };
 
         const createLocateEvent = (e: MouseEvent | DragEvent): LocateEvent => {
             const evt: any = {
@@ -230,6 +257,36 @@ export class Dragon {
             if (!sourceDocument || sourceDocument === document) {
                 evt.globalX = e.clientX;
                 evt.globalY = e.clientY;
+            } else {
+                // event from simulator sandbox
+                let srcSim: ISimulator | undefined;
+                const lastSim =
+                    lastSensor && isSimulator(lastSensor) ? lastSensor : null;
+                // check source simulator
+                if (lastSim && lastSim.contentDocument === sourceDocument) {
+                    srcSim = lastSim;
+                } else {
+                    const masterSensor = designer.simulator;
+                    if (masterSensor.contentDocument === sourceDocument) {
+                        srcSim = masterSensor;
+                    }
+                    if (!srcSim && lastSim) {
+                        srcSim = lastSim;
+                    }
+                }
+                if (srcSim) {
+                    // transform point by simulator
+                    const g = srcSim.viewport.toGlobalPoint(e);
+                    evt.globalX = g.clientX;
+                    evt.globalY = g.clientY;
+                    evt.canvasX = e.clientX;
+                    evt.canvasY = e.clientY;
+                    evt.sensor = srcSim;
+                } else {
+                    // this condition will not happen, just make sure ts ok
+                    evt.globalX = e.clientX;
+                    evt.globalY = e.clientY;
+                }
             }
             return evt;
         };
@@ -264,16 +321,6 @@ export class Dragon {
             return sensor;
         };
 
-        const getRGL = (e: MouseEvent | DragEvent) => {
-            const locateEvent = createLocateEvent(e);
-            const sensor = chooseSensor(locateEvent);
-            if (!sensor || !sensor.getNodeInstanceFromElement) return null;
-            const nodeInst = sensor.getNodeInstanceFromElement(
-                e.target as Element,
-            );
-            return nodeInst?.node?.getRGL() || null;
-        };
-
         const dragstart = () => {
             this._dragging = true;
             setShaken(boostEvent);
@@ -285,6 +332,8 @@ export class Dragon {
 
         let lastArrive: any;
         const drag = (e: MouseEvent | DragEvent) => {
+            checkCopy(e);
+
             if (isInvalidPoint(e, lastArrive)) return;
 
             if (lastArrive && isSameAs(e, lastArrive)) {
@@ -356,7 +405,7 @@ export class Dragon {
             if (this._dragging) {
                 this._dragging = false;
                 try {
-                    this.emitter.emit('dragend', { dragObject });
+                    this.emitter.emit('dragend', { dragObject, copy });
                 } catch (ex) /* istanbul ignore next */ {
                     exception = ex;
                 }
@@ -372,6 +421,8 @@ export class Dragon {
                     doc.removeEventListener('mouseup', end, true);
                 }
                 doc.removeEventListener('mousedown', end, true);
+                doc.removeEventListener('keydown', checkCopy, false);
+                doc.removeEventListener('keyup', checkCopy, false);
             });
             /* istanbul ignore next */
             if (exception) {
@@ -391,6 +442,13 @@ export class Dragon {
             }
             doc.addEventListener('mousedown', end, true);
         });
+
+        if (!newBie && !isFromDragAPI) {
+            handleEvents((doc) => {
+                doc.addEventListener('keydown', checkCopy, false);
+                doc.addEventListener('keyup', checkCopy, false);
+            });
+        }
     }
 
     /**
@@ -411,10 +469,19 @@ export class Dragon {
     }
 
     /**
+     * 设置拷贝态
+     */
+    private setCopyState(state: boolean) {
+        cursor.setCopy(state);
+        this.designer.simulator.setCopyState(state);
+    }
+
+    /**
      * 设置拖拽态
      */
     private setDraggingState(state: boolean) {
         cursor.setDragging(state);
+        this.designer.simulator.setDraggingState(state);
     }
 
     onDragstart(func: (e: LocateEvent) => any) {

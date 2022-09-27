@@ -5,7 +5,10 @@ import {
     isJSSlot,
     isJSExpression,
     NodeData,
+    ComponentsMap,
+    TransformStage,
 } from '@webank/letgo-types';
+import { ComputedRef } from 'vue';
 import { EventEmitter } from 'events';
 import { RootNode, ISimulator, GetDataType } from '../types';
 import { Designer } from '../designer';
@@ -61,7 +64,7 @@ export class DocumentModel {
      * 模拟器
      */
     get simulator(): ISimulator | null {
-        return this.project.simulator;
+        return this.designer.simulator;
     }
 
     get nodesMap(): Map<string, Node> {
@@ -71,7 +74,7 @@ export class DocumentModel {
     /**
      * 导出 schema 数据
      */
-    get schema(): RootSchema {
+    get schema(): ComputedRef<RootSchema> {
         return this.rootNode?.schema;
     }
 
@@ -117,7 +120,7 @@ export class DocumentModel {
             this._blank = true;
         }
 
-        this.rootNode = this.createNode<RootNode>(
+        this.rootNode = this.createNode(
             schema || {
                 componentName: 'Page',
                 id: 'root',
@@ -129,6 +132,11 @@ export class DocumentModel {
         this.isMounted = true;
     }
 
+    export(stage: TransformStage = TransformStage.Serialize) {
+        const currentSchema = this.rootNode?.export(stage);
+        return currentSchema;
+    }
+
     getComponentMeta(componentName: string): ComponentMeta {
         return this.designer.getComponentMeta(
             componentName,
@@ -136,6 +144,45 @@ export class DocumentModel {
                 // this.simulator?.generateComponentMetadata(componentName) ||
                 null,
         );
+    }
+
+    getComponentsMap(extraComps?: string[]) {
+        const componentsMap: ComponentsMap = [];
+        // 组件去重
+        const existingMap: { [componentName: string]: boolean } = {};
+        for (const node of this._nodesMap.values()) {
+            const { componentName } = node || {};
+            if (componentName === 'Slot') continue;
+            if (!existingMap[componentName]) {
+                existingMap[componentName] = true;
+                if (node.componentMeta?.npm?.package) {
+                    componentsMap.push({
+                        ...node.componentMeta.npm,
+                        componentName,
+                    });
+                } else {
+                    componentsMap.push({
+                        devMode: 'lowCode',
+                        componentName,
+                    });
+                }
+            }
+        }
+        // 合并外界传入的自定义渲染的组件
+        if (Array.isArray(extraComps)) {
+            extraComps.forEach((c) => {
+                if (c && !existingMap[c]) {
+                    const m = this.getComponentMeta(c);
+                    if (m && m.npm?.package) {
+                        componentsMap.push({
+                            ...m?.npm,
+                            componentName: c,
+                        });
+                    }
+                }
+            });
+        }
+        return componentsMap;
     }
 
     /**

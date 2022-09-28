@@ -202,6 +202,20 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         return this.isRoot() && this.componentName === 'Component';
     }
 
+    /**
+     * 获取当前节点的锁定状态
+     */
+    get isLocked(): boolean {
+        return !!this.props.getExtraProp('isLocked')?.getValue();
+    }
+
+    /**
+     * 锁住当前节点
+     */
+    setLock(flag = true) {
+        this.props.getExtraProp('isLocked').setValue(flag);
+    }
+
     constructor(
         readonly document: DocumentModel,
         nodeSchema: Schema,
@@ -230,7 +244,10 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
 
     private initBuiltinProps() {
         if (this.props.hasExtra('hidden')) {
-            this.props.addExtra(false, 'hidden');
+            this.props.addExtra('hidden', false);
+        }
+        if (this.props.hasExtra('isLocked')) {
+            this.props.addExtra('isLocked', false);
         }
     }
 

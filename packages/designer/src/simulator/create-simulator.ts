@@ -16,14 +16,15 @@ import {
 import { ISimulatorRenderer } from './renderer';
 
 export function createSimulator(
-    host: Simulator,
+    simulator: Simulator,
     iframe: HTMLIFrameElement,
     vendors: AssetList = [],
 ): Promise<ISimulatorRenderer> {
     const win: any = iframe.contentWindow;
     const doc = iframe.contentDocument;
 
-    win.LCSimulatorHost = host;
+    // 注入host
+    win.LCSimulator = simulator;
 
     const styles: any = {};
     const scripts: any = {};
@@ -106,12 +107,12 @@ export function createSimulator(
     doc.close();
 
     return new Promise((resolve) => {
-        const renderer = win.SimulatorRenderer || host.renderer;
+        const renderer = win.SimulatorRenderer || simulator.renderer;
         if (renderer) {
             return resolve(renderer);
         }
         const loaded = () => {
-            resolve(win.SimulatorRenderer || host.renderer);
+            resolve(win.SimulatorRenderer || simulator.renderer);
             win.removeEventListener('load', loaded);
         };
         win.addEventListener('load', loaded);

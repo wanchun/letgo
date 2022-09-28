@@ -28,10 +28,10 @@ export class DocumentModel {
 
     readonly designer: Designer;
 
-    /**
-     * 操作记录控制
-     */
-    readonly history: History;
+    // /**
+    //  * 操作记录控制
+    //  */
+    // readonly history: History;
 
     /**
      * 选区控制
@@ -103,7 +103,7 @@ export class DocumentModel {
             ((rootNode: RootNode) => Node) | null
         >('focusNodeSelector');
         if (selector && typeof selector === 'function') {
-            return selector(this.rootNode!);
+            return selector(this.rootNode);
         }
         return this.rootNode;
     }

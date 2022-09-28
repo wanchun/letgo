@@ -7,29 +7,38 @@ import {
     CompositeObject,
     PropsList,
     NpmInfo,
+    isNodeSchema,
+    ComponentSchema,
 } from '@webank/letgo-types';
 import { Component } from 'vue';
 import { EventEmitter } from 'events';
 import { ISimulator } from '../types';
 import { Project } from '../project';
 import { ComponentMeta } from '../component-meta';
-import { Node } from '../node';
-import { Dragon } from './dragon';
+import { Node, insertChildren } from '../node';
+import {
+    Dragon,
+    isDragNodeObject,
+    isDragNodeDataObject,
+    LocateEvent,
+    DragObject,
+} from './dragon';
+import { DropLocation, isLocationChildrenDetail } from './location';
 import { SimulatorProps, Simulator } from '../simulator';
 
 export interface DesignerProps {
     editor: IEditor;
     defaultSchema?: ProjectSchema;
-    simulatorProps?: object | ((project: Project) => object);
+    simulatorProps?: SimulatorProps | ((designer: Designer) => SimulatorProps);
     simulatorComponent?: Component;
     componentMetadatas?: ComponentMetadata[];
-    // onDragstart?: (e: LocateEvent) => void;
-    // onDrag?: (e: LocateEvent) => void;
-    // onDragend?: (
-    //     e: { dragObject: DragObject; copy: boolean },
-    //     loc?: DropLocation,
-    // ) => void;
-    [key: string]: any;
+    onDragstart?: (e: LocateEvent) => void;
+    onDrag?: (e: LocateEvent) => void;
+    onDragend?: (
+        e: { dragObject: DragObject; copy: boolean },
+        loc?: DropLocation,
+    ) => void;
+    [key: string]: unknown;
 }
 
 export class Designer {
@@ -47,6 +56,8 @@ export class Designer {
 
     private _simulator?: ISimulator;
 
+    private _dropLocation?: DropLocation;
+
     private _simulatorProps?:
         | SimulatorProps
         | ((designer: Designer) => SimulatorProps);
@@ -60,6 +71,10 @@ export class Designer {
     get currentDocument() {
         return this.project.currentDocument.value;
     }
+
+    // get currentHistory() {
+    //     return this.currentDocument?.history;
+    // }
 
     get currentSelection() {
         return this.currentDocument?.selection;
@@ -77,7 +92,7 @@ export class Designer {
      */
     get simulatorProps(): SimulatorProps & {
         designer: Designer;
-        onMount?: (host: Simulator) => void;
+        onMount: (host: Simulator) => void;
     } {
         let simulatorProps = this._simulatorProps;
         if (typeof simulatorProps === 'function') {
@@ -90,8 +105,8 @@ export class Designer {
         };
     }
 
-    get componentsMap(): { [key: string]: NpmInfo | Component } {
-        const maps: any = {};
+    get componentsMap() {
+        const maps: { [key: string]: NpmInfo | ComponentSchema } = {};
         this._componentMetaMap.forEach((config, key) => {
             const metaData = config.getMetadata();
             if (metaData.devMode === 'lowCode') {
@@ -107,13 +122,116 @@ export class Designer {
         return this.project.getSchema();
     }
 
-    setSchema(schema?: ProjectSchema) {
-        this.project.load(schema);
+    get dropLocation() {
+        return this._dropLocation;
     }
 
     constructor(props: DesignerProps) {
         this.editor = props.editor;
         this.project = new Project(this, props.defaultSchema);
+
+        this.dragon.onDragstart((e) => {
+            const { dragObject } = e;
+            if (isDragNodeObject(dragObject)) {
+                if (dragObject.nodes.length === 1) {
+                    if (dragObject.nodes[0].parent) {
+                        // ensure current selecting
+                        dragObject.nodes[0].select();
+                    } else {
+                        this.currentSelection?.clear();
+                    }
+                }
+            } else {
+                this.currentSelection?.clear();
+            }
+            if (this.props?.onDragstart) {
+                this.props.onDragstart(e);
+            }
+            this.postEvent('dragstart', e);
+        });
+
+        this.dragon.onDrag((e) => {
+            if (this.props?.onDrag) {
+                this.props.onDrag(e);
+            }
+            this.postEvent('drag', e);
+        });
+
+        this.dragon.onDragend((e) => {
+            const { dragObject, copy } = e;
+            const loc = this._dropLocation;
+            if (loc) {
+                if (
+                    isLocationChildrenDetail(loc.detail) &&
+                    loc.detail.valid !== false
+                ) {
+                    let nodes: Node[] | undefined;
+                    if (isDragNodeObject(dragObject)) {
+                        nodes = insertChildren(
+                            loc.target,
+                            [...dragObject.nodes],
+                            loc.detail.index,
+                            copy,
+                        );
+                    } else if (isDragNodeDataObject(dragObject)) {
+                        // process nodeData
+                        const nodeData = Array.isArray(dragObject.data)
+                            ? dragObject.data
+                            : [dragObject.data];
+                        const isNotNodeSchema = nodeData.find(
+                            (item) => !isNodeSchema(item),
+                        );
+                        if (isNotNodeSchema) {
+                            return;
+                        }
+                        nodes = insertChildren(
+                            loc.target,
+                            nodeData,
+                            loc.detail.index,
+                        );
+                    }
+                    if (nodes) {
+                        loc.document.selection.selectAll(
+                            nodes.map((o) => o.id),
+                        );
+                    }
+                }
+            }
+            if (this.props?.onDragend) {
+                this.props.onDragend(e, loc);
+            }
+            this.postEvent('dragend', e, loc);
+        });
+
+        this.dragon.onDropLocationChange((loc) => {
+            this.postEvent('dropLocation.change', loc);
+        });
+
+        this.project.onCurrentDocumentChange(() => {
+            this.postEvent('current-document.change', this.currentDocument);
+            this.setupSelection();
+        });
+
+        this.postEvent('init', this);
+    }
+
+    setupSelection = () => {
+        let selectionDispose: undefined | (() => void);
+        if (selectionDispose) {
+            selectionDispose();
+            selectionDispose = undefined;
+        }
+        const { currentSelection } = this;
+        this.postEvent('selection.change', currentSelection);
+        if (currentSelection) {
+            selectionDispose = currentSelection.onSelectionChange(() => {
+                this.postEvent('selection.change', currentSelection);
+            });
+        }
+    };
+
+    setSchema(schema?: ProjectSchema) {
+        this.project.load(schema);
     }
 
     setProps(nextProps: DesignerProps) {
@@ -187,7 +305,7 @@ export class Designer {
         return meta;
     }
 
-    postEvent(event: string, ...args: any[]) {
+    postEvent(event: string, ...args: unknown[]) {
         this.editor.emit(`designer.${event}`, ...args);
     }
 
@@ -231,25 +349,28 @@ export class Designer {
         this.emitter.emit('letgo_engine_simulator_ready', simulator);
     }
 
-    onSimulatorReady(fn: (args: any) => void): () => void {
+    onSimulatorReady(fn: (args: ISimulator) => void): () => void {
         this.emitter.on('letgo_engine_simulator_ready', fn);
         return () => {
             this.emitter.removeListener('letgo_engine_simulator_ready', fn);
         };
     }
 
-    setRendererReady(renderer: any) {
+    setRendererReady(renderer: unknown) {
         this.emitter.emit('letgo_engine_renderer_ready', renderer);
     }
 
-    onRendererReady(fn: (args: any) => void): () => void {
+    onRendererReady(fn: (args: unknown) => void): () => void {
         this.emitter.on('letgo_engine_renderer_ready', fn);
         return () => {
             this.emitter.removeListener('letgo_engine_renderer_ready', fn);
         };
     }
 
-    purge() {}
+    purge() {
+        this._componentMetaMap.clear();
+        this._lostComponentMetaMap.clear();
+    }
 }
 
 export type PropsReducerContext = { stage: TransformStage };

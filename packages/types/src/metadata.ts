@@ -1,7 +1,7 @@
 import { VNode } from 'vue';
 import { PropConfig, PropType } from './prop-config';
 import { NpmInfo } from './npm';
-import { NodeSchema } from './schema';
+import { NodeSchema, ComponentSchema } from './schema';
 
 /**
  * 可用片段
@@ -35,6 +35,10 @@ export interface Configure {
      * 通用扩展面板支持性配置
      */
     supports?: ConfigureSupport;
+    /**
+     * 高级特性配置
+     */
+    advanced?: Advanced;
 }
 
 /**
@@ -69,6 +73,10 @@ export interface ComponentMetadata {
      * npm 源引入完整描述对象
      */
     npm?: NpmInfo;
+    /**
+     * lowCode组件的 schema
+     */
+    schema?: ComponentSchema;
     /**
      * 组件属性信息
      */
@@ -246,4 +254,54 @@ export interface ComponentAction {
 
 export function isActionContentObject(obj: any): obj is ActionContentObject {
     return obj && typeof obj === 'object';
+}
+
+export interface Advanced {
+    /**
+     * 配置 callbacks 可捕获引擎抛出的一些事件，例如 onNodeAdd、onResize 等
+     */
+    callbacks?: Callbacks;
+}
+
+/**
+ * 配置 callbacks 可捕获引擎抛出的一些事件，例如 onNodeAdd、onResize 等
+ */
+export interface Callbacks {
+    // hooks
+    onMouseDownHook?: (e: MouseEvent, currentNode: any) => any;
+    onDblClickHook?: (e: MouseEvent, currentNode: any) => any;
+    onClickHook?: (e: MouseEvent, currentNode: any) => any;
+    onMoveHook?: (currentNode: any) => boolean;
+    // thinkof 限制性拖拽
+    onHoverHook?: (currentNode: any) => boolean;
+    onChildMoveHook?: (childNode: any, currentNode: any) => boolean;
+
+    // events
+    onNodeRemove?: (removedNode: any, currentNode: any) => void;
+    onNodeAdd?: (addedNode: any, currentNode: any) => void;
+    onSubtreeModified?: (currentNode: any, options: any) => void;
+    onResize?: (
+        e: MouseEvent & {
+            trigger: string;
+            deltaX?: number;
+            deltaY?: number;
+        },
+        currentNode: any,
+    ) => void;
+    onResizeStart?: (
+        e: MouseEvent & {
+            trigger: string;
+            deltaX?: number;
+            deltaY?: number;
+        },
+        currentNode: any,
+    ) => void;
+    onResizeEnd?: (
+        e: MouseEvent & {
+            trigger: string;
+            deltaX?: number;
+            deltaY?: number;
+        },
+        currentNode: any,
+    ) => void;
 }

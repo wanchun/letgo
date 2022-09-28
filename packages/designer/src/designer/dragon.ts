@@ -4,8 +4,9 @@ import { cursor } from '@webank/letgo-utils';
 import { DocumentModel } from '../document';
 import { Node } from '../node';
 import { ISensor, ISimulator, isSimulator } from '../types';
-import { Designer } from './designer';
 import { makeEventsHandler } from '../utils';
+import { Designer } from './designer';
+import { DropLocation, LocationData } from './location';
 
 export enum DragObjectType {
     Node = 'node',
@@ -21,12 +22,12 @@ export interface DragNodeDataObject {
     type: DragObjectType.NodeData;
     data: NodeSchema | NodeSchema[];
     description?: string;
-    [extra: string]: any;
+    [extra: string]: unknown;
 }
 
 export interface DragAnyObject {
     type: string;
-    [key: string]: any;
+    [key: string]: unknown;
 }
 
 export type DragObject = DragNodeObject | DragNodeDataObject | DragAnyObject;
@@ -466,6 +467,29 @@ export class Dragon {
         if (i > -1) {
             this.sensors.splice(i, 1);
         }
+    }
+
+    private _dropLocation?: DropLocation;
+
+    get dropLocation() {
+        return this._dropLocation;
+    }
+
+    /**
+     * 创建插入位置，考虑放到 dragon 中
+     */
+    createLocation(locationData: LocationData): DropLocation {
+        const loc = new DropLocation(locationData);
+        this._dropLocation = loc;
+        this.emitter.emit('dropLocation.change', loc);
+        return loc;
+    }
+
+    onDropLocationChange(func: (loc: DropLocation) => any) {
+        this.emitter.on('dropLocation.change', func);
+        return () => {
+            this.emitter.removeListener('dropLocation.change', func);
+        };
     }
 
     /**

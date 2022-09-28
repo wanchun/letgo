@@ -53,17 +53,17 @@ export class Props {
         if (Array.isArray(value)) {
             this.type = 'list';
             value.forEach((item) => {
-                this.add(item.value, item.name);
+                this.add(item.name, item.value);
             });
         } else if (value != null) {
             this.type = 'map';
             Object.keys(value).forEach((key) => {
-                this.add(value[key], key);
+                this.add(key, value[key]);
             });
         }
         if (extras) {
             Object.keys(extras).forEach((key) => {
-                this.add((extras as any)[key], getConvertedExtraKey(key));
+                this.add(getConvertedExtraKey(key), extras[key]);
             });
         }
     }
@@ -75,12 +75,12 @@ export class Props {
         if (Array.isArray(value)) {
             this.type = 'list';
             value.forEach((item) => {
-                this.add(item.value, item.name);
+                this.add(item.name, item.value);
             });
         } else if (value != null) {
             this.type = 'map';
             Object.keys(value).forEach((key) => {
-                this.add(value[key], key);
+                this.add(key, value[key]);
             });
         } else {
             this.type = 'map';
@@ -88,7 +88,7 @@ export class Props {
 
         if (extras) {
             Object.keys(extras).forEach((key) => {
-                this.add((extras as any)[key], getConvertedExtraKey(key));
+                this.add(getConvertedExtraKey(key), extras[key]);
             });
         }
     }
@@ -159,7 +159,7 @@ export class Props {
     getProp(key: string, createIfNone = true): Prop | null {
         let prop = this.itemMap.get(key);
         if (!prop && createIfNone) {
-            prop = this.add(UNSET, key);
+            prop = this.add(key, UNSET);
         }
 
         if (prop) {
@@ -181,7 +181,7 @@ export class Props {
         return this.itemMap.has(getConvertedExtraKey(key));
     }
 
-    add(value: CompositeValue | null | UNSET, key?: string | number): Prop {
+    add(key: string | number, value: CompositeValue | null | UNSET): Prop {
         const prop = new Prop(this, value, key);
         this.items.value.push(prop);
         this.itemMap.set(prop.key, prop);
@@ -189,11 +189,8 @@ export class Props {
         return prop;
     }
 
-    addExtra(
-        value: CompositeValue | null | UNSET,
-        key?: string | number,
-    ): Prop {
-        return this.add(value, getConvertedExtraKey(String(key)));
+    addExtra(key: string | number, value: CompositeValue | null | UNSET): Prop {
+        return this.add(getConvertedExtraKey(String(key)), value);
     }
 
     delete(prop: Prop): void {
@@ -204,14 +201,6 @@ export class Props {
             prop.purge();
             triggerRef(this.items);
         }
-    }
-
-    getPropValue(path: string): any {
-        return this.getProp(path, false)?.value;
-    }
-
-    setPropValue(path: string, value: any) {
-        this.getProp(path).setValue(value);
     }
 
     purge() {

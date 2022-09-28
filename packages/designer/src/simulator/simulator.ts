@@ -11,7 +11,16 @@ import {
 import { assetItem, assetBundle } from '@webank/letgo-utils';
 import { ISimulator, ComponentInstance, NodeInstance } from '../types';
 import { Project } from '../project';
-import { Designer, LocateEvent, Scroller, DropLocation } from '../designer';
+import {
+    Designer,
+    LocateEvent,
+    Scroller,
+    DropLocation,
+    DragObjectType,
+    isShaken,
+} from '../designer';
+import { getClosestClickableNode } from '../utils';
+import { Node } from '../node';
 import { Viewport } from './viewport';
 import { ISimulatorRenderer } from './renderer';
 import { createSimulator } from './create-simulator';
@@ -110,6 +119,10 @@ export class Simulator implements ISimulator<SimulatorProps> {
     deviceStyle: ComputedRef<DeviceStyleProps | undefined> = computed(() => {
         return this.get('deviceStyle');
     });
+
+    get designMode(): string {
+        return this.get('designMode');
+    }
 
     constructor(designer: Designer) {
         this.designer = designer;
@@ -231,10 +244,101 @@ export class Simulator implements ISimulator<SimulatorProps> {
     }
 
     setupEvents() {
-        this.setupDragAndClick();
+        this.setupDrag();
+        this.setupDetecting();
     }
 
-    setupDragAndClick() {}
+    /**
+     * iframe-render拖拽处理
+     */
+    setupDrag() {
+        const { designer, project } = this;
+        const doc = this.contentDocument;
+        doc.addEventListener('mousedown', (downEvent: MouseEvent) => {
+            document.dispatchEvent(new Event('mousedown'));
+            const documentModel = project.currentDocument.value;
+            if (!documentModel) {
+                return;
+            }
+            const { selection } = documentModel;
+            let isMulti = false;
+            if (this.designMode === 'design') {
+                isMulti = downEvent.metaKey || downEvent.ctrlKey;
+            } else if (!downEvent.metaKey) {
+                return;
+            }
+            const nodeInst = this.getNodeInstanceFromElement(
+                downEvent.target as Element,
+            );
+            const focusNode = documentModel.focusNode;
+            const node = getClosestClickableNode(
+                nodeInst?.node || focusNode,
+                downEvent,
+            );
+            // 如果找不到可点击的节点, 直接返回
+            if (!node) {
+                return;
+            }
+            downEvent.stopPropagation();
+            downEvent.preventDefault();
+
+            const isClickLeft = downEvent.button === 0;
+
+            if (isClickLeft && !node.contains(focusNode)) {
+                let nodes: Node[] = [node];
+                let ignoreUpSelected = false;
+                if (isMulti) {
+                    // multi select mode, directily add
+                    if (!selection.has(node.id)) {
+                        selection.add(node.id);
+                        ignoreUpSelected = true;
+                    }
+                    selection.remove(focusNode.id);
+                    // 获得顶层 nodes
+                    nodes = selection.getTopNodes();
+                } else if (selection.containsNode(node, true)) {
+                    nodes = selection.getTopNodes();
+                } else {
+                    // will clear current selection & select dragment in dragstart
+                }
+                designer.dragon.boost(
+                    {
+                        type: DragObjectType.Node,
+                        nodes,
+                    },
+                    downEvent,
+                );
+                if (ignoreUpSelected) {
+                    // multi select mode has add selected, should return
+                    return;
+                }
+            }
+            const checkSelect = (e: MouseEvent) => {
+                doc.removeEventListener('mouseup', checkSelect, true);
+                if (!isShaken(downEvent, e)) {
+                    const { id } = node;
+                    if (
+                        isMulti &&
+                        !node.contains(focusNode) &&
+                        selection.has(id)
+                    ) {
+                        selection.remove(id);
+                    } else {
+                        selection.select(
+                            node.contains(focusNode) ? focusNode.id : id,
+                        );
+                    }
+                }
+            };
+
+            doc.addEventListener('mouseup', checkSelect, true);
+        });
+    }
+
+    /**
+     * iframe-render悬停处理
+     */
+    setupDetecting() {}
 
     postEvent(eventName: string, ...data: any[]) {
         this.emitter.emit(eventName, ...data);

@@ -11,25 +11,18 @@ import type { Node } from '@webank/letgo-designer';
 
 import config from './config';
 import { RENDERER_COMPS } from './renderers';
-import { BlockScope } from './utils';
 
 interface RendererProps {
-    scope?: BlockScope;
     schema: RootSchema;
     components: Record<string, Component>;
     designMode?: 'live' | 'design';
     device?: string;
-    locale?: string;
     getNode?: (id: string) => Node<NodeSchema> | null;
     onCompGetCtx?: (schema: NodeSchema, ref: ComponentPublicInstance) => void;
 }
 
 const Renderer = defineComponent({
     props: {
-        scope: {
-            type: Object as PropType<BlockScope>,
-            default: undefined,
-        },
         schema: {
             type: Object as PropType<RootSchema>,
             required: true,
@@ -45,11 +38,6 @@ const Renderer = defineComponent({
         },
         /** 设备信息 */
         device: {
-            type: String,
-            default: undefined,
-        },
-        /** 语言 */
-        locale: {
             type: String,
             default: undefined,
         },
@@ -84,7 +72,7 @@ const Renderer = defineComponent({
 
         const renderContent = () => {
             const { value: components } = componentsRef;
-            const { schema, scope, locale, messages, designMode } = props;
+            const { schema, designMode } = props;
             if (!schema) return null;
 
             const { componentName } = schema!;
@@ -98,10 +86,7 @@ const Renderer = defineComponent({
             return Comp
                 ? h(Comp, {
                       key: schema.id,
-                      __scope: scope,
                       __schema: schema,
-                      __locale: locale,
-                      __messages: messages,
                       __components: components,
                       __designMode: designMode,
                       __getNode: getNode,
@@ -111,14 +96,10 @@ const Renderer = defineComponent({
         };
 
         return () => {
-            const { device, locale } = props;
+            const { device } = props;
             const configProvider = config.getConfigProvider();
             return configProvider
-                ? h(
-                      configProvider,
-                      { device, locale },
-                      { default: renderContent },
-                  )
+                ? h(configProvider, { device }, { default: renderContent })
                 : renderContent();
         };
     },

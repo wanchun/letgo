@@ -10,8 +10,7 @@ import {
 } from 'vue';
 import { leafProps } from './base';
 import { useRendererContext } from '../context';
-import { ensureArray } from '../utils';
-import { PropSchemaMap, SlotSchemaMap, useLeaf } from './use';
+import { PropSchemaMap, SlotSchemaMap, useLeaf, genSlots } from './use';
 
 export const Hoc = defineComponent({
     name: 'Hoc',
@@ -20,21 +19,22 @@ export const Hoc = defineComponent({
         const { triggerCompGetCtx } = useRendererContext();
         const {
             node,
-            locked,
             buildSchema,
             buildProps,
-            buildSlost,
+            buildSlots,
             buildLoop,
             buildShow,
         } = useLeaf(props);
 
-        const { show, hidden, condition } = buildShow(props.schema);
+        const { show, condition } = buildShow(props.schema);
         const { loop, updateLoop, updateLoopArg, buildLoopScope } = buildLoop(
             props.schema,
         );
 
         const compProps: PropSchemaMap = reactive({});
-        const compSlots: SlotSchemaMap = reactive({});
+        const compSlots: SlotSchemaMap = reactive({
+            default: [],
+        });
         const result = buildSchema();
         Object.assign(compProps, result.props);
         Object.assign(compSlots, result.slots);
@@ -48,18 +48,13 @@ export const Hoc = defineComponent({
             disposeFunctions.push(
                 node.onChildrenChange(() => {
                     const schema = node.export(TransformStage.Render);
-                    compSlots.default = ensureArray(schema.children);
+                    Object.assign(compSlots, genSlots(schema.children));
                 }),
             );
             disposeFunctions.push(
                 node.onPropChange((info) => {
                     const { key, prop, newValue } = info;
-                    if (key === '___isLocked___') {
-                        locked.value = newValue;
-                    } else if (key === '___hidden___') {
-                        // 设计器控制组件渲染
-                        hidden(newValue);
-                    } else if (key === '___condition___') {
+                    if (key === '___condition___') {
                         // 条件渲染更新 v-if
                         condition(newValue);
                     } else if (key === '___loop___') {
@@ -89,7 +84,7 @@ export const Hoc = defineComponent({
             compSlots,
             compProps,
             getRef,
-            buildSlost,
+            buildSlots,
             buildProps,
             buildLoopScope,
         };
@@ -102,7 +97,7 @@ export const Hoc = defineComponent({
             compProps,
             compSlots,
             getRef,
-            buildSlost,
+            buildSlots,
             buildProps,
             buildLoopScope,
         } = this;
@@ -112,7 +107,7 @@ export const Hoc = defineComponent({
 
         if (!loop) {
             const props = buildProps(compProps, null, { ref: getRef });
-            const slots = buildSlost(compSlots);
+            const slots = buildSlots(compSlots);
             return h(comp, props, slots);
         }
 
@@ -128,7 +123,7 @@ export const Hoc = defineComponent({
                 const props = buildProps(compProps, blockScope, {
                     ref: getRef,
                 });
-                const slots = buildSlost(compSlots, blockScope);
+                const slots = buildSlots(compSlots, blockScope);
                 return h(comp, props, slots);
             }),
         );

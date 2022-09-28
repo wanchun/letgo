@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@webank/eslint-config-ts": "^1.0.12",
+    "@webank/eslint-config-ts": "^1.1.1",
     "typescript": "^4.7.4"
   }
 }

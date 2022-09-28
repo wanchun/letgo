@@ -1,3 +1,5 @@
+import { Component, ComponentPublicInstance, PropType, VNodeProps } from 'vue';
+import { RuntimeScope } from '../utils';
 import type {
     NodeSchema,
     RootSchema,
@@ -6,8 +8,6 @@ import type {
     DOMText,
 } from '@webank/letgo-types';
 import type { Node } from '@webank/letgo-designer';
-import { Component, ComponentPublicInstance, PropType, VNodeProps } from 'vue';
-import { RuntimeScope } from '../utils';
 
 export const rendererProps = {
     __schema: {

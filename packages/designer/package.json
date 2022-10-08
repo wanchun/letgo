@@ -8,7 +8,7 @@
     "src"
   ],
   "main": "src/index.ts",
-  "module": "src/index.ts",
+  "module": "es/index.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -28,5 +28,6 @@
   "license": "ISC",
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "types": "./es/index.d.ts"
 }

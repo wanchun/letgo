@@ -39,9 +39,6 @@ import {
 } from '@webank/letgo-types';
 import { isNil, isString, camelCase, pickBy, isFunction } from 'lodash-es';
 import { contextFactory, useRendererContext } from '../context';
-import { LeafProps, RendererProps } from './base';
-import { Hoc } from './hoc';
-import { Live } from './live';
 import {
     isObject,
     ensureArray,
@@ -51,6 +48,9 @@ import {
     parseExpression,
 } from '../utils';
 import { MaybeArray, BlockScope, RuntimeScope } from '../utils';
+import { LeafProps, RendererProps } from './base';
+import { Hoc } from './hoc';
+import { Live } from './live';
 
 const LIFTCYCLES_MAP = {
     beforeMount: onBeforeMount,

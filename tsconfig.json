@@ -11,7 +11,7 @@
         "forceConsistentCasingInFileNames": true,
         "experimentalDecorators": true,
         "composite": true,
-        "target": "ES6",
+        "target": "ESNext",
         "allowJs": false,
         "outDir": "./es",
         "types": ["node", "jest"],

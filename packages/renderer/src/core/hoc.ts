@@ -8,8 +8,8 @@ import {
     onUnmounted,
     defineComponent,
 } from 'vue';
-import { leafProps } from './base';
 import { useRendererContext } from '../context';
+import { leafProps } from './base';
 import { PropSchemaMap, SlotSchemaMap, useLeaf, genSlots } from './use';
 
 export const Hoc = defineComponent({

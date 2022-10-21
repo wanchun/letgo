@@ -1,3 +1,4 @@
+import { EventEmitter } from 'events';
 import {
     NpmInfo,
     NestingFilter,
@@ -6,16 +7,16 @@ import {
     ComponentMetadata,
 } from '@webank/letgo-types';
 import { h } from 'vue';
-import { EventEmitter } from 'events';
 import { isRegExp } from 'lodash-es';
-import { Designer } from './designer';
-import { isNode, Node, ParentalNode } from './node';
-import { componentDefaults } from './transducers';
 import {
     DeleteOutlined,
     CloseOutlined,
     PlusOutlined,
 } from '@fesjs/fes-design/icon';
+import { Designer } from './designer';
+import { isNode, Node } from './node';
+import { componentDefaults } from './transducers';
+import { ParentalNode } from './types';
 
 export function ensureAList(list?: string | string[]): string[] | null {
     if (!list) {

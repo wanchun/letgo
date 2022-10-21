@@ -1,5 +1,5 @@
-import { reactive } from 'vue';
 import { EventEmitter } from 'events';
+import { reactive } from 'vue';
 import { Node, comparePosition, PositionNO } from '../node/node';
 import { DocumentModel } from './document-model';
 

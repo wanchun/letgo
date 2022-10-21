@@ -1,8 +1,6 @@
 import { EventEmitter } from 'events';
 import {
     NodeSchema,
-    PageSchema,
-    ComponentSchema,
     GlobalEvent,
     isDOMText,
     isJSExpression,
@@ -13,6 +11,7 @@ import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
 import { computed, ComputedRef } from 'vue';
 import { ComponentMeta } from '../component-meta';
 import { DocumentModel } from '../document';
+import { RootNode, ParentalNode, LeafNode } from '../types';
 import { NodeChildren } from './node-children';
 import { Props } from './props';
 
@@ -25,21 +24,6 @@ export type PropChangeOptions = Omit<
     GlobalEvent.Node.Prop.ChangeOptions,
     'node'
 >;
-
-export interface ParentalNode<T extends NodeSchema = NodeSchema>
-    extends Node<T> {
-    readonly children: NodeChildren;
-}
-
-export interface LeafNode extends Node {
-    readonly children: null;
-}
-
-export type PageNode = ParentalNode<PageSchema>;
-
-export type ComponentNode = ParentalNode<ComponentSchema>;
-
-export type RootNode = PageNode | ComponentNode;
 
 export class Node<Schema extends NodeSchema = NodeSchema> {
     private emitter = new EventEmitter();

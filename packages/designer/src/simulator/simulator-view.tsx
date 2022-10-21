@@ -5,8 +5,8 @@ import {
     watch,
     CSSProperties,
 } from 'vue';
-import { Simulator, SimulatorProps } from './simulator';
 import { Designer } from '../designer';
+import { Simulator, SimulatorProps } from './simulator';
 import { BemToolsView } from './bem-tools';
 import './simulator-view.less';
 

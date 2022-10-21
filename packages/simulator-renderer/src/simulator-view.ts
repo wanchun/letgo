@@ -1,7 +1,7 @@
 import { defineComponent, h, PropType } from 'vue';
 import LowCodeRenderer from '@webank/letgo-renderer';
-import { DocumentInstance, VueSimulatorRenderer } from './interface';
 import { RouterView } from 'vue-router';
+import { DocumentInstance, VueSimulatorRenderer } from './interface';
 
 export const Layout = defineComponent({
     props: {

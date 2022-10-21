@@ -1,5 +1,5 @@
-import { getClosestNode, canClickNode } from './node-helper';
 import { Node } from '../node';
+import { getClosestNode, canClickNode } from './node-helper';
 
 /**
  * 获取离当前节点最近的可点击节点

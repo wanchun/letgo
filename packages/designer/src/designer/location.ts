@@ -1,5 +1,6 @@
 import { DocumentModel } from '../document';
-import { Node as ComponentNode, ParentalNode } from '../node';
+import { Node as ComponentNode } from '../node';
+import { ParentalNode } from '../types';
 import { LocateEvent } from './dragon';
 
 export interface LocationData {
@@ -42,11 +43,6 @@ export type LocationDetail =
     | LocationChildrenDetail
     | LocationPropDetail
     | { type: string; [key: string]: any };
-
-export interface Point {
-    clientX: number;
-    clientY: number;
-}
 
 export interface CanvasPoint {
     canvasX: number;

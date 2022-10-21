@@ -1,3 +1,4 @@
+import { EventEmitter } from 'events';
 import { uniqueId } from '@webank/letgo-utils';
 import {
     RootSchema,
@@ -9,17 +10,10 @@ import {
     TransformStage,
 } from '@webank/letgo-types';
 import { ComputedRef } from 'vue';
-import { EventEmitter } from 'events';
-import { RootNode, ISimulator, GetDataType } from '../types';
+import { RootNode, ISimulator, GetDataType, ParentalNode } from '../types';
 import { Designer } from '../designer';
 import { Project } from '../project';
-import {
-    Node,
-    NodeOption,
-    ParentalNode,
-    insertChild,
-    insertChildren,
-} from '../node/node';
+import { Node, NodeOption, insertChild, insertChildren } from '../node/node';
 import { ComponentMeta } from '../component-meta';
 import { Selection } from './selection';
 

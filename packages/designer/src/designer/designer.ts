@@ -1,3 +1,4 @@
+import { EventEmitter } from 'events';
 import {
     IEditor,
     ProjectSchema,
@@ -11,11 +12,11 @@ import {
     ComponentSchema,
 } from '@webank/letgo-types';
 import { Component } from 'vue';
-import { EventEmitter } from 'events';
 import { ISimulator } from '../types';
 import { Project } from '../project';
 import { ComponentMeta } from '../component-meta';
 import { Node, insertChildren } from '../node';
+import { SimulatorProps, Simulator } from '../simulator';
 import {
     Dragon,
     isDragNodeObject,
@@ -24,7 +25,6 @@ import {
     DragObject,
 } from './dragon';
 import { DropLocation, isLocationChildrenDetail } from './location';
-import { SimulatorProps, Simulator } from '../simulator';
 
 export interface DesignerProps {
     editor: IEditor;

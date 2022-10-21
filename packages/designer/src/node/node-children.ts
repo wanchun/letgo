@@ -1,9 +1,9 @@
+import { EventEmitter } from 'events';
 import { NodeData, isNodeSchema, TransformStage } from '@webank/letgo-types';
 import { shallowEqual } from '@webank/letgo-utils';
-import { EventEmitter } from 'events';
 import { shallowRef, ShallowRef, triggerRef } from 'vue';
-import { ParentalNode, Node } from './node';
-
+import { ParentalNode } from '../types';
+import { Node } from './node';
 export interface IOnChangeOptions {
     type: string;
     node: Node;

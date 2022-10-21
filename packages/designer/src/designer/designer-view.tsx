@@ -8,10 +8,10 @@ import {
 } from 'vue';
 import { IEditor, ProjectSchema, ComponentMetadata } from '@webank/letgo-types';
 import { FSpin } from '@fesjs/fes-design';
-import { Designer } from './designer';
 import { SimulatorView } from '../simulator';
-import { DragHostView } from './drag-host';
 import { Project } from '../project';
+import { Designer } from './designer';
+import { DragHostView } from './drag-host';
 import './designer-view.less';
 
 const BuiltinLoading = defineComponent({

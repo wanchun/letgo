@@ -1,5 +1,5 @@
-import { shallowRef, ShallowRef, watchEffect } from 'vue';
 import { EventEmitter } from 'events';
+import { shallowRef, ShallowRef, watchEffect } from 'vue';
 import {
     ProjectSchema,
     RootSchema,

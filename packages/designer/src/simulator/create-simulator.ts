@@ -1,5 +1,4 @@
 // NOTE: 仅用作类型标注，切勿作为实体使用
-import { Simulator } from './simulator';
 import {
     isAssetBundle,
     isAssetItem,
@@ -12,6 +11,7 @@ import {
     AssetList,
     AssetType,
 } from '@webank/letgo-types';
+import { Simulator } from './simulator';
 
 import { ISimulatorRenderer } from './renderer';
 

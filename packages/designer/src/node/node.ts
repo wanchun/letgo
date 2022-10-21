@@ -1,3 +1,4 @@
+import { EventEmitter } from 'events';
 import {
     NodeSchema,
     PageSchema,
@@ -9,7 +10,6 @@ import {
     NodeData,
 } from '@webank/letgo-types';
 import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
-import { EventEmitter } from 'events';
 import { computed, ComputedRef } from 'vue';
 import { ComponentMeta } from '../component-meta';
 import { DocumentModel } from '../document';

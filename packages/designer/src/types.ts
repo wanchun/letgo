@@ -28,14 +28,6 @@ export type ComponentNode = ParentalNode<ComponentSchema>;
 
 export type RootNode = PageNode | ComponentNode;
 
-export function isNode(node: any): node is Node {
-    return node && node.isNode;
-}
-
-export function isRootNode(node: Node): node is RootNode {
-    return node && node.isRoot();
-}
-
 export function isDocumentModel(obj: any): obj is DocumentModel {
     return obj && obj.rootNode;
 }

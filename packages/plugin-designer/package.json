@@ -7,8 +7,8 @@
     "lib",
     "src"
   ],
-  "main": "src/index.tsx",
-  "module": "src/index.tsx",
+  "main": "lib/index.js",
+  "module": "es/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -27,5 +27,6 @@
   "license": "ISC",
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "types": "./es/index.d.ts"
 }

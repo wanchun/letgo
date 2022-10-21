@@ -1,24 +1,24 @@
 {
     "compilerOptions": {
+        "lib": ["ES2015", "DOM"],
+        "target": "ESNext",
+        "module": "ESNext",
+        "jsx": "preserve",
+        "moduleResolution": "Node",
         "strict": true,
         "strictNullChecks": false,
-        "jsx": "preserve",
-        "module": "ES6",
-        "moduleResolution": "Node",
         "declaration": true,
-        "declarationDir": "./es",
         "allowSyntheticDefaultImports": true,
         "forceConsistentCasingInFileNames": true,
         "experimentalDecorators": true,
+        // Allow json import
+        "resolveJsonModule": true,
+        // skip type checking of declaration files
+        "skipLibCheck": true,
         "composite": true,
-        "target": "ESNext",
         "allowJs": false,
-        "outDir": "./es",
-        "types": ["node", "jest"],
-        "tsBuildInfoFile": "tsconfig.tsbuildinfo",
-        "lib": [
-            "ESNext",
-            "DOM"
-        ]
-    }
+        "baseUrl": "./packages",
+        "outDir": "es"
+    },
+    "exclude": ["**/tests/*", "**/*.test.ts", "**/lib", "**/es", "node_modules"]
 }

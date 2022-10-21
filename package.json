@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "node scripts/build.mjs dev",
     "build": "node scripts/build.mjs"
   },
   "repository": {
@@ -14,10 +15,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@vitejs/plugin-vue-jsx": "^2.0.1",
     "@webank/eslint-config-ts": "^1.1.1",
     "typescript": "^4.7.4",
-    "vite-plugin-dts": "^1.6.5"
+    "@vue/babel-plugin-jsx": "^1.1.1",
+    "father": "^4.0.4",
+    "execa": "^6.1.0",
+    "vue-loader": "^16.1.2"
   },
   "dependencies": {
     "fs-extra": "^10.1.0",

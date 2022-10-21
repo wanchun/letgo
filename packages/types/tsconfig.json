@@ -1,14 +1,7 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
-        "target": "ESNext",
-        "module": "ES2015",
-        "declarationDir": "./es"
+        "outDir": "es"
     },
-    "files": [
-        "./src/index.ts"
-    ],
-    "include": [
-        "./src/**/*.ts"
-    ]
+    "include": ["src"]
 }

@@ -3,7 +3,3 @@ export { default as config, Config } from './config';
 export { useRendererContext } from './context';
 export { Renderer as default } from './renderer';
 export type { RendererProps } from './renderer';
-
-export interface Hello {
-    a: number;
-}

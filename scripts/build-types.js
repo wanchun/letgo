@@ -63,23 +63,35 @@ async function genPkgType(pkg) {
         await genType(sourceFile);
     }
 
-    return sourceFiles;
+    return {
+        project,
+        sourceFiles,
+    };
 }
 
 async function buildTypes() {
     const pkgs = getNeedCompilePkg();
     await genPkgType('renderer');
-    const sourceFiles = {};
+    const projects = {};
     for (const pkg of pkgs) {
-        const result = await genPkgType(pkg);
-        Object.assign(sourceFiles, result);
+        projects[pkg] = await genPkgType(pkg);
     }
 
     if (isWatch()) {
         watch(async (filePath) => {
-            const sourceFile =
-                sourceFiles['packages' + filePath.split('packages')[1]];
-            await sourceFile.refreshFromFileSystem();
+            const wFilePath = 'packages' + filePath.split('packages')[1];
+            const pkg = filePath.split('packages/')[1].split('/')[0];
+            const project = projects[pkg];
+            let sourceFile = project.sourceFiles[wFilePath];
+            if (sourceFile) {
+                await sourceFile.refreshFromFileSystem();
+            } else if (
+                wFilePath.endsWith('.ts') ||
+                wFilePath.endsWith('.tsx')
+            ) {
+                sourceFile = project.project.addSourceFileAtPath(wFilePath);
+                project.sourceFiles[wFilePath] = sourceFile;
+            }
             genType(sourceFile);
         });
     }

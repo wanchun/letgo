@@ -3,11 +3,21 @@ const path = require('path');
 const fs = require('fs');
 const glob = require('fast-glob');
 const { Project } = require('ts-morph');
-const {
-    getNeedCompilePkg,
-    isWatch,
-    getOutputDirFromFilePath,
-} = require('./build-shard');
+const { getNeedCompilePkg, isWatch } = require('./build-shard');
+const { watch } = require('./watch');
+
+async function genType(sourceFile) {
+    const emitOutput = sourceFile.getEmitOutput();
+
+    for (const outputFile of emitOutput.getOutputFiles()) {
+        const filePath = outputFile.getFilePath().replace('/es/src', '/es');
+
+        await fs.promises.mkdir(path.dirname(filePath), {
+            recursive: true,
+        });
+        await fs.promises.writeFile(filePath, outputFile.getText(), 'utf8');
+    }
+}
 
 async function genPkgType(pkg) {
     // 这部分内容具体可以查阅 ts-morph 的文档
@@ -33,17 +43,13 @@ async function genPkgType(pkg) {
         `packages/${pkg}/src/**/*.ts`,
         `packages/${pkg}/src/**/*.tsx`,
     ]);
-    const sourceFiles = [];
+    const sourceFiles = {};
+    sourceFiles[path.resolve(__dirname, '../modules.d.ts')] =
+        project.addSourceFileAtPath(path.resolve(__dirname, '../modules.d.ts'));
 
-    sourceFiles.push(
-        project.addSourceFileAtPath(path.resolve(__dirname, '../modules.d.ts')),
-    );
-
-    await Promise.all(
-        files.map(async (file) => {
-            sourceFiles.push(project.addSourceFileAtPath(file));
-        }),
-    );
+    files.forEach((file) => {
+        sourceFiles[file] = project.addSourceFileAtPath(file);
+    });
 
     const diagnostics = project.getPreEmitDiagnostics();
 
@@ -53,24 +59,29 @@ async function genPkgType(pkg) {
     project.emitToMemory();
 
     // 随后将解析完的文件写道打包路径
-    for (const sourceFile of sourceFiles) {
-        const emitOutput = sourceFile.getEmitOutput();
-
-        for (const outputFile of emitOutput.getOutputFiles()) {
-            const filePath = outputFile.getFilePath().replace('/es/src', '/es');
-
-            await fs.promises.mkdir(path.dirname(filePath), {
-                recursive: true,
-            });
-            await fs.promises.writeFile(filePath, outputFile.getText(), 'utf8');
-        }
+    for (const sourceFile of Object.values(sourceFiles)) {
+        await genType(sourceFile);
     }
+
+    return sourceFiles;
 }
 
 async function main() {
     const pkgs = getNeedCompilePkg();
+    await genPkgType('renderer');
+    const sourceFiles = {};
     for (const pkg of pkgs) {
-        await genPkgType(pkg);
+        const result = await genPkgType(pkg);
+        Object.assign(sourceFiles, result);
+    }
+
+    if (isWatch()) {
+        watch(async (filePath) => {
+            const sourceFile =
+                sourceFiles['packages' + filePath.split('packages')[1]];
+            await sourceFile.refreshFromFileSystem();
+            genType(sourceFile);
+        });
     }
 }
 

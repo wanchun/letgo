@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node scripts/build.mjs dev",
+    "dev": "node scripts/build-esm.js --watch && node scripts/build-types.js --watch",
     "build:esm": "node scripts/build-esm.js",
     "build:type": "node scripts/build-types.js"
   },
@@ -29,6 +29,7 @@
     "@vue/babel-plugin-jsx": "^1.1.1",
     "@webank/eslint-config-ts": "^1.1.1",
     "autoprefixer": "^10.4.12",
+    "chokidar": "^3.5.3",
     "cssnano": "^5.1.13",
     "fast-glob": "^3.2.12",
     "fs-extra": "^10.1.0",

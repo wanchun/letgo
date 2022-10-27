@@ -3,7 +3,11 @@ const path = require('path');
 const fs = require('fs');
 const glob = require('fast-glob');
 const { Project } = require('ts-morph');
-const { getNeedCompilePkg } = require('./build-shard');
+const {
+    getNeedCompilePkg,
+    isWatch,
+    getOutputDirFromFilePath,
+} = require('./build-shard');
 
 async function genPkgType(pkg) {
     // 这部分内容具体可以查阅 ts-morph 的文档

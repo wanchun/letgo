@@ -9,6 +9,10 @@ function getEsOutputPath(pkg) {
     return path.join(process.cwd(), 'packages', pkg, 'es');
 }
 
+function isWatch() {
+    return process.argv[2] === '--watch';
+}
+
 function getResourcePath(pkg) {
     return path.join(process.cwd(), 'packages', pkg, 'src');
 }
@@ -19,8 +23,12 @@ function getNeedCompilePkg() {
         (item) =>
             item !== '.DS_Store' &&
             !item.startsWith('_') &&
-            !['letgo-simulator', 'template'].includes(item),
+            !['template'].includes(item),
     );
+}
+
+function getOutputDirFromFilePath(filePath) {
+    return path.dirname(filePath).replace('/src/', '/es/');
 }
 
 module.exports = {
@@ -29,4 +37,6 @@ module.exports = {
     getResourcePath,
     getNeedCompilePkg,
     extensions,
+    isWatch,
+    getOutputDirFromFilePath,
 };

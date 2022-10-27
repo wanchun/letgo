@@ -56,9 +56,9 @@ async function compiler(codePath, outputDir) {
             }),
             renameExtensions({
                 mappings: {
-                    '.vue': '.js',
                     '.ts': '.js',
                     '.tsx': '.js',
+                    '.less': '.css',
                 },
             }),
             css({

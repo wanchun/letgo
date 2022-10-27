@@ -1,6 +1,4 @@
-@scope: letgo-simulator;
-
-.@{scope} {
+.letgo-simulator {
     position: relative;
     height: 100%;
     width: 100%;
@@ -35,7 +33,6 @@
     }
 
     &-device-iphonex {
-        // 增加默认的小程序的壳
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
@@ -45,7 +42,7 @@
         background-size: 375px 812px;
         border-radius: 44px;
         box-shadow: rgba(0, 0, 0, 0.1) 0 36px 42px;
-        .@{scope}-canvas-viewport {
+        .letgo-simulator-canvas-viewport {
             width: auto;
             top: 50px;
             left: 0;
@@ -61,7 +58,7 @@
         transform: translateX(-50%);
         background-size: 375px 772px;
         top: 8px;
-        .@{scope}-canvas-viewport {
+        .letgo-simulator-canvas-viewport {
             width: auto;
             top: 114px;
             left: 25px;

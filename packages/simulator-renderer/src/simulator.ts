@@ -40,7 +40,7 @@ import {
     isComponentRecord,
     getClosestNodeInstanceByComponent,
 } from './utils';
-import './simulator.less';
+import './simulator.css';
 
 const loader = new AssetLoader();
 

@@ -1,59 +1,3 @@
-<template>
-    <div class="search">
-        <FInput placeholder="请输入" clearable @input="onSearch">
-            <template #suffix>
-                <SearchOutlined />
-            </template>
-        </FInput>
-    </div>
-    <FTabs>
-        <FTabPane
-            v-for="group in groupListRef"
-            :key="group"
-            :name="group"
-            :value="group"
-            displayDirective="show"
-        >
-            <div
-                v-for="(item, index) in categoryListRef[group]"
-                :key="index"
-                class="category-wrapper"
-            >
-                <div class="category-title">
-                    {{ item.category }}
-                    <span @click="toggle(item)">
-                        <UpOutlined v-show="item.show" />
-                        <DownOutlined v-show="!item.show" />
-                    </span>
-                </div>
-                <div class="category-body" v-show="item.show">
-                    <div
-                        v-for="(snippet, index) in item.snippets"
-                        :key="index"
-                        class="category-body-item"
-                        :ref="
-                            (el) => {
-                                handleDrag(el, snippet);
-                            }
-                        "
-                    >
-                        <div class="category-body-item-icon">
-                            <img
-                                :src="snippet.screenshot"
-                                draggable="false"
-                                v-if="snippet.screenshot"
-                            />
-                        </div>
-                        <span class="category-body-title">
-                            {{ snippet.title }}
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </FTabPane>
-    </FTabs>
-</template>
-<script lang="ts">
 import {
     defineComponent,
     PropType,
@@ -62,7 +6,8 @@ import {
     Ref,
     computed,
     onBeforeMount,
-    onUnmounted
+    onUnmounted,
+    Fragment,
 } from 'vue';
 import { Editor } from '@webank/letgo-editor-core';
 import { Designer } from '@webank/letgo-designer';
@@ -73,6 +18,7 @@ import {
     DownOutlined,
     UpOutlined,
 } from '@fesjs/fes-design/icon';
+import css from './panel.module.css';
 
 interface CategoryType {
     category: string;
@@ -88,14 +34,6 @@ export default defineComponent({
         designer: {
             type: Object as PropType<Designer>,
         },
-    },
-    components: {
-        FInput,
-        FTabPane,
-        FTabs,
-        SearchOutlined,
-        UpOutlined,
-        DownOutlined,
     },
     setup(props) {
         const assetsRef: Ref<AssetsJson> = shallowRef({});
@@ -188,7 +126,7 @@ export default defineComponent({
                 lastClear();
             }
             const clear = dragon.from(el, (e: MouseEvent) => {
-                var dragTarget = {
+                const dragTarget = {
                     type: 'nodeData',
                     data: snippet.schema,
                 };
@@ -203,74 +141,72 @@ export default defineComponent({
             });
         });
 
-        return {
-            assetsRef,
-            groupListRef,
-            categoryListRef,
-            toggle,
-            onSearch,
-            handleDrag,
+        const renderSnippet = (snippets: Snippet[]) => {
+            return snippets.map((snippet) => {
+                <div
+                    class={css['category-body-item']}
+                    ref={(el) => {
+                        handleDrag(el as Element, snippet);
+                    }}
+                >
+                    <div class={css['category-body-item-icon']}>
+                        {snippet.screenshot && (
+                            <img src={snippet.screenshot} draggable="false" />
+                        )}
+                    </div>
+                    <span class={css['category-body-title']}>
+                        {snippet.title}
+                    </span>
+                </div>;
+            });
+        };
+
+        const renderCategory = (group: string) => {
+            return categoryListRef.value[group].map((item) => {
+                return (
+                    <div>
+                        <div class={css['category-title']}></div>
+                        {item.category}
+                        <span onClick={() => toggle(item)}>
+                            <UpOutlined v-show={item.show} />
+                            <DownOutlined v-show={!item.show} />
+                        </span>
+                        <div class={css['category-body']} v-show={item.show}>
+                            {renderSnippet(item.snippets)}
+                        </div>
+                    </div>
+                );
+            });
+        };
+
+        return () => {
+            return (
+                <Fragment>
+                    <div class={css.search}>
+                        <FInput
+                            placeholder="请输入"
+                            clearable
+                            onInput={onSearch}
+                            v-slots={{
+                                suffix: () => <SearchOutlined />,
+                            }}
+                        ></FInput>
+                    </div>
+                    <FTabs>
+                        {groupListRef.value.map((group) => {
+                            return (
+                                <FTabPane
+                                    name={group}
+                                    value={group}
+                                    displayDirective="show"
+                                >
+                                    {renderCategory(group)}
+                                </FTabPane>
+                            );
+                        })}
+                    </FTabs>
+                </Fragment>
+            );
         };
     },
 });
-</script>
-<style lang="less" scoped>
-.search {
-    padding: 8px 16px;
-}
-.icon {
-    cursor: pointer;
-}
-.category-wrapper {
-}
-.category-title {
-    display: flex;
-    height: 42px;
-    padding: 0 16px;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #dfdfdf;
-    border-top: 1px solid #dfdfdf;
-    margin-top: -1px;
-}
-.category-body {
-    display: flex;
-    flex-wrap: wrap;
-    &-item {
-        width: 33.3333333333%;
-        height: 114px;
-        flex-shrink: 0;
-        padding: 14px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        flex-grow: 0;
-        border-right: 1px solid #eaeaea;
-        border-bottom: 1px solid #eaeaea;
-        box-shadow: 0 0 0 0 rgb(0 0 0 / 15%);
-        transition: box-shadow 0.2s ease, -webkit-box-shadow 0.2s ease;
-        &:hover {
-            box-shadow: 0 6px 16px 0 rgb(0 0 0 / 15%);
-            border-color: transparent;
-        }
-        &-icon {
-            width: 56px;
-            height: 56px;
-            margin: 0 1px;
-            display: flex;
-            justify-items: center;
-            img {
-                width: 100%;
-            }
-        }
-        &-title {
-            width: 100%;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            text-align: center;
-        }
-    }
-}
-</style>

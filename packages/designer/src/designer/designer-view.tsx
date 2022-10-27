@@ -12,7 +12,7 @@ import { SimulatorView } from '../simulator';
 import { Project } from '../project';
 import { Designer } from './designer';
 import { DragHostView } from './drag-host';
-import './designer-view.less';
+import './designer-view.css';
 
 const BuiltinLoading = defineComponent({
     setup() {

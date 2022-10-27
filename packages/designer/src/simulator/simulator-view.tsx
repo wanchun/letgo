@@ -8,7 +8,7 @@ import {
 import { Designer } from '../designer';
 import { Simulator, SimulatorProps } from './simulator';
 import { BemToolsView } from './bem-tools';
-import './simulator-view.less';
+import './simulator-view.css';
 
 const ContentView = defineComponent({
     name: 'ContentView',

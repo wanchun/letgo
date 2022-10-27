@@ -1,6 +1,6 @@
 import { IPluginConfig } from '@webank/letgo-engine';
-import Content from './content.vue';
-import Panel from './panel.vue';
+import Content from './content';
+import Panel from './panel';
 
 export default {
     name: 'PluginComponentsPanel',

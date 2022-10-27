@@ -1,7 +1,7 @@
 import { defineComponent, PropType, shallowRef, onBeforeUnmount } from 'vue';
-import { Designer } from './designer';
 import { isDragNodeObject, isDragNodeDataObject } from './dragon';
-import './drag-host.less';
+import css from './drag-host.module.css';
+import type { Designer } from './designer';
 
 export const DragHostView = defineComponent({
     name: 'DragHostView',
@@ -44,7 +44,7 @@ export const DragHostView = defineComponent({
             if (isDragNodeObject(_dragObject)) {
                 return _dragObject.nodes.map((node) => {
                     const ghost = (
-                        <div class="letgo-ghost" key={node.id}>
+                        <div class={css.ghost} key={node.id}>
                             {node.title}
                         </div>
                     );
@@ -54,16 +54,16 @@ export const DragHostView = defineComponent({
                 return Array.isArray(_dragObject.data) ? (
                     _dragObject.data.map((item, index) => {
                         return (
-                            <div class="letgo-ghost" key={`ghost-${index}`}>
-                                <div class="letgo-ghost-title">
+                            <div class={css.ghost} key={`ghost-${index}`}>
+                                <div class={css['ghost-title']}>
                                     {item.componentName}
                                 </div>
                             </div>
                         );
                     })
                 ) : (
-                    <div class="letgo-ghost">
-                        <div class="letgo-ghost-title">
+                    <div class={css.ghost}>
+                        <div class={css['ghost-title']}>
                             {_dragObject.data.componentName}
                         </div>
                     </div>
@@ -81,7 +81,7 @@ export const DragHostView = defineComponent({
             }
             return (
                 <div
-                    class="letgo-ghost-group"
+                    class={css['ghost-group']}
                     style={{
                         left: x.value + 'px',
                         top: y.value + 'px',

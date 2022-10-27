@@ -146,6 +146,12 @@ export interface ComponentDescription extends ComponentMetadata {
     keywords: string[];
 }
 
+export function isComponentDescription(obj: any): obj is ComponentDescription {
+    return (
+        obj && typeof obj === 'object' && typeof obj.componentName === 'string'
+    );
+}
+
 /**
  * 远程物料描述
  */

@@ -1,5 +1,8 @@
 {
     "cSpell.words": [
         "fesjs"
-    ]
+    ],
+    "files.associations": {
+        "*.css": "postcss"
+    }
 }

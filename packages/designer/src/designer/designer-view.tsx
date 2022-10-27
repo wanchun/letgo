@@ -12,13 +12,13 @@ import { SimulatorView } from '../simulator';
 import { Project } from '../project';
 import { Designer } from './designer';
 import { DragHostView } from './drag-host';
-import './designer-view.css';
+import css from './designer-view.module.css';
 
 const BuiltinLoading = defineComponent({
     setup() {
         return () => {
             return (
-                <div class="letgo-engine-loading-wrapper">
+                <div class={css['letgo-loading-wrapper']}>
                     <FSpin size={'large'} />
                 </div>
             );
@@ -45,8 +45,8 @@ export const ProjectView = defineComponent({
         return () => {
             const { simulatorProps } = designer;
             return (
-                <div class="letgo-project">
-                    <div className="letgo-project-content">
+                <div class={css['letgo-project']}>
+                    <div class={css['letgo-project-content']}>
                         {/* {!designer?.simulator?.renderer && <BuiltinLoading />} */}
                         <SimulatorView simulatorProps={simulatorProps} />
                     </div>
@@ -121,7 +121,7 @@ export const DesignerView = defineComponent({
 
         return () => {
             return (
-                <div class="letgo-designer">
+                <div class={css['letgo-designer']}>
                     <DragHostView designer={_designer} />
                     <ProjectView designer={_designer} />
                 </div>

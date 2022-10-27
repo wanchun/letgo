@@ -11,7 +11,11 @@ import {
 } from 'vue';
 import { Editor } from '@webank/letgo-editor-core';
 import { Designer } from '@webank/letgo-designer';
-import { AssetsJson, Snippet } from '@webank/letgo-types';
+import {
+    AssetsJson,
+    Snippet,
+    isComponentDescription,
+} from '@webank/letgo-types';
 import { FInput, FTabPane, FTabs } from '@fesjs/fes-design';
 import {
     SearchOutlined,
@@ -58,6 +62,7 @@ export default defineComponent({
                         show: ref(true),
                     };
                     assetsRef.value.components.forEach((component) => {
+                        if (!isComponentDescription(component)) return;
                         if (
                             component.group === group &&
                             component.category === category
@@ -125,7 +130,7 @@ export default defineComponent({
             if (lastClear) {
                 lastClear();
             }
-            const clear = dragon.from(el, (e: MouseEvent) => {
+            const clear = dragon.from(el, () => {
                 const dragTarget = {
                     type: 'nodeData',
                     data: snippet.schema,

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node scripts/build.mjs dev",
     "build:esm": "node scripts/build-esm.js",
-    "build:type": "node scripts/build-type.js"
+    "build:type": "node scripts/build-types.js"
   },
   "repository": {
     "type": "git",

@@ -2,7 +2,7 @@ import { defineComponent, PropType, onBeforeMount, ref, reactive } from 'vue';
 import { IPluginContext } from '@webank/letgo-engine';
 import { engineConfig } from '@webank/letgo-editor-core';
 import { DesignerView, Designer } from '@webank/letgo-designer';
-import './content.less';
+import css from './content.module.css';
 
 export default defineComponent({
     name: 'PluginDesignerContent',
@@ -50,7 +50,7 @@ export default defineComponent({
         return () => {
             return (
                 <DesignerView
-                    class="letgo-plugin-designer"
+                    class={css['letgo-plugin-designer']}
                     editor={editor}
                     designer={designer}
                     onMount={handleDesignerMount}

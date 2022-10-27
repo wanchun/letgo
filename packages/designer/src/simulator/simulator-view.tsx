@@ -8,7 +8,7 @@ import {
 import { Designer } from '../designer';
 import { Simulator, SimulatorProps } from './simulator';
 import { BemToolsView } from './bem-tools';
-import './simulator-view.css';
+import css from './simulator-view.module.css';
 
 const ContentView = defineComponent({
     name: 'ContentView',
@@ -27,10 +27,10 @@ const ContentView = defineComponent({
                 width: viewport.contentWidth,
             };
             return (
-                <div class="letgo-simulator-content">
+                <div class={css['letgo-simulator-content']}>
                     <iframe
                         name="SimulatorRenderer"
-                        class="letgo-simulator-content-frame"
+                        class={css['letgo-simulator-content-frame']}
                         style={frameStyle}
                         onLoad={(e) => {
                             if (e.target instanceof HTMLIFrameElement) {
@@ -91,11 +91,12 @@ export const SimulatorView = defineComponent({
         const { deviceStyle, deviceClassName, device, host } = this;
 
         return (
-            <div class="letgo-simulator">
+            <div class={css['letgo-simulator']}>
                 <div
                     class={[
-                        'letgo-simulator-canvas',
-                        deviceClassName || `letgo-simulator-device-${device}`,
+                        css['letgo-simulator-canvas'],
+                        deviceClassName ||
+                            css[`letgo-simulator-device-${device}`],
                     ]}
                     style={deviceStyle?.canvas}
                 >
@@ -105,7 +106,7 @@ export const SimulatorView = defineComponent({
                                 host.mountViewport(el);
                             }
                         }}
-                        class="letgo-simulator-canvas-viewport"
+                        class={css['letgo-simulator-canvas-viewport']}
                         style={deviceStyle?.viewport}
                     >
                         <BemToolsView host={host} />

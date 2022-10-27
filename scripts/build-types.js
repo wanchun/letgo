@@ -66,7 +66,7 @@ async function genPkgType(pkg) {
     return sourceFiles;
 }
 
-async function main() {
+async function buildTypes() {
     const pkgs = getNeedCompilePkg();
     await genPkgType('renderer');
     const sourceFiles = {};
@@ -85,4 +85,6 @@ async function main() {
     }
 }
 
-main();
+module.exports = {
+    buildTypes,
+};

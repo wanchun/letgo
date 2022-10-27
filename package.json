@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node scripts/build-esm.js --watch && node scripts/build-types.js --watch",
-    "build:esm": "node scripts/build-esm.js",
-    "build:type": "node scripts/build-types.js"
+    "dev": "node scripts/build.js --watch --esm --types",
+    "build": "node scripts/build.js -esm --types"
   },
   "repository": {
     "type": "git",

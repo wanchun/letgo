@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const fs = require('fs');
 const path = require('path');
-const fse = require('fs-extra');
 const {
     getEsOutputPath,
     getResourcePath,
@@ -39,13 +38,12 @@ async function compilerFiles(source, outputDir) {
 async function compilePkgs(pkgs) {
     for (const pkg of pkgs) {
         const outputDir = getEsOutputPath(pkg);
-        fse.removeSync(outputDir);
         const source = getResourcePath(pkg);
         await compilerFiles(source, outputDir);
     }
 }
 
-async function main() {
+async function buildEsm() {
     const pkgs = getNeedCompilePkg();
     await compilePkgs(pkgs);
     if (isWatch()) {
@@ -55,4 +53,6 @@ async function main() {
     }
 }
 
-main();
+module.exports = {
+    buildEsm,
+};

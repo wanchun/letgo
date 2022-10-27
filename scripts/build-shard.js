@@ -10,7 +10,7 @@ function getEsOutputPath(pkg) {
 }
 
 function isWatch() {
-    return process.argv[2] === '--watch';
+    return process.argv.includes('--watch');
 }
 
 function getResourcePath(pkg) {
@@ -28,7 +28,7 @@ function getNeedCompilePkg() {
 }
 
 function getOutputDirFromFilePath(filePath) {
-    return path.dirname(filePath).replace('/src/', '/es/');
+    return path.dirname(filePath).replace('/src', '/es');
 }
 
 module.exports = {

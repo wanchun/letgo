@@ -39,7 +39,11 @@ async function compiler(codePath, outputDir) {
         input: codePath,
         onwarn(warning, warn) {
             // 跳过未使用模块的警告（tree-shaking 会将其移除）
-            if (warning.code === 'UNUSED_EXTERNAL_IMPORT') return;
+            if (
+                warning.code === 'UNUSED_EXTERNAL_IMPORT' ||
+                warning.code === 'PLUGIN_WARNING'
+            )
+                return;
 
             // Use default for everything else
             warn(warning);

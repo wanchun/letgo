@@ -43,12 +43,23 @@ async function compilePkgs(pkgs) {
     }
 }
 
+function findChangeFile(filePath) {
+    const tsFile = filePath.replace('.module.css', '.ts');
+    if (fs.existsSync(tsFile)) {
+        return tsFile;
+    }
+    return filePath.replace('.module.css', '.tsx');
+}
+
 async function buildEsm() {
     const pkgs = getNeedCompilePkg();
     await compilePkgs(pkgs);
     if (isWatch()) {
         watch(async (filePath) => {
             try {
+                if (filePath.endsWith('.module.css')) {
+                    filePath = findChangeFile(filePath);
+                }
                 await compilerFile(
                     filePath,
                     getOutputDirFromFilePath(filePath),

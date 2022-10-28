@@ -6,7 +6,7 @@ function inlineToExtract() {
             let needInjectCssBundle = null;
             Object.keys(bundle).forEach((name) => {
                 const bundleItem = bundle[name];
-                if (name.indexOf('.module.css') !== -1) {
+                if (name.indexOf('.css') !== -1) {
                     cssFileName = name;
                 } else {
                     needInjectCssBundle = bundleItem;

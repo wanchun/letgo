@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const glob = require('fast-glob');
 const { Project } = require('ts-morph');
-const { getNeedCompilePkg, isWatch } = require('./build-shard');
+const { isWatch } = require('./build-shard');
 const { watch } = require('./watch');
 
 async function genType(sourceFile) {
@@ -70,8 +70,19 @@ async function genPkgType(pkg) {
 }
 
 async function buildTypes() {
-    const pkgs = getNeedCompilePkg();
-    await genPkgType('renderer');
+    const pkgs = [
+        'types',
+        'utils',
+        'editor-core',
+        'editor-skeleton',
+        'designer',
+        'plugin-designer',
+        'engine',
+        'renderer',
+        'simulator-renderer',
+        'engine',
+        'plugin-components-panel',
+    ];
     const projects = {};
     for (const pkg of pkgs) {
         projects[pkg] = await genPkgType(pkg);

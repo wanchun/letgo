@@ -8,10 +8,10 @@ import {
 } from 'vue';
 import { Designer } from '@webank/letgo-designer';
 import { CloseOutlined, PasswordOutlined } from '@fesjs/fes-design/icon';
+import { computed } from 'vue';
 import { Area } from '../area';
 import { IPanelConfig } from '../types';
 import { Panel } from '../widget';
-import { computed } from '@vue/reactivity';
 
 export default defineComponent({
     name: 'LeftFloatArea',

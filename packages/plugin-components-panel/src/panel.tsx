@@ -16,12 +16,15 @@ import {
     Snippet,
     isComponentDescription,
 } from '@webank/letgo-types';
-import { FInput, FTabPane, FTabs } from '@fesjs/fes-design';
 import {
-    SearchOutlined,
-    DownOutlined,
-    UpOutlined,
-} from '@fesjs/fes-design/icon';
+    FInput,
+    FButton,
+    FGrid,
+    FGridItem,
+    FTabPane,
+    FTabs,
+} from '@fesjs/fes-design';
+import { SearchOutlined } from '@fesjs/fes-design/icon';
 import css from './panel.module.css';
 
 interface CategoryType {
@@ -98,10 +101,6 @@ export default defineComponent({
             return res;
         });
 
-        const toggle = (item: CategoryType) => {
-            item.show.value = !item.show.value;
-        };
-
         const onSearch = (val: string) => {
             searchText.value = val;
         };
@@ -148,38 +147,47 @@ export default defineComponent({
 
         const renderSnippet = (snippets: Snippet[]) => {
             return snippets.map((snippet) => {
-                <div
-                    class={css['category-body-item']}
-                    ref={(el) => {
-                        handleDrag(el as Element, snippet);
-                    }}
-                >
-                    <div class={css['category-body-item-icon']}>
-                        {snippet.screenshot && (
-                            <img src={snippet.screenshot} draggable="false" />
-                        )}
-                    </div>
-                    <span class={css['category-body-title']}>
-                        {snippet.title}
-                    </span>
-                </div>;
+                const renderIcon = () => {
+                    return (
+                        snippet.screenshot && (
+                            <img
+                                class={css['category-body-item-icon']}
+                                src={snippet.screenshot}
+                                draggable="false"
+                            />
+                        )
+                    );
+                };
+                return (
+                    <FGridItem span={12}>
+                        <FButton
+                            class={css['category-body-item']}
+                            v-slots={{ icon: renderIcon }}
+                            ref={(el: any) => {
+                                handleDrag(el.$el as Element, snippet);
+                            }}
+                        >
+                            {snippet.title}
+                        </FButton>
+                    </FGridItem>
+                );
             });
         };
 
         const renderCategory = (group: string) => {
             return categoryListRef.value[group].map((item) => {
                 return (
-                    <div>
-                        <div class={css['category-title']}></div>
-                        {item.category}
-                        <span onClick={() => toggle(item)}>
-                            <UpOutlined v-show={item.show} />
-                            <DownOutlined v-show={!item.show} />
-                        </span>
-                        <div class={css['category-body']} v-show={item.show}>
+                    <>
+                        <div class={css['category-title']}>{item.category}</div>
+                        <FGrid
+                            wrap
+                            gutter={[10, 10]}
+                            class={css['category-body']}
+                            v-show={item.show}
+                        >
                             {renderSnippet(item.snippets)}
-                        </div>
-                    </div>
+                        </FGrid>
+                    </>
                 );
             });
         };
@@ -187,7 +195,7 @@ export default defineComponent({
         return () => {
             return (
                 <Fragment>
-                    <div class={css.search}>
+                    <div class={css['search']}>
                         <FInput
                             placeholder="请输入"
                             clearable
@@ -197,19 +205,17 @@ export default defineComponent({
                             }}
                         ></FInput>
                     </div>
-                    <FTabs>
-                        {groupListRef.value.map((group) => {
-                            return (
-                                <FTabPane
-                                    name={group}
-                                    value={group}
-                                    displayDirective="show"
-                                >
-                                    {renderCategory(group)}
-                                </FTabPane>
-                            );
-                        })}
-                    </FTabs>
+                    {groupListRef.value.map((group) => {
+                        return (
+                            <div
+                                name={group}
+                                value={group}
+                                displayDirective="show"
+                            >
+                                {renderCategory(group)}
+                            </div>
+                        );
+                    })}
                 </Fragment>
             );
         };

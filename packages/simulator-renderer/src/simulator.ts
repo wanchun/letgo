@@ -1,11 +1,6 @@
 import { DocumentModel } from '@webank/letgo-designer';
 import { TransformStage } from '@webank/letgo-types';
-import {
-    AssetLoader,
-    cursor,
-    getSubComponent,
-    setNativeSelection,
-} from '@webank/letgo-utils';
+import { AssetLoader, cursor, setNativeSelection } from '@webank/letgo-utils';
 import {
     Ref,
     Component,
@@ -19,7 +14,7 @@ import {
 } from 'vue';
 import { config } from '@webank/letgo-renderer';
 import { createMemoryHistory, createRouter } from 'vue-router';
-import { buildComponents } from './build-components';
+import { buildComponents, getSubComponent } from './build-components';
 import {
     ComponentInstance,
     DocumentInstance,

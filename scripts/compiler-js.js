@@ -117,8 +117,6 @@ async function compiler(codePath, outputDir) {
             assetFileNames: '[name][extname]',
         });
     }
-
-    // closes the bundle
     await bundle.close();
 }
 

@@ -47,8 +47,15 @@ async function buildEsm() {
     const pkgs = getNeedCompilePkg();
     await compilePkgs(pkgs);
     if (isWatch()) {
-        watch((filePath) => {
-            compilerFile(filePath, getOutputDirFromFilePath(filePath));
+        watch(async (filePath) => {
+            try {
+                await compilerFile(
+                    filePath,
+                    getOutputDirFromFilePath(filePath),
+                );
+            } catch (err) {
+                console.error(err);
+            }
         });
     }
 }

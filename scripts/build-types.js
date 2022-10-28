@@ -26,6 +26,7 @@ async function genPkgType(pkg) {
         compilerOptions: {
             declaration: true,
             emitDeclarationOnly: true,
+            skipLibCheck: true,
             noEmitOnError: false,
             noImplicitAny: false,
             allowJs: true, // 如果想兼容 js 语法需要加上
@@ -103,7 +104,9 @@ async function buildTypes() {
                 sourceFile = project.project.addSourceFileAtPath(wFilePath);
                 project.sourceFiles[wFilePath] = sourceFile;
             }
-            genType(sourceFile);
+            try {
+                await genType(sourceFile);
+            } catch (e) {}
         });
     }
 }

@@ -105,7 +105,9 @@ async function buildTypes() {
                 project.sourceFiles[wFilePath] = sourceFile;
             }
             try {
-                await genType(sourceFile);
+                if (sourceFile) {
+                    await genType(sourceFile);
+                }
             } catch (e) {}
         });
     }

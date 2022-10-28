@@ -81,16 +81,16 @@ async function genPkgType(pkg) {
 async function buildTypes() {
     const pkgs = [
         'types',
-        // 'utils',
-        // 'editor-core',
-        // 'editor-skeleton',
-        // 'designer',
-        // 'plugin-designer',
-        // 'engine',
-        // 'renderer',
-        // 'simulator-renderer',
-        // 'engine',
-        // 'plugin-components-panel',
+        'utils',
+        'editor-core',
+        'editor-skeleton',
+        'designer',
+        'plugin-designer',
+        'engine',
+        'renderer',
+        'simulator-renderer',
+        'engine',
+        'plugin-components-panel',
     ];
     const projects = {};
     for (const pkg of pkgs) {

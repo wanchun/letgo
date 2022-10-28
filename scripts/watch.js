@@ -9,6 +9,7 @@ function watch(callback) {
     } else {
         const pkgs = getNeedCompilePkg();
         watcher = chokidar.watch(pkgs.map(getResourcePath), {
+            interval: 200,
             ignoreInitial: true,
         });
         watcher.on('add', callback).on('change', callback);

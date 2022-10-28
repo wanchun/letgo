@@ -31,6 +31,15 @@ function getOutputDirFromFilePath(filePath) {
     return path.dirname(filePath).replace('/src', '/es');
 }
 
+function isFileChange(from, to) {
+    if (fse.existsSync(to)) {
+        const stats = fse.lstatSync(from);
+        const toStats = fse.lstatSync(to);
+        return toStats.mtime < stats.mtime;
+    }
+    return true;
+}
+
 module.exports = {
     PACKAGE_PATH,
     getEsOutputPath,
@@ -39,4 +48,5 @@ module.exports = {
     extensions,
     isWatch,
     getOutputDirFromFilePath,
+    isFileChange,
 };

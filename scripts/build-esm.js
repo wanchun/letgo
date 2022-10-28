@@ -7,17 +7,34 @@ const {
     getNeedCompilePkg,
     isWatch,
     getOutputDirFromFilePath,
+    isFileChange,
 } = require('./build-shard');
 const compiler = require('./compiler-js');
 const { compilerCss } = require('./compiler-css');
 const { watch } = require('./watch');
 
-async function compilerFile(filePath, outputDir) {
+function isScriptFileChange(filePath) {
+    const jsPath = filePath.replace('src/', 'es/').replace(/.ts[x]?$/, '.js');
+    return isFileChange(filePath, jsPath);
+}
+
+function isCssFileChange(filePath) {
+    const cssPath = filePath.replace('src/', 'es/').replace(/.less$/, '.css');
+    return isFileChange(filePath, cssPath);
+}
+
+async function compilerFile(filePath, outputDir, isForceUpdate) {
     const extname = path.extname(filePath);
     const fileName = path.basename(filePath);
-    if (['.js', '.jsx', '.ts', '.tsx'].includes(extname)) {
+    if (
+        ['.ts', '.tsx'].includes(extname) &&
+        (isForceUpdate || isScriptFileChange(filePath))
+    ) {
         await compiler(filePath, outputDir);
-    } else if (/^[a-zA-Z-]+\.css$/.test(fileName) || '.less' === extname) {
+    } else if (
+        (/^[a-zA-Z-]+\.css$/.test(fileName) || '.less' === extname) &&
+        isCssFileChange(filePath)
+    ) {
         await compilerCss(filePath, outputDir);
     }
 }
@@ -57,12 +74,15 @@ async function buildEsm() {
     if (isWatch()) {
         watch(async (filePath) => {
             try {
+                let forceUpdate = false;
                 if (filePath.endsWith('.module.css')) {
+                    forceUpdate = true;
                     filePath = findChangeFile(filePath);
                 }
                 await compilerFile(
                     filePath,
                     getOutputDirFromFilePath(filePath),
+                    forceUpdate,
                 );
             } catch (err) {
                 console.error(err);

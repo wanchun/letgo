@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const glob = require('fast-glob');
 const { Project } = require('ts-morph');
-const { isWatch } = require('./build-shard');
+const { isWatch, isFileChange } = require('./build-shard');
 const { watch } = require('./watch');
 
 async function genType(sourceFile) {
@@ -17,6 +17,11 @@ async function genType(sourceFile) {
         });
         await fs.promises.writeFile(filePath, outputFile.getText(), 'utf8');
     }
+}
+
+function isTypeChange(filePath) {
+    const typePath = filePath.replace('src/', 'es/').replace('.ts', '.d.ts');
+    return isFileChange(filePath, typePath);
 }
 
 async function genPkgType(pkg) {
@@ -52,16 +57,19 @@ async function genPkgType(pkg) {
         sourceFiles[file] = project.addSourceFileAtPath(file);
     });
 
-    const diagnostics = project.getPreEmitDiagnostics();
-
-    // 输出解析过程中的错误信息
-    console.log(project.formatDiagnosticsWithColorAndContext(diagnostics));
+    if (!isWatch()) {
+        const diagnostics = project.getPreEmitDiagnostics();
+        // 输出解析过程中的错误信息
+        console.log(project.formatDiagnosticsWithColorAndContext(diagnostics));
+    }
 
     project.emitToMemory();
 
     // 随后将解析完的文件写道打包路径
-    for (const sourceFile of Object.values(sourceFiles)) {
-        await genType(sourceFile);
+    for (const [filePath, sourceFile] of Object.entries(sourceFiles)) {
+        if (isTypeChange(filePath)) {
+            await genType(sourceFile);
+        }
     }
 
     return {
@@ -73,16 +81,16 @@ async function genPkgType(pkg) {
 async function buildTypes() {
     const pkgs = [
         'types',
-        'utils',
-        'editor-core',
-        'editor-skeleton',
-        'designer',
-        'plugin-designer',
-        'engine',
-        'renderer',
-        'simulator-renderer',
-        'engine',
-        'plugin-components-panel',
+        // 'utils',
+        // 'editor-core',
+        // 'editor-skeleton',
+        // 'designer',
+        // 'plugin-designer',
+        // 'engine',
+        // 'renderer',
+        // 'simulator-renderer',
+        // 'engine',
+        // 'plugin-components-panel',
     ];
     const projects = {};
     for (const pkg of pkgs) {

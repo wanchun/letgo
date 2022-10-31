@@ -5,6 +5,7 @@ import {
     NodeSchema,
     ComponentAction,
     ComponentMetadata,
+    NodeData,
 } from '@webank/letgo-types';
 import { h } from 'vue';
 import { isRegExp } from 'lodash-es';
@@ -109,10 +110,6 @@ export class ComponentMeta {
 
     private _rootSelector?: string;
 
-    private parentWhitelist?: NestingFilter | null;
-
-    private childWhitelist?: NestingFilter | null;
-
     private _acceptable?: boolean;
 
     private _isNullNode?: boolean;
@@ -124,6 +121,10 @@ export class ComponentMeta {
     private disableBehaviors?: string[];
 
     private actions?: ComponentAction[];
+
+    parentWhitelist?: NestingFilter | null;
+
+    childWhitelist?: NestingFilter | null;
 
     get npm() {
         return this._npm;
@@ -264,7 +265,7 @@ export class ComponentMeta {
         return actions;
     }
 
-    checkNestingUp(my: Node, parent: ParentalNode) {
+    checkNestingUp(my: Node | NodeData, parent: ParentalNode) {
         // 检查父子关系，直接约束型，在画布中拖拽直接掠过目标容器
         if (this.parentWhitelist) {
             return this.parentWhitelist(parent, isNode(my) ? my : my);

@@ -8,8 +8,14 @@ import {
     AssetType,
     AssetLevel,
 } from '@webank/letgo-types';
-import { assetItem, assetBundle } from '@webank/letgo-utils';
-import { ISimulator, ComponentInstance, NodeInstance } from '../types';
+import { assetItem, assetBundle, hasOwnProperty } from '@webank/letgo-utils';
+import {
+    ISimulator,
+    ComponentInstance,
+    NodeInstance,
+    DropContainer,
+    ParentalNode,
+} from '../types';
 import { Project } from '../project';
 import {
     Designer,
@@ -17,10 +23,13 @@ import {
     Scroller,
     DropLocation,
     DragObjectType,
+    DragNodeObject,
     isShaken,
+    isDragAnyObject,
+    isDragNodeObject,
 } from '../designer';
-import { getClosestClickableNode } from '../utils';
-import { Node } from '../node';
+import { getClosestClickableNode, getClosestNode } from '../utils';
+import { Node, contains, isRootNode } from '../node';
 import { Viewport } from './viewport';
 import { ISimulatorRenderer } from './renderer';
 import { createSimulator } from './create-simulator';
@@ -65,6 +74,8 @@ export class Simulator implements ISimulator<SimulatorProps> {
     private _iframe?: HTMLIFrameElement;
 
     private _renderer?: ISimulatorRenderer;
+
+    private sensing = false;
 
     readonly project: Project;
 
@@ -344,6 +355,9 @@ export class Simulator implements ISimulator<SimulatorProps> {
         this.emitter.emit(eventName, ...data);
     }
 
+    /**
+     * @see ISimulator
+     */
     fixEvent(e: LocateEvent): LocateEvent {
         if (e.fixed) {
             return e;
@@ -351,6 +365,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
 
         const notMyEvent =
             e.originalEvent.view?.document !== this.contentDocument;
+
         // fix canvasX canvasY : 当前激活文档画布坐标系
         if (notMyEvent || !('canvasX' in e) || !('canvasY' in e)) {
             const l = this.viewport.toLocalPoint({
@@ -376,10 +391,227 @@ export class Simulator implements ISimulator<SimulatorProps> {
         return e;
     }
 
+    /**
+     * @see ISimulator
+     */
     locate(e: LocateEvent): DropLocation | undefined | null {
-        return e;
+        const { dragObject } = e;
+        const { nodes } = dragObject as DragNodeObject;
+
+        const operationalNodes = nodes?.filter((node) => {
+            const onMoveHook =
+                node.componentMeta?.getMetadata()?.configure.advanced?.callbacks
+                    ?.onMoveHook;
+            const canMove =
+                onMoveHook && typeof onMoveHook === 'function'
+                    ? onMoveHook(node)
+                    : true;
+
+            return canMove;
+        });
+
+        if (nodes && (!operationalNodes || operationalNodes.length === 0)) {
+            return;
+        }
+
+        this.sensing = true;
+        this.scroller.scrolling(e);
+
+        const document = this.project.currentDocument;
+        if (!document) {
+            return null;
+        }
+
+        const dropContainer = this.getDropContainer(e);
+
+        const childWhitelist =
+            dropContainer?.container?.componentMeta?.childWhitelist;
+        const lockedNode = getClosestNode(
+            dropContainer?.container as Node,
+            (node) => node.isLocked,
+        );
+        if (lockedNode) return null;
+        if (
+            !dropContainer ||
+            (nodes &&
+                typeof childWhitelist === 'function' &&
+                !childWhitelist(operationalNodes[0]))
+        ) {
+            return null;
+        }
+
+        return;
     }
 
+    /**
+     * @see ISimulator
+     */
+    getDropContainer(e: LocateEvent): DropContainer | null {
+        const { target, dragObject } = e;
+        const isAny = isDragAnyObject(dragObject);
+
+        // TODO: use spec container to accept specialData
+        if (isAny) {
+            // will return locationData
+            return null;
+        }
+
+        const document = this.project.currentDocument.value;
+        const { focusNode } = document;
+        let container: Node;
+        let nodeInstance: NodeInstance<ComponentInstance> | undefined;
+
+        if (target) {
+            const ref = this.getNodeInstanceFromElement(target);
+            if (ref?.node) {
+                nodeInstance = ref;
+                container = ref.node;
+            } else if (isAny) {
+                return null;
+            } else {
+                container = focusNode;
+            }
+        } else {
+            container = focusNode;
+        }
+
+        if (container.isLeaf()) {
+            container = container.parent || focusNode;
+        }
+
+        // get common parent, avoid drop container contains by dragObject
+        const drillDownExcludes = new Set<Node>();
+        if (isDragNodeObject(dragObject)) {
+            const { nodes } = dragObject;
+            let i = nodes.length;
+            let p: any = container;
+            while (i-- > 0) {
+                if (contains(nodes[i], p)) {
+                    p = nodes[i].parent;
+                }
+            }
+            if (p !== container) {
+                container = p || focusNode;
+                drillDownExcludes.add(container);
+            }
+        }
+
+        let instance: any;
+        if (nodeInstance) {
+            if (nodeInstance.node === container) {
+                instance = nodeInstance.instance;
+            } else {
+                instance = this.getClosestNodeInstance(
+                    nodeInstance.instance as any,
+                    container.id,
+                )?.instance;
+            }
+        } else {
+            instance = this.getComponentInstances(container)?.[0];
+        }
+
+        let dropContainer: DropContainer = {
+            container: container as any,
+            instance,
+        };
+
+        let res: any;
+        let upward: DropContainer | null = null;
+        while (container) {
+            res = this.handleAccept(dropContainer, e);
+            if (res === true) {
+                return dropContainer;
+            }
+            if (!res) {
+                drillDownExcludes.add(container);
+                if (upward) {
+                    dropContainer = upward;
+                    container = dropContainer.container;
+                    upward = null;
+                } else if (container.parent) {
+                    container = container.parent;
+                    instance = this.getClosestNodeInstance(
+                        dropContainer.instance,
+                        container.id,
+                    )?.instance;
+                    dropContainer = {
+                        container: container as ParentalNode,
+                        instance,
+                    };
+                } else {
+                    return null;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 控制接受
+     */
+    handleAccept({ container }: DropContainer, e: LocateEvent): boolean {
+        const { dragObject } = e;
+        const document = this.currentDocument;
+        const focusNode = document.focusNode;
+        if (isRootNode(container) || container.contains(focusNode)) {
+            return document.checkDropTarget(focusNode, dragObject as any);
+        }
+
+        const meta = (container as Node).componentMeta;
+
+        if (!meta.isContainer) {
+            return false;
+        }
+
+        // check nesting
+        return document.checkNesting(container, dragObject as any);
+    }
+
+    private instancesMap: {
+        [docId: string]: Map<string, ComponentInstance[]>;
+    } = {};
+
+    setInstance(
+        docId: string,
+        id: string,
+        instances: ComponentInstance[] | null,
+    ) {
+        if (!hasOwnProperty(this.instancesMap, docId)) {
+            this.instancesMap[docId] = new Map();
+        }
+        if (instances == null) {
+            this.instancesMap[docId].delete(id);
+        } else {
+            this.instancesMap[docId].set(id, instances.slice());
+        }
+    }
+
+    /**
+     * @see ISimulator
+     */
+    getComponentInstances(
+        node: Node,
+        context?: NodeInstance,
+    ): ComponentInstance[] | null {
+        const docId = node.document.id;
+
+        const instances = this.instancesMap[docId]?.get(node.id) || null;
+        if (!instances || !context) {
+            return instances;
+        }
+
+        // filter with context
+        return instances.filter((instance) => {
+            return (
+                this.getClosestNodeInstance(instance, context.nodeId)
+                    ?.instance === context.instance
+            );
+        });
+    }
+
+    /**
+     * @see ISimulator
+     */
     isEnter(e: LocateEvent): boolean {
         const rect = this.viewport.bounds;
         return (
@@ -390,13 +622,17 @@ export class Simulator implements ISimulator<SimulatorProps> {
         );
     }
 
-    private sensing = false;
-
+    /**
+     * @see ISimulator
+     */
     deActiveSensor(): void {
         this.sensing = false;
         this.scroller.cancel();
     }
 
+    /**
+     * 通过elem寻找节点
+     */
     getNodeInstanceFromElement(
         target: Element | null,
     ): NodeInstance<ComponentInstance> | null {

@@ -39,6 +39,11 @@ export interface NodeInstance<T = ComponentInstance> {
     node?: Node | null;
 }
 
+export interface DropContainer {
+    container: ParentalNode;
+    instance: ComponentInstance;
+}
+
 /**
  * 组件实例定义
  */
@@ -71,6 +76,14 @@ export interface ISensor {
     getNodeInstanceFromElement(
         e: Element | null,
     ): NodeInstance<ComponentInstance> | null;
+    /**
+     * 根据节点获取节点的组件实例
+     */
+    getComponentInstances(node: Node): ComponentInstance[] | null;
+    /**
+     * 查找合适的投放容器
+     */
+    getDropContainer(e: LocateEvent): DropContainer | null;
 }
 
 export interface ISimulator<P = object> extends ISensor {
@@ -94,6 +107,13 @@ export interface ISimulator<P = object> extends ISensor {
      * 清除所有态：拖拽态、拷贝态
      */
     clearState(): void;
+    /**
+     * 在组件实例上寻找子组件实例
+     */
+    getClosestNodeInstance(
+        from: ComponentInstance,
+        specId?: string,
+    ): NodeInstance | null;
 }
 
 export function isSimulator(obj: any): obj is ISimulator {

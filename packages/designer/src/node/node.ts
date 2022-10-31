@@ -17,7 +17,7 @@ import { Props } from './props';
 
 export interface NodeOption {
     slotName?: string;
-    slotArgs?: string;
+    slotArgs?: string[];
 }
 
 export type PropChangeOptions = Omit<
@@ -58,7 +58,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     /**
      * 节点是插槽的话，插槽参数
      */
-    readonly slotArgs: string;
+    readonly slotArgs: string[];
 
     private _children?: NodeChildren;
 

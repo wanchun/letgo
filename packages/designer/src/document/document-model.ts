@@ -8,12 +8,19 @@ import {
     NodeData,
     ComponentsMap,
     TransformStage,
+    NodeSchema,
+    isNodeSchema,
 } from '@webank/letgo-types';
 import { ComputedRef } from 'vue';
 import { RootNode, ISimulator, GetDataType, ParentalNode } from '../types';
-import { Designer } from '../designer';
+import {
+    Designer,
+    DragNodeObject,
+    DragNodeDataObject,
+    isDragNodeDataObject,
+} from '../designer';
 import { Project } from '../project';
-import { Node, NodeOption, insertChild, insertChildren } from '../node/node';
+import { Node, NodeOption, insertChild, insertChildren, isNode } from '../node';
 import { ComponentMeta } from '../component-meta';
 import { Selection } from './selection';
 
@@ -306,5 +313,62 @@ export class DocumentModel {
         this.rootNode = null;
         this.nodes.clear();
         this._nodesMap.clear();
+    }
+
+    checkDropTarget(
+        dropTarget: ParentalNode,
+        dragObject: DragNodeObject | DragNodeDataObject,
+    ): boolean {
+        let items: Array<Node | NodeSchema>;
+        if (isDragNodeDataObject(dragObject)) {
+            items = Array.isArray(dragObject.data)
+                ? dragObject.data
+                : [dragObject.data];
+        } else {
+            items = dragObject.nodes;
+        }
+        return items.every((item) => this.checkNestingUp(dropTarget, item));
+    }
+
+    checkNesting(
+        dropTarget: ParentalNode,
+        dragObject: DragNodeObject | DragNodeDataObject,
+    ): boolean {
+        let items: Array<Node | NodeSchema>;
+        if (isDragNodeDataObject(dragObject)) {
+            items = Array.isArray(dragObject.data)
+                ? dragObject.data
+                : [dragObject.data];
+        } else {
+            items = dragObject.nodes;
+        }
+        return items.every((item) => this.checkNestingDown(dropTarget, item));
+    }
+
+    /**
+     * 检查对象对父级的要求，涉及配置 parentWhitelist
+     */
+    checkNestingUp(parent: ParentalNode, obj: NodeSchema | Node): boolean {
+        if (isNode(obj) || isNodeSchema(obj)) {
+            const config = isNode(obj)
+                ? obj.componentMeta
+                : this.getComponentMeta(obj.componentName);
+            if (config) {
+                return config.checkNestingUp(obj, parent);
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * 检查投放位置对子级的要求，涉及配置 childWhitelist
+     */
+    checkNestingDown(parent: ParentalNode, obj: NodeSchema | Node): boolean {
+        const config = parent.componentMeta;
+        return (
+            config.checkNestingDown(parent, obj) &&
+            this.checkNestingUp(parent, obj)
+        );
     }
 }

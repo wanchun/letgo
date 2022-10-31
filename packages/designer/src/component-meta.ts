@@ -1,4 +1,4 @@
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'eventemitter3';
 import {
     NpmInfo,
     NestingFilter,
@@ -289,7 +289,7 @@ export class ComponentMeta {
     onMetadataChange(fn: (args: any) => void): () => void {
         this.emitter.on('metadata_change', fn);
         return () => {
-            this.emitter.removeListener('metadata_change', fn);
+            this.emitter.off('metadata_change', fn);
         };
     }
 }

@@ -15,9 +15,11 @@
     &-item {
         width: 100%;
         justify-content: flex-start;
+        padding: 0 8px;
         &-icon {
             height: 100%;
             width: auto;
+            margin-right: 4px;
         }
     }
 }

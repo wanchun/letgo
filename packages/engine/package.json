@@ -19,7 +19,8 @@
     "@webank/letgo-designer": "^1.0.0",
     "@webank/letgo-types": "^1.0.0",
     "@webank/letgo-plugin-designer": "^1.0.0",
-    "lodash-es": "^4.17.21"
+    "lodash-es": "^4.17.21",
+    "eventemitter3": "^4.0.0"
   },
   "peerDependencies": {
     "vue": "^3.2.37"

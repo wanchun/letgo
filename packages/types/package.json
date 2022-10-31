@@ -12,11 +12,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "events": "^3.3.0",
+    "eventemitter3": "^4.0.0",
     "strict-event-emitter-types": "^2.0.0"
   },
   "devDependencies": {
-    "@types/events": "^3.0.0"
   },
   "keywords": [],
   "author": "",

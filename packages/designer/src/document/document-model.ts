@@ -1,4 +1,4 @@
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'eventemitter3';
 import { uniqueId } from '@webank/letgo-utils';
 import {
     RootSchema,

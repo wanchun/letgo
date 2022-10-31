@@ -1,4 +1,4 @@
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'eventemitter3';
 import {
     NodeSchema,
     GlobalEvent,
@@ -236,7 +236,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     }
 
     emitPropChange(val: PropChangeOptions) {
-        this.emitter?.emit('propChange', val);
+        this.emitter.emit('propChange', val);
     }
     getProp(name: string) {
         return this.props.getProp(name);
@@ -245,7 +245,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         const wrappedFunc = wrapWithEventSwitch(func);
         this.emitter.on('propChange', wrappedFunc);
         return () => {
-            this.emitter.removeListener('propChange', wrappedFunc);
+            this.emitter.off('propChange', wrappedFunc);
         };
     }
 
@@ -369,7 +369,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         const wrappedFunc = wrapWithEventSwitch(func);
         this.emitter.on('visibleChange', wrappedFunc);
         return () => {
-            this.emitter.removeListener('visibleChange', wrappedFunc);
+            this.emitter.off('visibleChange', wrappedFunc);
         };
     }
 

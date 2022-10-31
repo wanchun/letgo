@@ -1,5 +1,5 @@
 import { StrictEventEmitter } from 'strict-event-emitter-types';
-import { EventEmitter } from 'events';
+import EventEmitter from 'eventemitter3';
 import * as GlobalEvent from './event';
 
 export type KeyType = (new (...args: any[]) => any) | symbol | string;
@@ -9,6 +9,7 @@ export interface GetOptions {
     forceNew?: boolean;
     sourceCls?: ClassType;
 }
+
 export type GetReturnType<T, ClsType> = T extends undefined
     ? ClsType extends {
           prototype: infer R;

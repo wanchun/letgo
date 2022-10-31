@@ -1,4 +1,6 @@
+import { EventEmitter } from 'eventemitter3';
 import { getLogger, Logger } from '@webank/letgo-utils';
+import { invariant } from '../utils';
 import {
     IPlugin,
     IPluginConfig,
@@ -6,8 +8,6 @@ import {
     IPluginConfigMeta,
     IPluginContext,
 } from './plugin-types';
-import { EventEmitter } from 'events';
-import { invariant } from '../utils';
 
 export class Plugin implements IPlugin {
     config: IPluginConfig;
@@ -16,7 +16,7 @@ export class Plugin implements IPlugin {
 
     private manager: IPluginManager;
 
-    private emitter: EventEmitter;
+    private emitter = new EventEmitter();
 
     private _inited: boolean;
 
@@ -43,7 +43,6 @@ export class Plugin implements IPlugin {
     ) {
         this.manager = manager;
         this.config = config;
-        this.emitter = new EventEmitter();
         this.pluginName = pluginName;
         this.meta = meta;
         this.logger = getLogger({

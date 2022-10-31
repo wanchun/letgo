@@ -1,4 +1,4 @@
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'eventemitter3';
 import { NodeData, isNodeSchema, TransformStage } from '@webank/letgo-types';
 import { shallowEqual } from '@webank/letgo-utils';
 import { shallowRef, ShallowRef, triggerRef } from 'vue';
@@ -113,7 +113,7 @@ export class NodeChildren {
     onChange(fn: (info?: IOnChangeOptions) => void): () => void {
         this.emitter.on('change', fn);
         return () => {
-            this.emitter.removeListener('change', fn);
+            this.emitter.off('change', fn);
         };
     }
 

@@ -13,13 +13,12 @@
   },
   "dependencies": {
     "lodash-es": "^4.17.21",
-    "events": "^3.3.0",
+    "eventemitter3": "^4.0.0",
     "strict-event-emitter-types": "^2.0.0",
     "@webank/letgo-types": "^1.0.0",
     "@webank/letgo-utils": "^1.0.0"
   },
   "devDependencies": {
-    "@types/events": "^3.0.0"
   },
   "keywords": [],
   "author": "",

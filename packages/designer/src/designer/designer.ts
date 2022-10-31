@@ -1,4 +1,4 @@
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'eventemitter3';
 import {
     IEditor,
     ProjectSchema,
@@ -352,7 +352,7 @@ export class Designer {
     onSimulatorReady(fn: (args: ISimulator) => void): () => void {
         this.emitter.on('letgo_engine_simulator_ready', fn);
         return () => {
-            this.emitter.removeListener('letgo_engine_simulator_ready', fn);
+            this.emitter.off('letgo_engine_simulator_ready', fn);
         };
     }
 
@@ -363,7 +363,7 @@ export class Designer {
     onRendererReady(fn: (args: unknown) => void): () => void {
         this.emitter.on('letgo_engine_renderer_ready', fn);
         return () => {
-            this.emitter.removeListener('letgo_engine_renderer_ready', fn);
+            this.emitter.off('letgo_engine_renderer_ready', fn);
         };
     }
 

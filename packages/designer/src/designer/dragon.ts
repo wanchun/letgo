@@ -1,4 +1,4 @@
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'eventemitter3';
 import { NodeSchema } from '@webank/letgo-types';
 import { cursor } from '@webank/letgo-utils';
 import { DocumentModel } from '../document';
@@ -488,7 +488,7 @@ export class Dragon {
     onDropLocationChange(func: (loc: DropLocation) => any) {
         this.emitter.on('dropLocation.change', func);
         return () => {
-            this.emitter.removeListener('dropLocation.change', func);
+            this.emitter.off('dropLocation.change', func);
         };
     }
 
@@ -511,21 +511,21 @@ export class Dragon {
     onDragstart(func: (e: LocateEvent) => any) {
         this.emitter.on('dragstart', func);
         return () => {
-            this.emitter.removeListener('dragstart', func);
+            this.emitter.off('dragstart', func);
         };
     }
 
     onDrag(func: (e: LocateEvent) => any) {
         this.emitter.on('drag', func);
         return () => {
-            this.emitter.removeListener('drag', func);
+            this.emitter.off('drag', func);
         };
     }
 
     onDragend(func: (x: { dragObject: DragObject; copy: boolean }) => any) {
         this.emitter.on('dragend', func);
         return () => {
-            this.emitter.removeListener('dragend', func);
+            this.emitter.off('dragend', func);
         };
     }
 }

@@ -1,4 +1,4 @@
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'eventemitter3';
 import { shallowRef, ShallowRef, watchEffect } from 'vue';
 import {
     ProjectSchema,
@@ -229,7 +229,7 @@ export class Project {
     onCurrentDocumentChange(fn: (doc: DocumentModel) => void): () => void {
         this.emitter.on('current-document.change', fn);
         return () => {
-            this.emitter.removeListener('current-document.change', fn);
+            this.emitter.off('current-document.change', fn);
         };
     }
 }

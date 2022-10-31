@@ -1,4 +1,4 @@
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'eventemitter3';
 import { reactive } from 'vue';
 import { Node, comparePosition, PositionNO } from '../node/node';
 import { DocumentModel } from './document-model';
@@ -160,7 +160,7 @@ export class Selection {
     onSelectionChange(fn: (ids: string[]) => void): () => void {
         this.emitter.on('selectionchange', fn);
         return () => {
-            this.emitter.removeListener('selectionchange', fn);
+            this.emitter.off('selectionchange', fn);
         };
     }
 }

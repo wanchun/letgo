@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const fs = require('fs');
+const chalk = require('chalk');
 const glob = require('fast-glob');
 const { Project } = require('ts-morph');
 const { isWatch, isFileChange } = require('./build-shard');
@@ -63,7 +64,7 @@ async function genPkgType(pkg) {
         console.log(project.formatDiagnosticsWithColorAndContext(diagnostics));
     }
 
-    project.emitToMemory();
+    // project.emitToMemory();
 
     // 随后将解析完的文件写道打包路径
     for (const [filePath, sourceFile] of Object.entries(sourceFiles)) {
@@ -96,6 +97,7 @@ async function buildTypes() {
     for (const pkg of pkgs) {
         projects[pkg] = await genPkgType(pkg);
     }
+    console.log(chalk.green('build types successfully!'));
 
     if (isWatch()) {
         watch(async (filePath) => {

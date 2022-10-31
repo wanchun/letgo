@@ -11,8 +11,10 @@ export function isVueComponent(val: unknown): val is Component {
     return false;
 }
 
-export function isComponentSchema(val: unknown): val is ComponentSchema {
-    return isObject(val) && val.componentName === 'Component';
+export function isComponentSchema(val: unknown) {
+    return (
+        isObject(val) && (val as ComponentSchema).componentName === 'Component'
+    );
 }
 
 export function accessLibrary(library: string | Record<string, unknown>) {
@@ -98,7 +100,11 @@ export function buildComponents(
         } else if (isVueComponent(component)) {
             components[componentName] = component;
         } else {
-            component = findComponent(libraryMap, componentName, component);
+            component = findComponent(
+                libraryMap,
+                componentName,
+                component as NpmInfo,
+            );
             if (component) {
                 components[componentName] = component;
             }

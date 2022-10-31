@@ -97,7 +97,7 @@ async function buildTypes() {
     for (const pkg of pkgs) {
         projects[pkg] = await genPkgType(pkg);
     }
-    console.log(chalk.green('build types successfully!'));
+    console.log(chalk.green('build types successfully ^-^'));
 
     if (isWatch()) {
         watch(async (filePath) => {

@@ -1,3 +1,3 @@
-import { ISimulatorRenderer } from '@webank/letgo-designer';
+import { Simulator } from '@webank/letgo-designer';
 
-export const host: ISimulatorRenderer = (window as any).LCSimulatorHost;
+export const host: Simulator = (window as any).LCSimulator;

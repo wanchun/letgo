@@ -31,7 +31,6 @@ export interface VueSimulatorRenderer extends ISimulatorRenderer {
     autoRender: boolean;
     componentsMap: Record<string, MinxedComponent>;
     documentInstances: DocumentInstance[];
-    requestHandlersMap: Record<string, CallableFunction>;
     dispose(): void;
     rerender(): void;
     getCurrentDocument(): DocumentInstance | undefined;

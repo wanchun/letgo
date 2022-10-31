@@ -72,7 +72,7 @@ function findChangeFile(filePath) {
 async function buildEsm() {
     const pkgs = getNeedCompilePkg();
     await compilePkgs(pkgs);
-    console.log(chalk.green('build esm successfully!'));
+    console.log(chalk.green('build esm successfully ^-^'));
     if (isWatch()) {
         watch(async (filePath) => {
             try {
@@ -91,7 +91,7 @@ async function buildEsm() {
                 if (['.css', '.ts', '.tsx'].includes(extname)) {
                     console.log(
                         chalk.dim(rawFilePath.split('/letgo')[1]),
-                        chalk.blue('updated!'),
+                        chalk.blue('updated'),
                     );
                 }
             } catch (err) {

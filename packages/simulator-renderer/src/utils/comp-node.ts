@@ -29,8 +29,8 @@ export class ComponentRecord {
     constructor(public did: string, public nid: string, public cid: number) {}
 }
 
-export function isVNodeHTMLElement(el: unknown): el is VNodeHTMLElement {
-    return isObject(el) && isNil(el.__vueParentComponent);
+export function isVNodeHTMLElement(el: unknown) {
+    return isObject(el) && isNil((el as VNodeHTMLElement).__vueParentComponent);
 }
 
 export function isCompRootHTMLElement(
@@ -43,10 +43,8 @@ export function isComponentRecord(el: unknown): el is ComponentRecord {
     return isObject(el) && SYMBOL_RECORD_FLAG in el;
 }
 
-export function isInternalInstance(
-    el: unknown,
-): el is ComponentInternalInstance {
-    return isObject(el) && isProxy(el.proxy);
+export function isInternalInstance(el: unknown) {
+    return isObject(el) && isProxy((el as ComponentInternalInstance).proxy);
 }
 
 export function getCompRootData(el: CompRootHTMLElement): CompRootData {

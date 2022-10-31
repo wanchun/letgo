@@ -53,19 +53,6 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
         return instance.$.isMounted;
     };
 
-    const setHostInstance = (
-        docId: string,
-        nodeId: string,
-        instances: ComponentInstance[] | null,
-    ) => {
-        const instanceRecords = !instances
-            ? null
-            : instances.map(
-                  (inst) => new ComponentRecord(docId, nodeId, inst.$.uid),
-              );
-        host.setInstance(docId, nodeId, instanceRecords);
-    };
-
     const getComponentInstance = (id: number) => {
         return vueInstanceMap.get(id);
     };
@@ -78,10 +65,8 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
                 instances = instances.filter(checkInstanceMounted);
                 if (instances.length > 0) {
                     instancesMap.set(id, instances);
-                    setHostInstance(docId, id, instances);
                 } else {
                     instancesMap.delete(id);
-                    setHostInstance(docId, id, null);
                 }
             }
             return;
@@ -117,7 +102,6 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
         }
         vueInstanceMap.set(instance.$.uid, instance);
         instancesMap.set(id, instances);
-        setHostInstance(docId, id, instances);
     };
 
     const unmountIntance = (id: string, instance: ComponentInstance) => {
@@ -127,7 +111,6 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
             if (i > -1) {
                 const [instance] = instances.splice(i, 1);
                 vueInstanceMap.delete(instance.$.uid);
-                setHostInstance(document.id, id, instances);
             }
         }
     };
@@ -157,14 +140,11 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
 function createSimulatorRenderer() {
     const layout: Ref<SimulatorViewLayout> = shallowRef({});
     const device: Ref<string> = shallowRef('default');
-    const locale: Ref<string | undefined> = shallowRef();
     const autoRender = shallowRef(host.autoRender);
     const designMode: Ref<string> = shallowRef('design');
     const libraryMap: Ref<Record<string, string>> = shallowRef({});
     const components: Ref<Record<string, Component>> = shallowRef({});
     const componentsMap: Ref<Record<string, MinxedComponent>> = shallowRef({});
-    const requestHandlersMap: Ref<Record<string, CallableFunction>> =
-        shallowRef({});
     const documentInstances: Ref<DocumentInstance[]> = shallowRef([]);
 
     const disposeFunctions: Array<() => void> = [];
@@ -192,7 +172,6 @@ function createSimulatorRenderer() {
         autoRender,
         componentsMap,
         documentInstances,
-        requestHandlersMap,
         isSimulatorRenderer: true,
     }) as VueSimulatorRenderer;
 
@@ -279,82 +258,63 @@ function createSimulatorRenderer() {
         host.project.setRendererReady(simulator);
     };
 
-    disposeFunctions.push(
-        host.connect(simulator, () => {
-            // sync layout config
-            layout.value = host.project.get('config').layout;
+    const syncHostProps = () => {
+        layout.value = host.project.get('config').layout;
 
-            // todo: split with others, not all should recompute
-            if (
-                libraryMap.value !== host.libraryMap ||
-                componentsMap.value !== host.designer.componentsMap
-            ) {
-                libraryMap.value = host.libraryMap || {};
-                componentsMap.value = host.designer.componentsMap;
-                _buildComponents();
-            }
-
-            locale.value = host.locale;
-
-            // sync device
-            device.value = host.device;
-
-            // sync designMode
-            designMode.value = host.designMode;
-
-            // sync requestHandlersMap
-            requestHandlersMap.value = host.requestHandlersMap;
-        }),
-    );
-
-    disposeFunctions.push(
-        host.autorun(() => {
-            const { router } = simulator;
-            documentInstances.value = host.project.documents.map((doc) => {
-                let documentInstance = documentInstanceMap.get(doc.id);
-                if (!documentInstance) {
-                    documentInstance = createDocumentInstance(doc);
-                    documentInstanceMap.set(doc.id, documentInstance);
-                    router.addRoute({
-                        name: documentInstance.id,
-                        path: documentInstance.path,
-                        component: Renderer,
-                        props: () => ({
-                            key: documentInstance?.key,
-                            documentInstance,
-                            simulator,
-                        }),
-                    });
-                }
-                return documentInstance;
-            });
-            router.getRoutes().forEach((route) => {
-                const id = route.name as string;
-                const hasDoc = documentInstances.value.some(
-                    (doc) => doc.id === id,
-                );
-                if (!hasDoc) {
-                    router.removeRoute(id);
-                    documentInstanceMap.delete(id);
-                }
-            });
-            const inst = simulator.getCurrentDocument();
-            if (inst && inst.id !== router.currentRoute.value.name) {
-                router.replace({ name: inst.id });
-            }
-        }),
-    );
-
-    host.componentsConsumer.consume(async (componentsAsset) => {
-        if (componentsAsset) {
-            await loader.load(componentsAsset);
+        // todo: split with others, not all should recompute
+        if (
+            libraryMap.value !== host.libraryMap ||
+            componentsMap.value !== host.designer.componentsMap
+        ) {
+            libraryMap.value = host.libraryMap || {};
+            componentsMap.value = host.designer.componentsMap;
             _buildComponents();
         }
-    });
 
-    host.injectionConsumer.consume(() => {
-        // TODO: handle designer injection
-    });
+        // sync device
+        device.value = host.device.value;
+
+        // sync designMode
+        designMode.value = host.designMode;
+    };
+    host.connect(simulator);
+    syncHostProps();
+
+    const initDocument = () => {
+        const { router } = simulator;
+        documentInstances.value = host.project.documents.map((doc) => {
+            let documentInstance = documentInstanceMap.get(doc.id);
+            if (!documentInstance) {
+                documentInstance = createDocumentInstance(doc);
+                documentInstanceMap.set(doc.id, documentInstance);
+                router.addRoute({
+                    name: documentInstance.id,
+                    path: documentInstance.path,
+                    component: Renderer,
+                    props: () => ({
+                        key: documentInstance?.key,
+                        documentInstance,
+                        simulator,
+                    }),
+                });
+            }
+            return documentInstance;
+        });
+        router.getRoutes().forEach((route) => {
+            const id = route.name as string;
+            const hasDoc = documentInstances.value.some((doc) => doc.id === id);
+            if (!hasDoc) {
+                router.removeRoute(id);
+                documentInstanceMap.delete(id);
+            }
+        });
+        const inst = simulator.getCurrentDocument();
+        if (inst && inst.id !== router.currentRoute.value.name) {
+            router.replace({ name: inst.id });
+        }
+    };
+
+    initDocument();
 
     return simulator;
 }

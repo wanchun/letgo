@@ -1,4 +1,4 @@
-import { defineComponent, h, PropType } from 'vue';
+import { defineComponent, h, PropType, DefineComponent } from 'vue';
 import LowCodeRenderer from '@webank/letgo-renderer';
 import { RouterView } from 'vue-router';
 import { DocumentInstance, VueSimulatorRenderer } from './interface';
@@ -26,7 +26,7 @@ export const Layout = defineComponent({
                 componentName && getComponent(componentName);
             if (ComputedComponent) {
                 return h(
-                    ComputedComponent,
+                    ComputedComponent as DefineComponent,
                     { ...props, key: 'layout', simulator },
                     $slots,
                 );

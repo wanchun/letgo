@@ -15,7 +15,7 @@
   "dependencies": {
     "@fesjs/builder-vite": "^3.0.0-beta.8",
     "@fesjs/fes": "^3.0.0-beta.4",
-    "@fesjs/fes-design": "^0.7.0",
+    "@fesjs/fes-design": "^0.7.7",
     "@fesjs/plugin-request": "^3.0.0-beta.7",
     "@vueuse/core": "^8.9.0",
     "lodash-es": "^4.17.21",

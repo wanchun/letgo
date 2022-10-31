@@ -205,17 +205,19 @@ export default defineComponent({
                             }}
                         ></FInput>
                     </div>
-                    {groupListRef.value.map((group) => {
-                        return (
-                            <div
-                                name={group}
-                                value={group}
-                                displayDirective="show"
-                            >
-                                {renderCategory(group)}
-                            </div>
-                        );
-                    })}
+                    <FTabs>
+                        {groupListRef.value.map((group) => {
+                            return (
+                                <FTabPane
+                                    name={group}
+                                    value={group}
+                                    displayDirective="show"
+                                >
+                                    {renderCategory(group)}
+                                </FTabPane>
+                            );
+                        })}
+                    </FTabs>
                 </Fragment>
             );
         };

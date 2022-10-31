@@ -62,48 +62,42 @@ importers:
 
   packages/designer:
     specifiers:
-      '@fesjs/fes-design': ^0.7.0
-      '@types/events': ^3.0.0
+      '@fesjs/fes-design': ^0.7.7
       '@webank/letgo-editor-core': ^1.0.0
       '@webank/letgo-types': ^1.0.0
       '@webank/letgo-utils': ^1.0.0
-      events: ^3.3.0
+      eventemitter3: ^4.0.0
       lodash-es: ^4.17.21
     dependencies:
-      '@fesjs/fes-design': 0.7.0
+      '@fesjs/fes-design': 0.7.7
       '@webank/letgo-editor-core': link:../editor-core
       '@webank/letgo-types': link:../types
       '@webank/letgo-utils': link:../utils
-      events: 3.3.0
+      eventemitter3: 4.0.7
       lodash-es: 4.17.21
-    devDependencies:
-      '@types/events': 3.0.0
 
   packages/editor-core:
     specifiers:
-      '@types/events': ^3.0.0
       '@webank/letgo-types': ^1.0.0
       '@webank/letgo-utils': ^1.0.0
-      events: ^3.3.0
+      eventemitter3: ^4.0.0
       lodash-es: ^4.17.21
       strict-event-emitter-types: ^2.0.0
     dependencies:
       '@webank/letgo-types': link:../types
       '@webank/letgo-utils': link:../utils
-      events: 3.3.0
+      eventemitter3: 4.0.7
       lodash-es: 4.17.21
       strict-event-emitter-types: 2.0.0
-    devDependencies:
-      '@types/events': 3.0.0
 
   packages/editor-skeleton:
     specifiers:
-      '@fesjs/fes-design': ^0.7.0
+      '@fesjs/fes-design': ^0.7.7
       '@webank/letgo-designer': ^1.0.0
       '@webank/letgo-editor-core': ^1.0.0
       '@webank/letgo-utils': ^1.0.0
     dependencies:
-      '@fesjs/fes-design': 0.7.0
+      '@fesjs/fes-design': 0.7.7
       '@webank/letgo-designer': link:../designer
       '@webank/letgo-editor-core': link:../editor-core
       '@webank/letgo-utils': link:../utils
@@ -117,6 +111,7 @@ importers:
       '@webank/letgo-plugin-designer': ^1.0.0
       '@webank/letgo-types': ^1.0.0
       '@webank/letgo-utils': ^1.0.0
+      eventemitter3: ^4.0.0
       lodash-es: ^4.17.21
       semver: ^7.3.5
     dependencies:
@@ -126,6 +121,7 @@ importers:
       '@webank/letgo-plugin-designer': link:../plugin-designer
       '@webank/letgo-types': link:../types
       '@webank/letgo-utils': link:../utils
+      eventemitter3: 4.0.7
       lodash-es: 4.17.21
       semver: 7.3.7
     devDependencies:
@@ -133,13 +129,13 @@ importers:
 
   packages/plugin-components-panel:
     specifiers:
-      '@fesjs/fes-design': ^0.7.0
+      '@fesjs/fes-design': ^0.7.7
       '@webank/letgo-designer': ^1.0.0
       '@webank/letgo-editor-core': ^1.0.0
       '@webank/letgo-engine': ^1.0.0
       '@webank/letgo-types': ^1.0.0
     dependencies:
-      '@fesjs/fes-design': 0.7.0
+      '@fesjs/fes-design': 0.7.7
       '@webank/letgo-designer': link:../designer
       '@webank/letgo-editor-core': link:../editor-core
       '@webank/letgo-engine': link:../engine
@@ -147,13 +143,13 @@ importers:
 
   packages/plugin-designer:
     specifiers:
-      '@fesjs/fes-design': ^0.7.0
+      '@fesjs/fes-design': ^0.7.7
       '@webank/letgo-designer': ^1.0.0
       '@webank/letgo-editor-core': ^1.0.0
       '@webank/letgo-engine': ^1.0.0
       '@webank/letgo-types': ^1.0.0
     dependencies:
-      '@fesjs/fes-design': 0.7.0
+      '@fesjs/fes-design': 0.7.7
       '@webank/letgo-designer': link:../designer
       '@webank/letgo-editor-core': link:../editor-core
       '@webank/letgo-engine': link:../engine
@@ -192,7 +188,7 @@ importers:
     specifiers:
       '@fesjs/builder-vite': ^3.0.0-beta.8
       '@fesjs/fes': ^3.0.0-beta.4
-      '@fesjs/fes-design': ^0.7.0
+      '@fesjs/fes-design': ^0.7.7
       '@fesjs/plugin-request': ^3.0.0-beta.7
       '@vue/compiler-sfc': ^3.2.37
       '@vueuse/core': ^8.9.0
@@ -204,7 +200,7 @@ importers:
     dependencies:
       '@fesjs/builder-vite': 3.0.0-beta.8_rddfedzgioeena4x4wn5ajjmby
       '@fesjs/fes': 3.0.0-beta.4_2yymnzrok6eda47acnj2yjm3ae
-      '@fesjs/fes-design': 0.7.0_vue@3.2.37
+      '@fesjs/fes-design': 0.7.7_vue@3.2.37
       '@fesjs/plugin-request': 3.0.0-beta.7_b42avbuvoufuq7ump24omsvp3y
       '@vueuse/core': 8.9.0_vue@3.2.37
       '@webank/letgo-engine': link:../engine
@@ -217,14 +213,11 @@ importers:
 
   packages/types:
     specifiers:
-      '@types/events': ^3.0.0
-      events: ^3.3.0
+      eventemitter3: ^4.0.0
       strict-event-emitter-types: ^2.0.0
     dependencies:
-      events: 3.3.0
+      eventemitter3: 4.0.7
       strict-event-emitter-types: 2.0.0
-    devDependencies:
-      '@types/events': 3.0.0
 
   packages/utils:
     specifiers:
@@ -2700,8 +2693,8 @@ packages:
       - supports-color
     dev: false
 
-  /@fesjs/fes-design/0.7.0:
-    resolution: {integrity: sha512-VEZzE4UUBj/Z+aeWdTY1jDeGCX1z9qs3SLzX7/movwdkLPJYzfZrCCOOioMuWEUj1Xv6NP7PjTmMxnuq/SFJjA==}
+  /@fesjs/fes-design/0.7.7:
+    resolution: {integrity: sha512-CTtRe7Ucd6KH87qVxr4/uRTbyeGzobWoT+6OOBOQ0Q3ApVbSmsznXcAYa10WDj9pgIrXUy4q/yWpfPJQykB2Ag==}
     peerDependencies:
       vue: ^3.2.7
     dependencies:
@@ -2722,8 +2715,8 @@ packages:
       - '@vue/composition-api'
     dev: false
 
-  /@fesjs/fes-design/0.7.0_vue@3.2.37:
-    resolution: {integrity: sha512-VEZzE4UUBj/Z+aeWdTY1jDeGCX1z9qs3SLzX7/movwdkLPJYzfZrCCOOioMuWEUj1Xv6NP7PjTmMxnuq/SFJjA==}
+  /@fesjs/fes-design/0.7.7_vue@3.2.37:
+    resolution: {integrity: sha512-CTtRe7Ucd6KH87qVxr4/uRTbyeGzobWoT+6OOBOQ0Q3ApVbSmsznXcAYa10WDj9pgIrXUy4q/yWpfPJQykB2Ag==}
     peerDependencies:
       vue: ^3.2.7
     dependencies:
@@ -3085,10 +3078,6 @@ packages:
 
   /@types/estree/1.0.0:
     resolution: {integrity: sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==}
-    dev: true
-
-  /@types/events/3.0.0:
-    resolution: {integrity: sha512-EaObqwIvayI5a8dCzhFrjKzVwKLxjoG9T6Ppd5CEo07LRKfQ8Yokw54r5+Wq7FaBQ+yXRvQAYPrHwya1/UFt9g==}
     dev: true
 
   /@types/json-schema/7.0.11:
@@ -4965,12 +4954,6 @@ packages:
 
   /eventemitter3/4.0.7:
     resolution: {integrity: sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==}
-    dev: true
-
-  /events/3.3.0:
-    resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
-    engines: {node: '>=0.8.x'}
-    dev: false
 
   /express/4.18.1:
     resolution: {integrity: sha512-zZBcOX9TfehHQhtupq57OF8lFZ3UZi08Y97dwFCkD8p9d/d2Y3M+ykKcwaMDEL+4qyUolgBDX6AblpR3fL212Q==}

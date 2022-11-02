@@ -7,7 +7,7 @@ if (typeof win !== 'undefined') {
 }
 
 win.addEventListener('beforeunload', () => {
-    win.LCSimulatorHost = null;
+    win.LETGO_Simulator = null;
     win.SimulatorRenderer = null;
     simulator.dispose();
 });

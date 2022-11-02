@@ -25,6 +25,7 @@ import {
     DragObject,
 } from './dragon';
 import { DropLocation, isLocationChildrenDetail } from './location';
+import { Detecting } from './detecting';
 
 export interface DesignerProps {
     editor: IEditor;
@@ -49,6 +50,8 @@ export class Designer {
     readonly project: Project;
 
     readonly dragon = new Dragon(this);
+
+    readonly detecting = new Detecting();
 
     private _componentMetaMap = new Map<string, ComponentMeta>();
 
@@ -131,6 +134,7 @@ export class Designer {
         this.project = new Project(this, props.defaultSchema);
 
         this.dragon.onDragstart((e) => {
+            this.detecting.enable = false;
             const { dragObject } = e;
             if (isDragNodeObject(dragObject)) {
                 if (dragObject.nodes.length === 1) {
@@ -200,6 +204,7 @@ export class Designer {
             if (this.props?.onDragend) {
                 this.props.onDragend(e, loc);
             }
+            this.detecting.enable = true;
             this.postEvent('dragend', e, loc);
         });
 

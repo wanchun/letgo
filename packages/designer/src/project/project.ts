@@ -232,7 +232,4 @@ export class Project {
             this.emitter.off('current-document.change', fn);
         };
     }
-    setRendererReady(renderer: any) {
-        this.emitter.emit('lowcode_engine_renderer_ready', renderer);
-    }
 }

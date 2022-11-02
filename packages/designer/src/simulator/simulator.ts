@@ -48,7 +48,9 @@ export interface SimulatorProps {
     [key: string]: any;
 }
 
-window.Vue = Vue;
+const win = window as any;
+
+win.Vue = Vue;
 
 const defaultEnvironment = [
     assetItem(
@@ -131,9 +133,9 @@ export class Simulator implements ISimulator<SimulatorProps> {
         return this.get('deviceStyle');
     });
 
-    get designMode(): string {
+    designMode: ComputedRef<string> = computed(() => {
         return this.get('designMode');
-    }
+    });
 
     constructor(designer: Designer) {
         this.designer = designer;
@@ -299,7 +301,6 @@ export class Simulator implements ISimulator<SimulatorProps> {
                 let nodes: Node[] = [node];
                 let ignoreUpSelected = false;
                 if (isMulti) {
-                    // multi select mode, directily add
                     if (!selection.has(node.id)) {
                         selection.add(node.id);
                         ignoreUpSelected = true;
@@ -349,7 +350,45 @@ export class Simulator implements ISimulator<SimulatorProps> {
     /**
      * iframe-render悬停处理
      */
-    setupDetecting() {}
+    setupDetecting() {
+        const doc = this.contentDocument;
+        const { detecting, dragon } = this.designer;
+        const hover = (e: MouseEvent) => {
+            if (!detecting.enable || this.designMode !== 'design') {
+                return;
+            }
+            const nodeInst = this.getNodeInstanceFromElement(
+                e.target as Element,
+            );
+            if (nodeInst?.node) {
+                let node = nodeInst.node;
+                const focusNode = node.document?.focusNode;
+                if (node.contains(focusNode)) {
+                    node = focusNode;
+                }
+                detecting.capture(node);
+            } else {
+                detecting.capture(null);
+            }
+            if (dragon.dragging) {
+                e.stopPropagation();
+            }
+        };
+        const leave = () => detecting.leave(this.project.currentDocument.value);
+
+        doc.addEventListener('mouseover', hover, true);
+        doc.addEventListener('mouseleave', leave, false);
+
+        doc.addEventListener(
+            'mousemove',
+            (e: Event) => {
+                if (dragon.dragging) {
+                    e.stopPropagation();
+                }
+            },
+            true,
+        );
+    }
 
     postEvent(eventName: string, ...data: any[]) {
         this.emitter.emit(eventName, ...data);

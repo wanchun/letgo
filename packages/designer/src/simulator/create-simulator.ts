@@ -24,7 +24,7 @@ export function createSimulator(
     const doc = iframe.contentDocument;
 
     // 注入host
-    win.LCSimulator = simulator;
+    win.LETGO_Simulator = simulator;
 
     const styles: any = {};
     const scripts: any = {};
@@ -58,7 +58,7 @@ export function createSimulator(
                     isCSSUrl(asset) ? AssetType.CSSUrl : AssetType.JSUrl,
                     asset,
                     level,
-                )!;
+                );
             }
             const id = asset.id ? ` data-id="${asset.id}"` : '';
             const lv = asset.level || level || AssetLevel.Environment;

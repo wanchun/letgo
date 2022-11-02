@@ -70,6 +70,38 @@ export interface ISensor {
      * 取消激活
      */
     deActiveSensor(): void;
+}
+
+export interface ISimulator<P = object> extends ISensor {
+    readonly isSimulator: true;
+    readonly viewport: IViewport;
+    readonly contentWindow?: Window;
+    readonly contentDocument?: Document;
+
+    readonly renderer?: ISimulatorRenderer;
+
+    setProps(props: P): void;
+
+    /**
+     * 设置拖拽态
+     */
+    setDraggingState(state: boolean): void;
+    /**
+     * 设置拷贝态
+     */
+    setCopyState(state: boolean): void;
+    /**
+     * 清除所有态：拖拽态、拷贝态
+     */
+    clearState(): void;
+
+    /**
+     * 在组件实例上寻找子组件实例
+     */
+    getClosestNodeInstance(
+        from: ComponentInstance,
+        specId?: string,
+    ): NodeInstance | null;
     /**
      * 获取节点实例
      */
@@ -84,36 +116,6 @@ export interface ISensor {
      * 查找合适的投放容器
      */
     getDropContainer(e: LocateEvent): DropContainer | null;
-}
-
-export interface ISimulator<P = object> extends ISensor {
-    readonly isSimulator: true;
-    readonly viewport: IViewport;
-    readonly contentWindow?: Window;
-    readonly contentDocument?: Document;
-
-    readonly renderer?: ISimulatorRenderer;
-
-    setProps(props: P): void;
-    /**
-     * 设置拖拽态
-     */
-    setDraggingState(state: boolean): void;
-    /**
-     * 设置拷贝态
-     */
-    setCopyState(state: boolean): void;
-    /**
-     * 清除所有态：拖拽态、拷贝态
-     */
-    clearState(): void;
-    /**
-     * 在组件实例上寻找子组件实例
-     */
-    getClosestNodeInstance(
-        from: ComponentInstance,
-        specId?: string,
-    ): NodeInstance | null;
 }
 
 export function isSimulator(obj: any): obj is ISimulator {

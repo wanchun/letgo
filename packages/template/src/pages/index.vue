@@ -96,7 +96,12 @@ export default defineComponent({
         let destroy: () => void;
 
         onMounted(async () => {
-            destroy = await init(containerRef.value, {});
+            destroy = await init(containerRef.value, {
+                simulatorUrl: [
+                    `${getPublicPath()}lib/lowcode-vue-simulator/vue-simulator-renderer.js`,
+                    `${getPublicPath()}lib/lowcode-vue-simulator/vue-simulator-renderer.css`,
+                ],
+            });
         });
 
         onBeforeUnmount(() => {

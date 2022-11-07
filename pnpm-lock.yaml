@@ -194,6 +194,7 @@ importers:
       '@vueuse/core': ^8.9.0
       '@webank/letgo-engine': ^1.0.0
       '@webank/letgo-plugin-components-panel': ^1.0.0
+      '@webank/letgo-simulator-renderer': ^1.0.0
       core-js: ^3.19.2
       lodash-es: ^4.17.21
       vue: ^3.2.37
@@ -205,6 +206,7 @@ importers:
       '@vueuse/core': 8.9.0_vue@3.2.37
       '@webank/letgo-engine': link:../engine
       '@webank/letgo-plugin-components-panel': link:../plugin-components-panel
+      '@webank/letgo-simulator-renderer': link:../simulator-renderer
       core-js: 3.23.3
       lodash-es: 4.17.21
       vue: 3.2.37

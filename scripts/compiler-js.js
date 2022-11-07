@@ -2,28 +2,16 @@
 
 const path = require('path');
 const rollup = require('rollup');
-const fse = require('fs-extra');
 const babel = require('@rollup/plugin-babel');
 const css = require('@modular-css/rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const postcssImport = require('postcss-import');
 const postcssNested = require('postcss-nested');
-const uniqueSlug = require('unique-slug');
 const renameExtensions =
     require('@betit/rollup-plugin-rename-extensions').default;
 
 const injectcss = require('./injectcss');
-const { extensions } = require('./build-shard');
-
-const cache = new Map();
-function genCssNamer(file) {
-    if (cache.has(file)) return cache.get(file);
-
-    const name = uniqueSlug(fse.readFileSync(file, 'utf8'));
-    cache.set(file, `lc${name}`);
-
-    return cache.get(file);
-}
+const { extensions, genCssNamer } = require('./build-shard');
 
 async function compiler(codePath, outputDir) {
     const extname = path.extname(codePath);

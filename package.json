@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "node scripts/build.js --watch --esm --types",
-    "build": "node scripts/build.js --esm --types",
+    "build": "node scripts/build.js --esm --types --umd",
     "clear": "node scripts/clear.js"
   },
   "repository": {

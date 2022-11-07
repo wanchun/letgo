@@ -1,7 +1,8 @@
-import { VNode } from 'vue';
+import { Slot } from 'vue';
 import { PropConfig, PropType } from './prop-config';
 import { NpmInfo } from './npm';
 import { NodeSchema, ComponentSchema } from './schema';
+import { IconType } from './icon';
 
 /**
  * 可用片段
@@ -217,7 +218,7 @@ export interface ActionContentObject {
     /**
      * 图标
      */
-    icon?: string | VNode;
+    icon?: IconType;
     /**
      * 描述
      */
@@ -228,6 +229,8 @@ export interface ActionContentObject {
     action?: (currentNode: any) => void;
 }
 
+export type ComponentActionType = string | ActionContentObject | Slot;
+
 export interface ComponentAction {
     /**
      * behaviorName
@@ -236,7 +239,7 @@ export interface ComponentAction {
     /**
      * 菜单名称
      */
-    content: string | ActionContentObject;
+    content: ComponentActionType;
     /**
      * 子集
      */

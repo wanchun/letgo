@@ -49,6 +49,11 @@ export interface DropContainer {
  */
 export type ComponentInstance = Element | Component<any> | object;
 
+export interface INodeSelector {
+    node: Node;
+    instance?: ComponentInstance;
+}
+
 export interface ISensor {
     /**
      * 是否可响应，比如面板被隐藏，可设置该值 false
@@ -96,6 +101,14 @@ export interface ISimulator<P = object> extends ISensor {
     clearState(): void;
 
     /**
+     * 缓存节点id的实例
+     */
+    setInstance(
+        docId: string,
+        id: string,
+        instances: ComponentInstance[] | null,
+    ): void;
+    /**
      * 在组件实例上寻找子组件实例
      */
     getClosestNodeInstance(
@@ -116,6 +129,20 @@ export interface ISimulator<P = object> extends ISensor {
      * 查找合适的投放容器
      */
     getDropContainer(e: LocateEvent): DropContainer | null;
+    /**
+     * 查找节点的 dom
+     */
+    findDOMNodes(
+        instance: ComponentInstance,
+        selector?: string,
+    ): Array<Element | Text> | null;
+    /**
+     * 计算节点位置
+     */
+    computeComponentInstanceRect(
+        instance: ComponentInstance,
+        selector?: string,
+    ): DOMRect | null;
 }
 
 export function isSimulator(obj: any): obj is ISimulator {

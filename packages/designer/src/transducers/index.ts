@@ -3,7 +3,7 @@ import { ComponentMetadata } from '@webank/letgo-types';
 export function componentDefaults(
     metadata: ComponentMetadata,
 ): ComponentMetadata {
-    const { configure, componentName } = metadata;
+    const { configure = {}, componentName } = metadata;
     const { component = {} } = configure;
     if (!component.nestingRule) {
         let m;

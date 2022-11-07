@@ -8,7 +8,12 @@ import {
     AssetType,
     AssetLevel,
 } from '@webank/letgo-types';
-import { assetItem, assetBundle, hasOwnProperty } from '@webank/letgo-utils';
+import {
+    assetItem,
+    assetBundle,
+    hasOwnProperty,
+    isElement,
+} from '@webank/letgo-utils';
 import {
     ISimulator,
     ComponentInstance,
@@ -20,6 +25,7 @@ import { Project } from '../project';
 import {
     Designer,
     LocateEvent,
+    Rect,
     Scroller,
     DropLocation,
     DragObjectType,
@@ -275,7 +281,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
             }
             const { selection } = documentModel;
             let isMulti = false;
-            if (this.designMode === 'design') {
+            if (this.designMode.value === 'design') {
                 isMulti = downEvent.metaKey || downEvent.ctrlKey;
             } else if (!downEvent.metaKey) {
                 return;
@@ -354,7 +360,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
         const doc = this.contentDocument;
         const { detecting, dragon } = this.designer;
         const hover = (e: MouseEvent) => {
-            if (!detecting.enable || this.designMode !== 'design') {
+            if (!detecting.enable || this.designMode.value !== 'design') {
                 return;
             }
             const nodeInst = this.getNodeInstanceFromElement(
@@ -610,6 +616,9 @@ export class Simulator implements ISimulator<SimulatorProps> {
         [docId: string]: Map<string, ComponentInstance[]>;
     } = {};
 
+    /**
+     * @see ISimulator
+     */
     setInstance(
         docId: string,
         id: string,
@@ -705,6 +714,101 @@ export class Simulator implements ISimulator<SimulatorProps> {
     /**
      * @see ISimulator
      */
+    findDOMNodes(
+        instance: ComponentInstance,
+        selector?: string,
+    ): Array<Element | Text> | null {
+        const elements = this._renderer?.findDOMNodes(instance);
+        if (!elements) {
+            return null;
+        }
+
+        if (selector) {
+            const matched = getMatched(elements, selector);
+            if (!matched) {
+                return null;
+            }
+            return [matched];
+        }
+        return elements;
+    }
+
+    /**
+     * @see ISimulator
+     */
+    computeComponentInstanceRect(
+        instance: ComponentInstance,
+        selector?: string,
+    ): Rect | null {
+        const renderer = this.renderer;
+        let elements = this.findDOMNodes(instance, selector);
+        if (!elements) {
+            return null;
+        }
+        elements = elements.slice();
+        let rects: DOMRect[] | undefined;
+        let last: { x: number; y: number; r: number; b: number } | undefined;
+        let _computed = false;
+        while (true) {
+            if (!rects || rects.length < 1) {
+                const elem = elements.pop();
+                if (!elem) {
+                    break;
+                }
+                rects = renderer.getClientRects(elem);
+            }
+            const rect = rects.pop();
+            if (!rect) {
+                break;
+            }
+            if (rect.width === 0 && rect.height === 0) {
+                continue;
+            }
+            if (!last) {
+                last = {
+                    x: rect.left,
+                    y: rect.top,
+                    r: rect.right,
+                    b: rect.bottom,
+                };
+                continue;
+            }
+            if (rect.left < last.x) {
+                last.x = rect.left;
+                _computed = true;
+            }
+            if (rect.top < last.y) {
+                last.y = rect.top;
+                _computed = true;
+            }
+            if (rect.right > last.r) {
+                last.r = rect.right;
+                _computed = true;
+            }
+            if (rect.bottom > last.b) {
+                last.b = rect.bottom;
+                _computed = true;
+            }
+        }
+
+        if (last) {
+            const r: any = new DOMRect(
+                last.x,
+                last.y,
+                last.r - last.x,
+                last.b - last.y,
+            );
+            r.elements = elements;
+            r.computed = _computed;
+            return r;
+        }
+
+        return null;
+    }
+
+    /**
+     * @see ISimulator
+     */
     setDraggingState(state: boolean) {
         this.renderer?.setDraggingState(state);
     }
@@ -724,4 +828,23 @@ export class Simulator implements ISimulator<SimulatorProps> {
     }
 
     pure() {}
+}
+
+function getMatched(
+    elements: Array<Element | Text>,
+    selector: string,
+): Element | null {
+    let firstQueried: Element | null = null;
+    for (const elem of elements) {
+        if (isElement(elem)) {
+            if (elem.matches(selector)) {
+                return elem;
+            }
+
+            if (!firstQueried) {
+                firstQueried = elem.querySelector(selector);
+            }
+        }
+    }
+    return firstQueried;
 }

@@ -11,8 +11,8 @@ import {
     isNodeSchema,
     ComponentSchema,
 } from '@webank/letgo-types';
-import { Component } from 'vue';
-import { ISimulator } from '../types';
+import { Component, shallowReactive, ShallowReactive } from 'vue';
+import { ISimulator, INodeSelector } from '../types';
 import { Project } from '../project';
 import { ComponentMeta } from '../component-meta';
 import { Node, insertChildren } from '../node';
@@ -26,6 +26,7 @@ import {
 } from './dragon';
 import { DropLocation, isLocationChildrenDetail } from './location';
 import { Detecting } from './detecting';
+import { OffsetObserver, createOffsetObserver } from './offset-observer';
 
 export interface DesignerProps {
     editor: IEditor;
@@ -49,7 +50,9 @@ export class Designer {
 
     readonly project: Project;
 
-    readonly dragon = new Dragon(this);
+    readonly dragon: ShallowReactive<Dragon> = shallowReactive(
+        new Dragon(this),
+    );
 
     readonly detecting = new Detecting();
 
@@ -375,6 +378,34 @@ export class Designer {
     purge() {
         this._componentMetaMap.clear();
         this._lostComponentMetaMap.clear();
+        this.clearOffsetObserverList(true);
+    }
+
+    private offsetObserverList: OffsetObserver[] = [];
+
+    createOffsetObserver(nodeInstance: INodeSelector) {
+        const offsetObserver = createOffsetObserver(nodeInstance);
+        this.clearOffsetObserverList();
+        if (offsetObserver) {
+            this.offsetObserverList.push(offsetObserver);
+        }
+        return offsetObserver;
+    }
+
+    private clearOffsetObserverList(force?: boolean) {
+        let l = this.offsetObserverList.length;
+        if (l > 20 || force) {
+            while (l-- > 0) {
+                if (this.offsetObserverList[l].isPurged()) {
+                    this.offsetObserverList.splice(l, 1);
+                }
+            }
+        }
+    }
+
+    touchOffsetObserver() {
+        this.clearOffsetObserverList(true);
+        this.offsetObserverList.forEach((item) => item.compute());
     }
 }
 

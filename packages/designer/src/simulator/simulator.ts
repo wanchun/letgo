@@ -1,5 +1,11 @@
 import { EventEmitter } from 'eventemitter3';
-import { CSSProperties, ComputedRef, computed, reactive } from 'vue';
+import {
+    CSSProperties,
+    ComputedRef,
+    computed,
+    shallowReactive,
+    ShallowReactive,
+} from 'vue';
 import * as Vue from 'vue';
 import {
     Package,
@@ -74,7 +80,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
 
     private _sensorAvailable = true;
 
-    private props: SimulatorProps = reactive({});
+    private props: ShallowReactive<SimulatorProps> = shallowReactive({});
 
     private _contentWindow?: Window;
 

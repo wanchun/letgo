@@ -1,4 +1,11 @@
-import { defineComponent, PropType, onBeforeMount, ref, reactive } from 'vue';
+import {
+    defineComponent,
+    PropType,
+    onBeforeMount,
+    ref,
+    shallowReactive,
+    ShallowReactive,
+} from 'vue';
 import { IPluginContext } from '@webank/letgo-engine';
 import { engineConfig } from '@webank/letgo-editor-core';
 import { DesignerView, Designer } from '@webank/letgo-designer';
@@ -17,7 +24,8 @@ export default defineComponent({
 
         const componentMetadatas = ref();
 
-        const simulatorProps: { library?: [] } = reactive({});
+        const simulatorProps: ShallowReactive<{ library?: [] }> =
+            shallowReactive({});
 
         const handleDesignerMount = (designer: Designer): void => {
             editor.emit('designer.ready', designer);
@@ -40,9 +48,9 @@ export default defineComponent({
             Object.assign(simulatorProps, {
                 library: packages || [],
                 utilsMetadata: utils || [],
+                simulatorUrl,
                 device,
                 deviceClassName,
-                simulatorUrl,
                 designMode,
             });
         });

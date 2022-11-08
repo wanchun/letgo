@@ -1,13 +1,13 @@
-import { shallowRef, Ref } from 'vue';
+import { shallowRef, ShallowRef } from 'vue';
 import { IWidgetBaseConfig, IWidget, isPanel } from './types';
 import { Skeleton } from './skeleton';
 
 export class Area<C extends IWidgetBaseConfig, T extends IWidget = IWidget> {
-    private _items: Ref<T[]> = shallowRef([]);
+    private _items: ShallowRef<T[]> = shallowRef([]);
 
     private _itemMaps: { [name: string]: T } = {};
 
-    private _current: Ref<T | null> = shallowRef(null);
+    private _current: ShallowRef<T | null> = shallowRef(null);
 
     handle: (config: C) => T;
 

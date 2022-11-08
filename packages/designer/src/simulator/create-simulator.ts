@@ -107,6 +107,7 @@ export function createSimulator(
     doc.close();
 
     return new Promise((resolve) => {
+        console.log('win.SimulatorRenderer', win.SimulatorRenderer);
         const renderer = win.SimulatorRenderer || simulator.renderer;
         if (renderer) {
             return resolve(renderer);

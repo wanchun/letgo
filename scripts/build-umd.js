@@ -35,6 +35,7 @@ async function compiler(source, outputDir, name) {
                 targets: 'defaults, Chrome >=78, not IE 11',
                 babelHelpers: 'runtime',
                 extensions,
+                include: [/letgo/],
                 presets: [
                     '@babel/env',
                     [
@@ -56,6 +57,12 @@ async function compiler(source, outputDir, name) {
                         },
                     ],
                     ['@babel/plugin-transform-runtime', { useESModules: true }],
+                ],
+                overrides: [
+                    {
+                        test: [/[\\/]node_modules[\\/]/, /letgo/],
+                        sourceType: 'unambiguous',
+                    },
                 ],
             }),
             css({

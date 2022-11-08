@@ -98,8 +98,8 @@ export default defineComponent({
         onMounted(async () => {
             destroy = await init(containerRef.value, {
                 simulatorUrl: [
-                    `${getPublicPath()}lib/lowcode-vue-simulator/vue-simulator-renderer.js`,
-                    `${getPublicPath()}lib/lowcode-vue-simulator/vue-simulator-renderer.css`,
+                    `../../../simulator-renderer/lib/index.umd.js`,
+                    `../../../simulator-renderer/lib/style.css`,
                 ],
             });
         });

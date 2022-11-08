@@ -98,8 +98,8 @@ export default defineComponent({
         onMounted(async () => {
             destroy = await init(containerRef.value, {
                 simulatorUrl: [
-                    `../../../simulator-renderer/lib/index.umd.js`,
-                    `../../../simulator-renderer/lib/style.css`,
+                    `http://127.0.0.1:8082/index.umd.js`,
+                    `http://127.0.0.1:8082/style.css`,
                 ],
             });
         });

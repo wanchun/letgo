@@ -7,6 +7,9 @@ const { getResourcePath, getLibOutputPath } = require('./build-shard');
 async function compiler(source, outDir, name) {
     await build({
         root: source,
+        define: {
+            'process.env': process.env,
+        },
         build: {
             minify: false,
             outDir: outDir,
@@ -18,7 +21,7 @@ async function compiler(source, outDir, name) {
                 fileName: 'index',
             },
             rollupOptions: {
-                makeAbsoluteExternalsRelative: false,
+                external: ['vue'],
                 output: {
                     // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
                     globals: {
@@ -45,6 +48,4 @@ async function buildUmd() {
     }
 }
 
-module.exports = {
-    buildUmd,
-};
+buildUmd();

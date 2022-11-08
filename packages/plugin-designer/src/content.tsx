@@ -17,7 +17,7 @@ export default defineComponent({
 
         const componentMetadatas = ref();
 
-        const simulatorProps = reactive({});
+        const simulatorProps: { library?: [] } = reactive({});
 
         const handleDesignerMount = (designer: Designer): void => {
             editor.emit('designer.ready', designer);
@@ -48,6 +48,9 @@ export default defineComponent({
         });
 
         return () => {
+            if (!componentMetadatas.value || !simulatorProps.library) {
+                return;
+            }
             return (
                 <DesignerView
                     class={css['letgo-plugin-designer']}

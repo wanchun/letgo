@@ -36,12 +36,6 @@ export const ProjectView = defineComponent({
     setup(props) {
         const { designer } = props;
 
-        const foreUpdateRef = ref(0);
-
-        designer.onRendererReady(() => {
-            foreUpdateRef.value += foreUpdateRef.value;
-        });
-
         return () => {
             const { simulatorProps } = designer;
             return (

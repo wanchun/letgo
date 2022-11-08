@@ -47,10 +47,11 @@ export interface DeviceStyleProps {
 
 export interface SimulatorProps {
     designMode?: 'live' | 'design' | 'preview' | 'extend' | 'border';
-    simulatorUrl?: Asset;
     device?: 'mobile' | 'iphone' | string;
+    deviceStyle?: DeviceStyleProps;
     deviceClassName?: string;
     library?: Package[];
+    simulatorUrl?: Asset;
     [key: string]: any;
 }
 

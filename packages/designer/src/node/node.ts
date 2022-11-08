@@ -380,6 +380,17 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         this.document.selection.select(this.id);
     }
 
+    /**
+     * 悬停高亮
+     */
+    hover(flag = true) {
+        if (flag) {
+            this.document.designer.detecting.capture(this);
+        } else {
+            this.document.designer.detecting.release(this);
+        }
+    }
+
     isEmpty(): boolean {
         return this.children ? this.children.isEmpty() : true;
     }

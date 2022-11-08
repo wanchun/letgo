@@ -13,6 +13,7 @@ import {
 } from '@webank/letgo-types';
 import { createIcon } from '@webank/letgo-utils';
 import { Simulator } from '../simulator';
+import NodeSelectorView from '../node-selector';
 import { Node } from '../../node';
 import { OffsetObserver } from '../../designer';
 
@@ -120,7 +121,7 @@ export const Toolbar = defineComponent({
             return (
                 <div class="letgo-borders-actions" style={style}>
                     {actions}
-                    {/* <NodeSelector node={node} /> */}
+                    <NodeSelectorView node={node} />
                 </div>
             );
         };

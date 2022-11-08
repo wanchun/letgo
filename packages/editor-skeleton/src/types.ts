@@ -1,6 +1,6 @@
 import { VNode, Ref, VNodeTypes } from 'vue';
-import { Skeleton } from './skeleton';
 import { Editor } from '@webank/letgo-editor-core';
+import { Skeleton } from './skeleton';
 import { Modal, Panel } from './widget';
 
 /**

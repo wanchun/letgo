@@ -96,7 +96,12 @@ export default defineComponent({
         let destroy: () => void;
 
         onMounted(async () => {
-            destroy = await init(containerRef.value, {});
+            destroy = await init(containerRef.value, {
+                simulatorUrl: [
+                    `../../../simulator-renderer/lib/index.umd.js`,
+                    `../../../simulator-renderer/lib/style.css`,
+                ],
+            });
         });
 
         onBeforeUnmount(() => {

@@ -111,6 +111,7 @@ importers:
       '@webank/letgo-editor-core': ^1.0.0
       '@webank/letgo-editor-skeleton': ^1.0.0
       '@webank/letgo-plugin-designer': ^1.0.0
+      '@webank/letgo-plugin-setter': ^1.0.0
       '@webank/letgo-types': ^1.0.0
       '@webank/letgo-utils': ^1.0.0
       eventemitter3: ^4.0.0
@@ -121,6 +122,7 @@ importers:
       '@webank/letgo-editor-core': link:../editor-core
       '@webank/letgo-editor-skeleton': link:../editor-skeleton
       '@webank/letgo-plugin-designer': link:../plugin-designer
+      '@webank/letgo-plugin-setter': link:../plugin-setter
       '@webank/letgo-types': link:../types
       '@webank/letgo-utils': link:../utils
       eventemitter3: 4.0.7
@@ -144,6 +146,20 @@ importers:
       '@webank/letgo-types': link:../types
 
   packages/plugin-designer:
+    specifiers:
+      '@fesjs/fes-design': ^0.7.7
+      '@webank/letgo-designer': ^1.0.0
+      '@webank/letgo-editor-core': ^1.0.0
+      '@webank/letgo-engine': ^1.0.0
+      '@webank/letgo-types': ^1.0.0
+    dependencies:
+      '@fesjs/fes-design': 0.7.7
+      '@webank/letgo-designer': link:../designer
+      '@webank/letgo-editor-core': link:../editor-core
+      '@webank/letgo-engine': link:../engine
+      '@webank/letgo-types': link:../types
+
+  packages/plugin-setter:
     specifiers:
       '@fesjs/fes-design': ^0.7.7
       '@webank/letgo-designer': ^1.0.0

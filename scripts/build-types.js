@@ -92,6 +92,7 @@ async function buildTypes() {
         'simulator-renderer',
         'engine',
         'plugin-components-panel',
+        'plugin-setter',
     ];
     const projects = {};
     for (const pkg of pkgs) {

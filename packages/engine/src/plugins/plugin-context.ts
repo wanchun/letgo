@@ -1,6 +1,7 @@
 import { Logger, getLogger } from '@webank/letgo-utils';
 import { EngineConfig, Editor, engineConfig } from '@webank/letgo-editor-core';
 import { Designer } from '@webank/letgo-designer';
+import { Skeleton, Hotkey, Setters, Project, Material } from '../shell';
 import {
     IPluginContext,
     IPluginManager,
@@ -9,7 +10,6 @@ import {
     IPluginPreferenceDeclaration,
     PreferenceValueType,
 } from './plugin-types';
-import { Skeleton, Hotkey, Setters, Project, Material } from '../shell';
 import { isValidPreferenceKey } from './plugin-utils';
 
 export default class PluginContext implements IPluginContext {

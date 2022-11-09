@@ -39,7 +39,7 @@ export class Skeleton {
         const { area, name } = config;
         const skeleton = this[skeletonSymbol];
         if (!normalizeArea(area)) return;
-        skeleton[normalizeArea(area)!].remove(name);
+        skeleton[normalizeArea(area)].remove(name);
     }
 }
 

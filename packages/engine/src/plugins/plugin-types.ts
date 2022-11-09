@@ -1,8 +1,8 @@
 import { Logger } from '@webank/letgo-utils';
 import { EngineConfig, Editor } from '@webank/letgo-editor-core';
 import { Designer } from '@webank/letgo-designer';
-import { Skeleton, Hotkey, Setters, Project, Material } from '../shell';
 import { CompositeObject } from '@webank/letgo-types';
+import { Skeleton, Hotkey, Setters, Project, Material } from '../shell';
 
 export type PreferenceValueType = string | number | boolean;
 

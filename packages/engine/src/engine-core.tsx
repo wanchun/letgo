@@ -4,6 +4,7 @@ import { Designer } from '@webank/letgo-designer';
 import { editor, EngineOptions, engineConfig } from '@webank/letgo-editor-core';
 import { Skeleton, Workbench } from '@webank/letgo-editor-skeleton';
 import PluginDesigner from '@webank/letgo-plugin-designer';
+import PluginSetter from '@webank/letgo-plugin-setter';
 import { PluginManager, IPluginContext, PluginPreference } from './plugins';
 
 const plugins = new PluginManager(editor).toProxy();
@@ -22,15 +23,36 @@ export { plugins };
 
 // 注册一批内置插件
 (async function registerPlugins() {
+    // 处理 editor.set('assets')，将组件元数据创建好
+    plugins.register({
+        name: '___component_meta_parser___',
+        init(ctx: IPluginContext) {
+            const { editor, designer } = ctx;
+            editor.onGot('assets', (assets: any) => {
+                const { components = [] } = assets;
+                designer.buildComponentMetaMap(components);
+            });
+        },
+    });
     //注册默认的面板
     plugins.register({
         name: '___default_panel___',
         init(ctx: IPluginContext) {
-            console.log(ctx);
+            ctx.skeleton.add({
+                name: 'ComponentsPanel',
+                area: 'mainArea',
+                type: 'Widget',
+                content: () => <PluginDesigner ctx={ctx} />,
+            });
+
+            ctx.skeleton.add({
+                name: 'setterPanel',
+                area: 'rightArea',
+                type: 'Panel',
+                content: () => <PluginSetter ctx={ctx} />,
+            });
         },
     });
-
-    plugins.register(PluginDesigner);
 })();
 
 let isEngineMounted = false;

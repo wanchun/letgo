@@ -1,5 +1,7 @@
 import { Editor, engineConfig } from '@webank/letgo-editor-core';
 import { getLogger } from '@webank/letgo-utils';
+import semverSatisfies from 'semver/functions/satisfies';
+import { invariant } from '../utils';
 import {
     PreferenceValueType,
     IPluginManager,
@@ -13,9 +15,7 @@ import {
 } from './plugin-types';
 import { Plugin } from './plugin';
 import PluginContext from './plugin-context';
-import { invariant } from '../utils';
 import sequencify from './sequencify';
-import semverSatisfies from 'semver/functions/satisfies';
 
 const logger = getLogger({ level: 'warn', bizName: 'engine:pluginManager' });
 

@@ -67,25 +67,25 @@ plugins.register({
         //         title: '我是标题',
         //     },
         // });
-        const panel = skeleton.add({
-            name: 'setter',
-            area: 'rightArea',
-            type: 'Panel',
-            content: () => h('div', ['我是设置器', h('input')]),
-        });
-        panel.show();
-        setTimeout(() => {
-            const panel1 = skeleton.add({
-                name: 'setter2',
-                area: 'rightArea',
-                type: 'Panel',
-                content: () => '我是设置器2',
-            });
-            panel1.show();
-            setTimeout(() => {
-                panel.show();
-            }, 3000);
-        }, 3000);
+        // const panel = skeleton.add({
+        //     name: 'setter',
+        //     area: 'rightArea',
+        //     type: 'Panel',
+        //     content: () => h('div', ['我是设置器', h('input')]),
+        // });
+        // panel.show();
+        // setTimeout(() => {
+        //     const panel1 = skeleton.add({
+        //         name: 'setter2',
+        //         area: 'rightArea',
+        //         type: 'Panel',
+        //         content: () => '我是设置器2',
+        //     });
+        //     panel1.show();
+        //     setTimeout(() => {
+        //         panel.show();
+        //     }, 3000);
+        // }, 3000);
     },
 });
 

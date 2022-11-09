@@ -14,8 +14,6 @@
   "dependencies": {
     "@webank/letgo-engine": "^1.0.0",
     "@webank/letgo-designer": "^1.0.0",
-    "@webank/letgo-editor-core": "^1.0.0",
-    "@webank/letgo-types": "^1.0.0",
     "@fesjs/fes-design": "^0.7.7"
   },
   "peerDependencies": {

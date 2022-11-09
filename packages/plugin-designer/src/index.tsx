@@ -6,7 +6,6 @@ import {
     shallowReactive,
     ShallowReactive,
 } from 'vue';
-import { engineConfig } from '@webank/letgo-editor-core';
 import { DesignerView, Designer } from '@webank/letgo-designer';
 import css from './index.module.css';
 import type { IPluginContext } from '@webank/letgo-engine';
@@ -20,7 +19,7 @@ export default defineComponent({
     },
     setup(props) {
         const { ctx } = props;
-        const { editor, designer } = ctx;
+        const { editor, designer, config } = ctx;
 
         const componentMetadatas = ref();
 
@@ -36,10 +35,10 @@ export default defineComponent({
 
         onBeforeMount(async () => {
             const assets = await editor.onceGot('assets');
-            const device = engineConfig.get('device');
-            const deviceClassName = engineConfig.get('deviceClassName');
-            const simulatorUrl = engineConfig.get('simulatorUrl');
-            const designMode = engineConfig.get('designMode');
+            const device = config.get('device');
+            const deviceClassName = config.get('deviceClassName');
+            const simulatorUrl = config.get('simulatorUrl');
+            const designMode = config.get('designMode');
 
             const { components, packages, utils } = assets;
 

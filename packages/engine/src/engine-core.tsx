@@ -45,12 +45,13 @@ export { plugins };
                 content: () => <PluginDesigner ctx={ctx} />,
             });
 
-            ctx.skeleton.add({
+            const setterPanel = ctx.skeleton.add({
                 name: 'setterPanel',
                 area: 'rightArea',
                 type: 'Panel',
                 content: () => <PluginSetter ctx={ctx} />,
             });
+            setterPanel.show();
         },
     });
 })();

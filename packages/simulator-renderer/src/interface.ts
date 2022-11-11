@@ -45,7 +45,7 @@ export interface DocumentInstance {
     readonly schema: RootSchema;
     getComponentInstance(id: number): ComponentInstance | null;
     mountInstance(id: string, instance: ComponentInstance): (() => void) | void;
-    unmountIntance(id: string, instance: ComponentInstance): void;
+    unmountInstance(id: string, instance: ComponentInstance): void;
     rerender(): void;
     getNode(id: string): Node | null;
 }

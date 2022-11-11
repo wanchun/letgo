@@ -53,8 +53,33 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
         return instance.$.isMounted;
     };
 
+    const setHostInstance = (
+        docId: string,
+        nodeId: string,
+        instances: ComponentInstance[] | null,
+    ) => {
+        const instanceRecords = !instances
+            ? null
+            : instances.map(
+                  (inst) => new ComponentRecord(docId, nodeId, inst.$.uid),
+              );
+        host.setInstance(docId, nodeId, instanceRecords);
+    };
+
     const getComponentInstance = (id: number) => {
         return vueInstanceMap.get(id);
+    };
+
+    const unmountInstance = (id: string, instance: ComponentInstance) => {
+        const instances = instancesMap.get(id);
+        if (instances) {
+            const i = instances.indexOf(instance);
+            if (i > -1) {
+                const [instance] = instances.splice(i, 1);
+                vueInstanceMap.delete(instance.$.uid);
+                setHostInstance(document.id, id, instances);
+            }
+        }
     };
 
     const mountInstance = (id: string, instance: ComponentInstance) => {
@@ -65,8 +90,10 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
                 instances = instances.filter(checkInstanceMounted);
                 if (instances.length > 0) {
                     instancesMap.set(id, instances);
+                    setHostInstance(docId, id, instances);
                 } else {
                     instancesMap.delete(id);
+                    setHostInstance(docId, id, null);
                 }
             }
             return;
@@ -75,12 +102,13 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
         const el = instance.$el;
 
         const origId = getCompRootData(el).nodeId;
+
         if (origId && origId !== id) {
             // 另外一个节点的 instance 在此被复用了，需要从原来地方卸载
-            unmountIntance(origId, instance);
+            unmountInstance(origId, instance);
         }
 
-        onUnmounted(() => unmountIntance(id, instance), instance.$);
+        onUnmounted(() => unmountInstance(id, instance), instance.$);
 
         setCompRootData(el, {
             nodeId: id,
@@ -102,17 +130,7 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
         }
         vueInstanceMap.set(instance.$.uid, instance);
         instancesMap.set(id, instances);
-    };
-
-    const unmountIntance = (id: string, instance: ComponentInstance) => {
-        const instances = instancesMap.get(id);
-        if (instances) {
-            const i = instances.indexOf(instance);
-            if (i > -1) {
-                const [instance] = instances.splice(i, 1);
-                vueInstanceMap.delete(instance.$.uid);
-            }
-        }
+        setHostInstance(docId, id, instances);
     };
 
     const getNode: DocumentInstance['getNode'] = (id) => {
@@ -131,7 +149,7 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
         instancesMap: computed(() => instancesMap),
         getNode,
         mountInstance,
-        unmountIntance,
+        unmountInstance,
         getComponentInstance,
         rerender: () => void (timestamp.value = Date.now()),
     }) as DocumentInstance;

@@ -62,8 +62,6 @@ export class Designer {
 
     private _simulator?: ISimulator;
 
-    private _dropLocation?: DropLocation;
-
     private _simulatorProps?:
         | SimulatorProps
         | ((designer: Designer) => SimulatorProps);
@@ -129,7 +127,7 @@ export class Designer {
     }
 
     get dropLocation() {
-        return this._dropLocation;
+        return this.dragon.dropLocation;
     }
 
     constructor(props: DesignerProps) {
@@ -166,7 +164,7 @@ export class Designer {
 
         this.dragon.onDragend((e) => {
             const { dragObject, copy } = e;
-            const loc = this._dropLocation;
+            const loc = this.dropLocation;
             if (loc) {
                 if (
                     isLocationChildrenDetail(loc.detail) &&

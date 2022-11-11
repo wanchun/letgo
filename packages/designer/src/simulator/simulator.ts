@@ -39,6 +39,13 @@ import {
     isShaken,
     isDragAnyObject,
     isDragNodeObject,
+    isLocationData,
+    LocationChildrenDetail,
+    LocationDetailType,
+    CanvasPoint,
+    isChildInline,
+    isRowContainer,
+    getRectTarget,
 } from '../designer';
 import { getClosestClickableNode, getClosestNode } from '../utils';
 import { Node, contains, isRootNode } from '../node';
@@ -469,7 +476,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
         this.sensing = true;
         this.scroller.scrolling(e);
 
-        const document = this.project.currentDocument;
+        const document = this.project.currentDocument.value;
         if (!document) {
             return null;
         }
@@ -492,7 +499,143 @@ export class Simulator implements ISimulator<SimulatorProps> {
             return null;
         }
 
-        return;
+        if (isLocationData(dropContainer)) {
+            return this.designer.dragon.createLocation(dropContainer);
+        }
+
+        const { container, instance: containerInstance } = dropContainer;
+
+        const edge = this.computeComponentInstanceRect(
+            containerInstance,
+            container.componentMeta.rootSelector,
+        );
+
+        if (!edge) {
+            return null;
+        }
+
+        const { children } = container;
+
+        const detail: LocationChildrenDetail = {
+            type: LocationDetailType.Children,
+            index: 0,
+            edge,
+        };
+
+        const locationData = {
+            target: container as ParentalNode,
+            detail,
+            source: `simulator${document.id}`,
+            event: e,
+        };
+
+        if (!children || children.size < 1 || !edge) {
+            return this.designer.dragon.createLocation(locationData);
+        }
+
+        let nearRect = null;
+        let nearIndex = 0;
+        let nearNode = null;
+        let nearDistance = null;
+        let minTop = null;
+        let maxBottom = null;
+
+        for (let i = 0, l = children.size; i < l; i++) {
+            const node = children.get(i);
+            const index = i;
+            const instances = this.getComponentInstances(node);
+            const inst = instances
+                ? instances.length > 1
+                    ? instances.find(
+                          (_inst) =>
+                              this.getClosestNodeInstance(_inst, container.id)
+                                  ?.instance === containerInstance,
+                      )
+                    : instances[0]
+                : null;
+            const rect = inst
+                ? this.computeComponentInstanceRect(
+                      inst,
+                      node.componentMeta.rootSelector,
+                  )
+                : null;
+
+            if (!rect) {
+                continue;
+            }
+
+            const distance = isPointInRect(e as any, rect)
+                ? 0
+                : distanceToRect(e as any, rect);
+
+            if (distance === 0) {
+                nearDistance = distance;
+                nearNode = node;
+                nearIndex = index;
+                nearRect = rect;
+                break;
+            }
+
+            // 标记子节点最顶
+            if (minTop === null || rect.top < minTop) {
+                minTop = rect.top;
+            }
+            // 标记子节点最底
+            if (maxBottom === null || rect.bottom > maxBottom) {
+                maxBottom = rect.bottom;
+            }
+
+            if (nearDistance === null || distance < nearDistance) {
+                nearDistance = distance;
+                nearNode = node;
+                nearIndex = index;
+                nearRect = rect;
+            }
+        }
+
+        detail.index = nearIndex;
+
+        if (nearNode && nearRect) {
+            const el = getRectTarget(nearRect);
+            const inline = el ? isChildInline(el) : false;
+            const row = el ? isRowContainer(el.parentElement) : false;
+            const vertical = inline || row;
+
+            // TODO: fix type
+            const near: any = {
+                node: nearNode,
+                pos: 'before',
+                align: vertical ? 'V' : 'H',
+            };
+            detail.near = near;
+            if (isNearAfter(e as any, nearRect, vertical)) {
+                near.pos = 'after';
+                detail.index = nearIndex + 1;
+            }
+            if (!row && nearDistance !== 0) {
+                const edgeDistance = distanceToEdge(e as any, edge);
+                if (edgeDistance.distance < nearDistance!) {
+                    const { nearAfter } = edgeDistance;
+                    if (minTop == null) {
+                        minTop = edge.top;
+                    }
+                    if (maxBottom == null) {
+                        maxBottom = edge.bottom;
+                    }
+                    near.rect = new DOMRect(
+                        edge.left,
+                        minTop,
+                        edge.width,
+                        maxBottom - minTop,
+                    );
+                    near.align = 'H';
+                    near.pos = nearAfter ? 'after' : 'before';
+                    detail.index = nearAfter ? children.size : 0;
+                }
+            }
+        }
+
+        return this.designer.dragon.createLocation(locationData);
     }
 
     /**
@@ -854,4 +997,57 @@ function getMatched(
         }
     }
     return firstQueried;
+}
+
+function isPointInRect(point: CanvasPoint, rect: Rect) {
+    return (
+        point.canvasY >= rect.top &&
+        point.canvasY <= rect.bottom &&
+        point.canvasX >= rect.left &&
+        point.canvasX <= rect.right
+    );
+}
+
+function distanceToRect(point: CanvasPoint, rect: Rect) {
+    let minX = Math.min(
+        Math.abs(point.canvasX - rect.left),
+        Math.abs(point.canvasX - rect.right),
+    );
+    let minY = Math.min(
+        Math.abs(point.canvasY - rect.top),
+        Math.abs(point.canvasY - rect.bottom),
+    );
+    if (point.canvasX >= rect.left && point.canvasX <= rect.right) {
+        minX = 0;
+    }
+    if (point.canvasY >= rect.top && point.canvasY <= rect.bottom) {
+        minY = 0;
+    }
+
+    return Math.sqrt(minX ** 2 + minY ** 2);
+}
+
+function distanceToEdge(point: CanvasPoint, rect: Rect) {
+    const distanceTop = Math.abs(point.canvasY - rect.top);
+    const distanceBottom = Math.abs(point.canvasY - rect.bottom);
+
+    return {
+        distance: Math.min(distanceTop, distanceBottom),
+        nearAfter: distanceBottom < distanceTop,
+    };
+}
+
+function isNearAfter(point: CanvasPoint, rect: Rect, inline: boolean) {
+    if (inline) {
+        return (
+            Math.abs(point.canvasX - rect.left) +
+                Math.abs(point.canvasY - rect.top) >
+            Math.abs(point.canvasX - rect.right) +
+                Math.abs(point.canvasY - rect.bottom)
+        );
+    }
+    return (
+        Math.abs(point.canvasY - rect.top) >
+        Math.abs(point.canvasY - rect.bottom)
+    );
 }

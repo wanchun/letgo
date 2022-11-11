@@ -107,7 +107,7 @@ export interface ComponentMetadata {
 /**
  * 嵌套控制函数
  */
-export type NestingFilter = (testNode: any, currentNode: any) => boolean;
+export type NestingFilter = (testNode: any, currentNode?: any) => boolean;
 /**
  * 嵌套控制
  * 防止错误的节点嵌套，比如 a 嵌套 a, FormField 只能在 Form 容器下，Column 只能在 Table 下等

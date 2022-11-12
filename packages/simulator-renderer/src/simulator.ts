@@ -1,6 +1,6 @@
 import { DocumentModel } from '@webank/letgo-designer';
 import { TransformStage } from '@webank/letgo-types';
-import { AssetLoader, cursor, setNativeSelection } from '@webank/letgo-utils';
+import { cursor, setNativeSelection } from '@webank/letgo-utils';
 import {
     Ref,
     Component,
@@ -36,8 +36,6 @@ import {
     getClosestNodeInstanceByComponent,
 } from './utils';
 import './simulator.css';
-
-const loader = new AssetLoader();
 
 const builtinComponents = { Slot, Leaf, Page };
 

@@ -2,7 +2,7 @@
 const path = require('path');
 const { build } = require('vite');
 const vueJsx = require('@vitejs/plugin-vue-jsx');
-const { getResourcePath, getLibOutputPath } = require('./build-shard');
+const { getResourcePath, getLibOutputPath, isWatch } = require('./build-shard');
 
 async function compiler(source, outDir, name) {
     await build({
@@ -29,12 +29,13 @@ async function compiler(source, outDir, name) {
                     },
                 },
             },
+            watch: isWatch(),
         },
         plugins: [vueJsx()],
     });
 }
 
-async function buildUmd() {
+async function buildSimulator() {
     const pkgs = [
         {
             name: 'simulator-renderer',
@@ -48,4 +49,4 @@ async function buildUmd() {
     }
 }
 
-buildUmd();
+buildSimulator();

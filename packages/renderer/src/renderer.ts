@@ -6,11 +6,10 @@ import {
     computed,
     defineComponent,
 } from 'vue';
-import type { RootSchema, NodeSchema } from '@webank/letgo-types';
-import type { Node } from '@webank/letgo-designer';
-
 import config from './config';
 import { RENDERER_COMPS } from './renderers';
+import type { RootSchema, NodeSchema } from '@webank/letgo-types';
+import type { Node } from '@webank/letgo-designer';
 
 interface RendererProps {
     schema: RootSchema;

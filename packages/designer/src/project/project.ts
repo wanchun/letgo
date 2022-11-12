@@ -226,6 +226,10 @@ export class Project {
         return Reflect.get(this.data, key);
     }
 
+    setRendererReady(renderer: unknown) {
+        this.emitter.emit('letgo_engine_renderer_ready', renderer);
+    }
+
     onCurrentDocumentChange(fn: (doc: DocumentModel) => void): () => void {
         this.emitter.on('current-document.change', fn);
         return () => {

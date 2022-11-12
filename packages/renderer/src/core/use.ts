@@ -69,7 +69,7 @@ export function isLifecycleKey(
 }
 
 export type SlotSchemaMap = {
-    default: RenderNode[];
+    default: RenderNode[] | NodeData[] | undefined;
     [x: string]: NodeData | NodeData[] | undefined;
 };
 
@@ -218,6 +218,9 @@ export function useLeaf(props: LeafProps) {
             if (key === 'className') {
                 // 适配 react className
                 normalProps.class = val;
+            } else if (key === 'children' && isNodeData(val)) {
+                // 处理属性中的默认插槽，属性的重默认插槽会覆盖节点 chilren 插槽
+                slotProps.default = ensureArray(val);
             } else {
                 // 处理普通属性
                 normalProps[key] = val;

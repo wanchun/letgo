@@ -254,7 +254,7 @@ function createSimulatorRenderer() {
         disposeFunctions.forEach((fn) => fn());
     };
     simulator.getCurrentDocument = () => {
-        const crr = host.project.currentDocument;
+        const crr = host.project.currentDocument.value;
         const docs = documentInstances.value;
         return docs.find((doc) => doc.id === crr.id);
     };
@@ -279,21 +279,16 @@ function createSimulatorRenderer() {
     const syncHostProps = () => {
         layout.value = host.project.get('config').layout;
 
-        // todo: split with others, not all should recompute
-        if (
-            libraryMap.value !== host.libraryMap ||
-            componentsMap.value !== host.designer.componentsMap
-        ) {
-            libraryMap.value = host.libraryMap || {};
-            componentsMap.value = host.designer.componentsMap;
-            _buildComponents();
-        }
+        libraryMap.value = host.libraryMap || {};
+        componentsMap.value = host.designer.componentsMap;
+
+        _buildComponents();
 
         // sync device
         device.value = host.device.value;
 
         // sync designMode
-        designMode.value = host.designMode;
+        designMode.value = host.designMode.value;
     };
     host.connect(simulator);
     syncHostProps();

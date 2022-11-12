@@ -21,7 +21,7 @@ export function getClosestNodeInstance(
         return getClosestNodeInstanceByComponent(component, specId);
     }
 
-    if (!isCommentNode(el) && !('__vue_app__' in el)) {
+    if (!isCommentNode(el) && !('__vnode' in el)) {
         warn('__vnode 没有找到，请使用 vue 非生产环境版本');
         warn('https://unpkg.com/vue/dist/vue.runtime.global.js');
     }

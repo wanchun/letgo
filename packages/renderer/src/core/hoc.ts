@@ -1,4 +1,4 @@
-import { set } from 'lodash-es';
+import { set, isNil } from 'lodash-es';
 import { TransformStage } from '@webank/letgo-types';
 import {
     ComponentPublicInstance,
@@ -9,6 +9,7 @@ import {
     defineComponent,
 } from 'vue';
 import { useRendererContext } from '../context';
+import { ensureArray } from '../utils';
 import { leafProps } from './base';
 import { PropSchemaMap, SlotSchemaMap, useLeaf, genSlots } from './use';
 
@@ -57,6 +58,13 @@ export const Hoc = defineComponent({
                     if (key === '___condition___') {
                         // 条件渲染更新 v-if
                         condition(newValue);
+                    } else if (key === 'children') {
+                        // 默认插槽更新
+                        if (!isNil(newValue)) {
+                            compSlots.default = ensureArray(newValue);
+                        } else {
+                            delete compSlots.default;
+                        }
                     } else if (key === '___loop___') {
                         // 循环数据更新 v-for
                         updateLoop(newValue);

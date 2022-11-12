@@ -362,10 +362,6 @@ export class Designer {
         };
     }
 
-    setRendererReady(renderer: unknown) {
-        this.emitter.emit('letgo_engine_renderer_ready', renderer);
-    }
-
     onRendererReady(fn: (args: unknown) => void): () => void {
         this.emitter.on('letgo_engine_renderer_ready', fn);
         return () => {

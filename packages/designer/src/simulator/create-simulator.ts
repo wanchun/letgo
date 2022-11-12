@@ -102,12 +102,14 @@ export function createSimulator(
   </head>
   <body>
     ${scriptFrags}
+    <script>
+    window.dispatchEvent(new Event('load'));
+    </script>
   </body>
 </html>`);
     doc.close();
 
     return new Promise((resolve) => {
-        console.log('win.SimulatorRenderer', win.SimulatorRenderer);
         const renderer = win.SimulatorRenderer || simulator.renderer;
         if (renderer) {
             return resolve(renderer);

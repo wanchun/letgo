@@ -109,10 +109,6 @@ export const DesignerView = defineComponent({
             _designer.postEvent('mount', _designer);
         });
 
-        onBeforeMount(() => {
-            _designer?.purge();
-        });
-
         return () => {
             return (
                 <div class={css['letgo-designer']}>

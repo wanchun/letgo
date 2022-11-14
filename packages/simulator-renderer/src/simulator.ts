@@ -271,7 +271,7 @@ function createSimulatorRenderer() {
         document.documentElement.classList.add('engine-page');
         document.body.classList.add('engine-document');
         simulator.app.use(simulator.router).mount(container);
-        host.project.setRendererReady(simulator);
+        host.designer.setRendererReady(simulator);
     };
 
     const syncHostProps = () => {

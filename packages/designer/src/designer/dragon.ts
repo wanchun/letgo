@@ -401,7 +401,7 @@ export class Dragon {
             if (lastSensor) {
                 lastSensor.deActiveSensor();
             }
-            cursor.release();
+            this.clearState();
             let exception;
             if (this._dragging) {
                 this._dragging = false;
@@ -506,6 +506,14 @@ export class Dragon {
     private setDraggingState(state: boolean) {
         cursor.setDragging(state);
         this.designer.simulator.setDraggingState(state);
+    }
+
+    /**
+     * 清除所有态：拖拽态、拷贝态
+     */
+    private clearState() {
+        cursor.release();
+        this.designer.simulator.clearState();
     }
 
     onDragstart(func: (e: LocateEvent) => any) {

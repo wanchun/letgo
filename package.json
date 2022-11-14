@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "node scripts/build.js --watch --esm --types",
     "build": "node scripts/build.js --esm --types --umd",
-    "dev:simulator": "node scripts/build-simulator.js --watch & http-server packages/simulator-renderer/lib --cors -p 8082",
-    "build:simulator": "node scripts/build-umd.js",
+    "dev:sr": "node scripts/build-sr.js --watch & http-server packages/simulator-renderer/lib --cors -p 8082",
+    "build:sr": "node scripts/build-sr.js",
     "clear": "node scripts/clear.js"
   },
   "repository": {

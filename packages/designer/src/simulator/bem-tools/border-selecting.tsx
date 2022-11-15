@@ -81,28 +81,31 @@ export const Toolbar = defineComponent({
             // 计算 toolbar 的上/下位置
             if (observed.top > SPACE_HEIGHT) {
                 style = {
-                    top: -SPACE_HEIGHT,
-                    height: BAR_HEIGHT,
+                    top: `${-SPACE_HEIGHT}px`,
+                    height: `${BAR_HEIGHT}px`,
                 };
             } else if (observed.bottom + SPACE_HEIGHT < height) {
                 style = {
-                    bottom: -SPACE_HEIGHT,
-                    height: BAR_HEIGHT,
+                    bottom: `${-SPACE_HEIGHT}px`,
+                    height: `${BAR_HEIGHT}px`,
                 };
             } else {
                 style = {
-                    height: BAR_HEIGHT,
-                    top: Math.max(MARGIN, MARGIN - observed.top),
+                    height: `${BAR_HEIGHT}px`,
+                    top: `${Math.max(MARGIN, MARGIN - observed.top)}px`,
                 };
             }
             // 计算 toolbar 的左/右位置
             if (SPACE_MINIMUM_WIDTH > observed.left + observed.width) {
-                style.left = Math.max(-BORDER, observed.left - width - BORDER);
+                style.left = `${Math.max(
+                    -BORDER,
+                    observed.left - width - BORDER,
+                )}px`;
             } else {
-                style.right = Math.max(
+                style.right = `${Math.max(
                     -BORDER,
                     observed.right - width - BORDER,
-                );
+                )}px`;
                 style.justifyContent = 'flex-start';
             }
             const { node } = observed;
@@ -155,9 +158,9 @@ export const BorderSelectingInstance = defineComponent({
             const { offsetWidth, offsetHeight, offsetTop, offsetLeft } =
                 observed;
 
-            const style = {
-                width: offsetWidth,
-                height: offsetHeight,
+            const style: CSSProperties = {
+                width: `${offsetWidth}px`,
+                height: `${offsetHeight}px`,
                 transform: `translate3d(${offsetLeft}px, ${offsetTop}px, 0)`,
             };
 
@@ -192,18 +195,16 @@ export const BorderSelectingForNode = defineComponent({
     setup(props) {
         const { host, node } = props;
         const { designer } = host;
-        const instances = computed(() => {
-            return host.getComponentInstances(node);
-        });
 
         return () => {
-            if (!instances.value || instances.value.length < 1) {
+            const instances = host.getComponentInstances(node);
+            if (!instances || instances.length < 1) {
                 return;
             }
             const dragging = designer.dragon.dragging;
             return (
                 <>
-                    {instances.value.map((instance) => {
+                    {instances.map((instance) => {
                         const observed = designer.createOffsetObserver({
                             node,
                             instance,

@@ -73,6 +73,7 @@ export const BorderDetectingView = defineComponent({
 
         return () => {
             const currentNode = currentNodeRef.value;
+            if (!currentNode) return;
 
             const canHoverHook =
                 currentNode?.componentMeta.getMetadata()?.configure.advanced

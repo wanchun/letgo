@@ -1,5 +1,5 @@
 import { ComponentInternalInstance } from 'vue';
-import { ComponentInstance } from '../interface';
+import { ComponentInstance } from '@webank/letgo-types';
 import { isVNodeHTMLElement } from './comp-node';
 import { isEmptyNode } from './check-node';
 

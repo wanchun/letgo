@@ -374,13 +374,6 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     }
 
     /**
-     * 选择当前节点
-     */
-    select() {
-        this.document.selection.select(this.id);
-    }
-
-    /**
      * 悬停高亮
      */
     hover(flag = true) {

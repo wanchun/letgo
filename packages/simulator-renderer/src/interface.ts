@@ -1,7 +1,12 @@
 import { Router } from 'vue-router';
 import { Config } from '@webank/letgo-renderer';
-import { Component, ComponentPublicInstance, App } from 'vue';
-import { ComponentSchema, NpmInfo, RootSchema } from '@webank/letgo-types';
+import { Component, App } from 'vue';
+import {
+    ComponentSchema,
+    NpmInfo,
+    RootSchema,
+    ComponentInstance,
+} from '@webank/letgo-types';
 import {
     ISimulatorRenderer,
     DocumentModel,
@@ -9,8 +14,6 @@ import {
 } from '@webank/letgo-designer';
 
 export type MinxedComponent = NpmInfo | Component | ComponentSchema;
-
-export type ComponentInstance = ComponentPublicInstance;
 
 export interface SimulatorViewLayout {
     Component?: Component;

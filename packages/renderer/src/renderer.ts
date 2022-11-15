@@ -1,14 +1,11 @@
-import {
-    PropType,
-    Component,
-    ComponentPublicInstance,
-    h,
-    computed,
-    defineComponent,
-} from 'vue';
+import { PropType, Component, h, computed, defineComponent } from 'vue';
 import config from './config';
 import { RENDERER_COMPS } from './renderers';
-import type { RootSchema, NodeSchema } from '@webank/letgo-types';
+import type {
+    RootSchema,
+    NodeSchema,
+    ComponentInstance,
+} from '@webank/letgo-types';
 import type { Node } from '@webank/letgo-designer';
 
 interface RendererProps {
@@ -17,7 +14,7 @@ interface RendererProps {
     designMode?: 'live' | 'design';
     device?: string;
     getNode?: (id: string) => Node<NodeSchema> | null;
-    onCompGetCtx?: (schema: NodeSchema, ref: ComponentPublicInstance) => void;
+    onCompGetCtx?: (schema: NodeSchema, ref: ComponentInstance) => void;
 }
 
 const Renderer = defineComponent({
@@ -47,7 +44,7 @@ const Renderer = defineComponent({
         /** 组件获取 ref 时触发的钩子 */
         onCompGetCtx: {
             type: Function as PropType<
-                (schema: NodeSchema, ref: ComponentPublicInstance) => void
+                (schema: NodeSchema, ref: ComponentInstance) => void
             >,
             default: undefined,
         },
@@ -55,7 +52,7 @@ const Renderer = defineComponent({
     setup(props: RendererProps) {
         const triggerCompGetCtx = (
             schema: NodeSchema,
-            val: ComponentPublicInstance,
+            val: ComponentInstance,
         ) => {
             if (val) {
                 props.onCompGetCtx?.(schema, val);

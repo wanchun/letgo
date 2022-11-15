@@ -2,6 +2,7 @@ import { defineComponent, PropType } from 'vue';
 import { Simulator } from '../simulator';
 import { BorderDetectingView } from './border-detecting';
 import { BorderSelectingView } from './border-selecting';
+import './tools.less';
 import './borders.less';
 
 export const BemToolsView = defineComponent({

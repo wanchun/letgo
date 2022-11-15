@@ -24,8 +24,6 @@ export class Detecting {
 
     private emitter = new EventEmitter();
 
-    constructor() {}
-
     get current() {
         return this._current;
     }

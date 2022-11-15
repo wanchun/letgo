@@ -1,9 +1,15 @@
-import { Component } from 'vue';
-import { NodeSchema, PageSchema, ComponentSchema } from '@webank/letgo-types';
+import {
+    NodeSchema,
+    PageSchema,
+    ComponentSchema,
+    IComponentRecord,
+} from '@webank/letgo-types';
 import { Node, NodeChildren } from './node';
 import { DocumentModel } from './document';
 import { ScrollTarget, LocateEvent, DropLocation } from './designer';
 import { ISimulatorRenderer } from './simulator';
+
+export type ComponentInstance = IComponentRecord;
 
 export type GetDataType<T, NodeType> = T extends undefined
     ? NodeType extends {
@@ -43,11 +49,6 @@ export interface DropContainer {
     container: ParentalNode;
     instance: ComponentInstance;
 }
-
-/**
- * 组件实例定义
- */
-export type ComponentInstance = Element | Component<any> | object;
 
 export interface INodeSelector {
     node: Node;

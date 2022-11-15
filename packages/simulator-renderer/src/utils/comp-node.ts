@@ -1,6 +1,6 @@
 import { isNil, isObject } from 'lodash-es';
 import { ComponentInternalInstance, isProxy, VNode } from 'vue';
-import { ComponentInstance } from '../interface';
+import { ComponentInstance, IComponentRecord } from '@webank/letgo-types';
 
 const SYMBOL_VDID = Symbol('_LCDocId');
 const SYMBOL_VNID = Symbol('_LCNodeId');
@@ -24,7 +24,7 @@ export interface CompRootData {
     instance: ComponentInstance;
 }
 
-export class ComponentRecord {
+export class ComponentRecord implements IComponentRecord {
     [SYMBOL_RECORD_FLAG] = true;
     constructor(public did: string, public nid: string, public cid: number) {}
 }

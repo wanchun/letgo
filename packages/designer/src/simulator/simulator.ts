@@ -5,6 +5,9 @@ import {
     computed,
     shallowReactive,
     ShallowReactive,
+    ShallowRef,
+    shallowRef,
+    triggerRef,
 } from 'vue';
 import * as Vue from 'vue';
 import {
@@ -22,10 +25,10 @@ import {
 } from '@webank/letgo-utils';
 import {
     ISimulator,
-    ComponentInstance,
     NodeInstance,
     DropContainer,
     ParentalNode,
+    ComponentInstance,
 } from '../types';
 import { Project } from '../project';
 import {
@@ -103,7 +106,9 @@ export class Simulator implements ISimulator<SimulatorProps> {
 
     readonly designer: Designer;
 
-    readonly viewport = new Viewport();
+    readonly viewport: ShallowReactive<Viewport> = shallowReactive(
+        new Viewport(),
+    );
 
     readonly scroller: Scroller;
 
@@ -762,9 +767,9 @@ export class Simulator implements ISimulator<SimulatorProps> {
         return document.checkNesting(container, dragObject as any);
     }
 
-    private instancesMap: {
+    private instancesMapRef: ShallowRef<{
         [docId: string]: Map<string, ComponentInstance[]>;
-    } = {};
+    }> = shallowRef({});
 
     /**
      * @see ISimulator
@@ -774,14 +779,16 @@ export class Simulator implements ISimulator<SimulatorProps> {
         id: string,
         instances: ComponentInstance[] | null,
     ) {
-        if (!hasOwnProperty(this.instancesMap, docId)) {
-            this.instancesMap[docId] = new Map();
+        const instancesMap = this.instancesMapRef.value;
+        if (!hasOwnProperty(instancesMap, docId)) {
+            instancesMap[docId] = new Map();
         }
         if (instances == null) {
-            this.instancesMap[docId].delete(id);
+            instancesMap[docId].delete(id);
         } else {
-            this.instancesMap[docId].set(id, instances.slice());
+            instancesMap[docId].set(id, instances.slice());
         }
+        triggerRef(this.instancesMapRef);
     }
 
     /**
@@ -793,7 +800,8 @@ export class Simulator implements ISimulator<SimulatorProps> {
     ): ComponentInstance[] | null {
         const docId = node.document.id;
 
-        const instances = this.instancesMap[docId]?.get(node.id) || null;
+        const instances =
+            this.instancesMapRef.value[docId]?.get(node.id) || null;
         if (!instances || !context) {
             return instances;
         }

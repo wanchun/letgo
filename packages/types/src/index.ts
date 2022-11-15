@@ -10,3 +10,4 @@ export * as GlobalEvent from './event';
 export * from './editor';
 export * from './transform-stage';
 export * from './icon';
+export * from './component';

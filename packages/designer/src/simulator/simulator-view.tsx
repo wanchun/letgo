@@ -4,6 +4,7 @@ import {
     onUnmounted,
     watch,
     CSSProperties,
+    nextTick,
 } from 'vue';
 import { Designer } from '../designer';
 import { Simulator, SimulatorProps } from './simulator';
@@ -103,7 +104,10 @@ export const SimulatorView = defineComponent({
                     <div
                         ref={(el) => {
                             if (el instanceof HTMLElement) {
-                                host.mountViewport(el);
+                                // 等el渲染后再执行 mountViewport
+                                nextTick(() => {
+                                    host.mountViewport(el);
+                                });
                             }
                         }}
                         class={css['letgo-simulator-canvas-viewport']}

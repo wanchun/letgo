@@ -339,7 +339,7 @@ const builtinComponentActions: ComponentAction[] = [
                         index + 1,
                         true,
                     );
-                    newNode.select();
+                    doc.selection.select(newNode.id);
                 }
                 // TODO
             },

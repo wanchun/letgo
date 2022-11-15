@@ -1,6 +1,6 @@
 import { Component } from 'vue';
 import { NodeSchema } from '@webank/letgo-types';
-import { ComponentInstance, NodeInstance } from '../types';
+import { NodeInstance, ComponentInstance } from '../types';
 
 export interface ISimulatorRenderer {
     readonly isSimulatorRenderer: true;

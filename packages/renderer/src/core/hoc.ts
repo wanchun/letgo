@@ -1,13 +1,6 @@
 import { set, isNil } from 'lodash-es';
-import { TransformStage } from '@webank/letgo-types';
-import {
-    ComponentPublicInstance,
-    h,
-    Fragment,
-    reactive,
-    onUnmounted,
-    defineComponent,
-} from 'vue';
+import { TransformStage, ComponentInstance } from '@webank/letgo-types';
+import { h, Fragment, reactive, onUnmounted, defineComponent } from 'vue';
 import { useRendererContext } from '../context';
 import { ensureArray } from '../utils';
 import { leafProps } from './base';
@@ -82,7 +75,7 @@ export const Hoc = defineComponent({
             );
         }
 
-        const getRef = (inst: ComponentPublicInstance) => {
+        const getRef = (inst: ComponentInstance) => {
             triggerCompGetCtx(props.schema, inst);
         };
 

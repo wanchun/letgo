@@ -54,7 +54,9 @@ export class Designer {
         new Dragon(this),
     );
 
-    readonly detecting = new Detecting();
+    readonly detecting: ShallowReactive<Detecting> = shallowReactive(
+        new Detecting(),
+    );
 
     private _componentMetaMap = new Map<string, ComponentMeta>();
 
@@ -137,11 +139,11 @@ export class Designer {
         this.dragon.onDragstart((e) => {
             this.detecting.enable = false;
             const { dragObject } = e;
+            console.log('dragObject：', dragObject);
             if (isDragNodeObject(dragObject)) {
                 if (dragObject.nodes.length === 1) {
                     if (dragObject.nodes[0].parent) {
-                        // ensure current selecting
-                        dragObject.nodes[0].select();
+                        this.currentSelection.select(dragObject.nodes[0].id);
                     } else {
                         this.currentSelection?.clear();
                     }

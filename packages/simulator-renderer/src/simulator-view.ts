@@ -65,6 +65,8 @@ export const Renderer = defineComponent({
         const { schema } = documentInstance;
         const { designMode, device, locale, components } = simulator;
 
+        console.log('render-schema:', schema);
+
         if (!simulator.autoRender) return null;
 
         return h(LowCodeRenderer, {

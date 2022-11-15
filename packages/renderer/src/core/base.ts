@@ -1,4 +1,4 @@
-import { Component, ComponentPublicInstance, PropType, VNodeProps } from 'vue';
+import { Component, PropType, VNodeProps } from 'vue';
 import { RuntimeScope } from '../utils';
 import type {
     NodeSchema,
@@ -6,6 +6,7 @@ import type {
     NodeData,
     JSExpression,
     DOMText,
+    ComponentInstance,
 } from '@webank/letgo-types';
 import type { Node } from '@webank/letgo-designer';
 
@@ -28,7 +29,7 @@ export const rendererProps = {
     },
     __triggerCompGetCtx: {
         type: Function as PropType<
-            (schema: NodeSchema, ref: ComponentPublicInstance) => void
+            (schema: NodeSchema, ref: ComponentInstance) => void
         >,
         required: true,
     },
@@ -39,10 +40,7 @@ export interface RendererProps {
     __schema: RootSchema;
     __components: Record<string, Component>;
     __getNode: (id: string) => Node<NodeSchema> | null;
-    __triggerCompGetCtx: (
-        schema: NodeSchema,
-        ref: ComponentPublicInstance,
-    ) => void;
+    __triggerCompGetCtx: (schema: NodeSchema, ref: ComponentInstance) => void;
 }
 
 export const baseRendererPropKeys = Object.keys(

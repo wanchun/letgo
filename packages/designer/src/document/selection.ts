@@ -17,22 +17,36 @@ export class Selection {
     }
 
     /**
-     * 选中
+     * 添加选中
+     */
+    add(id: string) {
+        if (this._selected.indexOf(id) > -1) {
+            return;
+        }
+
+        this._selected.push(id);
+        this.emitter.emit('selectionchange', this._selected);
+    }
+
+    /**
+     * 切换选中
      */
     select(id: string) {
         if (this._selected.length === 1 && this._selected.indexOf(id) > -1) {
             // avoid cause reaction
             return;
         }
-        this._selected = [id];
-        this.emitter.emit('selectionchange', this._selected);
+        this.selectAll([id]);
     }
 
     /**
      * 批量选中
      */
     selectAll(ids: string[]) {
-        this._selected = ids;
+        this._selected.length = 0;
+        for (let i = 0; i < ids.length; i++) {
+            this._selected.push(ids[i]);
+        }
         this.emitter.emit('selectionchange', this._selected);
     }
 
@@ -43,7 +57,7 @@ export class Selection {
         if (this._selected.length < 1) {
             return;
         }
-        this._selected = [];
+        this._selected.length = 0;
         this.emitter.emit('selectionchange', this._selected);
     }
 
@@ -62,18 +76,6 @@ export class Selection {
         if (this._selected.length !== l) {
             this.emitter.emit('selectionchange', this._selected);
         }
-    }
-
-    /**
-     * 添加选中
-     */
-    add(id: string) {
-        if (this._selected.indexOf(id) > -1) {
-            return;
-        }
-
-        this._selected.push(id);
-        this.emitter.emit('selectionchange', this._selected);
     }
 
     /**

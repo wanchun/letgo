@@ -56,8 +56,8 @@ const NodeSelectorView = defineComponent({
 
             const canClick = canClickNode(node, e);
 
-            if (canClick && typeof node.select === 'function') {
-                node.select();
+            if (canClick) {
+                node.document.selection.select(node.id);
                 const editor = node.document.project.designer.editor;
                 const npm = node?.componentMeta?.npm;
                 const selected =

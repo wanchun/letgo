@@ -1,5 +1,5 @@
 import { DocumentModel } from '@webank/letgo-designer';
-import { TransformStage } from '@webank/letgo-types';
+import { TransformStage, ComponentInstance } from '@webank/letgo-types';
 import { cursor, setNativeSelection } from '@webank/letgo-utils';
 import {
     Ref,
@@ -16,7 +16,6 @@ import { config } from '@webank/letgo-renderer';
 import { createMemoryHistory, createRouter } from 'vue-router';
 import { buildComponents, getSubComponent } from './build-components';
 import {
-    ComponentInstance,
     DocumentInstance,
     MinxedComponent,
     SimulatorViewLayout,

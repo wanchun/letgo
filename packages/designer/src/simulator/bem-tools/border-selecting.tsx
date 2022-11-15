@@ -7,6 +7,7 @@ import {
     CSSProperties,
     VNodeChild,
 } from 'vue';
+import { FTooltip } from '@fesjs/fes-design';
 import {
     ComponentActionType,
     isActionContentObject,
@@ -50,8 +51,9 @@ export const createAction = (
         };
         return (
             <div key={key} class="letgo-borders-action" onClick={handleClick}>
-                {icon && createIcon(icon)}
-                {title}
+                <FTooltip content={title} placement="top">
+                    {icon && createIcon(icon)}
+                </FTooltip>
             </div>
         );
     }

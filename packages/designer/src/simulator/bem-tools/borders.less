@@ -33,6 +33,24 @@
     }
   }
 
+  &-action {
+    box-sizing: border-box;
+    cursor: pointer;
+    height: 20px;
+    width: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-brand, #006cff);
+    opacity: 1;
+    max-height: 100%;
+    overflow: hidden;
+    color: white;
+    &:hover {
+      background: var(--color-brand-light, #006cff);
+    }
+  }
+
   &&-detecting {
     z-index: 1;
     border-style: dashed;

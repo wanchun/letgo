@@ -303,7 +303,7 @@ const builtinComponentActions: ComponentAction[] = [
     {
         name: 'remove',
         content: {
-            icon: h(DeleteOutlined),
+            icon: () => [h(DeleteOutlined)],
             title: '删除',
             action(node: Node) {
                 node.remove();
@@ -314,7 +314,7 @@ const builtinComponentActions: ComponentAction[] = [
     {
         name: 'hide',
         content: {
-            icon: h(CloseOutlined),
+            icon: () => [h(CloseOutlined)],
             title: '隐藏',
             action(node: Node) {
                 node.setVisible(false);
@@ -328,7 +328,7 @@ const builtinComponentActions: ComponentAction[] = [
     {
         name: 'copy',
         content: {
-            icon: h(PlusOutlined),
+            icon: () => [h(PlusOutlined)],
             title: '复制',
             action(node: Node) {
                 const { document: doc, parent, index } = node;

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "node scripts/build.js --watch --esm --types",
-    "build": "node scripts/build.js --esm --types --umd",
+    "build": "node scripts/build.js --esm --types",
     "dev:sr": "node scripts/build-sr.js --watch & http-server packages/simulator-renderer/lib --cors -p 8082",
     "build:sr": "node scripts/build-sr.js",
     "clear": "node scripts/clear.js"

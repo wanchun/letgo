@@ -63,7 +63,7 @@ export const Renderer = defineComponent({
     render() {
         const { documentInstance, simulator } = this;
         const { schema } = documentInstance;
-        const { designMode, device, locale, components } = simulator;
+        const { designMode, device, components } = simulator;
 
         console.log('render-schema:', schema);
 
@@ -72,8 +72,6 @@ export const Renderer = defineComponent({
         return h(LowCodeRenderer, {
             schema: schema,
             components: components,
-            locale: locale,
-            messages: {},
             designMode: designMode,
             device: device,
             getNode: (id) => documentInstance.getNode(id),

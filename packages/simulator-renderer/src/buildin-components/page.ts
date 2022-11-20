@@ -1,7 +1,7 @@
 import { defineComponent, h } from 'vue';
 
 const Page = defineComponent((props, { slots }) => {
-    return () => h('div', { class: 'lc-page', ...props }, slots);
+    return () => h('div', { class: 'letgo-page', ...props }, slots);
 });
 
 Object.assign(Page, {

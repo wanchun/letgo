@@ -5,7 +5,7 @@ export class Factory {
 
     static register(commands: Setter[]) {
         commands.forEach((command) => {
-            this.renderMap.set(command.renderType, command);
+            this.renderMap.set(command.type, command);
         });
     }
 

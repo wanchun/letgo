@@ -6,6 +6,7 @@ import {
     ComponentAction,
     ComponentMetadata,
     NodeData,
+    TransformedComponentMetadata,
 } from '@webank/letgo-types';
 import { h } from 'vue';
 import { isRegExp } from 'lodash-es';
@@ -16,7 +17,8 @@ import {
 } from '@fesjs/fes-design/icon';
 import { Designer } from './designer';
 import { isNode, Node } from './node';
-import { componentDefaults } from './transducers';
+import parseNestingRule from './transducers/nesting-rule';
+import addonCombine from './transducers/addon-combine';
 import { ParentalNode } from './types';
 
 export function ensureAList(list?: string | string[]): string[] | null {
@@ -54,8 +56,21 @@ export function buildFilter(rule?: string | string[] | RegExp | NestingFilter) {
         list.includes(testNode.componentName);
 }
 
+function preprocessMetadata(
+    metadata: ComponentMetadata,
+): TransformedComponentMetadata {
+    if (metadata.configure) {
+        return metadata as any;
+    }
+
+    return {
+        ...metadata,
+        configure: {},
+    };
+}
+
 export interface MetadataTransducer {
-    (prev: ComponentMetadata): ComponentMetadata;
+    (prev: TransformedComponentMetadata): TransformedComponentMetadata;
     /**
      * 0 - 9   system
      * 10 - 99 builtin-plugin
@@ -116,7 +131,7 @@ export class ComponentMeta {
 
     private _isMinimalRenderUnit?: boolean;
 
-    private _transformedMetadata?: ComponentMetadata;
+    private _transformedMetadata?: TransformedComponentMetadata;
 
     private disableBehaviors?: string[];
 
@@ -130,7 +145,7 @@ export class ComponentMeta {
         return this._npm;
     }
 
-    set npm(_npm: any) {
+    set npm(_npm: NpmInfo) {
         this.setNpm(_npm);
     }
 
@@ -150,7 +165,7 @@ export class ComponentMeta {
         return this._title;
     }
 
-    get descriptor(): string | undefined {
+    get description(): string | undefined {
         return this._description;
     }
 
@@ -170,6 +185,11 @@ export class ComponentMeta {
         return this._isNullNode || false;
     }
 
+    get propsConfigure() {
+        const config = this._transformedMetadata?.configure;
+        return config?.combined || config?.props || [];
+    }
+
     constructor(readonly designer: Designer, metadata: ComponentMetadata) {
         this.setMetadata(metadata);
     }
@@ -180,13 +200,19 @@ export class ComponentMeta {
         }
     }
 
-    private transformMetadata(metadata: ComponentMetadata): ComponentMetadata {
+    private transformMetadata(
+        metadata: ComponentMetadata,
+    ): TransformedComponentMetadata {
         const result = getRegisteredMetadataTransducers().reduce(
             (prevMetadata, current) => {
                 return current(prevMetadata);
             },
-            metadata,
+            preprocessMetadata(metadata),
         );
+
+        if (!result.configure) {
+            result.configure = {};
+        }
 
         return result;
     }
@@ -227,7 +253,7 @@ export class ComponentMeta {
         this.emitter.emit('metadata_change');
     }
 
-    getMetadata(): ComponentMetadata {
+    getMetadata(): TransformedComponentMetadata {
         return this._transformedMetadata;
     }
 
@@ -412,4 +438,6 @@ export function modifyBuiltinComponentAction(
     }
 }
 
-registerMetadataTransducer(componentDefaults, 100, 'component-defaults');
+registerMetadataTransducer(addonCombine, 10, 'combine-props');
+
+registerMetadataTransducer(parseNestingRule, 100, 'component-defaults');

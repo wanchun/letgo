@@ -3,6 +3,7 @@ import { PropConfig, PropType } from './prop-config';
 import { NpmInfo } from './npm';
 import { NodeSchema, ComponentSchema } from './schema';
 import { IconType } from './icon';
+import { FieldConfig } from './field-config';
 
 /**
  * 可用片段
@@ -28,6 +29,10 @@ export interface Snippet {
  * 编辑体验配置
  */
 export interface Configure {
+    /**
+     * 属性面板配置
+     */
+    props?: FieldConfig[];
     /**
      * 组件能力配置
      */
@@ -102,6 +107,10 @@ export interface ComponentMetadata {
      * 组件优先级排序
      */
     priority?: number;
+}
+
+export interface TransformedComponentMetadata extends ComponentMetadata {
+    configure: Configure & { combined?: FieldConfig[] };
 }
 
 /**

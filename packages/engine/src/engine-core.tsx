@@ -5,7 +5,11 @@ import { editor, EngineOptions, engineConfig } from '@webank/letgo-editor-core';
 import { Skeleton, Workbench } from '@webank/letgo-editor-skeleton';
 import PluginDesigner from '@webank/letgo-plugin-designer';
 import PluginSetter from '@webank/letgo-plugin-setting-panel';
-import { PluginManager, IPluginContext, PluginPreference } from './plugins';
+import {
+    PluginManager,
+    IPluginContext,
+    PluginPreference,
+} from '@webank/letgo-plugin-manager';
 
 const plugins = new PluginManager(editor).toProxy();
 editor.set('plugins' as any, plugins);

@@ -86,11 +86,12 @@ async function buildTypes() {
         'editor-core',
         'editor-skeleton',
         'designer',
-        'plugin-designer',
+        'plugin-manager',
         'engine',
         'renderer',
         'simulator-renderer',
         'engine',
+        'plugin-designer',
         'plugin-components-panel',
         'plugin-setting-panel',
     ];

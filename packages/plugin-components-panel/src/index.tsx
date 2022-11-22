@@ -1,4 +1,4 @@
-import { IPluginConfig } from '@webank/letgo-engine';
+import { IPluginConfig } from '@webank/letgo-plugin-manager';
 import Content from './content';
 import Panel from './panel';
 

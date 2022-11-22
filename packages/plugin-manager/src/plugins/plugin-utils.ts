@@ -1,5 +1,5 @@
-import type { IPluginPreferenceDeclaration } from './plugin-types';
 import { isPlainObject } from 'lodash';
+import type { IPluginPreferenceDeclaration } from './plugin-types';
 
 export function isValidPreferenceKey(
     key: string,

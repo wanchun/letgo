@@ -113,6 +113,7 @@ importers:
       '@webank/letgo-editor-core': ^1.0.0
       '@webank/letgo-editor-skeleton': ^1.0.0
       '@webank/letgo-plugin-designer': ^1.0.0
+      '@webank/letgo-plugin-manager': ^1.0.0
       '@webank/letgo-plugin-setting-panel': ^1.0.0
       '@webank/letgo-types': ^1.0.0
       '@webank/letgo-utils': ^1.0.0
@@ -124,6 +125,7 @@ importers:
       '@webank/letgo-editor-core': link:../editor-core
       '@webank/letgo-editor-skeleton': link:../editor-skeleton
       '@webank/letgo-plugin-designer': link:../plugin-designer
+      '@webank/letgo-plugin-manager': link:../plugin-manager
       '@webank/letgo-plugin-setting-panel': link:../plugin-setting-panel
       '@webank/letgo-types': link:../types
       '@webank/letgo-utils': link:../utils
@@ -138,35 +140,51 @@ importers:
       '@fesjs/fes-design': ^0.7.7
       '@webank/letgo-designer': ^1.0.0
       '@webank/letgo-editor-core': ^1.0.0
-      '@webank/letgo-engine': ^1.0.0
+      '@webank/letgo-plugin-manager': ^1.0.0
       '@webank/letgo-types': ^1.0.0
     dependencies:
       '@fesjs/fes-design': 0.7.7
       '@webank/letgo-designer': link:../designer
       '@webank/letgo-editor-core': link:../editor-core
-      '@webank/letgo-engine': link:../engine
+      '@webank/letgo-plugin-manager': link:../plugin-manager
       '@webank/letgo-types': link:../types
 
   packages/plugin-designer:
     specifiers:
       '@fesjs/fes-design': ^0.7.7
       '@webank/letgo-designer': ^1.0.0
-      '@webank/letgo-engine': ^1.0.0
+      '@webank/letgo-plugin-manager': ^1.0.0
     dependencies:
       '@fesjs/fes-design': 0.7.7
       '@webank/letgo-designer': link:../designer
-      '@webank/letgo-engine': link:../engine
+      '@webank/letgo-plugin-manager': link:../plugin-manager
+
+  packages/plugin-manager:
+    specifiers:
+      '@webank/letgo-designer': ^1.0.0
+      '@webank/letgo-editor-core': ^1.0.0
+      '@webank/letgo-editor-skeleton': ^1.0.0
+      '@webank/letgo-types': ^1.0.0
+      '@webank/letgo-utils': ^1.0.0
+      lodash-es: ^4.17.21
+    dependencies:
+      '@webank/letgo-designer': link:../designer
+      '@webank/letgo-editor-core': link:../editor-core
+      '@webank/letgo-editor-skeleton': link:../editor-skeleton
+      '@webank/letgo-types': link:../types
+      '@webank/letgo-utils': link:../utils
+      lodash-es: 4.17.21
 
   packages/plugin-setting-panel:
     specifiers:
       '@fesjs/fes-design': ^0.7.7
       '@webank/letgo-designer': ^1.0.0
-      '@webank/letgo-engine': ^1.0.0
+      '@webank/letgo-plugin-manager': ^1.0.0
       '@webank/letgo-types': ^1.0.0
     dependencies:
       '@fesjs/fes-design': 0.7.7
       '@webank/letgo-designer': link:../designer
-      '@webank/letgo-engine': link:../engine
+      '@webank/letgo-plugin-manager': link:../plugin-manager
       '@webank/letgo-types': link:../types
 
   packages/renderer:

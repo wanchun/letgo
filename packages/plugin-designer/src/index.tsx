@@ -7,8 +7,8 @@ import {
     ShallowReactive,
 } from 'vue';
 import { DesignerView, Designer } from '@webank/letgo-designer';
+import { IPluginContext } from '@webank/letgo-plugin-manager';
 import css from './index.module.css';
-import type { IPluginContext } from '@webank/letgo-engine';
 
 export default defineComponent({
     name: 'PluginDesigner',

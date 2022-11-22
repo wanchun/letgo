@@ -9,13 +9,6 @@ import {
     onUnmounted,
     Fragment,
 } from 'vue';
-import { Editor } from '@webank/letgo-editor-core';
-import { Designer } from '@webank/letgo-designer';
-import {
-    AssetsJson,
-    Snippet,
-    isComponentDescription,
-} from '@webank/letgo-types';
 import {
     FInput,
     FButton,
@@ -25,6 +18,13 @@ import {
     FTabs,
 } from '@fesjs/fes-design';
 import { SearchOutlined } from '@fesjs/fes-design/icon';
+import {
+    AssetsJson,
+    Snippet,
+    isComponentDescription,
+} from '@webank/letgo-types';
+import { Designer } from '@webank/letgo-designer';
+import { Editor } from '@webank/letgo-editor-core';
 import css from './panel.module.css';
 
 interface CategoryType {

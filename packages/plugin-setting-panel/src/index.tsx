@@ -1,9 +1,9 @@
 import { defineComponent, PropType, computed } from 'vue';
 import { RightOutlined } from '@fesjs/fes-design/icon';
 import { FTabs, FTabPane } from '@fesjs/fes-design';
+import { Node } from '@webank/letgo-designer';
+import { IPluginContext } from '@webank/letgo-plugin-manager';
 import './index.less';
-import type { Node } from '@webank/letgo-designer';
-import type { IPluginContext } from '@webank/letgo-engine';
 
 const Breadcrumb = defineComponent({
     name: 'Breadcrumb',

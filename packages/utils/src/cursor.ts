@@ -1,4 +1,4 @@
-import './cursor.css';
+import './cursor.less';
 
 export class Cursor {
     private states = new Set<string>();

@@ -2,6 +2,7 @@
     position: relative;
     height: 100%;
     overflow: hidden;
+    font-size: 14px;
 
     .letgo-setter-navigator {
         height: 30px;
@@ -9,6 +10,12 @@
         align-items: center;
         padding: 0 16px;
         border-bottom: 1px solid var(--color-line-normal);
+        &-item {
+            margin: 0 4px;
+            &.is-parent {
+                cursor: pointer;
+            }
+        }
     }
 
     .letgo-setter-notice {
@@ -24,6 +31,16 @@
         left: 0;
         bottom: 0;
         overflow-y: auto;
-      }
+
+        .fes-tabs-nav-wrapper, .fes-tabs-nav-scroll {
+            width: 100%;
+        }
+        .fes-tabs-tab {
+            flex: 1;
+        }
+        .fes-tabs-tab-label {
+            display: block;
+            text-align: center;
+        }
+    }
 }
-  

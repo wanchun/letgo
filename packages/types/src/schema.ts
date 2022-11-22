@@ -26,6 +26,10 @@ export interface NodeSchema {
      */
     componentName: string;
     /**
+     * 组件中文名
+     */
+    title?: string;
+    /**
      * 节点描述
      */
     description?: string;

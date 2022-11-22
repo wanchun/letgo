@@ -4,3 +4,4 @@ export * from './document';
 export * from './node';
 export * from './simulator';
 export * from './types';
+export * from './setting';

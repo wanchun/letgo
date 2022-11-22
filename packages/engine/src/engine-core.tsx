@@ -4,7 +4,7 @@ import { Designer } from '@webank/letgo-designer';
 import { editor, EngineOptions, engineConfig } from '@webank/letgo-editor-core';
 import { Skeleton, Workbench } from '@webank/letgo-editor-skeleton';
 import PluginDesigner from '@webank/letgo-plugin-designer';
-import PluginSetter from '@webank/letgo-plugin-setter';
+import PluginSetter from '@webank/letgo-plugin-setting-panel';
 import { PluginManager, IPluginContext, PluginPreference } from './plugins';
 
 const plugins = new PluginManager(editor).toProxy();

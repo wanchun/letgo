@@ -62,6 +62,10 @@ export interface PropConfig {
      */
     name: string;
     /**
+     * 属性中文名
+     */
+    title?: string;
+    /**
      * 属性类型
      */
     propType: PropType;

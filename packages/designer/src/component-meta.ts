@@ -96,9 +96,9 @@ export class ComponentMeta {
 
     private emitter = new EventEmitter();
 
-    private _npm?: NpmInfo;
-
     private _title: string;
+
+    private _npm?: NpmInfo;
 
     private _description?: string;
 
@@ -135,19 +135,19 @@ export class ComponentMeta {
     }
 
     get componentName(): string {
-        return this._componentName!;
+        return this._componentName;
     }
 
     get isContainer(): boolean {
-        return this._isContainer! || this.isRootComponent();
+        return this._isContainer || this.isRootComponent();
     }
 
     get isModal(): boolean {
-        return this._isModal!;
+        return this._isModal;
     }
 
     get title(): string {
-        return this._title || this.componentName;
+        return this._title;
     }
 
     get descriptor(): string | undefined {
@@ -159,7 +159,7 @@ export class ComponentMeta {
     }
 
     get acceptable(): boolean {
-        return this._acceptable!;
+        return this._acceptable;
     }
 
     get isMinimalRenderUnit(): boolean {
@@ -228,7 +228,7 @@ export class ComponentMeta {
     }
 
     getMetadata(): ComponentMetadata {
-        return this._transformedMetadata!;
+        return this._transformedMetadata;
     }
 
     isRootComponent(includeBlock = true) {

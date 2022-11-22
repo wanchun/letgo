@@ -128,9 +128,7 @@ const NodeSelectorView = defineComponent({
                             },
                         }}
                     >
-                        <div class="instance-node-selector">
-                            {renderNodes()}
-                        </div>
+                        {renderNodes()}
                     </FPopper>
                 </div>
             );

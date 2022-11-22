@@ -220,10 +220,30 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
             });
         } else {
             this.props = new Props(this, props, extras);
+            this.props.merge(
+                this.upgradeProps(this.initProps(props || {})),
+                this.upgradeProps(extras),
+            );
             this._children = new NodeChildren(this as ParentalNode, children);
             this._children.initParent();
         }
         this.initBuiltinProps();
+    }
+
+    private initProps(props: any): any {
+        return this.document.designer.transformProps(
+            props,
+            this,
+            TransformStage.Init,
+        );
+    }
+
+    private upgradeProps(props: any): any {
+        return this.document.designer.transformProps(
+            props,
+            this,
+            TransformStage.Upgrade,
+        );
     }
 
     private initBuiltinProps() {
@@ -238,9 +258,11 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     emitPropChange(val: PropChangeOptions) {
         this.emitter.emit('propChange', val);
     }
+
     getProp(name: string) {
         return this.props.getProp(name);
     }
+
     onPropChange(func: (info: PropChangeOptions) => void): () => void {
         const wrappedFunc = wrapWithEventSwitch(func);
         this.emitter.on('propChange', wrappedFunc);

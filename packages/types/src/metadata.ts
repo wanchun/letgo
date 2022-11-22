@@ -196,7 +196,7 @@ export interface ConfigureSupport {
     /**
      * 支持 className 设置
      */
-    className?: boolean;
+    class?: boolean;
     /**
      * 支持样式设置
      */

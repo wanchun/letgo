@@ -1,5 +1,6 @@
 import { defineComponent, PropType, computed } from 'vue';
 import { RightOutlined } from '@fesjs/fes-design/icon';
+import { FTabs, FTabPane } from '@fesjs/fes-design';
 import './index.less';
 import type { Node } from '@webank/letgo-designer';
 import type { IPluginContext } from '@webank/letgo-engine';
@@ -12,45 +13,39 @@ const Breadcrumb = defineComponent({
     setup(props) {
         const node = props.node;
         const { focusNode } = node.document;
-        const parentNodeList = computed(() => {
-            let _node = node;
-            const items = [];
-            let l = 3;
-            while (l-- > 0 && _node) {
-                if (node.isRoot()) {
-                    break;
-                }
-                if (node.contains(focusNode)) {
-                    l = 0;
-                }
-                items.push(node);
-                _node = node.parent;
-            }
-            return items;
-        });
-
-        const getName = (node: Node) => {
-            const npm = node?.componentMeta?.npm;
-            return (
-                [npm?.package, npm?.componentName]
-                    .filter((item) => !!item)
-                    .join('-') ||
-                node?.componentMeta?.componentName ||
-                ''
-            );
-        };
 
         return () => {
-            return parentNodeList.value.map((node: Node, index: number) => {
-                return (
-                    <div class="letgo-setter-navigator">
-                        <span>{getName(node)}</span>
-                        {index < parentNodeList.value.length - 1 && (
-                            <RightOutlined></RightOutlined>
-                        )}
-                    </div>
-                );
-            });
+            const parentNodeList: Node[] = [];
+            let _node = node;
+
+            let l = 3;
+            while (l-- > 0 && _node) {
+                parentNodeList.push(_node);
+                if (_node.isRoot()) {
+                    break;
+                }
+                if (_node.contains(focusNode)) {
+                    break;
+                }
+                _node = _node.parent;
+            }
+
+            return (
+                <div class="letgo-setter-navigator">
+                    {parentNodeList.map((node: Node, index: number) => {
+                        return (
+                            <>
+                                <span class={'letgo-setter-navigator-item'}>
+                                    {node?.componentMeta?.title}
+                                </span>
+                                {index < parentNodeList.length - 1 && (
+                                    <RightOutlined></RightOutlined>
+                                )}
+                            </>
+                        );
+                    })}
+                </div>
+            );
         };
     },
 });
@@ -95,8 +90,26 @@ export default defineComponent({
 
             return (
                 <div class="letgo-setter-main">
-                    <Breadcrumb node={node}></Breadcrumb>;
-                    <div class="letgo-setter-body"></div>
+                    <Breadcrumb node={node}></Breadcrumb>
+                    <div class="letgo-setter-body">
+                        <FTabs>
+                            <FTabPane
+                                name="属性"
+                                value="props"
+                                displayDirective="show"
+                            ></FTabPane>
+                            <FTabPane
+                                name="样式"
+                                value="卫衣"
+                                displayDirective="show"
+                            ></FTabPane>
+                            <FTabPane
+                                name="高级"
+                                value="configure"
+                                displayDirective="show"
+                            ></FTabPane>
+                        </FTabs>
+                    </div>
                 </div>
             );
         };

@@ -5,11 +5,22 @@ import {
     watch,
     CSSProperties,
     nextTick,
+    computed,
 } from 'vue';
 import { Designer } from '../designer';
 import { Simulator, SimulatorProps } from './simulator';
 import { BemToolsView } from './bem-tools';
-import css from './simulator-view.module.css';
+import {
+    canvasCls,
+    canvasViewportCls,
+    contentCls,
+    contentIframeCls,
+    simulatorCls,
+    deviceDefaultCls,
+    deviceIphone6Cls,
+    deviceIphoneXCls,
+    deviceMobileCls,
+} from './simulator-view.css';
 
 const ContentView = defineComponent({
     name: 'ContentView',
@@ -28,10 +39,10 @@ const ContentView = defineComponent({
                 width: viewport.contentWidth,
             };
             return (
-                <div class={css['letgo-simulator-content']}>
+                <div class={contentCls}>
                     <iframe
                         name="SimulatorRenderer"
-                        class={css['letgo-simulator-content-frame']}
+                        class={contentIframeCls}
                         style={frameStyle}
                         onLoad={(e) => {
                             if (e.target instanceof HTMLIFrameElement) {
@@ -63,7 +74,23 @@ export const SimulatorView = defineComponent({
         const host =
             (designer.simulator as Simulator) || new Simulator(designer);
 
-        const { device, deviceStyle, deviceClassName } = host;
+        const { deviceStyle } = host;
+        const innerDeviceCls = computed(() => {
+            if (host.deviceClassName.value) {
+                return host.deviceClassName.value;
+            }
+            if (host.device.value === 'mobile') {
+                return deviceMobileCls;
+            }
+            if (host.device.value === 'iphoneX') {
+                return deviceIphoneXCls;
+            }
+            if (host.device.value === 'iphone6') {
+                return deviceIphone6Cls;
+            }
+
+            return deviceDefaultCls;
+        });
 
         onMount?.(host);
 
@@ -82,23 +109,18 @@ export const SimulatorView = defineComponent({
         });
 
         return {
-            deviceClassName,
-            device,
+            innerDeviceCls,
             deviceStyle,
             host,
         };
     },
     render() {
-        const { deviceStyle, deviceClassName, device, host } = this;
+        const { deviceStyle, host, innerDeviceCls } = this;
 
         return (
-            <div class={css['letgo-simulator']}>
+            <div class={simulatorCls}>
                 <div
-                    class={[
-                        css['letgo-simulator-canvas'],
-                        deviceClassName ||
-                            css[`letgo-simulator-device-${device}`],
-                    ]}
+                    class={[canvasCls, innerDeviceCls]}
                     style={deviceStyle?.canvas}
                 >
                     <div
@@ -110,7 +132,7 @@ export const SimulatorView = defineComponent({
                                 });
                             }
                         }}
-                        class={css['letgo-simulator-canvas-viewport']}
+                        class={canvasViewportCls}
                         style={deviceStyle?.viewport}
                     >
                         <BemToolsView host={host} />

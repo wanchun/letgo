@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue';
 import { AppstoreOutlined } from '@fesjs/fes-design/icon';
-import css from './content.module.css';
+import { iconCls } from './content.css';
 
 export default defineComponent({
     components: {
@@ -8,7 +8,7 @@ export default defineComponent({
     },
     setup() {
         return () => {
-            return <AppstoreOutlined class={css.icon} />;
+            return <AppstoreOutlined class={iconCls} />;
         };
     },
 });

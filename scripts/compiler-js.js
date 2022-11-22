@@ -3,15 +3,13 @@
 const path = require('path');
 const rollup = require('rollup');
 const babel = require('@rollup/plugin-babel');
-const css = require('@modular-css/rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
-const postcssImport = require('postcss-import');
-const postcssNested = require('postcss-nested');
+const vanillaExtract = require('@vanilla-extract/rollup-plugin');
 const renameExtensions =
     require('@betit/rollup-plugin-rename-extensions').default;
 
 const injectcss = require('./injectcss');
-const { extensions, genCssNamer } = require('./build-shard');
+const { extensions } = require('./build-shard');
 
 async function compiler(codePath, outputDir) {
     const extname = path.extname(codePath);
@@ -37,12 +35,21 @@ async function compiler(codePath, outputDir) {
             warn(warning);
         },
         external: (id) => {
-            if (id.indexOf(codePath) !== -1 || id.endsWith('.module.css')) {
+            id = id.split('?')[0];
+            if (
+                id.indexOf(codePath) !== -1 ||
+                id.endsWith('.css') ||
+                id.endsWith('.css.ts') ||
+                id.endsWith('vanilla.css')
+            ) {
                 return false;
             }
             return true;
         },
         plugins: [
+            vanillaExtract.vanillaExtractPlugin({
+                cwd: path.dirname(codePath),
+            }),
             nodeResolve({
                 extensions,
             }),
@@ -52,14 +59,6 @@ async function compiler(codePath, outputDir) {
                     '.tsx': '.js',
                     '.less': '.css',
                 },
-            }),
-            css({
-                styleExport: false,
-                namer(file, selector) {
-                    return genCssNamer(file) + '_' + selector;
-                },
-                include: '**/*.module.css',
-                before: [postcssImport, postcssNested],
             }),
             injectcss(),
             babel.babel({
@@ -91,17 +90,18 @@ async function compiler(codePath, outputDir) {
             }),
         ],
     });
-
     if (/.less|css$/.test(extname)) {
         bundle.write({
-            file: cssFileName,
+            // file: cssFileName,
+            dir: path.dirname(cssFileName),
             assetFileNames: '[name][extname]',
             format: 'esm',
         });
     } else {
         bundle.write({
-            file: outputPath,
+            // file: outputPath,
             format: 'esm',
+            dir: path.dirname(outputPath),
             assetFileNames: '[name][extname]',
         });
     }

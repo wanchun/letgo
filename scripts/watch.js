@@ -2,14 +2,17 @@
 const chokidar = require('chokidar');
 const { getNeedCompilePkg, getResourcePath } = require('./build-shard');
 
-const pkgs = getNeedCompilePkg();
-
-const watcher = chokidar.watch(pkgs.map(getResourcePath), {
-    interval: 200,
-    ignoreInitial: true,
-});
+let watcher;
 
 function watch(callback) {
+    if (!watcher) {
+        const pkgs = getNeedCompilePkg();
+
+        watcher = chokidar.watch(pkgs.map(getResourcePath), {
+            interval: 200,
+            ignoreInitial: true,
+        });
+    }
     watcher.on('add', callback).on('change', callback);
 }
 

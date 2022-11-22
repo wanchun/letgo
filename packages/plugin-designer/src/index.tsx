@@ -8,7 +8,7 @@ import {
 } from 'vue';
 import { DesignerView, Designer } from '@webank/letgo-designer';
 import { IPluginContext } from '@webank/letgo-plugin-manager';
-import css from './index.module.css';
+import { designerPluginCls } from './index.css';
 
 export default defineComponent({
     name: 'PluginDesigner',
@@ -60,7 +60,7 @@ export default defineComponent({
             }
             return (
                 <DesignerView
-                    class={css['letgo-plugin-designer']}
+                    class={designerPluginCls}
                     editor={editor}
                     designer={designer}
                     onMount={handleDesignerMount}

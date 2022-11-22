@@ -1,6 +1,6 @@
 import { defineComponent, PropType, shallowRef, onBeforeUnmount } from 'vue';
 import { isDragNodeObject, isDragNodeDataObject } from './dragon';
-import css from './drag-host.module.css';
+import { ghostGroupCls, ghostTitleCls } from './drag-host.css';
 import type { Designer } from './designer';
 
 export const DragHostView = defineComponent({
@@ -43,27 +43,23 @@ export const DragHostView = defineComponent({
             const _dragObject = dragObject.value;
             if (isDragNodeObject(_dragObject)) {
                 return _dragObject.nodes.map((node) => {
-                    const ghost = (
-                        <div class={css.ghost} key={node.id}>
-                            {node.title}
-                        </div>
-                    );
+                    const ghost = <div key={node.id}>{node.title}</div>;
                     return ghost;
                 });
             } else if (isDragNodeDataObject(_dragObject)) {
                 return Array.isArray(_dragObject.data) ? (
                     _dragObject.data.map((item, index) => {
                         return (
-                            <div class={css.ghost} key={`ghost-${index}`}>
-                                <div class={css['ghost-title']}>
+                            <div key={`ghost-${index}`}>
+                                <div class={ghostTitleCls}>
                                     {item.componentName}
                                 </div>
                             </div>
                         );
                     })
                 ) : (
-                    <div class={css.ghost}>
-                        <div class={css['ghost-title']}>
+                    <div>
+                        <div class={ghostTitleCls}>
                             {_dragObject.data.componentName}
                         </div>
                     </div>
@@ -81,7 +77,7 @@ export const DragHostView = defineComponent({
             }
             return (
                 <div
-                    class={css['ghost-group']}
+                    class={ghostGroupCls}
                     style={{
                         left: x.value + 'px',
                         top: y.value + 'px',

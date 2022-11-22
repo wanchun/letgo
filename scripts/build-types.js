@@ -51,8 +51,6 @@ async function genPkgType(pkg) {
         `packages/${pkg}/src/**/*.tsx`,
     ]);
     const sourceFiles = {};
-    sourceFiles[path.resolve(__dirname, '../modules.d.ts')] =
-        project.addSourceFileAtPath(path.resolve(__dirname, '../modules.d.ts'));
 
     files.forEach((file) => {
         sourceFiles[file] = project.addSourceFileAtPath(file);

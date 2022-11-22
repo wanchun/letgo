@@ -25,7 +25,13 @@ import {
 } from '@webank/letgo-types';
 import { Designer } from '@webank/letgo-designer';
 import { Editor } from '@webank/letgo-editor-core';
-import css from './panel.module.css';
+import {
+    categoryBodyCls,
+    categoryItemCls,
+    categoryItemIconCls,
+    categoryTitleCls,
+    searchCls,
+} from './panel.css';
 
 interface CategoryType {
     category: string;
@@ -151,7 +157,7 @@ export default defineComponent({
                     return (
                         snippet.screenshot && (
                             <img
-                                class={css['category-body-item-icon']}
+                                class={categoryItemIconCls}
                                 src={snippet.screenshot}
                                 draggable="false"
                             />
@@ -161,7 +167,7 @@ export default defineComponent({
                 return (
                     <FGridItem span={12}>
                         <FButton
-                            class={css['category-body-item']}
+                            class={categoryItemCls}
                             v-slots={{ icon: renderIcon }}
                             ref={(el: any) => {
                                 handleDrag(el.$el as Element, snippet);
@@ -178,11 +184,11 @@ export default defineComponent({
             return categoryListRef.value[group].map((item) => {
                 return (
                     <>
-                        <div class={css['category-title']}>{item.category}</div>
+                        <div class={categoryTitleCls}>{item.category}</div>
                         <FGrid
                             wrap
                             gutter={[10, 10]}
-                            class={css['category-body']}
+                            class={categoryBodyCls}
                             v-show={item.show}
                         >
                             {renderSnippet(item.snippets)}
@@ -195,7 +201,7 @@ export default defineComponent({
         return () => {
             return (
                 <Fragment>
-                    <div class={css['search']}>
+                    <div class={searchCls}>
                         <FInput
                             placeholder="请输入"
                             clearable

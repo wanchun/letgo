@@ -1,24 +1,22 @@
-import {
-    defineComponent,
-    PropType,
-    onBeforeMount,
-    onMounted,
-    watch,
-    ref,
-} from 'vue';
+import { defineComponent, PropType, onMounted, watch } from 'vue';
 import { IEditor, ProjectSchema, ComponentMetadata } from '@webank/letgo-types';
 import { FSpin } from '@fesjs/fes-design';
 import { SimulatorView } from '../simulator';
 import { Project } from '../project';
 import { Designer } from './designer';
 import { DragHostView } from './drag-host';
-import css from './designer-view.module.css';
+import {
+    designerCls,
+    loadingCls,
+    projectCls,
+    projectContentCls,
+} from './designer-view.css';
 
 const BuiltinLoading = defineComponent({
     setup() {
         return () => {
             return (
-                <div class={css['letgo-loading-wrapper']}>
+                <div class={loadingCls}>
                     <FSpin size={'large'} />
                 </div>
             );
@@ -39,8 +37,8 @@ export const ProjectView = defineComponent({
         return () => {
             const { simulatorProps } = designer;
             return (
-                <div class={css['letgo-project']}>
-                    <div class={css['letgo-project-content']}>
+                <div class={projectCls}>
+                    <div class={projectContentCls}>
                         {/* {!designer?.simulator?.renderer && <BuiltinLoading />} */}
                         <SimulatorView simulatorProps={simulatorProps} />
                     </div>
@@ -111,7 +109,7 @@ export const DesignerView = defineComponent({
 
         return () => {
             return (
-                <div class={css['letgo-designer']}>
+                <div class={designerCls}>
                     <DragHostView designer={_designer} />
                     <ProjectView designer={_designer} />
                 </div>

@@ -16,21 +16,9 @@
         "allowJs": false,
         "baseUrl": "./packages",
         "outDir": "es",
-        "plugins": [
-            {
-                "name": "typescript-plugin-css-modules",
-                "options": {
-                    "customMatcher": "\\.module.css$"
-                }
-            }
-        ],
         "lib": [
             "ESNext",
             "DOM"
         ]
-    },
-    // "exclude": ["**/tests/*", "**/*.test.ts", "**/lib", "**/es", "node_modules"],
-    "include": [
-        "./modules.d.ts"
-    ]
+    }
 }

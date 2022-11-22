@@ -29,12 +29,13 @@ async function compilerFile(filePath, outputDir, isForceUpdate) {
     const fileName = path.basename(filePath);
     if (
         ['.ts', '.tsx'].includes(extname) &&
-        (isForceUpdate || isScriptFileChange(filePath))
+        (isForceUpdate || !isWatch() || isScriptFileChange(filePath)) &&
+        !filePath.endsWith('.css.ts')
     ) {
         await compiler(filePath, outputDir);
     } else if (
         (/^[a-zA-Z-]+\.css$/.test(fileName) || '.less' === extname) &&
-        isCssFileChange(filePath)
+        (isForceUpdate || !isWatch() || isCssFileChange(filePath))
     ) {
         await compilerCss(filePath, outputDir);
     }
@@ -62,11 +63,11 @@ async function compilePkgs(pkgs) {
 }
 
 function findChangeFile(filePath) {
-    const tsFile = filePath.replace('.module.css', '.ts');
+    const tsFile = filePath.replace('.css.ts', '.ts');
     if (fs.existsSync(tsFile)) {
         return tsFile;
     }
-    return filePath.replace('.module.css', '.tsx');
+    return filePath.replace('.css.ts', '.tsx');
 }
 
 async function buildEsm() {
@@ -78,7 +79,7 @@ async function buildEsm() {
             try {
                 let isForceUpdate = false;
                 const rawFilePath = filePath;
-                if (filePath.endsWith('.module.css')) {
+                if (filePath.endsWith('.css.ts')) {
                     isForceUpdate = true;
                     filePath = findChangeFile(filePath);
                 }

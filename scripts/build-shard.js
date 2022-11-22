@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const fse = require('fs-extra');
-const uniqueSlug = require('unique-slug');
 const PACKAGE_PATH = path.join(process.cwd(), './packages');
 
 const extensions = ['.js', '.vue', '.jsx', '.json', '.ts', '.tsx'];
@@ -45,16 +44,6 @@ function isFileChange(from, to) {
     return true;
 }
 
-const cache = new Map();
-function genCssNamer(file) {
-    if (cache.has(file)) return cache.get(file);
-
-    const name = uniqueSlug(fse.readFileSync(file, 'utf8'));
-    cache.set(file, `lc${name}`);
-
-    return cache.get(file);
-}
-
 module.exports = {
     PACKAGE_PATH,
     getEsOutputPath,
@@ -64,6 +53,5 @@ module.exports = {
     isWatch,
     getOutputDirFromFilePath,
     isFileChange,
-    genCssNamer,
     getLibOutputPath,
 };

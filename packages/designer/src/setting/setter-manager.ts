@@ -1,4 +1,4 @@
-import { Setter } from './types';
+import { Setter } from '@webank/letgo-types';
 
 export class Factory {
     private static renderMap = new Map<string, Setter>();

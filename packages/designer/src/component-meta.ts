@@ -19,6 +19,8 @@ import { Designer } from './designer';
 import { isNode, Node } from './node';
 import parseNestingRule from './transducers/nesting-rule';
 import addonCombine from './transducers/addon-combine';
+import parseJSFunc from './transducers/parse-func';
+import parseProps from './transducers/parse-props';
 import { ParentalNode } from './types';
 
 export function ensureAList(list?: string | string[]): string[] | null {
@@ -372,46 +374,34 @@ const builtinComponentActions: ComponentAction[] = [
         },
         important: true,
     },
-    // {
-    //     name: 'lock',
-    //     content: {
-    //         icon: IconLock, // 锁定 icon
-    //         title: intlNode('lock'),
-    //         /* istanbul ignore next */
-    //         action(node: Node) {
-    //             node.lock();
-    //         },
-    //     },
-    //     /* istanbul ignore next */
-    //     condition: (node: Node) => {
-    //         return (
-    //             engineConfig.get('enableCanvasLock', false) &&
-    //             node.isContainer() &&
-    //             !node.isLocked
-    //         );
-    //     },
-    //     important: true,
-    // },
-    // {
-    //     name: 'unlock',
-    //     content: {
-    //         icon: IconUnlock, // 解锁 icon
-    //         title: intlNode('unlock'),
-    //         /* istanbul ignore next */
-    //         action(node: Node) {
-    //             node.lock(false);
-    //         },
-    //     },
-    //     /* istanbul ignore next */
-    //     condition: (node: Node) => {
-    //         return (
-    //             engineConfig.get('enableCanvasLock', false) &&
-    //             node.isContainer() &&
-    //             node.isLocked
-    //         );
-    //     },
-    //     important: true,
-    // },
+    {
+        name: 'lock',
+        content: {
+            icon: () => [h(PlusOutlined)],
+            title: '锁定',
+            action(node: Node) {
+                node.props.getExtraProp('isLock').setValue(true);
+            },
+        },
+        condition: (node: Node) => {
+            return node.isContainer() && !node.isLocked;
+        },
+        important: true,
+    },
+    {
+        name: 'unlock',
+        content: {
+            icon: () => [h(PlusOutlined)],
+            title: '解锁',
+            action(node: Node) {
+                node.props.getExtraProp('isLock').setValue(false);
+            },
+        },
+        condition: (node: Node) => {
+            return node.isContainer() && node.isLocked;
+        },
+        important: true,
+    },
 ];
 
 export function removeBuiltinComponentAction(name: string) {
@@ -437,6 +427,10 @@ export function modifyBuiltinComponentAction(
         handle(builtinAction);
     }
 }
+
+registerMetadataTransducer(parseJSFunc, 1, 'parse-func');
+
+registerMetadataTransducer(parseProps, 5, 'parse-props');
 
 registerMetadataTransducer(addonCombine, 10, 'combine-props');
 

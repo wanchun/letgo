@@ -31,6 +31,16 @@ function getNeedCompilePkg() {
     );
 }
 
+function getNeedCompileTypePkg() {
+    const pkgs = fse.readdirSync(PACKAGE_PATH);
+    return pkgs.filter(
+        (item) =>
+            item !== '.DS_Store' &&
+            !item.startsWith('_') &&
+            !['template'].includes(item),
+    );
+}
+
 function getOutputDirFromFilePath(filePath) {
     return path.dirname(filePath).replace('/src', '/es');
 }
@@ -54,4 +64,5 @@ module.exports = {
     getOutputDirFromFilePath,
     isFileChange,
     getLibOutputPath,
+    getNeedCompileTypePkg,
 };

@@ -4,7 +4,11 @@ const fs = require('fs');
 const chalk = require('chalk');
 const glob = require('fast-glob');
 const { Project } = require('ts-morph');
-const { isWatch, isFileChange } = require('./build-shard');
+const {
+    isWatch,
+    isFileChange,
+    getNeedCompileTypePkg,
+} = require('./build-shard');
 const { watch } = require('./watch');
 
 async function genType(sourceFile) {
@@ -78,21 +82,7 @@ async function genPkgType(pkg) {
 }
 
 async function buildTypes() {
-    const pkgs = [
-        'types',
-        'utils',
-        'editor-core',
-        'editor-skeleton',
-        'designer',
-        'plugin-manager',
-        'engine',
-        'renderer',
-        'simulator-renderer',
-        'engine',
-        'plugin-designer',
-        'plugin-components-panel',
-        'plugin-setting-panel',
-    ];
+    const pkgs = getNeedCompileTypePkg();
     const projects = {};
     for (const pkg of pkgs) {
         projects[pkg] = await genPkgType(pkg);

@@ -87,4 +87,8 @@ export interface FieldConfig extends FieldExtraProps {
      * 其他配置属性（不做流通要求）
      */
     extraProps?: FieldExtraProps;
+    /**
+     * 属性描述
+     */
+    description?: string;
 }

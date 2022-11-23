@@ -42,6 +42,16 @@ export interface SetterConfig {
      */
     title?: string;
     /**
+     * 是否必填？
+     *
+     * ArraySetter 里有个快捷预览，可以在不打开面板的情况下直接编辑
+     */
+    isRequired?: boolean;
+    /**
+     * Setter 的初始值
+     */
+    defaultValue?: any | ((target: SettingTarget) => any);
+    /**
      * 给 MixedSetter 用于判断优先选中哪个
      */
     condition?: (target: SettingTarget) => boolean;

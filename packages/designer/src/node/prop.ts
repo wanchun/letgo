@@ -43,16 +43,20 @@ export class Prop {
     key: string | number;
 
     /**
-     * 属性类型【响应性】
+     * 属性类型
      */
-    get type(): ShallowRef<ValueTypes> {
-        return this._type;
+    get type(): ValueTypes {
+        return this._type.value;
+    }
+
+    get value() {
+        return this.getValue();
     }
 
     /**
      * 属性值【响应性】
      */
-    value: ComputedRef<CompositeValue | UNSET> = computed(() => {
+    ComputedValue: ComputedRef<CompositeValue | UNSET> = computed(() => {
         return this.getValue();
     });
 
@@ -138,10 +142,74 @@ export class Prop {
     }
 
     getAsString(): string {
-        if (this.type.value === 'literal') {
+        if (this.type === 'literal') {
             return this._value.value ? String(this._value.value) : '';
         }
         return '';
+    }
+
+    private _code: string | null = null;
+
+    /**
+     * 获得表达式值
+     */
+    get code() {
+        if (isJSExpression(this.value)) {
+            return this.value.value;
+        }
+        return this._code != null ? this._code : JSON.stringify(this.value);
+    }
+
+    /**
+     * 设置表达式值
+     */
+    set code(code: string) {
+        if (isJSExpression(this._value)) {
+            this.setValue({
+                ...this._value,
+                value: code,
+            });
+            this._code = code;
+            return;
+        }
+
+        try {
+            const v = JSON.parse(code);
+            this.setValue(v);
+            this._code = code;
+            return;
+        } catch (e) {
+            // ignore
+        }
+
+        this.setValue({
+            type: 'JSExpression',
+            value: code,
+            mock: this._value,
+        });
+        this._code = code;
+    }
+
+    /**
+     * @returns  0: the same 1: maybe & like 2: not the same
+     */
+    compare(other: Prop | null): number {
+        if (!other || other.isUnset()) {
+            return this.isUnset() ? 0 : 2;
+        }
+        if (other.type !== this.type) {
+            return 2;
+        }
+        // list
+        if (this.type === 'list') {
+            return this.value.length === other.value.length ? 1 : 2;
+        }
+        if (this.type === 'map') {
+            return 1;
+        }
+
+        // 'literal' | 'map' | 'expression' | 'slot'
+        return this.code === other.code ? 0 : 2;
     }
 
     /**

@@ -11,6 +11,10 @@ export interface JSExpression {
      * 表达式字符串
      */
     value: string;
+    /**
+     * 模拟值
+     */
+    mock?: any;
 }
 
 /**
@@ -25,6 +29,10 @@ export interface JSFunction {
      * 函数定义，或直接函数表达式
      */
     value: string;
+    /**
+     * 模拟值
+     */
+    mock?: any;
 }
 
 /**

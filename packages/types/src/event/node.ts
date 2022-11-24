@@ -7,4 +7,4 @@ export interface RerenderOptions {
     nodeCount?: number;
 }
 
-export const Rerender = 'node.edit.rerender.time';
+export const Rerender = 'node.rerender';

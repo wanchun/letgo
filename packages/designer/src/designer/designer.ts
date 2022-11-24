@@ -17,6 +17,7 @@ import { Project } from '../project';
 import { ComponentMeta } from '../component-meta';
 import { Node, insertChildren } from '../node';
 import { SimulatorProps, Simulator } from '../simulator';
+import { SettingTop } from '../setting';
 import {
     Dragon,
     isDragNodeObject,
@@ -406,6 +407,10 @@ export class Designer {
     touchOffsetObserver() {
         this.clearOffsetObserverList(true);
         this.offsetObserverList.forEach((item) => item.compute());
+    }
+
+    createSettingEntry(nodes: Node[]) {
+        return new SettingTop(this.editor, nodes);
     }
 }
 

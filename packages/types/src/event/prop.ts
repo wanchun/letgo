@@ -1,7 +1,7 @@
 export interface ChangeOptions {
     key?: string | number;
     prop?: any;
-    node: Node;
+    node?: any;
     newValue: any;
     oldValue: any;
 }

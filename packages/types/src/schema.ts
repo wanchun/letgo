@@ -36,7 +36,9 @@ export interface NodeSchema {
     /**
      * 组件属性对象
      */
-    props?: PropsMap;
+    props?: {
+        children?: NodeData | NodeData[];
+    } & PropsMap;
     /**
      * 组件指令数组
      */

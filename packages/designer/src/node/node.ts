@@ -6,12 +6,15 @@ import {
     isJSExpression,
     TransformStage,
     NodeData,
+    PropsMap,
+    PropsList,
 } from '@webank/letgo-types';
 import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
 import { computed, ComputedRef } from 'vue';
 import { ComponentMeta } from '../component-meta';
 import { DocumentModel } from '../document';
 import { RootNode, ParentalNode, LeafNode } from '../types';
+import { SettingTop } from '../setting';
 import { NodeChildren } from './node-children';
 import { Props } from './props';
 
@@ -100,7 +103,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     }
 
     get title(): string {
-        const t = this.props.getExtraProp('title');
+        const t = this.getExtraProp('title');
         if (t) {
             const v = t.getAsString();
             if (v) {
@@ -112,6 +115,13 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
 
     get componentMeta(): ComponentMeta {
         return this.document.getComponentMeta(this.componentName);
+    }
+
+    get propsData(): PropsMap | PropsList | null {
+        if (!this.isParental() || this.componentName === 'Fragment') {
+            return null;
+        }
+        return this.props.export(TransformStage.Serialize).props || null;
     }
 
     /**
@@ -190,14 +200,14 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
      * 获取当前节点的锁定状态
      */
     get isLocked(): boolean {
-        return !!this.props.getExtraProp('isLocked')?.getValue();
+        return !!this.getExtraProp('isLocked')?.getValue();
     }
 
     /**
      * 锁住当前节点
      */
     setLock(flag = true) {
-        this.props.getExtraProp('isLocked').setValue(flag);
+        this.getExtraProp('isLocked').setValue(flag);
     }
 
     constructor(
@@ -255,12 +265,61 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         }
     }
 
-    emitPropChange(val: PropChangeOptions) {
-        this.emitter.emit('propChange', val);
+    /**
+     * 获取单个属性
+     */
+    getProp(name: string, createIfNone = true) {
+        return this.props.getProp(name, createIfNone);
     }
 
-    getProp(name: string) {
-        return this.props.getProp(name);
+    /**
+     * 获取其他属性
+     */
+    getExtraProp(name: string, createIfNone = true) {
+        return this.props.getExtraProp(name, createIfNone);
+    }
+
+    /**
+     * 获取单个属性值
+     */
+    getPropValue(path: string): any {
+        return this.getProp(path, false)?.value;
+    }
+
+    /**
+     * 设置单个属性值
+     */
+    setPropValue(path: string, value: any) {
+        this.getProp(path, true).setValue(value);
+    }
+
+    /**
+     * 清除已设置的值
+     */
+    clearPropValue(path: string): void {
+        this.getProp(path, false)?.unset();
+    }
+
+    /**
+     * 设置多个属性值，和原有值合并
+     */
+    mergeProps(props: PropsMap) {
+        this.props.merge(props);
+    }
+
+    /**
+     * 设置多个属性值，替换原有值
+     */
+    setProps(props?: PropsMap | PropsList | Props | null) {
+        if (props instanceof Props) {
+            this.props = props;
+            return;
+        }
+        this.props.import(props);
+    }
+
+    emitPropChange(val: PropChangeOptions) {
+        this.emitter.emit('propChange', val);
     }
 
     onPropChange(func: (info: PropChangeOptions) => void): () => void {
@@ -298,9 +357,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
 
         if (this.isLeaf()) {
             if (!options.bypassChildren) {
-                baseSchema.children = [
-                    this.props.getProp('children')?.export(stage),
-                ];
+                baseSchema.children = [this.getProp('children')?.export(stage)];
             }
             return baseSchema;
         }
@@ -338,14 +395,13 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
             this.children.import(children);
         }
         if (this.isLeaf()) {
-            this.props
-                .getProp('children', true)
-                .setValue(
-                    children.length === 1 &&
-                        (isDOMText(children[0]) || isJSExpression(children[0]))
-                        ? children[0]
-                        : '',
-                );
+            this.setPropValue(
+                'children',
+                children.length === 1 &&
+                    (isDOMText(children[0]) || isJSExpression(children[0]))
+                    ? children[0]
+                    : '',
+            );
         }
     }
 
@@ -379,12 +435,12 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     }
 
     setVisible(flag: boolean) {
-        this.props.getExtraProp('hidden')?.setValue(!flag);
+        this.getExtraProp('hidden')?.setValue(!flag);
         this.emitter.emit('visibleChange', flag);
     }
 
     getVisible(): boolean {
-        return !this.props.getExtraProp('hidden')?.getValue();
+        return !this.getExtraProp('hidden')?.getValue();
     }
 
     onVisibleChange(func: (flag: boolean) => any): () => void {
@@ -436,6 +492,14 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         };
     }
 
+    private _settingEntry: SettingTop;
+
+    get settingEntry(): SettingTop {
+        if (this._settingEntry) return this._settingEntry;
+        this._settingEntry = this.document.designer.createSettingEntry([this]);
+        return this._settingEntry;
+    }
+
     private purged = false;
 
     /**
@@ -451,6 +515,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         }
         this.purged = true;
         this.props.purge();
+        this.settingEntry?.purge();
     }
 }
 

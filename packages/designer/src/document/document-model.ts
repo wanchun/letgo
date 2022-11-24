@@ -81,9 +81,8 @@ export class DocumentModel {
 
     get fileName(): string {
         return (
-            this.rootNode?.props
-                .getExtraProp('fileName', false)
-                ?.getAsString() || this.id
+            this.rootNode?.getExtraProp('fileName', false)?.getAsString() ||
+            this.id
         );
     }
 

@@ -1,6 +1,6 @@
 import { Setter } from '@webank/letgo-types';
 
-export class Factory {
+export class SetterFactory {
     private static renderMap = new Map<string, Setter>();
 
     static register(commands: Setter[]) {

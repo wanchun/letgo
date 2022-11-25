@@ -6,6 +6,12 @@ import {
     IWidgetModalConfig,
 } from '../types';
 import { Widget, WidgetModal, WidgetPanel } from '../widget';
+import {
+    topAreaCls,
+    topAreaLeftCls,
+    topAreaCenterCls,
+    topAreaRightCls,
+} from './workbench.css';
 
 export default defineComponent({
     name: 'TopArea',
@@ -45,10 +51,10 @@ export default defineComponent({
                     }
                 });
             return (
-                <div class="letgo-top-area">
-                    <div class="letgo-top-area-left">{left}</div>
-                    <div class="letgo-top-area-center">{center}</div>
-                    <div class="letgo-top-area-right">{right}</div>
+                <div class={topAreaCls}>
+                    <div class={topAreaLeftCls}>{left}</div>
+                    <div class={topAreaCenterCls}>{center}</div>
+                    <div class={topAreaRightCls}>{right}</div>
                 </div>
             );
         };

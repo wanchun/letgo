@@ -48,7 +48,7 @@ async function compiler(codePath, outputDir) {
         },
         plugins: [
             vanillaExtract.vanillaExtractPlugin({
-                cwd: path.dirname(codePath),
+                // cwd: path.dirname(codePath),
             }),
             nodeResolve({
                 extensions,

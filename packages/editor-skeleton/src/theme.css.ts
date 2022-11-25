@@ -1,6 +1,6 @@
-import { createTheme } from '@vanilla-extract/css';
+import { createGlobalTheme } from '@vanilla-extract/css';
 
-export const [themeClass, themeVars] = createTheme({
+export const themeVars = createGlobalTheme(':root', {
     color: {
         brand: 'rgba(0, 108, 255, 1)',
         brandLight: 'rgba(25, 122, 255, 1)',

@@ -6,6 +6,12 @@ import {
     IWidgetModalConfig,
 } from '../types';
 import { Widget, WidgetModal, WidgetPanel } from '../widget';
+import {
+    bottomAreaCls,
+    bottomAreaCenterCls,
+    bottomAreaLeftCls,
+    bottomAreaRightCls,
+} from './workbench.css';
 
 export default defineComponent({
     name: 'BottomArea',
@@ -52,10 +58,10 @@ export default defineComponent({
                     }
                 });
             return (
-                <div class="letgo-bottom-area">
-                    <div class="letgo-bottom-area-left">{left}</div>
-                    <div class="letgo-bottom-area-center">{center}</div>
-                    <div class="letgo-bottom-area-right">{right}</div>
+                <div class={bottomAreaCls}>
+                    <div class={bottomAreaLeftCls}>{left}</div>
+                    <div class={bottomAreaCenterCls}>{center}</div>
+                    <div class={bottomAreaRightCls}>{right}</div>
                 </div>
             );
         };

@@ -12,6 +12,13 @@ import { computed } from 'vue';
 import { Area } from '../area';
 import { IPanelConfig } from '../types';
 import { Panel } from '../widget';
+import {
+    leftFloatAreaCls,
+    leftFloatAreaBodyCls,
+    leftFloatAreaHeaderCls,
+    headerIconCls,
+    headerIconsCls,
+} from './workbench.css';
 
 export default defineComponent({
     name: 'LeftFloatArea',
@@ -76,21 +83,21 @@ export default defineComponent({
             const { current, items } = area;
             const currentProps = current.value?.props || {};
             return (
-                <div class="letgo-left-float-area" style={style.value}>
-                    <div class="letgo-left-float-area-header">
+                <div class={leftFloatAreaCls} style={style.value}>
+                    <div class={leftFloatAreaHeaderCls}>
                         {currentProps.title}
-                        <div class="area-header-icons">
+                        <div class={headerIconsCls}>
                             <PasswordOutlined
-                                class="header-icon"
+                                class={headerIconCls}
                                 onClick={toggleFixed}
                             />
                             <CloseOutlined
-                                class="header-icon"
+                                class={headerIconCls}
                                 onClick={handleClose}
                             />
                         </div>
                     </div>
-                    <div class="letgo-left-float-area-body">
+                    <div class={leftFloatAreaBodyCls}>
                         {items.value.map((item) => item.content)}
                     </div>
                 </div>

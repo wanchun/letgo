@@ -6,6 +6,12 @@ import {
     IWidgetModalConfig,
 } from '../types';
 import { Widget, WidgetModal, WidgetPanel } from '../widget';
+import {
+    toolbarCls,
+    toolbarCenterCls,
+    toolbarLeftCls,
+    toolbarRightCls,
+} from './workbench.css';
 
 export default defineComponent({
     name: 'Toolbar',
@@ -50,10 +56,10 @@ export default defineComponent({
                     }
                 });
             return (
-                <div class="letgo-toolbar">
-                    <div class="letgo-toolbar-left">{left}</div>
-                    <div class="letgo-toolbar-center">{center}</div>
-                    <div class="letgo-toolbar-right">{right}</div>
+                <div class={toolbarCls}>
+                    <div class={toolbarLeftCls}>{left}</div>
+                    <div class={toolbarCenterCls}>{center}</div>
+                    <div class={toolbarRightCls}>{right}</div>
                 </div>
             );
         };

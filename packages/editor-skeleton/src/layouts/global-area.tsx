@@ -13,11 +13,7 @@ export default defineComponent({
     setup(props) {
         return () => {
             const { area } = props;
-            return (
-                <div class="letgo-global-area">
-                    {area.items.value.map((item) => item.content)}
-                </div>
-            );
+            return <div>{area.items.value.map((item) => item.content)}</div>;
         };
     },
 });

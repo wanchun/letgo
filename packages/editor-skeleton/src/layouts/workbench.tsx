@@ -8,7 +8,11 @@ import MainArea from './main-area';
 import BottomArea from './bottom-area';
 import RightArea from './right-area';
 import GlobalArea from './global-area';
-import './workbench.less';
+import {
+    workbenchCls,
+    workbenchBodyCls,
+    workbenchCenterCls,
+} from './workbench.css';
 
 export default defineComponent({
     name: 'WorkBench',
@@ -21,12 +25,12 @@ export default defineComponent({
         return () => {
             const { skeleton } = props;
             return (
-                <div class={'letgo-workbench'}>
+                <div class={workbenchCls}>
                     <TopArea area={skeleton.topArea} />
-                    <div className="letgo-workbench-body">
+                    <div class={workbenchBodyCls}>
                         <LeftArea area={skeleton.leftArea} />
                         <LeftFloatArea area={skeleton.leftFloatArea} />
-                        <div className="letgo-workbench-center">
+                        <div class={workbenchCenterCls}>
                             <Toolbar area={skeleton.toolbar} />
                             <MainArea area={skeleton.mainArea} />
                             <BottomArea area={skeleton.bottomArea} />

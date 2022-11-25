@@ -3,7 +3,13 @@ import { RightOutlined } from '@fesjs/fes-design/icon';
 import { FTabs, FTabPane } from '@fesjs/fes-design';
 import { Node } from '@webank/letgo-designer';
 import { IPluginContext } from '@webank/letgo-plugin-manager';
-import './index.less';
+import {
+    mainCls,
+    navigatorCls,
+    bodyCls,
+    noticeCls,
+    navigatorItemCls,
+} from './index.css';
 
 const Breadcrumb = defineComponent({
     name: 'Breadcrumb',
@@ -30,20 +36,30 @@ const Breadcrumb = defineComponent({
                 _node = _node.parent;
             }
 
+            const len = parentNodeList.length;
+
             return (
-                <div class="letgo-setter-navigator">
-                    {parentNodeList.map((node: Node, index: number) => {
-                        return (
-                            <>
-                                <span class={'letgo-setter-navigator-item'}>
-                                    {node?.componentMeta?.title}
-                                </span>
-                                {index < parentNodeList.length - 1 && (
-                                    <RightOutlined></RightOutlined>
-                                )}
-                            </>
-                        );
-                    })}
+                <div class={navigatorCls}>
+                    {parentNodeList
+                        .reverse()
+                        .map((node: Node, index: number) => {
+                            const isParentNode = index < len - 1;
+                            return (
+                                <>
+                                    <span
+                                        class={[
+                                            navigatorItemCls,
+                                            isParentNode && 'is-parent',
+                                        ]}
+                                    >
+                                        {node?.componentMeta?.title}
+                                    </span>
+                                    {isParentNode && (
+                                        <RightOutlined></RightOutlined>
+                                    )}
+                                </>
+                            );
+                        })}
                 </div>
             );
         };
@@ -67,8 +83,8 @@ export default defineComponent({
         return () => {
             if (!selecting.value || selecting.value.length < 1) {
                 return (
-                    <div class="letgo-setter-main">
-                        <div class="letgo-setter-notice">
+                    <div class={mainCls}>
+                        <div class={noticeCls}>
                             <p>请在左侧画布选中节点</p>
                         </div>
                     </div>
@@ -80,8 +96,8 @@ export default defineComponent({
             // 当节点被锁定，且未开启锁定后容器可设置属性
             if (node.isLocked) {
                 return (
-                    <div class="letgo-setter-main">
-                        <div class="letgo-setter-notice">
+                    <div class={mainCls}>
+                        <div class={noticeCls}>
                             <p>该节点已被锁定，无法配置</p>
                         </div>
                     </div>
@@ -89,9 +105,9 @@ export default defineComponent({
             }
 
             return (
-                <div class="letgo-setter-main">
+                <div class={mainCls}>
                     <Breadcrumb node={node}></Breadcrumb>
-                    <div class="letgo-setter-body">
+                    <div class={bodyCls}>
                         <FTabs>
                             <FTabPane
                                 name="属性"

@@ -1,5 +1,11 @@
 import { defineComponent, computed, PropType } from 'vue';
 import { Simulator } from '../simulator';
+import {
+    borderCls,
+    borderDetectingCls,
+    borderTitleCls,
+    borderStatusCls,
+} from './borders.css';
 
 export const BorderDetectingInstance = defineComponent({
     name: 'BorderDetectingInstance',
@@ -26,15 +32,12 @@ export const BorderDetectingInstance = defineComponent({
             if (!props.rect) {
                 return null;
             }
-            <div
-                class={['letgo-borders', 'letgo-borders-detecting']}
-                style={style.value}
-            >
-                <span title={props.title} class="letgo-borders-title">
+            <div class={[borderCls, borderDetectingCls]} style={style.value}>
+                <span title={props.title} class={borderTitleCls}>
                     {props.title}
                 </span>
                 {props.isLocked ? (
-                    <span title="已锁定" class="letgo-borders-status">
+                    <span title="已锁定" class={borderStatusCls}>
                         已锁定
                     </span>
                 ) : null}

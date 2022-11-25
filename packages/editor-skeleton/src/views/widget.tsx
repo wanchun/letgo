@@ -1,6 +1,6 @@
 import { defineComponent, PropType } from 'vue';
 import { IWidget } from '../types';
-import './widget.less';
+import { widgetCls, disabledCls } from './widget.css';
 
 export default defineComponent({
     name: 'Widget',
@@ -20,14 +20,12 @@ export default defineComponent({
             }
             if (widget.disabled.value) {
                 return (
-                    <div class={'letgo-widget letgo-widget-disabled'}>
-                        {widget.body}
-                    </div>
+                    <div class={[widgetCls, disabledCls]}>{widget.body}</div>
                 );
             }
             if (props.onClick) {
                 return (
-                    <div class="letgo-widget" onClick={props.onClick}>
+                    <div class={widgetCls} onClick={props.onClick}>
                         {widget.body}
                     </div>
                 );

@@ -1,6 +1,6 @@
 import { defineComponent, PropType } from 'vue';
 import { IWidget } from '../types';
-import './panel.less';
+import { panelCls } from './panel.css';
 
 export default defineComponent({
     name: 'Panel',
@@ -13,7 +13,7 @@ export default defineComponent({
         return () => {
             const { widget } = props;
             return (
-                <div v-show={widget.visible.value} class="letgo-panel">
+                <div v-show={widget.visible.value} class={panelCls}>
                     {widget.body}
                 </div>
             );

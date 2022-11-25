@@ -17,6 +17,12 @@ import { Simulator } from '../simulator';
 import NodeSelectorView from '../node-selector';
 import { Node } from '../../node';
 import { OffsetObserver } from '../../designer';
+import {
+    borderCls,
+    borderSelectingCls,
+    borderActionCls,
+    borderActionsCls,
+} from './borders.css';
 
 export const createAction = (
     content: ComponentActionType,
@@ -50,7 +56,7 @@ export const createAction = (
             });
         };
         return (
-            <div key={key} class="letgo-borders-action" onClick={handleClick}>
+            <div key={key} class={borderActionCls} onClick={handleClick}>
                 <FTooltip content={title} placement="top">
                     {icon && createIcon(icon)}
                 </FTooltip>
@@ -124,7 +130,7 @@ export const Toolbar = defineComponent({
                 }
             });
             return (
-                <div class="letgo-borders-actions" style={style}>
+                <div class={borderActionsCls} style={style}>
                     {actions}
                     <NodeSelectorView node={node} />
                 </div>
@@ -169,8 +175,8 @@ export const BorderSelectingInstance = defineComponent({
             return (
                 <div
                     class={[
-                        'letgo-borders',
-                        'letgo-borders-selecting',
+                        borderCls,
+                        borderSelectingCls,
                         dragging && 'is-dragging',
                     ]}
                     style={style}

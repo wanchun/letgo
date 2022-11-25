@@ -2,8 +2,7 @@ import { defineComponent, PropType } from 'vue';
 import { Simulator } from '../simulator';
 import { BorderDetectingView } from './border-detecting';
 import { BorderSelectingView } from './border-selecting';
-import './tools.less';
-import './borders.less';
+import { toolsCls } from './tools.css';
 
 export const BemToolsView = defineComponent({
     name: 'BemToolsView',
@@ -23,7 +22,7 @@ export const BemToolsView = defineComponent({
             }
             return (
                 <div
-                    class="letgo-bem-tools"
+                    class={toolsCls}
                     style={{
                         transform: `translate(${-scrollX * scale}px,${
                             -scrollY * scale

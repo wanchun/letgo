@@ -1,7 +1,6 @@
 import { defineComponent, PropType } from 'vue';
 import { FModal } from '@fesjs/fes-design';
 import { Modal } from '../widget';
-import './modal.less';
 
 export default defineComponent({
     name: 'Modal',

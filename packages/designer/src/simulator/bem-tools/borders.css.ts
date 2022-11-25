@@ -7,13 +7,13 @@ export const borderCls = style({
     top: 0,
     left: 0,
     zIndex: 1,
-    border: '1px solid var(--color-brand-light)',
+    border: `1px solid rgba(25, 122, 255, 1)`,
     willChange: 'transform, width, height',
     overflow: 'visible',
 });
 
 export const borderTitleCls = style({
-    color: 'var(--color-brand-light)',
+    color: 'rgba(25, 122, 255, 1)',
     transform: 'translateY(-100%)',
     fontWeight: 'lighter',
 });
@@ -45,13 +45,13 @@ export const borderActionCls = style({
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    background: 'var(--color-brand, #006cff)',
+    background: 'rgba(0, 108, 255, 1)',
     opacity: 1,
     maxHeight: '100%',
     overflow: 'hidden',
     color: '#ffffff',
     ':hover': {
-        background: 'var(--color-brand-light, #006cff)',
+        background: 'rgba(25, 122, 255, 1)',
     },
 });
 

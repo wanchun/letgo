@@ -9,7 +9,7 @@ import { FPopper } from '@fesjs/fes-design';
 import { canClickNode } from '../../utils';
 import { Node } from '../../node';
 import { ParentalNode } from '../../types';
-import './index.less';
+import { wrapperCls, triggerCls, nodeCls, nodeContentCls } from './index.css';
 
 type UnionNode = Node | ParentalNode | null;
 
@@ -103,11 +103,9 @@ const NodeSelectorView = defineComponent({
                         onMouseLeave={() => {
                             onMouseOut(node);
                         }}
-                        class="instance-node-selector-node"
+                        class={nodeCls}
                     >
-                        <div class="instance-node-selector-node-content">
-                            {node.title}
-                        </div>
+                        <div class={nodeContentCls}>{node.title}</div>
                     </div>
                 );
             });
@@ -116,14 +114,12 @@ const NodeSelectorView = defineComponent({
 
         return () => {
             return (
-                <div class="instance-node-selector">
+                <div class={wrapperCls}>
                     <FPopper
                         v-slots={{
                             trigger: () => {
                                 return (
-                                    <div class="instance-node-selector-current">
-                                        {node.title}
-                                    </div>
+                                    <div class={triggerCls}>{node.title}</div>
                                 );
                             },
                         }}

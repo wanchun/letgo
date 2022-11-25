@@ -12,6 +12,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@vanilla-extract/css": "^1.9.2",
     "@webank/letgo-utils": "^1.0.0",
     "@webank/letgo-editor-core": "^1.0.0",
     "@webank/letgo-designer": "^1.0.0",

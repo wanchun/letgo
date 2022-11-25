@@ -3,8 +3,9 @@ import { style, globalStyle } from '@vanilla-extract/css';
 export const designerCls = style({
     position: 'relative',
     boxSizing: 'border-box',
-    fontFamily: 'var(--font-family)',
-    fontSize: 'var(--font-size-text)',
+    fontFamily: `'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica,
+    Arial, sans-serif`,
+    fontSize: '14px',
 });
 
 globalStyle(`${designerCls} *`, {

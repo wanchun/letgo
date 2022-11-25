@@ -16,9 +16,9 @@ export const ghostGroupCls = style({
 
 export const ghostTitleCls = style({
     textAlign: 'center',
-    fontSize: 'var(--font-size-text)',
+    fontSize: '14px',
     textOverflow: 'ellipsis',
-    color: 'var(--color-text-light)',
+    color: 'rgba(0, 0, 0, 0.5)',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
 });

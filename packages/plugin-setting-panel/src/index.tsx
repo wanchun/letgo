@@ -130,18 +130,19 @@ export default defineComponent({
 
             const { items } = settings;
 
-            const tabs = (items as SettingField[]).map((field) => {
-                return (
-                    <FTabPane
-                        name={field.title}
-                        value={field.id}
-                        key={field.id}
-                        displayDirective="lazy:show"
-                    >
-                        <SettingPane field={field}></SettingPane>
-                    </FTabPane>
-                );
-            });
+            const renderTabs = () =>
+                (items as SettingField[]).map((field) => {
+                    return (
+                        <FTabPane
+                            name={field.title}
+                            value={field.id}
+                            key={field.id}
+                            displayDirective="show"
+                        >
+                            <SettingPane field={field}></SettingPane>
+                        </FTabPane>
+                    );
+                });
 
             return (
                 <div class={mainCls}>
@@ -150,7 +151,7 @@ export default defineComponent({
                         node={currentNode}
                     ></Breadcrumb>
                     <div class={bodyCls}>
-                        <FTabs>{tabs}</FTabs>
+                        <FTabs>{renderTabs()}</FTabs>
                     </div>
                 </div>
             );

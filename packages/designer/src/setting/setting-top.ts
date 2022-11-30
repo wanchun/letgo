@@ -76,6 +76,8 @@ export class SettingTop implements SettingEntry {
         if (!Array.isArray(nodes) || nodes.length < 1) {
             throw new ReferenceError('nodes should not be empty');
         }
+        this.top = this;
+        this.parent = this;
         this.id = generateSessionId(nodes);
         this.first = nodes[0];
         this.designer = this.first.document.designer;

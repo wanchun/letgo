@@ -1,0 +1,66 @@
+import { style, CSSProperties } from '@vanilla-extract/css';
+
+export const accordionFieldCls = style({
+    display: 'block',
+    position: 'relative',
+});
+
+export const inlineFieldCls = style({
+    display: 'flex',
+    alignItems: 'center',
+    margin: '12px',
+});
+
+export const plainFieldCls = style({});
+
+export const blockFieldCls = style([accordionFieldCls, {}]);
+
+export const popupFieldCls = style({});
+
+export const entryFieldCls = style({});
+
+const longHeader: CSSProperties = {
+    height: '32px',
+    display: 'flex',
+    alignItems: 'center',
+    fontWeight: 500,
+    background: 'rgba(31,56,88,.06)',
+    borderTop: '1px solid rgba(31,56,88, .1)',
+    borderBottom: '1px solid rgba(31,56,88, .1)',
+    color: 'rgba(0, 0, 0, 0.8)',
+    padding: '0 12px',
+    userSelect: 'none',
+};
+
+export const headerCls = style({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    selectors: {
+        [`${accordionFieldCls} > &`]: longHeader,
+        [`${blockFieldCls} > &`]: longHeader,
+        [`${inlineFieldCls} > &`]: {
+            width: '70px',
+            marginRight: '1px',
+        },
+    },
+});
+
+export const bodyCls = style({
+    selectors: {
+        [`${accordionFieldCls} > &`]: {
+            padding: '12px',
+        },
+        [`${inlineFieldCls} &`]: {
+            flex: 1,
+            minWidth: 0,
+            display: 'flex',
+            alignItems: 'center',
+        },
+    },
+});
+
+export const titleCls = style({
+    display: 'flex',
+    alignItems: 'center',
+});

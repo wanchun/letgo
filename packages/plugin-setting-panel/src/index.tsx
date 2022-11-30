@@ -4,7 +4,7 @@ import { RightOutlined } from '@fesjs/fes-design/icon';
 import { Node, SettingField } from '@webank/letgo-designer';
 import { IPluginContext } from '@webank/letgo-plugin-manager';
 import { SettingsMain } from './main';
-import Field from './field';
+import SettingPane from './pane';
 import {
     mainCls,
     navigatorCls,
@@ -69,7 +69,7 @@ const Breadcrumb = defineComponent({
 });
 
 export default defineComponent({
-    name: 'PluginSetterPanel',
+    name: 'PluginSetterPanelView',
     props: {
         ctx: {
             type: Object as PropType<IPluginContext>,
@@ -134,10 +134,11 @@ export default defineComponent({
                 return (
                     <FTabPane
                         name={field.title}
-                        value={field.name}
-                        displayDirective="show"
+                        value={field.id}
+                        key={field.id}
+                        displayDirective="lazy:show"
                     >
-                        <Field field={field}></Field>
+                        <SettingPane field={field}></SettingPane>
                     </FTabPane>
                 );
             });

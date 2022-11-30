@@ -1,4 +1,4 @@
-import { Component, Slot } from 'vue';
+import { Component, DefineComponent, ConcreteComponent, Slot } from 'vue';
 import { SettingTarget } from './setting-target';
 import { PropConfig } from './prop-config';
 
@@ -14,7 +14,7 @@ export interface Setter {
     /**
      * 设置器组件
      */
-    Component: Component;
+    Component: Component | DefineComponent | ConcreteComponent;
     /**
      * 校验的 schema 确认用什么组件来渲染
      */

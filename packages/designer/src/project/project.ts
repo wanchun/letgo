@@ -1,5 +1,5 @@
 import { EventEmitter } from 'eventemitter3';
-import { shallowRef, ShallowRef, watchEffect } from 'vue';
+import { shallowRef, ShallowRef, watch } from 'vue';
 import {
     ProjectSchema,
     RootSchema,
@@ -39,7 +39,7 @@ export class Project {
     }
 
     constructor(readonly designer: Designer, schema?: ProjectSchema) {
-        watchEffect(() => {
+        watch(this.currentDocument, () => {
             this.emitter.emit('current-document.change', this.currentDocument);
         });
         this.load(schema);

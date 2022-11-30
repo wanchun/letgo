@@ -4,16 +4,12 @@ import {
     KeyType,
     GetReturnType,
     AssetsJson,
-    Emitter,
     ComponentDescription,
     RemoteComponentDescription,
 } from '@webank/letgo-types';
 import { AssetLoader } from '@webank/letgo-utils';
 
-export class Editor
-    extends (EventEmitter as unknown as { new (): Emitter })
-    implements IEditor
-{
+export class Editor extends EventEmitter implements IEditor {
     private context = new Map<KeyType, any>();
 
     async setAssets(assets: AssetsJson) {

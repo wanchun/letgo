@@ -1,8 +1,10 @@
-import { defineComponent, PropType, computed } from 'vue';
-import { RightOutlined } from '@fesjs/fes-design/icon';
+import { defineComponent, PropType, onBeforeUnmount } from 'vue';
 import { FTabs, FTabPane } from '@fesjs/fes-design';
-import { Node } from '@webank/letgo-designer';
+import { RightOutlined } from '@fesjs/fes-design/icon';
+import { Node, SettingField } from '@webank/letgo-designer';
 import { IPluginContext } from '@webank/letgo-plugin-manager';
+import { SettingsMain } from './main';
+import Field from './field';
 import {
     mainCls,
     navigatorCls,
@@ -67,21 +69,25 @@ const Breadcrumb = defineComponent({
 });
 
 export default defineComponent({
-    name: 'PluginSetter',
+    name: 'PluginSetterPanel',
     props: {
         ctx: {
             type: Object as PropType<IPluginContext>,
         },
     },
     setup(props) {
-        const { designer } = props.ctx;
+        const { designer, editor } = props.ctx;
 
-        const selecting = computed(() => {
-            return designer.currentSelection.getNodes();
+        const main = new SettingsMain(editor, designer);
+
+        onBeforeUnmount(() => {
+            main?.purge();
         });
 
         return () => {
-            if (!selecting.value || selecting.value.length < 1) {
+            const { settings, currentNode } = main;
+
+            if (!settings) {
                 return (
                     <div class={mainCls}>
                         <div class={noticeCls}>
@@ -91,10 +97,8 @@ export default defineComponent({
                 );
             }
 
-            const node = selecting.value[0];
-
             // 当节点被锁定，且未开启锁定后容器可设置属性
-            if (node.isLocked) {
+            if (settings.isLocked) {
                 return (
                     <div class={mainCls}>
                         <div class={noticeCls}>
@@ -104,27 +108,48 @@ export default defineComponent({
                 );
             }
 
+            if (Array.isArray(settings.items) && settings.items.length === 0) {
+                return (
+                    <div class={mainCls}>
+                        <div class={noticeCls}>
+                            <p>该组件暂无配置</p>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (!settings.isSameComponent) {
+                return (
+                    <div class={mainCls}>
+                        <div class={noticeCls}>
+                            <p>请选中同一类型节点编辑</p>
+                        </div>
+                    </div>
+                );
+            }
+
+            const { items } = settings;
+
+            const tabs = (items as SettingField[]).map((field) => {
+                return (
+                    <FTabPane
+                        name={field.title}
+                        value={field.name}
+                        displayDirective="show"
+                    >
+                        <Field field={field}></Field>
+                    </FTabPane>
+                );
+            });
+
             return (
                 <div class={mainCls}>
-                    <Breadcrumb node={node}></Breadcrumb>
+                    <Breadcrumb
+                        key={currentNode.id}
+                        node={currentNode}
+                    ></Breadcrumb>
                     <div class={bodyCls}>
-                        <FTabs>
-                            <FTabPane
-                                name="属性"
-                                value="props"
-                                displayDirective="show"
-                            ></FTabPane>
-                            <FTabPane
-                                name="样式"
-                                value="卫衣"
-                                displayDirective="show"
-                            ></FTabPane>
-                            <FTabPane
-                                name="高级"
-                                value="configure"
-                                displayDirective="show"
-                            ></FTabPane>
-                        </FTabs>
+                        <FTabs>{tabs}</FTabs>
                     </div>
                 </div>
             );

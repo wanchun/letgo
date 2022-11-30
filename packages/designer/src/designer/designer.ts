@@ -218,10 +218,12 @@ export class Designer {
 
         this.project.onCurrentDocumentChange(() => {
             this.postEvent('current-document.change', this.currentDocument);
+            this.postEvent('selection.change', this.currentSelection);
             this.setupSelection();
         });
 
         this.postEvent('init', this);
+        this.setupSelection();
     }
 
     setupSelection = () => {

@@ -5,6 +5,7 @@ import { editor, EngineOptions, engineConfig } from '@webank/letgo-editor-core';
 import { Skeleton, Workbench } from '@webank/letgo-editor-skeleton';
 import PluginDesigner from '@webank/letgo-plugin-designer';
 import PluginSetter from '@webank/letgo-plugin-setting-panel';
+import engineExt from '@webank/letgo-engine-ext';
 import {
     PluginManager,
     IPluginContext,
@@ -36,6 +37,14 @@ export { plugins };
                 const { components = [] } = assets;
                 designer.buildComponentMetaMap(components);
             });
+        },
+    });
+    // 注册默认的 setters
+    plugins.register({
+        name: '___setter_registry___',
+        init(ctx: IPluginContext) {
+            const { setters } = ctx;
+            setters.register(engineExt.setters);
         },
     });
     //注册默认的面板

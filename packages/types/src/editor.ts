@@ -1,6 +1,4 @@
-import { StrictEventEmitter } from 'strict-event-emitter-types';
 import EventEmitter from 'eventemitter3';
-import * as GlobalEvent from './event';
 
 export type KeyType = (new (...args: any[]) => any) | symbol | string;
 export type ClassType = new (...args: any[]) => any;
@@ -18,9 +16,7 @@ export type GetReturnType<T, ClsType> = T extends undefined
         : any
     : T;
 
-export type Emitter = StrictEventEmitter<EventEmitter, GlobalEvent.EventConfig>;
-
-export declare interface IEditor extends Emitter {
+export declare interface IEditor extends EventEmitter {
     get: <T = undefined, KeyOrType = any>(
         keyOrType: KeyOrType,
         opt?: GetOptions,

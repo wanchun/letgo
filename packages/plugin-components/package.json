@@ -1,5 +1,5 @@
 {
-  "name": "@webank/letgo-plugin-setting-panel",
+  "name": "@webank/letgo-plugin-components",
   "version": "1.0.0",
   "description": "",
   "files": [
@@ -12,12 +12,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "eventemitter3": "^4.0.0",
     "@vanilla-extract/css": "^1.9.2",
     "@webank/letgo-plugin-manager": "^1.0.0",
-    "@webank/letgo-types": "^1.0.0",
-    "@webank/letgo-designer": "^1.0.0",
     "@webank/letgo-editor-core": "^1.0.0",
+    "@webank/letgo-designer": "^1.0.0",
+    "@webank/letgo-types": "^1.0.0",
     "@fesjs/fes-design": "^0.7.7"
   },
   "peerDependencies": {

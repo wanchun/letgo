@@ -21,7 +21,7 @@
     "@webank/letgo-engine-ext": "^1.0.0",
     "@webank/letgo-plugin-manager": "^1.0.0",
     "@webank/letgo-plugin-designer": "^1.0.0",
-    "@webank/letgo-plugin-setting-panel": "^1.0.0",
+    "@webank/letgo-plugin-setting": "^1.0.0",
     "lodash-es": "^4.17.21",
     "eventemitter3": "^4.0.0"
   },

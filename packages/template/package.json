@@ -22,7 +22,7 @@
     "vue": "^3.2.37",
     "core-js": "^3.19.2",
     "@webank/letgo-engine": "^1.0.0",
-    "@webank/letgo-plugin-components-panel": "^1.0.0",
+    "@webank/letgo-plugin-components": "^1.0.0",
     "@webank/letgo-simulator-renderer": "^1.0.0"
   },
   "devDependencies": {

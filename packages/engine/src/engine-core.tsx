@@ -3,8 +3,8 @@ import { isPlainObject } from 'lodash-es';
 import { Designer } from '@webank/letgo-designer';
 import { editor, EngineOptions, engineConfig } from '@webank/letgo-editor-core';
 import { Skeleton, Workbench } from '@webank/letgo-editor-skeleton';
-import PluginDesigner from '@webank/letgo-plugin-designer';
-import PluginSetter from '@webank/letgo-plugin-setting-panel';
+import PluginDesignerView from '@webank/letgo-plugin-designer';
+import PluginSettingView from '@webank/letgo-plugin-setting';
 import engineExt from '@webank/letgo-engine-ext';
 import {
     PluginManager,
@@ -55,14 +55,14 @@ export { plugins };
                 name: 'ComponentsPanel',
                 area: 'mainArea',
                 type: 'Widget',
-                content: () => <PluginDesigner ctx={ctx} />,
+                content: () => <PluginDesignerView ctx={ctx} />,
             });
 
             const setterPanel = ctx.skeleton.add({
                 name: 'setterPanel',
                 area: 'rightArea',
                 type: 'Panel',
-                content: () => <PluginSetter ctx={ctx} />,
+                content: () => <PluginSettingView ctx={ctx} />,
             });
             setterPanel.show();
         },

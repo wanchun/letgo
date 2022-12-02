@@ -1,17 +1,17 @@
 import { Setter } from '@webank/letgo-types';
-
 import packagesInfo from '../package.json';
+import * as setters from './setter';
 
 const engineExt: {
     version: string;
     setters: Setter[];
 } = {
     version: packagesInfo.version,
-    setters: [],
+    setters: Object.values(setters),
 };
 
 const win = window as any;
-win.AliLowCodeEngineExt = engineExt;
+win.LetgoEngineExt = engineExt;
 
 console.log(
     '%c LetgoLowCodeExt %c v'.concat(engineExt.version, ' '),

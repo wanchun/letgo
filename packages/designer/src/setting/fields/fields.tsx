@@ -8,7 +8,6 @@ import {
     entryFieldCls,
     bodyCls,
     headerCls,
-    titleCls,
 } from './fields.css';
 
 export interface IFieldProps {
@@ -30,7 +29,7 @@ const fieldClsMap = {
     entry: entryFieldCls,
 };
 
-export const PlainField = defineComponent({
+export const PlainFieldView = defineComponent({
     name: 'PlainFieldView',
     render() {
         const { $slots } = this;
@@ -42,20 +41,21 @@ export const PlainField = defineComponent({
     },
 });
 
-export const Field = defineComponent({
+export const FieldView = defineComponent({
     name: 'FieldView',
     props: {
-        field: Object as PropType<IFieldProps>,
+        display: {
+            type: String as PropType<IFieldProps['display']>,
+            default: 'inline',
+        },
+        title: String,
     },
     render() {
-        const { field, $slots } = this;
-        const { display, title } = field as IFieldProps;
+        const { display, title, $slots } = this;
 
         return (
             <div class={fieldClsMap[display]}>
-                <div class={headerCls}>
-                    <div class={titleCls}>{title}</div>
-                </div>
+                <div class={headerCls}>{title}</div>
                 <div class={bodyCls}>{$slots.default?.()}</div>
             </div>
         );

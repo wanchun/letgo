@@ -135,12 +135,16 @@ const SettingFieldView = defineComponent({
                 ...extraProps,
             },
             createSetterContent(setterType, {
+                ...setterProps,
+                field: field,
+                node: field.top.getNode(),
                 key: field.id,
                 value,
-                initialValue,
-                onChange: (value: any) => {},
-                onInitial: () => {},
-                removeProp: () => {},
+                defaultValue: initialValue,
+                onChange: (value: any) => {
+                    field.setValue(value, true);
+                },
+                onMounted: () => {},
             }),
             extraProps.forceInline ? 'plain' : extraProps.display,
         );

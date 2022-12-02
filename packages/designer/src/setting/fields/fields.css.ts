@@ -21,8 +21,6 @@ export const entryFieldCls = style({});
 
 const longHeader: CSSProperties = {
     height: '32px',
-    display: 'flex',
-    alignItems: 'center',
     fontWeight: 500,
     background: 'rgba(31,56,88,.06)',
     borderTop: '1px solid rgba(31,56,88, .1)',
@@ -40,8 +38,14 @@ export const headerCls = style({
         [`${accordionFieldCls} > &`]: longHeader,
         [`${blockFieldCls} > &`]: longHeader,
         [`${inlineFieldCls} > &`]: {
+            display: 'inline-flex',
+            flexShrink: 0,
+            alignItems: 'center',
+            justifyContent: 'flex-start',
             width: '70px',
-            marginRight: '1px',
+            marginRight: '8px',
+            wordBreak: 'break-all',
+            whiteSpace: 'normal',
         },
     },
 });
@@ -51,16 +55,11 @@ export const bodyCls = style({
         [`${accordionFieldCls} > &`]: {
             padding: '12px',
         },
-        [`${inlineFieldCls} &`]: {
+        [`${inlineFieldCls} > &`]: {
             flex: 1,
             minWidth: 0,
             display: 'flex',
             alignItems: 'center',
         },
     },
-});
-
-export const titleCls = style({
-    display: 'flex',
-    alignItems: 'center',
 });

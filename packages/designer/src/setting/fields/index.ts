@@ -1,5 +1,5 @@
 import { h } from 'vue';
-import { IFieldProps, Field, PlainField } from './fields';
+import { IFieldProps, FieldView, PlainFieldView } from './fields';
 
 export function createFieldContent(
     props: IFieldProps,
@@ -13,9 +13,9 @@ export function createFieldContent(
     //     return createVNode(EntryField, props, children);
     // }
     if (type === 'plain' || !props.title) {
-        return h(PlainField, children);
+        return h(PlainFieldView, children);
     }
-    return h(Field, { field: { ...props, display: type } }, children);
+    return h(FieldView, { ...props, display: type }, () => children);
 }
 
-export { Field };
+export { FieldView };

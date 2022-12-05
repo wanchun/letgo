@@ -15,7 +15,9 @@
     "@vanilla-extract/css": "^1.9.2",
     "@fesjs/fes-design": "^0.7.7",
     "@webank/letgo-designer": "^1.0.0",
-    "@webank/letgo-types": "^1.0.0"
+    "@webank/letgo-types": "^1.0.0",
+    "@ckpack/vue-color": "^1.3.0",
+    "@icon-park/vue-next": "^1.4.2"
   },
   "peerDependencies": {
     "vue": "^3.2.37"

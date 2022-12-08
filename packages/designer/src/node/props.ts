@@ -7,7 +7,7 @@ import {
 } from '@webank/letgo-types';
 import { shallowRef, ShallowRef, triggerRef } from 'vue';
 import { Node } from './node';
-import { Prop, UNSET } from './prop';
+import { Prop, UNSET, IPropParent } from './prop';
 
 interface ExtrasObject {
     [key: string]: any;
@@ -28,7 +28,7 @@ export function getOriginalExtraKey(key: string): string {
     return key.replace(new RegExp(`${EXTRA_KEY_PREFIX}`, 'g'), '');
 }
 
-export class Props {
+export class Props implements IPropParent {
     readonly id = uniqueId('props');
 
     /**
@@ -41,6 +41,12 @@ export class Props {
     private purged = false;
 
     readonly owner: Node;
+
+    readonly path: string[] = [];
+
+    get props(): Props {
+        return this;
+    }
 
     type: 'map' | 'list' = 'map';
 
@@ -153,24 +159,34 @@ export class Props {
     }
 
     /**
-     * 根据 key 路径查询属性
+     * 根据 path 路径查询属性
      * @param createIfNone 当没有的时候，是否创建一个
      */
-    getProp(key: string, createIfNone = true): Prop | null {
-        let prop = this.itemMap.get(key);
+    getProp(path: string, createIfNone = true): Prop | null {
+        let entry = path;
+        let nest = '';
+        const i = path.indexOf('.');
+        if (i > 0) {
+            nest = path.slice(i + 1);
+            if (nest) {
+                entry = path.slice(0, i);
+            }
+        }
+
+        let prop = this.itemMap.get(entry);
         if (!prop && createIfNone) {
-            prop = this.add(key, UNSET);
+            prop = this.add(entry, UNSET);
         }
 
         if (prop) {
-            return prop;
+            return nest ? prop.get(nest, createIfNone) : prop;
         }
 
         return null;
     }
 
-    getExtraProp(key: string, createIfNone = true): Prop | null {
-        return this.getProp(getConvertedExtraKey(key), createIfNone);
+    getExtraProp(path: string, createIfNone = true): Prop | null {
+        return this.getProp(getConvertedExtraKey(path), createIfNone);
     }
 
     has(key: string): boolean {

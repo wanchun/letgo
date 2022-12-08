@@ -7,7 +7,7 @@ import {
     TransformStage,
 } from '@webank/letgo-types';
 import { uniqueId } from '@webank/letgo-utils';
-import { computed, shallowRef, ShallowRef, ComputedRef } from 'vue';
+import { computed, shallowRef, ShallowRef, ComputedRef, triggerRef } from 'vue';
 import { isPlainObject } from 'lodash-es';
 import { Node } from './node';
 import { Props } from './props';
@@ -47,9 +47,9 @@ export class Prop implements IPropParent {
 
     private _type: ShallowRef<ValueTypes> = shallowRef('unset');
 
-    private purged = false;
+    private _items: ShallowRef<Prop[] | null> = shallowRef(null);
 
-    private _items: Prop[] | null = null;
+    private purged = false;
 
     private _maps: Map<string | number, Prop> | null = null;
 
@@ -73,7 +73,7 @@ export class Prop implements IPropParent {
     }
 
     get items(): Prop[] | null {
-        return this._items;
+        return this._items.value;
     }
 
     get maps(): Map<string | number, Prop> | null {
@@ -139,7 +139,7 @@ export class Prop implements IPropParent {
             items = null;
             this._maps = null;
         }
-        this._items = items;
+        this._items.value = items;
     }
 
     export(stage: TransformStage = TransformStage.Save): CompositeValue {
@@ -155,7 +155,7 @@ export class Prop implements IPropParent {
             return this._value.value;
         }
         if (type === 'map') {
-            if (!this._items) {
+            if (!this._items.value) {
                 return this._value.value;
             }
             let maps: any;
@@ -171,10 +171,10 @@ export class Prop implements IPropParent {
             return maps;
         }
         if (type === 'list') {
-            if (!this._items) {
+            if (!this._items.value) {
                 return this._value.value;
             }
-            const values = this.items.map((prop) => {
+            const values = this._items.value.map((prop) => {
                 return prop.export(stage);
             });
             if (values.every((val) => val === undefined)) {
@@ -247,11 +247,11 @@ export class Prop implements IPropParent {
     }
 
     private dispose() {
-        const items = this._items;
+        const items = this._items.value;
         if (items) {
             items.forEach((prop) => prop.purge());
         }
-        this._items = null;
+        this._items.value = null;
         this._maps = null;
     }
 
@@ -372,13 +372,13 @@ export class Prop implements IPropParent {
             }
         }
         const prop = isProp(value) ? value : new Prop(this, value, key);
-        const items = this._items || [];
+        const items = this._items.value || [];
         if (this.type === 'list') {
             if (!isValidArrayIndex(key)) {
                 return null;
             }
             items[key] = prop;
-            this._items = items;
+            this._items.value = items;
         } else if (this.type === 'map') {
             const maps = this._maps || new Map<string, Prop>();
             const orig = maps?.get(key);
@@ -392,13 +392,16 @@ export class Prop implements IPropParent {
             } else {
                 // push
                 items.push(prop);
-                this._items = items;
+                this._items.value = items;
+
                 maps?.set(key, prop);
             }
             this._maps = maps;
         } /* istanbul ignore next */ else {
             return null;
         }
+
+        triggerRef(this._items);
 
         return prop;
     }
@@ -430,10 +433,11 @@ export class Prop implements IPropParent {
      */
     delete(prop: Prop): void {
         /* istanbul ignore else */
-        if (this._items) {
-            const i = this._items.indexOf(prop);
+        if (this._items.value) {
+            const i = this._items.value.indexOf(prop);
             if (i > -1) {
-                this._items.splice(i, 1);
+                this._items.value.splice(i, 1);
+                triggerRef(this._items);
                 prop.purge();
             }
             if (this._maps && prop.key) {
@@ -484,10 +488,10 @@ export class Prop implements IPropParent {
             return;
         }
         this.purged = true;
-        if (this._items) {
-            this._items.forEach((item) => item.purge());
+        if (this._items.value) {
+            this._items.value.forEach((item) => item.purge());
         }
-        this._items = null;
+        this._items.value = null;
         this._maps = null;
     }
 }

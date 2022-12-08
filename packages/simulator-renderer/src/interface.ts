@@ -13,7 +13,7 @@ import {
     Node,
 } from '@webank/letgo-designer';
 
-export type MinxedComponent = NpmInfo | Component | ComponentSchema;
+export type MixedComponent = NpmInfo | Component | ComponentSchema;
 
 export interface SimulatorViewLayout {
     Component?: Component;
@@ -32,7 +32,7 @@ export interface VueSimulatorRenderer extends ISimulatorRenderer {
     libraryMap: Record<string, string>;
     components: Record<string, Component>;
     autoRender: boolean;
-    componentsMap: Record<string, MinxedComponent>;
+    componentsMap: Record<string, MixedComponent>;
     documentInstances: DocumentInstance[];
     dispose(): void;
     rerender(): void;

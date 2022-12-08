@@ -182,6 +182,7 @@ export class SettingProp implements SettingEntry {
         extraOptions?: ISetValueOptions,
     ) {
         const oldValue = this.getValue();
+
         if (this.type === 'field') {
             this.parent.setPropValue(this.name, val);
         }
@@ -195,6 +196,7 @@ export class SettingProp implements SettingEntry {
                 console.warn(e);
             }
         }
+
         this.notifyValueChange(oldValue, val);
     }
 

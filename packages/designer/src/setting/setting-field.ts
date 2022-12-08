@@ -12,8 +12,8 @@ function getSettingFieldCollectorKey(
     parent: SettingEntry,
     config: FieldConfig,
 ) {
-    let cur = parent;
     const path = [config.name];
+    let cur = parent;
     while (cur !== parent.top) {
         if (cur instanceof SettingField && cur.type !== 'group') {
             path.unshift(cur.name);

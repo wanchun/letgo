@@ -200,7 +200,7 @@ export default function (
                     },
                     {
                         name: 'key',
-                        title: '循环 Key',
+                        title: '循环标识（Key）',
                         setter: [
                             {
                                 componentName: 'StringSetter',

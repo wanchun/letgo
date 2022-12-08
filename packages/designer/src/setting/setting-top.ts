@@ -54,7 +54,7 @@ export class SettingTop implements SettingEntry {
     }
 
     get isLocked(): boolean {
-        return this.first.isLocked;
+        return this.firstNode.isLocked;
     }
 
     /**
@@ -66,7 +66,7 @@ export class SettingTop implements SettingEntry {
 
     readonly id: string;
 
-    readonly first: Node;
+    readonly firstNode: Node;
 
     readonly designer: Designer;
 
@@ -79,8 +79,8 @@ export class SettingTop implements SettingEntry {
         this.top = this;
         this.parent = this;
         this.id = generateSessionId(nodes);
-        this.first = nodes[0];
-        this.designer = this.first.document.designer;
+        this.firstNode = nodes[0];
+        this.designer = this.firstNode.document.designer;
 
         // setups
         this.setupComponentMeta();
@@ -93,8 +93,8 @@ export class SettingTop implements SettingEntry {
 
     private setupComponentMeta() {
         // todo: enhance compile a temp configure.compiled
-        const { first } = this;
-        const meta = first.componentMeta;
+        const { firstNode } = this;
+        const meta = firstNode.componentMeta;
         const l = this.nodes.length;
         let theSame = true;
         for (let i = 1; i < l; i++) {
@@ -142,7 +142,7 @@ export class SettingTop implements SettingEntry {
      * 获取当前属性值
      */
     getValue(): any {
-        return this.first?.propsData;
+        return this.firstNode?.propsData;
     }
 
     /**
@@ -160,6 +160,13 @@ export class SettingTop implements SettingEntry {
         return (
             this._settingFieldMap[propName] || new SettingProp(this, propName)
         );
+    }
+
+    /**
+     * 获取子级属性值
+     */
+    getPropValue(propName: string | number): any {
+        return this.firstNode.getProp(`${propName}`, true)?.getValue();
     }
 
     /**
@@ -181,17 +188,10 @@ export class SettingTop implements SettingEntry {
     }
 
     /**
-     * 获取子级属性值
-     */
-    getPropValue(propName: string | number): any {
-        return this.first.getProp(`${propName}`, true)?.getValue();
-    }
-
-    /**
      * 获取顶层附属属性值
      */
     getExtraPropValue(propName: string) {
-        return this.first.getExtraProp(propName, false)?.getValue();
+        return this.firstNode.getExtraProp(propName, false)?.getValue();
     }
 
     /**
@@ -230,16 +230,12 @@ export class SettingTop implements SettingEntry {
         this.disposeFunctions = [];
     }
 
-    getProp(propName: string | number) {
-        return this.get(propName);
-    }
-
     getId() {
         return this.id;
     }
 
     getPage() {
-        return this.first.document;
+        return this.firstNode.document;
     }
 
     getNode() {

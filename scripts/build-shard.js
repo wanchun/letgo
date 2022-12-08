@@ -27,7 +27,7 @@ function getNeedCompilePkg() {
         (item) =>
             item !== '.DS_Store' &&
             !item.startsWith('_') &&
-            !['template', 'renderer', 'simulator-renderer'].includes(item),
+            !['template', 'simulator-renderer'].includes(item),
     );
 }
 

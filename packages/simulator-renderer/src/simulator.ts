@@ -17,7 +17,7 @@ import { createMemoryHistory, createRouter } from 'vue-router';
 import { buildComponents, getSubComponent } from './build-components';
 import {
     DocumentInstance,
-    MinxedComponent,
+    MixedComponent,
     SimulatorViewLayout,
     VueSimulatorRenderer,
 } from './interface';
@@ -159,7 +159,7 @@ function createSimulatorRenderer() {
     const designMode: Ref<string> = shallowRef('design');
     const libraryMap: Ref<Record<string, string>> = shallowRef({});
     const components: Ref<Record<string, Component>> = shallowRef({});
-    const componentsMap: Ref<Record<string, MinxedComponent>> = shallowRef({});
+    const componentsMap: Ref<Record<string, MixedComponent>> = shallowRef({});
     const documentInstances: Ref<DocumentInstance[]> = shallowRef([]);
 
     const disposeFunctions: Array<() => void> = [];

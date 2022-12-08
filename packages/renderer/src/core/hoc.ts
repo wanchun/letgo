@@ -61,15 +61,15 @@ export const Hoc = defineComponent({
                     } else if (key === '___loop___') {
                         // 循环数据更新 v-for
                         updateLoop(newValue);
-                    } else if (key === '___loopArgs___') {
-                        // 循环参数初始化 (item, index)
-                        updateLoopArg(newValue);
-                    } else if (prop.path[0] === '___loopArgs___') {
+                    } else if (
+                        typeof key === 'string' &&
+                        key.indexOf('___loopArgs___') !== -1
+                    ) {
                         // 循环参数初始化 (item, index)
                         updateLoopArg(newValue, key);
-                    } else if (prop.path) {
+                    } else if (key) {
                         // 普通属性更新
-                        set(compProps, prop.path, newValue);
+                        set(compProps, key, newValue);
                     }
                 }),
             );

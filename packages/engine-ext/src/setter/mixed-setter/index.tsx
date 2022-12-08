@@ -13,7 +13,7 @@ import {
 } from '@webank/letgo-designer';
 import { FDropdown } from '@fesjs/fes-design';
 import { Switch } from '@icon-park/vue-next';
-import { wrapperCls, actionsCls, iconCls } from './index.css';
+import { wrapperCls, contentCls, actionsCls, iconCls } from './index.css';
 
 type SetterType = string | SetterConfig | CustomView;
 
@@ -160,7 +160,7 @@ const MixedSetterView = defineComponent({
             });
         };
 
-        const renderSwitchAction = (currentSetter?: SetterItem) => {
+        const renderSwitchAction = () => {
             const options = setters.value.map((setter) => {
                 return {
                     value: setter.name,
@@ -172,7 +172,7 @@ const MixedSetterView = defineComponent({
                     <Switch
                         class={iconCls}
                         theme="outline"
-                        size="25"
+                        size="14"
                         fill="#333"
                         strokeWidth={2}
                     />
@@ -183,10 +183,10 @@ const MixedSetterView = defineComponent({
         return () => {
             return (
                 <div class={wrapperCls}>
-                    {renderCurrentSetter(currentSetter.value)}
-                    <div class={actionsCls}>
-                        {renderSwitchAction(currentSetter.value)}
+                    <div class={contentCls}>
+                        {renderCurrentSetter(currentSetter.value)}
                     </div>
+                    <div class={actionsCls}>{renderSwitchAction()}</div>
                 </div>
             );
         };

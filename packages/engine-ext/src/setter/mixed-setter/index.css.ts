@@ -2,18 +2,19 @@ import { style } from '@vanilla-extract/css';
 
 export const wrapperCls = style({
     minWidth: '0',
-    marginRight: '26px',
-    display: 'block',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     position: 'relative',
     width: '100%',
 });
 
+export const contentCls = style({
+    flex: 1,
+});
+
 export const actionsCls = style({
-    position: 'absolute',
-    right: '-4px',
-    top: '50%',
-    transform: 'translate(100%, -50%)',
-    fontSize: '14px',
+    marginLeft: '8px',
 });
 
 export const iconCls = style({

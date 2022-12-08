@@ -88,7 +88,7 @@
                     },
                     {
                         "name": "circle",
-                        "title": "是否为原型",
+                        "title": "是否为圆形",
                         "setter": "BoolSetter"
                     },
                     {

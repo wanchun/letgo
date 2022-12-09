@@ -1,15 +1,14 @@
-import { defineComponent, onMounted, PropType } from 'vue';
+import { defineComponent, onMounted } from 'vue';
 import { Setter } from '@webank/letgo-types';
 import { FInputNumber } from '@fesjs/fes-design';
+import { commonProps } from '../../common/setter-props';
 
 const NumberSetterView = defineComponent({
     name: 'NumberSetterView',
     props: {
+        ...commonProps,
         value: Number,
         defaultValue: Number,
-        placeholder: String,
-        onMounted: Function as PropType<() => void>,
-        onChange: Function as PropType<(val: number) => void>,
     },
     setup(props) {
         onMounted(() => {

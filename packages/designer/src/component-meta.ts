@@ -10,11 +10,7 @@ import {
 } from '@webank/letgo-types';
 import { h } from 'vue';
 import { isRegExp } from 'lodash-es';
-import {
-    DeleteOutlined,
-    CloseOutlined,
-    PlusOutlined,
-} from '@fesjs/fes-design/icon';
+import { Lock, Unlock, Copy, Delete, FileHidingOne } from '@icon-park/vue-next';
 import { Designer } from './designer';
 import { isNode, Node } from './node';
 import parseNestingRule from './transducers/nesting-rule';
@@ -331,7 +327,7 @@ const builtinComponentActions: ComponentAction[] = [
     {
         name: 'remove',
         content: {
-            icon: () => [h(DeleteOutlined)],
+            icon: () => [h(Delete, { size: 14 })],
             title: '删除',
             action(node: Node) {
                 node.remove();
@@ -342,7 +338,7 @@ const builtinComponentActions: ComponentAction[] = [
     {
         name: 'hide',
         content: {
-            icon: () => [h(CloseOutlined)],
+            icon: () => [h(FileHidingOne, { size: 14 })],
             title: '隐藏',
             action(node: Node) {
                 node.setVisible(false);
@@ -356,7 +352,7 @@ const builtinComponentActions: ComponentAction[] = [
     {
         name: 'copy',
         content: {
-            icon: () => [h(PlusOutlined)],
+            icon: () => [h(Copy, { size: 14 })],
             title: '复制',
             action(node: Node) {
                 const { document: doc, parent, index } = node;
@@ -377,7 +373,7 @@ const builtinComponentActions: ComponentAction[] = [
     {
         name: 'lock',
         content: {
-            icon: () => [h(PlusOutlined)],
+            icon: () => [h(Lock, { size: 14 })],
             title: '锁定',
             action(node: Node) {
                 node.props.getExtraProp('isLock').setValue(true);
@@ -391,7 +387,7 @@ const builtinComponentActions: ComponentAction[] = [
     {
         name: 'unlock',
         content: {
-            icon: () => [h(PlusOutlined)],
+            icon: () => [h(Unlock, { size: 14 })],
             title: '解锁',
             action(node: Node) {
                 node.props.getExtraProp('isLock').setValue(false);

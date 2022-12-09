@@ -1,18 +1,19 @@
 import { computed, defineComponent, PropType } from 'vue';
 import { Setter } from '@webank/letgo-types';
 import { FSelect } from '@fesjs/fes-design';
+import { commonProps } from '../../common/setter-props';
 
 const SelectSetterView = defineComponent({
     name: 'SelectSetterView',
     props: {
-        value: [String, Number] as PropType<any>,
-        defaultValue: [String, Number] as PropType<any>,
+        ...commonProps,
         options: {
             type: Array as PropType<any[]>,
             isRequired: true,
         },
-        placeholder: String,
         filterable: Boolean,
+        value: [String, Number] as PropType<any>,
+        defaultValue: [String, Number] as PropType<any>,
         onChange: {
             type: Function as PropType<(val: number | string) => void>,
         },

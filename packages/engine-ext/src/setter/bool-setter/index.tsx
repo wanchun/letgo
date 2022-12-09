@@ -1,14 +1,14 @@
-import { defineComponent, onMounted, PropType } from 'vue';
+import { defineComponent, onMounted } from 'vue';
 import { Setter } from '@webank/letgo-types';
 import { FSwitch } from '@fesjs/fes-design';
+import { commonProps } from '../../common/setter-props';
 
 const BoolSetterView = defineComponent({
     name: 'BoolSetterView',
     props: {
+        ...commonProps,
         value: Boolean,
         defaultValue: Boolean,
-        onMounted: Function as PropType<() => void>,
-        onChange: Function as PropType<(val: boolean) => void>,
     },
     setup(props) {
         onMounted(() => {

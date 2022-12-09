@@ -40,19 +40,19 @@ export default defineComponent({
             const currentProps = current.value?.props || {};
             if (isFixedRef.value) {
                 return {
-                    width: currentProps.width,
-                    height: currentProps.height,
-                    maxHeight: currentProps.maxHeight,
-                    maxWidth: currentProps.maxWidth,
+                    width: `${currentProps.width}px`,
+                    height: `${currentProps.height}px`,
+                    maxHeight: `${currentProps.maxHeight}px`,
+                    maxWidth: `${currentProps.maxWidth}px`,
                 };
             }
             return {
                 position: 'relative',
                 left: 0,
-                width: currentProps.width,
-                height: currentProps.height,
-                maxHeight: currentProps.maxHeight,
-                maxWidth: currentProps.maxWidth,
+                width: `${currentProps.width}px`,
+                height: `${currentProps.height}px`,
+                maxHeight: `${currentProps.maxHeight}px`,
+                maxWidth: `${currentProps.maxWidth}px`,
                 marginLeft: '1px',
                 boxShadow: 'none',
             };

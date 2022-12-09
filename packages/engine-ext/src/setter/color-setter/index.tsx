@@ -1,14 +1,14 @@
-import { defineComponent, onMounted, PropType } from 'vue';
+import { defineComponent, onMounted } from 'vue';
 import { Setter } from '@webank/letgo-types';
 import { Sketch } from '@ckpack/vue-color';
+import { commonProps } from '../../common/setter-props';
 
 const ColorSetterView = defineComponent({
     name: 'ColorSetterView',
     props: {
+        ...commonProps,
         value: String,
         defaultValue: String,
-        onMounted: Function as PropType<() => void>,
-        onChange: Function as PropType<(val: string) => void>,
     },
     setup(props) {
         onMounted(() => {

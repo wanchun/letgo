@@ -178,7 +178,7 @@ export const bottomAreaRightCls = style([horizontalRight]);
 
 export const rightAreaCls = style({
     height: '100%',
-    width: '300px',
+    width: '400px',
     backgroundColor: '#fff',
     flexShrink: 0,
     marginLeft: '2px',

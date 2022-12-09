@@ -15,7 +15,7 @@ export default {
             },
             panelContent: () => <Panel editor={editor} designer={designer} />,
             panelProps: {
-                width: 500,
+                width: 300,
                 title: '组件库',
             },
         });

@@ -5,19 +5,39 @@ export const accordionFieldCls = style({
     position: 'relative',
 });
 
-export const inlineFieldCls = style({
-    display: 'flex',
-    alignItems: 'center',
-    margin: '12px',
-});
+export const blockFieldCls = style([accordionFieldCls, {}]);
 
 export const plainFieldCls = style({});
-
-export const blockFieldCls = style([accordionFieldCls, {}]);
 
 export const popupFieldCls = style({});
 
 export const entryFieldCls = style({});
+
+export const inlineFieldCls = style({
+    display: 'flex',
+    alignItems: 'center',
+    margin: '12px',
+    selectors: {
+        [`${accordionFieldCls} &`]: {
+            margin: '12px 0',
+        },
+        [`${accordionFieldCls} &:first-child`]: {
+            margin: '0 0 12px',
+        },
+        [`${accordionFieldCls} &:last-child`]: {
+            margin: '12px 0 0',
+        },
+        [`${blockFieldCls} &`]: {
+            margin: '12px 0',
+        },
+        [`${blockFieldCls} &:first-child`]: {
+            margin: '0 0 12px',
+        },
+        [`${blockFieldCls} &:last-child`]: {
+            margin: '12px 0 0',
+        },
+    },
+});
 
 const longHeader: CSSProperties = {
     height: '32px',

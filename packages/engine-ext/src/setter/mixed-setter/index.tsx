@@ -10,6 +10,7 @@ import {
     SettingField,
     SetterFactory,
     createSetterContent,
+    Node,
 } from '@webank/letgo-designer';
 import { FDropdown } from '@fesjs/fes-design';
 import { Switch } from '@icon-park/vue-next';
@@ -86,6 +87,7 @@ const MixedSetterView = defineComponent({
     name: 'MixedSetterView',
     props: {
         field: Object as PropType<SettingField>,
+        node: Object as PropType<Node>,
         setters: Array as PropType<Array<SetterType>>,
         onSetterChange: Function as PropType<
             (field: SettingField, name: string) => void
@@ -106,7 +108,6 @@ const MixedSetterView = defineComponent({
         },
     },
     setup(props) {
-        console.log('props:', props);
         const currentSetterName: Ref<string> = ref();
         const setters = computed(() => {
             return normalizeSetters(props.setters);

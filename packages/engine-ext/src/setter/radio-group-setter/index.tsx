@@ -1,10 +1,12 @@
 import { defineComponent, computed, PropType } from 'vue';
 import { Setter } from '@webank/letgo-types';
 import { FRadioGroup, FRadio } from '@fesjs/fes-design';
+import { commonProps } from '../../common/setter-props';
 
 const RadioGroupSetterView = defineComponent({
     name: 'RadioGroupSetterView',
     props: {
+        ...commonProps,
         value: [Number, String] as PropType<any>,
         defaultValue: [Number, String] as PropType<any>,
         options: {

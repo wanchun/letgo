@@ -26,6 +26,7 @@ export class Panel extends BaseWidget implements IWidget {
         return h(PanelView, {
             widget: this,
             key: this.id,
+            ...this.props,
         });
     }
 

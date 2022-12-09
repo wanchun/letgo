@@ -1,13 +1,11 @@
 import { NodeInstance } from '@webank/letgo-designer';
 import { ComponentInternalInstance } from 'vue';
-import { isCommentNode } from './check-node';
 import {
     ComponentRecord,
     getCompRootData,
     isVNodeHTMLElement,
     isCompRootHTMLElement,
 } from './comp-node';
-import { warn } from './logger';
 
 export function getClosestNodeInstance(
     el: Element,
@@ -15,15 +13,6 @@ export function getClosestNodeInstance(
 ): NodeInstance<ComponentRecord> | null {
     if (!document.contains(el)) {
         return null;
-    }
-    if (isVNodeHTMLElement(el)) {
-        const component = el.__vueParentComponent;
-        return getClosestNodeInstanceByComponent(component, specId);
-    }
-
-    if (!isCommentNode(el) && !('__vnode' in el)) {
-        warn('__vnode 没有找到，请使用 vue 非生产环境版本');
-        warn('https://unpkg.com/vue/dist/vue.runtime.global.js');
     }
     return getClosestNodeInstanceByElement(el, specId);
 }
@@ -58,6 +47,10 @@ export function getClosestNodeInstanceByElement(
     specId: string | undefined,
 ): NodeInstance<ComponentRecord> | null {
     while (el) {
+        if (isVNodeHTMLElement(el)) {
+            const component = el.__vueParentComponent;
+            return getClosestNodeInstanceByComponent(component, specId);
+        }
         if (isCompRootHTMLElement(el)) {
             const { nodeId, docId, instance } = getCompRootData(el);
             if (!specId || specId === nodeId) {

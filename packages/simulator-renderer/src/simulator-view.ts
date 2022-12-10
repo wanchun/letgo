@@ -1,7 +1,10 @@
-import { defineComponent, h, PropType, DefineComponent } from 'vue';
+import { defineComponent, provide, h, PropType, DefineComponent } from 'vue';
 import LowCodeRenderer from '@webank/letgo-renderer';
 import { RouterView } from 'vue-router';
 import { DocumentInstance, VueSimulatorRenderer } from './interface';
+import { BASE_COMP_CONTEXT } from './constants';
+import { Hoc } from './buildin-components/hoc';
+import type { NodeSchema, ComponentInstance } from '@webank/letgo-types';
 
 export const Layout = defineComponent({
     props: {
@@ -60,10 +63,21 @@ export const Renderer = defineComponent({
             required: true,
         },
     },
+    setup(props) {
+        provide(BASE_COMP_CONTEXT, {
+            getNode: (id: string) => props.documentInstance.getNode(id),
+            onCompGetCtx: (schema: NodeSchema, ref: ComponentInstance) => {
+                if (ref) {
+                    props.documentInstance.mountInstance(schema.id!, ref);
+                }
+            },
+        });
+    },
     render() {
         const { documentInstance, simulator } = this;
         const { schema } = documentInstance;
-        const { designMode, device, components } = simulator;
+        const { device, components } = simulator;
+        components.__BASE_COMP = Hoc;
 
         console.log('render-schema:', schema);
 
@@ -72,11 +86,7 @@ export const Renderer = defineComponent({
         return h(LowCodeRenderer, {
             schema: schema,
             components: components,
-            designMode: designMode,
             device: device,
-            getNode: (id) => documentInstance.getNode(id),
-            onCompGetCtx: (schema, ref) =>
-                documentInstance.mountInstance(schema.id!, ref),
         });
     },
 });

@@ -6,41 +6,22 @@ import type {
     NodeData,
     JSExpression,
     DOMText,
-    ComponentInstance,
 } from '@webank/letgo-types';
-import type { Node } from '@webank/letgo-designer';
 
 export const rendererProps = {
     __schema: {
         type: Object as PropType<RootSchema>,
         required: true,
     },
-    __designMode: {
-        type: String as PropType<'live' | 'design'>,
-        default: 'live',
-    },
     __components: {
         type: Object as PropType<Record<string, Component>>,
-        required: true,
-    },
-    __getNode: {
-        type: Function as PropType<(id: string) => Node<NodeSchema> | null>,
-        required: true,
-    },
-    __triggerCompGetCtx: {
-        type: Function as PropType<
-            (schema: NodeSchema, ref: ComponentInstance) => void
-        >,
         required: true,
     },
 } as const;
 
 export interface RendererProps {
-    __designMode?: 'live' | 'design';
     __schema: RootSchema;
     __components: Record<string, Component>;
-    __getNode: (id: string) => Node<NodeSchema> | null;
-    __triggerCompGetCtx: (schema: NodeSchema, ref: ComponentInstance) => void;
 }
 
 export const baseRendererPropKeys = Object.keys(

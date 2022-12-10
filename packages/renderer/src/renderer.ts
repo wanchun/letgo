@@ -1,20 +1,12 @@
 import { PropType, Component, h, computed, defineComponent } from 'vue';
 import config from './config';
 import { RENDERER_COMPS } from './renderers';
-import type {
-    RootSchema,
-    NodeSchema,
-    ComponentInstance,
-} from '@webank/letgo-types';
-import type { Node } from '@webank/letgo-designer';
+import type { RootSchema } from '@webank/letgo-types';
 
 interface RendererProps {
     schema: RootSchema;
     components: Record<string, Component>;
-    designMode?: 'live' | 'design';
     device?: string;
-    getNode?: (id: string) => Node<NodeSchema> | null;
-    onCompGetCtx?: (schema: NodeSchema, ref: ComponentInstance) => void;
 }
 
 const Renderer = defineComponent({
@@ -27,40 +19,13 @@ const Renderer = defineComponent({
             type: Object as PropType<Record<string, Component>>,
             required: true,
         },
-        /** 设计模式，可选值：live、design */
-        designMode: {
-            type: String as PropType<'live' | 'design'>,
-            default: 'live',
-        },
         /** 设备信息 */
         device: {
             type: String,
             default: undefined,
         },
-        getNode: {
-            type: Function as PropType<(id: string) => Node<NodeSchema> | null>,
-            default: undefined,
-        },
-        /** 组件获取 ref 时触发的钩子 */
-        onCompGetCtx: {
-            type: Function as PropType<
-                (schema: NodeSchema, ref: ComponentInstance) => void
-            >,
-            default: undefined,
-        },
     },
     setup(props: RendererProps) {
-        const triggerCompGetCtx = (
-            schema: NodeSchema,
-            val: ComponentInstance,
-        ) => {
-            if (val) {
-                props.onCompGetCtx?.(schema, val);
-            }
-        };
-
-        const getNode = (id: string) => props.getNode?.(id) ?? null;
-
         const componentsRef = computed(() => ({
             ...config.getRenderers(),
             ...props.components,
@@ -68,7 +33,7 @@ const Renderer = defineComponent({
 
         const renderContent = () => {
             const { value: components } = componentsRef;
-            const { schema, designMode } = props;
+            const { schema } = props;
             if (!schema) return null;
 
             const { componentName } = schema!;
@@ -84,9 +49,6 @@ const Renderer = defineComponent({
                       key: schema.id,
                       __schema: schema,
                       __components: components,
-                      __designMode: designMode,
-                      __getNode: getNode,
-                      __triggerCompGetCtx: triggerCompGetCtx,
                   } as any)
                 : null;
         };

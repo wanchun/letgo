@@ -1,16 +1,31 @@
 import { defineComponent, Fragment, h } from 'vue';
-import { useLeaf } from './use';
+import {
+    useLeaf,
+    buildSchema,
+    buildProps,
+    buildLoop,
+    buildShow,
+    buildSlots,
+} from './use';
 import { leafProps } from './base';
+import type { BlockScope } from '../utils';
+import type { SlotSchemaMap } from './use';
 
 export const Live = defineComponent({
+    name: 'Live',
     props: leafProps,
     setup(props) {
-        const { buildSchema, buildProps, buildLoop, buildSlots, buildShow } =
-            useLeaf(props);
+        const { renderComp } = useLeaf(props);
 
-        const { show } = buildShow(props.schema);
-        const { loop, loopArgs } = buildLoop(props.schema);
-        const { props: compProps, slots: compSlots } = buildSchema();
+        const { show } = buildShow(props.scope, props.schema);
+        const { loop, loopArgs } = buildLoop(props.scope, props.schema);
+        const { props: compProps, slots: compSlots } = buildSchema(props);
+        const innerBuildSlots = (
+            slots: SlotSchemaMap,
+            blockScope?: BlockScope | null,
+        ) => {
+            return buildSlots(renderComp, slots, blockScope);
+        };
 
         return {
             show,
@@ -18,8 +33,7 @@ export const Live = defineComponent({
             loopArgs,
             compProps,
             compSlots,
-            buildSlots,
-            buildProps,
+            innerBuildSlots,
         };
     },
     render() {
@@ -30,14 +44,18 @@ export const Live = defineComponent({
             loopArgs,
             compProps,
             compSlots,
-            buildProps,
-            buildSlots,
+            innerBuildSlots,
+            scope,
         } = this;
 
         if (!show) return null;
         if (!comp) return h('div', 'component not found');
         if (!loop) {
-            return h(comp, buildProps(compProps), buildSlots(compSlots));
+            return h(
+                comp,
+                buildProps(scope, compProps),
+                innerBuildSlots(compSlots),
+            );
         }
 
         if (!Array.isArray(loop)) {
@@ -54,8 +72,8 @@ export const Live = defineComponent({
                 };
                 return h(
                     comp,
-                    buildProps(compProps, blockScope),
-                    buildSlots(compSlots, blockScope),
+                    buildProps(scope, compProps, blockScope),
+                    innerBuildSlots(compSlots, blockScope),
                 );
             }),
         );

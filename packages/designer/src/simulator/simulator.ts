@@ -80,7 +80,12 @@ const defaultEnvironment = [
         AssetType.JSText,
         'window.__is_simulator_env__=true;window.__VUE_DEVTOOLS_GLOBAL_HOOK__=window.parent.__VUE_DEVTOOLS_GLOBAL_HOOK__;',
     ),
-    assetItem(AssetType.JSText, 'window.Vue=parent.Vue;', undefined, 'vue'),
+    assetItem(
+        AssetType.JSText,
+        'window.Vue=parent.Vue;window.Function=parent.Function',
+        undefined,
+        'vue',
+    ),
 ];
 
 export class Simulator implements ISimulator<SimulatorProps> {

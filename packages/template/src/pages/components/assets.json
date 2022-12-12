@@ -865,10 +865,7 @@
                             },
                             {
                                 "name": "attr-type",
-                                "title": {
-                                    "label": "按钮原生类型",
-                                    "tip": "按钮的 DOM 的 type 属性"
-                                },
+                                "title": "按钮原生类型",
                                 "setter": {
                                     "componentName": "RadioGroupSetter",
                                     "props": {
@@ -1171,10 +1168,7 @@
                     },
                     {
                         "name": "label-width",
-                        "title": {
-                            "label": "标签宽度",
-                            "tip": "在 label-placement 是 'left' 的时候可能会有用，'auto' 意味着 label width 会被自动调整"
-                        },
+                        "title": "标签宽度",
                         "setter": {
                             "componentName": "MixedSetter",
                             "props": {
@@ -1476,10 +1470,7 @@
                             },
                             {
                                 "name": "label-width",
-                                "title": {
-                                    "label": "标签宽度",
-                                    "tip": "在 label-placement 是 'left' 的时候可能会有用，'auto' 意味着 label width 会被自动调整"
-                                },
+                                "title": "标签宽度",
                                 "setter": {
                                     "componentName": "MixedSetter",
                                     "props": {
@@ -1582,10 +1573,7 @@
                             },
                             {
                                 "name": "show-feedback",
-                                "title": {
-                                    "label": "显示错误信息",
-                                    "tip": "当校验失败时，是否显示错误信息"
-                                },
+                                "title": "显示错误信息",
                                 "setter": "BoolSetter"
                             },
                             {

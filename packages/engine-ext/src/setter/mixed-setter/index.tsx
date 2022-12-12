@@ -59,6 +59,9 @@ const normalizeSetters = (setters?: Array<SetterType>): SetterItem[] => {
             if (!config.title) {
                 config.title = info?.title || config.setter;
             }
+            if (!config.condition) {
+                config.condition = info?.condition;
+            }
         } else {
             config.name = generateName(
                 (config.setter as any)?.displayName ||

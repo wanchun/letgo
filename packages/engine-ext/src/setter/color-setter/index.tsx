@@ -1,6 +1,5 @@
 import { defineComponent, onMounted } from 'vue';
 import { Setter } from '@webank/letgo-types';
-import { Sketch } from '@ckpack/vue-color';
 import { commonProps } from '../../common/setter-props';
 
 const ColorSetterView = defineComponent({
@@ -16,10 +15,13 @@ const ColorSetterView = defineComponent({
         });
         return () => {
             return (
-                <Sketch
-                    modelValue={props.value}
-                    onUpdate:modelValue={(val: any) => props.onChange(val)}
-                />
+                <input
+                    type="color"
+                    value={props.value}
+                    onInput={(event: any) => {
+                        props.onChange(event.target.value);
+                    }}
+                ></input>
             );
         };
     },

@@ -31,6 +31,10 @@ export const NumberSetter: Setter = {
     type: 'NumberSetter',
     title: '数字设置器',
     Component: NumberSetterView,
+    condition: (field) => {
+        const v = field.getValue();
+        return typeof v === 'number';
+    },
     tester: (scheme) => {
         return scheme.propType === 'number';
     },

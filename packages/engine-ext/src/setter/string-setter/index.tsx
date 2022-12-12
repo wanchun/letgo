@@ -31,6 +31,10 @@ export const StringSetter: Setter = {
     type: 'StringSetter',
     title: '字符串设置器',
     Component: StringSetterView,
+    condition: (field) => {
+        const v = field.getValue();
+        return typeof v === 'string';
+    },
     tester: (scheme) => {
         return scheme.propType === 'string';
     },

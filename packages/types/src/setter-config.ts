@@ -18,7 +18,11 @@ export interface Setter {
     /**
      * 校验的 schema 确认用什么组件来渲染
      */
-    tester: (scheme: PropConfig) => boolean;
+    tester?: (scheme: PropConfig) => boolean;
+    /**
+     * 给 MixedSetter 用于判断优先选中哪个
+     */
+    condition?: (target: SettingTarget) => boolean;
 }
 
 export type CustomView = Slot;

@@ -6,3 +6,4 @@ export * from './color-setter';
 export * from './radio-group-setter';
 export * from './mixed-setter';
 export * from './style-setter';
+export * from './event-setter';

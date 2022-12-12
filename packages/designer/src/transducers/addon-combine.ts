@@ -100,34 +100,36 @@ export default function (
                             definition: eventsDefinition,
                         },
                     },
-                    getValue(field: SettingTarget, val?: any[]) {
-                        return val;
-                    },
+                    extraProps: {
+                        display: 'block',
+                        getValue(field: SettingTarget, val?: any[]) {
+                            return val;
+                        },
+                        setValue(field: SettingTarget, eventData) {
+                            const { eventDataList, eventList } = eventData;
 
-                    setValue(field: SettingTarget, eventData) {
-                        const { eventDataList, eventList } = eventData;
-
-                        if (Array.isArray(eventList)) {
-                            eventList.map((item) => {
-                                field.parent.clearPropValue(item.name);
-                                return item;
-                            });
-                        }
-
-                        if (Array.isArray(eventDataList)) {
-                            eventDataList.map((item) => {
-                                field.parent.setPropValue(item.name, {
-                                    type: 'JSFunction',
-                                    // 需要传下入参
-                                    value: `function(){this.${
-                                        item.relatedEventName
-                                    }.apply(this,Array.prototype.slice.call(arguments).concat([${
-                                        item.paramStr ? item.paramStr : ''
-                                    }])) }`,
+                            if (Array.isArray(eventList)) {
+                                eventList.map((item) => {
+                                    field.parent.clearPropValue(item.name);
+                                    return item;
                                 });
-                                return item;
-                            });
-                        }
+                            }
+
+                            if (Array.isArray(eventDataList)) {
+                                eventDataList.map((item) => {
+                                    field.parent.setPropValue(item.name, {
+                                        type: 'JSFunction',
+                                        // 需要传下入参
+                                        value: `function(){this.${
+                                            item.relatedEventName
+                                        }.apply(this,Array.prototype.slice.call(arguments).concat([${
+                                            item.paramStr ? item.paramStr : ''
+                                        }])) }`,
+                                    });
+                                    return item;
+                                });
+                            }
+                        },
                     },
                 },
             ],

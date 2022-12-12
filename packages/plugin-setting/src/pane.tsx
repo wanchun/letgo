@@ -57,7 +57,7 @@ const SettingFieldView = defineComponent({
                     : true;
         } catch (error) {
             console.error(
-                'exception when condition (hidden) is excuted',
+                'exception when condition (hidden) is executed',
                 error,
             );
         }
@@ -70,7 +70,6 @@ const SettingFieldView = defineComponent({
 
         let setterProps: any = {};
         let setterType: any;
-        let initialValue: any = null;
 
         if (Array.isArray(setter)) {
             setterType = 'MixedSetter';
@@ -85,20 +84,11 @@ const SettingFieldView = defineComponent({
                     setterProps = setterProps(field);
                 }
             }
-            if (setter.defaultValue != null) {
-                initialValue = setter.defaultValue;
-            }
         } else if (setter) {
             setterType = setter;
         }
 
         let value = null;
-        if (defaultValue != null && !('defaultValue' in setterProps)) {
-            setterProps.defaultValue = defaultValue;
-            if (initialValue == null) {
-                initialValue = defaultValue;
-            }
-        }
         if (field.valueState === -1) {
             setterProps.multiValue = true;
             if (!('placeholder' in setterProps)) {
@@ -140,11 +130,13 @@ const SettingFieldView = defineComponent({
                 node: field.top.getNode(),
                 key: field.id,
                 value,
-                defaultValue: initialValue,
+                defaultValue: defaultValue,
                 onChange: (value: any) => {
                     field.setValue(value, true);
                 },
-                onMounted: () => {},
+                onMounted: () => {
+                    // TODO
+                },
             }),
             extraProps.forceInline ? 'plain' : extraProps.display,
         );

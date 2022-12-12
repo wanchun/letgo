@@ -24,7 +24,7 @@ type SetterItem = {
     setter: string | CustomView;
     props?: object | DynamicProps;
     condition?: (field: SettingField) => boolean;
-    defaultValue?: any | ((field: SettingField) => any);
+    // defaultValue?: any | ((field: SettingField) => any);
 };
 
 const normalizeSetters = (setters?: Array<SetterType>): SetterItem[] => {
@@ -49,7 +49,7 @@ const normalizeSetters = (setters?: Array<SetterType>): SetterItem[] => {
             config.setter = setter.componentName;
             config.props = setter.props;
             config.condition = setter.condition;
-            config.defaultValue = setter.defaultValue;
+            // config.defaultValue = setter.defaultValue;
             config.title = setter.title;
         }
         if (typeof setter === 'string') {

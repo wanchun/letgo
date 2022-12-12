@@ -12,7 +12,7 @@ export interface FieldExtraProps {
     /**
      * default value of target prop for setter use
      */
-    defaultValue?: any;
+    defaultValue?: any | ((target: SettingTarget) => any);
     /**
      * get value for field
      */

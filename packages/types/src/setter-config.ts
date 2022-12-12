@@ -37,7 +37,6 @@ export interface SetterConfig {
     componentName: string | CustomView;
     /**
      * 传递给 setter 的属性
-     *
      * the props pass to Setter Component
      */
     props?: Record<string, unknown> | DynamicProps;
@@ -45,16 +44,6 @@ export interface SetterConfig {
      * 给 MixedSetter 时切换 Setter 展示用的
      */
     title?: string;
-    /**
-     * 是否必填？
-     *
-     * ArraySetter 里有个快捷预览，可以在不打开面板的情况下直接编辑
-     */
-    isRequired?: boolean;
-    /**
-     * Setter 的初始值
-     */
-    defaultValue?: any | ((target: SettingTarget) => any);
     /**
      * 给 MixedSetter 用于判断优先选中哪个
      */

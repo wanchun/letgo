@@ -12,14 +12,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "lodash-es": "^4.17.21",
     "@webank/letgo-designer": "^1.0.0",
     "@webank/letgo-editor-core": "^1.0.0",
     "@webank/letgo-editor-skeleton": "^1.0.0",
     "@webank/letgo-types": "^1.0.0",
-    "@webank/letgo-utils": "^1.0.0"
-  },
-  "devDependencies": {
+    "@webank/letgo-utils": "^1.0.0",
+    "lodash-es": "^4.17.21",
+    "semver": "^7.3.5"
   },
   "keywords": [],
   "author": "",

@@ -135,7 +135,6 @@ const EventSetterView = defineComponent({
                             label="操作"
                             v-slots={{
                                 default: () => {
-                                    console.log(1);
                                     return (
                                         <>
                                             <Setting></Setting>

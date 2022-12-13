@@ -49,8 +49,6 @@ export class DocumentModel {
 
     private isMounted = false;
 
-    private _blank?: boolean;
-
     /**
      * 根节点 类型有：Page/Component
      */
@@ -108,17 +106,9 @@ export class DocumentModel {
         return this.rootNode;
     }
 
-    isBlank() {
-        return this._blank;
-    }
-
     constructor(project: Project, schema?: RootSchema) {
         this.project = project;
         this.designer = this.project?.designer;
-
-        if (!schema) {
-            this._blank = true;
-        }
 
         this.rootNode = this.createNode(
             schema || {

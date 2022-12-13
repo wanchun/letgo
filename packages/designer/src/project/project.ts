@@ -84,9 +84,7 @@ export class Project {
         return {
             ...this.data,
             componentsMap: this.getComponentsMap(),
-            componentsTree: this.documents
-                .filter((doc) => !doc.isBlank())
-                .map((doc) => doc.export(stage)),
+            componentsTree: this.documents.map((doc) => doc.export(stage)),
         };
     }
 
@@ -152,7 +150,6 @@ export class Project {
             this.currentDocument.value = doc;
             return doc;
         }
-
         doc = this.createDocument(doc);
         this.currentDocument.value = doc;
         return doc;

@@ -47,7 +47,7 @@
             "componentName": "NAvatar",
             "npm": {
                 "package": "naive-ui",
-                "version": "2.30.6",
+                "version": "2.32.0",
                 "exportName": "NAvatar",
                 "destructuring": true
             },
@@ -166,7 +166,7 @@
             "componentName": "NCard",
             "npm": {
                 "package": "naive-ui",
-                "version": "2.30.6",
+                "version": "2.32.0",
                 "exportName": "NCard",
                 "destructuring": true
             },
@@ -400,7 +400,7 @@
             "componentName": "NText",
             "npm": {
                 "package": "naive-ui",
-                "version": "2.30.6",
+                "version": "2.32.0",
                 "exportName": "NText",
                 "destructuring": true
             },
@@ -575,7 +575,7 @@
             "componentName": "NSpace",
             "npm": {
                 "package": "naive-ui",
-                "version": "2.30.6",
+                "version": "2.32.0",
                 "exportName": "NSpace",
                 "destructuring": true
             },
@@ -773,7 +773,7 @@
             "componentName": "NButton",
             "npm": {
                 "package": "naive-ui",
-                "version": "2.30.6",
+                "version": "2.32.0",
                 "exportName": "NButton",
                 "destructuring": true
             },
@@ -1052,7 +1052,7 @@
             "componentName": "NForm",
             "npm": {
                 "package": "naive-ui",
-                "version": "2.30.6",
+                "version": "2.32.0",
                 "exportName": "NForm",
                 "destructuring": true
             },
@@ -1314,7 +1314,7 @@
             "componentName": "NFormItem",
             "npm": {
                 "package": "naive-ui",
-                "version": "2.30.6",
+                "version": "2.32.0",
                 "exportName": "NFormItem",
                 "destructuring": true
             },
@@ -1624,7 +1624,7 @@
             "componentName": "NInput",
             "npm": {
                 "package": "naive-ui",
-                "version": "2.30.6",
+                "version": "2.32.0",
                 "exportName": "NInput",
                 "destructuring": true
             },

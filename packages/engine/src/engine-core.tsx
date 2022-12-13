@@ -1,4 +1,4 @@
-import { createApp } from 'vue';
+import { createApp, App } from 'vue';
 import { isPlainObject } from 'lodash-es';
 import { Designer } from '@webank/letgo-designer';
 import { editor, EngineOptions, engineConfig } from '@webank/letgo-editor-core';
@@ -10,6 +10,8 @@ import {
     PluginManager,
     IPluginContext,
     PluginPreference,
+    Project,
+    Material,
 } from '@webank/letgo-plugin-manager';
 
 const plugins = new PluginManager(editor).toProxy();
@@ -24,7 +26,11 @@ editor.set('skeleton' as any, skeleton);
 export const version = '1.0.0';
 engineConfig.set('ENGINE_VERSION', 1);
 
-export { plugins };
+const { project: innerProject } = designer;
+const project = new Project(innerProject);
+const material = new Material(editor, designer);
+
+export { plugins, project, material };
 
 // 注册一批内置插件
 (async function registerPlugins() {
@@ -69,14 +75,14 @@ export { plugins };
     });
 })();
 
-let isEngineMounted = false;
+let app: App;
+
 export async function init(
     container?: HTMLElement,
     options?: EngineOptions,
     pluginPreference?: PluginPreference,
 ): Promise<() => void> {
-    if (isEngineMounted) return;
-    isEngineMounted = true;
+    if (app) return;
     let engineOptions = null;
     let engineContainer = null;
     if (isPlainObject(container)) {
@@ -95,16 +101,18 @@ export async function init(
     engineConfig.setEngineOptions(engineOptions);
     await plugins.init(pluginPreference);
 
-    const app = createApp(Workbench, {
+    app = createApp(Workbench, {
         skeleton,
     });
     app.mount(engineContainer);
+}
 
-    /**
-     * 清除实例
-     */
-    return function destroy() {
-        app.unmount();
-        //TODO 清除创建的各种实例
-    };
+export async function destroy() {
+    app.unmount();
+    app = null;
+    const { project } = designer;
+    const { documents } = project;
+    if (Array.isArray(documents) && documents.length > 0) {
+        documents.forEach((doc) => project.removeDocument(doc));
+    }
 }

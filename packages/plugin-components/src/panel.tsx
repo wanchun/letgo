@@ -170,6 +170,7 @@ export default defineComponent({
                             class={categoryItemCls}
                             v-slots={{ icon: renderIcon }}
                             ref={(el: any) => {
+                                if (!el?.$el) return;
                                 handleDrag(el.$el as Element, snippet);
                             }}
                         >

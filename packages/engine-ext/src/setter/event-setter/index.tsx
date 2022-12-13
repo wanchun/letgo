@@ -1,12 +1,15 @@
 import { defineComponent, PropType, onMounted, ref, Ref, watch } from 'vue';
 import { Setter } from '@webank/letgo-types';
+import {
+    FSelect,
+    FForm,
+    FFormItem,
+    FSpace,
+    FTable,
+    FTableColumn,
+} from '@fesjs/fes-design';
+import { Setting, Delete } from '@icon-park/vue-next';
 import { commonProps } from '../../common/setter-props';
-
-const EVENT_CONTENTS = {
-    COMPONENT_EVENT: 'componentEvent',
-    NATIVE_EVENT: 'nativeEvent',
-    LIFE_CYCLE_EVENT: 'lifeCycleEvent',
-};
 
 const DEFINITION_EVENT_TYPE = {
     EVENTS: 'events',
@@ -14,11 +17,19 @@ const DEFINITION_EVENT_TYPE = {
     LIFE_CYCLE_EVENT: 'lifeCycleEvent',
 };
 
+type EventList = Array<{ name: string; description?: string }>;
+
 type EventDefinition = {
     type: 'events' | 'nativeEvents' | 'lifeCycleEvent';
     title: string;
-    list: Array<{ name: string }>;
+    list: EventList;
 };
+
+type Events = Array<{
+    value: string;
+    label: string;
+    list: EventList;
+}>;
 
 const EventSetterView = defineComponent({
     name: 'EventSetterView',
@@ -30,46 +41,42 @@ const EventSetterView = defineComponent({
         definition: Array as PropType<Array<EventDefinition>>,
     },
     setup(props) {
-        const eventButtons = ref([]);
-        const isRoot = ref(false);
-        const isCustom = ref(false);
+        console.log(props);
+        const eventData: Ref<Events> = ref([]);
 
         watch(
             () => props.definition,
             () => {
-                props.definition.map((item) => {
+                const events: Events = [];
+                props.definition.forEach((item) => {
                     if (item.type === DEFINITION_EVENT_TYPE.LIFE_CYCLE_EVENT) {
-                        isRoot.value = true;
+                        const eventItem = {
+                            value: item.type,
+                            label: '生命周期',
+                            list: item.list || [],
+                        };
+                        events.push(eventItem);
                     }
 
                     if (item.type === DEFINITION_EVENT_TYPE.EVENTS) {
-                        isCustom.value = true;
-                    }
-                    return item;
-                });
-
-                if (isRoot.value) {
-                    eventButtons.value = [
-                        {
-                            value: EVENT_CONTENTS.LIFE_CYCLE_EVENT,
-                            label: '生命周期',
-                        },
-                    ];
-                } else if (isCustom.value) {
-                    eventButtons.value = [
-                        {
-                            value: EVENT_CONTENTS.COMPONENT_EVENT,
+                        const eventItem = {
+                            value: item.type,
                             label: '组件自带事件',
-                        },
-                    ];
-                } else {
-                    eventButtons.value = [
-                        {
-                            value: EVENT_CONTENTS.NATIVE_EVENT,
+                            list: item.list || [],
+                        };
+                        events.push(eventItem);
+                    }
+
+                    if (item.type === DEFINITION_EVENT_TYPE.NATIVE_EVENTS) {
+                        const eventItem = {
+                            value: item.type,
                             label: '原生事件',
-                        },
-                    ];
-                }
+                            list: item.list || [],
+                        };
+                        events.push(eventItem);
+                    }
+                });
+                eventData.value = events;
             },
             {
                 immediate: true,
@@ -81,7 +88,66 @@ const EventSetterView = defineComponent({
         });
 
         return () => {
-            return null;
+            return (
+                <>
+                    <FForm labelPosition={'top'}>
+                        {eventData.value.map((item) => {
+                            return (
+                                <FFormItem label={item.label}>
+                                    <FSelect
+                                        multiple
+                                        options={item.list.map((event) => {
+                                            return {
+                                                value: event.name,
+                                                label: event.name,
+                                                description: event.description,
+                                            };
+                                        })}
+                                        v-slots={{
+                                            option: ({
+                                                value,
+                                                description,
+                                            }: {
+                                                value: string;
+                                                description: string;
+                                            }) => {
+                                                return (
+                                                    <FSpace justify="space-between">
+                                                        <span>{value}</span>
+                                                        <span>
+                                                            {description}
+                                                        </span>
+                                                    </FSpace>
+                                                );
+                                            },
+                                        }}
+                                    ></FSelect>
+                                </FFormItem>
+                            );
+                        })}
+                    </FForm>
+                    <FTable bordered>
+                        <FTableColumn
+                            prop="name"
+                            label="已有事件"
+                        ></FTableColumn>
+                        <FTableColumn
+                            label="操作"
+                            v-slots={{
+                                default: () => {
+                                    console.log(1);
+                                    return (
+                                        <>
+                                            <Setting></Setting>
+                                            <Delete></Delete>
+                                        </>
+                                    );
+                                },
+                            }}
+                        ></FTableColumn>
+                    </FTable>
+                </>
+            );
         };
     },
 });

@@ -100,7 +100,7 @@ export interface Package {
      * 资源标题
      */
     title?: string;
-    type: codeType;
+    type?: codeType;
     /**
      * 包名
      */

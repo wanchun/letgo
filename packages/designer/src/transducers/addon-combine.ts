@@ -95,7 +95,7 @@ export default function (
                     name: '__events',
                     title: '事件设置',
                     setter: {
-                        componentName: 'EventsSetter',
+                        componentName: 'EventSetter',
                         props: {
                             definition: eventsDefinition,
                         },

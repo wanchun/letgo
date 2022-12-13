@@ -24,6 +24,7 @@
     "@webank/letgo-engine": "^1.0.0",
     "@webank/letgo-types": "^1.0.0",
     "@webank/letgo-plugin-components": "^1.0.0",
+    "@webank/letgo-plugin-code-generator": "^1.0.0",
     "@webank/letgo-simulator-renderer": "^1.0.0"
   },
   "devDependencies": {

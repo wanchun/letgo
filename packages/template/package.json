@@ -15,13 +15,14 @@
   "dependencies": {
     "@fesjs/builder-vite": "^3.0.0-beta.8",
     "@fesjs/fes": "^3.0.0-beta.4",
-    "@fesjs/fes-design": "^0.7.7",
+    "@fesjs/fes-design": "^0.7.11",
     "@fesjs/plugin-request": "^3.0.0-beta.7",
     "@vueuse/core": "^8.9.0",
     "lodash-es": "^4.17.21",
     "vue": "^3.2.37",
     "core-js": "^3.19.2",
     "@webank/letgo-engine": "^1.0.0",
+    "@webank/letgo-types": "^1.0.0",
     "@webank/letgo-plugin-components": "^1.0.0",
     "@webank/letgo-simulator-renderer": "^1.0.0"
   },

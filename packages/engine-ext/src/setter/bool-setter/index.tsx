@@ -29,7 +29,4 @@ export const BoolSetter: Setter = {
     type: 'BoolSetter',
     title: '布尔类型设置器',
     Component: BoolSetterView,
-    tester: (scheme) => {
-        return scheme.propType === 'bool';
-    },
 };

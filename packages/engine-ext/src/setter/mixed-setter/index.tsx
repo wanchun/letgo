@@ -1,10 +1,10 @@
 import { defineComponent, computed, ref, Ref, PropType } from 'vue';
 import {
     Setter,
-    SetterConfig,
-    CustomView,
     isSetterConfig,
     DynamicProps,
+    CustomView,
+    SetterType,
 } from '@webank/letgo-types';
 import {
     SettingField,
@@ -16,15 +16,12 @@ import { FDropdown } from '@fesjs/fes-design';
 import { Switch } from '@icon-park/vue-next';
 import { wrapperCls, contentCls, actionsCls, iconCls } from './index.css';
 
-type SetterType = string | SetterConfig | CustomView;
-
 type SetterItem = {
     name: string;
     title: string;
     setter: string | CustomView;
     props?: object | DynamicProps;
     condition?: (field: SettingField) => boolean;
-    // defaultValue?: any | ((field: SettingField) => any);
 };
 
 const normalizeSetters = (setters?: Array<SetterType>): SetterItem[] => {
@@ -46,31 +43,30 @@ const normalizeSetters = (setters?: Array<SetterType>): SetterItem[] => {
             setter,
         };
         if (isSetterConfig(setter)) {
+            if (typeof setter.componentName === 'string') {
+                const info = SetterFactory.getSetter(setter.componentName);
+                config.name = info?.type || generateName('CustomSetter');
+                config.title = setter.title || info?.title;
+            } else {
+                config.name = generateName('CustomSetter');
+                config.title = setter.title;
+            }
             config.setter = setter.componentName;
             config.props = setter.props;
             config.condition = setter.condition;
-            // config.defaultValue = setter.defaultValue;
-            config.title = setter.title;
         }
         if (typeof setter === 'string') {
-            config.name = config.setter;
-            names.push(config.name);
             const info = SetterFactory.getSetter(config.setter);
+            config.name = setter;
             if (!config.title) {
                 config.title = info?.title || config.setter;
             }
             if (!config.condition) {
                 config.condition = info?.condition;
             }
-        } else {
-            config.name = generateName(
-                (config.setter as any)?.displayName ||
-                    (config.setter as any)?.name ||
-                    'CustomSetter',
-            );
-            if (!config.title) {
-                config.title = config.name;
-            }
+        }
+        if (!config.title) {
+            config.title = config.name;
         }
         return config;
     });
@@ -172,7 +168,12 @@ const MixedSetterView = defineComponent({
                 };
             });
             return (
-                <FDropdown options={options}>
+                <FDropdown
+                    options={options}
+                    onClick={(val: string) => {
+                        currentSetterName.value = val;
+                    }}
+                >
                     <Switch
                         class={iconCls}
                         theme="outline"

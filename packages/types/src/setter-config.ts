@@ -1,6 +1,5 @@
 import { Component, DefineComponent, ConcreteComponent, Slot } from 'vue';
 import { SettingTarget } from './setting-target';
-import { PropConfig } from './prop-config';
 
 export interface Setter {
     /**
@@ -15,10 +14,6 @@ export interface Setter {
      * 设置器组件
      */
     Component: Component | DefineComponent | ConcreteComponent;
-    /**
-     * 校验的 schema 确认用什么组件来渲染
-     */
-    tester?: (scheme: PropConfig) => boolean;
     /**
      * 给 MixedSetter 用于判断优先选中哪个
      */
@@ -48,10 +43,15 @@ export interface SetterConfig {
      * 给 MixedSetter 用于判断优先选中哪个
      */
     condition?: (target: SettingTarget) => boolean;
+
+    // for MixedSetter
+    isRequired?: boolean;
+    // for MixedSetter
+    defaultValue?: any;
 }
 
 // if *string* passed must be a registered Setter Name, future support blockSchema
-export type SetterType = SetterConfig | SetterConfig[] | string | CustomView;
+export type SetterType = SetterConfig | SetterConfig[] | string;
 
 export function isSetterConfig(obj: any): obj is SetterConfig {
     return obj && typeof obj === 'object' && 'componentName' in obj;

@@ -1,10 +1,4 @@
-import {
-    SetterType,
-    FieldExtraProps,
-    FieldConfig,
-    CustomView,
-    isCustomView,
-} from '@webank/letgo-types';
+import { SetterType, FieldExtraProps, FieldConfig } from '@webank/letgo-types';
 import { SettingProp } from './setting-prop';
 import { SettingEntry, ISetValueOptions } from './types';
 
@@ -94,9 +88,9 @@ export class SettingField extends SettingProp implements SettingEntry {
         }
     }
 
-    private _items: Array<SettingField | CustomView> = [];
+    private _items: Array<SettingField> = [];
 
-    get items(): Array<SettingField | CustomView> {
+    get items(): Array<SettingField> {
         return this._items;
     }
 
@@ -105,16 +99,13 @@ export class SettingField extends SettingProp implements SettingEntry {
     }
 
     private initItems(
-        items: Array<FieldConfig | CustomView>,
+        items: Array<FieldConfig>,
         settingFieldCollector?: {
             (name: string | number, field: SettingField): void;
             (name: string, field: SettingField): void;
         },
     ) {
         this._items = items.map((item) => {
-            if (isCustomView(item)) {
-                return item;
-            }
             return new SettingField(this, item, settingFieldCollector);
         });
     }
@@ -144,9 +135,7 @@ export class SettingField extends SettingProp implements SettingEntry {
         return this._config;
     }
 
-    getItems(
-        filter?: (item: SettingField | CustomView) => boolean,
-    ): Array<SettingField | CustomView> {
+    getItems(filter?: (item: SettingField) => boolean): Array<SettingField> {
         return this._items.filter((item) => {
             if (filter) {
                 return filter(item);

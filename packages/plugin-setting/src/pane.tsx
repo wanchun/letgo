@@ -1,12 +1,10 @@
 import { defineComponent, PropType } from 'vue';
 import {
     SettingField,
-    SettingEntry,
-    isSettingField,
     createFieldContent,
     createSetterContent,
 } from '@webank/letgo-designer';
-import { CustomView, isSetterConfig } from '@webank/letgo-types';
+import { isSetterConfig, CustomView } from '@webank/letgo-types';
 import { paneWrapperCls } from './pane.css';
 
 const SettingGroupView = defineComponent({
@@ -32,8 +30,8 @@ const SettingGroupView = defineComponent({
                 collapsed: !field.expanded,
                 onExpandChange: (expandState) => field.setExpanded(expandState),
             },
-            field.items.map((item, index) => {
-                return createSettingFieldView(item, index, field);
+            field.items.map((item) => {
+                return createSettingFieldView(item);
             }),
             display,
         );
@@ -69,7 +67,7 @@ const SettingFieldView = defineComponent({
         const { setter } = field;
 
         let setterProps: any = {};
-        let setterType: any;
+        let setterType: string | CustomView;
 
         if (Array.isArray(setter)) {
             setterType = 'MixedSetter';
@@ -143,19 +141,11 @@ const SettingFieldView = defineComponent({
     },
 });
 
-const createSettingFieldView = (
-    item: SettingField | CustomView,
-    index: number,
-    field: SettingEntry,
-) => {
-    if (isSettingField(item)) {
-        if (item.isGroup) {
-            return <SettingGroupView field={item} key={item.id} />;
-        } else {
-            return <SettingFieldView field={item} key={item.id} />;
-        }
+const createSettingFieldView = (item: SettingField) => {
+    if (item.isGroup) {
+        return <SettingGroupView field={item} key={item.id} />;
     } else {
-        return item({ item, index, field });
+        return <SettingFieldView field={item} key={item.id} />;
     }
 };
 
@@ -169,9 +159,7 @@ export default defineComponent({
         const { items } = field;
         return (
             <div class={paneWrapperCls}>
-                {items.map((item, index) =>
-                    createSettingFieldView(item, index, field),
-                )}
+                {items.map((item) => createSettingFieldView(item))}
             </div>
         );
     },

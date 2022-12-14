@@ -35,7 +35,4 @@ export const StringSetter: Setter = {
         const v = field.getValue();
         return typeof v === 'string';
     },
-    tester: (scheme) => {
-        return scheme.propType === 'string';
-    },
 };

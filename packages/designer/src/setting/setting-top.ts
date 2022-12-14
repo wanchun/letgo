@@ -1,5 +1,5 @@
 import { EventEmitter } from 'eventemitter3';
-import { CustomView, isCustomView, IEditor } from '@webank/letgo-types';
+import { IEditor } from '@webank/letgo-types';
 import { Node } from '../node';
 import { ComponentMeta } from '../component-meta';
 import { Designer } from '../designer';
@@ -17,7 +17,7 @@ function generateSessionId(nodes: Node[]) {
 export class SettingTop implements SettingEntry {
     private emitter = new EventEmitter();
 
-    private _items: Array<SettingField | CustomView> = [];
+    private _items: Array<SettingField> = [];
 
     private _componentMeta: ComponentMeta | null = null;
 
@@ -123,9 +123,6 @@ export class SettingTop implements SettingEntry {
                 settingFieldMap[name] = field;
             };
             this._items = this.componentMeta.propsConfigure.map((item) => {
-                if (isCustomView(item)) {
-                    return item;
-                }
                 return new SettingField(this, item, settingFieldCollector);
             });
             this._settingFieldMap = settingFieldMap;

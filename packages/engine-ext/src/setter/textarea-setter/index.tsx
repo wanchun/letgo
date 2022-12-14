@@ -1,14 +1,14 @@
 import { defineComponent, onMounted } from 'vue';
 import { Setter } from '@webank/letgo-types';
-import { FInputNumber } from '@fesjs/fes-design';
+import { FInput } from '@fesjs/fes-design';
 import { commonProps } from '../../common/setter-props';
 
-const NumberSetterView = defineComponent({
-    name: 'NumberSetterView',
+const TextareaSetterView = defineComponent({
+    name: 'TextareaSetterView',
     props: {
         ...commonProps,
-        value: Number,
-        defaultValue: Number,
+        value: String,
+        defaultValue: String,
     },
     setup(props) {
         onMounted(() => {
@@ -16,10 +16,11 @@ const NumberSetterView = defineComponent({
         });
         return () => {
             return (
-                <FInputNumber
+                <FInput
+                    type="textarea"
                     modelValue={props.value}
                     placeholder={props.placeholder || ''}
-                    onChange={(val: any) => props.onChange(val)}
+                    onInput={(val: any) => props.onChange(val)}
                     style={{ width: '100%' }}
                 />
             );
@@ -27,12 +28,12 @@ const NumberSetterView = defineComponent({
     },
 });
 
-export const NumberSetter: Setter = {
-    type: 'NumberSetter',
-    title: '数字设置器',
-    Component: NumberSetterView,
+export const TextareaSetter: Setter = {
+    type: 'TextareaSetter',
+    title: '多行文本设置器',
+    Component: TextareaSetterView,
     condition: (field) => {
         const v = field.getValue();
-        return typeof v === 'number';
+        return typeof v === 'string';
     },
 };

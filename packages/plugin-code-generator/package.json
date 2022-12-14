@@ -1,5 +1,5 @@
 {
-  "name": "@webank/letgo-plugin-manager",
+  "name": "@webank/letgo-plugin-code-generator",
   "version": "1.0.0",
   "description": "",
   "files": [
@@ -12,19 +12,21 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@webank/letgo-plugin-manager": "^1.0.0",
     "@webank/letgo-designer": "^1.0.0",
-    "@webank/letgo-editor-core": "^1.0.0",
-    "@webank/letgo-editor-skeleton": "^1.0.0",
     "@webank/letgo-types": "^1.0.0",
-    "@webank/letgo-utils": "^1.0.0",
-    "lodash-es": "^4.17.21",
-    "semver": "^7.3.5"
+    "@webank/letgo-engine": "^1.0.0",
+    "@fesjs/fes-design": "^0.7.11",
+    "lodash-es": "^4.17.21"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.37"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "types": "./es/index.d.ts",
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "types": "./es/index.d.ts"
 }

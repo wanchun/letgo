@@ -1,9 +1,9 @@
 import { h } from 'vue';
 import { plugins } from '@webank/letgo-engine';
 import PluginComponents from '@webank/letgo-plugin-components';
+import CodeGenerator from '@webank/letgo-plugin-code-generator';
 import assets from './assets/assets.json';
 import Logo from './assets/logo.vue';
-import ExportCode from './components/exportCode.vue';
 
 plugins.register({
     name: 'editor-init',
@@ -13,6 +13,7 @@ plugins.register({
 });
 
 plugins.register(PluginComponents);
+plugins.register(CodeGenerator);
 
 plugins.register({
     name: 'skeleton',
@@ -27,15 +28,6 @@ plugins.register({
             content: () => h(Logo),
             props: {
                 align: 'left',
-            },
-        });
-        skeleton.add({
-            name: 'exportButton',
-            area: 'topArea',
-            type: 'Widget',
-            content: () => h(ExportCode),
-            props: {
-                align: 'right',
             },
         });
     },

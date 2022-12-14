@@ -144,17 +144,17 @@ importers:
       '@fesjs/fes-design': ^0.7.7
       '@icon-park/vue-next': ^1.4.2
       '@vanilla-extract/css': ^1.9.2
-      '@vueuse/core': ^9.6.0
       '@webank/letgo-designer': ^1.0.0
       '@webank/letgo-types': ^1.0.0
+      '@webank/letgo-utils': ^1.0.0
       naive-ui: ^2.34.2
     dependencies:
       '@fesjs/fes-design': 0.7.7
       '@icon-park/vue-next': 1.4.2
       '@vanilla-extract/css': 1.9.2
-      '@vueuse/core': 9.6.0
       '@webank/letgo-designer': link:../designer
       '@webank/letgo-types': link:../types
+      '@webank/letgo-utils': link:../utils
       naive-ui: 2.34.2
 
   packages/plugin-components:
@@ -3750,18 +3750,6 @@ packages:
       vue-demi: 0.13.2_vue@3.2.37
     dev: false
 
-  /@vueuse/core/9.6.0:
-    resolution: {integrity: sha512-qGUcjKQXHgN+jqXEgpeZGoxdCbIDCdVPz3QiF1uyecVGbMuM63o96I1GjYx5zskKgRI0FKSNsVWM7rwrRMTf6A==}
-    dependencies:
-      '@types/web-bluetooth': 0.0.16
-      '@vueuse/metadata': 9.6.0
-      '@vueuse/shared': 9.6.0
-      vue-demi: 0.13.2
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
-    dev: false
-
   /@vueuse/core/9.6.0_vue@3.2.37:
     resolution: {integrity: sha512-qGUcjKQXHgN+jqXEgpeZGoxdCbIDCdVPz3QiF1uyecVGbMuM63o96I1GjYx5zskKgRI0FKSNsVWM7rwrRMTf6A==}
     dependencies:
@@ -3809,15 +3797,6 @@ packages:
     dependencies:
       vue: 3.2.37
       vue-demi: 0.13.2_vue@3.2.37
-    dev: false
-
-  /@vueuse/shared/9.6.0:
-    resolution: {integrity: sha512-/eDchxYYhkHnFyrb00t90UfjCx94kRHxc7J1GtBCqCG4HyPMX+krV9XJgVtWIsAMaxKVU4fC8NSUviG1JkwhUQ==}
-    dependencies:
-      vue-demi: 0.13.2
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
     dev: false
 
   /@vueuse/shared/9.6.0_vue@3.2.37:

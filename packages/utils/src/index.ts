@@ -11,3 +11,4 @@ export * from './script';
 export * from './native-selection';
 export * from './is-es-module';
 export * from './create-icon';
+export * from './useModel';

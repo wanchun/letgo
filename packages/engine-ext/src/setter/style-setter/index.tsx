@@ -1,9 +1,10 @@
 import { defineComponent, onMounted, PropType, CSSProperties } from 'vue';
 import { Setter } from '@webank/letgo-types';
-import { useVModel } from '@vueuse/core';
+import { useModel } from '@webank/letgo-utils';
 import { NCollapse } from 'naive-ui';
 import { commonProps } from '../../common/setter-props';
-import Layout from './pro/layout';
+import { LayoutView } from './pro/layout';
+import { FontView } from './pro/font';
 import { wrapperCls } from './index.css';
 
 type StyleModule = 'background' | 'border' | 'font' | 'layout' | 'position';
@@ -30,13 +31,15 @@ const StyleSetterView = defineComponent({
             props.onMounted?.();
         });
 
-        const currentValue = useVModel(props, 'value', emit);
+        const [currentValue, updateCurrentValue] = useModel(props, emit, {
+            prop: 'value',
+            defaultValue: {},
+        });
 
         const onStyleChange = (changedStyle: CSSProperties) => {
-            currentValue.value = Object.assign(
-                currentValue.value,
-                changedStyle,
-            );
+            const styleData = { ...currentValue.value, ...changedStyle };
+            updateCurrentValue(styleData);
+            props.onChange(styleData);
         };
 
         return () => {
@@ -45,10 +48,16 @@ const StyleSetterView = defineComponent({
                 <div class={wrapperCls}>
                     <NCollapse defaultExpandedNames={['layout']}>
                         {styleModuleList.some((item) => item === 'layout') && (
-                            <Layout
+                            <LayoutView
                                 onStyleChange={onStyleChange}
-                                data={currentValue.value}
-                            ></Layout>
+                                value={currentValue.value}
+                            ></LayoutView>
+                        )}
+                        {styleModuleList.some((item) => item === 'font') && (
+                            <FontView
+                                onStyleChange={onStyleChange}
+                                value={currentValue.value}
+                            ></FontView>
                         )}
                     </NCollapse>
                 </div>

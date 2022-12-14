@@ -13,12 +13,12 @@
   },
   "dependencies": {
     "@vanilla-extract/css": "^1.9.2",
-    "@fesjs/fes-design": "^0.7.7",
     "@webank/letgo-designer": "^1.0.0",
     "@webank/letgo-types": "^1.0.0",
+    "@webank/letgo-utils": "^1.0.0",
+    "@fesjs/fes-design": "^0.7.7",
     "@icon-park/vue-next": "^1.4.2",
-    "naive-ui": "^2.34.2",
-    "@vueuse/core": "^9.6.0"
+    "naive-ui": "^2.34.2"
   },
   "peerDependencies": {
     "vue": "^3.2.37"

@@ -1,6 +1,7 @@
 import { defineComponent, onMounted } from 'vue';
 import { Setter } from '@webank/letgo-types';
 import { commonProps } from '../../common/setter-props';
+import InputColor from '../../component/input-color';
 
 const ColorSetterView = defineComponent({
     name: 'ColorSetterView',
@@ -15,13 +16,12 @@ const ColorSetterView = defineComponent({
         });
         return () => {
             return (
-                <input
-                    type="color"
-                    value={props.value}
-                    onInput={(event: any) => {
+                <InputColor
+                    modelValue={props.value}
+                    onChange={(event: any) => {
                         props.onChange(event.target.value);
                     }}
-                ></input>
+                ></InputColor>
             );
         };
     },

@@ -1,13 +1,43 @@
-import { defineComponent, PropType } from 'vue';
-import {
-    SettingField,
-    createFieldContent,
-    createSetterContent,
-} from '@webank/letgo-designer';
-import { isSetterConfig, CustomView } from '@webank/letgo-types';
-import { paneWrapperCls } from './pane.css';
+import { h, defineComponent, PropType } from 'vue';
+import { CustomView, isSetterConfig } from '@webank/letgo-types';
+import { VNode, createVNode } from 'vue';
+import { IFieldProps, FieldView, PlainFieldView } from './fields';
+import { SettingField } from './setting-field';
+import { SetterFactory } from './setter-manager';
 
-const SettingGroupView = defineComponent({
+export function createFieldContent(
+    props: IFieldProps,
+    children: any[],
+    type?: 'accordion' | 'inline' | 'block' | 'plain' | 'popup' | 'entry',
+) {
+    // if (type === 'popup') {
+    //     return createVNode(PopupField, props, children);
+    // }
+    // if (type === 'entry') {
+    //     return createVNode(EntryField, props, children);
+    // }
+    if (type === 'plain' || !props.title) {
+        return h(PlainFieldView, children);
+    }
+    return h(FieldView, { ...props, display: type }, () => children);
+}
+
+export function createSetterContent(
+    setter: string | CustomView,
+    props: Record<string, any>,
+): VNode[] {
+    if (typeof setter === 'string') {
+        const _setter = SetterFactory.getSetter(setter);
+        if (!_setter) {
+            return null;
+        }
+        return [createVNode(_setter.Component, props)];
+    }
+
+    return setter(props);
+}
+
+export const SettingGroupView = defineComponent({
     name: 'PluginSettingGroupView',
     props: {
         field: Object as PropType<SettingField>,
@@ -38,7 +68,7 @@ const SettingGroupView = defineComponent({
     },
 });
 
-const SettingFieldView = defineComponent({
+export const SettingFieldView = defineComponent({
     name: 'PluginSettingFieldView',
     props: {
         field: Object as PropType<SettingField>,
@@ -141,26 +171,10 @@ const SettingFieldView = defineComponent({
     },
 });
 
-const createSettingFieldView = (item: SettingField) => {
+export const createSettingFieldView = (item: SettingField) => {
     if (item.isGroup) {
         return <SettingGroupView field={item} key={item.id} />;
     } else {
         return <SettingFieldView field={item} key={item.id} />;
     }
 };
-
-export default defineComponent({
-    name: 'PluginSetterPaneView',
-    props: {
-        field: Object as PropType<SettingField>,
-    },
-    render() {
-        const { field } = this;
-        const { items } = field;
-        return (
-            <div class={paneWrapperCls}>
-                {items.map((item) => createSettingFieldView(item))}
-            </div>
-        );
-    },
-});

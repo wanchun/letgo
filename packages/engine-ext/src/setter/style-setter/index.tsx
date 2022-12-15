@@ -46,7 +46,7 @@ const StyleSetterView = defineComponent({
             const { styleModuleList } = props;
             return (
                 <div class={wrapperCls}>
-                    <NCollapse defaultExpandedNames={['layout']}>
+                    <NCollapse defaultExpandedNames={['layout', 'font']}>
                         {styleModuleList.some((item) => item === 'layout') && (
                             <LayoutView
                                 onStyleChange={onStyleChange}

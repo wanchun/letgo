@@ -50,3 +50,14 @@ globalStyle(`${bodyCls} .fes-tabs-tab-label`, {
     display: 'block',
     textAlign: 'center',
 });
+
+export const paneWrapperCls = style({
+    position: 'absolute',
+    top: '31px',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingBottom: '24px',
+    overflowY: 'auto',
+    overflowX: 'hidden',
+});

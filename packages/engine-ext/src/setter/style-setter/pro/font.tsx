@@ -2,7 +2,6 @@ import { defineComponent, PropType, CSSProperties } from 'vue';
 import { useModel } from '@webank/letgo-utils';
 import { NCollapseItem } from 'naive-ui';
 import { FSelect, FInput } from '@fesjs/fes-design';
-import { isNil } from 'lodash-es';
 import Row from '../../../component/row';
 import InputColor from '../../../component/input-color';
 import { addUnit, clearUnit } from '../utils';
@@ -45,19 +44,19 @@ const fontWeight = [
 const textAlign = [
     {
         value: 'left',
-        label: '左对齐',
+        label: 'left 左对齐',
     },
     {
         value: 'center',
-        label: '居中',
+        label: 'center 居中',
     },
     {
         value: 'right',
-        label: '右对齐',
+        label: 'right 右对齐',
     },
     {
         value: 'justify',
-        label: '两端对齐',
+        label: 'justify 两端对齐',
     },
 ];
 
@@ -80,7 +79,7 @@ export const FontView = defineComponent({
 
         return () => {
             return (
-                <NCollapseItem name="layout" title="文字">
+                <NCollapseItem name="font" title="文字">
                     <Row label="字体大小">
                         <FInput
                             modelValue={clearUnit(currentValue.value.fontSize)}

@@ -59,7 +59,6 @@ const EventSetterView = defineComponent({
         definition: Array as PropType<Array<EventDefinition>>,
     },
     setup(props) {
-        console.log(props);
         const eventData: Ref<EventType[]> = ref([]);
 
         const selectedEventData = ref([]);

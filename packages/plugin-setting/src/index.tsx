@@ -1,16 +1,20 @@
 import { defineComponent, PropType, onBeforeUnmount } from 'vue';
 import { FTabs, FTabPane } from '@fesjs/fes-design';
 import { RightOutlined } from '@fesjs/fes-design/icon';
-import { Node, SettingField } from '@webank/letgo-designer';
+import {
+    Node,
+    SettingField,
+    createSettingFieldView,
+} from '@webank/letgo-designer';
 import { IPluginContext } from '@webank/letgo-plugin-manager';
 import { SettingsMain } from './main';
-import SettingPane from './pane';
 import {
     mainCls,
     navigatorCls,
     bodyCls,
     noticeCls,
     navigatorItemCls,
+    paneWrapperCls,
 } from './index.css';
 
 const Breadcrumb = defineComponent({
@@ -19,10 +23,9 @@ const Breadcrumb = defineComponent({
         node: Object as PropType<Node>,
     },
     setup(props) {
-        const node = props.node;
-        const { focusNode } = node.document;
-
         return () => {
+            const node = props.node;
+            const { focusNode } = node.document;
             const parentNodeList: Node[] = [];
             let _node = node;
 
@@ -79,6 +82,8 @@ export default defineComponent({
         const { designer, editor } = props.ctx;
 
         const main = new SettingsMain(editor, designer);
+
+        console.log('SettingsMain:', main);
 
         onBeforeUnmount(() => {
             main?.purge();
@@ -139,19 +144,22 @@ export default defineComponent({
                             key={field.id}
                             displayDirective="show"
                         >
-                            <SettingPane field={field}></SettingPane>
+                            <div class={paneWrapperCls}>
+                                {field.items.map((item) =>
+                                    createSettingFieldView(item),
+                                )}
+                            </div>
                         </FTabPane>
                     );
                 });
 
             return (
                 <div class={mainCls}>
-                    <Breadcrumb
-                        key={currentNode.id}
-                        node={currentNode}
-                    ></Breadcrumb>
+                    <Breadcrumb node={currentNode}></Breadcrumb>
                     <div class={bodyCls}>
-                        <FTabs>{renderTabs()}</FTabs>
+                        <FTabs key={currentNode.id} modelValue={items[0].id}>
+                            {renderTabs()}
+                        </FTabs>
                     </div>
                 </div>
             );

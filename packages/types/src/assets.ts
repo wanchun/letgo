@@ -143,7 +143,7 @@ export interface Package {
  * 本地物料描述
  */
 export interface ComponentDescription extends ComponentMetadata {
-    keywords: string[];
+    keywords?: string[];
 }
 
 export function isComponentDescription(obj: any): obj is ComponentDescription {

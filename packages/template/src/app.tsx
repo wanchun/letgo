@@ -2,7 +2,7 @@ import { h } from 'vue';
 import { plugins } from '@webank/letgo-engine';
 import PluginComponents from '@webank/letgo-plugin-components';
 import CodeGenerator from '@webank/letgo-plugin-code-generator';
-import assets from './assets/assets.json';
+import assets from './assets/assets';
 import Logo from './assets/logo.vue';
 
 plugins.register({

@@ -1,4 +1,4 @@
-import { h, defineComponent, PropType } from 'vue';
+import { h, defineComponent, PropType, computed } from 'vue';
 import { CustomView, isSetterConfig } from '@webank/letgo-types';
 import { VNode, createVNode } from 'vue';
 import { IFieldProps, FieldView, PlainFieldView } from './fields';
@@ -73,26 +73,34 @@ export const SettingFieldView = defineComponent({
     props: {
         field: Object as PropType<SettingField>,
     },
+    setup(props) {
+        const visible = computed(() => {
+            const condition = props.field.extraProps?.condition;
+            let _visible = true;
+            try {
+                _visible =
+                    typeof condition === 'function'
+                        ? condition(props.field) !== false
+                        : true;
+            } catch (error) {
+                _visible = false;
+                console.error(
+                    'exception when condition (hidden) is executed',
+                    error,
+                );
+            }
+            return _visible;
+        });
+        return {
+            visible,
+        };
+    },
     render() {
-        const { field } = this;
-        const { extraProps } = field;
-        const { condition, defaultValue } = extraProps;
-        let visible;
-        try {
-            visible =
-                typeof condition === 'function'
-                    ? condition(field) !== false
-                    : true;
-        } catch (error) {
-            console.error(
-                'exception when condition (hidden) is executed',
-                error,
-            );
-        }
+        const { field, visible } = this;
+        if (!visible) return;
 
-        if (!visible) {
-            return null;
-        }
+        const { extraProps } = field;
+        const { defaultValue } = extraProps;
 
         const { setter } = field;
 

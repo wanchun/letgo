@@ -94,7 +94,7 @@ export interface ComponentMetadata {
     /**
      * 可用片段
      */
-    snippets: Snippet[];
+    snippets?: Snippet[];
     /**
      * 一级分组
      */

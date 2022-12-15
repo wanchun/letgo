@@ -67,7 +67,7 @@ export interface FieldConfig extends FieldExtraProps {
     /**
      * the name of this setting field, which used in quickEditor
      */
-    name: string | number;
+    name?: string | number;
     /**
      * the field title
      */

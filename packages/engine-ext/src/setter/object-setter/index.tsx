@@ -18,7 +18,12 @@ const ObjectSetterView = defineComponent({
         defaultValue: {
             type: Object,
         },
-        config: Object as PropType<ObjectSetterConfig>,
+        config: {
+            type: Object as PropType<ObjectSetterConfig>,
+            default() {
+                return {} as ObjectSetterConfig;
+            },
+        },
     },
     setup(props) {
         onMounted(() => {
@@ -40,7 +45,7 @@ const ObjectSetterView = defineComponent({
                 });
                 return field.items;
             }
-            return ((config as ObjectSetterConfig)?.items || []).map((conf) =>
+            return (config?.items || []).map((conf) =>
                 field.createField({
                     ...conf,
                     setValue: extraProps?.setValue,

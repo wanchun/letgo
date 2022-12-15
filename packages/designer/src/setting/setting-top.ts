@@ -235,7 +235,7 @@ export class SettingTop implements SettingEntry {
         return this.firstNode.document;
     }
 
-    getNode() {
+    getNode(): Node {
         return this.nodes[0];
     }
 }

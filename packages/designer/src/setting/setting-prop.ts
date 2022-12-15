@@ -276,10 +276,6 @@ export class SettingProp implements SettingEntry {
         return this.top;
     }
 
-    get props() {
-        return this.top;
-    }
-
     onValueChange(func: () => any) {
         this.emitter.on('value-change', func);
         return () => {
@@ -288,6 +284,7 @@ export class SettingProp implements SettingEntry {
     }
 
     notifyValueChange(oldValue: any, newValue: any) {
+        this.emitter.emit('value-change');
         this.editor.emit(GlobalEvent.Node.Prop.Change, {
             node: this.getNode(),
             prop: this,

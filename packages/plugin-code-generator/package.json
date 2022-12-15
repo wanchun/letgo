@@ -16,6 +16,7 @@
     "@webank/letgo-designer": "^1.0.0",
     "@webank/letgo-types": "^1.0.0",
     "@webank/letgo-engine": "^1.0.0",
+    "@webank/letgo-utils": "^1.0.0",
     "@fesjs/fes-design": "^0.7.11",
     "lodash-es": "^4.17.21"
   },

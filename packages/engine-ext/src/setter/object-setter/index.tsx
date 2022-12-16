@@ -2,6 +2,7 @@ import { defineComponent, onMounted, PropType, computed } from 'vue';
 import { Setter, FieldConfig, SetterType } from '@webank/letgo-types';
 import { createSettingFieldView } from '@webank/letgo-designer';
 import { commonProps } from '../../common/setter-props';
+import { wrapperCls } from './index.css';
 
 type ObjectSetterConfig = {
     items?: FieldConfig[];
@@ -12,12 +13,8 @@ const ObjectSetterView = defineComponent({
     name: 'ObjectSetterView',
     props: {
         ...commonProps,
-        value: {
-            type: Object,
-        },
-        defaultValue: {
-            type: Object,
-        },
+        value: Object,
+        defaultValue: Object,
         config: {
             type: Object as PropType<ObjectSetterConfig>,
             default() {
@@ -55,7 +52,9 @@ const ObjectSetterView = defineComponent({
 
         return () => {
             return (
-                <>{items.value.map((item) => createSettingFieldView(item))}</>
+                <div class={wrapperCls}>
+                    {items.value.map((item) => createSettingFieldView(item))}
+                </div>
             );
         };
     },

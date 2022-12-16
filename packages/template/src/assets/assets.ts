@@ -1288,13 +1288,6 @@ const assets: AssetsJson = {
                     propType: 'number',
                 },
                 {
-                    name: 'type',
-                    propType: {
-                        type: 'oneOf',
-                        value: ['text', 'password', 'textarea'],
-                    },
-                },
-                {
                     name: 'placeholder',
                     propType: 'string',
                 },
@@ -1329,33 +1322,50 @@ const assets: AssetsJson = {
                         setter: 'StringSetter',
                     },
                     {
-                        name: 'type',
-                        title: '输入框类型',
-                        setter: {
-                            componentName: 'RadioGroupSetter',
-                            props: {
-                                options: [
-                                    {
-                                        title: 'text',
-                                        value: 'text',
-                                    },
-                                    {
-                                        title: 'password',
-                                        value: 'password',
-                                    },
-                                    {
-                                        title: 'textarea',
-                                        value: 'textarea',
-                                    },
-                                ],
-                            },
-                        },
-                    },
-                    {
                         name: 'rows',
                         title: '行数',
                         setter: 'NumberSetter',
                         defaultValue: 2,
+                        condition: (target) => {
+                            const val = target.top.getPropValue('type');
+                            return val === 'textarea';
+                        },
+                    },
+                    {
+                        name: 'resize',
+                        title: '是否缩放',
+                        setter: {
+                            componentName: 'SelectSetter',
+                            props: {
+                                options: [
+                                    {
+                                        label: '水平方向',
+                                        value: 'horizontal',
+                                    },
+                                    {
+                                        label: '垂直方向',
+                                        value: 'vertical',
+                                    },
+                                    {
+                                        label: '水平垂直方向',
+                                        value: 'both',
+                                    },
+                                    {
+                                        label: '禁止',
+                                        value: 'none',
+                                    },
+                                ],
+                            },
+                        },
+                        condition: (target) => {
+                            const val = target.top.getPropValue('type');
+                            return val === 'textarea';
+                        },
+                    },
+                    {
+                        name: 'showWordLimit',
+                        title: '是否统计',
+                        setter: 'BoolSetter',
                         condition: (target) => {
                             const val = target.top.getPropValue('type');
                             return val === 'textarea';
@@ -1412,6 +1422,16 @@ const assets: AssetsJson = {
                         },
                     },
                 },
+                {
+                    title: '文本域输入框',
+                    schema: {
+                        componentName: 'FInput',
+                        props: {
+                            type: 'textarea',
+                            showPassword: true,
+                        },
+                    },
+                },
             ],
             group: '原子组件',
             category: '信息输入',
@@ -1449,12 +1469,6 @@ const assets: AssetsJson = {
                     title: '计数器步长',
                 },
                 {
-                    name: 'disabled',
-                    propType: 'bool',
-                    defaultValue: false,
-                    title: '是否禁用',
-                },
-                {
                     name: 'placeholder',
                     propType: 'string',
                     title: '输入占位符',
@@ -1463,6 +1477,12 @@ const assets: AssetsJson = {
                     name: 'precision',
                     propType: 'number',
                     title: '输入值精度',
+                },
+                {
+                    name: 'disabled',
+                    propType: 'bool',
+                    defaultValue: false,
+                    title: '是否禁用',
                 },
             ],
             snippets: [

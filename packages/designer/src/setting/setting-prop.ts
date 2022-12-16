@@ -227,6 +227,13 @@ export class SettingProp implements SettingEntry {
     }
 
     /**
+     * 获取子级属性值
+     */
+    getPropValue(propName: string | number): any {
+        return this.top.getPropValue(this.path.concat(propName).join('.'));
+    }
+
+    /**
      * 设置子级属性值
      */
     setPropValue(propName: string | number, value: any) {
@@ -240,13 +247,6 @@ export class SettingProp implements SettingEntry {
     clearPropValue(propName: string | number) {
         const path = this.path.concat(propName).join('.');
         this.top.clearPropValue(path);
-    }
-
-    /**
-     * 获取子级属性值
-     */
-    getPropValue(propName: string | number): any {
-        return this.top.getPropValue(this.path.concat(propName).join('.'));
     }
 
     /**
@@ -272,10 +272,6 @@ export class SettingProp implements SettingEntry {
         return this.path.join('.');
     }
 
-    getProps() {
-        return this.top;
-    }
-
     onValueChange(func: () => any) {
         this.emitter.on('value-change', func);
         return () => {
@@ -295,10 +291,6 @@ export class SettingProp implements SettingEntry {
 
     getDefaultValue() {
         return this.extraProps.defaultValue;
-    }
-
-    isIgnore() {
-        return false;
     }
 
     getVariableValue() {

@@ -1,6 +1,6 @@
 import { SetterType, FieldExtraProps, FieldConfig } from '@webank/letgo-types';
 import { SettingProp } from './setting-prop';
-import { SettingEntry, ISetValueOptions } from './types';
+import { SettingEntry } from './types';
 
 function getSettingFieldCollectorKey(
     parent: SettingEntry,
@@ -120,12 +120,6 @@ export class SettingField extends SettingProp implements SettingEntry {
         return new SettingField(this, config);
     }
 
-    purge() {
-        this.disposeItems();
-    }
-
-    // ======= compatibles for vision ======
-
     getConfig<K extends keyof FieldConfig>(
         configName?: K,
     ): FieldConfig[K] | FieldConfig {
@@ -144,13 +138,8 @@ export class SettingField extends SettingProp implements SettingEntry {
         });
     }
 
-    setValue(
-        val: any,
-        isHotValue?: boolean,
-        force?: boolean,
-        extraOptions?: ISetValueOptions,
-    ) {
-        super.setValue(val, false, false, extraOptions);
+    purge() {
+        this.disposeItems();
     }
 }
 

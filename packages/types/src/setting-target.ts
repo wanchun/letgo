@@ -52,11 +52,6 @@ export interface SettingTarget {
     get: (propName: string | number) => SettingTarget | null;
 
     /**
-     * 取得子项
-     */
-    getProps?: () => SettingTarget;
-
-    /**
      * 获取子项属性值
      */
     getPropValue: (propName: string | number) => any;
@@ -81,7 +76,6 @@ export interface SettingTarget {
      */
     setExtraPropValue: (propName: string, value: any) => void;
 
-    // @todo 补充 node 定义
     /**
      * 获取 node 中的第一项
      */

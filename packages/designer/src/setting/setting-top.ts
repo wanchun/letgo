@@ -214,6 +214,18 @@ export class SettingTop implements SettingEntry {
         });
     }
 
+    getId() {
+        return this.id;
+    }
+
+    getPage() {
+        return this.firstNode.document;
+    }
+
+    getNode(): Node {
+        return this.nodes[0];
+    }
+
     private disposeItems() {
         this._items.forEach((item) => isPurge(item) && item.purge());
         this._items = [];
@@ -225,18 +237,6 @@ export class SettingTop implements SettingEntry {
         this.emitter.removeAllListeners();
         this.disposeFunctions.forEach((f) => f());
         this.disposeFunctions = [];
-    }
-
-    getId() {
-        return this.id;
-    }
-
-    getPage() {
-        return this.firstNode.document;
-    }
-
-    getNode(): Node {
-        return this.nodes[0];
     }
 }
 

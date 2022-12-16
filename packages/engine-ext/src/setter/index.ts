@@ -8,3 +8,5 @@ export * from './mixed-setter';
 export * from './style-setter';
 export * from './event-setter';
 export * from './textarea-setter';
+export * from './object-setter';
+export * from './array-setter';

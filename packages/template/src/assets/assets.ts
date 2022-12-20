@@ -1498,6 +1498,185 @@ const assets: AssetsJson = {
             category: '信息输入',
             priority: 0,
         },
+        {
+            title: '选择器',
+            componentName: 'FSelect',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.11',
+                exportName: 'FSelect',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'options',
+                    propType: {
+                        type: 'arrayOf',
+                        value: {
+                            type: 'exact',
+                            value: [
+                                {
+                                    name: 'value',
+                                    propType: {
+                                        type: 'oneOfType',
+                                        value: ['string', 'number'],
+                                    },
+                                },
+                                {
+                                    name: 'label',
+                                    propType: 'string',
+                                },
+                            ],
+                        },
+                    },
+                    title: '选项',
+                },
+                {
+                    name: 'clearable',
+                    propType: 'bool',
+                    title: '是否显示清除Icon',
+                },
+                {
+                    name: 'disabled',
+                    propType: 'bool',
+                    title: '是否禁用',
+                },
+            ],
+            configure: {
+                props: [
+                    {
+                        name: 'options',
+                        title: '选项',
+                        setter: {
+                            componentName: 'ArraySetter',
+                            props: {
+                                itemSetter: {
+                                    componentName: 'ObjectSetter',
+                                    props: {
+                                        items: [
+                                            {
+                                                name: 'value',
+                                                title: '选项值',
+                                                setter: [
+                                                    'StringSetter',
+                                                    'NumberSetter',
+                                                ],
+                                            },
+                                            {
+                                                name: 'label',
+                                                title: '选项名',
+                                                setter: 'StringSetter',
+                                            },
+                                        ],
+                                    },
+                                },
+                            },
+                        },
+                        extraProps: {
+                            display: 'block',
+                        },
+                    },
+                ],
+            },
+            snippets: [
+                {
+                    title: '选择器',
+                    schema: {
+                        componentName: 'FSelect',
+                        props: {
+                            options: [
+                                {
+                                    value: '1',
+                                    label: '是',
+                                },
+                                {
+                                    value: '2',
+                                    label: '不是',
+                                },
+                            ],
+                        },
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '信息输入',
+            priority: 0,
+        },
+        {
+            title: '下拉菜单',
+            componentName: 'NDropdown',
+            npm: {
+                package: 'naive-ui',
+                version: '2.32.0',
+                exportName: 'NDropdown',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'options',
+                    propType: {
+                        type: 'arrayOf',
+                        value: {
+                            type: 'exact',
+                            value: [
+                                {
+                                    name: 'key',
+                                    propType: {
+                                        type: 'oneOfType',
+                                        value: ['string', 'number'],
+                                    },
+                                },
+                                {
+                                    name: 'label',
+                                    propType: 'string',
+                                },
+                            ],
+                        },
+                    },
+                    title: '选项',
+                },
+            ],
+            snippets: [
+                {
+                    title: '下拉菜单',
+                    schema: {
+                        componentName: 'NDropdown',
+                        props: {
+                            options: [
+                                {
+                                    label: '滨海湾金沙，新加坡',
+                                    key: 'marina bay sands',
+                                    disabled: true,
+                                },
+                                {
+                                    label: '布朗酒店，伦敦',
+                                    key: "brown's hotel, london",
+                                },
+                                {
+                                    label: '亚特兰蒂斯巴哈马，拿骚',
+                                    key: 'atlantis nahamas, nassau',
+                                },
+                                {
+                                    label: '比佛利山庄酒店，洛杉矶',
+                                    key: 'the beverly hills hotel, los angeles',
+                                },
+                            ],
+                            children: [
+                                {
+                                    componentName: 'FButton',
+                                    props: {
+                                        children: '找个地方休息',
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '信息展示',
+            priority: 0,
+        },
     ],
     sort: {
         groupList: ['精选组件', '原子组件'],

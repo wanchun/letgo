@@ -17,7 +17,7 @@ export function createFieldContent(
     //     return createVNode(EntryField, props, children);
     // }
     if (type === 'plain' || !props.title) {
-        return h(PlainFieldView, children);
+        return h(PlainFieldView, {}, () => children);
     }
     return h(FieldView, { ...props, display: type }, () => children);
 }

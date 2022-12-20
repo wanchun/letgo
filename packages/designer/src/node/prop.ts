@@ -229,6 +229,8 @@ export class Prop implements IPropParent {
 
         this.dispose();
 
+        this.setupItems();
+
         if (oldValue !== this._value.value) {
             const propsInfo = {
                 key: this.key,

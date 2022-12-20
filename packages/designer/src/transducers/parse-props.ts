@@ -10,6 +10,7 @@ import {
     OneOfType,
     ConfigureSupportEvent,
 } from '@webank/letgo-types';
+import { isArray } from 'lodash-es';
 
 function propConfigToFieldConfig(propConfig: PropConfig): FieldConfig {
     return {
@@ -93,13 +94,9 @@ function propTypeToSetter(propType: PropType): SetterType {
             return {
                 componentName: 'ObjectSetter',
                 props: {
-                    config: {
-                        items,
-                        extraSetter:
-                            typeName === 'shape'
-                                ? propTypeToSetter('any')
-                                : null,
-                    },
+                    items,
+                    extraSetter:
+                        typeName === 'shape' ? propTypeToSetter('any') : null,
                 },
                 isRequired,
                 defaultValue: (field: any) => {
@@ -127,13 +124,11 @@ function propTypeToSetter(propType: PropType): SetterType {
             return {
                 componentName: 'ObjectSetter',
                 props: {
-                    config: {
-                        extraSetter: propTypeToSetter(
-                            typeName === 'objectOf'
-                                ? (propType as ObjectOf).value
-                                : 'any',
-                        ),
-                    },
+                    extraSetter: propTypeToSetter(
+                        typeName === 'objectOf'
+                            ? (propType as ObjectOf).value
+                            : 'any',
+                    ),
                 },
                 isRequired,
                 defaultValue: {},
@@ -190,10 +185,9 @@ export default function (
 ): TransformedComponentMetadata {
     const { configure = {} } = metadata;
 
-    if (configure.props) {
-        if (Array.isArray(configure.props)) {
-            return metadata;
-        }
+    // 如果已配置 configure.props，则不转换
+    if (isArray(configure.props)) {
+        return metadata;
     }
 
     if (!metadata.props) {
@@ -205,6 +199,7 @@ export default function (
             },
         };
     }
+
     const { component = {}, supports = {} } = configure;
     const supportedEvents: ConfigureSupportEvent[] | null = supports.events
         ? null

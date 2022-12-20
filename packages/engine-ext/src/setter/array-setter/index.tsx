@@ -5,15 +5,16 @@ import {
     PropType,
     ShallowRef,
     shallowRef,
+    triggerRef,
 } from 'vue';
 import { isArray } from 'lodash-es';
 import { Setter, SetterType, SettingTarget } from '@webank/letgo-types';
 import { SettingField, createSettingFieldView } from '@webank/letgo-designer';
-import { NCard } from 'naive-ui';
 import { FButton } from '@fesjs/fes-design';
 import { PlusOutlined } from '@fesjs/fes-design/icon';
+import { Delete } from '@icon-park/vue-next';
 import { commonProps } from '../../common/setter-props';
-import { wrapperCls } from './index.css';
+import { wrapperCls, itemCls, itemIconCls, itemContentCls } from './index.css';
 
 const ArraySetterView = defineComponent({
     name: 'ArraySetterView',
@@ -65,9 +66,39 @@ const ArraySetterView = defineComponent({
 
         // const onSort = () => {};
 
-        // const onAdd = () => {};
+        // TODO: 处理defaultValue
+        const onAdd = () => {
+            const { itemSetter, field } = props;
+            const item = field.createField({
+                name: items.value.length,
+                setter: itemSetter,
+                forceInline: 1,
+                extraProps: {
+                    setValue: onItemChange,
+                },
+            });
+            items.value.push(item);
+            triggerRef(items);
+        };
 
-        // const onRemove = () => {};
+        const onRemove = (removed: SettingField, index: number) => {
+            const { field } = props;
+            const values = field.getValue() || [];
+            values.splice(index, 1);
+            items.value.splice(index, 1);
+            const l = items.value.length;
+            let i = index;
+            while (i < l) {
+                items.value[i].setKey(i);
+                i++;
+            }
+            removed.remove();
+            const pureValues = values.map((item: any) =>
+                typeof item === 'object' ? Object.assign({}, item) : item,
+            );
+            field?.setValue(pureValues);
+            triggerRef(items);
+        };
 
         const init = () => {
             const _items: SettingField[] = [];
@@ -106,16 +137,25 @@ const ArraySetterView = defineComponent({
         return () => {
             return (
                 <div class={wrapperCls}>
-                    {items.value.map((item) => {
+                    {items.value.map((item, index) => {
                         return (
-                            <NCard embedded={true} bordered={false}>
-                                {createSettingFieldView(item)}
-                            </NCard>
+                            <div class={itemCls}>
+                                <div class={itemContentCls}>
+                                    {createSettingFieldView(item)}
+                                </div>
+                                <Delete
+                                    class={itemIconCls}
+                                    onClick={() => {
+                                        onRemove(item, index);
+                                    }}
+                                />
+                            </div>
                         );
                     })}
                     <FButton
                         long
                         v-slots={{ icon: () => <PlusOutlined></PlusOutlined> }}
+                        onClick={onAdd}
                     >
                         新增选项
                     </FButton>

@@ -4,23 +4,14 @@ import { createSettingFieldView } from '@webank/letgo-designer';
 import { commonProps } from '../../common/setter-props';
 import { wrapperCls } from './index.css';
 
-type ObjectSetterConfig = {
-    items?: FieldConfig[];
-    extraSetter?: SetterType;
-};
-
 const ObjectSetterView = defineComponent({
     name: 'ObjectSetterView',
     props: {
         ...commonProps,
         value: Object,
         defaultValue: Object,
-        config: {
-            type: Object as PropType<ObjectSetterConfig>,
-            default() {
-                return {} as ObjectSetterConfig;
-            },
-        },
+        items: Object as PropType<FieldConfig[]>,
+        extraSetter: [String, Object, Array] as PropType<SetterType>,
     },
     setup(props) {
         onMounted(() => {
@@ -28,7 +19,7 @@ const ObjectSetterView = defineComponent({
         });
 
         const items = computed(() => {
-            const { config, field } = props;
+            const { items, field } = props;
             const { extraProps } = field;
             if (Array.isArray(field.items) && field.items.length > 0) {
                 field.items.forEach((item) => {
@@ -42,7 +33,7 @@ const ObjectSetterView = defineComponent({
                 });
                 return field.items;
             }
-            return (config?.items || []).map((conf) =>
+            return (items || []).map((conf) =>
                 field.createField({
                     ...conf,
                     setValue: extraProps?.setValue,

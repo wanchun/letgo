@@ -1,5 +1,6 @@
 import { defineComponent, onMounted } from 'vue';
 import { Setter } from '@webank/letgo-types';
+import { isUndefined } from 'lodash-es';
 import { FInputNumber } from '@fesjs/fes-design';
 import { commonProps } from '../../common/setter-props';
 
@@ -17,7 +18,11 @@ const NumberSetterView = defineComponent({
         return () => {
             return (
                 <FInputNumber
-                    modelValue={props.value}
+                    modelValue={
+                        isUndefined(props.value)
+                            ? props.defaultValue
+                            : props.value
+                    }
                     placeholder={props.placeholder || ''}
                     onChange={(val: any) => props.onChange(val)}
                     style={{ width: '100%' }}

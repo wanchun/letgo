@@ -1,5 +1,6 @@
 import { computed, defineComponent, PropType } from 'vue';
 import { Setter } from '@webank/letgo-types';
+import { isUndefined } from 'lodash-es';
 import { FSelect } from '@fesjs/fes-design';
 import { commonProps } from '../../common/setter-props';
 
@@ -31,7 +32,11 @@ const SelectSetterView = defineComponent({
         return () => {
             return (
                 <FSelect
-                    modelValue={props.value}
+                    modelValue={
+                        isUndefined(props.value)
+                            ? props.defaultValue
+                            : props.value
+                    }
                     placeholder={props.placeholder || ''}
                     options={options.value}
                     filterable={props.filterable}

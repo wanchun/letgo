@@ -1,5 +1,6 @@
 import { defineComponent, onMounted } from 'vue';
 import { Setter } from '@webank/letgo-types';
+import { isUndefined } from 'lodash-es';
 import { commonProps } from '../../common/setter-props';
 import InputColor from '../../component/input-color';
 
@@ -17,7 +18,11 @@ const ColorSetterView = defineComponent({
         return () => {
             return (
                 <InputColor
-                    modelValue={props.value}
+                    modelValue={
+                        isUndefined(props.value)
+                            ? props.defaultValue
+                            : props.value
+                    }
                     onChange={(event: any) => {
                         props.onChange(event.target.value);
                     }}

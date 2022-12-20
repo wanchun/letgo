@@ -10,10 +10,10 @@ import {
     SettingField,
     SetterFactory,
     createSetterContent,
-    Node,
 } from '@webank/letgo-designer';
 import { FDropdown } from '@fesjs/fes-design';
 import { Switch } from '@icon-park/vue-next';
+import { commonProps } from '../../common/setter-props';
 import { wrapperCls, contentCls, actionsCls, iconCls } from './index.css';
 
 type SetterItem = {
@@ -22,6 +22,7 @@ type SetterItem = {
     setter: string | CustomView;
     props?: object | DynamicProps;
     condition?: (field: SettingField) => boolean;
+    defaultValue?: any;
 };
 
 const normalizeSetters = (setters?: Array<SetterType>): SetterItem[] => {
@@ -54,6 +55,7 @@ const normalizeSetters = (setters?: Array<SetterType>): SetterItem[] => {
             config.setter = setter.componentName;
             config.props = setter.props;
             config.condition = setter.condition;
+            config.defaultValue = setter.defaultValue;
         }
         if (typeof setter === 'string') {
             const info = SetterFactory.getSetter(config.setter);
@@ -85,14 +87,25 @@ const normalizeSetters = (setters?: Array<SetterType>): SetterItem[] => {
 const MixedSetterView = defineComponent({
     name: 'MixedSetterView',
     props: {
-        field: Object as PropType<SettingField>,
-        node: Object as PropType<Node>,
+        ...commonProps,
         setters: Array as PropType<Array<SetterType>>,
         onSetterChange: Function as PropType<
             (field: SettingField, name: string) => void
         >,
-        onChange: Function as PropType<(val: any) => void>,
         value: {
+            type: [
+                String,
+                Number,
+                Boolean,
+                Array,
+                Object,
+                Date,
+                Function,
+                Symbol,
+            ],
+            default: undefined,
+        },
+        defaultValue: {
             type: [
                 String,
                 Number,
@@ -154,8 +167,8 @@ const MixedSetterView = defineComponent({
 
             return createSetterContent(currentSetter.setter, {
                 field,
-                ...setterProps,
                 ...restProps,
+                ...setterProps,
                 ...extraProps,
             });
         };

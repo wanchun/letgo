@@ -1,5 +1,6 @@
 import { defineComponent, computed, PropType } from 'vue';
 import { Setter } from '@webank/letgo-types';
+import { isUndefined } from 'lodash-es';
 import { FRadioGroup, FRadio } from '@fesjs/fes-design';
 import { commonProps } from '../../common/setter-props';
 
@@ -30,7 +31,11 @@ const RadioGroupSetterView = defineComponent({
         return () => {
             return (
                 <FRadioGroup
-                    modelValue={props.value}
+                    modelValue={
+                        isUndefined(props.value)
+                            ? props.defaultValue
+                            : props.value
+                    }
                     onChange={(val: any) => props.onChange(val)}
                 >
                     {options.value.map((item) => {

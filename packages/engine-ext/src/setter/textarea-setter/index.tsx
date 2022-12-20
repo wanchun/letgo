@@ -1,5 +1,6 @@
 import { defineComponent, onMounted } from 'vue';
 import { Setter } from '@webank/letgo-types';
+import { isUndefined } from 'lodash-es';
 import { FInput } from '@fesjs/fes-design';
 import { commonProps } from '../../common/setter-props';
 
@@ -18,7 +19,11 @@ const TextareaSetterView = defineComponent({
             return (
                 <FInput
                     type="textarea"
-                    modelValue={props.value}
+                    modelValue={
+                        isUndefined(props.value)
+                            ? props.defaultValue
+                            : props.value
+                    }
                     placeholder={props.placeholder || ''}
                     onInput={(val: any) => props.onChange(val)}
                     style={{ width: '100%' }}

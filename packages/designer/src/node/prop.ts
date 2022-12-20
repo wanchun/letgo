@@ -144,9 +144,6 @@ export class Prop implements IPropParent {
 
     export(stage: TransformStage = TransformStage.Save): CompositeValue {
         const type = this._type.value;
-        if (stage === TransformStage.Render) {
-            return this._value.value;
-        }
 
         if (type === 'unset') {
             return undefined;

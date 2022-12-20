@@ -1,6 +1,7 @@
 import { h, defineComponent, PropType, computed } from 'vue';
 import { CustomView, isSetterConfig } from '@webank/letgo-types';
 import { VNode, createVNode } from 'vue';
+import { isFunction } from 'lodash-es';
 import { IFieldProps, FieldView, PlainFieldView } from './fields';
 import { SettingField } from './setting-field';
 import { SetterFactory } from './setter-manager';
@@ -166,7 +167,9 @@ export const SettingFieldView = defineComponent({
                 node: field.top.getNode(),
                 key: field.id,
                 value,
-                defaultValue: defaultValue,
+                defaultValue: isFunction(defaultValue)
+                    ? defaultValue(field)
+                    : defaultValue,
                 onChange: (value: any) => {
                     field.setValue(value, true);
                 },

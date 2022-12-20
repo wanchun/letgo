@@ -1,6 +1,7 @@
 import { defineComponent, onMounted } from 'vue';
 import { Setter } from '@webank/letgo-types';
 import { FSwitch } from '@fesjs/fes-design';
+import { isUndefined } from 'lodash-es';
 import { commonProps } from '../../common/setter-props';
 
 const BoolSetterView = defineComponent({
@@ -17,7 +18,11 @@ const BoolSetterView = defineComponent({
         return () => {
             return (
                 <FSwitch
-                    modelValue={props.value}
+                    modelValue={
+                        isUndefined(props.value)
+                            ? props.defaultValue
+                            : props.value
+                    }
                     onChange={(val: any) => props.onChange(val)}
                 />
             );

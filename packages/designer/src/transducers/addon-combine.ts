@@ -92,7 +92,7 @@ export default function (
             title: '事件',
             items: [
                 {
-                    name: '__events',
+                    name: '___events___',
                     title: '事件设置',
                     setter: {
                         componentName: 'EventSetter',
@@ -139,7 +139,7 @@ export default function (
     if (!isRoot) {
         if (supports.condition !== false) {
             advancedGroup.push({
-                name: 'condition',
+                name: '___condition___',
                 title: '是否渲染',
                 defaultValue: true,
                 setter: [
@@ -161,7 +161,7 @@ export default function (
                 title: '循环',
                 items: [
                     {
-                        name: 'loop',
+                        name: '___loop___',
                         title: '循环数据',
                         setter: [
                             {
@@ -181,7 +181,7 @@ export default function (
                         ],
                     },
                     {
-                        name: 'loopArgs.0',
+                        name: '___loopArgs___.0',
                         title: '迭代变量名',
                         setter: {
                             componentName: 'StringSetter',
@@ -191,7 +191,7 @@ export default function (
                         },
                     },
                     {
-                        name: 'loopArgs.1',
+                        name: '___loopArgs___.1',
                         title: '索引变量名',
                         setter: {
                             componentName: 'StringSetter',

@@ -1586,12 +1586,12 @@ const assets: AssetsJson = {
                         props: {
                             options: [
                                 {
-                                    value: '1',
-                                    label: '是',
+                                    value: 'HuBei',
+                                    label: '湖北省',
                                 },
                                 {
-                                    value: '2',
-                                    label: '不是',
+                                    value: 'GuangDong',
+                                    label: '广东省',
                                 },
                             ],
                         },

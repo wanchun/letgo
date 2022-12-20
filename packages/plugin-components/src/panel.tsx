@@ -7,7 +7,6 @@ import {
     computed,
     onBeforeMount,
     onUnmounted,
-    Fragment,
 } from 'vue';
 import {
     FInput,
@@ -16,6 +15,7 @@ import {
     FGridItem,
     FTabPane,
     FTabs,
+    FScrollbar,
 } from '@fesjs/fes-design';
 import { SearchOutlined } from '@fesjs/fes-design/icon';
 import {
@@ -201,7 +201,7 @@ export default defineComponent({
 
         return () => {
             return (
-                <Fragment>
+                <FScrollbar>
                     <div class={searchCls}>
                         <FInput
                             placeholder="请输入"
@@ -225,7 +225,7 @@ export default defineComponent({
                             );
                         })}
                     </FTabs>
-                </Fragment>
+                </FScrollbar>
             );
         };
     },

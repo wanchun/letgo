@@ -11,6 +11,8 @@ export default defineComponent({
 
         onMounted(async () => {
             await init(containerRef.value, {
+                vueRuntimeUrl:
+                    'https://unpkg.com/vue/dist/vue.runtime.global.js',
                 simulatorUrl: [
                     `http://127.0.0.1:8082/index.umd.js`,
                     `http://127.0.0.1:8082/style.css`,

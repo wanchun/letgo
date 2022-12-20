@@ -23,6 +23,7 @@ import {
     hasOwnProperty,
     isElement,
 } from '@webank/letgo-utils';
+import { engineConfig } from '@webank/letgo-editor-core';
 import {
     ISimulator,
     NodeInstance,
@@ -79,12 +80,6 @@ const defaultEnvironment = [
     assetItem(
         AssetType.JSText,
         'window.__is_simulator_env__=true;window.__VUE_DEVTOOLS_GLOBAL_HOOK__=window.parent.__VUE_DEVTOOLS_GLOBAL_HOOK__;',
-    ),
-    assetItem(
-        AssetType.JSText,
-        'window.Vue=parent.Vue;window.Function=parent.Function',
-        undefined,
-        'vue',
     ),
 ];
 
@@ -213,6 +208,12 @@ export class Simulator implements ISimulator<SimulatorProps> {
             // required & use once
             assetBundle(
                 this.get('environment') || defaultEnvironment,
+                AssetLevel.Environment,
+            ),
+
+            assetBundle(
+                engineConfig.get('vueRuntimeUrl') ??
+                    'https://unpkg.com/vue/dist/vue.runtime.global.js',
                 AssetLevel.Environment,
             ),
 

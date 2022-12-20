@@ -1,6 +1,7 @@
 import { get as lodashGet, isPlainObject } from 'lodash-es';
 
 export interface EngineOptions {
+    vueRuntimeUrl?: string;
     /**
      * 设置 simulator 相关的 url
      */

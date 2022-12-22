@@ -35,7 +35,7 @@ html.engine-cursor-ew-resize * {
     border-radius: 5px;
 }
 
-.lc-container {
+.letgo-container {
     &:empty {
         display: flex;
         align-items: center;
@@ -59,7 +59,7 @@ html.engine-cursor-ew-resize * {
     }
 }
 
-.lc-container-placeholder {
+.letgo-container-placeholder {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -71,7 +71,7 @@ html.engine-cursor-ew-resize * {
     background-color: rgb(240 240 240);
     border: 1px dotted;
 
-    &.lc-container-locked {
+    &.letgo-container-locked {
         background: #eccfcf;
     }
 }

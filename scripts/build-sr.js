@@ -39,7 +39,7 @@ async function buildSimulator() {
     const pkgs = [
         {
             name: 'simulator-renderer',
-            exportName: 'LCVueSimulatorRenderer',
+            exportName: 'LETGO_SimulatorRenderer',
         },
     ];
     for (const pkg of pkgs) {

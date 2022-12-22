@@ -6,7 +6,8 @@ import { BASE_COMP_CONTEXT } from './constants';
 import { Hoc } from './buildin-components/hoc';
 import type { NodeSchema, ComponentInstance } from '@webank/letgo-types';
 
-export const Layout = defineComponent({
+const LayoutView = defineComponent({
+    name: 'LayoutView',
     props: {
         simulator: {
             type: Object as PropType<VueSimulatorRenderer>,
@@ -40,6 +41,7 @@ export const Layout = defineComponent({
 });
 
 export const SimulatorRendererView = defineComponent({
+    name: 'SimulatorRendererView',
     props: {
         simulator: {
             type: Object as PropType<VueSimulatorRenderer>,
@@ -48,11 +50,12 @@ export const SimulatorRendererView = defineComponent({
     },
     render() {
         const { simulator } = this;
-        return h(Layout, { simulator }, { default: () => h(RouterView) });
+        return h(LayoutView, { simulator }, { default: () => h(RouterView) });
     },
 });
 
-export const Renderer = defineComponent({
+export const RendererView = defineComponent({
+    name: 'RendererView',
     props: {
         simulator: {
             type: Object as PropType<VueSimulatorRenderer>,

@@ -1,16 +1,18 @@
 import { Component } from 'vue';
 import { NodeSchema } from '@webank/letgo-types';
-import { NodeInstance, ComponentInstance } from '../types';
+import { NodeInstance, InnerComponentInstance } from '../types';
 
 export interface ISimulatorRenderer {
     readonly isSimulatorRenderer: true;
     createComponent(schema: NodeSchema): Component | null;
     getComponent(componentName: string): Component;
     getClosestNodeInstance(
-        from: ComponentInstance,
+        from: InnerComponentInstance,
         nodeId?: string,
-    ): NodeInstance<ComponentInstance> | null;
-    findDOMNodes(instance: ComponentInstance): Array<Element | Text> | null;
+    ): NodeInstance<InnerComponentInstance> | null;
+    findDOMNodes(
+        instance: InnerComponentInstance,
+    ): Array<Element | Text> | null;
     getClientRects(element: Element | Text): DOMRect[];
     setNativeSelection(enableFlag: boolean): void;
     setDraggingState(state: boolean): void;

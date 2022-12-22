@@ -4,7 +4,7 @@ import { warn } from './utils';
 const win = window as any;
 
 if (typeof win !== 'undefined') {
-    win.SimulatorRenderer = simulator;
+    win.LETGO_SimulatorRenderer = simulator;
 }
 
 win.addEventListener('load', () => {
@@ -17,7 +17,7 @@ win.addEventListener('load', () => {
 
 win.addEventListener('beforeunload', () => {
     win.LETGO_Simulator = null;
-    win.SimulatorRenderer = null;
+    win.LETGO_SimulatorRenderer = null;
     simulator.dispose();
 });
 

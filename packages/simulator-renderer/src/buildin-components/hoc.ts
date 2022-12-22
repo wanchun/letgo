@@ -34,7 +34,7 @@ const decorateDefaultSlot = (slot: Slot): Slot => {
         const vNodes = slot(...args);
         if (!vNodes.length) {
             const className = {
-                'lc-container-placeholder': true,
+                'letgo-container-placeholder': true,
             };
             const placeholder = '拖拽组件或模板到这里';
             vNodes.push(h('div', { class: className }, placeholder));

@@ -1,4 +1,4 @@
-import { Component, DefineComponent, ConcreteComponent, Slot } from 'vue';
+import { Component, Slot } from 'vue';
 import { SettingTarget } from './setting-target';
 
 export interface Setter {
@@ -13,7 +13,7 @@ export interface Setter {
     /**
      * 设置器组件
      */
-    Component: Component | DefineComponent | ConcreteComponent;
+    Component: Component;
     /**
      * 给 MixedSetter 用于判断优先选中哪个
      */

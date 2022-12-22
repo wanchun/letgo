@@ -2,7 +2,7 @@ import { defineComponent, h } from 'vue';
 
 const Slot = defineComponent({
     render() {
-        return h('div', { class: 'lc-container' }, this.$slots);
+        return h('div', { class: 'letgo-container' }, this.$slots);
     },
 });
 

@@ -29,8 +29,12 @@ export class ComponentRecord implements IComponentRecord {
     constructor(public did: string, public nid: string, public cid: number) {}
 }
 
-export function isVNodeHTMLElement(el: unknown) {
-    return isObject(el) && isNil((el as VNodeHTMLElement).__vueParentComponent);
+export function isVNodeHTMLElement(el: unknown): el is VNodeHTMLElement {
+    return (
+        isObject(el) &&
+        '__vueParentComponent' in el &&
+        !isNil(el.__vueParentComponent)
+    );
 }
 
 export function isCompRootHTMLElement(

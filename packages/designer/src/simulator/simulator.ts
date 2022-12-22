@@ -29,7 +29,7 @@ import {
     NodeInstance,
     DropContainer,
     ParentalNode,
-    ComponentInstance,
+    InnerComponentInstance,
 } from '../types';
 import { Project } from '../project';
 import {
@@ -665,7 +665,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
         const document = this.project.currentDocument.value;
         const { focusNode } = document;
         let container: Node;
-        let nodeInstance: NodeInstance<ComponentInstance> | undefined;
+        let nodeInstance: NodeInstance<InnerComponentInstance> | undefined;
 
         if (target) {
             const ref = this.getNodeInstanceFromElement(target);
@@ -774,7 +774,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
     }
 
     private instancesMapRef: ShallowRef<{
-        [docId: string]: Map<string, ComponentInstance[]>;
+        [docId: string]: Map<string, InnerComponentInstance[]>;
     }> = shallowRef({});
 
     /**
@@ -783,7 +783,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
     setInstance(
         docId: string,
         id: string,
-        instances: ComponentInstance[] | null,
+        instances: InnerComponentInstance[] | null,
     ) {
         const instancesMap = this.instancesMapRef.value;
         if (!hasOwnProperty(instancesMap, docId)) {
@@ -803,7 +803,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
     getComponentInstances(
         node: Node,
         context?: NodeInstance,
-    ): ComponentInstance[] | null {
+    ): InnerComponentInstance[] | null {
         const docId = node.document.id;
 
         const instances =
@@ -847,7 +847,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
      */
     getNodeInstanceFromElement(
         target: Element | null,
-    ): NodeInstance<ComponentInstance> | null {
+    ): NodeInstance<InnerComponentInstance> | null {
         if (!target) {
             return null;
         }
@@ -869,9 +869,9 @@ export class Simulator implements ISimulator<SimulatorProps> {
      * @see ISimulator
      */
     getClosestNodeInstance(
-        from: ComponentInstance,
+        from: InnerComponentInstance,
         specId?: string,
-    ): NodeInstance<ComponentInstance> | null {
+    ): NodeInstance<InnerComponentInstance> | null {
         return this.renderer?.getClosestNodeInstance(from, specId) || null;
     }
 
@@ -879,7 +879,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
      * @see ISimulator
      */
     findDOMNodes(
-        instance: ComponentInstance,
+        instance: InnerComponentInstance,
         selector?: string,
     ): Array<Element | Text> | null {
         const elements = this._renderer?.findDOMNodes(instance);
@@ -901,7 +901,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
      * @see ISimulator
      */
     computeComponentInstanceRect(
-        instance: ComponentInstance,
+        instance: InnerComponentInstance,
         selector?: string,
     ): Rect | null {
         const renderer = this.renderer;

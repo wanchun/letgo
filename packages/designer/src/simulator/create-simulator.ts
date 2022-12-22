@@ -110,12 +110,12 @@ export function createSimulator(
     doc.close();
 
     return new Promise((resolve) => {
-        const renderer = win.SimulatorRenderer || simulator.renderer;
+        const renderer = win.LETGO_SimulatorRenderer || simulator.renderer;
         if (renderer) {
             return resolve(renderer);
         }
         const loaded = () => {
-            resolve(win.SimulatorRenderer || simulator.renderer);
+            resolve(win.LETGO_SimulatorRenderer || simulator.renderer);
             win.removeEventListener('load', loaded);
         };
         win.addEventListener('load', loaded);

@@ -1,6 +1,6 @@
 import { DocumentModel } from '@webank/letgo-designer';
 import { TransformStage, ComponentInstance } from '@webank/letgo-types';
-import { cursor, setNativeSelection } from '@webank/letgo-utils';
+import { cursor, setNativeSelection, isElement } from '@webank/letgo-utils';
 import {
     Ref,
     Component,
@@ -21,7 +21,7 @@ import {
     SimulatorViewLayout,
     VueSimulatorRenderer,
 } from './interface';
-import { Renderer, SimulatorRendererView } from './simulator-view';
+import { RendererView, SimulatorRendererView } from './simulator-view';
 import { Slot, Leaf, Page } from './buildin-components';
 import { host } from './host';
 import {
@@ -161,21 +161,8 @@ function createSimulatorRenderer() {
     const components: Ref<Record<string, Component>> = shallowRef({});
     const componentsMap: Ref<Record<string, MixedComponent>> = shallowRef({});
     const documentInstances: Ref<DocumentInstance[]> = shallowRef([]);
-
     const disposeFunctions: Array<() => void> = [];
-
     const documentInstanceMap = new Map<string, DocumentInstance>();
-
-    function _buildComponents() {
-        components.value = {
-            ...builtinComponents,
-            ...buildComponents(
-                libraryMap.value,
-                componentsMap.value,
-                simulator.createComponent,
-            ),
-        };
-    }
 
     const simulator = reactive({
         config: markRaw(config),
@@ -191,6 +178,7 @@ function createSimulatorRenderer() {
     }) as VueSimulatorRenderer;
 
     simulator.app = markRaw(createApp(SimulatorRendererView, { simulator }));
+
     simulator.router = markRaw(
         createRouter({
             history: createMemoryHistory('/'),
@@ -214,9 +202,9 @@ function createSimulatorRenderer() {
         return null!;
     };
 
-    simulator.getClosestNodeInstance = (el, specId) => {
-        if (isComponentRecord(el)) {
-            const { cid, did } = el;
+    simulator.getClosestNodeInstance = (ins, specId) => {
+        if (isComponentRecord(ins)) {
+            const { cid, did } = ins;
             const documentInstance = documentInstanceMap.get(did);
             const instance =
                 documentInstance?.getComponentInstance(cid) ?? null;
@@ -225,7 +213,9 @@ function createSimulatorRenderer() {
                 getClosestNodeInstanceByComponent(instance.$, specId)
             );
         }
-        return getClosestNodeInstance(el, specId);
+        if (isElement(ins)) {
+            return getClosestNodeInstance(ins, specId);
+        }
     };
 
     simulator.findDOMNodes = (instance: ComponentRecord) => {
@@ -239,17 +229,25 @@ function createSimulatorRenderer() {
     };
 
     simulator.getClientRects = (element) => getClientRects(element);
+
     simulator.setNativeSelection = (enable) => setNativeSelection(enable);
+
     simulator.setDraggingState = (state) => cursor.setDragging(state);
+
     simulator.setCopyState = (state) => cursor.setCopy(state);
+
     simulator.clearState = () => cursor.release();
+
     simulator.createComponent = () => null;
+
     simulator.rerender = () =>
         documentInstances.value.forEach((doc) => doc.rerender());
+
     simulator.dispose = () => {
         simulator.app.unmount();
         disposeFunctions.forEach((fn) => fn());
     };
+
     simulator.getCurrentDocument = () => {
         const crr = host.project.currentDocument.value;
         const docs = documentInstances.value;
@@ -273,13 +271,22 @@ function createSimulatorRenderer() {
         host.designer.setRendererReady(simulator);
     };
 
+    host.connect(simulator);
+
     const syncHostProps = () => {
         layout.value = host.project.get('config').layout;
 
         libraryMap.value = host.libraryMap || {};
         componentsMap.value = host.designer.componentsMap;
 
-        _buildComponents();
+        components.value = {
+            ...builtinComponents,
+            ...buildComponents(
+                libraryMap.value,
+                componentsMap.value,
+                simulator.createComponent,
+            ),
+        };
 
         // sync device
         device.value = host.device.value;
@@ -287,7 +294,7 @@ function createSimulatorRenderer() {
         // sync designMode
         designMode.value = host.designMode.value;
     };
-    host.connect(simulator);
+
     syncHostProps();
 
     const initDocument = () => {
@@ -300,7 +307,7 @@ function createSimulatorRenderer() {
                 router.addRoute({
                     name: documentInstance.id,
                     path: documentInstance.path,
-                    component: Renderer,
+                    component: RendererView,
                     props: () => ({
                         key: documentInstance?.key,
                         documentInstance,

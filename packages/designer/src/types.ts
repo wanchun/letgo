@@ -9,7 +9,7 @@ import { DocumentModel } from './document';
 import { ScrollTarget, LocateEvent, DropLocation } from './designer';
 import { ISimulatorRenderer } from './simulator';
 
-export type ComponentInstance = IComponentRecord;
+export type InnerComponentInstance = IComponentRecord | Element;
 
 export type GetDataType<T, NodeType> = T extends undefined
     ? NodeType extends {
@@ -38,7 +38,7 @@ export function isDocumentModel(obj: any): obj is DocumentModel {
     return obj && obj.rootNode;
 }
 
-export interface NodeInstance<T = ComponentInstance> {
+export interface NodeInstance<T = InnerComponentInstance> {
     docId: string;
     nodeId: string;
     instance: T;
@@ -47,12 +47,12 @@ export interface NodeInstance<T = ComponentInstance> {
 
 export interface DropContainer {
     container: ParentalNode;
-    instance: ComponentInstance;
+    instance: InnerComponentInstance;
 }
 
 export interface INodeSelector {
     node: Node;
-    instance?: ComponentInstance;
+    instance?: InnerComponentInstance;
 }
 
 export interface ISensor {
@@ -107,13 +107,13 @@ export interface ISimulator<P = object> extends ISensor {
     setInstance(
         docId: string,
         id: string,
-        instances: ComponentInstance[] | null,
+        instances: InnerComponentInstance[] | null,
     ): void;
     /**
      * 在组件实例上寻找子组件实例
      */
     getClosestNodeInstance(
-        from: ComponentInstance,
+        from: InnerComponentInstance,
         specId?: string,
     ): NodeInstance | null;
     /**
@@ -121,11 +121,11 @@ export interface ISimulator<P = object> extends ISensor {
      */
     getNodeInstanceFromElement(
         e: Element | null,
-    ): NodeInstance<ComponentInstance> | null;
+    ): NodeInstance<InnerComponentInstance> | null;
     /**
      * 根据节点获取节点的组件实例
      */
-    getComponentInstances(node: Node): ComponentInstance[] | null;
+    getComponentInstances(node: Node): InnerComponentInstance[] | null;
     /**
      * 查找合适的投放容器
      */
@@ -134,14 +134,14 @@ export interface ISimulator<P = object> extends ISensor {
      * 查找节点的 dom
      */
     findDOMNodes(
-        instance: ComponentInstance,
+        instance: InnerComponentInstance,
         selector?: string,
     ): Array<Element | Text> | null;
     /**
      * 计算节点位置
      */
     computeComponentInstanceRect(
-        instance: ComponentInstance,
+        instance: InnerComponentInstance,
         selector?: string,
     ): DOMRect | null;
 }

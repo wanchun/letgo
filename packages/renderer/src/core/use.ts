@@ -494,8 +494,8 @@ export const buildSlots = (
                 });
             } else if (isJSSlot(slotSchema)) {
                 // 不存在 slot id，插槽不可拖拽编辑，直接渲染插槽内容
-                const slotParams = slotSchema.value.args ?? [];
-                ensureArray(slotSchema.value.components).forEach((item) => {
+                const slotParams = slotSchema.params ?? [];
+                ensureArray(slotSchema.value).forEach((item) => {
                     const vNode = render(item, [
                         blockScope,
                         parseSlotScope(args, slotParams),

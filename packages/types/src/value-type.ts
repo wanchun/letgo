@@ -45,17 +45,15 @@ export interface JSSlot {
     /**
      * 具体的值。
      */
-    value: {
-        /**
-         * 插槽名称
-         */
-        name?: string;
-        /**
-         * 插槽参数
-         */
-        args?: string[];
-        components: NodeSchema[];
-    };
+    value: NodeSchema[];
+    /**
+     * 插槽名称
+     */
+    name?: string;
+    /**
+     * 插槽参数
+     */
+    params?: string[];
 }
 
 /**

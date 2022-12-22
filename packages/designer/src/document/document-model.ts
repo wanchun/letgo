@@ -213,8 +213,8 @@ export class DocumentModel {
             };
         } else if (isJSSlot(data)) {
             schema = data.value;
-            option.slotArgs = data.value.args;
-            option.slotName = data.value.name;
+            option.slotArgs = data.params;
+            option.slotName = data.name;
         } else {
             schema = data;
         }

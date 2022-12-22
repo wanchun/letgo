@@ -4,12 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node scripts/build.js --watch --esm --types",
-    "build:esm": "NODE_ENV=production node scripts/build.js --esm",
-    "build": "NODE_ENV=production node scripts/build.js --esm --types",
-    "dev:sr": "NODE_ENV=production node scripts/build-sr.js --watch & http-server packages/simulator-renderer/lib --cors -p 8082",
-    "build:sr": "node scripts/build-sr.js",
-    "clear": "node scripts/clear.js"
+    "esm": "node scripts/build.js --watch --esm --types",
+    "sr:dev": "node scripts/build-sr.js --watch",
+    "sr:server": "http-server packages/simulator-renderer/lib --cors -p 8082",
+    "sr": "npm-run-all -p sr:dev sr:server",
+    "build:esm": "cross-env NODE_ENV=production node scripts/build.js --esm --types",
+    "build:sr": "cross-env NODE_ENV=production node scripts/build-sr.js",
+    "build": "cross-env NODE_ENV=production npm-run-all -s build:esm build:sr",
+    "clear": "node scripts/clear.js",
+    "tpl": "cd packages/template & npm run dev"
   },
   "repository": {
     "type": "git",
@@ -19,6 +22,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "npm-run-all": "4.1.5",
+    "cross-env": "7.0.3",
     "@babel/core": "^7.19.6",
     "@babel/plugin-transform-runtime": "^7.19.6",
     "@babel/preset-env": "^7.19.4",

@@ -73,10 +73,10 @@ function compileDOMText(domText: DOMText) {
 
 function compileJsSlot(slot: JSSlot): string {
     const slotContent = slot.value;
-    return `<template ${slotContent.name ? `#${slotContent.name}` : ''}${
-        slotContent.args ? `="${slotContent.args.join(', ')}"` : ''
+    return `<template ${slot.name ? `#${slot.name}` : ''}${
+        slot.params ? `="${slot.params.join(', ')}"` : ''
     }>
-    ${slotContent.components.map(compileNodeSchema).join('\n')}
+    ${slotContent.map(compileNodeSchema).join('\n')}
     </template>`;
 }
 

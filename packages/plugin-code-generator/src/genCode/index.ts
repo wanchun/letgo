@@ -43,7 +43,7 @@ function getUseComponentNames(
                 getUseComponentNames(item.children, componentNames);
             }
         } else if (isJSSlot(item)) {
-            getUseComponentNames(item.value.components, componentNames);
+            getUseComponentNames(item.value, componentNames);
         }
     });
     return componentNames;

@@ -10,12 +10,16 @@ const {
     getNeedCompileTypePkg,
 } = require('./build-shard');
 const { watch } = require('./watch');
+const winPath = require('./win-path');
 
 async function genType(sourceFile) {
     const emitOutput = sourceFile.getEmitOutput();
 
     for (const outputFile of emitOutput.getOutputFiles()) {
-        const filePath = outputFile.getFilePath().replace('/es/src', '/es');
+        const filePath = outputFile
+            .getFilePath()
+            .replace('/es/src', '/es')
+            .replace('\\es\\src', '\\es');
 
         await fs.promises.mkdir(path.dirname(filePath), {
             recursive: true,
@@ -25,7 +29,10 @@ async function genType(sourceFile) {
 }
 
 function isTypeChange(filePath) {
-    const typePath = filePath.replace('src/', 'es/').replace('.ts', '.d.ts');
+    const typePath = filePath
+        .replace('src/', 'es/')
+        .replace('src\\', 'es\\')
+        .replace('.ts', '.d.ts');
     return isFileChange(filePath, typePath);
 }
 
@@ -92,7 +99,7 @@ async function buildTypes() {
     if (isWatch()) {
         watch(async (filePath) => {
             const wFilePath = 'packages' + filePath.split('packages')[1];
-            const pkg = filePath.split('packages/')[1].split('/')[0];
+            const pkg = winPath(filePath).split('packages/')[1].split('/')[0];
             const project = projects[pkg];
             let sourceFile = project.sourceFiles[wFilePath];
             if (sourceFile) {

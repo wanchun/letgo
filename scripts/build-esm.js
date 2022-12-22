@@ -13,14 +13,21 @@ const {
 const compiler = require('./compiler-js');
 const { compilerCss } = require('./compiler-css');
 const { watch } = require('./watch');
+const winPath = require('./win-path');
 
 function isScriptFileChange(filePath) {
-    const jsPath = filePath.replace('src/', 'es/').replace(/.ts[x]?$/, '.js');
+    const jsPath = filePath
+        .replace('src/', 'es/')
+        .replace('src\\', 'es\\')
+        .replace(/.ts[x]?$/, '.js');
     return isFileChange(filePath, jsPath);
 }
 
 function isCssFileChange(filePath) {
-    const cssPath = filePath.replace('src/', 'es/').replace(/.less$/, '.css');
+    const cssPath = filePath
+        .replace('src/', 'es/')
+        .replace('src\\', 'es\\')
+        .replace(/.less$/, '.css');
     return isFileChange(filePath, cssPath);
 }
 
@@ -91,7 +98,7 @@ async function buildEsm() {
                 const extname = path.extname(rawFilePath);
                 if (['.css', '.ts', '.tsx'].includes(extname)) {
                     console.log(
-                        chalk.dim(rawFilePath.split('/letgo')[1]),
+                        chalk.dim(winPath(rawFilePath).split('/letgo')[1]),
                         chalk.blue('updated'),
                     );
                 }

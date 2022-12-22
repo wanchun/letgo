@@ -46,7 +46,10 @@ function getNeedCompileTypePkg() {
 }
 
 function getOutputDirFromFilePath(filePath) {
-    return path.dirname(filePath).replace('/src', '/es');
+    return path
+        .dirname(filePath)
+        .replace('/src', '/es')
+        .replace('\\src', '\\es');
 }
 
 function isFileChange(from, to) {

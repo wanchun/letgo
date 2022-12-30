@@ -99,7 +99,7 @@ export const genSlots = (components: NodeData[]) => {
     };
     ensureArray(components).forEach((children) => {
         if (isJSSlot(children)) {
-            slotProps[children.value.name] = children;
+            slotProps[children.name] = children;
         } else {
             slotProps.default.push(children);
         }
@@ -504,6 +504,11 @@ export const buildSlots = (
                         vNodes.push(vNode);
                     }
                 });
+            } else {
+                const vNode = render(slotSchema, blockScope);
+                if (vNode) {
+                    vNodes.push(vNode);
+                }
             }
             return vNodes;
         };

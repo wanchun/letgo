@@ -71,7 +71,7 @@ export type PropsList = Array<{
     value: CompositeValue;
 }>;
 
-export type NodeData = NodeSchema | JSSlot | JSExpression | DOMText;
+export type NodeData = NodeSchema | JSExpression | DOMText;
 export type NodeDataType = NodeData | NodeData[];
 
 export function isDOMText(data: any): data is DOMText {
@@ -127,10 +127,16 @@ export interface BlockSchema extends ContainerSchema {
     componentName: 'Block';
 }
 
+export type RootSchema = PageSchema | ComponentSchema | BlockSchema;
+
 /**
- * @todo
+ * Slot schema 描述
  */
-export type RootSchema = PageSchema | ComponentSchema;
+export interface SlotSchema extends NodeSchema {
+    componentName: 'Slot';
+    name?: string;
+    params?: string[];
+}
 
 /**
  * 应用描述

@@ -76,7 +76,9 @@ function compileJsSlot(slot: JSSlot): string {
     return `<template ${slot.name ? `#${slot.name}` : ''}${
         slot.params ? `="${slot.params.join(', ')}"` : ''
     }>
-    ${slotContent.map(compileNodeSchema).join('\n')}
+    ${(!isArray(slotContent) ? [slotContent] : slotContent)
+        .map(compileNodeSchema)
+        .join('\n')}
     </template>`;
 }
 

@@ -5,6 +5,8 @@ import {
     isJSExpression,
     GlobalEvent,
     TransformStage,
+    JSSlot,
+    SlotSchema,
 } from '@webank/letgo-types';
 import { uniqueId } from '@webank/letgo-utils';
 import { computed, shallowRef, ShallowRef, ComputedRef, triggerRef } from 'vue';
@@ -183,6 +185,8 @@ export class Prop implements IPropParent {
         return this._value.value;
     }
 
+    setAsSlot(data: JSSlot) {}
+
     getValue(): CompositeValue {
         return this.export(TransformStage.Serialize);
     }
@@ -199,6 +203,7 @@ export class Prop implements IPropParent {
         const editor = this.owner.document?.designer.editor;
         const oldValue = this._value.value;
         this._value.value = val;
+        this._code = null;
         const t = typeof val;
         if (val == null) {
             this._type.value = 'literal';
@@ -208,7 +213,7 @@ export class Prop implements IPropParent {
             this._type.value = 'list';
         } else if (isPlainObject(val)) {
             if (isJSSlot(val)) {
-                // TODO
+                this.setAsSlot(val);
             } else if (isJSExpression(val)) {
                 this._type.value = 'expression';
             } else if (isJSFunction(val)) {

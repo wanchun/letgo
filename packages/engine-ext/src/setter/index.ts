@@ -10,3 +10,4 @@ export * from './event-setter';
 export * from './textarea-setter';
 export * from './object-setter';
 export * from './array-setter';
+export * from './slot-setter';

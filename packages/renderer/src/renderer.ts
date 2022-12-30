@@ -31,6 +31,8 @@ const Renderer = defineComponent({
             ...props.components,
         }));
 
+        console.log('componentsRef:', componentsRef);
+
         const renderContent = () => {
             const { value: components } = componentsRef;
             const { schema } = props;

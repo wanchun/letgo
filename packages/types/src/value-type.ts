@@ -45,7 +45,7 @@ export interface JSSlot {
     /**
      * 具体的值。
      */
-    value: NodeSchema[];
+    value: NodeSchema | NodeSchema[];
     /**
      * 插槽名称
      */

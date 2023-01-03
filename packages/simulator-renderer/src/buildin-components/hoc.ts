@@ -1,4 +1,4 @@
-import { set, isNil } from 'lodash-es';
+import { isNil } from 'lodash-es';
 import {
     h,
     Fragment,
@@ -13,7 +13,6 @@ import {
     BlockScope,
     leafProps,
     useLeaf,
-    genSlots,
     buildSchema,
     buildProps,
     buildLoop,
@@ -26,6 +25,7 @@ import {
     isJSSlot,
 } from '@webank/letgo-types';
 import { BASE_COMP_CONTEXT } from '../constants';
+import type { SlotNode } from '@webank/letgo-designer';
 import type { SlotSchemaMap } from '@webank/letgo-renderer';
 
 /**
@@ -84,9 +84,10 @@ export const Hoc = defineComponent({
         const compSlots: SlotSchemaMap = reactive({
             default: [],
         });
+
         const result = buildSchema(props);
 
-        Object.entries(props ?? {}).forEach(([key, val]) => {
+        Object.entries(props.schema.props ?? {}).forEach(([key, val]) => {
             if (isJSSlot(val)) {
                 // 处理具名插槽
                 const prop = node?.getProp(key);
@@ -112,34 +113,61 @@ export const Hoc = defineComponent({
             disposeFunctions.push(
                 node.onChildrenChange(() => {
                     const schema = node.export(TransformStage.Render);
-                    Object.assign(compSlots, genSlots(schema.children));
+                    compSlots.default = ensureArray(schema.children);
                 }),
             );
             disposeFunctions.push(
                 node.onPropChange((info) => {
-                    const { key, prop, newValue } = info;
-                    if (key === '___condition___') {
-                        // 条件渲染更新 v-if
-                        condition(newValue);
-                    } else if (key === 'children') {
-                        // 默认插槽更新
-                        if (!isNil(newValue)) {
-                            compSlots.default = ensureArray(newValue);
+                    const { key, prop, newValue, oldValue } = info;
+
+                    const isRootProp = prop.path.length === 1;
+                    /** 根属性的 key 值 */
+                    const rootPropKey: string = prop.path[0];
+
+                    if (isRootProp && key) {
+                        if (key === '___condition___') {
+                            // 条件渲染更新 v-if
+                            condition(newValue);
+                        } else if (key === '___loop___') {
+                            // 循环数据更新 v-for
+                            updateLoop(newValue);
+                        } else if (key === '___loopArgs___') {
+                            // 循环参数初始化 (item, index)
+                            updateLoopArg(newValue);
+                        } else if (key === 'children') {
+                            // 默认插槽更新
+                            if (isJSSlot(newValue)) {
+                                const slotNode: SlotNode = prop.slotNode;
+                                const schema = slotNode.export(
+                                    TransformStage.Render,
+                                );
+                                compSlots.default = schema;
+                            }
+                            if (!isNil(newValue)) {
+                                compSlots.default = ensureArray(newValue);
+                            } else {
+                                delete compSlots.default;
+                            }
+                        } else if (isJSSlot(newValue)) {
+                            // 具名插槽更新
+                            const slotNode: SlotNode = prop.slotNode;
+                            const schema = slotNode.export(
+                                TransformStage.Render,
+                            );
+                            compSlots[key] = schema;
+                        } else if (isNil(newValue) && isJSSlot(oldValue)) {
+                            // 具名插槽移除
+                            delete compSlots[key];
                         } else {
-                            delete compSlots.default;
+                            // 普通根属性更新
+                            compProps[key] = newValue;
                         }
-                    } else if (key === '___loop___') {
-                        // 循环数据更新 v-for
-                        updateLoop(newValue);
-                    } else if (key === '___loopArgs___') {
-                        // 循环参数初始化 (item, index)
-                        updateLoopArg(newValue);
-                    } else if (prop.path[0] === '___loopArgs___') {
+                    } else if (rootPropKey === '___loopArgs___') {
                         // 循环参数初始化 (item, index)
                         updateLoopArg(newValue, key);
-                    } else if (prop.path) {
-                        // 普通属性更新
-                        set(compProps, prop.path, newValue);
+                    } else if (rootPropKey) {
+                        // 普通非根属性更新
+                        compProps[rootPropKey] = node.getPropValue(rootPropKey);
                     }
                 }),
             );

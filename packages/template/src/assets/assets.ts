@@ -1386,6 +1386,11 @@ const assets: AssetsJson = {
                         title: '是否显示密码图标',
                         setter: 'BoolSetter',
                     },
+                    {
+                        name: 'prefix',
+                        title: '前缀',
+                        setter: 'SlotSetter',
+                    },
                 ],
                 supports: {
                     events: [

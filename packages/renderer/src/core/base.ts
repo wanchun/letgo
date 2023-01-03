@@ -4,8 +4,7 @@ import type {
     NodeSchema,
     RootSchema,
     NodeData,
-    JSExpression,
-    DOMText,
+    SlotSchema,
 } from '@webank/letgo-types';
 
 export const rendererProps = {
@@ -63,8 +62,9 @@ export type LeafComponent = {
 };
 
 export type SlotSchemaMap = {
-    default: RenderNode[];
-    [x: string]: NodeData | NodeData[] | undefined;
+    [x: string]: SlotSchema | NodeData[] | undefined;
 };
 
-export type RenderNode = NodeSchema | JSExpression | DOMText;
+export type PropSchemaMap = {
+    [x: string]: unknown;
+};

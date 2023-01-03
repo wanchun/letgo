@@ -27,13 +27,11 @@ import {
 import {
     NodeData,
     NodeSchema,
-    DOMText,
     JSFunction,
     CompositeValue,
     isJSFunction,
     isDOMText,
     isNodeSchema,
-    JSExpression,
     isJSExpression,
     isJSSlot,
 } from '@webank/letgo-types';
@@ -48,10 +46,10 @@ import {
     parseExpression,
 } from '../utils';
 import { MaybeArray, BlockScope, RuntimeScope } from '../utils';
-import { LeafProps, RendererProps } from './base';
+import { LeafProps, RendererProps, SlotSchemaMap, PropSchemaMap } from './base';
 import { Live } from './live';
 
-const LIFTCYCLES_MAP = {
+const LIFT_CYCLES_MAP = {
     beforeMount: onBeforeMount,
     mounted: onMounted,
     beforeUpdate: onBeforeUpdate,
@@ -63,20 +61,9 @@ const LIFTCYCLES_MAP = {
 
 export function isLifecycleKey(
     key: string,
-): key is keyof typeof LIFTCYCLES_MAP {
-    return key in LIFTCYCLES_MAP;
+): key is keyof typeof LIFT_CYCLES_MAP {
+    return key in LIFT_CYCLES_MAP;
 }
-
-export type SlotSchemaMap = {
-    default: RenderNode[] | NodeData[] | undefined;
-    [x: string]: NodeData | NodeData[] | undefined;
-};
-
-export type RenderNode = NodeSchema | JSExpression | DOMText;
-
-export type PropSchemaMap = {
-    [x: string]: unknown;
-};
 
 export function isNodeData(val: unknown): val is NodeData | NodeData[] {
     if (Array.isArray(val)) {
@@ -92,21 +79,6 @@ export function isVueComponent(val: unknown): val is Component {
     }
     return false;
 }
-
-export const genSlots = (components: NodeData[]) => {
-    const slotProps: SlotSchemaMap = {
-        default: [],
-    };
-    ensureArray(components).forEach((children) => {
-        if (isJSSlot(children)) {
-            slotProps[children.name] = children;
-        } else {
-            slotProps.default.push(children);
-        }
-    });
-
-    return slotProps;
-};
 
 /**
  * 渲染节点 vnode
@@ -124,7 +96,7 @@ const render = ({
     comp,
 }: {
     props: LeafProps;
-    schema: RenderNode;
+    schema: NodeData;
     base: Component;
     components: Record<string, Component>;
     blockScope?: MaybeArray<BlockScope | undefined | null>;
@@ -168,10 +140,23 @@ const render = ({
 export const buildSchema = (props: LeafProps) => {
     const { schema } = props;
 
-    const slotProps: SlotSchemaMap = genSlots(schema.children);
+    const slotProps: SlotSchemaMap = {};
     const normalProps: PropSchemaMap = {};
 
+    // 处理节点默认插槽，可能会被属性插槽覆盖
+    slotProps.default = ensureArray(schema.children);
+
     Object.entries(schema.props ?? {}).forEach(([key, val]) => {
+        if (isJSSlot(val)) {
+            if (val.value) {
+                // live 模式，直接获取 schema 值，若值为空则不渲染插槽
+                slotProps[key] = {
+                    componentName: 'Slot',
+                    params: val.params,
+                    children: val.value,
+                };
+            }
+        }
         if (key === 'className') {
             // 适配 react className
             normalProps.class = val;
@@ -472,7 +457,7 @@ export const buildShow = (scope: RuntimeScope, schema: NodeSchema) => {
  */
 export const buildSlots = (
     render: (
-        nodeSchema: RenderNode,
+        nodeSchema: NodeData,
         blockScope?: MaybeArray<BlockScope | undefined | null>,
         comp?: Component,
     ) => VNode | null,
@@ -487,28 +472,31 @@ export const buildSlots = (
             const vNodes: VNode[] = [];
             if (Array.isArray(slotSchema)) {
                 slotSchema.forEach((item) => {
-                    const vNode = render(item as RenderNode, blockScope);
+                    const vNode = render(item, blockScope);
                     if (vNode) {
                         vNodes.push(vNode);
                     }
                 });
-            } else if (isJSSlot(slotSchema)) {
+            } else if (slotSchema.id) {
+                // 存在 slot id，则当前插槽可拖拽编辑，渲染 Hoc
+                const vNode = render(slotSchema, [
+                    blockScope,
+                    parseSlotScope(args, slotSchema.params ?? []),
+                ]);
+                if (vNode) {
+                    vNodes.push(vNode);
+                }
+            } else {
                 // 不存在 slot id，插槽不可拖拽编辑，直接渲染插槽内容
-                const slotParams = slotSchema.params ?? [];
-                ensureArray(slotSchema.value).forEach((item) => {
+                ensureArray(slotSchema.children).forEach((item) => {
                     const vNode = render(item, [
                         blockScope,
-                        parseSlotScope(args, slotParams),
+                        parseSlotScope(args, slotSchema.params ?? []),
                     ]);
                     if (vNode) {
                         vNodes.push(vNode);
                     }
                 });
-            } else {
-                const vNode = render(slotSchema, blockScope);
-                if (vNode) {
-                    vNodes.push(vNode);
-                }
             }
             return vNodes;
         };
@@ -520,8 +508,6 @@ export const buildSlots = (
 export function useLeaf(props: LeafProps) {
     const { components } = useRendererContext();
 
-    // const node = props.schema.id ? getNode(props.schema.id) : null;
-
     /**
      * 渲染节点vnode (live 模式)
      * @param nodeSchema - 节点 schema
@@ -529,7 +515,7 @@ export function useLeaf(props: LeafProps) {
      * @param comp - 节点渲染的组件，若不传入，则根据节点的 componentName 推断
      */
     const renderComp = (
-        nodeSchema: RenderNode,
+        nodeSchema: NodeData,
         blockScope?: MaybeArray<BlockScope | undefined | null>,
         comp?: Component,
     ): VNode | null => {

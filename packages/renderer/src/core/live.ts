@@ -9,7 +9,7 @@ import {
 } from './use';
 import { leafProps } from './base';
 import type { BlockScope } from '../utils';
-import type { SlotSchemaMap } from './use';
+import type { SlotSchemaMap } from './base';
 
 export const Live = defineComponent({
     name: 'Live',

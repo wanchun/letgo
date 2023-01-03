@@ -20,7 +20,11 @@ import {
     buildShow,
     buildSlots,
 } from '@webank/letgo-renderer';
-import { TransformStage, ComponentInstance } from '@webank/letgo-types';
+import {
+    TransformStage,
+    ComponentInstance,
+    isJSSlot,
+} from '@webank/letgo-types';
 import { BASE_COMP_CONTEXT } from '../constants';
 import type { SlotSchemaMap } from '@webank/letgo-renderer';
 
@@ -81,6 +85,21 @@ export const Hoc = defineComponent({
             default: [],
         });
         const result = buildSchema(props);
+
+        Object.entries(props ?? {}).forEach(([key, val]) => {
+            if (isJSSlot(val)) {
+                // 处理具名插槽
+                const prop = node?.getProp(key);
+                if (prop && prop.slotNode) {
+                    // design 模式，从 prop 对象到处 schema
+                    const slotSchema = prop.slotNode.export(
+                        TransformStage.Render,
+                    );
+                    result.slots[key] = slotSchema;
+                }
+            }
+        });
+
         Object.assign(compProps, result.props);
         Object.assign(compSlots, result.slots);
 

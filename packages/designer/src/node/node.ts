@@ -15,13 +15,10 @@ import { ComponentMeta } from '../component-meta';
 import { DocumentModel } from '../document';
 import { RootNode, ParentalNode, LeafNode } from '../types';
 import { SettingTop } from '../setting';
+import { includeSlot, removeSlot } from '../utils/slot';
 import { NodeChildren } from './node-children';
 import { Props } from './props';
-
-export interface NodeOption {
-    slotName?: string;
-    slotArgs?: string[];
-}
+import { Prop } from './prop';
 
 export type PropChangeOptions = Omit<
     GlobalEvent.Node.Prop.ChangeOptions,
@@ -52,16 +49,6 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
      *  * Slot 插槽节点，无 props，正常 children，有 slotArgs，有指令
      */
     readonly componentName: string;
-
-    /**
-     * 节点是插槽的话，插槽名称
-     */
-    readonly slotName: string;
-
-    /**
-     * 节点是插槽的话，插槽参数
-     */
-    readonly slotArgs: string[];
 
     private _children?: NodeChildren;
 
@@ -196,6 +183,10 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         return this.isRoot() && this.componentName === 'Component';
     }
 
+    isSlot(): boolean {
+        return this._slotFor != null && this.componentName === 'Slot';
+    }
+
     /**
      * 获取当前节点的锁定状态
      */
@@ -210,22 +201,15 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         this.getExtraProp('isLocked').setValue(flag);
     }
 
-    constructor(
-        readonly document: DocumentModel,
-        nodeSchema: Schema,
-        option: NodeOption = {},
-    ) {
+    constructor(readonly document: DocumentModel, nodeSchema: Schema) {
         const { componentName, id, children, props, ...extras } = nodeSchema;
         this.id = document.nextId(id);
         this.componentName = componentName;
-        this.slotArgs = option.slotArgs;
-        this.slotName = option.slotName;
         if (this.componentName === 'Leaf') {
             this.props = new Props(this, {
                 children:
-                    children.length === 1 &&
-                    (isDOMText(children[0]) || isJSExpression(children[0]))
-                        ? children[0]
+                    isDOMText(children) || isJSExpression(children)
+                        ? children
                         : '',
             });
         } else {
@@ -262,6 +246,12 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         }
         if (this.props.hasExtra('isLocked')) {
             this.props.addExtra('isLocked', false);
+        }
+        if (this.props.hasExtra('condition')) {
+            this.props.addExtra('condition', true);
+        }
+        if (this.props.hasExtra('loop')) {
+            this.props.addExtra('loop', undefined);
         }
     }
 
@@ -397,10 +387,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         if (this.isLeaf()) {
             this.setPropValue(
                 'children',
-                children.length === 1 &&
-                    (isDOMText(children[0]) || isJSExpression(children[0]))
-                    ? children[0]
-                    : '',
+                isDOMText(children) || isJSExpression(children) ? children : '',
             );
         }
     }
@@ -412,7 +399,11 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
 
         // 解除老的父子关系，但不需要真的删除节点
         if (this._parent) {
-            this._parent.children.unlinkChild(this);
+            if (this.isSlot()) {
+                this._parent.unlinkSlot(this);
+            } else {
+                this._parent.children.unlinkChild(this);
+            }
         }
 
         if (parent) {
@@ -498,6 +489,47 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         if (this._settingEntry) return this._settingEntry;
         this._settingEntry = this.document.designer.createSettingEntry([this]);
         return this._settingEntry;
+    }
+
+    private _slotFor?: Prop | null = null;
+
+    /**
+     * 关联属性
+     */
+    get slotFor() {
+        return this._slotFor;
+    }
+
+    internalSetSlotFor(slotFor: Prop | null | undefined) {
+        this._slotFor = slotFor;
+    }
+
+    private _slots: Node[] = [];
+
+    hasSlots() {
+        return this._slots.length > 0;
+    }
+
+    get slots() {
+        return this._slots;
+    }
+
+    unlinkSlot(slotNode: Node) {
+        const i = this._slots.indexOf(slotNode);
+        if (i < 0) {
+            return false;
+        }
+        this._slots.splice(i, 1);
+    }
+
+    addSlot(slotNode: Node) {
+        const slotName = slotNode?.getExtraProp('name')?.getAsString();
+        // 一个组件下的所有 slot，相同 slotName 的 slot 应该是唯一的
+        if (includeSlot(this, slotName)) {
+            removeSlot(this, slotName);
+        }
+        slotNode.setParent(this as ParentalNode);
+        this._slots.push(slotNode);
     }
 
     private purged = false;

@@ -1,7 +1,6 @@
 import {
     CompositeValue,
     JSExpression,
-    JSSlot,
     CompositeObject,
     JSONObject,
 } from './value-type';
@@ -62,7 +61,7 @@ export interface NodeSchema {
     /**
      * 子节点
      */
-    children?: NodeData[];
+    children?: NodeData | NodeData[];
 }
 
 export type PropsMap = CompositeObject;

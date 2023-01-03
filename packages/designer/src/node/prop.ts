@@ -11,6 +11,7 @@ import {
 import { uniqueId } from '@webank/letgo-utils';
 import { computed, shallowRef, ShallowRef, ComputedRef, triggerRef } from 'vue';
 import { isPlainObject } from 'lodash-es';
+import { SlotNode } from '../types';
 import { Node } from './node';
 import { Props } from './props';
 import { valueToSource } from './value-to-source';
@@ -153,6 +154,22 @@ export class Prop implements IPropParent {
         if (type === 'literal' || type === 'expression') {
             return this._value.value;
         }
+        if (type === 'slot') {
+            const schema = this._slotNode?.export(stage) || ({} as any);
+            if (stage === TransformStage.Render) {
+                return {
+                    type: 'JSSlot',
+                    params: schema.params,
+                    value: schema,
+                };
+            }
+            return {
+                type: 'JSSlot',
+                params: schema.params,
+                value: schema.children,
+                name: schema.name,
+            };
+        }
         if (type === 'map') {
             if (!this._items.value) {
                 return this._value.value;
@@ -185,7 +202,39 @@ export class Prop implements IPropParent {
         return this._value.value;
     }
 
-    setAsSlot(data: JSSlot) {}
+    private _slotNode?: SlotNode;
+
+    get slotNode() {
+        return this._slotNode;
+    }
+
+    setAsSlot(data: JSSlot) {
+        this._type.value = 'slot';
+        let slotSchema: SlotSchema;
+        // 当 data.value 的结构为 { componentName: 'Slot' } 时，直接当成 slotSchema 使用
+        if (
+            isPlainObject(data.value) &&
+            (data.value as SlotSchema)?.componentName === 'Slot'
+        ) {
+            slotSchema = data.value as SlotSchema;
+        } else {
+            slotSchema = {
+                componentName: 'Slot',
+                name: data.name,
+                params: data.params,
+                children: data.value,
+            };
+        }
+
+        if (this._slotNode) {
+            this._slotNode.import(slotSchema);
+        } else {
+            const { owner } = this.props;
+            this._slotNode = owner.document.createNode(slotSchema);
+            owner.addSlot(this._slotNode);
+            this._slotNode.internalSetSlotFor(this);
+        }
+    }
 
     getValue(): CompositeValue {
         return this.export(TransformStage.Serialize);
@@ -257,6 +306,10 @@ export class Prop implements IPropParent {
         }
         this._items.value = null;
         this._maps = null;
+        if (this._type.value !== 'slot' && this._slotNode) {
+            this._slotNode.remove();
+            this._slotNode = undefined;
+        }
     }
 
     private _code: string | null = null;
@@ -267,6 +320,9 @@ export class Prop implements IPropParent {
     get code() {
         if (isJSExpression(this.value)) {
             return this.value.value;
+        }
+        if (this.type === 'slot') {
+            return JSON.stringify(this._slotNode.export(TransformStage.Save));
         }
         return this._code != null ? this._code : JSON.stringify(this.value);
     }
@@ -497,6 +553,10 @@ export class Prop implements IPropParent {
         }
         this._items.value = null;
         this._maps = null;
+        if (this._slotNode && this._slotNode.slotFor === this) {
+            this._slotNode.remove();
+            this._slotNode = undefined;
+        }
     }
 }
 

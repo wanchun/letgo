@@ -205,16 +205,11 @@ export class DocumentModel {
         data: GetDataType<C, T>,
     ): T {
         let schema: any;
-        const option: NodeOption = {};
         if (isDOMText(data) || isJSExpression(data)) {
             schema = {
                 componentName: 'Leaf',
                 children: data,
             };
-        } else if (isJSSlot(data)) {
-            schema = data.value;
-            option.slotArgs = data.params;
-            option.slotName = data.name;
         } else {
             schema = data;
         }
@@ -223,7 +218,20 @@ export class DocumentModel {
         if (this.hasNode(schema?.id)) {
             schema.id = null;
         }
-        node = new Node(this, schema, option);
+
+        if (schema.id) {
+            node = this.getNode(schema.id);
+            if (node && node.componentName === schema.componentName) {
+                node.import(schema);
+            } else if (node) {
+                node = null;
+            }
+        }
+
+        if (!node) {
+            node = new Node(this, schema);
+        }
+
         this._nodesMap.set(node.id, node);
         this.nodes.add(node);
 

@@ -3,6 +3,7 @@ import {
     PageSchema,
     ComponentSchema,
     IComponentRecord,
+    SlotSchema,
 } from '@webank/letgo-types';
 import { Node, NodeChildren } from './node';
 import { DocumentModel } from './document';
@@ -33,6 +34,8 @@ export type PageNode = ParentalNode<PageSchema>;
 export type ComponentNode = ParentalNode<ComponentSchema>;
 
 export type RootNode = PageNode | ComponentNode;
+
+export type SlotNode = ParentalNode<SlotSchema>;
 
 export function isDocumentModel(obj: any): obj is DocumentModel {
     return obj && obj.rootNode;

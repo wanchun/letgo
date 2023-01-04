@@ -70,10 +70,6 @@ html.engine-cursor-ew-resize * {
     font-size: 14px;
     background-color: rgb(240 240 240);
     border: 1px dotted;
-
-    &.letgo-container-locked {
-        background: #eccfcf;
-    }
 }
 
 body.engine-document {

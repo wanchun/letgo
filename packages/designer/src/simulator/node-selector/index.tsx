@@ -115,16 +115,15 @@ const NodeSelectorView = defineComponent({
         return () => {
             return (
                 <div class={wrapperCls}>
-                    <FPopper
-                        v-slots={{
+                    <FPopper>
+                        {{
+                            default: renderNodes,
                             trigger: () => {
                                 return (
                                     <div class={triggerCls}>{node.title}</div>
                                 );
                             },
                         }}
-                    >
-                        {renderNodes()}
                     </FPopper>
                 </div>
             );

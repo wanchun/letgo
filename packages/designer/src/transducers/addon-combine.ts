@@ -167,13 +167,9 @@ export default function (
                             {
                                 componentName: 'JsonSetter',
                                 props: {
-                                    label: {
-                                        type: 'i18n',
-                                        'zh-CN': '编辑数据',
-                                        'en-US': 'Edit Data',
-                                    },
-                                    defaultValue: '[]',
+                                    label: '编辑数据',
                                 },
+                                defaultValue: '[]',
                             },
                             {
                                 componentName: 'VariableSetter',

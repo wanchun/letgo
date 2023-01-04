@@ -1,4 +1,4 @@
-import { defineComponent, PropType, onMounted, watch } from 'vue';
+import { defineComponent, PropType, onMounted, watch, ref } from 'vue';
 import { IEditor, ProjectSchema, ComponentMetadata } from '@webank/letgo-types';
 import { FSpin } from '@fesjs/fes-design';
 import { SimulatorView } from '../simulator';
@@ -34,12 +34,18 @@ export const ProjectView = defineComponent({
     setup(props) {
         const { designer } = props;
 
+        const isReady = ref(false);
+
+        designer.onRendererReady(() => {
+            isReady.value = true;
+        });
+
         return () => {
             const { simulatorProps } = designer;
             return (
                 <div class={projectCls}>
                     <div class={projectContentCls}>
-                        {/* {!designer?.simulator?.renderer && <BuiltinLoading />} */}
+                        {!isReady.value && <BuiltinLoading />}
                         <SimulatorView simulatorProps={simulatorProps} />
                     </div>
                 </div>

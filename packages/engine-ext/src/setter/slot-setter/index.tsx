@@ -1,6 +1,6 @@
 import { defineComponent, PropType, onMounted, computed } from 'vue';
 import { Setter, JSSlot } from '@webank/letgo-types';
-import { isUndefined } from 'lodash-es';
+import { isUndefined, isNil } from 'lodash-es';
 import { FSwitch } from '@fesjs/fes-design';
 import { commonProps } from '../../common/setter-props';
 import { wrapCls } from './index.css';
@@ -27,16 +27,17 @@ const SlotSetterView = defineComponent({
         onChange: Function as PropType<(val: any) => void>,
     },
     setup(props) {
-        // TODO: 默认开启时处理 value
         const isOpenSlot = computed(() => {
-            if (props.defaultValue) {
-                const { value, visible } = props.defaultValue;
+            if (props.value) {
+                const { value, visible } = props.value;
                 if (value) {
                     if (visible === undefined) {
                         if (Array.isArray(value) && value.length == 0) {
                             return false;
-                        } else if (value?.length > 0) {
+                        } else if (Array.isArray(value) && value?.length > 0) {
                             return true;
+                        } else {
+                            return !isNil(value);
                         }
                     } else {
                         return visible;
@@ -47,12 +48,14 @@ const SlotSetterView = defineComponent({
         });
 
         const onChange = (checked: boolean) => {
-            const { onChange } = props;
+            const { onChange, defaultValue } = props;
             if (checked) {
-                onChange?.({
-                    type: 'JSSlot',
-                    value: null,
-                });
+                onChange?.(
+                    defaultValue ?? {
+                        type: 'JSSlot',
+                        value: null,
+                    },
+                );
             } else {
                 onChange?.();
             }

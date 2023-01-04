@@ -105,6 +105,7 @@ export const SettingFieldView = defineComponent({
 
         const { setter } = field;
 
+        let _defaultValue: any = defaultValue;
         let setterProps: any = {};
         let setterType: string | CustomView;
 
@@ -120,6 +121,9 @@ export const SettingFieldView = defineComponent({
                 if (typeof setterProps === 'function') {
                     setterProps = setterProps(field);
                 }
+            }
+            if (setter.defaultValue) {
+                _defaultValue = setter.defaultValue;
             }
         } else if (setter) {
             setterType = setter;
@@ -167,9 +171,9 @@ export const SettingFieldView = defineComponent({
                 node: field.top.getNode(),
                 key: field.id,
                 value,
-                defaultValue: isFunction(defaultValue)
-                    ? defaultValue(field)
-                    : defaultValue,
+                defaultValue: isFunction(_defaultValue)
+                    ? _defaultValue(field)
+                    : _defaultValue,
                 onChange: (value: any) => {
                     field.setValue(value, true);
                 },

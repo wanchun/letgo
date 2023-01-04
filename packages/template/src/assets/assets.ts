@@ -260,8 +260,8 @@ const assets: AssetsJson = {
                                                 value: 'huge',
                                             },
                                         ],
-                                        defaultValue: 'medium',
                                     },
+                                    defaultValue: 'medium',
                                 },
                             },
                             {
@@ -389,8 +389,8 @@ const assets: AssetsJson = {
                     },
                 },
             ],
-            group: '精选组件',
-            category: '布局容器类',
+            group: '原子组件',
+            category: '布局组件',
             priority: 0,
         },
         {
@@ -620,23 +620,23 @@ const assets: AssetsJson = {
                             props: {
                                 options: [
                                     {
-                                        title: 'start',
+                                        label: 'start',
                                         value: 'start',
                                     },
                                     {
-                                        title: 'end',
+                                        label: 'end',
                                         value: 'end',
                                     },
                                     {
-                                        title: 'center',
+                                        label: 'center',
                                         value: 'center',
                                     },
                                     {
-                                        title: 'baseline',
+                                        label: 'baseline',
                                         value: 'baseline',
                                     },
                                     {
-                                        title: 'stretch',
+                                        label: 'stretch',
                                         value: 'stretch',
                                     },
                                 ],
@@ -652,27 +652,27 @@ const assets: AssetsJson = {
                             props: {
                                 options: [
                                     {
-                                        title: 'start',
+                                        label: 'start',
                                         value: 'start',
                                     },
                                     {
-                                        title: 'end',
+                                        label: 'end',
                                         value: 'end',
                                     },
                                     {
-                                        title: 'center',
+                                        label: 'center',
                                         value: 'center',
                                     },
                                     {
-                                        title: 'space-around',
+                                        label: 'space-around',
                                         value: 'space-around',
                                     },
                                     {
-                                        title: 'space-between',
+                                        label: 'space-between',
                                         value: 'space-between',
                                     },
                                     {
-                                        title: 'space-evenly',
+                                        label: 'space-evenly',
                                         value: 'space-evenly',
                                     },
                                 ],
@@ -718,8 +718,8 @@ const assets: AssetsJson = {
                     },
                 },
             ],
-            group: '精选组件',
-            category: '布局容器类',
+            group: '原子组件',
+            category: '布局组件',
             priority: 0,
         },
         {
@@ -803,31 +803,31 @@ const assets: AssetsJson = {
                                     props: {
                                         options: [
                                             {
-                                                title: 'default',
+                                                label: 'default',
                                                 value: 'default',
                                             },
                                             {
-                                                title: 'tertiary',
+                                                label: 'tertiary',
                                                 value: 'tertiary',
                                             },
                                             {
-                                                title: 'primary',
+                                                label: 'primary',
                                                 value: 'primary',
                                             },
                                             {
-                                                title: 'success',
+                                                label: 'success',
                                                 value: 'success',
                                             },
                                             {
-                                                title: 'info',
+                                                label: 'info',
                                                 value: 'info',
                                             },
                                             {
-                                                title: 'warning',
+                                                label: 'warning',
                                                 value: 'warning',
                                             },
                                             {
-                                                title: 'error',
+                                                label: 'error',
                                                 value: 'error',
                                             },
                                         ],
@@ -1100,12 +1100,12 @@ const assets: AssetsJson = {
                 },
             ],
             group: '精选组件',
-            category: '信息输入',
+            category: '数据录入',
             priority: 0,
         },
         {
             title: '表单项',
-            category: '信息输入',
+            category: '数据录入',
             componentName: 'FFormItem',
             npm: {
                 package: '@fesjs/fes-design',
@@ -1439,7 +1439,7 @@ const assets: AssetsJson = {
                 },
             ],
             group: '原子组件',
-            category: '信息输入',
+            category: '数据录入',
             priority: 0,
         },
         {
@@ -1500,7 +1500,7 @@ const assets: AssetsJson = {
                 },
             ],
             group: '原子组件',
-            category: '信息输入',
+            category: '数据录入',
             priority: 0,
         },
         {
@@ -1604,7 +1604,7 @@ const assets: AssetsJson = {
                 },
             ],
             group: '原子组件',
-            category: '信息输入',
+            category: '数据录入',
             priority: 0,
         },
         {
@@ -1682,12 +1682,58 @@ const assets: AssetsJson = {
             category: '信息展示',
             priority: 0,
         },
+        {
+            title: '分割线',
+            componentName: 'FDivider',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.11',
+                exportName: 'FDivider',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'children',
+                    title: '标题',
+                    propType: 'string',
+                },
+                {
+                    name: 'vertical',
+                    title: '是否垂直方向',
+                    propType: 'bool',
+                },
+                {
+                    name: 'titlePlacement',
+                    title: '文字位置',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['center', 'left', 'right'],
+                    },
+                },
+            ],
+            snippets: [
+                {
+                    title: '分割线',
+                    schema: {
+                        componentName: 'FDivider',
+                        props: {},
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '布局组件',
+            priority: 0,
+        },
     ],
     sort: {
         groupList: ['精选组件', '原子组件'],
         categoryList: [
             '基础元素',
-            '布局容器类',
+            '布局组件',
+            '导航组件',
+            '数据录入',
+            '信息展示',
+            '信息反馈',
             '表格类',
             '表单详情类',
             '帮助类',
@@ -1695,9 +1741,6 @@ const assets: AssetsJson = {
             '业务类',
             '通用',
             '引导',
-            '信息输入',
-            '信息展示',
-            '信息反馈',
         ],
     },
 };

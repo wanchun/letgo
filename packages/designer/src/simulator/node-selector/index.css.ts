@@ -24,10 +24,14 @@ export const triggerCls = style({
 
 export const nodeCls = style({
     height: '20px',
-    marginTop: '2px',
     fontSize: '12px',
     ':hover': {
         opacity: 0.8,
+    },
+    selectors: {
+        '&:not(:first-child)': {
+            marginTop: '4px',
+        },
     },
 });
 

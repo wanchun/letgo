@@ -13,5 +13,6 @@ module.exports = {
     },
     rules: {
         'no-undefined': 'off',
+        '@typescript-eslint/no-non-null-assertion': 'off',
     },
 };

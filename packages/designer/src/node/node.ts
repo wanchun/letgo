@@ -421,7 +421,11 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
 
     remove(purge = true) {
         if (this._parent) {
-            this._parent.children?.deleteChild(this, purge);
+            if (this.isSlot()) {
+                this._parent.unlinkSlot(this);
+            } else {
+                this._parent.children?.deleteChild(this, purge);
+            }
         }
     }
 

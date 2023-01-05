@@ -1747,6 +1747,20 @@ const assets: AssetsJson = {
                 },
             ],
             configure: {
+                props: [
+                    {
+                        name: 'tooltip',
+                        title: '自定义文本内容',
+                        setter: {
+                            componentName: 'SlotSetter',
+                            defaultValue: {
+                                type: 'JSSlot',
+                                title: '自定义文本内容',
+                                value: [],
+                            },
+                        },
+                    },
+                ],
                 supports: {
                     style: true,
                 },

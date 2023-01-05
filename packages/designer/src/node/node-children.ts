@@ -39,7 +39,7 @@ export class NodeChildren {
         return this.children.value.map((node) => {
             const data = node.export(stage);
             if (node.isLeaf() && TransformStage.Save === stage) {
-                return data.children[0];
+                return data.children as NodeData;
             }
             return data;
         });

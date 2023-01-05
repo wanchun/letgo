@@ -737,28 +737,32 @@ const assets: AssetsJson = {
                     propType: 'string',
                 },
                 {
-                    name: 'type',
-                    propType: 'string',
+                    name: 'disabled',
+                    propType: 'bool',
                 },
                 {
                     name: 'size',
                     propType: 'string',
                 },
                 {
-                    name: 'circle',
-                    propType: 'bool',
-                },
-                {
-                    name: 'round',
-                    propType: 'bool',
-                },
-                {
-                    name: 'disabled',
-                    propType: 'bool',
+                    name: 'htmlType',
+                    propType: 'string',
                 },
                 {
                     name: 'loading',
                     propType: 'bool',
+                },
+                {
+                    name: 'long',
+                    propType: 'bool',
+                },
+                {
+                    name: 'throttle',
+                    propType: 'number',
+                },
+                {
+                    name: 'type',
+                    propType: 'string',
                 },
             ],
             configure: {
@@ -785,6 +789,32 @@ const assets: AssetsJson = {
                                 title: '显示加载状态',
                                 setter: 'BoolSetter',
                             },
+                            {
+                                name: 'throttle',
+                                title: '截流',
+                                setter: 'NumberSetter',
+                                defaultValue: 300,
+                            },
+                            {
+                                name: 'htmlType',
+                                title: '按钮功能',
+                                setter: {
+                                    componentName: 'RadioGroupSetter',
+                                    props: {
+                                        options: [
+                                            {
+                                                label: 'button',
+                                                value: 'button',
+                                            },
+                                            {
+                                                label: 'submit',
+                                                value: 'submit',
+                                            },
+                                        ],
+                                    },
+                                },
+                                defaultValue: 'button',
+                            },
                         ],
                     },
                     {
@@ -803,47 +833,41 @@ const assets: AssetsJson = {
                                     props: {
                                         options: [
                                             {
-                                                label: 'default',
-                                                value: 'default',
-                                            },
-                                            {
-                                                label: 'tertiary',
-                                                value: 'tertiary',
-                                            },
-                                            {
                                                 label: 'primary',
                                                 value: 'primary',
                                             },
                                             {
-                                                label: 'success',
-                                                value: 'success',
+                                                label: 'text',
+                                                value: 'text',
+                                            },
+                                            {
+                                                label: 'link',
+                                                value: 'link',
                                             },
                                             {
                                                 label: 'info',
                                                 value: 'info',
                                             },
                                             {
+                                                label: 'info',
+                                                value: 'info',
+                                            },
+                                            {
+                                                label: 'success',
+                                                value: 'success',
+                                            },
+                                            {
                                                 label: 'warning',
                                                 value: 'warning',
                                             },
                                             {
-                                                label: 'error',
-                                                value: 'error',
+                                                label: 'danger',
+                                                value: 'danger',
                                             },
                                         ],
                                     },
                                 },
                                 defaultValue: 'default',
-                            },
-                            {
-                                name: 'text',
-                                title: '文本按钮',
-                                setter: 'BoolSetter',
-                            },
-                            {
-                                name: 'link',
-                                title: '链接按钮',
-                                setter: 'BoolSetter',
                             },
                             {
                                 name: 'size',
@@ -852,10 +876,6 @@ const assets: AssetsJson = {
                                     componentName: 'RadioGroupSetter',
                                     props: {
                                         options: [
-                                            {
-                                                label: 'tiny',
-                                                value: 'tiny',
-                                            },
                                             {
                                                 label: 'small',
                                                 value: 'small',
@@ -874,24 +894,8 @@ const assets: AssetsJson = {
                                 defaultValue: 'medium',
                             },
                             {
-                                name: 'bordered',
-                                title: '显示边框',
-                                setter: 'BoolSetter',
-                                defaultValue: true,
-                            },
-                            {
-                                name: 'circle',
-                                title: '是否为圆形',
-                                setter: 'BoolSetter',
-                            },
-                            {
-                                name: 'dashed',
-                                title: '虚线边框',
-                                setter: 'BoolSetter',
-                            },
-                            {
-                                name: 'round',
-                                title: '是否显示圆角',
+                                name: 'long',
+                                title: '长按钮',
                                 setter: 'BoolSetter',
                             },
                         ],
@@ -1736,7 +1740,7 @@ const assets: AssetsJson = {
             props: [
                 {
                     name: 'line',
-                    title: '超出几行',
+                    title: '多行省略',
                     propType: 'number',
                     defaultValue: 1,
                 },
@@ -1747,20 +1751,6 @@ const assets: AssetsJson = {
                 },
             ],
             configure: {
-                props: [
-                    {
-                        name: 'tooltip',
-                        title: '自定义文本内容',
-                        setter: {
-                            componentName: 'SlotSetter',
-                            defaultValue: {
-                                type: 'JSSlot',
-                                title: '自定义文本内容',
-                                value: [],
-                            },
-                        },
-                    },
-                ],
                 supports: {
                     style: true,
                 },

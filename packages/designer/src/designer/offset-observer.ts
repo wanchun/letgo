@@ -1,4 +1,4 @@
-import { shallowReactive, ShallowReactive } from 'vue';
+import { computed, ref } from 'vue';
 import { uniqueId } from '@webank/letgo-utils';
 import { INodeSelector, IViewport } from '../types';
 import { Node } from '../node';
@@ -14,82 +14,91 @@ export class OffsetObserver {
 
     private lastOffsetWidth?: number;
 
-    private _height = 0;
+    hasOffset = ref(false);
 
-    private _width = 0;
+    private _height = ref(0);
 
-    private _left = 0;
+    private _width = ref(0);
 
-    private _top = 0;
+    private _left = ref(0);
 
-    private _right = 0;
+    private _top = ref(0);
 
-    private _bottom = 0;
+    private _right = ref(0);
 
-    get height() {
-        return this.isRoot ? this.viewport.height : this._height * this.scale;
-    }
+    private _bottom = ref(0);
 
-    get width() {
-        return this.isRoot ? this.viewport.width : this._width * this.scale;
-    }
+    height = computed(() => {
+        return this.isRoot
+            ? this.viewport.height
+            : this._height.value * this.scale;
+    });
 
-    get top() {
-        return this.isRoot ? 0 : this._top * this.scale;
-    }
+    width = computed(() => {
+        return this.isRoot
+            ? this.viewport.width
+            : this._width.value * this.scale;
+    });
 
-    get left() {
-        return this.isRoot ? 0 : this._left * this.scale;
-    }
+    top = computed(() => {
+        return this.isRoot ? 0 : this._top.value * this.scale;
+    });
 
-    get bottom() {
-        return this.isRoot ? this.viewport.height : this._bottom * this.scale;
-    }
+    left = computed(() => {
+        return this.isRoot ? 0 : this._left.value * this.scale;
+    });
 
-    get right() {
-        return this.isRoot ? this.viewport.width : this._right * this.scale;
-    }
+    bottom = computed(() => {
+        return this.isRoot
+            ? this.viewport.height
+            : this._bottom.value * this.scale;
+    });
 
-    hasOffset = false;
+    right = computed(() => {
+        return this.isRoot
+            ? this.viewport.width
+            : this._right.value * this.scale;
+    });
 
-    get offsetLeft() {
+    offsetLeft = computed(() => {
         if (this.isRoot) {
             return this.viewport.scrollX * this.scale;
         }
         if (!this.viewport.scrolling || this.lastOffsetLeft == null) {
             this.lastOffsetLeft =
-                this.left + this.viewport.scrollX * this.scale;
+                this.left.value + this.viewport.scrollX * this.scale;
         }
         return this.lastOffsetLeft;
-    }
+    });
 
-    get offsetTop() {
+    offsetTop = computed(() => {
         if (this.isRoot) {
             return this.viewport.scrollY * this.scale;
         }
         if (!this.viewport.scrolling || this.lastOffsetTop == null) {
-            this.lastOffsetTop = this.top + this.viewport.scrollY * this.scale;
+            this.lastOffsetTop =
+                this.top.value + this.viewport.scrollY * this.scale;
         }
         return this.lastOffsetTop;
-    }
+    });
 
-    get offsetHeight() {
+    offsetHeight = computed(() => {
         if (!this.viewport.scrolling || this.lastOffsetHeight == null) {
             this.lastOffsetHeight = this.isRoot
                 ? this.viewport.height
-                : this.height;
+                : this.height.value;
         }
         return this.lastOffsetHeight;
-    }
+    });
 
-    get offsetWidth() {
+    offsetWidth = computed(() => {
         if (!this.viewport.scrolling || this.lastOffsetWidth == null) {
             this.lastOffsetWidth = this.isRoot
                 ? this.viewport.width
-                : this.width;
+                : this.width.value;
         }
         return this.lastOffsetWidth;
-    }
+    });
 
     get scale() {
         return this.viewport.scale;
@@ -114,7 +123,7 @@ export class OffsetObserver {
         this.isRoot = node.contains(focusNode);
         this.viewport = host.viewport;
         if (this.isRoot) {
-            this.hasOffset = true;
+            this.hasOffset.value = true;
             return;
         }
         if (!instance) {
@@ -133,15 +142,15 @@ export class OffsetObserver {
             );
 
             if (!rect) {
-                this.hasOffset = false;
-            } else if (!this.viewport.scrolling || !this.hasOffset) {
-                this._height = rect.height;
-                this._width = rect.width;
-                this._left = rect.left;
-                this._top = rect.top;
-                this._right = rect.right;
-                this._bottom = rect.bottom;
-                this.hasOffset = true;
+                this.hasOffset.value = false;
+            } else if (!this.viewport.scrolling || !this.hasOffset.value) {
+                this._height.value = rect.height;
+                this._width.value = rect.width;
+                this._left.value = rect.left;
+                this._top.value = rect.top;
+                this._right.value = rect.right;
+                this._bottom.value = rect.bottom;
+                this.hasOffset.value = true;
             }
             this.pid = (window as any).requestIdleCallback(compute);
             pid = this.pid;
@@ -170,9 +179,9 @@ export class OffsetObserver {
 
 export function createOffsetObserver(
     nodeInstance: INodeSelector,
-): ShallowReactive<OffsetObserver> | null {
+): OffsetObserver | null {
     if (!nodeInstance.instance) {
         return null;
     }
-    return shallowReactive(new OffsetObserver(nodeInstance));
+    return new OffsetObserver(nodeInstance);
 }

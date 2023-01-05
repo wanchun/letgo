@@ -1724,6 +1724,51 @@ const assets: AssetsJson = {
             category: '布局组件',
             priority: 0,
         },
+        {
+            title: '文本省略',
+            componentName: 'FEllipsis',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.11',
+                exportName: 'FEllipsis',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'line',
+                    title: '超出几行',
+                    propType: 'number',
+                    defaultValue: 1,
+                },
+                {
+                    name: 'content',
+                    title: '文本内容',
+                    propType: 'string',
+                },
+            ],
+            configure: {
+                supports: {
+                    style: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '文本省略',
+                    schema: {
+                        componentName: 'FEllipsis',
+                        props: {
+                            content: '文本内容',
+                            style: {
+                                width: '50px',
+                            },
+                        },
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '基础元素',
+            priority: 0,
+        },
     ],
     sort: {
         groupList: ['精选组件', '原子组件'],

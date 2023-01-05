@@ -35,7 +35,7 @@ import type { SlotSchemaMap } from '@webank/letgo-renderer';
  */
 const decorateDefaultSlot = (slot: Slot): Slot => {
     return (...args: unknown[]) => {
-        const vNodes = slot(...args);
+        const vNodes = slot?.(...args) ?? [];
         if (!vNodes.length) {
             const className = {
                 'letgo-container-placeholder': true,
@@ -70,20 +70,16 @@ export const Hoc = defineComponent({
                 string,
                 Slot
             >;
-            Object.keys(result).forEach((key) => {
-                if (key === 'default' && node?.isContainer()) {
-                    result[key] = decorateDefaultSlot(result[key]);
-                }
-            });
+            if (node?.isContainer()) {
+                result.default = decorateDefaultSlot(result.default);
+            }
             return result;
         };
 
         const compProps: {
             [x: string]: unknown;
         } = reactive({});
-        const compSlots: SlotSchemaMap = reactive({
-            default: [],
-        });
+        const compSlots: SlotSchemaMap = reactive({});
 
         const result = buildSchema(props);
 

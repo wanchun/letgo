@@ -144,7 +144,10 @@ export const buildSchema = (props: LeafProps) => {
     const normalProps: PropSchemaMap = {};
 
     // 处理节点默认插槽，可能会被属性插槽覆盖
-    slotProps.default = ensureArray(schema.children);
+    // 非空时才处理，不然会导致组件slots.default默认有值，可能导致组件渲染异常
+    if (!isNil(schema.children)) {
+        slotProps.default = ensureArray(schema.children);
+    }
 
     Object.entries(schema.props ?? {}).forEach(([key, val]) => {
         if (isJSSlot(val)) {

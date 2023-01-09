@@ -1773,6 +1773,385 @@ const assets: AssetsJson = {
             category: '基础元素',
             priority: 0,
         },
+        {
+            title: '布局容器',
+            componentName: 'FLayout',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.11',
+                exportName: 'FLayout',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'embedded',
+                    propType: 'bool',
+                },
+                {
+                    name: 'fixed',
+                    propType: 'bool',
+                },
+                {
+                    name: 'containerClass',
+                    propType: 'string',
+                },
+                {
+                    name: 'containerStyle',
+                    propType: 'object',
+                },
+            ],
+            configure: {
+                props: [
+                    {
+                        name: 'embedded',
+                        title: '反色背景',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'fixed',
+                        title: '浮动模式',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                ],
+                component: {
+                    isContainer: true,
+                    nestingRule: {
+                        descendantWhitelist: [
+                            'FHeader',
+                            'FAside',
+                            'FMain',
+                            'FFooter',
+                            'FLayout',
+                        ],
+                    },
+                },
+                supports: {
+                    style: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '混合布局',
+                    schema: {
+                        componentName: 'FLayout',
+                        props: {
+                            fixed: true,
+                        },
+                        children: [
+                            {
+                                componentName: 'FAside',
+                            },
+                            {
+                                componentName: 'FLayout',
+                                children: [
+                                    {
+                                        componentName: 'FHeader',
+                                    },
+                                    {
+                                        componentName: 'FMain',
+                                    },
+                                    {
+                                        componentName: 'FFooter',
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                },
+                {
+                    title: '左右布局',
+                    schema: {
+                        componentName: 'FLayout',
+                        props: {
+                            fixed: true,
+                        },
+                        children: [
+                            {
+                                componentName: 'FAside',
+                            },
+                            {
+                                componentName: 'FMain',
+                            },
+                        ],
+                    },
+                },
+                {
+                    title: '上下布局',
+                    schema: {
+                        componentName: 'FLayout',
+                        props: {
+                            fixed: true,
+                        },
+                        children: [
+                            {
+                                componentName: 'FHeader',
+                            },
+                            {
+                                componentName: 'FMain',
+                            },
+                            {
+                                componentName: 'FFooter',
+                            },
+                        ],
+                    },
+                },
+                {
+                    title: '布局容器',
+                    schema: {
+                        componentName: 'FLayout',
+                    },
+                },
+            ],
+            group: '精选组件',
+            category: '布局组件',
+            priority: 0,
+        },
+        {
+            title: '容器头部',
+            componentName: 'FHeader',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.11',
+                exportName: 'FHeader',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'fixed',
+                    propType: 'bool',
+                },
+                {
+                    name: 'bordered',
+                    propType: 'bool',
+                },
+                {
+                    name: 'inverted',
+                    propType: 'bool',
+                },
+            ],
+            configure: {
+                props: [
+                    {
+                        name: 'fixed',
+                        title: '浮动模式',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'bordered',
+                        title: '边框',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'inverted',
+                        title: '深色',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                ],
+                component: {
+                    isContainer: true,
+                    nestingRule: {
+                        parentWhitelist: 'FLayout',
+                    },
+                },
+                supports: {
+                    style: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '容器头部',
+                    schema: {
+                        componentName: 'FHeader',
+                    },
+                },
+            ],
+            group: '精选组件',
+            category: '布局组件',
+            priority: 0,
+        },
+        {
+            title: '容器侧边栏',
+            componentName: 'FAside',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.11',
+                exportName: 'FAside',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'fixed',
+                    propType: 'bool',
+                },
+                {
+                    name: 'bordered',
+                    propType: 'bool',
+                },
+                {
+                    name: 'inverted',
+                    propType: 'bool',
+                },
+            ],
+            configure: {
+                props: [
+                    {
+                        name: 'fixed',
+                        title: '浮动模式',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'bordered',
+                        title: '边框',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'inverted',
+                        title: '深色',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                ],
+                component: {
+                    isContainer: true,
+                    nestingRule: {
+                        parentWhitelist: 'FLayout',
+                    },
+                },
+                supports: {
+                    style: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '容器侧边栏',
+                    schema: {
+                        componentName: 'FAside',
+                    },
+                },
+            ],
+            group: '精选组件',
+            category: '布局组件',
+            priority: 0,
+        },
+        {
+            title: '容器主体',
+            componentName: 'FMain',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.11',
+                exportName: 'FMain',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'embedded',
+                    propType: 'bool',
+                },
+            ],
+            configure: {
+                props: [
+                    {
+                        name: 'embedded',
+                        title: '反色背景',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                ],
+                component: {
+                    isContainer: true,
+                    nestingRule: {
+                        parentWhitelist: 'FLayout',
+                    },
+                },
+                supports: {
+                    style: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '容器主体',
+                    schema: {
+                        componentName: 'FMain',
+                    },
+                },
+            ],
+            group: '精选组件',
+            category: '布局组件',
+            priority: 0,
+        },
+        {
+            title: '容器底部',
+            componentName: 'FFooter',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.11',
+                exportName: 'FFooter',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'fixed',
+                    propType: 'bool',
+                },
+                {
+                    name: 'bordered',
+                    propType: 'bool',
+                },
+                {
+                    name: 'embedded',
+                    propType: 'bool',
+                },
+            ],
+            configure: {
+                props: [
+                    {
+                        name: 'fixed',
+                        title: '浮动模式',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'bordered',
+                        title: '边框',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'embedded',
+                        title: '反色背景',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                ],
+                component: {
+                    isContainer: true,
+                    nestingRule: {
+                        parentWhitelist: 'FLayout',
+                    },
+                },
+                supports: {
+                    style: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '容器底部',
+                    schema: {
+                        componentName: 'FFooter',
+                    },
+                },
+            ],
+            group: '精选组件',
+            category: '布局组件',
+            priority: 0,
+        },
     ],
     sort: {
         groupList: ['精选组件', '原子组件'],
@@ -1783,13 +2162,8 @@ const assets: AssetsJson = {
             '数据录入',
             '信息展示',
             '信息反馈',
-            '表格类',
-            '表单详情类',
-            '帮助类',
             '对话框类',
-            '业务类',
-            '通用',
-            '引导',
+            '通用类',
         ],
     },
 };

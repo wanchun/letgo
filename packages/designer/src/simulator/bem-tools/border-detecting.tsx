@@ -1,4 +1,5 @@
 import { defineComponent, computed, PropType } from 'vue';
+import { InnerComponentInstance } from '../../types';
 import { Simulator } from '../simulator';
 import {
     borderCls,
@@ -20,8 +21,8 @@ export const BorderDetectingInstance = defineComponent({
     setup(props) {
         const style = computed(() => {
             return {
-                width: props.rect?.width * props.scale,
-                height: props.rect?.height * props.scale,
+                width: props.rect?.width * props.scale + 'px',
+                height: props.rect?.height * props.scale + 'px',
                 transform: `translate(${
                     (scrollX + props.rect?.left) * props.scale
                 }px, ${(scrollY + props.rect?.top) * props.scale}px)`,
@@ -32,16 +33,21 @@ export const BorderDetectingInstance = defineComponent({
             if (!props.rect) {
                 return null;
             }
-            <div class={[borderCls, borderDetectingCls]} style={style.value}>
-                <span title={props.title} class={borderTitleCls}>
-                    {props.title}
-                </span>
-                {props.isLocked ? (
-                    <span title="已锁定" class={borderStatusCls}>
-                        已锁定
+            return (
+                <div
+                    class={[borderCls, borderDetectingCls]}
+                    style={style.value}
+                >
+                    <span title={props.title} class={borderTitleCls}>
+                        {props.title}
                     </span>
-                ) : null}
-            </div>;
+                    {props.isLocked ? (
+                        <span title="已锁定" class={borderStatusCls}>
+                            已锁定
+                        </span>
+                    ) : null}
+                </div>
+            );
         };
     },
 });
@@ -57,7 +63,7 @@ export const BorderDetectingView = defineComponent({
         const { host } = props;
 
         const currentNodeRef = computed(() => {
-            const doc = host.currentDocument;
+            const doc = host.project.currentDocument.value;
             if (!doc) {
                 return null;
             }
@@ -65,13 +71,13 @@ export const BorderDetectingView = defineComponent({
             const { current } = host.designer.detecting;
 
             if (
-                !current ||
-                current.document !== doc ||
-                selection.has(current.id)
+                !current.value ||
+                current.value.document !== doc ||
+                selection.has(current.value.id)
             ) {
                 return null;
             }
-            return current;
+            return current.value;
         });
 
         return () => {
@@ -101,7 +107,6 @@ export const BorderDetectingView = defineComponent({
             if (currentNode.contains(focusNode)) {
                 return (
                     <BorderDetectingInstance
-                        key="line-root"
                         title={currentNode.title}
                         scale={scale}
                         scrollX={scrollX}
@@ -116,19 +121,22 @@ export const BorderDetectingView = defineComponent({
                 return null;
             }
 
+            const getReact = (inst: InnerComponentInstance) => {
+                return host.computeComponentInstanceRect(
+                    inst,
+                    currentNode.componentMeta.rootSelector,
+                );
+            };
+
             return (
                 <>
-                    {instances.map((inst, i) => (
+                    {instances.map((inst) => (
                         <BorderDetectingInstance
-                            key={`line-h-${i}`}
                             title={currentNode.title}
                             scale={scale}
                             scrollX={scrollX}
                             scrollY={scrollY}
-                            rect={host.computeComponentInstanceRect(
-                                inst,
-                                currentNode.componentMeta.rootSelector,
-                            )}
+                            rect={getReact(inst)}
                         />
                     ))}
                 </>

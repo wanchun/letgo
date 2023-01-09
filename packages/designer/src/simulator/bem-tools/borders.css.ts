@@ -13,12 +13,14 @@ export const borderCls = style({
 });
 
 export const borderTitleCls = style({
+    display: 'inline-block',
     color: 'rgba(25, 122, 255, 1)',
     transform: 'translateY(-100%)',
     fontWeight: 'lighter',
 });
 
 export const borderStatusCls = style({
+    display: 'inline-block',
     marginLeft: '5px',
     color: '#3c3c3c',
     transform: 'translateY(-100%)',

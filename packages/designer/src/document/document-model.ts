@@ -3,7 +3,6 @@ import { uniqueId } from '@webank/letgo-utils';
 import {
     RootSchema,
     isDOMText,
-    isJSSlot,
     isJSExpression,
     NodeData,
     ComponentsMap,
@@ -11,7 +10,7 @@ import {
     NodeSchema,
     isNodeSchema,
 } from '@webank/letgo-types';
-import { ComputedRef } from 'vue';
+import { computed, ComputedRef } from 'vue';
 import { RootNode, ISimulator, GetDataType, ParentalNode } from '../types';
 import {
     Designer,
@@ -20,7 +19,7 @@ import {
     isDragNodeDataObject,
 } from '../designer';
 import { Project } from '../project';
-import { Node, NodeOption, insertChild, insertChildren, isNode } from '../node';
+import { Node, insertChild, insertChildren, isNode } from '../node';
 import { ComponentMeta } from '../component-meta';
 import { Selection } from './selection';
 
@@ -88,8 +87,10 @@ export class DocumentModel {
         this.rootNode?.props.getExtraProp('fileName', true)?.setValue(fileName);
     }
 
-    get isActive(): boolean {
-        return this.project.currentDocument.value === this;
+    get isActive() {
+        return computed(() => {
+            return this.project.currentDocument.value === this;
+        });
     }
 
     get root() {

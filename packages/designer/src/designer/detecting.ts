@@ -1,3 +1,4 @@
+import { ShallowRef, shallowRef } from 'vue';
 import { EventEmitter } from 'eventemitter3';
 import { DocumentModel } from '../document';
 import { Node } from '../node';
@@ -14,13 +15,13 @@ export class Detecting {
     set enable(flag: boolean) {
         this._enable = flag;
         if (!flag) {
-            this._current = null;
+            this._current.value = null;
         }
     }
 
     xRayMode = false;
 
-    private _current: Node | null = null;
+    private _current: ShallowRef<Node | null> = shallowRef(null);
 
     private emitter = new EventEmitter();
 
@@ -29,22 +30,22 @@ export class Detecting {
     }
 
     capture(node: Node | null) {
-        if (this._current !== node) {
-            this._current = node;
+        if (this._current.value !== node) {
+            this._current.value = node;
             this.emitter.emit(DETECTING_CHANGE_EVENT, this.current);
         }
     }
 
     release(node: Node | null) {
-        if (this._current === node) {
-            this._current = null;
+        if (this._current.value === node) {
+            this._current.value = null;
             this.emitter.emit(DETECTING_CHANGE_EVENT, this.current);
         }
     }
 
     leave(document: DocumentModel | undefined) {
-        if (this.current && this.current.document === document) {
-            this._current = null;
+        if (this.current.value && this.current.value.document === document) {
+            this._current.value = null;
         }
     }
 

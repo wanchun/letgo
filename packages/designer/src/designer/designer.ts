@@ -11,7 +11,7 @@ import {
     isNodeSchema,
     ComponentSchema,
 } from '@webank/letgo-types';
-import { Component, shallowReactive, ShallowReactive } from 'vue';
+import { Component } from 'vue';
 import { ISimulator, INodeSelector } from '../types';
 import { Project } from '../project';
 import { ComponentMeta } from '../component-meta';
@@ -51,13 +51,9 @@ export class Designer {
 
     readonly project: Project;
 
-    readonly dragon: ShallowReactive<Dragon> = shallowReactive(
-        new Dragon(this),
-    );
+    readonly dragon: Dragon = new Dragon(this);
 
-    readonly detecting: ShallowReactive<Detecting> = shallowReactive(
-        new Detecting(),
-    );
+    readonly detecting: Detecting = new Detecting();
 
     private _componentMetaMap = new Map<string, ComponentMeta>();
 
@@ -75,7 +71,7 @@ export class Designer {
         return this._componentMetaMap;
     }
 
-    get currentDocument() {
+    getCurrentDocument() {
         return this.project.currentDocument.value;
     }
 
@@ -83,8 +79,8 @@ export class Designer {
     //     return this.currentDocument?.history;
     // }
 
-    get currentSelection() {
-        return this.currentDocument?.selection;
+    getCurrentSelection() {
+        return this.getCurrentDocument()?.selection;
     }
 
     /**
@@ -140,17 +136,17 @@ export class Designer {
         this.dragon.onDragstart((e) => {
             this.detecting.enable = false;
             const { dragObject } = e;
-            console.log('dragObject：', dragObject);
+            const currentSelection = this.getCurrentSelection();
             if (isDragNodeObject(dragObject)) {
                 if (dragObject.nodes.length === 1) {
                     if (dragObject.nodes[0].parent) {
-                        this.currentSelection.select(dragObject.nodes[0].id);
+                        currentSelection.select(dragObject.nodes[0].id);
                     } else {
-                        this.currentSelection?.clear();
+                        currentSelection?.clear();
                     }
                 }
             } else {
-                this.currentSelection?.clear();
+                currentSelection?.clear();
             }
             if (this.props?.onDragstart) {
                 this.props.onDragstart(e);
@@ -217,8 +213,11 @@ export class Designer {
         });
 
         this.project.onCurrentDocumentChange(() => {
-            this.postEvent('current-document.change', this.currentDocument);
-            this.postEvent('selection.change', this.currentSelection);
+            this.postEvent(
+                'current-document.change',
+                this.getCurrentDocument(),
+            );
+            this.postEvent('selection.change', this.getCurrentSelection());
             this.setupSelection();
         });
 
@@ -232,7 +231,7 @@ export class Designer {
             selectionDispose();
             selectionDispose = undefined;
         }
-        const { currentSelection } = this;
+        const currentSelection = this.getCurrentSelection();
         this.postEvent('selection.change', currentSelection);
         if (currentSelection) {
             selectionDispose = currentSelection.onSelectionChange(() => {

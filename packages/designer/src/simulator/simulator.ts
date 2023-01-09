@@ -106,9 +106,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
 
     readonly designer: Designer;
 
-    readonly viewport: ShallowReactive<Viewport> = shallowReactive(
-        new Viewport(),
-    );
+    readonly viewport: Viewport = new Viewport();
 
     readonly scroller: Scroller;
 
@@ -120,10 +118,6 @@ export class Simulator implements ISimulator<SimulatorProps> {
      * 是否为画布自动渲染
      */
     autoRender = true;
-
-    get currentDocument() {
-        return this.project.currentDocument.value;
-    }
 
     get contentWindow() {
         return this._contentWindow;
@@ -757,7 +751,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
      */
     handleAccept({ container }: DropContainer, e: LocateEvent): boolean {
         const { dragObject } = e;
-        const document = this.currentDocument;
+        const document = this.project.currentDocument.value;
         const focusNode = document.focusNode;
         if (isRootNode(container) || container.contains(focusNode)) {
             return document.checkDropTarget(focusNode, dragObject as any);

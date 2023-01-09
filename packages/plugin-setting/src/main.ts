@@ -56,7 +56,7 @@ export class SettingsMain {
                 setupSelection,
             );
         };
-        setupSelection(this.designer.currentSelection);
+        setupSelection(this.designer.getCurrentSelection());
     }
 
     private setup(nodes: Node[]) {

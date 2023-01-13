@@ -347,7 +347,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
 
         if (this.isLeaf()) {
             if (!options.bypassChildren) {
-                baseSchema.children = [this.getProp('children')?.export(stage)];
+                baseSchema.children = this.getProp('children')?.export(stage);
             }
             return baseSchema;
         }

@@ -7,7 +7,7 @@ import {
     shallowRef,
     triggerRef,
 } from 'vue';
-import { isArray } from 'lodash-es';
+import { isArray, isNil } from 'lodash-es';
 import { Setter, SetterType, SettingTarget } from '@webank/letgo-types';
 import { SettingField, createSettingFieldView } from '@webank/letgo-designer';
 import { FButton } from '@fesjs/fes-design';
@@ -103,8 +103,9 @@ const ArraySetterView = defineComponent({
         const init = () => {
             const _items: SettingField[] = [];
 
-            const valueLength =
-                props.value && isArray(props.value) ? props.value.length : 0;
+            const value = isNil(props.value) ? props.defaultValue : props.value;
+
+            const valueLength = value && isArray(value) ? value.length : 0;
 
             for (let i = 0; i < valueLength; i++) {
                 const item = field.createField({
@@ -112,7 +113,7 @@ const ArraySetterView = defineComponent({
                     setter: props.itemSetter,
                     forceInline: 1,
                     extraProps: {
-                        defaultValue: props.value[i],
+                        defaultValue: value[i],
                         setValue: onItemChange,
                     },
                 });

@@ -4,10 +4,10 @@ const assets: AssetsJson = {
     packages: [
         {
             package: '@fesjs/fes-design',
-            version: '0.7.11',
+            version: '0.7.17',
             urls: [
-                'https://unpkg.com/@fesjs/fes-design@0.7.12/dist/fes-design.js',
-                'https://unpkg.com/@fesjs/fes-design@0.7.12/dist/fes-design.css',
+                'https://unpkg.com/@fesjs/fes-design@0.7.17/dist/fes-design.js',
+                'https://unpkg.com/@fesjs/fes-design@0.7.17/dist/fes-design.css',
             ],
             library: 'FesDesign',
         },
@@ -574,7 +574,7 @@ const assets: AssetsJson = {
             componentName: 'FSpace',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.11',
+                version: '0.7.17',
                 exportName: 'FSpace',
                 destructuring: true,
             },
@@ -727,7 +727,7 @@ const assets: AssetsJson = {
             componentName: 'FButton',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.11',
+                version: '0.7.17',
                 exportName: 'FButton',
                 destructuring: true,
             },
@@ -929,7 +929,7 @@ const assets: AssetsJson = {
             componentName: 'FForm',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.11',
+                version: '0.7.17',
                 exportName: 'FForm',
                 destructuring: true,
             },
@@ -1113,7 +1113,7 @@ const assets: AssetsJson = {
             componentName: 'FFormItem',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.11',
+                version: '0.7.17',
                 exportName: 'FFormItem',
                 destructuring: true,
             },
@@ -1274,7 +1274,7 @@ const assets: AssetsJson = {
             componentName: 'FInput',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.11',
+                version: '0.7.17',
                 exportName: 'FInput',
                 destructuring: true,
             },
@@ -1451,7 +1451,7 @@ const assets: AssetsJson = {
             componentName: 'FInputNumber',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.11',
+                version: '0.7.17',
                 exportName: 'FInputNumber',
                 destructuring: true,
             },
@@ -1512,7 +1512,7 @@ const assets: AssetsJson = {
             componentName: 'FSelect',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.11',
+                version: '0.7.17',
                 exportName: 'FSelect',
                 destructuring: true,
             },
@@ -1612,86 +1612,11 @@ const assets: AssetsJson = {
             priority: 0,
         },
         {
-            title: '下拉菜单',
-            componentName: 'NDropdown',
-            npm: {
-                package: 'naive-ui',
-                version: '2.32.0',
-                exportName: 'NDropdown',
-                destructuring: true,
-            },
-            props: [
-                {
-                    name: 'options',
-                    propType: {
-                        type: 'arrayOf',
-                        value: {
-                            type: 'exact',
-                            value: [
-                                {
-                                    name: 'key',
-                                    propType: {
-                                        type: 'oneOfType',
-                                        value: ['string', 'number'],
-                                    },
-                                },
-                                {
-                                    name: 'label',
-                                    propType: 'string',
-                                },
-                            ],
-                        },
-                    },
-                    title: '选项',
-                },
-            ],
-            snippets: [
-                {
-                    title: '下拉菜单',
-                    schema: {
-                        componentName: 'NDropdown',
-                        props: {
-                            options: [
-                                {
-                                    label: '滨海湾金沙，新加坡',
-                                    key: 'marina bay sands',
-                                    disabled: true,
-                                },
-                                {
-                                    label: '布朗酒店，伦敦',
-                                    key: "brown's hotel, london",
-                                },
-                                {
-                                    label: '亚特兰蒂斯巴哈马，拿骚',
-                                    key: 'atlantis nahamas, nassau',
-                                },
-                                {
-                                    label: '比佛利山庄酒店，洛杉矶',
-                                    key: 'the beverly hills hotel, los angeles',
-                                },
-                            ],
-                            children: [
-                                {
-                                    componentName: 'FButton',
-                                    props: {
-                                        children: '找个地方休息',
-                                    },
-                                },
-                            ],
-                        },
-                    },
-                },
-            ],
-            group: '原子组件',
-            category: '信息展示',
-            priority: 0,
-        },
-        {
             title: '分割线',
             componentName: 'FDivider',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.11',
+                version: '0.7.17',
                 exportName: 'FDivider',
                 destructuring: true,
             },
@@ -1733,7 +1658,7 @@ const assets: AssetsJson = {
             componentName: 'FEllipsis',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.11',
+                version: '0.7.17',
                 exportName: 'FEllipsis',
                 destructuring: true,
             },
@@ -1778,7 +1703,7 @@ const assets: AssetsJson = {
             componentName: 'FLayout',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.11',
+                version: '0.7.17',
                 exportName: 'FLayout',
                 destructuring: true,
             },
@@ -1913,7 +1838,7 @@ const assets: AssetsJson = {
             componentName: 'FHeader',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.11',
+                version: '0.7.17',
                 exportName: 'FHeader',
                 destructuring: true,
             },
@@ -1979,7 +1904,7 @@ const assets: AssetsJson = {
             componentName: 'FAside',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.11',
+                version: '0.7.17',
                 exportName: 'FAside',
                 destructuring: true,
             },
@@ -2045,7 +1970,7 @@ const assets: AssetsJson = {
             componentName: 'FMain',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.11',
+                version: '0.7.17',
                 exportName: 'FMain',
                 destructuring: true,
             },
@@ -2091,7 +2016,7 @@ const assets: AssetsJson = {
             componentName: 'FFooter',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.11',
+                version: '0.7.17',
                 exportName: 'FFooter',
                 destructuring: true,
             },
@@ -2157,7 +2082,7 @@ const assets: AssetsJson = {
             componentName: 'FDropdown',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.11',
+                version: '0.7.17',
                 exportName: 'FDropdown',
                 destructuring: true,
             },
@@ -2395,6 +2320,375 @@ const assets: AssetsJson = {
                                 children: '下拉菜单',
                             },
                         ],
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '导航组件',
+            priority: 0,
+        },
+        {
+            title: '步骤条',
+            componentName: 'FSteps',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.17',
+                exportName: 'FSteps',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'v-model:current',
+                    propType: 'number',
+                },
+                {
+                    name: 'status',
+                    propType: 'string',
+                },
+                {
+                    name: 'vertical',
+                    propType: 'bool',
+                },
+            ],
+            configure: {
+                props: [
+                    {
+                        name: 'v-model:current',
+                        title: '当前步骤',
+                        setter: 'NumberSetter',
+                    },
+                    {
+                        name: 'status',
+                        title: '当前步骤状态',
+                        setter: {
+                            componentName: 'SelectSetter',
+                            props: {
+                                options: [
+                                    {
+                                        value: 'process',
+                                        label: '处理中',
+                                    },
+                                    {
+                                        value: 'error',
+                                        label: '处理错误',
+                                    },
+                                    {
+                                        value: 'error',
+                                        label: '处理完成',
+                                    },
+                                ],
+                            },
+                            defaultValue: 'process',
+                        },
+                    },
+                    {
+                        name: 'vertical',
+                        title: '是否垂直方向',
+                        setter: 'BoolSetter',
+                    },
+                ],
+                component: {
+                    isContainer: true,
+                    nestingRule: {
+                        childWhitelist: 'FStep',
+                    },
+                },
+                supports: {
+                    events: ['onChange'],
+                    class: true,
+                    style: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '步骤条',
+                    schema: {
+                        componentName: 'FSteps',
+                        props: {},
+                        children: [
+                            {
+                                componentName: 'FStep',
+                                props: {
+                                    title: '进行中',
+                                    description: '我是描述',
+                                },
+                            },
+                            {
+                                componentName: 'FStep',
+                                props: {
+                                    title: '待处理',
+                                    description: '我是描述',
+                                },
+                            },
+                        ],
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '导航组件',
+            priority: 0,
+        },
+        {
+            title: '步骤条选项',
+            componentName: 'FStep',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.17',
+                exportName: 'FStep',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'title',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'node'],
+                    },
+                },
+                {
+                    name: 'description',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'node'],
+                    },
+                },
+                {
+                    name: 'status',
+                    propType: 'number',
+                },
+                {
+                    name: 'icon',
+                    propType: 'node',
+                },
+            ],
+            configure: {
+                props: [
+                    {
+                        name: 'title',
+                        title: '标题',
+                        setter: [
+                            {
+                                componentName: 'StringSetter',
+                                defaultValue: '我是标题',
+                            },
+                        ],
+                    },
+                    {
+                        name: 'description',
+                        title: '描述',
+                        setter: [
+                            {
+                                componentName: 'StringSetter',
+                                defaultValue: '我是描述',
+                            },
+                        ],
+                    },
+                    {
+                        name: 'status',
+                        title: '状态',
+                        setter: {
+                            componentName: 'SelectSetter',
+                            props: {
+                                options: [
+                                    {
+                                        value: 'wait',
+                                        label: '待处理',
+                                    },
+                                    {
+                                        value: 'process',
+                                        label: '处理中',
+                                    },
+                                    {
+                                        value: 'error',
+                                        label: '处理错误',
+                                    },
+                                    {
+                                        value: 'error',
+                                        label: '处理完成',
+                                    },
+                                ],
+                            },
+                        },
+                    },
+                    {
+                        name: 'icon',
+                        title: '图标',
+                        setter: 'SlotSetter',
+                    },
+                ],
+                component: {
+                    nestingRule: {
+                        parentWhitelist: 'FSteps',
+                    },
+                },
+                supports: {
+                    class: true,
+                    style: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '步骤条选项',
+                    schema: {
+                        componentName: 'FStep',
+                        props: {
+                            title: '我是标题',
+                            description: '我是描述',
+                        },
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '导航组件',
+            priority: 0,
+        },
+        {
+            title: '分页',
+            componentName: 'FPagination',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.17',
+                exportName: 'FPagination',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'v-model:pageSize',
+                    propType: 'number',
+                },
+                {
+                    name: 'v-model:currentPage',
+                    propType: 'number',
+                },
+                {
+                    name: 'totalCount',
+                    propType: 'number',
+                },
+                {
+                    name: 'pageSizeOption',
+                    propType: 'array',
+                },
+                {
+                    name: 'showTotal',
+                    propType: 'bool',
+                },
+                {
+                    name: 'showQuickJumper',
+                    propType: 'bool',
+                },
+                {
+                    name: 'small',
+                    propType: 'bool',
+                },
+                {
+                    name: 'simple',
+                    propType: 'bool',
+                },
+                {
+                    name: 'showSizeChanger',
+                    propType: 'bool',
+                },
+            ],
+            configure: {
+                props: [
+                    {
+                        title: '基础功能',
+                        type: 'group',
+                        extraProps: {
+                            display: 'block',
+                        },
+                        items: [
+                            {
+                                name: 'v-model:currentPage',
+                                title: '当前页码',
+                                setter: 'NumberSetter',
+                                defaultValue: 1,
+                            },
+                            {
+                                name: 'v-model:pageSize',
+                                title: '每页个数',
+                                setter: 'NumberSetter',
+                                defaultValue: 10,
+                            },
+                            {
+                                name: 'totalCount',
+                                title: '总条数',
+                                setter: 'NumberSetter',
+                            },
+                        ],
+                    },
+                    {
+                        title: '样式',
+                        type: 'group',
+                        extraProps: {
+                            display: 'block',
+                        },
+                        items: [
+                            {
+                                name: 'showQuickJumper',
+                                title: '快速跳转',
+                                setter: 'BoolSetter',
+                            },
+                            {
+                                name: 'showTotal',
+                                title: '总条数',
+                                setter: 'BoolSetter',
+                            },
+                            {
+                                name: 'small',
+                                title: '小型样式',
+                                setter: 'BoolSetter',
+                            },
+                            {
+                                name: 'simple',
+                                title: '简洁样式',
+                                setter: 'BoolSetter',
+                            },
+                        ],
+                    },
+                    {
+                        title: '每页条数选择器',
+                        type: 'group',
+                        extraProps: {
+                            display: 'block',
+                        },
+                        items: [
+                            {
+                                name: 'showSizeChanger',
+                                title: '开启',
+                                setter: 'BoolSetter',
+                            },
+                            {
+                                name: 'pageSizeOption',
+                                title: '选项',
+                                setter: {
+                                    componentName: 'ArraySetter',
+                                    props: {
+                                        itemSetter: {
+                                            componentName: 'NumberSetter',
+                                        },
+                                    },
+                                },
+                                defaultValue: [10, 20, 30, 50, 100],
+                            },
+                        ],
+                    },
+                ],
+                component: {},
+                supports: {
+                    events: ['onChange', 'onPageSizeChange'],
+                    class: true,
+                    style: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '分页',
+                    schema: {
+                        componentName: 'FPagination',
+                        props: {
+                            totalCount: 1000,
+                        },
                     },
                 },
             ],

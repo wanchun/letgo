@@ -1296,7 +1296,7 @@ const assets: AssetsJson = {
                     propType: 'string',
                 },
                 {
-                    name: 'modelValue',
+                    name: 'v-model',
                     propType: 'string',
                 },
                 {
@@ -1398,17 +1398,11 @@ const assets: AssetsJson = {
                 ],
                 supports: {
                     events: [
-                        'onMousedown',
-                        'onKeydown',
-                        'onKeydown',
-                        'onKeyup',
                         'onInput',
                         'onFocus',
                         'onBlur',
                         'onClear',
-                        'onClick',
                         'onChange',
-                        'onUpdateValue',
                     ],
                     style: true,
                 },
@@ -1538,54 +1532,279 @@ const assets: AssetsJson = {
                             ],
                         },
                     },
-                    title: '选项',
                 },
                 {
                     name: 'clearable',
                     propType: 'bool',
-                    title: '是否显示清除Icon',
                 },
                 {
                     name: 'disabled',
                     propType: 'bool',
-                    title: '是否禁用',
+                },
+                {
+                    name: 'collapseTags',
+                    propType: 'bool',
+                },
+                {
+                    name: 'collapseTagsLimit',
+                    propType: 'number',
+                },
+                {
+                    name: 'tagBordered',
+                    propType: 'bool',
+                },
+                {
+                    name: 'emptyText',
+                    propType: 'string',
+                },
+                {
+                    name: 'appendToContainer',
+                    propType: 'bool',
+                },
+                {
+                    name: 'getContainer',
+                    propType: 'func',
+                },
+                {
+                    name: 'multiple',
+                    propType: 'bool',
+                },
+                {
+                    name: 'multipleLimit',
+                    propType: 'number',
+                },
+                {
+                    name: 'placeholder',
+                    propType: 'string',
+                },
+                {
+                    name: 'v-model',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'number'],
+                    },
+                },
+                {
+                    name: 'filterable',
+                    propType: 'bool',
+                },
+                {
+                    name: 'filter',
+                    propType: 'func',
+                },
+                {
+                    name: 'tag',
+                    propType: 'bool',
+                },
+                {
+                    name: 'remote',
+                    propType: 'bool',
+                },
+                {
+                    name: 'valueField',
+                    propType: 'string',
+                },
+                {
+                    name: 'labelField',
+                    propType: 'string',
+                },
+                {
+                    name: 'popperClass',
+                    propType: 'string',
                 },
             ],
             configure: {
                 props: [
                     {
-                        name: 'options',
-                        title: '选项',
-                        setter: {
-                            componentName: 'ArraySetter',
-                            props: {
-                                itemSetter: {
-                                    componentName: 'ObjectSetter',
-                                    props: {
-                                        items: [
-                                            {
-                                                name: 'value',
-                                                title: '选项值',
-                                                setter: [
-                                                    'StringSetter',
-                                                    'NumberSetter',
-                                                ],
-                                            },
-                                            {
-                                                name: 'label',
-                                                title: '选项名',
-                                                setter: 'StringSetter',
-                                            },
-                                        ],
-                                    },
-                                },
-                            },
-                        },
+                        title: '选项配置',
+                        type: 'group',
                         extraProps: {
                             display: 'block',
                         },
+                        items: [
+                            {
+                                name: 'options',
+                                title: '选项',
+                                setter: {
+                                    componentName: 'ArraySetter',
+                                    props: {
+                                        itemSetter: {
+                                            componentName: 'ObjectSetter',
+                                            props: {
+                                                items: [
+                                                    {
+                                                        name: 'value',
+                                                        title: '选项值',
+                                                        setter: [
+                                                            'StringSetter',
+                                                            'NumberSetter',
+                                                        ],
+                                                    },
+                                                    {
+                                                        name: 'label',
+                                                        title: '选项名',
+                                                        setter: 'StringSetter',
+                                                    },
+                                                ],
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                            {
+                                name: 'valueField',
+                                title: 'value字段',
+                                setter: 'StringSetter',
+                                defaultValue: 'value',
+                            },
+                            {
+                                name: 'labelField',
+                                title: 'label字段',
+                                setter: 'StringSetter',
+                                defaultValue: 'label',
+                            },
+                        ],
+                    },
+                    {
+                        title: '基础配置',
+                        type: 'group',
+                        extraProps: {
+                            display: 'block',
+                        },
+                        items: [
+                            {
+                                name: 'placeholder',
+                                title: '未选择提示语',
+                                setter: 'StringSetter',
+                            },
+                            {
+                                name: 'emptyText',
+                                title: '选项为空提示语',
+                                setter: 'StringSetter',
+                                defaultValue: '无数据',
+                            },
+                            {
+                                name: 'clearable',
+                                title: '可清除',
+                                setter: 'BoolSetter',
+                                defaultValue: false,
+                            },
+                            {
+                                name: 'disabled',
+                                title: '禁用',
+                                setter: 'BoolSetter',
+                                defaultValue: false,
+                            },
+                            {
+                                name: 'popperClass',
+                                title: '弹出框样式',
+                                setter: 'StringSetter',
+                            },
+                        ],
+                    },
+                    {
+                        title: '多选配置',
+                        type: 'group',
+                        extraProps: {
+                            display: 'block',
+                        },
+                        items: [
+                            {
+                                name: 'multiple',
+                                title: '是否多选',
+                                setter: 'BoolSetter',
+                            },
+                            {
+                                name: 'multipleLimit',
+                                title: '最多选几个',
+                                setter: 'NumberSetter',
+                            },
+                            {
+                                name: 'collapseTags',
+                                title: '是否多选折叠展示',
+                                setter: 'BoolSetter',
+                            },
+                            {
+                                name: 'collapseTagsLimit',
+                                title: '超出几个折叠',
+                                setter: 'NumberSetter',
+                                defaultValue: 1,
+                            },
+                            {
+                                name: 'tagBordered',
+                                title: '选中项展示是否有边框',
+                                setter: 'BoolSetter',
+                                defaultValue: false,
+                            },
+                        ],
+                    },
+                    {
+                        title: '功能配置',
+                        type: 'group',
+                        extraProps: {
+                            display: 'block',
+                        },
+                        items: [
+                            {
+                                name: 'filterable',
+                                title: '是否支持过滤选项',
+                                setter: 'BoolSetter',
+                                defaultValue: false,
+                            },
+                            {
+                                name: 'filterable',
+                                title: 'filter',
+                                setter: 'FunctionSetter',
+                            },
+                            {
+                                name: 'tag',
+                                title: '是否支持创建新选项',
+                                setter: 'BoolSetter',
+                                defaultValue: false,
+                            },
+                            {
+                                name: 'remote',
+                                title: '是否远程搜索',
+                                setter: 'BoolSetter',
+                                defaultValue: false,
+                            },
+                        ],
+                    },
+                    {
+                        title: '挂载配置',
+                        type: 'group',
+                        extraProps: {
+                            display: 'block',
+                        },
+                        items: [
+                            {
+                                name: 'appendToContainer',
+                                title: '弹窗挂载到外部节点',
+                                setter: 'BoolSetter',
+                                defaultValue: true,
+                            },
+                            {
+                                name: 'getContainer',
+                                title: '指定弹窗挂载的节点',
+                                setter: 'FunctionSetter',
+                            },
+                        ],
                     },
                 ],
+                supports: {
+                    events: [
+                        'change',
+                        'visibleChange',
+                        'removeTag',
+                        'blur',
+                        'focus',
+                        'clear',
+                        'scroll',
+                        'search',
+                    ],
+                    class: true,
+                    style: true,
+                },
             },
             snippets: [
                 {

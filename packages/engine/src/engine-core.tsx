@@ -58,7 +58,7 @@ export { plugins, project, material };
         name: '___default_panel___',
         init(ctx: IPluginContext) {
             ctx.skeleton.add({
-                name: 'ComponentsPanel',
+                name: 'designerView',
                 area: 'mainArea',
                 type: 'Widget',
                 content: () => <PluginDesignerView ctx={ctx} />,

@@ -6,4 +6,4 @@ export * from './simulator';
 export * from './types';
 export * from './setting';
 
-console.log(1);
+console.log(J);

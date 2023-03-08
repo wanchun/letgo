@@ -4,10 +4,10 @@ const assets: AssetsJson = {
     packages: [
         {
             package: '@fesjs/fes-design',
-            version: '0.7.17',
+            version: '0.7.20',
             urls: [
-                'https://unpkg.com/@fesjs/fes-design@0.7.17/dist/fes-design.js',
-                'https://unpkg.com/@fesjs/fes-design@0.7.17/dist/fes-design.css',
+                'https://unpkg.com/@fesjs/fes-design@0.7.20/dist/fes-design.js',
+                'https://unpkg.com/@fesjs/fes-design@0.7.20/dist/fes-design.css',
             ],
             library: 'FesDesign',
         },
@@ -574,7 +574,7 @@ const assets: AssetsJson = {
             componentName: 'FSpace',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.17',
+                version: '0.7.20',
                 exportName: 'FSpace',
                 destructuring: true,
             },
@@ -727,7 +727,7 @@ const assets: AssetsJson = {
             componentName: 'FButton',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.17',
+                version: '0.7.20',
                 exportName: 'FButton',
                 destructuring: true,
             },
@@ -929,7 +929,7 @@ const assets: AssetsJson = {
             componentName: 'FForm',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.17',
+                version: '0.7.20',
                 exportName: 'FForm',
                 destructuring: true,
             },
@@ -1113,7 +1113,7 @@ const assets: AssetsJson = {
             componentName: 'FFormItem',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.17',
+                version: '0.7.20',
                 exportName: 'FFormItem',
                 destructuring: true,
             },
@@ -1274,11 +1274,15 @@ const assets: AssetsJson = {
             componentName: 'FInput',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.17',
+                version: '0.7.20',
                 exportName: 'FInput',
                 destructuring: true,
             },
             props: [
+                {
+                    name: 'modelValue',
+                    propType: 'string',
+                },
                 {
                     name: 'disabled',
                     propType: 'bool',
@@ -1311,7 +1315,7 @@ const assets: AssetsJson = {
             configure: {
                 props: [
                     {
-                        name: 'v-model',
+                        name: 'modelValue',
                         title: '输入值',
                         setter: 'StringSetter',
                     },
@@ -1445,7 +1449,7 @@ const assets: AssetsJson = {
             componentName: 'FInputNumber',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.17',
+                version: '0.7.20',
                 exportName: 'FInputNumber',
                 destructuring: true,
             },
@@ -1506,7 +1510,7 @@ const assets: AssetsJson = {
             componentName: 'FSelect',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.17',
+                version: '0.7.20',
                 exportName: 'FSelect',
                 destructuring: true,
             },
@@ -1831,11 +1835,235 @@ const assets: AssetsJson = {
             priority: 0,
         },
         {
+            title: '复选框组',
+            componentName: 'FCheckboxGroup',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.20',
+                exportName: 'FCheckboxGroup',
+                destructuring: true,
+            },
+            group: '原子组件',
+            category: '数据录入',
+            priority: 0,
+            props: [
+                {
+                    name: 'v-model',
+                    propType: 'array',
+                },
+                {
+                    name: 'vertical',
+                    propType: 'bool',
+                },
+                {
+                    name: 'disabled',
+                    propType: 'bool',
+                },
+                {
+                    name: 'options',
+                    propType: 'array',
+                },
+                {
+                    name: 'valueField',
+                    propType: 'string',
+                },
+                {
+                    name: 'labelField',
+                    propType: 'string',
+                },
+            ],
+            configure: {
+                props: [
+                    {
+                        name: 'v-model',
+                        title: '选中的值',
+                        extraProps: {
+                            display: 'block',
+                        },
+                        setter: {
+                            componentName: 'ArraySetter',
+                            props: {
+                                itemSetter: ['StringSetter', 'NumberSetter'],
+                            },
+                        },
+                    },
+                    {
+                        name: 'vertical',
+                        title: '垂直排列',
+                        setter: 'BoolSetter',
+                    },
+                    {
+                        name: 'disabled',
+                        title: '是否禁用',
+                        setter: 'BoolSetter',
+                    },
+                    {
+                        name: 'options',
+                        title: '选项配置',
+                        extraProps: {
+                            display: 'block',
+                        },
+                        setter: {
+                            componentName: 'ArraySetter',
+                            props: {
+                                itemSetter: {
+                                    componentName: 'ObjectSetter',
+                                    props: {
+                                        items: [
+                                            {
+                                                name: 'value',
+                                                title: '选项值',
+                                                setter: [
+                                                    'StringSetter',
+                                                    'NumberSetter',
+                                                ],
+                                            },
+                                            {
+                                                name: 'label',
+                                                title: '选项名',
+                                                setter: 'StringSetter',
+                                            },
+                                            {
+                                                name: 'disabled',
+                                                title: '是否禁用',
+                                                setter: 'BoolSetter',
+                                            },
+                                        ],
+                                    },
+                                },
+                            },
+                        },
+                    },
+                ],
+                component: {},
+                supports: {
+                    events: ['onChange'],
+                    class: true,
+                    style: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '复选框组',
+                    schema: {
+                        componentName: 'FCheckboxGroup',
+                        props: {
+                            options: [
+                                {
+                                    value: 1,
+                                    label: '1',
+                                },
+                                {
+                                    value: 2,
+                                    label: '2',
+                                },
+                            ],
+                        },
+                    },
+                },
+            ],
+        },
+        {
+            title: '复选框',
+            componentName: 'FCheckbox',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.20',
+                exportName: 'FCheckbox',
+                destructuring: true,
+            },
+            group: '原子组件',
+            category: '数据录入',
+            priority: 0,
+            props: [
+                {
+                    name: 'v-model',
+                    propType: 'bool',
+                },
+                {
+                    name: 'value',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'number', 'bool'],
+                    },
+                },
+                {
+                    name: 'label',
+                    propType: 'string',
+                },
+                {
+                    name: 'disabled',
+                    propType: 'bool',
+                },
+                {
+                    name: 'indeterminate',
+                    propType: 'bool',
+                },
+            ],
+            configure: {
+                props: [
+                    {
+                        name: 'v-model',
+                        title: '是否选中',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'value',
+                        title: '内容',
+                        setter: ['StringSetter', 'NumberSetter'],
+                        condition: (target) => {
+                            return (
+                                target.top.getNode().parent.componentName ===
+                                'FCheckboxGroup'
+                            );
+                        },
+                    },
+                    {
+                        name: 'label',
+                        title: '描述',
+                        setter: 'StringSetter',
+                        condition: (target) => {
+                            return (
+                                target.top.getNode().parent.componentName ===
+                                'FCheckboxGroup'
+                            );
+                        },
+                    },
+                    {
+                        name: 'disabled',
+                        title: '禁用',
+                        setter: 'BoolSetter',
+                    },
+                    {
+                        name: 'indeterminate',
+                        title: '部分选中',
+                        setter: 'BoolSetter',
+                    },
+                ],
+                component: {},
+                supports: {
+                    events: ['onChange'],
+                    class: true,
+                    style: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '复选框',
+                    schema: {
+                        componentName: 'FCheckbox',
+                        props: {},
+                    },
+                },
+            ],
+        },
+        {
             title: '分割线',
             componentName: 'FDivider',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.17',
+                version: '0.7.20',
                 exportName: 'FDivider',
                 destructuring: true,
             },
@@ -1877,7 +2105,7 @@ const assets: AssetsJson = {
             componentName: 'FEllipsis',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.17',
+                version: '0.7.20',
                 exportName: 'FEllipsis',
                 destructuring: true,
             },
@@ -1918,63 +2146,8 @@ const assets: AssetsJson = {
             priority: 0,
         },
         {
-            title: '布局容器',
-            componentName: 'FLayout',
-            npm: {
-                package: '@fesjs/fes-design',
-                version: '0.7.17',
-                exportName: 'FLayout',
-                destructuring: true,
-            },
-            props: [
-                {
-                    name: 'embedded',
-                    propType: 'bool',
-                },
-                {
-                    name: 'fixed',
-                    propType: 'bool',
-                },
-                {
-                    name: 'containerClass',
-                    propType: 'string',
-                },
-                {
-                    name: 'containerStyle',
-                    propType: 'object',
-                },
-            ],
-            configure: {
-                props: [
-                    {
-                        name: 'embedded',
-                        title: '反色背景',
-                        setter: 'BoolSetter',
-                        defaultValue: false,
-                    },
-                    {
-                        name: 'fixed',
-                        title: '浮动模式',
-                        setter: 'BoolSetter',
-                        defaultValue: false,
-                    },
-                ],
-                component: {
-                    isContainer: true,
-                    nestingRule: {
-                        descendantWhitelist: [
-                            'FHeader',
-                            'FAside',
-                            'FMain',
-                            'FFooter',
-                            'FLayout',
-                        ],
-                    },
-                },
-                supports: {
-                    style: true,
-                },
-            },
+            componentName: '',
+            title: '',
             snippets: [
                 {
                     title: '混合布局',
@@ -2041,6 +2214,70 @@ const assets: AssetsJson = {
                         ],
                     },
                 },
+            ],
+            group: '精选组件',
+            category: '布局组件',
+            priority: 0,
+        },
+        {
+            title: '布局容器',
+            componentName: 'FLayout',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.20',
+                exportName: 'FLayout',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'embedded',
+                    propType: 'bool',
+                },
+                {
+                    name: 'fixed',
+                    propType: 'bool',
+                },
+                {
+                    name: 'containerClass',
+                    propType: 'string',
+                },
+                {
+                    name: 'containerStyle',
+                    propType: 'object',
+                },
+            ],
+            configure: {
+                props: [
+                    {
+                        name: 'embedded',
+                        title: '反色背景',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'fixed',
+                        title: '浮动模式',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                ],
+                component: {
+                    isContainer: true,
+                    nestingRule: {
+                        descendantWhitelist: [
+                            'FHeader',
+                            'FAside',
+                            'FMain',
+                            'FFooter',
+                            'FLayout',
+                        ],
+                    },
+                },
+                supports: {
+                    style: true,
+                },
+            },
+            snippets: [
                 {
                     title: '布局容器',
                     schema: {
@@ -2048,7 +2285,7 @@ const assets: AssetsJson = {
                     },
                 },
             ],
-            group: '精选组件',
+            group: '原子组件',
             category: '布局组件',
             priority: 0,
         },
@@ -2057,7 +2294,7 @@ const assets: AssetsJson = {
             componentName: 'FHeader',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.17',
+                version: '0.7.20',
                 exportName: 'FHeader',
                 destructuring: true,
             },
@@ -2114,7 +2351,7 @@ const assets: AssetsJson = {
                     },
                 },
             ],
-            group: '精选组件',
+            group: '原子组件',
             category: '布局组件',
             priority: 0,
         },
@@ -2123,7 +2360,7 @@ const assets: AssetsJson = {
             componentName: 'FAside',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.17',
+                version: '0.7.20',
                 exportName: 'FAside',
                 destructuring: true,
             },
@@ -2180,7 +2417,7 @@ const assets: AssetsJson = {
                     },
                 },
             ],
-            group: '精选组件',
+            group: '原子组件',
             category: '布局组件',
             priority: 0,
         },
@@ -2189,7 +2426,7 @@ const assets: AssetsJson = {
             componentName: 'FMain',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.17',
+                version: '0.7.20',
                 exportName: 'FMain',
                 destructuring: true,
             },
@@ -2226,7 +2463,7 @@ const assets: AssetsJson = {
                     },
                 },
             ],
-            group: '精选组件',
+            group: '原子组件',
             category: '布局组件',
             priority: 0,
         },
@@ -2235,7 +2472,7 @@ const assets: AssetsJson = {
             componentName: 'FFooter',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.17',
+                version: '0.7.20',
                 exportName: 'FFooter',
                 destructuring: true,
             },
@@ -2292,7 +2529,7 @@ const assets: AssetsJson = {
                     },
                 },
             ],
-            group: '精选组件',
+            group: '原子组件',
             category: '布局组件',
             priority: 0,
         },
@@ -2301,7 +2538,7 @@ const assets: AssetsJson = {
             componentName: 'FDropdown',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.17',
+                version: '0.7.20',
                 exportName: 'FDropdown',
                 destructuring: true,
             },
@@ -2551,7 +2788,7 @@ const assets: AssetsJson = {
             componentName: 'FSteps',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.17',
+                version: '0.7.20',
                 exportName: 'FSteps',
                 destructuring: true,
             },
@@ -2652,7 +2889,7 @@ const assets: AssetsJson = {
             componentName: 'FStep',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.17',
+                version: '0.7.20',
                 exportName: 'FStep',
                 destructuring: true,
             },
@@ -2766,7 +3003,7 @@ const assets: AssetsJson = {
             componentName: 'FPagination',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.17',
+                version: '0.7.20',
                 exportName: 'FPagination',
                 destructuring: true,
             },

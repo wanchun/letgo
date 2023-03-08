@@ -51,7 +51,7 @@ export interface SetterConfig {
 }
 
 // if *string* passed must be a registered Setter Name, future support blockSchema
-export type SetterType = SetterConfig | SetterConfig[] | string;
+export type SetterType = SetterConfig | SetterConfig[] | string | string[];
 
 export function isSetterConfig(obj: any): obj is SetterConfig {
     return obj && typeof obj === 'object' && 'componentName' in obj;

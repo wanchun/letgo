@@ -4,10 +4,10 @@ const assets: AssetsJson = {
     packages: [
         {
             package: '@fesjs/fes-design',
-            version: '0.7.20',
+            version: '0.7.21',
             urls: [
-                'https://unpkg.com/@fesjs/fes-design@0.7.20/dist/fes-design.js',
-                'https://unpkg.com/@fesjs/fes-design@0.7.20/dist/fes-design.css',
+                'https://unpkg.com/@fesjs/fes-design@0.7.21/dist/fes-design.js',
+                'https://unpkg.com/@fesjs/fes-design@0.7.21/dist/fes-design.css',
             ],
             library: 'FesDesign',
         },
@@ -574,7 +574,7 @@ const assets: AssetsJson = {
             componentName: 'FSpace',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.20',
+                version: '0.7.21',
                 exportName: 'FSpace',
                 destructuring: true,
             },
@@ -727,7 +727,7 @@ const assets: AssetsJson = {
             componentName: 'FButton',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.20',
+                version: '0.7.21',
                 exportName: 'FButton',
                 destructuring: true,
             },
@@ -929,7 +929,7 @@ const assets: AssetsJson = {
             componentName: 'FForm',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.20',
+                version: '0.7.21',
                 exportName: 'FForm',
                 destructuring: true,
             },
@@ -1113,7 +1113,7 @@ const assets: AssetsJson = {
             componentName: 'FFormItem',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.20',
+                version: '0.7.21',
                 exportName: 'FFormItem',
                 destructuring: true,
             },
@@ -1274,7 +1274,7 @@ const assets: AssetsJson = {
             componentName: 'FInput',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.20',
+                version: '0.7.21',
                 exportName: 'FInput',
                 destructuring: true,
             },
@@ -1449,7 +1449,7 @@ const assets: AssetsJson = {
             componentName: 'FInputNumber',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.20',
+                version: '0.7.21',
                 exportName: 'FInputNumber',
                 destructuring: true,
             },
@@ -1510,7 +1510,7 @@ const assets: AssetsJson = {
             componentName: 'FSelect',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.20',
+                version: '0.7.21',
                 exportName: 'FSelect',
                 destructuring: true,
             },
@@ -1835,11 +1835,11 @@ const assets: AssetsJson = {
             priority: 0,
         },
         {
-            title: '复选框组',
+            title: '多选框组',
             componentName: 'FCheckboxGroup',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.20',
+                version: '0.7.21',
                 exportName: 'FCheckboxGroup',
                 destructuring: true,
             },
@@ -1944,7 +1944,7 @@ const assets: AssetsJson = {
             },
             snippets: [
                 {
-                    title: '复选框组',
+                    title: '多选框组',
                     schema: {
                         componentName: 'FCheckboxGroup',
                         props: {
@@ -1964,11 +1964,11 @@ const assets: AssetsJson = {
             ],
         },
         {
-            title: '复选框',
+            title: '多选框',
             componentName: 'FCheckbox',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.20',
+                version: '0.7.21',
                 exportName: 'FCheckbox',
                 destructuring: true,
             },
@@ -2023,12 +2023,6 @@ const assets: AssetsJson = {
                         name: 'label',
                         title: '描述',
                         setter: 'StringSetter',
-                        condition: (target) => {
-                            return (
-                                target.top.getNode().parent.componentName ===
-                                'FCheckboxGroup'
-                            );
-                        },
                     },
                     {
                         name: 'disabled',
@@ -2050,10 +2044,355 @@ const assets: AssetsJson = {
             },
             snippets: [
                 {
-                    title: '复选框',
+                    title: '多选框',
                     schema: {
                         componentName: 'FCheckbox',
                         props: {},
+                    },
+                },
+            ],
+        },
+        {
+            title: '单选组',
+            componentName: 'FRadioGroup',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.21',
+                exportName: 'FRadioGroup',
+                destructuring: true,
+            },
+            group: '原子组件',
+            category: '数据录入',
+            priority: 0,
+            props: [
+                {
+                    name: 'v-model',
+                    propType: 'array',
+                },
+                {
+                    name: 'vertical',
+                    propType: 'bool',
+                },
+                {
+                    name: 'disabled',
+                    propType: 'bool',
+                },
+                {
+                    name: 'cancelable',
+                    propType: 'bool',
+                },
+                {
+                    name: 'options',
+                    propType: 'array',
+                },
+                {
+                    name: 'valueField',
+                    propType: 'string',
+                },
+                {
+                    name: 'labelField',
+                    propType: 'string',
+                },
+                {
+                    name: 'optionType',
+                    propType: 'string',
+                },
+                {
+                    name: 'type',
+                    propType: 'string',
+                },
+                {
+                    name: 'size',
+                    propType: 'string',
+                },
+                {
+                    name: 'bordered',
+                    propType: 'bool',
+                },
+            ],
+            configure: {
+                props: [
+                    {
+                        name: 'v-model',
+                        title: '选中的值',
+                        extraProps: {
+                            display: 'block',
+                        },
+                        setter: {
+                            componentName: 'ArraySetter',
+                            props: {
+                                itemSetter: ['StringSetter', 'NumberSetter'],
+                            },
+                        },
+                    },
+                    {
+                        name: 'vertical',
+                        title: '垂直排列',
+                        setter: 'BoolSetter',
+                    },
+                    {
+                        name: 'disabled',
+                        title: '是否禁用',
+                        setter: 'BoolSetter',
+                    },
+                    {
+                        name: 'cancelable',
+                        title: '是否可取消',
+                        setter: 'BoolSetter',
+                    },
+                    {
+                        name: 'options',
+                        title: '选项配置',
+                        extraProps: {
+                            display: 'block',
+                        },
+                        setter: {
+                            componentName: 'ArraySetter',
+                            props: {
+                                itemSetter: {
+                                    componentName: 'ObjectSetter',
+                                    props: {
+                                        items: [
+                                            {
+                                                name: 'value',
+                                                title: '选项值',
+                                                setter: [
+                                                    'StringSetter',
+                                                    'NumberSetter',
+                                                ],
+                                            },
+                                            {
+                                                name: 'label',
+                                                title: '选项名',
+                                                setter: 'StringSetter',
+                                            },
+                                            {
+                                                name: 'disabled',
+                                                title: '是否禁用',
+                                                setter: 'BoolSetter',
+                                            },
+                                        ],
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    {
+                        title: '类型配置',
+                        type: 'group',
+                        extraProps: {
+                            display: 'block',
+                        },
+                        items: [
+                            {
+                                name: 'optionType',
+                                title: '选项类型',
+                                setter: {
+                                    componentName: 'SelectSetter',
+                                    props: {
+                                        options: [
+                                            {
+                                                value: 'default',
+                                                label: '单选框',
+                                            },
+                                            {
+                                                value: 'button',
+                                                label: '按钮',
+                                            },
+                                        ],
+                                    },
+                                },
+                                defaultValue: 'default',
+                            },
+                            {
+                                name: 'type',
+                                title: '按钮样式',
+                                setter: {
+                                    componentName: 'SelectSetter',
+                                    props: {
+                                        options: [
+                                            {
+                                                value: 'default',
+                                                label: 'default',
+                                            },
+                                            {
+                                                value: 'primary',
+                                                label: 'primary',
+                                            },
+                                        ],
+                                    },
+                                },
+                                defaultValue: 'default',
+                                condition: (target) => {
+                                    const val =
+                                        target.top.getPropValue('optionType');
+                                    return val === 'button';
+                                },
+                            },
+                            {
+                                name: 'size',
+                                title: '按钮大小',
+                                setter: {
+                                    componentName: 'SelectSetter',
+                                    props: {
+                                        options: [
+                                            {
+                                                value: 'small',
+                                                label: '小',
+                                            },
+                                            {
+                                                value: 'middle',
+                                                label: '中',
+                                            },
+                                        ],
+                                    },
+                                },
+                                defaultValue: 'middle',
+                                condition: (target) => {
+                                    const val =
+                                        target.top.getPropValue('optionType');
+                                    return val === 'button';
+                                },
+                            },
+                            {
+                                name: 'bordered',
+                                title: '按钮是否边框',
+                                setter: 'BoolSetter',
+                                defaultValue: true,
+                                condition: (target) => {
+                                    const val =
+                                        target.top.getPropValue('optionType');
+                                    return val === 'button';
+                                },
+                            },
+                        ],
+                    },
+                ],
+                component: {},
+                supports: {
+                    events: ['onChange'],
+                    class: true,
+                    style: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '单选框组',
+                    schema: {
+                        componentName: 'FRadioGroup',
+                        props: {
+                            options: [
+                                {
+                                    value: 1,
+                                    label: '1',
+                                },
+                                {
+                                    value: 2,
+                                    label: '2',
+                                },
+                            ],
+                        },
+                    },
+                },
+                {
+                    title: '单选按钮组',
+                    schema: {
+                        componentName: 'FRadioGroup',
+                        props: {
+                            optionType: 'button',
+                            options: [
+                                {
+                                    value: 1,
+                                    label: '1',
+                                },
+                                {
+                                    value: 2,
+                                    label: '2',
+                                },
+                            ],
+                        },
+                    },
+                },
+            ],
+        },
+        {
+            title: '单选框',
+            componentName: 'FRadio',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.21',
+                exportName: 'FRadio',
+                destructuring: true,
+            },
+            group: '原子组件',
+            category: '数据录入',
+            priority: 0,
+            props: [
+                {
+                    name: 'v-model',
+                    propType: 'bool',
+                },
+                {
+                    name: 'value',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'number', 'bool'],
+                    },
+                },
+                {
+                    name: 'label',
+                    propType: 'string',
+                },
+                {
+                    name: 'disabled',
+                    propType: 'bool',
+                },
+            ],
+            configure: {
+                props: [
+                    {
+                        name: 'v-model',
+                        title: '是否选中',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'value',
+                        title: '内容',
+                        setter: ['StringSetter', 'NumberSetter'],
+                        condition: (target) => {
+                            return (
+                                target.top.getNode().parent.componentName ===
+                                'FRadioGroup'
+                            );
+                        },
+                    },
+                    {
+                        name: 'label',
+                        title: '描述',
+                        setter: 'StringSetter',
+                    },
+                    {
+                        name: 'disabled',
+                        title: '禁用',
+                        setter: 'BoolSetter',
+                    },
+                ],
+                component: {},
+                supports: {
+                    events: ['onChange'],
+                    class: true,
+                    style: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '单选框',
+                    schema: {
+                        componentName: 'FRadio',
+                        props: {
+                            label: '单选框',
+                        },
                     },
                 },
             ],
@@ -2063,7 +2402,7 @@ const assets: AssetsJson = {
             componentName: 'FDivider',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.20',
+                version: '0.7.21',
                 exportName: 'FDivider',
                 destructuring: true,
             },
@@ -2105,7 +2444,7 @@ const assets: AssetsJson = {
             componentName: 'FEllipsis',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.20',
+                version: '0.7.21',
                 exportName: 'FEllipsis',
                 destructuring: true,
             },
@@ -2224,7 +2563,7 @@ const assets: AssetsJson = {
             componentName: 'FLayout',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.20',
+                version: '0.7.21',
                 exportName: 'FLayout',
                 destructuring: true,
             },
@@ -2294,7 +2633,7 @@ const assets: AssetsJson = {
             componentName: 'FHeader',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.20',
+                version: '0.7.21',
                 exportName: 'FHeader',
                 destructuring: true,
             },
@@ -2360,7 +2699,7 @@ const assets: AssetsJson = {
             componentName: 'FAside',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.20',
+                version: '0.7.21',
                 exportName: 'FAside',
                 destructuring: true,
             },
@@ -2426,7 +2765,7 @@ const assets: AssetsJson = {
             componentName: 'FMain',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.20',
+                version: '0.7.21',
                 exportName: 'FMain',
                 destructuring: true,
             },
@@ -2472,7 +2811,7 @@ const assets: AssetsJson = {
             componentName: 'FFooter',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.20',
+                version: '0.7.21',
                 exportName: 'FFooter',
                 destructuring: true,
             },
@@ -2538,7 +2877,7 @@ const assets: AssetsJson = {
             componentName: 'FDropdown',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.20',
+                version: '0.7.21',
                 exportName: 'FDropdown',
                 destructuring: true,
             },
@@ -2788,7 +3127,7 @@ const assets: AssetsJson = {
             componentName: 'FSteps',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.20',
+                version: '0.7.21',
                 exportName: 'FSteps',
                 destructuring: true,
             },
@@ -2889,7 +3228,7 @@ const assets: AssetsJson = {
             componentName: 'FStep',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.20',
+                version: '0.7.21',
                 exportName: 'FStep',
                 destructuring: true,
             },
@@ -3003,7 +3342,7 @@ const assets: AssetsJson = {
             componentName: 'FPagination',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.20',
+                version: '0.7.21',
                 exportName: 'FPagination',
                 destructuring: true,
             },

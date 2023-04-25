@@ -4696,6 +4696,329 @@ const assets: AssetsJson = {
             category: '信息展示',
             priority: 0,
         },
+        {
+            title: '描述列表',
+            componentName: 'FDescriptions',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.21',
+                exportName: 'FDescriptions',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'column',
+                    title: '总列数',
+                    propType: 'number',
+                },
+                {
+                    name: 'contentStyle',
+                    title: '内容样式',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'object'],
+                    },
+                },
+                {
+                    name: 'labelAlign',
+                    title: '标签对齐方式',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['left', 'center', 'right'],
+                    },
+                },
+                {
+                    name: 'labelPlacement',
+                    title: '标签位置',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['left', 'top'],
+                    },
+                },
+                {
+                    name: 'labelStyle',
+                    title: '标签样式',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'object'],
+                    },
+                },
+                {
+                    name: 'separator',
+                    title: '分隔符',
+                    propType: 'string',
+                },
+                {
+                    name: 'title',
+                    title: '标题',
+                    propType: 'string',
+                },
+                {
+                    name: 'bordered',
+                    title: '边框',
+                    propType: 'bool',
+                },
+            ],
+            configure: {
+                component: {
+                    isContainer: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '描述列表',
+                    schema: {
+                        componentName: 'FDescriptions',
+                        children: [],
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '信息展示',
+            priority: 0,
+        },
+        {
+            title: '描述列表选项',
+            componentName: 'FDescriptionsItem',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.21',
+                exportName: 'FDescriptionsItem',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'label',
+                    title: '标签',
+                    propType: 'string',
+                },
+                {
+                    name: 'span',
+                    title: '占的列数',
+                    propType: 'number',
+                },
+                {
+                    name: 'contentStyle',
+                    title: '内容样式',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'object'],
+                    },
+                },
+                {
+                    name: 'labelStyle',
+                    title: '标签样式',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'object'],
+                    },
+                },
+            ],
+            configure: {
+                component: {
+                    isContainer: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '描述列表选项',
+                    schema: {
+                        componentName: 'FDescriptionsItem',
+                        children: [],
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '信息展示',
+            priority: 0,
+        },
+        {
+            componentName: '',
+            title: '',
+            snippets: [
+                {
+                    title: '描述列表',
+                    schema: {
+                        componentName: 'FDescriptions',
+                        props: {
+                            title: '身份信息',
+                        },
+                        children: [
+                            {
+                                componentName: 'FDescriptionsItem',
+                                props: {
+                                    label: '姓名',
+                                },
+                                children: ['万xx'],
+                            },
+                            {
+                                componentName: 'FDescriptionsItem',
+                                props: {
+                                    label: '性别',
+                                },
+                                children: ['男'],
+                            },
+                            {
+                                componentName: 'FDescriptionsItem',
+                                props: {
+                                    label: '年龄',
+                                },
+                                children: ['60'],
+                            },
+                            {
+                                componentName: 'FDescriptionsItem',
+                                props: {
+                                    label: '身份证',
+                                },
+                                children: ['4222202166606061212'],
+                            },
+                            {
+                                componentName: 'FDescriptionsItem',
+                                props: {
+                                    label: '血型',
+                                },
+                                children: ['A'],
+                            },
+                        ],
+                    },
+                },
+            ],
+            group: '精选组件',
+            category: '信息展示',
+            priority: 0,
+        },
+        {
+            title: '图片',
+            componentName: 'FImage',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.21',
+                exportName: 'FImage',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'alt',
+                    title: '描述',
+                    propType: 'string',
+                },
+                {
+                    name: 'width',
+                    title: '宽度',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['number', 'string'],
+                    },
+                },
+                {
+                    name: 'height',
+                    title: '高度',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['number', 'string'],
+                    },
+                },
+                {
+                    name: 'src',
+                    title: '图片地址',
+                    propType: 'string',
+                },
+                {
+                    name: 'preview',
+                    title: '是否预览',
+                    propType: 'bool',
+                },
+                {
+                    name: 'fit',
+                    title: '适应容器',
+                    propType: {
+                        type: 'oneOf',
+                        value: [
+                            'fill',
+                            'contain',
+                            'cover',
+                            'scale-down',
+                            'none',
+                        ],
+                    },
+                },
+                {
+                    name: 'lazy',
+                    title: '懒加载',
+                    propType: 'bool',
+                },
+                {
+                    name: 'scrollContainer',
+                    title: '懒加载监听节点',
+                    propType: 'element',
+                },
+                {
+                    name: 'hideOnClickModal',
+                    title: '点击遮罩层关闭预览',
+                    propType: 'bool',
+                },
+                {
+                    name: 'previewContainer',
+                    title: '预览挂载节点',
+                    propType: 'func',
+                },
+                {
+                    name: 'name',
+                    title: '预览名称',
+                    propType: 'string',
+                },
+                {
+                    name: 'download',
+                    title: '是否下载',
+                    propType: 'bool',
+                },
+            ],
+            snippets: [
+                {
+                    title: '图片',
+                    schema: {
+                        componentName: 'FImage',
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '信息展示',
+            priority: 0,
+        },
+        {
+            title: '图片组',
+            componentName: 'FPreviewGroup',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.21',
+                exportName: 'FPreviewGroup',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'hideOnClickModal',
+                    title: '点击遮罩层关闭预览',
+                    propType: 'bool',
+                },
+            ],
+            configure: {
+                component: {
+                    isContainer: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '图片预览组',
+                    schema: {
+                        componentName: 'FPreviewGroup',
+                        children: [],
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '信息展示',
+            priority: 0,
+        },
     ],
     sort: {
         groupList: ['精选组件', '原子组件'],

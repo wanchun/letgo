@@ -1,6 +1,7 @@
 {
     "extends": "@antfu",
     "rules": {
+        "no-console": "warn",
         "semi": ["error", "always"],
         "semi-spacing": ["error", { "before": false, "after": true }],
         // 分号必须写在行尾，禁止写在行首

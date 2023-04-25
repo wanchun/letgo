@@ -13,8 +13,8 @@
   },
   "keywords": [],
   "dependencies": {
-    "@webank/letgo-designer": "^1.0.0",
-    "@webank/letgo-types": "^1.0.0",
+    "@webank/letgo-designer": "workspace:*",
+    "@webank/letgo-types": "workspace:*",
     "lodash-es": "^4.17.21"
   },
   "author": "",
@@ -28,5 +28,5 @@
   "peerDependencies": {
     "vue": "^3.2.37"
   },
-  "types": "./es/index.d.ts"
+  "typings": "./es/index.d.ts"
 }

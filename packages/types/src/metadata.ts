@@ -202,6 +202,7 @@ export interface ConfigureSupport {
      * 支持事件列表
      */
     events?: ConfigureSupportEvent[];
+    methods?: string[]; // TODO 具体类型后续补充
     /**
      * 支持 className 设置
      */

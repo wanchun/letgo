@@ -2,6 +2,13 @@
   "name": "letgo",
   "version": "1.0.0",
   "description": "",
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git@git.weoa.com:mumblefe/letgo.git"
+  },
+  "keywords": [],
   "main": "index.js",
   "scripts": {
     "esm": "node scripts/build.js --watch --esm --types",
@@ -14,16 +21,8 @@
     "clear": "node scripts/clear.js",
     "tpl": "cd packages/template & npm run dev"
   },
-  "repository": {
-    "type": "git",
-    "url": "git@git.weoa.com:mumblefe/letgo.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
-    "npm-run-all": "4.1.5",
-    "cross-env": "7.0.3",
+    "@antfu/eslint-config": "^0.38.5",
     "@babel/core": "^7.19.6",
     "@babel/plugin-transform-runtime": "^7.19.6",
     "@babel/preset-env": "^7.19.4",
@@ -33,16 +32,18 @@
     "@rollup/plugin-commonjs": "^23.0.2",
     "@rollup/plugin-json": "^5.0.1",
     "@rollup/plugin-node-resolve": "^15.0.1",
-    "@vanilla-extract/rollup-plugin": "^1.2.0",
+    "@vanilla-extract/rollup-plugin": "^1.2.1",
     "@vue/babel-plugin-jsx": "^1.1.1",
-    "@webank/eslint-config-ts": "^1.1.1",
     "autoprefixer": "^10.4.12",
     "chalk": "4.1.2",
     "chokidar": "^3.5.3",
+    "cross-env": "7.0.3",
     "cssnano": "^5.1.13",
+    "eslint": "^8.39.0",
     "fast-glob": "^3.2.12",
     "fs-extra": "^10.1.0",
     "http-server": "^14.1.1",
+    "npm-run-all": "4.1.5",
     "postcss": "^8.4.18",
     "postcss-import": "^15.0.0",
     "postcss-nested": "^6.0.0",

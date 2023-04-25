@@ -13,22 +13,19 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@fesjs/builder-vite": "^3.0.0-rc.3",
-    "@fesjs/fes": "^3.0.0-rc.2",
+    "@fesjs/fes": "^3.0.0",
+    "@fesjs/builder-vite": "^3.0.0",
+    "@fesjs/plugin-request": "^3.0.0",
     "@fesjs/fes-design": "^0.7.20",
-    "@fesjs/plugin-request": "^3.0.0-rc.4",
     "@vueuse/core": "^9.6.0",
     "lodash-es": "^4.17.21",
-    "vue": "^3.2.37",
-    "core-js": "^3.19.2",
+    "vue": "^3.2.47",
+    "core-js": "^3.29.1",
     "@webank/letgo-engine": "^1.0.0",
     "@webank/letgo-types": "^1.0.0",
     "@webank/letgo-plugin-components": "^1.0.0",
     "@webank/letgo-plugin-code-generator": "^1.0.0",
     "@webank/letgo-simulator-renderer": "^1.0.0"
-  },
-  "devDependencies": {
-    "@vue/compiler-sfc": "^3.2.37"
   },
   "publishConfig": {
     "access": "public"

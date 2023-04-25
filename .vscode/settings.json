@@ -4,5 +4,6 @@
     ],
     "files.associations": {
         "*.css": "postcss"
-    }
+    },
+    "vue.features.codeActions.enable": false
 }

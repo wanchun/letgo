@@ -42,6 +42,17 @@ const assets: AssetsJson = {
             },
         },
         {
+            title: '图片',
+            componentName: 'img',
+            props: [
+                {
+                    name: 'src',
+                    title: '地址',
+                    propType: 'string',
+                },
+            ],
+        },
+        {
             title: '插槽',
             componentName: 'Slot',
             configure: {
@@ -50,348 +61,6 @@ const assets: AssetsJson = {
                     disableBehaviors: '*',
                 },
             },
-        },
-        {
-            title: '头像',
-            componentName: 'NAvatar',
-            npm: {
-                package: 'naive-ui',
-                version: '2.32.0',
-                exportName: 'NAvatar',
-                destructuring: true,
-            },
-            props: [
-                {
-                    name: 'src',
-                    propType: 'string',
-                },
-                {
-                    name: 'circle',
-                    propType: 'bool',
-                },
-                {
-                    name: 'round',
-                    propType: 'bool',
-                },
-                {
-                    name: 'bordered',
-                    propType: 'bool',
-                },
-                {
-                    name: 'size',
-                    propType: {
-                        type: 'oneOfType',
-                        value: ['string', 'number'],
-                    },
-                },
-            ],
-            configure: {
-                props: [
-                    {
-                        name: 'src',
-                        title: '图片链接地址',
-                        setter: 'StringSetter',
-                    },
-                    {
-                        name: 'circle',
-                        title: '是否为圆形',
-                        setter: 'BoolSetter',
-                    },
-                    {
-                        name: 'round',
-                        title: '是否显示圆角',
-                        setter: 'BoolSetter',
-                    },
-                    {
-                        name: 'bordered',
-                        title: '是否带边框',
-                        setter: 'BoolSetter',
-                    },
-                    {
-                        name: 'size',
-                        title: '头像大小',
-                        setter: {
-                            componentName: 'MixedSetter',
-                            props: {
-                                setters: [
-                                    {
-                                        componentName: 'RadioGroupSetter',
-                                        props: {
-                                            options: [
-                                                {
-                                                    label: 'small',
-                                                    value: 'small',
-                                                },
-                                                {
-                                                    label: 'medium',
-                                                    value: 'medium',
-                                                },
-                                                {
-                                                    label: 'large',
-                                                    value: 'large',
-                                                },
-                                            ],
-                                            defaultValue: 'medium',
-                                        },
-                                    },
-                                    'NumberSetter',
-                                ],
-                            },
-                        },
-                    },
-                ],
-                supports: {
-                    style: true,
-                    events: ['onClick', 'onError'],
-                },
-            },
-            snippets: [
-                {
-                    title: '头像',
-                    screenshot:
-                        'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/avatar.png',
-                    schema: {
-                        componentName: 'NAvatar',
-                        props: {
-                            circle: true,
-                            round: false,
-                            src: 'https://v2.vuejs.org/images/logo.svg',
-                            size: 'medium',
-                        },
-                    },
-                },
-            ],
-            group: '精选组件',
-            category: '基础元素',
-            priority: 0,
-        },
-        {
-            title: '卡片',
-            componentName: 'NCard',
-            npm: {
-                package: 'naive-ui',
-                version: '2.32.0',
-                exportName: 'NCard',
-                destructuring: true,
-            },
-            props: [
-                {
-                    name: 'title',
-                    propType: 'string',
-                },
-                {
-                    name: 'size',
-                    propType: {
-                        type: 'oneOf',
-                        value: ['small', 'medium', 'large', 'huge'],
-                    },
-                },
-                {
-                    name: 'bordered',
-                    propType: 'bool',
-                },
-                {
-                    name: 'closable',
-                    propType: 'bool',
-                },
-                {
-                    name: 'hoverable',
-                    propType: 'bool',
-                },
-                {
-                    name: 'segmented',
-                    propType: 'object',
-                },
-                {
-                    name: 'header',
-                    propType: 'node',
-                },
-                {
-                    name: 'action',
-                    propType: 'node',
-                },
-                {
-                    name: 'footer',
-                    propType: 'node',
-                },
-                {
-                    name: 'header-extra',
-                    propType: 'node',
-                },
-            ],
-            configure: {
-                supports: {
-                    style: true,
-                    events: ['onClose'],
-                    loop: false,
-                },
-                component: {
-                    isContainer: true,
-                },
-                props: [
-                    {
-                        type: 'group',
-                        title: '卡片样式',
-                        extraProps: {
-                            display: 'block',
-                        },
-                        items: [
-                            {
-                                name: 'size',
-                                title: '卡片尺寸',
-                                setter: {
-                                    componentName: 'RadioGroupSetter',
-                                    props: {
-                                        options: [
-                                            {
-                                                label: 'small',
-                                                value: 'small',
-                                            },
-                                            {
-                                                label: 'medium',
-                                                value: 'medium',
-                                            },
-                                            {
-                                                label: 'large',
-                                                value: 'large',
-                                            },
-                                            {
-                                                label: 'huge',
-                                                value: 'huge',
-                                            },
-                                        ],
-                                    },
-                                    defaultValue: 'medium',
-                                },
-                            },
-                            {
-                                name: 'bordered',
-                                title: '显示边框',
-                                setter: 'BoolSetter',
-                            },
-                            {
-                                name: 'closable',
-                                title: '显示关闭图标',
-                                setter: 'BoolSetter',
-                            },
-                            {
-                                name: 'hoverable',
-                                title: '可悬浮',
-                                setter: 'BoolSetter',
-                            },
-                        ],
-                    },
-                    {
-                        type: 'group',
-                        title: '分割线',
-                        extraProps: {
-                            display: 'block',
-                        },
-                        items: [
-                            {
-                                name: 'segmented.content',
-                                title: '内容分割线',
-                                setter: {
-                                    componentName: 'BoolSetter',
-                                    defaultValue: false,
-                                },
-                            },
-                            {
-                                name: 'segmented.footer',
-                                title: '底部分割线',
-                                setter: {
-                                    componentName: 'BoolSetter',
-                                    defaultValue: false,
-                                },
-                            },
-                            {
-                                name: 'segmented.action',
-                                title: '操作区分割线',
-                                setter: {
-                                    componentName: 'BoolSetter',
-                                    defaultValue: false,
-                                },
-                            },
-                        ],
-                    },
-                    {
-                        title: '卡片内容',
-                        type: 'group',
-                        extraProps: {
-                            display: 'block',
-                        },
-                        items: [
-                            {
-                                name: 'title',
-                                title: '标题内容',
-                                setter: 'StringSetter',
-                            },
-                            {
-                                name: 'header',
-                                title: '头部',
-                                setter: {
-                                    componentName: 'SlotSetter',
-                                    defaultValue: {
-                                        type: 'JSSlot',
-                                        title: '头部',
-                                        value: [],
-                                    },
-                                },
-                            },
-                            {
-                                name: 'header-extra',
-                                title: '头部附加',
-                                setter: {
-                                    componentName: 'SlotSetter',
-                                    defaultValue: {
-                                        type: 'JSSlot',
-                                        title: '头部附加',
-                                        value: [],
-                                    },
-                                },
-                            },
-                            {
-                                name: 'footer',
-                                title: '底部',
-                                setter: {
-                                    componentName: 'SlotSetter',
-                                    defaultValue: {
-                                        type: 'JSSlot',
-                                        title: '底部',
-                                        value: [],
-                                    },
-                                },
-                            },
-                            {
-                                name: 'action',
-                                title: '操作区',
-                                setter: {
-                                    componentName: 'SlotSetter',
-                                    defaultValue: {
-                                        type: 'JSSlot',
-                                        title: '操作区',
-                                        value: [],
-                                    },
-                                },
-                            },
-                        ],
-                    },
-                ],
-            },
-            snippets: [
-                {
-                    screenshot:
-                        'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/card.png',
-                    title: '卡片',
-                    schema: {
-                        componentName: 'NCard',
-                        children: [],
-                    },
-                },
-            ],
-            group: '原子组件',
-            category: '布局组件',
-            priority: 0,
         },
         {
             title: '文本',
@@ -567,6 +236,287 @@ const assets: AssetsJson = {
             ],
             group: '原子组件',
             category: '基础元素',
+            priority: 0,
+        },
+        {
+            title: '头像',
+            componentName: 'NAvatar',
+            npm: {
+                package: 'naive-ui',
+                version: '2.32.0',
+                exportName: 'NAvatar',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'src',
+                    propType: 'string',
+                },
+                {
+                    name: 'circle',
+                    propType: 'bool',
+                },
+                {
+                    name: 'round',
+                    propType: 'bool',
+                },
+                {
+                    name: 'bordered',
+                    propType: 'bool',
+                },
+                {
+                    name: 'size',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'number'],
+                    },
+                },
+            ],
+            configure: {
+                props: [
+                    {
+                        name: 'src',
+                        title: '图片链接地址',
+                        setter: 'StringSetter',
+                    },
+                    {
+                        name: 'circle',
+                        title: '是否为圆形',
+                        setter: 'BoolSetter',
+                    },
+                    {
+                        name: 'round',
+                        title: '是否显示圆角',
+                        setter: 'BoolSetter',
+                    },
+                    {
+                        name: 'bordered',
+                        title: '是否带边框',
+                        setter: 'BoolSetter',
+                    },
+                    {
+                        name: 'size',
+                        title: '头像大小',
+                        setter: {
+                            componentName: 'MixedSetter',
+                            props: {
+                                setters: [
+                                    {
+                                        componentName: 'RadioGroupSetter',
+                                        props: {
+                                            options: [
+                                                {
+                                                    label: 'small',
+                                                    value: 'small',
+                                                },
+                                                {
+                                                    label: 'medium',
+                                                    value: 'medium',
+                                                },
+                                                {
+                                                    label: 'large',
+                                                    value: 'large',
+                                                },
+                                            ],
+                                            defaultValue: 'medium',
+                                        },
+                                    },
+                                    'NumberSetter',
+                                ],
+                            },
+                        },
+                    },
+                ],
+                supports: {
+                    style: true,
+                    events: ['onClick', 'onError'],
+                },
+            },
+            snippets: [
+                {
+                    title: '头像',
+                    screenshot:
+                        'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/avatar.png',
+                    schema: {
+                        componentName: 'NAvatar',
+                        props: {
+                            circle: true,
+                            round: false,
+                            src: 'https://v2.vuejs.org/images/logo.svg',
+                            size: 'medium',
+                        },
+                    },
+                },
+            ],
+            group: '精选组件',
+            category: '基础元素',
+            priority: 0,
+        },
+        {
+            title: '卡片',
+            componentName: 'FCard',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.21',
+                exportName: 'FSpace',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'header',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'node'],
+                    },
+                },
+                {
+                    name: 'size',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['small', 'medium', 'large'],
+                    },
+                },
+                {
+                    name: 'bordered',
+                    propType: 'bool',
+                },
+                {
+                    name: 'divider',
+                    propType: 'bool',
+                },
+                {
+                    name: 'shadow',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['always', 'never', 'hover'],
+                    },
+                },
+                {
+                    name: 'bodyStyle',
+                    propType: 'object',
+                },
+            ],
+            configure: {
+                supports: {
+                    style: true,
+                },
+                component: {
+                    isContainer: true,
+                },
+                props: [
+                    {
+                        type: 'group',
+                        title: '卡片样式',
+                        extraProps: {
+                            display: 'block',
+                        },
+                        items: [
+                            {
+                                name: 'size',
+                                title: '卡片尺寸',
+                                setter: {
+                                    componentName: 'RadioGroupSetter',
+                                    props: {
+                                        options: [
+                                            {
+                                                label: 'small',
+                                                value: 'small',
+                                            },
+                                            {
+                                                label: 'medium',
+                                                value: 'medium',
+                                            },
+                                            {
+                                                label: 'large',
+                                                value: 'large',
+                                            },
+                                        ],
+                                    },
+                                    defaultValue: 'medium',
+                                },
+                            },
+                            {
+                                name: 'bordered',
+                                title: '显示边框',
+                                setter: 'BoolSetter',
+                            },
+                            {
+                                name: 'divider',
+                                title: '显示分割线',
+                                setter: 'BoolSetter',
+                            },
+                            {
+                                name: 'shadow',
+                                title: '阴影效果',
+                                setter: {
+                                    componentName: 'RadioGroupSetter',
+                                    props: {
+                                        options: [
+                                            {
+                                                label: 'always',
+                                                value: 'always',
+                                            },
+                                            {
+                                                label: 'never',
+                                                value: 'never',
+                                            },
+                                            {
+                                                label: 'hover',
+                                                value: 'hover',
+                                            },
+                                        ],
+                                    },
+                                    defaultValue: 'always',
+                                },
+                            },
+                            {
+                                name: 'bodyStyle',
+                                title: '内容样式',
+                                setter: 'ObjectSetter',
+                            },
+                        ],
+                    },
+                    {
+                        title: '卡片内容',
+                        type: 'group',
+                        extraProps: {
+                            display: 'block',
+                        },
+                        items: [
+                            {
+                                name: 'header',
+                                title: '标题内容',
+                                setter: [
+                                    {
+                                        componentName: 'StringSetter',
+                                    },
+                                    {
+                                        componentName: 'SlotSetter',
+                                        defaultValue: {
+                                            type: 'JSSlot',
+                                            title: '头部',
+                                            value: [],
+                                        },
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            },
+            snippets: [
+                {
+                    screenshot:
+                        'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/card.png',
+                    title: '卡片',
+                    schema: {
+                        componentName: 'FCard',
+                        children: [],
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '布局组件',
             priority: 0,
         },
         {
@@ -3489,6 +3439,1261 @@ const assets: AssetsJson = {
             ],
             group: '原子组件',
             category: '导航组件',
+            priority: 0,
+        },
+        {
+            title: '开关',
+            componentName: 'FSwitch',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.21',
+                exportName: 'FSwitch',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'activeValue',
+                    title: '开启的值',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['bool', 'string', 'number'],
+                    },
+                },
+                {
+                    name: 'inactiveValue',
+                    title: '关闭的值',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['bool', 'string', 'number'],
+                    },
+                },
+                {
+                    name: 'v-model',
+                    title: '当前值',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['bool', 'string', 'number'],
+                    },
+                },
+                {
+                    name: 'disabled',
+                    title: '是否禁用',
+                    propType: 'bool',
+                },
+                {
+                    name: 'beforeChange',
+                    title: '值发生改变之前的事件钩子',
+                    propType: 'func',
+                },
+            ],
+            snippets: [
+                {
+                    title: '开关',
+                    schema: {
+                        componentName: 'FSwitch',
+                        props: {},
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '数据录入',
+            priority: 0,
+        },
+        {
+            title: '时间选择',
+            componentName: 'FTimePicker',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.21',
+                exportName: 'FTimePicker',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'v-model',
+                    title: '选中时间',
+                    propType: 'string',
+                },
+                {
+                    name: 'appendToContainer',
+                    title: '弹窗是是否挂载到容器',
+                    propType: 'bool',
+                },
+                {
+                    name: 'getContainer',
+                    title: '配置挂载容器',
+                    propType: 'func',
+                },
+                {
+                    name: 'clearable',
+                    title: '是否展示清除图标',
+                    propType: 'bool',
+                },
+                {
+                    name: 'disabled',
+                    title: '是否禁用',
+                    propType: 'bool',
+                },
+                {
+                    name: 'placeholder',
+                    title: '提示词',
+                    propType: 'string',
+                },
+                {
+                    name: 'format',
+                    title: '时间格式',
+                    propType: 'string',
+                },
+                {
+                    name: 'hourStep',
+                    title: '小时选项间隔',
+                    propType: 'number',
+                },
+                {
+                    name: 'minuteStep',
+                    title: '分钟选项间隔',
+                    propType: 'number',
+                },
+                {
+                    name: 'secondStep',
+                    title: '秒钟选项间隔',
+                    propType: 'number',
+                },
+                {
+                    name: 'disabledHours',
+                    title: '禁止选择部分小时选项',
+                    propType: 'func',
+                },
+                {
+                    name: 'disabledMinutes',
+                    title: '禁止选择部分分钟选项',
+                    propType: 'func',
+                },
+                {
+                    name: 'disabledSeconds',
+                    title: '禁止选择部分秒钟选项',
+                    propType: 'func',
+                },
+                {
+                    name: 'control',
+                    title: '是否显示控制区域',
+                    propType: 'bool',
+                },
+            ],
+            snippets: [
+                {
+                    title: '时间选择',
+                    schema: {
+                        componentName: 'FTimePicker',
+                        props: {},
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '数据录入',
+            priority: 0,
+        },
+        {
+            title: '日期选择',
+            componentName: 'FDatePicker',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.21',
+                exportName: 'FDatePicker',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'v-model',
+                    title: '选中时间',
+                    propType: 'string',
+                },
+                {
+                    name: 'disabledDate',
+                    title: '禁止日期',
+                    propType: 'func',
+                },
+                {
+                    name: 'disabledTime',
+                    title: '禁止时间',
+                    propType: 'func',
+                },
+                {
+                    name: 'type',
+                    title: '类型',
+                    propType: 'string',
+                },
+                {
+                    name: 'maxDate',
+                    title: '最大可选日期',
+                    propType: 'date',
+                },
+                {
+                    name: 'minDate',
+                    title: '最小可选日期',
+                    propType: 'date',
+                },
+                {
+                    name: 'maxRange',
+                    title: '可选区间',
+                    propType: 'string',
+                },
+                {
+                    name: 'defaultTime',
+                    title: '日期默认时间',
+                    propType: {
+                        type: 'oneOfType',
+                        value: [
+                            'string',
+                            {
+                                type: 'arrayOf',
+                                value: 'string',
+                            },
+                        ],
+                    },
+                },
+                {
+                    name: 'popperClass',
+                    title: '弹窗样式',
+                    propType: 'string',
+                },
+                {
+                    name: 'appendToContainer',
+                    title: '弹窗是是否挂载到容器',
+                    propType: 'bool',
+                },
+                {
+                    name: 'getContainer',
+                    title: '配置挂载容器',
+                    propType: 'func',
+                },
+                {
+                    name: 'clearable',
+                    title: '是否展示清除图标',
+                    propType: 'bool',
+                },
+                {
+                    name: 'disabled',
+                    title: '是否禁用',
+                    propType: 'bool',
+                },
+                {
+                    name: 'placeholder',
+                    title: '提示词',
+                    propType: 'string',
+                },
+                {
+                    name: 'format',
+                    title: '时间格式',
+                    propType: 'string',
+                },
+                {
+                    name: 'hourStep',
+                    title: '小时选项间隔',
+                    propType: 'number',
+                },
+                {
+                    name: 'minuteStep',
+                    title: '分钟选项间隔',
+                    propType: 'number',
+                },
+                {
+                    name: 'secondStep',
+                    title: '秒钟选项间隔',
+                    propType: 'number',
+                },
+                {
+                    name: 'control',
+                    title: '是否显示控制区域',
+                    propType: 'bool',
+                },
+            ],
+            snippets: [
+                {
+                    title: '日期选择',
+                    schema: {
+                        componentName: 'FDatePicker',
+                        props: {},
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '数据录入',
+            priority: 0,
+        },
+        {
+            title: '上传',
+            componentName: 'FUpload',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.21',
+                exportName: 'FUpload',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'accept',
+                    title: '上传文件类型',
+                    propType: {
+                        type: 'arrayOf',
+                        value: 'string',
+                    },
+                },
+                {
+                    name: 'action',
+                    title: '上传接口地址',
+                    propType: 'string',
+                },
+                {
+                    name: 'beforeUpload',
+                    title: '上传前钩子',
+                    propType: 'func',
+                },
+                {
+                    name: 'beforeRemove',
+                    title: '删除前钩子',
+                    propType: 'func',
+                },
+                {
+                    name: 'disabled',
+                    title: '是否禁用',
+                    propType: 'bool',
+                },
+                {
+                    name: 'fileList',
+                    title: '已上传文件列表',
+                    propType: {
+                        type: 'arrayOf',
+                        value: {
+                            type: 'shape',
+                            value: [
+                                {
+                                    name: 'name',
+                                    title: '文件名',
+                                    propType: 'string',
+                                },
+                                {
+                                    name: 'url',
+                                    title: '文件路径',
+                                    propType: 'string',
+                                },
+                            ],
+                        },
+                    },
+                },
+                {
+                    name: 'data',
+                    title: '额外数据',
+                    propType: 'object',
+                },
+                {
+                    name: 'headers',
+                    title: '请求头',
+                    propType: 'object',
+                },
+                {
+                    name: 'multiple',
+                    title: '是否多选',
+                    propType: 'bool',
+                },
+                {
+                    name: 'multipleLimit',
+                    title: '最大允许上传个数',
+                    propType: 'number',
+                },
+                {
+                    name: 'name',
+                    title: '上传文件字段名',
+                    propType: 'string',
+                },
+                {
+                    name: 'showFileList',
+                    title: '是否显示已上传文件列表',
+                    propType: 'bool',
+                },
+                {
+                    name: 'withCredentials',
+                    title: '是否跨域发送cookie',
+                    propType: 'bool',
+                },
+                {
+                    name: 'timeout',
+                    title: '超时时间',
+                    propType: 'number',
+                },
+                {
+                    name: 'transformResponse',
+                    title: '自定义响应',
+                    propType: 'func',
+                },
+                {
+                    name: 'httpRequest',
+                    title: '自定义请求',
+                    propType: 'func',
+                },
+            ],
+            snippets: [
+                {
+                    title: '上传',
+                    schema: {
+                        componentName: 'FUpload',
+                        props: {},
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '数据录入',
+            priority: 0,
+        },
+        {
+            title: '树形选择器',
+            componentName: 'FSelectTree',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.21',
+                exportName: 'FSelectTree',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'v-model',
+                    title: '选中选项',
+                    propType: {
+                        type: 'oneOfType',
+                        value: [
+                            'string',
+                            'number',
+                            {
+                                type: 'arrayOf',
+                                value: {
+                                    type: 'oneOfType',
+                                    value: ['string', 'number'],
+                                },
+                            },
+                        ],
+                    },
+                },
+                {
+                    name: 'appendToContainer',
+                    title: '弹窗是是否挂载到容器',
+                    propType: 'bool',
+                },
+                {
+                    name: 'getContainer',
+                    title: '配置挂载容器',
+                    propType: 'func',
+                },
+                {
+                    name: 'clearable',
+                    title: '是否显示清除图标',
+                    propType: 'bool',
+                },
+                {
+                    name: 'disabled',
+                    title: '是否禁用',
+                    propType: 'bool',
+                },
+                {
+                    name: 'collapseTags',
+                    title: '选项是否折叠展示',
+                    propType: 'bool',
+                },
+                {
+                    name: 'collapseTagsLimit',
+                    title: '达到多少折叠',
+                    propType: 'number',
+                },
+                {
+                    name: 'tagBordered',
+                    title: '选项是否有边框',
+                    propType: 'bool',
+                },
+                {
+                    name: 'emptyText',
+                    title: '选项为空的提示文字',
+                    propType: 'string',
+                },
+                {
+                    name: 'multiple',
+                    title: '是否多选',
+                    propType: 'bool',
+                },
+                {
+                    name: 'multipleLimit',
+                    title: '最多选择几个',
+                    propType: 'number',
+                },
+                {
+                    name: 'placeholder',
+                    title: '未选择的提示语',
+                    propType: 'string',
+                },
+                {
+                    name: 'filterable',
+                    title: '是否支持过滤选项',
+                    propType: 'bool',
+                },
+                {
+                    name: 'filter',
+                    title: '自定义过滤函数',
+                    propType: 'func',
+                },
+                {
+                    name: 'data',
+                    title: '选项数据',
+                    propType: {
+                        type: 'arrayOf',
+                        value: {
+                            type: 'shape',
+                            value: [
+                                {
+                                    name: 'value',
+                                    title: '选项值',
+                                    propType: {
+                                        type: 'oneOfType',
+                                        value: ['string', 'number'],
+                                    },
+                                },
+                                {
+                                    name: 'label',
+                                    title: '选项名称',
+                                    propType: 'string',
+                                },
+                                {
+                                    name: 'selectable',
+                                    title: '选项是否可选中',
+                                    propType: 'bool',
+                                },
+                                {
+                                    name: 'disabled',
+                                    title: '选项是否禁用',
+                                    propType: 'bool',
+                                },
+                                {
+                                    name: 'checkable',
+                                    title: '选项是否可勾选',
+                                    propType: 'bool',
+                                },
+                                {
+                                    name: 'isLeaf',
+                                    title: '选项是否是叶子节点',
+                                    propType: 'bool',
+                                },
+                                {
+                                    name: 'prefix',
+                                    title: '节点前缀',
+                                    propType: {
+                                        type: 'oneOfType',
+                                        value: ['string', 'func'],
+                                    },
+                                },
+                                {
+                                    name: 'suffix',
+                                    title: '节点后缀',
+                                    propType: {
+                                        type: 'oneOfType',
+                                        value: ['string', 'func'],
+                                    },
+                                },
+                                {
+                                    name: 'children',
+                                    title: '子选项数据',
+                                    propType: 'array',
+                                },
+                            ],
+                        },
+                    },
+                },
+                {
+                    name: 'accordion',
+                    title: '手风琴模式',
+                    propType: 'bool',
+                },
+                {
+                    name: 'defaultExpandAll',
+                    title: '默认展开所有选项',
+                    propType: 'bool',
+                },
+                {
+                    name: 'v-model:expandedKeys',
+                    title: '展开选项',
+                    propType: {
+                        type: 'arrayOf',
+                        value: {
+                            type: 'oneOfType',
+                            value: ['string', 'number'],
+                        },
+                    },
+                },
+                {
+                    name: 'cascade',
+                    title: '父子节点选中是否关联',
+                    propType: 'bool',
+                },
+                {
+                    name: 'checkStrictly',
+                    title: '勾选策略',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['all', 'parent', 'child'],
+                    },
+                },
+                {
+                    name: 'childrenField',
+                    title: 'children字段名',
+                    propType: 'string',
+                },
+                {
+                    name: 'valueField',
+                    title: 'value字段名',
+                    propType: 'string',
+                },
+                {
+                    name: 'labelField',
+                    title: 'label字段名',
+                    propType: 'string',
+                },
+                {
+                    name: 'remote',
+                    title: '是否异步加载',
+                    propType: 'bool',
+                },
+                {
+                    name: 'loadData',
+                    title: '异步加载数据函数',
+                    propType: 'func',
+                },
+                {
+                    name: 'inline',
+                    title: '叶子节点是否一行展示',
+                    propType: 'bool',
+                },
+                {
+                    name: 'virtualList',
+                    title: '是否虚拟滚动',
+                    propType: 'bool',
+                },
+            ],
+            snippets: [
+                {
+                    title: '树形选择器',
+                    schema: {
+                        componentName: 'FSelectTree',
+                        props: {
+                            data: [
+                                {
+                                    value: '1',
+                                    label: '选项一',
+                                },
+                            ],
+                        },
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '数据录入',
+            priority: 0,
+        },
+        {
+            title: '级联选择器',
+            componentName: 'FSelectCascader',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.21',
+                exportName: 'FSelectCascader',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'v-model',
+                    title: '选中选项',
+                    propType: {
+                        type: 'oneOfType',
+                        value: [
+                            'string',
+                            'number',
+                            {
+                                type: 'arrayOf',
+                                value: {
+                                    type: 'oneOfType',
+                                    value: ['string', 'number'],
+                                },
+                            },
+                        ],
+                    },
+                },
+                {
+                    name: 'appendToContainer',
+                    title: '弹窗是是否挂载到容器',
+                    propType: 'bool',
+                },
+                {
+                    name: 'getContainer',
+                    title: '配置挂载容器',
+                    propType: 'func',
+                },
+                {
+                    name: 'clearable',
+                    title: '是否显示清除图标',
+                    propType: 'bool',
+                },
+                {
+                    name: 'disabled',
+                    title: '是否禁用',
+                    propType: 'bool',
+                },
+                {
+                    name: 'collapseTags',
+                    title: '选项是否折叠展示',
+                    propType: 'bool',
+                },
+                {
+                    name: 'collapseTagsLimit',
+                    title: '达到多少折叠',
+                    propType: 'number',
+                },
+                {
+                    name: 'tagBordered',
+                    title: '选项是否有边框',
+                    propType: 'bool',
+                },
+                {
+                    name: 'emptyText',
+                    title: '选项为空的提示文字',
+                    propType: 'string',
+                },
+                {
+                    name: 'multiple',
+                    title: '是否多选',
+                    propType: 'bool',
+                },
+                {
+                    name: 'placeholder',
+                    title: '未选择的提示语',
+                    propType: 'string',
+                },
+                {
+                    name: 'data',
+                    title: '选项数据',
+                    propType: {
+                        type: 'arrayOf',
+                        value: {
+                            type: 'shape',
+                            value: [
+                                {
+                                    name: 'value',
+                                    title: '选项值',
+                                    propType: {
+                                        type: 'oneOfType',
+                                        value: ['string', 'number'],
+                                    },
+                                },
+                                {
+                                    name: 'label',
+                                    title: '选项名称',
+                                    propType: 'string',
+                                },
+                                {
+                                    name: 'selectable',
+                                    title: '选项是否可选中',
+                                    propType: 'bool',
+                                },
+                                {
+                                    name: 'disabled',
+                                    title: '选项是否禁用',
+                                    propType: 'bool',
+                                },
+                                {
+                                    name: 'checkable',
+                                    title: '选项是否可勾选',
+                                    propType: 'bool',
+                                },
+                                {
+                                    name: 'isLeaf',
+                                    title: '选项是否是叶子节点',
+                                    propType: 'bool',
+                                },
+                                {
+                                    name: 'prefix',
+                                    title: '节点前缀',
+                                    propType: {
+                                        type: 'oneOfType',
+                                        value: ['string', 'func'],
+                                    },
+                                },
+                                {
+                                    name: 'suffix',
+                                    title: '节点后缀',
+                                    propType: {
+                                        type: 'oneOfType',
+                                        value: ['string', 'func'],
+                                    },
+                                },
+                                {
+                                    name: 'children',
+                                    title: '子选项数据',
+                                    propType: 'array',
+                                },
+                            ],
+                        },
+                    },
+                },
+                {
+                    name: 'v-model:expandedKeys',
+                    title: '展开选项',
+                    propType: {
+                        type: 'arrayOf',
+                        value: {
+                            type: 'oneOfType',
+                            value: ['string', 'number'],
+                        },
+                    },
+                },
+                {
+                    name: 'cascade',
+                    title: '父子节点选中是否关联',
+                    propType: 'bool',
+                },
+                {
+                    name: 'checkStrictly',
+                    title: '勾选策略',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['all', 'parent', 'child'],
+                    },
+                },
+                {
+                    name: 'childrenField',
+                    title: 'children字段名',
+                    propType: 'string',
+                },
+                {
+                    name: 'valueField',
+                    title: 'value字段名',
+                    propType: 'string',
+                },
+                {
+                    name: 'labelField',
+                    title: 'label字段名',
+                    propType: 'string',
+                },
+                {
+                    name: 'remote',
+                    title: '是否异步加载',
+                    propType: 'bool',
+                },
+                {
+                    name: 'loadData',
+                    title: '异步加载数据函数',
+                    propType: 'func',
+                },
+                {
+                    name: 'expandTrigger',
+                    title: '次级菜单的展开方式',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['click', 'hover'],
+                    },
+                },
+                {
+                    name: 'emitPath',
+                    title: '值是否包含路径',
+                    propType: 'bool',
+                },
+                {
+                    name: 'showPath',
+                    title: '是否显示路径',
+                    propType: 'bool',
+                },
+            ],
+            snippets: [
+                {
+                    title: '级联选择器',
+                    schema: {
+                        componentName: 'FSelectCascader',
+                        props: {},
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '数据录入',
+            priority: 0,
+        },
+        {
+            title: '走马灯',
+            componentName: 'FCarousel',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.21',
+                exportName: 'FCarousel',
+                destructuring: true,
+            },
+            configure: {
+                component: {
+                    isContainer: true,
+                },
+            },
+            props: [
+                {
+                    name: 'height',
+                    title: '高度',
+                    propType: 'string',
+                },
+                {
+                    name: 'initialIndex',
+                    title: '初始索引',
+                    propType: 'number',
+                },
+                {
+                    name: 'trigger',
+                    title: '指示器触发方式',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['click', 'hover'],
+                    },
+                },
+                {
+                    name: 'autoplay',
+                    title: '自动切换',
+                    propType: 'bool',
+                },
+                {
+                    name: 'interval',
+                    title: '自动切换间隔',
+                    propType: 'number',
+                },
+                {
+                    name: 'indicatorType',
+                    title: '指示器类型',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['linear', 'dot'],
+                    },
+                },
+                {
+                    name: 'indicatorPlacement',
+                    title: '指示器摆放方向',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['top', 'right', 'bottom', 'left'],
+                    },
+                },
+                {
+                    name: 'indicatorPosition',
+                    title: '指示器位置',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['outside', 'none', ''],
+                    },
+                },
+                {
+                    name: 'showArrow',
+                    title: '箭头显示',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['always', 'hover', 'never'],
+                    },
+                },
+                {
+                    name: 'type',
+                    title: '类型',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['', 'card'],
+                    },
+                },
+                {
+                    name: 'loop',
+                    title: '循环',
+                    propType: 'bool',
+                },
+                {
+                    name: 'pauseOnHover',
+                    title: '悬浮暂停',
+                    propType: 'bool',
+                },
+            ],
+            snippets: [
+                {
+                    title: '走马灯',
+                    schema: {
+                        componentName: 'FCarousel',
+                        props: {},
+                        children: [],
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '信息展示',
+            priority: 0,
+        },
+        {
+            title: '走马灯选项',
+            componentName: 'FCarouselItem',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.21',
+                exportName: 'FCarouselItem',
+                destructuring: true,
+            },
+            props: [],
+            configure: {
+                component: {
+                    isContainer: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '走马灯',
+                    schema: {
+                        componentName: 'FCarouselItem',
+                        children: [],
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '信息展示',
+            priority: 0,
+        },
+        {
+            componentName: '',
+            title: '',
+            snippets: [
+                {
+                    title: '走马灯',
+                    schema: {
+                        componentName: 'FCarousel',
+                        props: {
+                            height: '240px',
+                        },
+                        children: [
+                            {
+                                componentName: 'FCarouselItem',
+                                children: [
+                                    {
+                                        componentName: 'img',
+                                        props: {
+                                            src: 'https://s3.bmp.ovh/imgs/2022/01/f615608955b707cd.png',
+                                            style: {
+                                                width: '100%',
+                                                height: '100%',
+                                            },
+                                        },
+                                    },
+                                ],
+                            },
+                            {
+                                componentName: 'FCarouselItem',
+                                children: [
+                                    {
+                                        componentName: 'img',
+                                        props: {
+                                            src: 'https://s3.bmp.ovh/imgs/2022/01/5c8bf7eb1ef7a400.png',
+                                            style: {
+                                                width: '100%',
+                                                height: '100%',
+                                            },
+                                        },
+                                    },
+                                ],
+                            },
+                            {
+                                componentName: 'FCarouselItem',
+                                children: [
+                                    {
+                                        componentName: 'img',
+                                        props: {
+                                            src: 'https://s3.bmp.ovh/imgs/2022/01/ebaa3c3133c9e964.png',
+                                            style: {
+                                                width: '100%',
+                                                height: '100%',
+                                            },
+                                        },
+                                    },
+                                ],
+                            },
+                            {
+                                componentName: 'FCarouselItem',
+                                children: [
+                                    {
+                                        componentName: 'img',
+                                        props: {
+                                            src: 'https://s3.bmp.ovh/imgs/2022/01/2f68ed8e26dc519b.png',
+                                            style: {
+                                                width: '100%',
+                                                height: '100%',
+                                            },
+                                        },
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                },
+            ],
+            group: '精选组件',
+            category: '信息展示',
+            priority: 0,
+        },
+        {
+            title: '折叠面板',
+            componentName: 'FCollapse',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.21',
+                exportName: 'FCollapse',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'v-model',
+                    title: '当前激活面板',
+                    propType: {
+                        type: 'oneOfType',
+                        value: [
+                            'string',
+                            {
+                                type: 'arrayOf',
+                                value: 'string',
+                            },
+                        ],
+                    },
+                },
+                {
+                    name: 'accordion',
+                    title: '手风琴模式',
+                    propType: 'bool',
+                },
+                {
+                    name: 'arrow',
+                    title: '箭头位置',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['left', 'right'],
+                    },
+                },
+            ],
+            configure: {
+                component: {
+                    isContainer: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '折叠面板',
+                    schema: {
+                        componentName: 'FCollapse',
+                        children: [],
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '信息展示',
+            priority: 0,
+        },
+        {
+            title: '折叠面板选项',
+            componentName: 'FCollapseItem',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.21',
+                exportName: 'FCollapseItem',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'name',
+                    title: '标识符',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'number'],
+                    },
+                },
+                {
+                    name: 'title',
+                    title: '标题',
+                    propType: 'string',
+                },
+                {
+                    name: 'disabled',
+                    title: '禁用',
+                    propType: 'bool',
+                },
+            ],
+            configure: {
+                component: {
+                    isContainer: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '折叠面板选项',
+                    schema: {
+                        componentName: 'FCollapseItem',
+                        children: [],
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '信息展示',
+            priority: 0,
+        },
+        {
+            componentName: '',
+            title: '',
+            snippets: [
+                {
+                    title: '折叠面板',
+                    schema: {
+                        componentName: 'FCollapse',
+
+                        children: [
+                            {
+                                componentName: 'FCollapseItem',
+                                props: {
+                                    name: '1',
+                                    title: 'Consistency',
+                                },
+                                children: [
+                                    '岁月静好，浅笑安然。打开记忆的闸门，仿佛又回到了那年那月那时光，仿佛又见到你送给我的那盆清香茉莉，在细雨潇潇的夜晚，所呈现出来的洁净和楚楚动人。以前的过往总是在记忆深处，以固有的姿态，以从未稍离的执着提醒我，生命中有一种存在，叫以前。',
+                                ],
+                            },
+                            {
+                                componentName: 'FCollapseItem',
+                                props: {
+                                    name: '2',
+                                    title: 'Feedback',
+                                },
+                                children: [
+                                    '生活是蜿蜒在山中的小径，坎坷不平，沟崖在侧。摔倒了，要哭就哭吧，怕什么，不心装模作样！这是直率，不是软弱，因为哭一场并不影响赶路，反而能增添一份留意。山花烂漫，景色宜人，如果陶醉了，想笑就笑吧，不心故作矜持！这是直率，不是骄傲，因为笑一次并不影响赶路，反而能增添一份信心。',
+                                ],
+                            },
+                            {
+                                componentName: 'FCollapseItem',
+                                props: {
+                                    name: '3',
+                                    title: 'Efficiency',
+                                },
+                                children: [
+                                    '喜欢一种情意，浅浅淡淡，不远不近。念起便有一种沁心的暖，知心的柔。岁月轮转，韶华渐老，惟愿人依旧安静，温雅。世事经年，惟愿情怀依旧宁静如初。静默时光的彼岸，就让我宁心等待一场必然来临的春暖花开。即使偶尔会有心潮澎湃，亦是沉寂中的安恬与端庄。',
+                                ],
+                            },
+                            {
+                                componentName: 'FCollapseItem',
+                                props: {
+                                    name: '4',
+                                    title: 'Controllability',
+                                },
+                                children: [
+                                    '一弯月光，风飘云漫，多少个明月夜，寂寞走不出思念的射线，静静的听你梦中的心跳，轻嗅你唇边的香息，柔醉你缱绻的缠绵。衣袂飘飘，心香瓣瓣，在飘渺的细雨中，衍生了无尽的眷恋。用一生的深情与你凝眸相拥，朝夕相伴。幽篁深处，落叶与娇花相随，你我的沉醉，静默了一池山水。',
+                                ],
+                            },
+                        ],
+                    },
+                },
+            ],
+            group: '精选组件',
+            category: '信息展示',
             priority: 0,
         },
     ],

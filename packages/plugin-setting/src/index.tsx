@@ -1,75 +1,19 @@
-import { defineComponent, PropType, onBeforeUnmount } from 'vue';
-import { FTabs, FTabPane } from '@fesjs/fes-design';
-import { RightOutlined } from '@fesjs/fes-design/icon';
+import type { PropType } from 'vue';
+import { defineComponent, onBeforeUnmount } from 'vue';
+import { FTabPane, FTabs } from '@fesjs/fes-design';
+import type { SettingField } from '@webank/letgo-designer';
 import {
-    Node,
-    SettingField,
     createSettingFieldView,
 } from '@webank/letgo-designer';
-import { IPluginContext } from '@webank/letgo-plugin-manager';
+import type { IPluginContext } from '@webank/letgo-plugin-manager';
 import { SettingsMain } from './main';
+import Breadcrumb from './breadcrumb';
 import {
-    mainCls,
-    navigatorCls,
     bodyCls,
+    mainCls,
     noticeCls,
-    navigatorItemCls,
     paneWrapperCls,
 } from './index.css';
-
-const Breadcrumb = defineComponent({
-    name: 'Breadcrumb',
-    props: {
-        node: Object as PropType<Node>,
-    },
-    setup(props) {
-        return () => {
-            const node = props.node;
-            const { focusNode } = node.document;
-            const parentNodeList: Node[] = [];
-            let _node = node;
-
-            let l = 3;
-            while (l-- > 0 && _node) {
-                parentNodeList.push(_node);
-                if (_node.isRoot()) {
-                    break;
-                }
-                if (_node.contains(focusNode)) {
-                    break;
-                }
-                _node = _node.parent;
-            }
-
-            const len = parentNodeList.length;
-
-            return (
-                <div class={navigatorCls}>
-                    {parentNodeList
-                        .reverse()
-                        .map((node: Node, index: number) => {
-                            const isParentNode = index < len - 1;
-                            return (
-                                <>
-                                    <span
-                                        class={[
-                                            navigatorItemCls,
-                                            isParentNode && 'is-parent',
-                                        ]}
-                                    >
-                                        {node?.componentMeta?.title}
-                                    </span>
-                                    {isParentNode && (
-                                        <RightOutlined></RightOutlined>
-                                    )}
-                                </>
-                            );
-                        })}
-                </div>
-            );
-        };
-    },
-});
 
 export default defineComponent({
     name: 'PluginSetterPanelView',
@@ -145,7 +89,7 @@ export default defineComponent({
                             displayDirective="show"
                         >
                             <div class={paneWrapperCls}>
-                                {field.items.map((item) =>
+                                {field.items.map(item =>
                                     createSettingFieldView(item),
                                 )}
                             </div>

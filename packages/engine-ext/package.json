@@ -2,32 +2,32 @@
   "name": "@webank/letgo-engine-ext",
   "version": "1.0.0",
   "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "module": "es/index.js",
   "files": [
     "es",
     "lib",
     "src"
   ],
-  "module": "es/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "@vanilla-extract/css": "^1.9.2",
-    "@webank/letgo-designer": "^1.0.0",
-    "@webank/letgo-types": "^1.0.0",
-    "@webank/letgo-utils": "^1.0.0",
-    "@fesjs/fes-design": "^0.7.7",
-    "@icon-park/vue-next": "^1.4.2",
-    "naive-ui": "^2.34.2"
   },
   "peerDependencies": {
     "vue": "^3.2.37"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "dependencies": {
+    "@fesjs/fes-design": "^0.7.7",
+    "@icon-park/vue-next": "^1.4.2",
+    "@vanilla-extract/css": "^1.9.2",
+    "@webank/letgo-designer": "workspace:*",
+    "@webank/letgo-types": "workspace:*",
+    "@webank/letgo-utils": "workspace:*",
+    "naive-ui": "^2.34.2"
+  },
   "publishConfig": {
     "access": "public"
   },
-  "types": "./es/index.d.ts"
+  "typings": "./es/index.d.ts"
 }

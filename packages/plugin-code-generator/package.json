@@ -12,11 +12,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@webank/letgo-plugin-manager": "^1.0.0",
-    "@webank/letgo-designer": "^1.0.0",
-    "@webank/letgo-types": "^1.0.0",
-    "@webank/letgo-engine": "^1.0.0",
-    "@webank/letgo-utils": "^1.0.0",
+    "@webank/letgo-plugin-manager": "workspace:*",
+    "@webank/letgo-designer": "workspace:*",
+    "@webank/letgo-types": "workspace:*",
+    "@webank/letgo-engine": "workspace:*",
+    "@webank/letgo-utils": "workspace:*",
     "@fesjs/fes-design": "^0.7.11",
     "lodash-es": "^4.17.21"
   },
@@ -29,5 +29,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "types": "./es/index.d.ts"
+  "typings": "./es/index.d.ts"
 }

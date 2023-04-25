@@ -15,15 +15,15 @@
     "lodash-es": "^4.17.21",
     "eventemitter3": "^4.0.0",
     "strict-event-emitter-types": "^2.0.0",
-    "@webank/letgo-types": "^1.0.0",
-    "@webank/letgo-utils": "^1.0.0"
+    "@webank/letgo-types": "workspace:*",
+    "@webank/letgo-utils": "workspace:*"
   },
   "devDependencies": {
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "types": "./es/index.d.ts",
+  "typings": "./es/index.d.ts",
   "publishConfig": {
     "access": "public"
   }

@@ -2,28 +2,28 @@
   "name": "@webank/letgo-simulator-renderer",
   "version": "1.0.0",
   "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "module": "es/index.js",
   "files": [
     "es",
     "lib",
     "src"
   ],
-  "module": "es/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
   "dependencies": {
-    "@webank/letgo-designer": "^1.0.0",
-    "@webank/letgo-renderer": "^1.0.0",
-    "@webank/letgo-types": "^1.0.0",
-    "@webank/letgo-utils": "^1.0.0",
+    "@webank/letgo-designer": "workspace:*",
+    "@webank/letgo-renderer": "workspace:*",
+    "@webank/letgo-types": "workspace:*",
+    "@webank/letgo-utils": "workspace:*",
     "lodash-es": "^4.17.21",
     "vue-router": "^4.1.5"
   },
-  "author": "",
-  "license": "ISC",
   "publishConfig": {
     "access": "public"
   },
-  "types": "./es/index.d.ts"
+  "typings": "./es/index.d.ts"
 }

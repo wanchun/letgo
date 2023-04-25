@@ -2,30 +2,30 @@
   "name": "@webank/letgo-designer",
   "version": "1.0.0",
   "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "module": "es/index.js",
   "files": [
     "es",
     "lib",
     "src"
   ],
-  "module": "es/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "@fesjs/fes-design": "^0.7.7",
+    "@icon-park/vue-next": "^1.4.2",
     "@vanilla-extract/css": "^1.9.2",
-    "@webank/letgo-editor-core": "^1.0.0",
-    "@webank/letgo-types": "^1.0.0",
-    "@webank/letgo-utils": "^1.0.0",
+    "@webank/letgo-editor-core": "workspace:*",
+    "@webank/letgo-types": "workspace:*",
+    "@webank/letgo-utils": "workspace:*",
     "eventemitter3": "^4.0.0",
-    "lodash-es": "^4.17.21",
-    "@icon-park/vue-next": "^1.4.2"
+    "lodash-es": "^4.17.21"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "publishConfig": {
     "access": "public"
   },
-  "types": "./es/index.d.ts"
+  "typings": "./es/index.d.ts"
 }

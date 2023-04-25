@@ -1,24 +1,27 @@
 import { EventEmitter } from 'eventemitter3';
-import {
-    NodeSchema,
+import type {
     GlobalEvent,
+    NodeData,
+    NodeSchema,
+    PropsList,
+    PropsMap,
+} from '@webank/letgo-types';
+import {
+    TransformStage,
     isDOMText,
     isJSExpression,
-    TransformStage,
-    NodeData,
-    PropsMap,
-    PropsList,
 } from '@webank/letgo-types';
 import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
-import { computed, ComputedRef } from 'vue';
-import { ComponentMeta } from '../component-meta';
-import { DocumentModel } from '../document';
-import { RootNode, ParentalNode, LeafNode } from '../types';
-import { SettingTop } from '../setting';
+import type { ComputedRef } from 'vue';
+import { computed } from 'vue';
+import type { ComponentMeta } from '../component-meta';
+import type { DocumentModel } from '../document';
+import type { LeafNode, ParentalNode, RootNode } from '../types';
+import type { SettingTop } from '../setting';
 import { includeSlot, removeSlot } from '../utils/slot';
 import { NodeChildren } from './node-children';
 import { Props } from './props';
-import { Prop } from './prop';
+import type { Prop } from './prop';
 
 export type PropChangeOptions = Omit<
     GlobalEvent.Node.Prop.ChangeOptions,
@@ -83,9 +86,9 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     }
 
     get zLevel(): number {
-        if (this._parent) {
+        if (this._parent)
             return this._parent.zLevel + 1;
-        }
+
         return 0;
     }
 
@@ -93,9 +96,8 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         const t = this.getExtraProp('title');
         if (t) {
             const v = t.getAsString();
-            if (v) {
+            if (v)
                 return v;
-            }
         }
         return this.componentMeta.title;
     }
@@ -105,9 +107,9 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     }
 
     get propsData(): PropsMap | PropsList | null {
-        if (!this.isParental() || this.componentName === 'Fragment') {
+        if (!this.isParental() || this.componentName === 'Fragment')
             return null;
-        }
+
         return this.props.export(TransformStage.Serialize).props || null;
     }
 
@@ -115,9 +117,9 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
      * 获取节点在父容器中的索引
      */
     get index(): number {
-        if (!this.parent) {
+        if (!this.parent)
             return -1;
-        }
+
         return this.parent.children.indexOf(this);
     }
 
@@ -125,13 +127,13 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
      * 获取下一个兄弟节点
      */
     get nextSibling(): Node | null {
-        if (!this.parent) {
+        if (!this.parent)
             return null;
-        }
+
         const { index } = this;
-        if (index < 0) {
+        if (index < 0)
             return null;
-        }
+
         return this.parent.children.get(index + 1);
     }
 
@@ -139,13 +141,13 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
      * 获取上一个兄弟节点
      */
     get prevSibling(): Node | null {
-        if (!this.parent) {
+        if (!this.parent)
             return null;
-        }
+
         const { index } = this;
-        if (index < 1) {
+        if (index < 1)
             return null;
-        }
+
         return this.parent.children.get(index - 1);
     }
 
@@ -203,16 +205,17 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
 
     constructor(readonly document: DocumentModel, nodeSchema: Schema) {
         const { componentName, id, children, props, ...extras } = nodeSchema;
-        this.id = document.nextId(id);
+        this.id = document.nextId(id, componentName);
         this.componentName = componentName;
         if (this.componentName === 'Leaf') {
             this.props = new Props(this, {
                 children:
-                    isDOMText(children) || isJSExpression(children)
+                    isDOMText(children) || (isJSExpression(children)
                         ? children
-                        : '',
+                        : ''),
             });
-        } else {
+        }
+        else {
             this.props = new Props(this, props, extras);
             this.props.merge(
                 this.upgradeProps(this.initProps(props || {})),
@@ -241,18 +244,17 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     }
 
     private initBuiltinProps() {
-        if (this.props.hasExtra('hidden')) {
+        if (this.props.hasExtra('hidden'))
             this.props.addExtra('hidden', false);
-        }
-        if (this.props.hasExtra('isLocked')) {
+
+        if (this.props.hasExtra('isLocked'))
             this.props.addExtra('isLocked', false);
-        }
-        if (this.props.hasExtra('condition')) {
+
+        if (this.props.hasExtra('condition'))
             this.props.addExtra('condition', true);
-        }
-        if (this.props.hasExtra('loop')) {
+
+        if (this.props.hasExtra('loop'))
             this.props.addExtra('loop', undefined);
-        }
     }
 
     /**
@@ -338,17 +340,16 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
             componentName: this.componentName,
         };
 
-        if (stage !== TransformStage.Clone) {
+        if (stage !== TransformStage.Clone)
             baseSchema.id = this.id;
-        }
-        if (stage === TransformStage.Render) {
+
+        if (stage === TransformStage.Render)
             baseSchema.docId = this.document.id;
-        }
 
         if (this.isLeaf()) {
-            if (!options.bypassChildren) {
+            if (!options.bypassChildren)
                 baseSchema.children = this.getProp('children')?.export(stage);
-            }
+
             return baseSchema;
         }
 
@@ -364,12 +365,11 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         };
 
         if (
-            this.isParental() &&
-            this.children.size > 0 &&
-            !options.bypassChildren
-        ) {
+            this.isParental()
+            && this.children.size > 0
+            && !options.bypassChildren
+        )
             schema.children = this.children.export(stage);
-        }
 
         return schema;
     }
@@ -378,7 +378,6 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
      * 导入 schema
      */
     import(data: Schema) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { componentName, id, children, props, ...extras } = data;
         if (this.isParental()) {
             this.props.import(props, extras);
@@ -393,17 +392,16 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     }
 
     setParent(parent: ParentalNode | null) {
-        if (this._parent === parent) {
+        if (this._parent === parent)
             return;
-        }
 
         // 解除老的父子关系，但不需要真的删除节点
         if (this._parent) {
-            if (this.isSlot()) {
+            if (this.isSlot())
                 this._parent.unlinkSlot(this);
-            } else {
+
+            else
                 this._parent.children.unlinkChild(this);
-            }
         }
 
         if (parent) {
@@ -421,11 +419,11 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
 
     remove(purge = true) {
         if (this._parent) {
-            if (this.isSlot()) {
+            if (this.isSlot())
                 this._parent.unlinkSlot(this);
-            } else {
+
+            else
                 this._parent.children?.deleteChild(this, purge);
-            }
         }
     }
 
@@ -450,11 +448,11 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
      * 悬停高亮
      */
     hover(flag = true) {
-        if (flag) {
+        if (flag)
             this.document.designer.detecting.capture(this);
-        } else {
+
+        else
             this.document.designer.detecting.release(this);
-        }
     }
 
     isEmpty(): boolean {
@@ -469,14 +467,14 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         const isEmptyNode = this.isEmpty();
         const isRGLContainerNode = this.isRGLContainer;
         const isRGLNode = this.parent?.isRGLContainer;
-        const isRGL =
-            isRGLContainerNode ||
-            (isRGLNode && (!isContainerNode || !isEmptyNode));
+        const isRGL
+            = isRGLContainerNode
+            || (isRGLNode && (!isContainerNode || !isEmptyNode));
         const rglNode: Node | null = isRGLContainerNode
             ? this
             : isRGL
-            ? this.parent
-            : null;
+                ? this.parent
+                : null;
         return {
             isContainerNode,
             isEmptyNode,
@@ -490,7 +488,8 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     private _settingEntry: SettingTop;
 
     get settingEntry(): SettingTop {
-        if (this._settingEntry) return this._settingEntry;
+        if (this._settingEntry)
+            return this._settingEntry;
         this._settingEntry = this.document.designer.createSettingEntry([this]);
         return this._settingEntry;
     }
@@ -520,18 +519,18 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
 
     unlinkSlot(slotNode: Node) {
         const i = this._slots.indexOf(slotNode);
-        if (i < 0) {
+        if (i < 0)
             return false;
-        }
+
         this._slots.splice(i, 1);
     }
 
     addSlot(slotNode: Node) {
         const slotName = slotNode?.getExtraProp('name')?.getAsString();
         // 一个组件下的所有 slot，相同 slotName 的 slot 应该是唯一的
-        if (includeSlot(this, slotName)) {
+        if (includeSlot(this, slotName))
             removeSlot(this, slotName);
-        }
+
         slotNode.setParent(this as ParentalNode);
         this._slots.push(slotNode);
     }
@@ -546,9 +545,9 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     }
 
     purge() {
-        if (this.purged) {
+        if (this.purged)
             return;
-        }
+
         this.purged = true;
         this.props.purge();
         this.settingEntry?.purge();
@@ -565,16 +564,16 @@ export function isRootNode(node: Node): node is RootNode {
 
 export function getZLevelTop(child: Node, zLevel: number): Node | null {
     let l = child.zLevel;
-    if (l < zLevel || zLevel < 0) {
+    if (l < zLevel || zLevel < 0)
         return null;
-    }
-    if (l === zLevel) {
+
+    if (l === zLevel)
         return child;
-    }
+
     let r: any = child;
-    while (r && l-- > zLevel) {
+    while (r && l-- > zLevel)
         r = r.parent;
-    }
+
     return r;
 }
 
@@ -590,28 +589,26 @@ export enum PositionNO {
 }
 
 export function comparePosition(node1: Node, node2: Node): PositionNO {
-    if (node1 === node2) {
+    if (node1 === node2)
         return PositionNO.TheSame;
-    }
+
     const l1 = node1.zLevel;
     const l2 = node2.zLevel;
-    if (l1 === l2) {
+    if (l1 === l2)
         return PositionNO.BeforeOrAfter;
-    }
 
     let p: any;
     if (l1 < l2) {
         p = getZLevelTop(node2, l1);
-        if (p && p === node1) {
+        if (p && p === node1)
             return PositionNO.Contains;
-        }
+
         return PositionNO.BeforeOrAfter;
     }
 
     p = getZLevelTop(node1, l2);
-    if (p && p === node2) {
+    if (p && p === node2)
         return PositionNO.ContainedBy;
-    }
 
     return PositionNO.BeforeOrAfter;
 }
@@ -623,18 +620,15 @@ export function comparePosition(node1: Node, node2: Node): PositionNO {
  * @returns 是否包含
  */
 export function contains(node1: Node, node2: Node): boolean {
-    if (node1 === node2) {
+    if (node1 === node2)
         return true;
-    }
 
-    if (!node1.isParental() || !node2.parent) {
+    if (!node1.isParental() || !node2.parent)
         return false;
-    }
 
     const p = getZLevelTop(node2, node1.zLevel);
-    if (!p) {
+    if (!p)
         return false;
-    }
 
     return node1 === p;
 }
@@ -646,14 +640,14 @@ export function insertChild(
     copy?: boolean,
 ): Node {
     let node: Node;
-    if (isNode(thing) && copy) {
+    if (isNode(thing) && copy)
         thing = thing.export(TransformStage.Clone);
-    }
-    if (isNode(thing)) {
+
+    if (isNode(thing))
         node = thing;
-    } else {
+
+    else
         node = container.document.createNode(thing);
-    }
 
     container.children.insertChild(node, at);
 

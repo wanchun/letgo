@@ -1,27 +1,35 @@
 import { EventEmitter } from 'eventemitter3';
 import { uniqueId } from '@webank/letgo-utils';
-import {
+import type {
+    ComponentsMap,
+    NodeData,
+    NodeSchema,
     RootSchema,
+} from '@webank/letgo-types';
+import {
+    TransformStage,
     isDOMText,
     isJSExpression,
-    NodeData,
-    ComponentsMap,
-    TransformStage,
-    NodeSchema,
     isNodeSchema,
 } from '@webank/letgo-types';
-import { computed, ComputedRef } from 'vue';
-import { RootNode, ISimulator, GetDataType, ParentalNode } from '../types';
-import {
+import type { ComputedRef } from 'vue';
+import { computed } from 'vue';
+import { camelCase } from 'lodash-es';
+import type { GetDataType, ISimulator, ParentalNode, RootNode } from '../types';
+import type {
     Designer,
-    DragNodeObject,
     DragNodeDataObject,
+    DragNodeObject,
+} from '../designer';
+import {
     isDragNodeDataObject,
 } from '../designer';
-import { Project } from '../project';
+import type { Project } from '../project';
 import { Node, insertChild, insertChildren, isNode } from '../node';
-import { ComponentMeta } from '../component-meta';
+import type { ComponentMeta } from '../component-meta';
 import { Selection } from './selection';
+
+const componentUseTimes: Record<string, number> = {};
 
 export class DocumentModel {
     readonly project: Project;
@@ -41,8 +49,6 @@ export class DocumentModel {
     private _nodesMap = new Map<string, Node>();
 
     private nodes = new Set<Node>();
-
-    private seqId = 0;
 
     private emitter = new EventEmitter();
 
@@ -78,8 +84,8 @@ export class DocumentModel {
 
     get fileName(): string {
         return (
-            this.rootNode?.getExtraProp('fileName', false)?.getAsString() ||
-            this.id
+            this.rootNode?.getExtraProp('fileName', false)?.getAsString()
+            || this.id
         );
     }
 
@@ -99,11 +105,11 @@ export class DocumentModel {
 
     get focusNode() {
         const selector = this.designer.editor?.get<
-            ((rootNode: RootNode) => Node) | null
-        >('focusNodeSelector');
-        if (selector && typeof selector === 'function') {
+        ((rootNode: RootNode) => Node) | null
+            >('focusNodeSelector');
+        if (selector && typeof selector === 'function')
             return selector(this.rootNode);
-        }
+
         return this.rootNode;
     }
 
@@ -143,7 +149,8 @@ export class DocumentModel {
         const existingMap: { [componentName: string]: boolean } = {};
         for (const node of this._nodesMap.values()) {
             const { componentName } = node || {};
-            if (componentName === 'Slot') continue;
+            if (componentName === 'Slot')
+                continue;
             if (!existingMap[componentName]) {
                 existingMap[componentName] = true;
                 if (node.componentMeta?.npm?.package) {
@@ -151,7 +158,8 @@ export class DocumentModel {
                         ...node.componentMeta.npm,
                         componentName,
                     });
-                } else {
+                }
+                else {
                     componentsMap.push({
                         devMode: 'lowCode',
                         componentName,
@@ -179,12 +187,14 @@ export class DocumentModel {
     /**
      * 生成唯一id
      */
-    nextId(possibleId: string | undefined) {
+    nextId(possibleId: string | undefined, componentName: string) {
         let id = possibleId;
+
+        // 如果没有id，或者id已经被使用，则重新生成一个新的
         while (!id || this.nodesMap.get(id)) {
-            id = `node_${(
-                String(this.id).slice(-10) + (++this.seqId).toString(36)
-            ).toLocaleLowerCase()}`;
+            const count = componentUseTimes[componentName] || 1;
+            id = `${camelCase(componentName)}${count}`;
+            componentUseTimes[componentName] = count + 1;
         }
 
         return id;
@@ -211,27 +221,26 @@ export class DocumentModel {
                 componentName: 'Leaf',
                 children: data,
             };
-        } else {
+        }
+        else {
             schema = data;
         }
 
         let node: Node | null = null;
-        if (this.hasNode(schema?.id)) {
+        if (this.hasNode(schema?.id))
             schema.id = null;
-        }
 
         if (schema.id) {
             node = this.getNode(schema.id);
-            if (node && node.componentName === schema.componentName) {
+            if (node && node.componentName === schema.componentName)
                 node.import(schema);
-            } else if (node) {
+
+            else if (node)
                 node = null;
-            }
         }
 
-        if (!node) {
+        if (!node)
             node = new Node(this, schema);
-        }
 
         this._nodesMap.set(node.id, node);
         this.nodes.add(node);
@@ -288,16 +297,17 @@ export class DocumentModel {
         if (typeof idOrNode === 'string') {
             id = idOrNode;
             node = this.getNode(id);
-        } else {
+        }
+        else {
             node = idOrNode;
             id = node.id;
         }
-        if (!node) {
+        if (!node)
             return;
-        }
-        if (!this.nodes.has(node)) {
+
+        if (!this.nodes.has(node))
             return;
-        }
+
         node.remove(true);
     }
 
@@ -322,10 +332,11 @@ export class DocumentModel {
             items = Array.isArray(dragObject.data)
                 ? dragObject.data
                 : [dragObject.data];
-        } else {
+        }
+        else {
             items = dragObject.nodes;
         }
-        return items.every((item) => this.checkNestingUp(dropTarget, item));
+        return items.every(item => this.checkNestingUp(dropTarget, item));
     }
 
     checkNesting(
@@ -337,10 +348,11 @@ export class DocumentModel {
             items = Array.isArray(dragObject.data)
                 ? dragObject.data
                 : [dragObject.data];
-        } else {
+        }
+        else {
             items = dragObject.nodes;
         }
-        return items.every((item) => this.checkNestingDown(dropTarget, item));
+        return items.every(item => this.checkNestingDown(dropTarget, item));
     }
 
     /**
@@ -351,9 +363,8 @@ export class DocumentModel {
             const config = isNode(obj)
                 ? obj.componentMeta
                 : this.getComponentMeta(obj.componentName);
-            if (config) {
+            if (config)
                 return config.checkNestingUp(obj, parent);
-            }
         }
 
         return true;
@@ -365,8 +376,8 @@ export class DocumentModel {
     checkNestingDown(parent: ParentalNode, obj: NodeSchema | Node): boolean {
         const config = parent.componentMeta;
         return (
-            config.checkNestingDown(parent, obj) &&
-            this.checkNestingUp(parent, obj)
+            config.checkNestingDown(parent, obj)
+            && this.checkNestingUp(parent, obj)
         );
     }
 }

@@ -291,7 +291,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         this.getProp(path, true).setValue(value);
     }
 
-    setRefName(ref: string) {
+    setRef(ref: string) {
         if (this.document.findNode((node: Node) => node.ref === ref))
             throw new Error(`已有名为 ${ref} 的节点`);
 

@@ -1,38 +1,41 @@
-import { DocumentModel } from '@webank/letgo-designer';
-import { TransformStage, ComponentInstance } from '@webank/letgo-types';
-import { cursor, setNativeSelection, isElement } from '@webank/letgo-utils';
-import {
-    Ref,
+import type { DocumentModel } from '@webank/letgo-designer';
+import type { ComponentInstance } from '@webank/letgo-types';
+import { TransformStage } from '@webank/letgo-types';
+import { cursor, isElement, setNativeSelection } from '@webank/letgo-utils';
+import type {
     Component,
-    createApp,
-    ref,
-    shallowRef,
-    reactive,
+    Ref,
+} from 'vue';
+import {
     computed,
+    createApp,
     markRaw,
     onUnmounted,
+    reactive,
+    ref,
+    shallowRef,
 } from 'vue';
 import { config } from '@webank/letgo-renderer';
 import { createMemoryHistory, createRouter } from 'vue-router';
 import { buildComponents, getSubComponent } from './build-components';
-import {
+import type {
     DocumentInstance,
     MixedComponent,
     SimulatorViewLayout,
     VueSimulatorRenderer,
 } from './interface';
 import { RendererView, SimulatorRendererView } from './simulator-view';
-import { Slot, Leaf, Page } from './buildin-components';
+import { Leaf, Page, Slot } from './built-in-components';
 import { host } from './host';
 import {
+    ComponentRecord,
     findDOMNodes,
     getClientRects,
-    getCompRootData,
-    setCompRootData,
     getClosestNodeInstance,
-    ComponentRecord,
-    isComponentRecord,
     getClosestNodeInstanceByComponent,
+    getCompRootData,
+    isComponentRecord,
+    setCompRootData,
 } from './utils';
 import './simulator.css';
 
@@ -58,8 +61,8 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
         const instanceRecords = !instances
             ? null
             : instances.map(
-                  (inst) => new ComponentRecord(docId, nodeId, inst.$.uid),
-              );
+                inst => new ComponentRecord(docId, nodeId, inst.$.uid),
+            );
         host.setInstance(docId, nodeId, instanceRecords);
     };
 
@@ -88,7 +91,8 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
                 if (instances.length > 0) {
                     instancesMap.set(id, instances);
                     setHostInstance(docId, id, instances);
-                } else {
+                }
+                else {
                     instancesMap.delete(id);
                     setHostInstance(docId, id, null);
                 }
@@ -109,8 +113,8 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
 
         setCompRootData(el, {
             nodeId: id,
-            docId: docId,
-            instance: instance,
+            docId,
+            instance,
         });
         let instances = instancesMap.get(id);
         if (instances) {
@@ -121,8 +125,10 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
                 instances.push(instance);
                 updated = true;
             }
-            if (!updated) return;
-        } else {
+            if (!updated)
+                return;
+        }
+        else {
             instances = [instance];
         }
         vueInstanceMap.set(instance.$.uid, instance);
@@ -148,7 +154,7 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
         mountInstance,
         unmountInstance,
         getComponentInstance,
-        rerender: () => void (timestamp.value = Date.now()),
+        rerender: () => (timestamp.value = Date.now()),
     }) as DocumentInstance;
 }
 
@@ -191,11 +197,12 @@ function createSimulatorRenderer() {
         const subs: string[] = [];
         while (paths.length > 0) {
             const component = components.value[componentName];
-            if (component) {
+            if (component)
                 return getSubComponent(component, subs);
-            }
+
             const sub = paths.pop();
-            if (!sub) break;
+            if (!sub)
+                break;
             subs.unshift(sub);
             componentName = paths.join('.');
         }
@@ -206,16 +213,15 @@ function createSimulatorRenderer() {
         if (isComponentRecord(ins)) {
             const { cid, did } = ins;
             const documentInstance = documentInstanceMap.get(did);
-            const instance =
-                documentInstance?.getComponentInstance(cid) ?? null;
+            const instance
+                = documentInstance?.getComponentInstance(cid) ?? null;
             return (
-                instance &&
-                getClosestNodeInstanceByComponent(instance.$, specId)
+                instance
+                && getClosestNodeInstanceByComponent(instance.$, specId)
             );
         }
-        if (isElement(ins)) {
+        if (isElement(ins))
             return getClosestNodeInstance(ins, specId);
-        }
     };
 
     simulator.findDOMNodes = (instance: ComponentRecord) => {
@@ -228,35 +234,36 @@ function createSimulatorRenderer() {
         return null;
     };
 
-    simulator.getClientRects = (element) => getClientRects(element);
+    simulator.getClientRects = element => getClientRects(element);
 
-    simulator.setNativeSelection = (enable) => setNativeSelection(enable);
+    simulator.setNativeSelection = enable => setNativeSelection(enable);
 
-    simulator.setDraggingState = (state) => cursor.setDragging(state);
+    simulator.setDraggingState = state => cursor.setDragging(state);
 
-    simulator.setCopyState = (state) => cursor.setCopy(state);
+    simulator.setCopyState = state => cursor.setCopy(state);
 
     simulator.clearState = () => cursor.release();
 
     simulator.createComponent = () => null;
 
     simulator.rerender = () =>
-        documentInstances.value.forEach((doc) => doc.rerender());
+        documentInstances.value.forEach(doc => doc.rerender());
 
     simulator.dispose = () => {
         simulator.app.unmount();
-        disposeFunctions.forEach((fn) => fn());
+        disposeFunctions.forEach(fn => fn());
     };
 
     simulator.getCurrentDocument = () => {
         const crr = host.project.currentDocument.value;
         const docs = documentInstances.value;
-        return docs.find((doc) => doc.id === crr.id);
+        return docs.find(doc => doc.id === crr.id);
     };
 
     let running = false;
     simulator.run = () => {
-        if (running) return;
+        if (running)
+            return;
         running = true;
         const containerId = 'app';
         let container = document.getElementById(containerId);
@@ -319,16 +326,15 @@ function createSimulatorRenderer() {
         });
         router.getRoutes().forEach((route) => {
             const id = route.name as string;
-            const hasDoc = documentInstances.value.some((doc) => doc.id === id);
+            const hasDoc = documentInstances.value.some(doc => doc.id === id);
             if (!hasDoc) {
                 router.removeRoute(id);
                 documentInstanceMap.delete(id);
             }
         });
         const inst = simulator.getCurrentDocument();
-        if (inst && inst.id !== router.currentRoute.value.name) {
+        if (inst && inst.id !== router.currentRoute.value.name)
             router.replace({ name: inst.id });
-        }
     };
 
     initDocument();

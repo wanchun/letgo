@@ -1,39 +1,41 @@
 import { isNil } from 'lodash-es';
+import type { Slot } from 'vue';
 import {
-    h,
     Fragment,
-    inject,
-    reactive,
-    Slot,
-    onUnmounted,
     defineComponent,
+    h,
+    inject,
+    onUnmounted,
+    reactive,
 } from 'vue';
 import {
-    ensureArray,
-    BlockScope,
-    leafProps,
-    useLeaf,
-    buildSchema,
-    buildProps,
     buildLoop,
+    buildProps,
+    buildSchema,
     buildShow,
     buildSlots,
+    ensureArray,
+    leafProps,
+    useLeaf,
 } from '@webank/letgo-renderer';
+import type { ComponentInstance } from '@webank/letgo-types';
 import {
     TransformStage,
-    ComponentInstance,
     isJSSlot,
 } from '@webank/letgo-types';
-import { BASE_COMP_CONTEXT } from '../constants';
 import type { SlotNode } from '@webank/letgo-designer';
-import type { SlotSchemaMap } from '@webank/letgo-renderer';
+import type {
+    BlockScope,
+    SlotSchemaMap,
+} from '@webank/letgo-renderer';
+import { BASE_COMP_CONTEXT } from '../constants';
 
 /**
  * 装饰默认插槽，当插槽为空时，渲染插槽占位符，便于拖拽
  *
  * @param slot - 插槽渲染函数
  */
-const decorateDefaultSlot = (slot: Slot): Slot => {
+function decorateDefaultSlot(slot: Slot): Slot {
     return (...args: unknown[]) => {
         const vNodes = slot?.(...args) ?? [];
         if (!vNodes.length) {
@@ -45,7 +47,7 @@ const decorateDefaultSlot = (slot: Slot): Slot => {
         }
         return vNodes;
     };
-};
+}
 
 export const Hoc = defineComponent({
     name: 'Hoc',
@@ -70,14 +72,14 @@ export const Hoc = defineComponent({
                 string,
                 Slot
             >;
-            if (node?.isContainer()) {
+            if (node?.isContainer())
                 result.default = decorateDefaultSlot(result.default);
-            }
+
             return result;
         };
 
         const compProps: {
-            [x: string]: unknown;
+            [x: string]: unknown
         } = reactive({});
         const compSlots: SlotSchemaMap = reactive({});
 
@@ -104,7 +106,7 @@ export const Hoc = defineComponent({
         if (node) {
             const disposeFunctions: Array<CallableFunction | undefined> = [];
             onUnmounted(() =>
-                disposeFunctions.forEach((dispose) => dispose?.()),
+                disposeFunctions.forEach(dispose => dispose?.()),
             );
             disposeFunctions.push(
                 node.onChildrenChange(() => {
@@ -124,13 +126,16 @@ export const Hoc = defineComponent({
                         if (key === '___condition___') {
                             // 条件渲染更新 v-if
                             condition(newValue);
-                        } else if (key === '___loop___') {
+                        }
+                        else if (key === '___loop___') {
                             // 循环数据更新 v-for
                             updateLoop(newValue);
-                        } else if (key === '___loopArgs___') {
+                        }
+                        else if (key === '___loopArgs___') {
                             // 循环参数初始化 (item, index)
                             updateLoopArg(newValue);
-                        } else if (key === 'children') {
+                        }
+                        else if (key === 'children') {
                             // 默认插槽更新
                             if (isJSSlot(newValue)) {
                                 const slotNode: SlotNode = prop.slotNode;
@@ -139,29 +144,34 @@ export const Hoc = defineComponent({
                                 );
                                 compSlots.default = schema;
                             }
-                            if (!isNil(newValue)) {
+                            if (!isNil(newValue))
                                 compSlots.default = ensureArray(newValue);
-                            } else {
+
+                            else
                                 delete compSlots.default;
-                            }
-                        } else if (isJSSlot(newValue)) {
+                        }
+                        else if (isJSSlot(newValue)) {
                             // 具名插槽更新
                             const slotNode: SlotNode = prop.slotNode;
                             const schema = slotNode.export(
                                 TransformStage.Render,
                             );
                             compSlots[key] = schema;
-                        } else if (isNil(newValue) && isJSSlot(oldValue)) {
+                        }
+                        else if (isNil(newValue) && isJSSlot(oldValue)) {
                             // 具名插槽移除
                             delete compSlots[key];
-                        } else {
+                        }
+                        else {
                             // 普通根属性更新
                             compProps[key] = newValue;
                         }
-                    } else if (rootPropKey === '___loopArgs___') {
+                    }
+                    else if (rootPropKey === '___loopArgs___') {
                         // 循环参数初始化 (item, index)
                         updateLoopArg(newValue, key);
-                    } else if (rootPropKey) {
+                    }
+                    else if (rootPropKey) {
                         // 普通非根属性更新
                         compProps[rootPropKey] = node.getPropValue(rootPropKey);
                     }
@@ -196,8 +206,10 @@ export const Hoc = defineComponent({
             scope,
         } = this;
 
-        if (!show) return null;
-        if (!comp) return h('div', 'component not found');
+        if (!show)
+            return null;
+        if (!comp)
+            return h('div', 'component not found');
 
         if (!loop) {
             const props = buildProps(scope, compProps, null, { ref: getRef });

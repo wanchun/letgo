@@ -378,7 +378,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
      * 导入 schema
      */
     import(data: Schema) {
-        const { componentName, id, children, props, ...extras } = data;
+        const { children, props, ...extras } = data;
         if (this.isParental()) {
             this.props.import(props, extras);
             this.children.import(children);
@@ -386,7 +386,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         if (this.isLeaf()) {
             this.setPropValue(
                 'children',
-                isDOMText(children) || isJSExpression(children) ? children : '',
+                (isDOMText(children) || isJSExpression(children)) ? children : '',
             );
         }
     }

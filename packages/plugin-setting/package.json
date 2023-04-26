@@ -25,8 +25,7 @@
     "@webank/letgo-editor-core": "workspace:*",
     "@webank/letgo-plugin-manager": "workspace:*",
     "@webank/letgo-types": "workspace:*",
-    "eventemitter3": "^4.0.0",
-    "lodash-es": "^4.17.21"
+    "eventemitter3": "^4.0.0"
   },
   "devDependencies": {
     "vue": "^3.2.37"

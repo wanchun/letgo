@@ -3,6 +3,7 @@
         "target": "ESNext",
         "module": "ESNext",
         "jsx": "preserve",
+        "declaration": true,
         "moduleResolution": "Node",
         "strict": true,
         "strictNullChecks": false,

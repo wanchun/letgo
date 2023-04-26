@@ -14,7 +14,7 @@ export default defineComponent({
     setup(props) {
         return () => {
             const node = props.node;
-
+            // TODO 鼠标 hover 上去能对名字进行变更
             return (
                 <div class={navigatorCls}>
                     {node.id}

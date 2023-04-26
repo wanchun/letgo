@@ -50,7 +50,8 @@ export default defineComponent({
                                         ]}
                                     >
                                         {node?.componentMeta?.title}
-                                        { isCurrentNode ? ` ( ${node.id} )` : '' }
+                                        {/* TODO refName 可更改 */}
+                                        { isCurrentNode ? ` ( ${node.ref} )` : '' }
                                     </span>
                                     {isParentNode && (
                                         <RightOutlined></RightOutlined>

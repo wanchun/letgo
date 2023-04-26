@@ -256,6 +256,14 @@ export class DocumentModel {
         return this._nodesMap.get(id) || null;
     }
 
+    findNode(isMatch: (node: Node) => Boolean): Node | null {
+        for (const node of this.nodes) {
+            if (isMatch(node))
+                return node;
+        }
+        return null;
+    }
+
     /**
      * 是否存在节点
      */

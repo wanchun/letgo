@@ -42,6 +42,11 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     readonly id: string;
 
     /**
+     * 节点 ref
+     */
+    ref: string;
+
+    /**
      * 节点组件类型
      * 特殊节点:
      *  * Page 页面
@@ -206,6 +211,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     constructor(readonly document: DocumentModel, nodeSchema: Schema) {
         const { componentName, id, children, props, ...extras } = nodeSchema;
         this.id = document.nextId(id, componentName);
+        this.ref = this.id;
         this.componentName = componentName;
         if (this.componentName === 'Leaf') {
             this.props = new Props(this, {
@@ -285,6 +291,15 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         this.getProp(path, true).setValue(value);
     }
 
+    setRef(ref: string) {
+        if (this.document.findNode((node: Node) => node.ref === ref))
+            throw new Error(`已有名为 ${ref} 的节点`);
+
+        // TODO 变更代码变量
+        // TODO 对外通知 ref
+        this.ref = ref;
+    }
+
     /**
      * 清除已设置的值
      */
@@ -337,6 +352,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         options: any = {},
     ): Schema {
         const baseSchema: any = {
+            ref: this.ref,
             componentName: this.componentName,
         };
 

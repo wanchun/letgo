@@ -1,19 +1,19 @@
-import { NodeInstance } from '@webank/letgo-designer';
-import { ComponentInternalInstance } from 'vue';
+import type { NodeInstance } from '@webank/letgo-designer';
+import type { ComponentInternalInstance } from 'vue';
 import {
     ComponentRecord,
     getCompRootData,
-    isVNodeHTMLElement,
     isCompRootHTMLElement,
+    isVNodeHTMLElement,
 } from './comp-node';
 
 export function getClosestNodeInstance(
     el: Element,
     specId: string | undefined,
 ): NodeInstance<ComponentRecord> | null {
-    if (!document.contains(el)) {
+    if (!document.contains(el))
         return null;
-    }
+
     return getClosestNodeInstanceByElement(el, specId);
 }
 

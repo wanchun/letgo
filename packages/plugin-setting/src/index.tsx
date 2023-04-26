@@ -8,7 +8,6 @@ import {
 import type { IPluginContext } from '@webank/letgo-plugin-manager';
 import { SettingsMain } from './main';
 import Breadcrumb from './breadcrumb';
-import ComponentKey from './component-key';
 import {
     bodyCls,
     mainCls,
@@ -100,7 +99,6 @@ export default defineComponent({
 
             return (
                 <div class={mainCls}>
-                    <ComponentKey node={currentNode} />
                     <Breadcrumb node={currentNode}></Breadcrumb>
                     <div class={bodyCls}>
                         <FTabs key={currentNode.id} modelValue={items[0].id}>

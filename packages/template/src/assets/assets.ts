@@ -348,7 +348,7 @@ const assets: AssetsJson = {
                     },
                 },
             ],
-            group: '精选组件',
+            group: '原子组件',
             category: '基础元素',
             priority: 0,
         },
@@ -5021,7 +5021,7 @@ const assets: AssetsJson = {
         },
     ],
     sort: {
-        groupList: ['精选组件', '原子组件'],
+        groupList: ['原子组件', '精选组件'],
         categoryList: [
             '基础元素',
             '布局组件',

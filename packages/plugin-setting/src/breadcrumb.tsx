@@ -40,6 +40,7 @@ export default defineComponent({
                         .reverse()
                         .map((node: Node, index: number) => {
                             const isParentNode = index < len - 1;
+                            const isCurrentNode = (index === len - 1);
                             return (
                                 <>
                                     <span
@@ -49,6 +50,7 @@ export default defineComponent({
                                         ]}
                                     >
                                         {node?.componentMeta?.title}
+                                        { isCurrentNode ? ` ( ${node.id} )` : '' }
                                     </span>
                                     {isParentNode && (
                                         <RightOutlined></RightOutlined>

@@ -1,13 +1,13 @@
-import { AssetsJson } from '@webank/letgo-types';
+import type { AssetsJson } from '@webank/letgo-types';
 
 const assets: AssetsJson = {
     packages: [
         {
             package: '@fesjs/fes-design',
-            version: '0.7.21',
+            version: '0.7.26',
             urls: [
-                'https://unpkg.com/@fesjs/fes-design@0.7.21/dist/fes-design.js',
-                'https://unpkg.com/@fesjs/fes-design@0.7.21/dist/fes-design.css',
+                'https://unpkg.com/@fesjs/fes-design@0.7.26/dist/fes-design.js',
+                'https://unpkg.com/@fesjs/fes-design@0.7.26/dist/fes-design.css',
             ],
             library: 'FesDesign',
         },
@@ -357,7 +357,7 @@ const assets: AssetsJson = {
             componentName: 'FCard',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FSpace',
                 destructuring: true,
             },
@@ -524,7 +524,7 @@ const assets: AssetsJson = {
             componentName: 'FSpace',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FSpace',
                 destructuring: true,
             },
@@ -677,7 +677,7 @@ const assets: AssetsJson = {
             componentName: 'FButton',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FButton',
                 destructuring: true,
             },
@@ -879,7 +879,7 @@ const assets: AssetsJson = {
             componentName: 'FForm',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FForm',
                 destructuring: true,
             },
@@ -1063,7 +1063,7 @@ const assets: AssetsJson = {
             componentName: 'FFormItem',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FFormItem',
                 destructuring: true,
             },
@@ -1224,7 +1224,7 @@ const assets: AssetsJson = {
             componentName: 'FInput',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FInput',
                 destructuring: true,
             },
@@ -1399,7 +1399,7 @@ const assets: AssetsJson = {
             componentName: 'FInputNumber',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FInputNumber',
                 destructuring: true,
             },
@@ -1460,7 +1460,7 @@ const assets: AssetsJson = {
             componentName: 'FSelect',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FSelect',
                 destructuring: true,
             },
@@ -1789,7 +1789,7 @@ const assets: AssetsJson = {
             componentName: 'FCheckboxGroup',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FCheckboxGroup',
                 destructuring: true,
             },
@@ -1918,7 +1918,7 @@ const assets: AssetsJson = {
             componentName: 'FCheckbox',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FCheckbox',
                 destructuring: true,
             },
@@ -1964,8 +1964,8 @@ const assets: AssetsJson = {
                         setter: ['StringSetter', 'NumberSetter'],
                         condition: (target) => {
                             return (
-                                target.top.getNode().parent.componentName ===
-                                'FCheckboxGroup'
+                                target.top.getNode().parent.componentName
+                                === 'FCheckboxGroup'
                             );
                         },
                     },
@@ -2007,7 +2007,7 @@ const assets: AssetsJson = {
             componentName: 'FRadioGroup',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FRadioGroup',
                 destructuring: true,
             },
@@ -2174,8 +2174,8 @@ const assets: AssetsJson = {
                                 },
                                 defaultValue: 'default',
                                 condition: (target) => {
-                                    const val =
-                                        target.top.getPropValue('optionType');
+                                    const val
+                                        = target.top.getPropValue('optionType');
                                     return val === 'button';
                                 },
                             },
@@ -2199,8 +2199,8 @@ const assets: AssetsJson = {
                                 },
                                 defaultValue: 'middle',
                                 condition: (target) => {
-                                    const val =
-                                        target.top.getPropValue('optionType');
+                                    const val
+                                        = target.top.getPropValue('optionType');
                                     return val === 'button';
                                 },
                             },
@@ -2210,8 +2210,8 @@ const assets: AssetsJson = {
                                 setter: 'BoolSetter',
                                 defaultValue: true,
                                 condition: (target) => {
-                                    const val =
-                                        target.top.getPropValue('optionType');
+                                    const val
+                                        = target.top.getPropValue('optionType');
                                     return val === 'button';
                                 },
                             },
@@ -2270,7 +2270,7 @@ const assets: AssetsJson = {
             componentName: 'FRadio',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FRadio',
                 destructuring: true,
             },
@@ -2312,8 +2312,8 @@ const assets: AssetsJson = {
                         setter: ['StringSetter', 'NumberSetter'],
                         condition: (target) => {
                             return (
-                                target.top.getNode().parent.componentName ===
-                                'FRadioGroup'
+                                target.top.getNode().parent.componentName
+                                === 'FRadioGroup'
                             );
                         },
                     },
@@ -2352,7 +2352,7 @@ const assets: AssetsJson = {
             componentName: 'FDivider',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FDivider',
                 destructuring: true,
             },
@@ -2394,7 +2394,7 @@ const assets: AssetsJson = {
             componentName: 'FEllipsis',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FEllipsis',
                 destructuring: true,
             },
@@ -2513,7 +2513,7 @@ const assets: AssetsJson = {
             componentName: 'FLayout',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FLayout',
                 destructuring: true,
             },
@@ -2583,7 +2583,7 @@ const assets: AssetsJson = {
             componentName: 'FHeader',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FHeader',
                 destructuring: true,
             },
@@ -2649,7 +2649,7 @@ const assets: AssetsJson = {
             componentName: 'FAside',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FAside',
                 destructuring: true,
             },
@@ -2715,7 +2715,7 @@ const assets: AssetsJson = {
             componentName: 'FMain',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FMain',
                 destructuring: true,
             },
@@ -2761,7 +2761,7 @@ const assets: AssetsJson = {
             componentName: 'FFooter',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FFooter',
                 destructuring: true,
             },
@@ -2827,7 +2827,7 @@ const assets: AssetsJson = {
             componentName: 'FDropdown',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FDropdown',
                 destructuring: true,
             },
@@ -3077,7 +3077,7 @@ const assets: AssetsJson = {
             componentName: 'FSteps',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FSteps',
                 destructuring: true,
             },
@@ -3178,7 +3178,7 @@ const assets: AssetsJson = {
             componentName: 'FStep',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FStep',
                 destructuring: true,
             },
@@ -3292,7 +3292,7 @@ const assets: AssetsJson = {
             componentName: 'FPagination',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FPagination',
                 destructuring: true,
             },
@@ -3446,7 +3446,7 @@ const assets: AssetsJson = {
             componentName: 'FSwitch',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FSwitch',
                 destructuring: true,
             },
@@ -3504,7 +3504,7 @@ const assets: AssetsJson = {
             componentName: 'FTimePicker',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FTimePicker',
                 destructuring: true,
             },
@@ -3598,7 +3598,7 @@ const assets: AssetsJson = {
             componentName: 'FDatePicker',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FDatePicker',
                 destructuring: true,
             },
@@ -3726,7 +3726,7 @@ const assets: AssetsJson = {
             componentName: 'FUpload',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FUpload',
                 destructuring: true,
             },
@@ -3850,7 +3850,7 @@ const assets: AssetsJson = {
             componentName: 'FSelectTree',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FSelectTree',
                 destructuring: true,
             },
@@ -4099,7 +4099,7 @@ const assets: AssetsJson = {
             componentName: 'FSelectCascader',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FSelectCascader',
                 destructuring: true,
             },
@@ -4324,7 +4324,7 @@ const assets: AssetsJson = {
             componentName: 'FCarousel',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FCarousel',
                 destructuring: true,
             },
@@ -4432,7 +4432,7 @@ const assets: AssetsJson = {
             componentName: 'FCarouselItem',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FCarouselItem',
                 destructuring: true,
             },
@@ -4540,7 +4540,7 @@ const assets: AssetsJson = {
             componentName: 'FCollapse',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FCollapse',
                 destructuring: true,
             },
@@ -4596,7 +4596,7 @@ const assets: AssetsJson = {
             componentName: 'FCollapseItem',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FCollapseItem',
                 destructuring: true,
             },
@@ -4701,7 +4701,7 @@ const assets: AssetsJson = {
             componentName: 'FDescriptions',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FDescriptions',
                 destructuring: true,
             },
@@ -4782,7 +4782,7 @@ const assets: AssetsJson = {
             componentName: 'FDescriptionsItem',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FDescriptionsItem',
                 destructuring: true,
             },
@@ -4892,7 +4892,7 @@ const assets: AssetsJson = {
             componentName: 'FImage',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FImage',
                 destructuring: true,
             },
@@ -4990,7 +4990,7 @@ const assets: AssetsJson = {
             componentName: 'FPreviewGroup',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.21',
+                version: '0.7.26',
                 exportName: 'FPreviewGroup',
                 destructuring: true,
             },
@@ -5019,6 +5019,510 @@ const assets: AssetsJson = {
             category: '信息展示',
             priority: 0,
         },
+        {
+            title: '表格',
+            componentName: 'FTable',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.26',
+                exportName: 'FTable',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'bordered',
+                    title: '边框',
+                    propType: 'bool',
+                },
+                {
+                    name: 'data',
+                    title: '数据源',
+                    propType: 'array',
+                },
+                {
+                    name: 'rowClassName',
+                    title: '行样式类名',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'object', 'array', 'func'],
+                    },
+                },
+                {
+                    name: 'rowStyle',
+                    title: '行样式',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['object', 'func'],
+                    },
+                },
+                {
+                    name: 'emptyText',
+                    title: '空数据提示',
+                    propType: 'string',
+                },
+                {
+                    name: 'empty',
+                    title: '空数据插槽',
+                    propType: 'node',
+                },
+                {
+                    name: 'empty',
+                    title: '空数据插槽',
+                    propType: 'node',
+                },
+                {
+                    name: 'height',
+                    title: '高度',
+                    propType: 'number',
+                },
+                {
+                    name: 'rowKey',
+                    title: '高度',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'func'],
+                    },
+                },
+                {
+                    name: 'showHeader',
+                    title: '显示表头',
+                    propType: 'bool',
+                },
+                {
+                    name: 'spanMethod',
+                    title: '合并列',
+                    propType: 'func',
+                },
+                {
+                    name: 'virtualScroll',
+                    title: '虚拟滚动',
+                    propType: 'bool',
+                },
+                {
+                    name: 'size',
+                    title: '间距大小',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['middle', 'small'],
+                    },
+                },
+                {
+                    name: 'layout',
+                    title: '布局方式',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['fixed', 'auto'],
+                    },
+                },
+                {
+                    name: 'draggable',
+                    title: '拖拽',
+                    propType: 'bool',
+                },
+                {
+                    name: 'beforeDragend',
+                    title: '拖拽结束前钩子',
+                    propType: 'func',
+                },
+                {
+                    name: 'v-model:expandedKeys',
+                    title: '展开行的key',
+                    propType: {
+                        type: 'arrayOf',
+                        value: {
+                            type: 'oneOfType',
+                            value: ['string', 'number'],
+                        },
+                    },
+                },
+                {
+                    name: 'v-model:checkedKeys',
+                    title: '勾选行的key',
+                    propType: {
+                        type: 'arrayOf',
+                        value: {
+                            type: 'oneOfType',
+                            value: ['string', 'number'],
+                        },
+                    },
+                },
+            ],
+            configure: {
+                component: {
+                    isContainer: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '表格',
+                    schema: {
+                        componentName: 'FTable',
+                        children: [],
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '信息展示',
+            priority: 0,
+        },
+        {
+            title: '标签页',
+            componentName: 'FTabs',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.26',
+                exportName: 'FTabs',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'v-model',
+                    title: '激活面板',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'number'],
+                    },
+                },
+                {
+                    name: 'position',
+                    title: '页签位置',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['left', 'top', 'right', 'bottom'],
+                    },
+                },
+                {
+                    name: 'type',
+                    title: '页签类型',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['line', 'card'],
+                    },
+                },
+                {
+                    name: 'closable',
+                    title: '可关闭',
+                    propType: 'bool',
+                },
+                {
+                    name: 'closeMode',
+                    title: '关闭按钮显示类型',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['visible', 'hover'],
+                    },
+                },
+                {
+                    name: 'transition',
+                    title: '动画',
+                    propType: 'bool',
+                },
+                {
+                    name: 'prefix',
+                    title: '前置内容',
+                    propType: 'node',
+                },
+                {
+                    name: 'suffix',
+                    title: '后置内容',
+                    propType: 'node',
+                },
+            ],
+            configure: {
+                component: {
+                    isContainer: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '标签页',
+                    schema: {
+                        componentName: 'FTabs',
+                        children: [],
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '信息展示',
+            priority: 0,
+        },
+        // {
+        //     title: '标签页选项',
+        //     componentName: 'FTabPane',
+        //     npm: {
+        //         package: '@fesjs/fes-design',
+        //         version: '0.7.26',
+        //         exportName: 'FTabPane',
+        //         destructuring: true,
+        //     },
+        //     props: [
+        //         {
+        //             name: 'name',
+        //             title: '名称',
+        //             propType: {
+        //                 type: 'oneOfType',
+        //                 value: ['string', 'number'],
+        //             },
+        //         },
+        //         {
+        //             name: 'value',
+        //             title: '值',
+        //             propType: {
+        //                 type: 'oneOfType',
+        //                 value: ['string', 'number'],
+        //             },
+        //         },
+        //         {
+        //             name: 'disabled',
+        //             title: '禁用',
+        //             propType: 'bool',
+        //         },
+        //         {
+        //             name: 'closable',
+        //             title: '可关闭',
+        //             propType: 'bool',
+        //         },
+        //         {
+        //             name: 'displayDirective',
+        //             title: '渲染逻辑',
+        //             propType: {
+        //                 type: 'oneOf',
+        //                 value: ['if', 'show', 'show:lazy'],
+        //             },
+        //         },
+        //         {
+        //             name: 'tab',
+        //             title: '自定义名称',
+        //             propType: 'node',
+        //         },
+        //     ],
+        //     configure: {
+        //         component: {
+        //             isContainer: true,
+        //         },
+        //     },
+        //     snippets: [
+        //         {
+        //             title: '标签页选项',
+        //             schema: {
+        //                 componentName: 'FTabPane',
+        //                 children: [],
+        //             },
+        //         },
+        //     ],
+        //     group: '原子组件',
+        //     category: '信息展示',
+        //     priority: 0,
+        // },
+        {
+            componentName: '',
+            title: '',
+            snippets: [
+                {
+                    title: '标签页',
+                    schema: {
+                        componentName: 'FTabs',
+                        // children: [
+                        //     {
+                        //         componentName: 'FTabPane',
+                        //         props: {
+                        //             name: '标签一',
+                        //             value: '1',
+                        //         },
+                        //         children: ['XXXX'],
+                        //     },
+                        //     {
+                        //         componentName: 'FTabPane',
+                        //         props: {
+                        //             name: '标签二',
+                        //             value: '2',
+                        //         },
+                        //         children: ['YYYY'],
+                        //     },
+                        //     {
+                        //         componentName: 'FTabPane',
+                        //         props: {
+                        //             name: '标签三',
+                        //             value: '3',
+                        //         },
+                        //         children: ['ZZZZ'],
+                        //     },
+                        // ],
+                    },
+                },
+            ],
+            group: '精选组件',
+            category: '信息展示',
+            priority: 0,
+        },
+        {
+            title: '标签',
+            componentName: 'FTag',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.26',
+                exportName: 'FTag',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'type',
+                    title: '类型',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['default', 'success', 'info', 'warning', 'danger'],
+                    },
+                },
+                {
+                    name: 'closable',
+                    title: '可关闭',
+                    propType: 'bool',
+                },
+                {
+                    name: 'backgroundColor',
+                    title: '背景色',
+                    propType: 'string',
+                },
+                {
+                    name: 'closable',
+                    title: '可关闭',
+                    propType: 'bool',
+                },
+                {
+                    name: 'size',
+                    title: '大小',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['small', 'middle', 'large'],
+                    },
+                },
+                {
+                    name: 'effect',
+                    title: '主题',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['dark', 'light', 'plain'],
+                    },
+                },
+                {
+                    name: 'bordered',
+                    title: '边框',
+                    propType: 'bool',
+                },
+            ],
+            configure: {
+                component: {
+                    isContainer: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '标签',
+                    schema: {
+                        componentName: 'FTag',
+                        children: [],
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '信息展示',
+            priority: 0,
+        },
+        {
+            title: '警告提示',
+            componentName: 'FAlert',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.26',
+                exportName: 'FAlert',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'type',
+                    title: '类型',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['success', 'info', 'warning', 'error'],
+                    },
+                },
+                {
+                    name: 'message',
+                    title: '消息标题',
+                    propType: 'string',
+                },
+                {
+                    name: 'description',
+                    title: '消息内容',
+                    propType: 'string',
+                },
+                {
+                    name: 'showIcon',
+                    title: '显示图标',
+                    propType: 'bool',
+                },
+                {
+                    name: 'closable',
+                    title: '可关闭',
+                    propType: 'bool',
+                },
+                {
+                    name: 'center',
+                    title: '居中',
+                    propType: 'bool',
+                },
+                {
+                    name: 'beforeClose',
+                    title: '关闭前钩子',
+                    propType: 'func',
+                },
+            ],
+            snippets: [
+                {
+                    title: '警告提示',
+                    schema: {
+                        componentName: 'FAlert',
+                        props: {
+                            type: 'info',
+                            message: '常规信息提示内容',
+                        },
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '信息反馈',
+            priority: 0,
+        },
+        {
+            title: '文字提示',
+            componentName: 'FTooltip',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.26',
+                exportName: 'FTooltip',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'v-model',
+                    title: '显示提示',
+                    propType: 'bool',
+                },
+            ],
+            snippets: [
+                {
+                    title: '文字提示',
+                    schema: {
+                        componentName: 'FTooltip',
+                        props: {
+                        },
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '信息反馈',
+            priority: 0,
+        },
     ],
     sort: {
         groupList: ['原子组件', '精选组件'],
@@ -5030,7 +5534,6 @@ const assets: AssetsJson = {
             '信息展示',
             '信息反馈',
             '对话框类',
-            '通用类',
         ],
     },
 };

@@ -23,7 +23,7 @@ export interface NodeSchema {
     /**
      * 组件 ref
      */
-    ref: string
+    ref?: string
     /**
      * 组件名称 必填、首字母大写
      */

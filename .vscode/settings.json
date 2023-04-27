@@ -5,10 +5,9 @@
     "files.associations": {
         "*.css": "postcss"
     },
-    // "vue.features.codeActions.enable": false,
     "prettier.enable": false,
     "editor.formatOnSave": false,
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": true
-    }
+    },
 }

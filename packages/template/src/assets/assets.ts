@@ -5146,18 +5146,168 @@ const assets: AssetsJson = {
                         },
                     },
                 },
-            ],
-            configure: {
-                component: {
-                    isContainer: true,
+                {
+                    name: 'columns',
+                    title: '列配置',
+                    propType: {
+                        type: 'arrayOf',
+                        value: {
+                            type: 'shape',
+                            value: [
+                                {
+                                    name: 'action',
+                                    title: '操作',
+                                    propType: {
+                                        type: 'oneOfType',
+                                        value: ['object', 'array'],
+                                    },
+                                },
+                                {
+                                    name: 'align',
+                                    title: '对齐方式',
+                                    propType: {
+                                        type: 'oneOf',
+                                        value: ['left', 'center', 'right'],
+                                    },
+                                },
+                                {
+                                    name: 'colClassName',
+                                    title: '列样式类名称',
+                                    propType: {
+                                        type: 'oneOfType',
+                                        value: ['string', 'object', 'array', 'func'],
+                                    },
+                                },
+                                {
+                                    name: 'colStyle',
+                                    title: '列样式类名称',
+                                    propType: {
+                                        type: 'oneOfType',
+                                        value: ['object', 'func'],
+                                    },
+                                },
+                                {
+                                    name: 'fixed',
+                                    title: '是否固定',
+                                    propType: {
+                                        type: 'oneOf',
+                                        value: ['false', 'left', 'right'],
+                                    },
+                                },
+                                {
+                                    name: 'formatter',
+                                    title: '格式化内容',
+                                    propType: 'func',
+                                },
+                                {
+                                    name: 'label',
+                                    title: '标题',
+                                    propType: 'string',
+                                },
+                                {
+                                    name: 'prop',
+                                    title: '列字段',
+                                    propType: 'string',
+                                },
+                                {
+                                    name: 'minWidth',
+                                    title: '最小宽度',
+                                    propType: 'number',
+                                },
+                                {
+                                    name: 'width',
+                                    title: '宽度',
+                                    propType: 'number',
+                                },
+                                {
+                                    name: 'type',
+                                    title: '类型',
+                                    propType: {
+                                        type: 'oneOf',
+                                        value: ['bool', 'selection', 'expand'],
+                                    },
+                                },
+                                {
+                                    name: 'ellipsis',
+                                    title: '文本溢出省略',
+                                    propType: {
+                                        type: 'oneOfType',
+                                        value: ['bool', 'object'],
+                                    },
+                                },
+                                {
+                                    name: 'visible',
+                                    title: '显示',
+                                    propType: 'bool',
+                                },
+                                {
+                                    name: 'selectable',
+                                    title: '可被选',
+                                    propType: 'func',
+                                },
+                                {
+                                    name: 'sortable',
+                                    title: '排序',
+                                    propType: 'bool',
+                                },
+                                {
+                                    name: 'sorter',
+                                    title: '排序函数',
+                                    propType: 'func',
+                                },
+                                {
+                                    name: 'render',
+                                    title: '自定义渲染',
+                                    propType: 'func',
+                                },
+                                {
+                                    name: 'renderHeader',
+                                    title: '自定义标题',
+                                    propType: 'func',
+                                },
+                            ],
+                        },
+                    },
                 },
-            },
+            ],
             snippets: [
                 {
                     title: '表格',
                     schema: {
                         componentName: 'FTable',
-                        children: [],
+                        props: {
+                            columns: [
+                                {
+                                    prop: 'date',
+                                    label: '日期',
+                                },
+                                {
+                                    prop: 'name',
+                                    label: '姓名',
+                                },
+                                {
+                                    prop: 'address',
+                                    label: '地址',
+                                },
+                            ],
+                            data: [
+                                {
+                                    date: '2016-05-01',
+                                    name: '王小虎',
+                                    address: '上海市普陀区金沙江路 1516 弄',
+                                },
+                                {
+                                    date: '2016-05-02',
+                                    name: '王小虎',
+                                    address: '上海市普陀区金沙江路 1516 弄',
+                                },
+                                {
+                                    date: '2016-05-03',
+                                    name: '王小虎',
+                                    address: '上海市普陀区金沙江路 1516 弄',
+                                },
+                            ],
+                        },
                     },
                 },
             ],
@@ -5508,6 +5658,116 @@ const assets: AssetsJson = {
                     title: '显示提示',
                     propType: 'bool',
                 },
+                {
+                    name: 'model',
+                    title: '弹出模式',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['text', 'confirm', 'popover'],
+                    },
+                },
+                {
+                    name: 'popperClass',
+                    title: '弹出框class',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'object', 'array'],
+                    },
+                },
+                {
+                    name: 'title',
+                    title: '标题',
+                    propType: 'string',
+                },
+                {
+                    name: 'content',
+                    title: '内容',
+                    propType: 'string',
+                },
+                {
+                    name: 'placement',
+                    title: '内容',
+                    propType: {
+                        type: 'oneOf',
+                        value: [
+                            'auto',
+                            'top',
+                            'top-start',
+                            'top-end',
+                            'bottom',
+                            'bottom-start',
+                            'bottom-end',
+                            'right',
+                            'right-start',
+                            'right-end',
+                            'left',
+                            'left-start',
+                            'left-end',
+                        ],
+                    },
+                },
+                {
+                    name: 'trigger',
+                    title: '触发方式',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['hover', 'click', 'focus'],
+                    },
+                },
+                {
+                    name: 'disabled',
+                    title: '禁用',
+                    propType: 'bool',
+                },
+                {
+                    name: 'offset',
+                    title: '偏移量',
+                    propType: 'number',
+                },
+                {
+                    name: 'showAfter',
+                    title: '显示延迟',
+                    propType: 'number',
+                },
+                {
+                    name: 'hideAfter',
+                    title: '消失延迟',
+                    propType: 'number',
+                },
+                {
+                    name: 'arrow',
+                    title: '箭头',
+                    propType: 'bool',
+                },
+                {
+                    name: 'confirmOption',
+                    title: '确认模式选项',
+                    propType: {
+                        type: 'exact',
+                        value: [
+                            {
+                                name: 'okText',
+                                title: '确认按钮文字',
+                                propType: 'string',
+                            },
+                            {
+                                name: 'cancelText',
+                                title: '取消按钮文字',
+                                propType: 'string',
+                            },
+                            {
+                                name: 'icon',
+                                title: '图标',
+                                propType: 'node',
+                            },
+                        ],
+                    },
+                },
+                {
+                    name: 'getContainer',
+                    title: '渲染容器节点',
+                    propType: 'func',
+                },
             ],
             snippets: [
                 {
@@ -5515,7 +5775,17 @@ const assets: AssetsJson = {
                     schema: {
                         componentName: 'FTooltip',
                         props: {
+                            content: 'top-start',
+                            placement: 'top-start',
                         },
+                        children: [
+                            {
+                                componentName: 'FButton',
+                                props: {
+                                    children: 'top-start',
+                                },
+                            },
+                        ],
                     },
                 },
             ],

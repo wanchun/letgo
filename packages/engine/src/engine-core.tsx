@@ -8,6 +8,7 @@ import { Skeleton, Workbench } from '@webank/letgo-editor-skeleton';
 import PluginDesigner from '@webank/letgo-plugin-designer';
 import PluginSetting from '@webank/letgo-plugin-setting';
 import engineExt from '@webank/letgo-engine-ext';
+import PluginCodeView from '@webank/letgo-plugin-code';
 import type {
     IPluginContext,
     PluginPreference,
@@ -57,7 +58,7 @@ export { plugins, project, material };
             setters.register(engineExt.setters);
         },
     });
-
+    plugins.register(PluginCodeView);
     // 注册默认的面板
     plugins.register(PluginDesigner);
     plugins.register(PluginSetting);

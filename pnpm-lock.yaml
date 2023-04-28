@@ -178,6 +178,9 @@ importers:
       '@webank/letgo-engine-ext':
         specifier: workspace:*
         version: link:../engine-ext
+      '@webank/letgo-plugin-code':
+        specifier: workspace:*
+        version: link:../plugin-code
       '@webank/letgo-plugin-designer':
         specifier: workspace:*
         version: link:../plugin-designer
@@ -239,6 +242,30 @@ importers:
       codemirror:
         specifier: ^6.0.1
         version: 6.0.1(@lezer/common@1.0.2)
+      vue:
+        specifier: ^3.2.37
+        version: 3.2.47
+
+  packages/plugin-code:
+    dependencies:
+      '@fesjs/fes-design':
+        specifier: ^0.7.25
+        version: 0.7.25(vue@3.2.47)
+      '@vanilla-extract/css':
+        specifier: ^1.9.2
+        version: 1.9.2
+      '@webank/letgo-designer':
+        specifier: workspace:*
+        version: link:../designer
+      '@webank/letgo-editor-core':
+        specifier: workspace:*
+        version: link:../editor-core
+      '@webank/letgo-plugin-manager':
+        specifier: workspace:*
+        version: link:../plugin-manager
+      '@webank/letgo-types':
+        specifier: workspace:*
+        version: link:../types
       vue:
         specifier: ^3.2.37
         version: 3.2.47
@@ -2466,6 +2493,27 @@ packages:
 
   /@fesjs/fes-design@0.7.27(vue@3.2.47):
     resolution: {integrity: sha512-vupfeiqmhs0FEaCFvlaPhZqXuw4YmV+V2QtV6kegcYCFAiy/rbON4QK1xb9fXcNgW2k1MP0YhAiKxjnQjUqFkw==}
+    peerDependencies:
+      vue: ^3.2.24
+    dependencies:
+      '@babel/runtime': 7.21.0
+      '@floating-ui/dom': 0.4.5
+      '@juggle/resize-observer': 3.4.0
+      '@types/lodash-es': 4.17.6
+      '@vue/shared': 3.2.47
+      '@vueuse/core': 9.6.0(vue@3.2.47)
+      async-validator: 4.2.5
+      csstype: 3.1.2
+      date-fns: 2.29.3
+      lodash-es: 4.17.21
+      stickybits: 3.7.11
+      vue: 3.2.47
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+    dev: false
+
+  /@fesjs/fes-design@0.7.25(vue@3.2.47):
+    resolution: {integrity: sha512-ZsIngpUPxNUv+LCGFWpfwIWLkJfqtBqCvgoMA2qlvi7eFFCo2JjYCCDc28p4G0tooj/ctB774CbL4G4glzeiuQ==}
     peerDependencies:
       vue: ^3.2.24
     dependencies:

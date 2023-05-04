@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue';
-import { iconCls, svgCls } from './content.css';
+import { iconCls, svgCls } from './icon.css';
 
 export default defineComponent({
     setup() {

@@ -1,9 +1,5 @@
 import { style } from '@vanilla-extract/css';
 
-export const searchCls = style({
-    padding: '8px 16px',
-});
-
 export const categoryTitleCls = style({
     padding: '0 16px',
     fontSize: '14px',

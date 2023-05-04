@@ -9,12 +9,9 @@ export interface FailureCondition {
 
 export interface QueryResource {
     id: string
-    data?: any
     enableTransformer: boolean
-    error?: any
     query: string
     queryFailureCondition: FailureCondition[]
-    showFailureToaster: boolean
 
     showSuccessToaster: boolean
     successMessage: string
@@ -27,11 +24,11 @@ export interface QueryResource {
 
 }
 
-export interface JavascriptQuery {
+export interface JavascriptQuery extends QueryResource {
 
 }
 
-export interface JavascriptTransformer {
+export interface JavascriptComputed {
     id: string
     funcBody: string
 }
@@ -41,6 +38,14 @@ export interface TemporaryState {
     initValue: string
 }
 
-export interface Code {
-    temporaryState: TemporaryState[]
+type CodeType = TemporaryState | JavascriptComputed | JavascriptQuery;
+
+interface DirectoryItem {
+    name: string
+    codes: CodeType[]
+}
+
+export interface CodeStruct {
+    directory: DirectoryItem[]
+    codes: CodeType[]
 }

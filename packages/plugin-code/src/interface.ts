@@ -21,7 +21,6 @@ export interface QueryResource {
     enableCaching?: boolean
     queryTimeout?: number
     transformer: string
-
 }
 
 export interface JavascriptQuery extends QueryResource {

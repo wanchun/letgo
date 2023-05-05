@@ -15,7 +15,7 @@ export default {
             },
             panelContent: () => <Panel editor={editor} designer={designer} />,
             panelProps: {
-                width: 300,
+                width: 720,
                 title: 'code',
             },
         });

@@ -5224,7 +5224,7 @@ const assets: AssetsJson = {
                                     title: '类型',
                                     propType: {
                                         type: 'oneOf',
-                                        value: ['bool', 'selection', 'expand'],
+                                        value: ['default', 'selection', 'expand'],
                                     },
                                 },
                                 {
@@ -5334,6 +5334,56 @@ const assets: AssetsJson = {
                     },
                 },
                 {
+                    name: 'panes',
+                    title: '页签配置',
+                    propType: {
+                        type: 'arrayOf',
+                        value: {
+                            type: 'shape',
+                            value: [
+                                {
+                                    name: 'name',
+                                    title: '名称',
+                                    propType: 'string',
+                                },
+                                {
+                                    name: 'value',
+                                    title: '值',
+                                    propType: 'string',
+                                },
+                                {
+                                    name: 'disabled',
+                                    title: '禁用',
+                                    propType: 'bool',
+                                },
+                                {
+                                    name: 'closable',
+                                    title: '关闭按钮',
+                                    propType: 'bool',
+                                },
+                                {
+                                    name: 'displayDirective',
+                                    title: '关闭按钮',
+                                    propType: {
+                                        type: 'oneOf',
+                                        value: ['if', 'show', 'show:lazy'],
+                                    },
+                                },
+                                {
+                                    name: 'render',
+                                    title: '渲染内容',
+                                    propType: 'func',
+                                },
+                                {
+                                    name: 'renderTab',
+                                    title: '渲染页签',
+                                    propType: 'func',
+                                },
+                            ],
+                        },
+                    },
+                },
+                {
                     name: 'position',
                     title: '页签位置',
                     propType: {
@@ -5388,120 +5438,26 @@ const assets: AssetsJson = {
                     title: '标签页',
                     schema: {
                         componentName: 'FTabs',
-                        children: [],
+                        props: {
+                            panes: [
+                                {
+                                    name: 'T恤',
+                                    value: 'T恤',
+                                },
+                                {
+                                    name: '卫衣啊卫衣',
+                                    value: '卫衣',
+                                },
+                                {
+                                    name: '衬衫',
+                                    value: '衬衫',
+                                },
+                            ],
+                        },
                     },
                 },
             ],
             group: '原子组件',
-            category: '信息展示',
-            priority: 0,
-        },
-        // {
-        //     title: '标签页选项',
-        //     componentName: 'FTabPane',
-        //     npm: {
-        //         package: '@fesjs/fes-design',
-        //         version: '0.7.26',
-        //         exportName: 'FTabPane',
-        //         destructuring: true,
-        //     },
-        //     props: [
-        //         {
-        //             name: 'name',
-        //             title: '名称',
-        //             propType: {
-        //                 type: 'oneOfType',
-        //                 value: ['string', 'number'],
-        //             },
-        //         },
-        //         {
-        //             name: 'value',
-        //             title: '值',
-        //             propType: {
-        //                 type: 'oneOfType',
-        //                 value: ['string', 'number'],
-        //             },
-        //         },
-        //         {
-        //             name: 'disabled',
-        //             title: '禁用',
-        //             propType: 'bool',
-        //         },
-        //         {
-        //             name: 'closable',
-        //             title: '可关闭',
-        //             propType: 'bool',
-        //         },
-        //         {
-        //             name: 'displayDirective',
-        //             title: '渲染逻辑',
-        //             propType: {
-        //                 type: 'oneOf',
-        //                 value: ['if', 'show', 'show:lazy'],
-        //             },
-        //         },
-        //         {
-        //             name: 'tab',
-        //             title: '自定义名称',
-        //             propType: 'node',
-        //         },
-        //     ],
-        //     configure: {
-        //         component: {
-        //             isContainer: true,
-        //         },
-        //     },
-        //     snippets: [
-        //         {
-        //             title: '标签页选项',
-        //             schema: {
-        //                 componentName: 'FTabPane',
-        //                 children: [],
-        //             },
-        //         },
-        //     ],
-        //     group: '原子组件',
-        //     category: '信息展示',
-        //     priority: 0,
-        // },
-        {
-            componentName: '',
-            title: '',
-            snippets: [
-                {
-                    title: '标签页',
-                    schema: {
-                        componentName: 'FTabs',
-                        // children: [
-                        //     {
-                        //         componentName: 'FTabPane',
-                        //         props: {
-                        //             name: '标签一',
-                        //             value: '1',
-                        //         },
-                        //         children: ['XXXX'],
-                        //     },
-                        //     {
-                        //         componentName: 'FTabPane',
-                        //         props: {
-                        //             name: '标签二',
-                        //             value: '2',
-                        //         },
-                        //         children: ['YYYY'],
-                        //     },
-                        //     {
-                        //         componentName: 'FTabPane',
-                        //         props: {
-                        //             name: '标签三',
-                        //             value: '3',
-                        //         },
-                        //         children: ['ZZZZ'],
-                        //     },
-                        // ],
-                    },
-                },
-            ],
-            group: '精选组件',
             category: '信息展示',
             priority: 0,
         },
@@ -5791,6 +5747,293 @@ const assets: AssetsJson = {
             ],
             group: '原子组件',
             category: '信息反馈',
+            priority: 0,
+        },
+        {
+            title: '加载中',
+            componentName: 'FSpin',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.26',
+                exportName: 'FSpin',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'show',
+                    title: '显示',
+                    propType: 'bool',
+                },
+                {
+                    name: 'size',
+                    title: '大小',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['middle', 'small', 'large'],
+                    },
+                },
+                {
+                    name: 'description',
+                    title: '描述',
+                    propType: 'string',
+                },
+                {
+                    name: 'stroke',
+                    title: '边框颜色',
+                    propType: 'string',
+                },
+                {
+                    name: 'delay',
+                    title: '延迟显示',
+                    propType: 'number',
+                },
+                {
+                    name: 'icon',
+                    title: '图标',
+                    propType: 'node',
+                },
+            ],
+            snippets: [
+                {
+                    title: '加载中',
+                    schema: {
+                        componentName: 'FSpin',
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '信息反馈',
+            priority: 0,
+        },
+        {
+            title: '抽屉',
+            componentName: 'FDrawer',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.26',
+                exportName: 'FDrawer',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'v-model:show',
+                    title: '显示',
+                    propType: 'bool',
+                },
+                {
+                    name: 'displayDirective',
+                    title: '渲染指令',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['show', 'if'],
+                    },
+                },
+                {
+                    name: 'closable',
+                    title: '可关闭',
+                    propType: 'bool',
+                },
+                {
+                    name: 'closable',
+                    title: '可关闭',
+                    propType: 'bool',
+                },
+                {
+                    name: 'mask',
+                    title: '蒙层',
+                    propType: 'bool',
+                },
+                {
+                    name: 'maskClosable',
+                    title: '点击蒙层关闭',
+                    propType: 'bool',
+                },
+                {
+                    name: 'title',
+                    title: '标题',
+                    propType: 'string',
+                },
+                {
+                    name: 'placement',
+                    title: '方向',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['top', 'bottom', 'left', 'right'],
+                    },
+                },
+                {
+                    name: 'height',
+                    title: '高度',
+                    propType: 'number',
+                },
+                {
+                    name: 'width',
+                    title: '宽度',
+                    propType: 'number',
+                },
+                {
+                    name: 'footer',
+                    title: '底部',
+                    propType: 'bool',
+                },
+                {
+                    name: 'okText',
+                    title: '确认按钮文字',
+                    propType: 'string',
+                },
+                {
+                    name: 'cancelText',
+                    title: '取消按钮文字',
+                    propType: 'string',
+                },
+                {
+                    name: 'getContainer',
+                    title: '挂载节点',
+                    propType: 'func',
+                },
+                {
+                    name: 'contentClass',
+                    title: '内容样式名称',
+                    propType: 'string',
+                },
+            ],
+            configure: {
+                component: {
+                    isContainer: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '抽屉',
+                    schema: {
+                        componentName: 'FDrawer',
+                        props: {
+                            'v-model:show': true,
+                        },
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '对话框类',
+            priority: 0,
+        },
+        {
+            title: '模态框',
+            componentName: 'FModal',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.26',
+                exportName: 'FModal',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'v-model:show',
+                    title: '显示',
+                    propType: 'bool',
+                },
+                {
+                    name: 'displayDirective',
+                    title: '渲染指令',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['show', 'if'],
+                    },
+                },
+                {
+                    name: 'closable',
+                    title: '可关闭',
+                    propType: 'bool',
+                },
+                {
+                    name: 'closable',
+                    title: '可关闭',
+                    propType: 'bool',
+                },
+                {
+                    name: 'mask',
+                    title: '蒙层',
+                    propType: 'bool',
+                },
+                {
+                    name: 'maskClosable',
+                    title: '点击蒙层关闭',
+                    propType: 'bool',
+                },
+                {
+                    name: 'title',
+                    title: '标题',
+                    propType: 'string',
+                },
+                {
+                    name: 'width',
+                    title: '宽度',
+                    propType: 'number',
+                },
+                {
+                    name: 'top',
+                    title: '距离顶部',
+                    propType: 'number',
+                },
+                {
+                    name: 'verticalCenter',
+                    title: '垂直居中',
+                    propType: 'bool',
+                },
+                {
+                    name: 'center',
+                    title: '内容居中',
+                    propType: 'bool',
+                },
+                {
+                    name: 'fullScreen',
+                    title: '全屏',
+                    propType: 'bool',
+                },
+                {
+                    name: 'footer',
+                    title: '底部',
+                    propType: 'bool',
+                },
+                {
+                    name: 'okText',
+                    title: '确认按钮文字',
+                    propType: 'string',
+                },
+                {
+                    name: 'cancelText',
+                    title: '取消按钮文字',
+                    propType: 'string',
+                },
+                {
+                    name: 'getContainer',
+                    title: '挂载节点',
+                    propType: 'func',
+                },
+                {
+                    name: 'contentClass',
+                    title: '内容样式名称',
+                    propType: 'string',
+                },
+            ],
+            configure: {
+                component: {
+                    isContainer: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '模态框',
+                    schema: {
+                        componentName: 'FModal',
+                        props: {
+                            'v-model:show': true,
+                        },
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '对话框类',
             priority: 0,
         },
     ],

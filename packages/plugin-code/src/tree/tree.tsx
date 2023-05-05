@@ -2,6 +2,7 @@ import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
 
 import TreeNode from './tree-node';
+import { treeCls } from './tree.css';
 
 export default defineComponent({
     props: {
@@ -11,7 +12,7 @@ export default defineComponent({
     },
     setup(props) {
         return () => {
-            <div>
+            return <div class={treeCls}>
                 {
                     Object.keys(props.value).map((key) => {
                         return <TreeNode label={key} level={0} value={props.value[key]} />;

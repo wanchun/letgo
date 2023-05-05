@@ -7,7 +7,7 @@ export default defineComponent({
     },
     setup(props) {
         const renderMark = () => {
-            return <span style="padding: 0 4px">{isArray(props.value) ? '[]' : '{}' }</span>;
+            return <span style="padding-right: 8px">{isArray(props.value) ? '[]' : '{}' }</span>;
         };
         const length = computed(() => {
             return isArray(props.value) ? props.value.length : Object.keys(props.value).length;
@@ -16,7 +16,7 @@ export default defineComponent({
             return <span style="padding-left: 12px; color: #8c8c8c">
                 {renderMark()}
                 {length.value}
-                {isArray(props.value) ? 'items' : 'keys'}
+                <span style="padding-left: 8px">{isArray(props.value) ? 'items' : 'keys'}</span>
             </span>;
         };
     },

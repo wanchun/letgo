@@ -5,7 +5,7 @@ declare global {
     namespace JSX {
         interface IntrinsicAttributes {
             style?: StyleValue
-            class?: CSSProperties
+            class?: StyleValue
         }
     }
 }

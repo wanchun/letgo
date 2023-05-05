@@ -1,7 +1,7 @@
 import { defineComponent } from 'vue';
 
 import { isArray, isBoolean, isNil, isNumber, isPlainObject, isString } from 'lodash-es';
-import { leafValueCls } from './leaf.node.css';
+import { leafCls, leafValueCls } from './leaf-node.css';
 import LabelTip from './label-tip';
 
 type CommonType = string | number | null | boolean;
@@ -30,7 +30,7 @@ export default defineComponent({
                 return attachColorToValue('#f759ab', `"${value}"`);
 
             else if (isNumber(value))
-                return attachColorToValue('#73d13d', `"${value}"`);
+                return attachColorToValue('#73d13d', value);
 
             else if (isBoolean(value))
                 return attachColorToValue('#ff7a45', JSON.stringify(value));
@@ -48,7 +48,7 @@ export default defineComponent({
             return renderCommonValue(props.value as CommonType);
         };
         return () => {
-            return <div style={`padding-left: ${props.level * 22}px`}>
+            return <div class={leafCls} style={`padding-left: ${props.level * 14}px`}>
                 <span>{props.label}</span>
                 {renderValue()}
             </div>;

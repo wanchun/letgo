@@ -1,7 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
 export const iconCls = style({
-    paddingTop: '8px',
     cursor: 'pointer',
     fontSize: '16px',
     display: 'inline-block',

@@ -1,16 +1,16 @@
 import type { PropType } from 'vue';
 import {
+    computed,
     defineComponent,
     reactive,
 } from 'vue';
 
-import { DownOutlined } from '@fesjs/fes-design/icon';
-
 import type { Designer } from '@webank/letgo-designer';
 import FadeInExpandTransition from '../fade-in-expand-transition';
 import Tree from '../tree/tree';
+import StateHeader from './state-header';
 
-import { categoryCls, categoryTitleCls, stateWrapCls, titleIconCls } from './state.css';
+import { categoryCls, stateWrapCls } from './state.css';
 
 export default defineComponent({
     props: {
@@ -27,23 +27,44 @@ export default defineComponent({
         const toggleExpend = (item: string) => {
             activeItem[item] = !activeItem[item];
         };
-        const toggleGlobalStateExpend = () => {
+        const toggleGlobalExpend = () => {
             toggleExpend('global');
         };
+        const toggleComponentsExpend = () => {
+            toggleExpend('components');
+        };
+        const toggleCodeExpend = () => {
+            toggleExpend('code');
+        };
+
+        const globalState = computed(() => {
+            return props.designer.project.config;
+        });
+
         return () => {
             return (
                 <div class={stateWrapCls}>
                     <div class={categoryCls}>
-                        <div class={categoryTitleCls} onClick={toggleGlobalStateExpend}>
-                            Code
-                            <span class={titleIconCls}>
-                                <DownOutlined style={{ transition: 'all 0.3s', transform: activeItem.global ? 'rotate(0)' : 'rotate(180deg)' }} />
-                            </span>
-                        </div>
+                        <StateHeader title="Code" isActive={activeItem.code} clickHeader={toggleCodeExpend} />
+                        <FadeInExpandTransition>
+                            <div v-show={activeItem.code}>
+                                <Tree value={globalState.value} />
+                            </div>
+                        </FadeInExpandTransition>
+                    </div>
+                    <div class={categoryCls}>
+                        <StateHeader title="Components" isActive={activeItem.components} clickHeader={toggleComponentsExpend} />
+                        <FadeInExpandTransition>
+                            <div v-show={activeItem.components}>
+                                <Tree value={{}} />
+                            </div>
+                        </FadeInExpandTransition>
+                    </div>
+                    <div class={categoryCls}>
+                        <StateHeader title="Globals" isActive={activeItem.global} clickHeader={toggleGlobalExpend} />
                         <FadeInExpandTransition>
                             <div v-show={activeItem.global}>
-                                hello world
-                                <Tree value={{ a: 1 }} />
+                                <Tree value={globalState.value} />
                             </div>
                         </FadeInExpandTransition>
                     </div>

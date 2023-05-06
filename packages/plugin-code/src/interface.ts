@@ -32,17 +32,18 @@ export interface JavascriptComputed {
 
 export interface TemporaryState {
     id: string
+    type: 'temporaryState'
     initValue: string
 }
 
-type CodeType = TemporaryState | JavascriptComputed | JavascriptQuery;
+export type CodeItem = TemporaryState | JavascriptComputed | JavascriptQuery;
 
 interface DirectoryItem {
     name: string
-    codes: CodeType[]
+    code: CodeItem[]
 }
 
-export interface CodeStruct {
+export interface Code {
     directory: DirectoryItem[]
-    codes: CodeType[]
+    code: CodeItem[]
 }

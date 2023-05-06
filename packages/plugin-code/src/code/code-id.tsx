@@ -7,7 +7,7 @@ import EditIcon from './edit-icon';
 export default defineComponent({
     props: {
         id: String,
-        onChange: Function as PropType<(id: string) => void>,
+        onChange: Function as PropType<(id: string, preId: string) => void>,
     },
     setup(props) {
         const inputRefEl = ref<HTMLElement>();
@@ -22,7 +22,7 @@ export default defineComponent({
             editing.value = false;
         };
         const changeId = (event: Event) => {
-            props.onChange((event.target as HTMLInputElement).value);
+            props.onChange((event.target as HTMLInputElement).value, props.id);
             cancelEdit();
         };
         return () => {

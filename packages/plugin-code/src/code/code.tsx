@@ -1,6 +1,7 @@
-import { defineComponent, h } from 'vue';
+import { defineComponent, h, reactive, ref } from 'vue';
 import { FDropdown } from '@fesjs/fes-design';
 import { PlusOutlined } from '@fesjs/fes-design/icon';
+import type { Code, CodeItem } from '../interface';
 import { codeCls, codeHeaderCls, codeItemActiveCls, codeItemCls, codeItemIdCls, codeWrapCls, headerIconCls } from './code.css';
 
 import CodeId from './code-id';
@@ -49,6 +50,51 @@ export default defineComponent({
             },
         ];
 
+        const code: Code = reactive({
+            directory: [],
+            code: [],
+        });
+
+        const renderFolders = () => {
+            return code.directory.map((item) => {
+                return <li class={codeItemCls}>
+                        <FolderIcon />
+                        <span class={codeItemIdCls}>{item.name}</span>
+                        <FDropdown appendToContainer={false} trigger="click" placement="bottom-end" options={commonActions}>
+                            <MoreIcon />
+                        </FDropdown>
+                    </li>;
+            });
+        };
+
+        const activeCodeId = ref('');
+        const selectCode = (item: CodeItem) => {
+            activeCodeId.value = item.id;
+        };
+        const changeCodeId = (id: string, preId: string) => {
+            if (code.code.find(item => item.id === id))
+                return;
+            const currentCode = code.code.find(item => item.id === preId);
+            if (currentCode)
+                currentCode.id = id;
+        };
+        const renderCodeIcon = (item: CodeItem) => {
+            if (item.type === 'temporaryState') {
+
+            }
+        };
+        const renderCode = () => {
+            return code.code.map((item) => {
+                return <li onClick={() => selectCode(item)} class={[codeItemCls, activeCodeId.value === item.id ? codeItemActiveCls : '']}>
+                    <StateIcon />
+                    <CodeId id={item.id} onChange={changeCodeId} />
+                    <FDropdown appendToContainer={false} trigger="click" placement="bottom-end" options={commonActions}>
+                        <MoreIcon />
+                    </FDropdown>
+                </li>;
+            });
+        };
+
         return () => {
             return <div class={codeCls}>
                 <div class={codeHeaderCls}>
@@ -57,13 +103,7 @@ export default defineComponent({
                     </FDropdown>
                 </div>
                 <ul class={codeWrapCls}>
-                    <li class={codeItemCls}>
-                        <FolderIcon />
-                        <span class={codeItemIdCls}>folder</span>
-                        <FDropdown appendToContainer={false} trigger="click" placement="bottom-end" options={commonActions}>
-                            <MoreIcon />
-                        </FDropdown>
-                    </li>
+                    {renderFolders()}
                     <li class={[codeItemCls, codeItemActiveCls]}>
                         <StateIcon />
                         <CodeId id="state1" />

@@ -1,3 +1,3 @@
-import { Slot } from 'vue';
+import type { Slot } from 'vue';
 
-export type IconType = string | Slot;
+export type IPublicTypeIcon = string | Slot;

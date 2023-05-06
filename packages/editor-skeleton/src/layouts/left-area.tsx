@@ -1,15 +1,16 @@
-import { defineComponent, PropType, VNode } from 'vue';
-import { Area } from '../area';
-import {
+import type { PropType, VNode } from 'vue';
+import { defineComponent } from 'vue';
+import type { Area } from '../area';
+import type {
     IWidgetConfig,
-    IWidgetPanelConfig,
     IWidgetModalConfig,
+    IWidgetPanelConfig,
 } from '../types';
-import { Widget, WidgetModal, WidgetPanel } from '../widget';
+import type { Widget, WidgetModal, WidgetPanel } from '../widget';
 import {
+    leftAreaBottomCls,
     leftAreaCls,
     leftAreaTopCls,
-    leftAreaBottomCls,
 } from './workbench.css';
 
 export default defineComponent({
@@ -39,11 +40,11 @@ export default defineComponent({
                 const content = (
                     <div key={`left-area-${item.name}`}>{item.content}</div>
                 );
-                if (item.align === 'bottom') {
+                if (item.align === 'bottom')
                     bottom.push(content);
-                } else {
+
+                else
                     top.push(content);
-                }
             });
         return () => {
             return (

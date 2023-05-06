@@ -1,11 +1,12 @@
-import { defineComponent, computed, PropType } from 'vue';
-import { InnerComponentInstance } from '../../types';
-import { Simulator } from '../simulator';
+import type { PropType } from 'vue';
+import { computed, defineComponent } from 'vue';
+import type { InnerComponentInstance } from '../../types';
+import type { Simulator } from '../simulator';
 import {
     borderCls,
     borderDetectingCls,
-    borderTitleCls,
     borderStatusCls,
+    borderTitleCls,
 } from './borders.css';
 
 export const BorderDetectingInstance = defineComponent({
@@ -21,8 +22,8 @@ export const BorderDetectingInstance = defineComponent({
     setup(props) {
         const style = computed(() => {
             return {
-                width: props.rect?.width * props.scale + 'px',
-                height: props.rect?.height * props.scale + 'px',
+                width: `${props.rect?.width * props.scale}px`,
+                height: `${props.rect?.height * props.scale}px`,
                 transform: `translate(${
                     (scrollX + props.rect?.left) * props.scale
                 }px, ${(scrollY + props.rect?.top) * props.scale}px)`,
@@ -30,9 +31,9 @@ export const BorderDetectingInstance = defineComponent({
         });
 
         return () => {
-            if (!props.rect) {
+            if (!props.rect)
                 return null;
-            }
+
             return (
                 <div
                     class={[borderCls, borderDetectingCls]}
@@ -41,11 +42,13 @@ export const BorderDetectingInstance = defineComponent({
                     <span title={props.title} class={borderTitleCls}>
                         {props.title}
                     </span>
-                    {props.isLocked ? (
+                    {props.isLocked
+                        ? (
                         <span title="已锁定" class={borderStatusCls}>
                             已锁定
                         </span>
-                    ) : null}
+                            )
+                        : null}
                 </div>
             );
         };
@@ -64,43 +67,42 @@ export const BorderDetectingView = defineComponent({
 
         const currentNodeRef = computed(() => {
             const doc = host.project.currentDocument.value;
-            if (!doc) {
+            if (!doc)
                 return null;
-            }
+
             const { selection } = doc;
             const { current } = host.designer.detecting;
 
             if (
-                !current.value ||
-                current.value.document !== doc ||
-                selection.has(current.value.id)
-            ) {
+                !current.value
+                || current.value.document !== doc
+                || selection.has(current.value.id)
+            )
                 return null;
-            }
+
             return current.value;
         });
 
         return () => {
             const currentNode = currentNodeRef.value;
-            if (!currentNode) return;
+            if (!currentNode)
+                return;
 
-            const canHoverHook =
-                currentNode?.componentMeta.getMetadata()?.configure.advanced
+            const canHoverHook
+                = currentNode?.componentMeta.getMetadata()?.configure.advanced
                     ?.callbacks?.onHoverHook;
-            const canHover =
-                canHoverHook && typeof canHoverHook === 'function'
+            const canHover
+                = typeof canHoverHook === 'function'
                     ? canHoverHook(currentNode)
                     : true;
 
-            if (!canHover || !currentNode || host.viewport.scrolling) {
+            if (!canHover || !currentNode || host.viewport.scrolling)
                 return null;
-            }
 
             // rootNode, hover whole viewport
             const focusNode = currentNode.document.focusNode;
-            if (!focusNode.contains(currentNode)) {
+            if (!focusNode.contains(currentNode))
                 return null;
-            }
 
             const { scrollX, scrollY, scale, bounds } = host.viewport;
 
@@ -117,9 +119,8 @@ export const BorderDetectingView = defineComponent({
             }
 
             const instances = host.getComponentInstances(currentNode);
-            if (!instances || instances.length < 1) {
+            if (!instances || instances.length < 1)
                 return null;
-            }
 
             const getReact = (inst: InnerComponentInstance) => {
                 return host.computeComponentInstanceRect(
@@ -130,7 +131,7 @@ export const BorderDetectingView = defineComponent({
 
             return (
                 <>
-                    {instances.map((inst) => (
+                    {instances.map(inst => (
                         <BorderDetectingInstance
                             title={currentNode.title}
                             scale={scale}

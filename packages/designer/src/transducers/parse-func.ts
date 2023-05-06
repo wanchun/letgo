@@ -1,5 +1,5 @@
 import {
-    TransformedComponentMetadata,
+    IPublicTypeTransformedComponentMetadata,
     isJSFunction,
 } from '@webank/letgo-types';
 import { isPlainObject } from 'lodash-es';
@@ -56,8 +56,8 @@ function parseJSFunc(obj: any, enableAllowedKeys = true) {
 }
 
 export default function (
-    metadata: TransformedComponentMetadata,
-): TransformedComponentMetadata {
+    metadata: IPublicTypeTransformedComponentMetadata,
+): IPublicTypeTransformedComponentMetadata {
     parseJSFunc(metadata, false);
 
     return metadata;

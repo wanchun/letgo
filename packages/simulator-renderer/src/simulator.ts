@@ -1,5 +1,5 @@
 import type { DocumentModel } from '@webank/letgo-designer';
-import type { ComponentInstance } from '@webank/letgo-types';
+import type { IPublicTypeComponentInstance } from '@webank/letgo-types';
 import { TransformStage } from '@webank/letgo-types';
 import { cursor, isElement, setNativeSelection } from '@webank/letgo-utils';
 import type {
@@ -43,20 +43,20 @@ const builtinComponents = { Slot, Leaf, Page };
 
 function createDocumentInstance(document: DocumentModel): DocumentInstance {
     /** 记录单个节点的组件实例列表 */
-    const instancesMap = new Map<string, ComponentInstance[]>();
+    const instancesMap = new Map<string, IPublicTypeComponentInstance[]>();
     /** 记录 vue 组件实例和组件 uid 的映射关系 */
-    const vueInstanceMap = new Map<number, ComponentInstance>();
+    const vueInstanceMap = new Map<number, IPublicTypeComponentInstance>();
 
     const timestamp = ref(Date.now());
 
-    const checkInstanceMounted = (instance: ComponentInstance): boolean => {
+    const checkInstanceMounted = (instance: IPublicTypeComponentInstance): boolean => {
         return instance.$.isMounted;
     };
 
     const setHostInstance = (
         docId: string,
         nodeId: string,
-        instances: ComponentInstance[] | null,
+        instances: IPublicTypeComponentInstance[] | null,
     ) => {
         const instanceRecords = !instances
             ? null
@@ -70,7 +70,7 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
         return vueInstanceMap.get(id);
     };
 
-    const unmountInstance = (id: string, instance: ComponentInstance) => {
+    const unmountInstance = (id: string, instance: IPublicTypeComponentInstance) => {
         const instances = instancesMap.get(id);
         if (instances) {
             const i = instances.indexOf(instance);
@@ -82,7 +82,7 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
         }
     };
 
-    const mountInstance = (id: string, instance: ComponentInstance) => {
+    const mountInstance = (id: string, instance: IPublicTypeComponentInstance) => {
         const docId = document.id;
         if (instance == null) {
             let instances = instancesMap.get(id);

@@ -1,14 +1,15 @@
 import { EventEmitter } from 'eventemitter3';
-import { GlobalEvent, IEditor, isJSExpression } from '@webank/letgo-types';
+import type { IPublicTypeEditor } from '@webank/letgo-types';
+import { GlobalEvent, isJSExpression } from '@webank/letgo-types';
 import { uniqueId } from '@webank/letgo-utils';
-import { Node } from '../node';
-import { ComponentMeta } from '../component-meta';
-import { Designer } from '../designer';
-import { SettingEntry, ISetValueOptions } from './types';
+import type { Node } from '../node';
+import type { ComponentMeta } from '../component-meta';
+import type { Designer } from '../designer';
+import type { ISetValueOptions, SettingEntry } from './types';
 
 export class SettingProp implements SettingEntry {
     // === static properties ===
-    readonly editor: IEditor;
+    readonly editor: IPublicTypeEditor;
 
     readonly isSameComponent: boolean;
 
@@ -43,9 +44,9 @@ export class SettingProp implements SettingEntry {
 
     get path() {
         const path = this.parent.path.slice();
-        if (this.type === 'field') {
+        if (this.type === 'field')
             path.push(this.name);
-        }
+
         return path;
     }
 
@@ -58,12 +59,13 @@ export class SettingProp implements SettingEntry {
     ) {
         if (type == null) {
             const c = typeof name === 'string' ? name.slice(0, 1) : '';
-            if (c === '#') {
+            if (c === '#')
                 this.type = 'group';
-            } else {
+
+            else
                 this.type = 'field';
-            }
-        } else {
+        }
+        else {
             this.type = type;
         }
         // initial self properties
@@ -87,14 +89,14 @@ export class SettingProp implements SettingEntry {
     }
 
     setKey(key: string | number) {
-        if (this.type !== 'field') {
+        if (this.type !== 'field')
             return;
-        }
+
         const propName = this.path.join('.');
         let l = this.nodes.length;
-        while (l-- > 0) {
+        while (l-- > 0)
             this.nodes[l].getProp(propName, true).key = key;
-        }
+
         this._name = key;
     }
 
@@ -103,14 +105,13 @@ export class SettingProp implements SettingEntry {
     }
 
     remove() {
-        if (this.type !== 'field') {
+        if (this.type !== 'field')
             return;
-        }
+
         const propName = this.path.join('.');
         let l = this.nodes.length;
-        while (l-- > 0) {
+        while (l-- > 0)
             this.nodes[l].getProp(propName)?.remove();
-        }
     }
 
     // ====== 当前属性读写 =====
@@ -132,9 +133,9 @@ export class SettingProp implements SettingEntry {
                     : 1
                 : 0;
         }
-        if (this.nodes.length === 1) {
+        if (this.nodes.length === 1)
             return 2;
-        }
+
         const propName = this.path.join('.');
         const first = this.nodes[0].getProp(propName);
         let l = this.nodes.length;
@@ -142,16 +143,15 @@ export class SettingProp implements SettingEntry {
         while (--l > 0) {
             const next = this.nodes[l].getProp(propName, false);
             const s = first.compare(next);
-            if (s > 1) {
+            if (s > 1)
                 return -1;
-            }
-            if (s === 1) {
+
+            if (s === 1)
                 state = 1;
-            }
         }
-        if (state === 2 && first.isUnset()) {
+        if (state === 2 && first.isUnset())
             return 0;
-        }
+
         return state;
     }
 
@@ -160,13 +160,14 @@ export class SettingProp implements SettingEntry {
      */
     getValue(): any {
         let val: any;
-        if (this.type === 'field') {
+        if (this.type === 'field')
             val = this.parent.getPropValue(this.name);
-        }
+
         const { getValue } = this.extraProps;
         try {
             return getValue ? getValue(this, val) : val;
-        } catch (e) {
+        }
+        catch (e) {
             console.warn(e);
             return val;
         }
@@ -183,15 +184,15 @@ export class SettingProp implements SettingEntry {
     ) {
         const oldValue = this.getValue();
 
-        if (this.type === 'field') {
+        if (this.type === 'field')
             this.parent.setPropValue(this.name, val);
-        }
 
         const { setValue } = this.extraProps;
         if (setValue && !extraOptions?.disableMutator) {
             try {
                 setValue(this, val);
-            } catch (e) {
+            }
+            catch (e) {
                 /* istanbul ignore next */
                 console.warn(e);
             }
@@ -204,14 +205,15 @@ export class SettingProp implements SettingEntry {
      * 清除已设置的值
      */
     clearValue() {
-        if (this.type === 'field') {
+        if (this.type === 'field')
             this.parent.clearPropValue(this.name);
-        }
+
         const { setValue } = this.extraProps;
         if (setValue) {
             try {
                 setValue(this, undefined);
-            } catch (e) {
+            }
+            catch (e) {
                 /* istanbul ignore next */
                 console.warn(e);
             }
@@ -295,9 +297,9 @@ export class SettingProp implements SettingEntry {
 
     getVariableValue() {
         const v = this.getValue();
-        if (isJSExpression(v)) {
+        if (isJSExpression(v))
             return v.value;
-        }
+
         return '';
     }
 
@@ -311,13 +313,14 @@ export class SettingProp implements SettingEntry {
     }
 
     setUseVariable(flag: boolean) {
-        if (this.isUseVariable() === flag) {
+        if (this.isUseVariable() === flag)
             return;
-        }
+
         const v = this.getValue();
         if (this.isUseVariable()) {
             this.setValue(v.mock);
-        } else {
+        }
+        else {
             this.setValue({
                 type: 'JSExpression',
                 value: '',
@@ -336,9 +339,9 @@ export class SettingProp implements SettingEntry {
 
     getMockOrValue() {
         const v = this.getValue();
-        if (isJSExpression(v)) {
+        if (isJSExpression(v))
             return v.mock;
-        }
+
         return v;
     }
 }

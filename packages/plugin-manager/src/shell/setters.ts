@@ -1,4 +1,4 @@
-import { Setter } from '@webank/letgo-types';
+import { IPublicTypeSetter } from '@webank/letgo-types';
 import { SetterFactory } from '@webank/letgo-designer';
 
 export class Setters {
@@ -19,7 +19,7 @@ export class Setters {
     /**
      * 注册 setters
      */
-    register(setters: Setter[]) {
+    register(setters: IPublicTypeSetter[]) {
         return SetterFactory.register(setters);
     }
 }

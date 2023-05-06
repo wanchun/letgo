@@ -1,10 +1,10 @@
 import { EventEmitter } from 'eventemitter3';
 import { uniqueId } from '@webank/letgo-utils';
 import type {
-    ComponentsMap,
-    NodeData,
-    NodeSchema,
-    RootSchema,
+    IPublicTypeComponentsMap,
+    IPublicTypeNodeData,
+    IPublicTypeNodeSchema,
+    IPublicTypeRootSchema,
 } from '@webank/letgo-types';
 import {
     TransformStage,
@@ -15,7 +15,7 @@ import {
 import type { ComputedRef } from 'vue';
 import { computed } from 'vue';
 import { camelCase } from 'lodash-es';
-import type { GetDataType, ISimulator, ParentalNode, RootNode } from '../types';
+import type { GetDataType, IBaseNode, ISimulator, IRootNode } from '../types';
 import type {
     Designer,
     DragNodeDataObject,
@@ -57,7 +57,7 @@ export class DocumentModel {
     /**
      * 根节点 类型有：Page/Component
      */
-    rootNode: RootNode | null;
+    rootNode: IRootNode | null;
 
     /**
      * 文档编号
@@ -78,7 +78,7 @@ export class DocumentModel {
     /**
      * 导出 schema 数据
      */
-    get schema(): ComputedRef<RootSchema> {
+    get schema(): ComputedRef<IPublicTypeRootSchema> {
         return this.rootNode?.schema;
     }
 
@@ -105,7 +105,7 @@ export class DocumentModel {
 
     get focusNode() {
         const selector = this.designer.editor?.get<
-        ((rootNode: RootNode) => Node) | null
+        ((rootNode: IRootNode) => Node) | null
             >('focusNodeSelector');
         if (selector && typeof selector === 'function')
             return selector(this.rootNode);
@@ -113,7 +113,7 @@ export class DocumentModel {
         return this.rootNode;
     }
 
-    constructor(project: Project, schema?: RootSchema) {
+    constructor(project: Project, schema?: IPublicTypeRootSchema) {
         this.project = project;
         this.designer = this.project?.designer;
 
@@ -144,7 +144,7 @@ export class DocumentModel {
     }
 
     getComponentsMap(extraComps?: string[]) {
-        const componentsMap: ComponentsMap = [];
+        const componentsMap: IPublicTypeComponentsMap = [];
         // 组件去重
         const existingMap: { [componentName: string]: boolean } = {};
         for (const node of this._nodesMap.values()) {
@@ -276,8 +276,8 @@ export class DocumentModel {
      * 插入一个节点
      */
     insertNode(
-        parent: ParentalNode,
-        thing: Node | NodeData,
+        parent: IBaseNode,
+        thing: Node | IPublicTypeNodeData,
         at?: number | null,
         copy?: boolean,
     ): Node {
@@ -288,8 +288,8 @@ export class DocumentModel {
      * 插入多个节点
      */
     insertNodes(
-        parent: ParentalNode,
-        thing: Node[] | NodeData[],
+        parent: IBaseNode,
+        thing: Node[] | IPublicTypeNodeData[],
         at?: number | null,
         copy?: boolean,
     ) {
@@ -332,10 +332,10 @@ export class DocumentModel {
     }
 
     checkDropTarget(
-        dropTarget: ParentalNode,
+        dropTarget: IBaseNode,
         dragObject: DragNodeObject | DragNodeDataObject,
     ): boolean {
-        let items: Array<Node | NodeSchema>;
+        let items: Array<Node | IPublicTypeNodeSchema>;
         if (isDragNodeDataObject(dragObject)) {
             items = Array.isArray(dragObject.data)
                 ? dragObject.data
@@ -348,10 +348,10 @@ export class DocumentModel {
     }
 
     checkNesting(
-        dropTarget: ParentalNode,
+        dropTarget: IBaseNode,
         dragObject: DragNodeObject | DragNodeDataObject,
     ): boolean {
-        let items: Array<Node | NodeSchema>;
+        let items: Array<Node | IPublicTypeNodeSchema>;
         if (isDragNodeDataObject(dragObject)) {
             items = Array.isArray(dragObject.data)
                 ? dragObject.data
@@ -366,7 +366,7 @@ export class DocumentModel {
     /**
      * 检查对象对父级的要求，涉及配置 parentWhitelist
      */
-    checkNestingUp(parent: ParentalNode, obj: NodeSchema | Node): boolean {
+    checkNestingUp(parent: IBaseNode, obj: IPublicTypeNodeSchema | Node): boolean {
         if (isNode(obj) || isNodeSchema(obj)) {
             const config = isNode(obj)
                 ? obj.componentMeta
@@ -381,7 +381,7 @@ export class DocumentModel {
     /**
      * 检查投放位置对子级的要求，涉及配置 childWhitelist
      */
-    checkNestingDown(parent: ParentalNode, obj: NodeSchema | Node): boolean {
+    checkNestingDown(parent: IBaseNode, obj: IPublicTypeNodeSchema | Node): boolean {
         const config = parent.componentMeta;
         return (
             config.checkNestingDown(parent, obj)

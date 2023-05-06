@@ -1,15 +1,16 @@
-import { defineComponent, PropType, VNode } from 'vue';
-import { Area } from '../area';
-import {
+import type { PropType, VNode } from 'vue';
+import { defineComponent } from 'vue';
+import type { Area } from '../area';
+import type {
     IWidgetConfig,
-    IWidgetPanelConfig,
     IWidgetModalConfig,
+    IWidgetPanelConfig,
 } from '../types';
-import { Widget, WidgetModal, WidgetPanel } from '../widget';
+import type { Widget, WidgetModal, WidgetPanel } from '../widget';
 import {
+    topAreaCenterCls,
     topAreaCls,
     topAreaLeftCls,
-    topAreaCenterCls,
     topAreaRightCls,
 } from './workbench.css';
 
@@ -42,13 +43,14 @@ export default defineComponent({
                     const content = (
                         <div key={`top-area-${item.name}`}>{item.content}</div>
                     );
-                    if (item.align === 'center') {
+                    if (item.align === 'center')
                         center.push(content);
-                    } else if (item.align === 'left') {
+
+                    else if (item.align === 'left')
                         left.push(content);
-                    } else {
+
+                    else
                         right.push(content);
-                    }
                 });
             return (
                 <div class={topAreaCls}>

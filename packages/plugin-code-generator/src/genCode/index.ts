@@ -1,9 +1,9 @@
 import {
-    ProjectSchema,
+    IPublicTypeProjectSchema,
     isNodeSchema,
-    NodeData,
-    ComponentMap,
-    RootSchema,
+    IPublicTypeNodeData,
+    IPublicTypeComponentMap,
+    IPublicTypeRootSchema,
     isJSSlot,
 } from '@webank/letgo-types';
 import { isArray } from 'lodash-es';
@@ -12,8 +12,8 @@ import { genStyle } from './style';
 import { genScript } from './script';
 
 function compileRootSchema(
-    componentMaps: ComponentMap[],
-    rootSchema: RootSchema,
+    componentMaps: IPublicTypeComponentMap[],
+    rootSchema: IPublicTypeRootSchema,
 ) {
     if (rootSchema.componentName === 'Page') {
         return {
@@ -26,7 +26,7 @@ function compileRootSchema(
 }
 
 function getUseComponentNames(
-    nodeData: NodeData[],
+    nodeData: IPublicTypeNodeData[],
     componentNames: Set<string> = new Set(),
 ) {
     nodeData.forEach((item) => {
@@ -53,11 +53,11 @@ function getUseComponentNames(
 }
 
 function getUseComponents(
-    componentMaps: ComponentMap[],
-    rootSchema: RootSchema,
+    componentMaps: IPublicTypeComponentMap[],
+    rootSchema: IPublicTypeRootSchema,
 ) {
     const componentNames = getUseComponentNames(rootSchema.children);
-    const useComponents: ComponentMap[] = [];
+    const useComponents: IPublicTypeComponentMap[] = [];
     for (const componentName of componentNames.values()) {
         const component = componentMaps.find(
             (item) => item.componentName === componentName,
@@ -68,7 +68,7 @@ function getUseComponents(
     return useComponents;
 }
 
-export function schemaToCode(schema: ProjectSchema) {
+export function schemaToCode(schema: IPublicTypeProjectSchema) {
     const rootComponents = schema.componentsTree.map((rootSchema) => {
         compileRootSchema(
             getUseComponents(schema.componentsMap, rootSchema),

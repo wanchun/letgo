@@ -1,23 +1,25 @@
-import {
-    defineComponent,
-    PropType,
-    ref,
-    Ref,
+import type {
     CSSProperties,
-    onUnmounted,
+    PropType,
+    Ref,
 } from 'vue';
-import { Designer } from '@webank/letgo-designer';
-import { CloseOutlined, PasswordOutlined } from '@fesjs/fes-design/icon';
-import { computed } from 'vue';
-import { Area } from '../area';
-import { IPanelConfig } from '../types';
-import { Panel } from '../widget';
 import {
-    leftFloatAreaCls,
-    leftFloatAreaBodyCls,
-    leftFloatAreaHeaderCls,
+    computed,
+    defineComponent,
+    onUnmounted,
+    ref,
+} from 'vue';
+import type { Designer } from '@webank/letgo-designer';
+import { CloseOutlined, PasswordOutlined } from '@fesjs/fes-design/icon';
+import type { Area } from '../area';
+import type { IPanelConfig } from '../types';
+import type { Panel } from '../widget';
+import {
     headerIconCls,
     headerIconsCls,
+    leftFloatAreaBodyCls,
+    leftFloatAreaCls,
+    leftFloatAreaHeaderCls,
 } from './workbench.css';
 
 export default defineComponent({
@@ -67,15 +69,13 @@ export default defineComponent({
         const designer: Designer = area.skeleton.editor.get('designer');
 
         const clear = designer.dragon.onDragstart(() => {
-            if (isFixedRef.value) {
+            if (isFixedRef.value)
                 handleClose();
-            }
         });
 
         onUnmounted(() => {
-            if (clear) {
+            if (clear)
                 clear();
-            }
         });
 
         return () => {
@@ -98,7 +98,7 @@ export default defineComponent({
                         </div>
                     </div>
                     <div class={leftFloatAreaBodyCls}>
-                        {items.value.map((item) => item.content)}
+                        {items.value.map(item => item.content)}
                     </div>
                 </div>
             );

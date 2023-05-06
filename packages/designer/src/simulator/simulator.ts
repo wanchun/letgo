@@ -13,9 +13,9 @@ import {
 } from 'vue';
 import * as Vue from 'vue';
 import type {
-    Asset,
-    AssetList,
-    Package,
+    IPublicTypeAsset,
+    IPublicTypeAssetList,
+    IPublicTypePackage,
 } from '@webank/letgo-types';
 import {
     AssetLevel,
@@ -30,10 +30,10 @@ import {
 import { engineConfig } from '@webank/letgo-editor-core';
 import type {
     DropContainer,
+    IBaseNode,
     ISimulator,
     InnerComponentInstance,
     NodeInstance,
-    ParentalNode,
 } from '../types';
 import type { Project } from '../project';
 import type {
@@ -74,8 +74,8 @@ export interface SimulatorProps {
     device?: 'mobile' | 'iphone' | string
     deviceStyle?: DeviceStyleProps
     deviceClassName?: string
-    library?: Package[]
-    simulatorUrl?: Asset
+    library?: IPublicTypePackage[]
+    simulatorUrl?: IPublicTypeAsset
     [key: string]: any
 }
 
@@ -203,7 +203,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
         this._contentWindow = iframe.contentWindow;
         this._contentDocument = this._contentWindow.document;
 
-        const libraryAsset: AssetList = this.buildLibrary();
+        const libraryAsset: IPublicTypeAssetList = this.buildLibrary();
 
         const vendors = [
             // required & use once
@@ -258,9 +258,9 @@ export class Simulator implements ISimulator<SimulatorProps> {
      * urls：Array 资源cdn地址，必须是umd类型，可以是.js或者.css
      * library：String umd包直接导出的name
      */
-    buildLibrary(library?: Package[]) {
-        const _library = library || (this.get('library') as Package[]);
-        const libraryAsset: AssetList = [];
+    buildLibrary(library?: IPublicTypePackage[]) {
+        const _library = library || (this.get('library') as IPublicTypePackage[]);
+        const libraryAsset: IPublicTypeAssetList = [];
         const libraryExportList: string[] = [];
 
         if (_library && _library.length) {
@@ -533,7 +533,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
         };
 
         const locationData = {
-            target: container as ParentalNode,
+            target: container as IBaseNode,
             detail,
             source: `simulator${document.id}`,
             event: e,
@@ -741,7 +741,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
                         container.id,
                     )?.instance;
                     dropContainer = {
-                        container: container as ParentalNode,
+                        container: container as IBaseNode,
                         instance,
                     };
                 }

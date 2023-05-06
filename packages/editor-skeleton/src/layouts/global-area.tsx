@@ -1,7 +1,8 @@
-import { defineComponent, PropType } from 'vue';
-import { Area } from '../area';
-import { IModalConfig } from '../types';
-import { Modal } from '../widget';
+import type { PropType } from 'vue';
+import { defineComponent } from 'vue';
+import type { Area } from '../area';
+import type { IModalConfig } from '../types';
+import type { Modal } from '../widget';
 
 export default defineComponent({
     name: 'GlobalArea',
@@ -13,7 +14,7 @@ export default defineComponent({
     setup(props) {
         return () => {
             const { area } = props;
-            return <div>{area.items.value.map((item) => item.content)}</div>;
+            return <div>{area.items.value.map(item => item.content)}</div>;
         };
     },
 });

@@ -8,7 +8,7 @@ import {
 import {
     AssetLevel,
     AssetLevels,
-    AssetList,
+    IPublicTypeAssetList,
     AssetType,
 } from '@webank/letgo-types';
 import { Simulator } from './simulator';
@@ -18,7 +18,7 @@ import { ISimulatorRenderer } from './renderer';
 export function createSimulator(
     simulator: Simulator,
     iframe: HTMLIFrameElement,
-    vendors: AssetList = [],
+    vendors: IPublicTypeAssetList = [],
 ): Promise<ISimulatorRenderer> {
     const win: any = iframe.contentWindow;
     const doc = iframe.contentDocument;
@@ -33,7 +33,7 @@ export function createSimulator(
         scripts[lv] = [];
     });
 
-    function parseAssetList(assets: AssetList, level?: AssetLevel) {
+    function parseAssetList(assets: IPublicTypeAssetList, level?: AssetLevel) {
         for (let asset of assets) {
             if (!asset) {
                 continue;

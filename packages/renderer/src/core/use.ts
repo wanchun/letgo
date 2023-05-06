@@ -1,17 +1,17 @@
-import { Prop } from '@webank/letgo-designer';
-import {
+import type { Prop } from '@webank/letgo-designer';
+import type {
     Component,
-    VNode,
-    Ref,
     ComputedRef,
+    Ref,
     Slot,
     Slots,
-    h,
-    createTextVNode,
+    VNode,
+} from 'vue';
+import {
     computed,
-    ref,
-    reactive,
+    createTextVNode,
     getCurrentInstance,
+    h,
     isRef,
     onBeforeMount,
     onBeforeUnmount,
@@ -21,32 +21,36 @@ import {
     onUnmounted,
     onUpdated,
     provide,
-    toRaw,
+    reactive,
+    ref,
     toDisplayString,
+    toRaw,
 } from 'vue';
-import {
-    NodeData,
-    NodeSchema,
-    JSFunction,
-    CompositeValue,
-    isJSFunction,
-    isDOMText,
-    isNodeSchema,
-    isJSExpression,
-    isJSSlot,
+import type {
+    IPublicTypeCompositeValue,
+    IPublicTypeJSFunction,
+    IPublicTypeNodeData,
+    IPublicTypeNodeSchema,
 } from '@webank/letgo-types';
-import { isNil, isString, camelCase, isFunction } from 'lodash-es';
-import { contextFactory, useRendererContext } from '../context';
 import {
-    isObject,
+    isDOMText,
+    isJSExpression,
+    isJSFunction,
+    isJSSlot,
+    isNodeSchema,
+} from '@webank/letgo-types';
+import { camelCase, isFunction, isNil, isString } from 'lodash-es';
+import { contextFactory, useRendererContext } from '../context';
+import type { BlockScope, MaybeArray, RuntimeScope } from '../utils';
+import {
     ensureArray,
+    isObject,
     mergeScope,
+    parseExpression,
     parseSchema,
     parseSlotScope,
-    parseExpression,
 } from '../utils';
-import { MaybeArray, BlockScope, RuntimeScope } from '../utils';
-import { LeafProps, RendererProps, SlotSchemaMap, PropSchemaMap } from './base';
+import type { LeafProps, PropSchemaMap, RendererProps, SlotSchemaMap } from './base';
 import { Live } from './live';
 
 const LIFT_CYCLES_MAP = {
@@ -65,18 +69,19 @@ export function isLifecycleKey(
     return key in LIFT_CYCLES_MAP;
 }
 
-export function isNodeData(val: unknown): val is NodeData | NodeData[] {
-    if (Array.isArray(val)) {
-        return val.every((item) => isNodeData(item));
-    }
+export function isNodeData(val: unknown): val is IPublicTypeNodeData | IPublicTypeNodeData[] {
+    if (Array.isArray(val))
+        return val.every(item => isNodeData(item));
+
     return isDOMText(val) || isNodeSchema(val) || isJSExpression(val);
 }
 
 export function isVueComponent(val: unknown): val is Component {
-    if (isFunction(val)) return true;
-    if (isObject(val) && ('render' in val || 'setup' in val)) {
+    if (isFunction(val))
         return true;
-    }
+    if (isObject(val) && ('render' in val || 'setup' in val))
+        return true;
+
     return false;
 }
 
@@ -87,7 +92,7 @@ export function isVueComponent(val: unknown): val is Component {
  * @param blockScope - 节点块级作用域
  * @param comp - 节点渲染的组件，若不传入，则根据节点的 componentName 推断
  */
-const render = ({
+function render({
     props,
     schema,
     components,
@@ -95,19 +100,20 @@ const render = ({
     blockScope,
     comp,
 }: {
-    props: LeafProps;
-    schema: NodeData;
-    base: Component;
-    components: Record<string, Component>;
-    blockScope?: MaybeArray<BlockScope | undefined | null>;
-    comp?: Component;
-}) => {
+    props: LeafProps
+    schema: IPublicTypeNodeData
+    base: Component
+    components: Record<string, Component>
+    blockScope?: MaybeArray<BlockScope | undefined | null>
+    comp?: Component
+}) {
     const mergedScope = mergeScope(props.scope, blockScope);
 
-    // 若 schema 不为 NodeSchema，则直接渲染
+    // 若 schema 不为 IPublicTypeNodeSchema，则直接渲染
     if (isString(schema)) {
         return createTextVNode(schema);
-    } else if (isJSExpression(schema)) {
+    }
+    else if (isJSExpression(schema)) {
         const result = parseExpression(schema, mergedScope);
         return createTextVNode(toDisplayString(result));
     }
@@ -118,26 +124,27 @@ const render = ({
         comp = components[componentName];
     }
 
-    if (!comp) return h('div', 'component not found');
+    if (!comp)
+        return h('div', 'component not found');
 
     // 渲染 leaf 组件
     return h(base, {
         key: schema.id,
         comp,
         scope: mergedScope,
-        schema: schema,
+        schema,
     } as any);
-};
+}
 
 /**
  * 构建当前节点的 schema，获取 schema 的属性及插槽
  *
  * - node 的 children 会被处理成默认插槽
- * - 类型为 JSSlot 的 prop 会被处理为具名插槽
+ * - 类型为 IPublicTypeJSSlot 的 prop 会被处理为具名插槽
  * - prop 和 node 中同时存在 children 时，prop children 会覆盖 node children
  * - className prop 会被处理为 class prop
  */
-export const buildSchema = (props: LeafProps) => {
+export function buildSchema(props: LeafProps) {
     const { schema } = props;
 
     const slotProps: SlotSchemaMap = {};
@@ -145,9 +152,8 @@ export const buildSchema = (props: LeafProps) => {
 
     // 处理节点默认插槽，可能会被属性插槽覆盖
     // 非空时才处理，不然会导致组件slots.default默认有值，可能导致组件渲染异常
-    if (!isNil(schema.children)) {
+    if (!isNil(schema.children))
         slotProps.default = ensureArray(schema.children);
-    }
 
     Object.entries(schema.props ?? {}).forEach(([key, val]) => {
         if (isJSSlot(val)) {
@@ -163,17 +169,19 @@ export const buildSchema = (props: LeafProps) => {
         if (key === 'className') {
             // 适配 react className
             normalProps.class = val;
-        } else if (key === 'children' && isNodeData(val)) {
+        }
+        else if (key === 'children' && isNodeData(val)) {
             // 处理属性中的默认插槽，属性的重默认插槽会覆盖节点 chilren 插槽
             slotProps.default = ensureArray(val);
-        } else {
+        }
+        else {
             // 处理普通属性
             normalProps[key] = val;
         }
     });
 
     return { props: normalProps, slots: slotProps };
-};
+}
 
 /**
  * 将单个属性 schema 转化成真实值
@@ -183,13 +191,13 @@ export const buildSchema = (props: LeafProps) => {
  * @param blockScope - 当前块级作用域
  * @param prop - 属性对象，仅在 design 模式下有值
  */
-const buildProp = (schema: unknown, scope: RuntimeScope): any => {
+function buildProp(schema: unknown, scope: RuntimeScope): any {
     if (isJSExpression(schema) || isJSFunction(schema)) {
         // 处理表达式和函数
         return parseExpression(schema, scope);
     }
     return schema;
-};
+}
 
 /**
  * 构建 ref prop，将 string ref 其转化为 function
@@ -199,61 +207,59 @@ const buildProp = (schema: unknown, scope: RuntimeScope): any => {
  * @param blockScope - 当前块级作用域
  * @param prop - 属性对象，仅在 design 模式下有值
  */
-const buildRefProp = (
-    schema: unknown,
+function buildRefProp(schema: unknown,
     scope: RuntimeScope,
     blockScope?: BlockScope | null,
-    prop?: Prop | null,
-): any => {
+    prop?: Prop | null): any {
     if (isString(schema)) {
         const field = schema;
         let lastInst: unknown = null;
         return (inst: unknown): void => {
             let refs = scope.$.refs;
-            if (Object.keys(refs).length === 0) {
+            if (Object.keys(refs).length === 0)
                 refs = scope.$.refs = {};
-            }
+
             if (isNil(scope.__loopRefIndex)) {
                 refs[field] = inst;
-                if (field in scope) {
+                if (field in scope)
                     scope[field] = inst;
-                }
-            } else {
+            }
+            else {
                 let target = refs[field] as unknown[];
                 if (!Array.isArray(target)) {
                     target = refs[field] = [];
-                    if (field in scope) {
+                    if (field in scope)
                         target = scope[field] = target;
-                    }
-                } else if (field in scope) {
+                }
+                else if (field in scope) {
                     const scopeTarget = scope[field];
                     if (
-                        !Array.isArray(scopeTarget) ||
-                        toRaw(scopeTarget) !== target
-                    ) {
+                        !Array.isArray(scopeTarget)
+                        || toRaw(scopeTarget) !== target
+                    )
                         target = scope[field] = target;
-                    } else {
+                    else
                         target = scopeTarget;
-                    }
                 }
                 if (isNil(inst)) {
                     const idx = target.indexOf(lastInst);
-                    if (idx >= 0) {
+                    if (idx >= 0)
                         target.splice(idx, 1);
-                    }
-                } else {
+                }
+                else {
                     target[scope.__loopRefIndex] = inst;
                 }
             }
             lastInst = inst;
         };
-    } else {
+    }
+    else {
         const propValue = buildProp(schema, scope);
         return isString(propValue)
             ? buildRefProp(propValue, scope, blockScope, prop)
             : propValue;
     }
-};
+}
 
 /**
  * 处理属性 schema，主要处理的目标：
@@ -265,46 +271,47 @@ const buildRefProp = (
  * @param key - 属性名
  * @param val - 属性值
  */
-const processProp = (
-    target: Record<string, unknown>,
+function processProp(target: Record<string, unknown>,
     key: string,
-    val: unknown,
-) => {
+    val: unknown) {
     if (key.startsWith('v-model')) {
         // 双向绑定逻辑
         const matched = key.match(/v-model(?::(\w+))?$/);
-        if (!matched) return target;
+        if (!matched)
+            return target;
 
         const valueProp = camelCase(matched[1] ?? 'modelValue');
         const eventProp = `onUpdate:${valueProp}`;
 
         // 若值为表达式，则自定注册 onUpdate 事件，实现双向绑定
         if (isJSExpression(val)) {
-            const updateEventFn: JSFunction = {
+            const updateEventFn: IPublicTypeJSFunction = {
                 type: 'JSFunction',
                 value: `function ($event) {${val.value} = $event}`,
             };
-            target[eventProp] =
-                eventProp in target
+            target[eventProp]
+                = eventProp in target
                     ? ensureArray(target[eventProp]).concat(updateEventFn)
                     : updateEventFn;
         }
         target[valueProp] = val;
-    } else if (key.startsWith('v-') && isJSExpression(val)) {
+    }
+    else if (key.startsWith('v-') && isJSExpression(val)) {
         // TODO: 指令绑定逻辑
-    } else if (key.match(/^on[A-Z]/) && isJSFunction(val)) {
+    }
+    else if (key.match(/^on[A-Z]/) && isJSFunction(val)) {
         // 事件绑定逻辑
 
         // normalize: onUpdateXxx => onUpdate:xxx
         const matched = key.match(/onUpdate(?::?(\w+))$/);
-        if (matched) {
+        if (matched)
             key = `onUpdate:${camelCase(matched[1])}`;
-        }
 
         // 若事件名称重复，则自动转化为数组
-        target[key] =
-            key in target ? ensureArray(target[key]).concat(val) : val;
-    } else if (key === 'ref' && 'ref' in target) {
+        target[key]
+            = key in target ? ensureArray(target[key]).concat(val) : val;
+    }
+    else if (key === 'ref' && 'ref' in target) {
         // ref 合并逻辑
         const sourceRef = val;
         const targetRef = target.ref;
@@ -313,13 +320,15 @@ const processProp = (
                 sourceRef(...args);
                 targetRef(...args);
             };
-        } else {
+        }
+        else {
             target.ref = [targetRef, sourceRef].filter(isFunction).pop();
         }
-    } else {
+    }
+    else {
         target[key] = val;
     }
-};
+}
 
 /**
  * 构建属性，将整个属性 schema 转化为真实的属性值
@@ -327,12 +336,10 @@ const processProp = (
  * @param blockScope - 当前块级作用域
  * @param extraProps - 运行时附加属性
  */
-export const buildProps = (
-    scope: RuntimeScope,
+export function buildProps(scope: RuntimeScope,
     propsSchema: Record<string, unknown>,
     blockScope?: BlockScope | null,
-    extraProps?: Record<string, unknown>,
-): any => {
+    extraProps?: Record<string, unknown>): any {
     // 属性预处理
     const processed: Record<string, unknown> = {};
     Object.keys(propsSchema).forEach((propKey) => {
@@ -344,8 +351,8 @@ export const buildProps = (
     const mergedScope = blockScope ? mergeScope(scope, blockScope) : scope;
     Object.keys(processed).forEach((propName) => {
         const schema = processed[propName];
-        parsedProps[propName] =
-            propName === 'ref'
+        parsedProps[propName]
+            = propName === 'ref'
                 ? buildRefProp(schema, mergedScope, blockScope)
                 : buildProp(schema, mergedScope);
     });
@@ -358,13 +365,14 @@ export const buildProps = (
     }
 
     return parsedProps;
-};
+}
 
-export const buildLoop = (scope: RuntimeScope, schema: NodeSchema) => {
-    const loop = ref() as Ref<CompositeValue>;
+export function buildLoop(scope: RuntimeScope, schema: IPublicTypeNodeSchema) {
+    const loop = ref() as Ref<IPublicTypeCompositeValue>;
     const loopArgs = ref(['item', 'index']) as Ref<[string, string]>;
 
-    if (schema.loop) loop.value = schema.loop;
+    if (schema.loop)
+        loop.value = schema.loop;
     if (schema.loopArgs) {
         schema.loopArgs.forEach((v, i) => {
             loopArgs.value[i] = v;
@@ -373,11 +381,12 @@ export const buildLoop = (scope: RuntimeScope, schema: NodeSchema) => {
 
     return {
         loop: computed(() => {
-            if (!loop.value) return null;
+            if (!loop.value)
+                return null;
             return parseSchema(loop.value, scope);
         }),
         loopArgs,
-        updateLoop(value: CompositeValue): void {
+        updateLoop(value: IPublicTypeCompositeValue): void {
             loop.value = value;
         },
         updateLoopArg(value: string | [string, string], idx?: number): void {
@@ -385,7 +394,8 @@ export const buildLoop = (scope: RuntimeScope, schema: NodeSchema) => {
                 value.forEach((v, i) => {
                     loopArgs.value[i] = v;
                 });
-            } else if (!isNil(idx)) {
+            }
+            else if (!isNil(idx)) {
                 loopArgs.value[idx] = value;
             }
         },
@@ -401,9 +411,9 @@ export const buildLoop = (scope: RuntimeScope, schema: NodeSchema) => {
             };
         },
     } as {
-        loop: ComputedRef<unknown>;
-        loopArgs: Ref<[string, string]>;
-        updateLoop(value: CompositeValue): void;
+        loop: ComputedRef<unknown>
+        loopArgs: Ref<[string, string]>
+        updateLoop(value: IPublicTypeCompositeValue): void
         /**
          * 更新所有循环参数
          *
@@ -413,7 +423,7 @@ export const buildLoop = (scope: RuntimeScope, schema: NodeSchema) => {
          *
          * @param value - 新的参数
          */
-        updateLoopArg(value: [string, string]): void;
+        updateLoopArg(value: [string, string]): void
         /**
          * 更新指定参数
          *
@@ -424,7 +434,7 @@ export const buildLoop = (scope: RuntimeScope, schema: NodeSchema) => {
          * @param value - 新的参数
          * @param idx - 参数的位置
          */
-        updateLoopArg(value: string, idx?: number | string): void;
+        updateLoopArg(value: string, idx?: number | string): void
         /**
          * 构建循环局部作用域
          *
@@ -432,16 +442,17 @@ export const buildLoop = (scope: RuntimeScope, schema: NodeSchema) => {
          * @param index - 循环索引
          * @param len - 循环目标数组长度
          */
-        buildLoopScope(item: unknown, index: number, len: number): BlockScope;
+        buildLoopScope(item: unknown, index: number, len: number): BlockScope
     };
-};
+}
 
-export const buildShow = (scope: RuntimeScope, schema: NodeSchema) => {
+export function buildShow(scope: RuntimeScope, schema: IPublicTypeNodeSchema) {
     const condition = ref<unknown>(schema.condition ?? true);
 
     const show = computed(() => {
         const { value: showCondition } = condition;
-        if (typeof showCondition === 'boolean') return showCondition;
+        if (typeof showCondition === 'boolean')
+            return showCondition;
         return !!parseSchema(showCondition, scope);
     });
 
@@ -451,54 +462,52 @@ export const buildShow = (scope: RuntimeScope, schema: NodeSchema) => {
             condition.value = val;
         },
     };
-};
+}
 
 /**
  * 构建所有插槽 schema，将 schema 构建成 slot 函数
  * @param slots - 插槽 schema
  * @param blockScope - 插槽块级作用域
  */
-export const buildSlots = (
-    render: (
-        nodeSchema: NodeData,
-        blockScope?: MaybeArray<BlockScope | undefined | null>,
-        comp?: Component,
-    ) => VNode | null,
-    slots: SlotSchemaMap,
-    blockScope?: BlockScope | null,
-): Slots => {
+export function buildSlots(render: (
+    nodeSchema: IPublicTypeNodeData,
+    blockScope?: MaybeArray<BlockScope | undefined | null>,
+    comp?: Component,
+) => VNode | null,
+slots: SlotSchemaMap,
+blockScope?: BlockScope | null): Slots {
     return Object.keys(slots).reduce((prev, next) => {
         const slotSchema = slots[next];
-        if (!slotSchema) return prev;
+        if (!slotSchema)
+            return prev;
 
         const renderSlot = (...args: unknown[]) => {
             const vNodes: VNode[] = [];
             if (Array.isArray(slotSchema)) {
                 slotSchema.forEach((item) => {
                     const vNode = render(item, blockScope);
-                    if (vNode) {
+                    if (vNode)
                         vNodes.push(vNode);
-                    }
                 });
-            } else if (slotSchema.id) {
+            }
+            else if (slotSchema.id) {
                 // 存在 slot id，则当前插槽可拖拽编辑，渲染 Hoc
                 const vNode = render(slotSchema, [
                     blockScope,
                     parseSlotScope(args, slotSchema.params ?? []),
                 ]);
-                if (vNode) {
+                if (vNode)
                     vNodes.push(vNode);
-                }
-            } else {
+            }
+            else {
                 // 不存在 slot id，插槽不可拖拽编辑，直接渲染插槽内容
                 ensureArray(slotSchema.children).forEach((item) => {
                     const vNode = render(item, [
                         blockScope,
                         parseSlotScope(args, slotSchema.params ?? []),
                     ]);
-                    if (vNode) {
+                    if (vNode)
                         vNodes.push(vNode);
-                    }
                 });
             }
             return vNodes;
@@ -506,7 +515,7 @@ export const buildSlots = (
         prev[next] = renderSlot;
         return prev;
     }, {} as Record<string, Slot>);
-};
+}
 
 export function useLeaf(props: LeafProps) {
     const { components } = useRendererContext();
@@ -518,7 +527,7 @@ export function useLeaf(props: LeafProps) {
      * @param comp - 节点渲染的组件，若不传入，则根据节点的 componentName 推断
      */
     const renderComp = (
-        nodeSchema: NodeData,
+        nodeSchema: IPublicTypeNodeData,
         blockScope?: MaybeArray<BlockScope | undefined | null>,
         comp?: Component,
     ): VNode | null => {
@@ -542,7 +551,7 @@ export function useRenderer(props: RendererProps) {
 
     const leafProps: LeafProps = reactive({
         comp: null,
-        scope: scope,
+        scope,
         schema: computed(() => props.__schema),
     });
 
@@ -582,14 +591,14 @@ export function useRootScope(rendererProps: RendererProps) {
         if (!style) {
             style = document.createElement('style');
             style.setAttribute('data-id', schema.id!);
-            const head =
-                document.head || document.getElementsByTagName('head')[0];
+            const head
+                = document.head || document.getElementsByTagName('head')[0];
             head.appendChild(style);
         }
-        if (style.innerHTML !== schema.css) {
+        if (style.innerHTML !== schema.css)
             style.innerHTML = schema.css;
-        }
-    } else if (style) {
+    }
+    else if (style) {
         style.parentElement?.removeChild(style);
     }
 

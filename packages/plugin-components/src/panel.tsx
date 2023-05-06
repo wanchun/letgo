@@ -1,30 +1,34 @@
-import {
-    defineComponent,
+import type {
     PropType,
-    ref,
-    shallowRef,
     Ref,
-    computed,
-    onBeforeMount,
-    onUnmounted,
 } from 'vue';
 import {
-    FInput,
+    computed,
+    defineComponent,
+    onBeforeMount,
+    onUnmounted,
+    ref,
+    shallowRef,
+} from 'vue';
+import {
     FButton,
     FGrid,
     FGridItem,
+    FInput,
+    FScrollbar,
     FTabPane,
     FTabs,
-    FScrollbar,
 } from '@fesjs/fes-design';
 import { SearchOutlined } from '@fesjs/fes-design/icon';
+import type {
+    IPublicTypeAssetsJson,
+    IPublicTypeSnippet,
+} from '@webank/letgo-types';
 import {
-    AssetsJson,
-    Snippet,
     isComponentDescription,
 } from '@webank/letgo-types';
-import { Designer } from '@webank/letgo-designer';
-import { Editor } from '@webank/letgo-editor-core';
+import type { Designer } from '@webank/letgo-designer';
+import type { Editor } from '@webank/letgo-editor-core';
 import {
     categoryBodyCls,
     categoryItemCls,
@@ -34,9 +38,9 @@ import {
 } from './panel.css';
 
 interface CategoryType {
-    category: string;
-    snippets: Snippet[];
-    show: Ref<boolean>;
+    category: string
+    snippets: IPublicTypeSnippet[]
+    show: Ref<boolean>
 }
 
 export default defineComponent({
@@ -49,7 +53,7 @@ export default defineComponent({
         },
     },
     setup(props) {
-        const assetsRef: Ref<AssetsJson> = shallowRef({});
+        const assetsRef: Ref<IPublicTypeAssetsJson> = shallowRef({});
 
         const searchText: Ref<string> = ref();
 
@@ -58,7 +62,7 @@ export default defineComponent({
         });
 
         const categoryListRef: Ref<{
-            [propName: string]: Array<CategoryType>;
+            [propName: string]: Array<CategoryType>
         }> = computed(() => {
             const categoryList = assetsRef.value.sort?.categoryList ?? [];
             const res: { [propName: string]: Array<CategoryType> } = {};
@@ -71,10 +75,11 @@ export default defineComponent({
                         show: ref(true),
                     };
                     assetsRef.value.components.forEach((component) => {
-                        if (!isComponentDescription(component)) return;
+                        if (!isComponentDescription(component))
+                            return;
                         if (
-                            component.group === group &&
-                            component.category === category
+                            component.group === group
+                            && component.category === category
                         ) {
                             categoryObj.snippets = categoryObj.snippets.concat(
                                 component.snippets
@@ -87,21 +92,18 @@ export default defineComponent({
                                         };
                                     })
                                     .filter((snippet) => {
-                                        if (!searchText.value) {
+                                        if (!searchText.value)
                                             return true;
-                                        }
+
                                         return (
-                                            snippet.title.indexOf(
-                                                searchText.value,
-                                            ) !== -1
+                                            snippet.title.includes(searchText.value)
                                         );
                                     }),
                             );
                         }
                     });
-                    if (categoryObj.snippets.length) {
+                    if (categoryObj.snippets.length)
                         res[group].push(categoryObj);
-                    }
                 });
             });
             return res;
@@ -119,9 +121,8 @@ export default defineComponent({
         });
 
         onUnmounted(() => {
-            if (unwatch) {
+            if (unwatch)
                 unwatch();
-            }
         });
 
         const designer = props.designer;
@@ -129,12 +130,13 @@ export default defineComponent({
 
         const dragonMap = new Map<Element, () => void>();
 
-        const handleDrag = (el: Element, snippet: Snippet) => {
-            if (!dragon) return;
+        const handleDrag = (el: Element, snippet: IPublicTypeSnippet) => {
+            if (!dragon)
+                return;
             const lastClear = dragonMap.get(el);
-            if (lastClear) {
+            if (lastClear)
                 lastClear();
-            }
+
             const clear = dragon.from(el, () => {
                 const dragTarget = {
                     type: 'nodeData',
@@ -151,7 +153,7 @@ export default defineComponent({
             });
         });
 
-        const renderSnippet = (snippets: Snippet[]) => {
+        const renderSnippet = (snippets: IPublicTypeSnippet[]) => {
             return snippets.map((snippet) => {
                 const renderIcon = () => {
                     return (
@@ -170,7 +172,8 @@ export default defineComponent({
                             class={categoryItemCls}
                             v-slots={{ icon: renderIcon }}
                             ref={(el: any) => {
-                                if (!el?.$el) return;
+                                if (!el?.$el)
+                                    return;
                                 handleDrag(el.$el as Element, snippet);
                             }}
                         >

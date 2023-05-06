@@ -1,54 +1,54 @@
-import {
-    defineComponent,
-    PropType,
-    computed,
-    onBeforeUnmount,
+import type {
     CSSProperties,
+    PropType,
     VNodeChild,
 } from 'vue';
-import { FTooltip } from '@fesjs/fes-design';
 import {
-    ComponentActionType,
+    computed,
+    defineComponent,
+    onBeforeUnmount,
+} from 'vue';
+import { FTooltip } from '@fesjs/fes-design';
+import type { IPublicTypeComponentActionContent } from '@webank/letgo-types';
+import {
     isActionContentObject,
 } from '@webank/letgo-types';
 import { createIcon } from '@webank/letgo-utils';
-import { Simulator } from '../simulator';
+import type { Simulator } from '../simulator';
 import NodeSelectorView from '../node-selector';
-import { Node } from '../../node';
-import { OffsetObserver } from '../../designer';
+import type { Node } from '../../node';
+import type { OffsetObserver } from '../../designer';
 import {
-    borderCls,
-    borderSelectingCls,
     borderActionCls,
     borderActionsCls,
+    borderCls,
+    borderSelectingCls,
 } from './borders.css';
 
-export const createAction = (
-    content: ComponentActionType,
+export function createAction(content: IPublicTypeComponentActionContent,
     key: string,
     node: Node,
-    host: Simulator,
-) => {
-    if (typeof content === 'string') {
+    host: Simulator) {
+    if (typeof content === 'string')
         return content;
-    }
-    if (typeof content === 'function') {
+
+    if (typeof content === 'function')
         return content({ key, node });
-    }
+
     if (isActionContentObject(content)) {
         const { action, title, icon } = content;
         const handleClick = () => {
-            if (action) {
+            if (action)
                 action(node);
-            }
+
             const editor = host.designer.editor;
             const npm = node?.componentMeta?.npm;
-            const selected =
-                [npm?.package, npm?.componentName]
-                    .filter((item) => !!item)
-                    .join('-') ||
-                node?.componentMeta?.componentName ||
-                '';
+            const selected
+                = [npm?.package, npm?.componentName]
+                    .filter(item => !!item)
+                    .join('-')
+                || node?.componentMeta?.componentName
+                || '';
             editor?.emit('designer.border.action', {
                 name: key,
                 selected,
@@ -63,7 +63,7 @@ export const createAction = (
         );
     }
     return null;
-};
+}
 
 export const Toolbar = defineComponent({
     name: 'Toolbar',
@@ -91,12 +91,14 @@ export const Toolbar = defineComponent({
                     top: `${-SPACE_HEIGHT}px`,
                     height: `${BAR_HEIGHT}px`,
                 };
-            } else if (observed.bottom.value + SPACE_HEIGHT < height) {
+            }
+            else if (observed.bottom.value + SPACE_HEIGHT < height) {
                 style = {
                     bottom: `${-SPACE_HEIGHT}px`,
                     height: `${BAR_HEIGHT}px`,
                 };
-            } else {
+            }
+            else {
                 style = {
                     height: `${BAR_HEIGHT}px`,
                     top: `${Math.max(MARGIN, MARGIN - observed.top.value)}px`,
@@ -104,14 +106,15 @@ export const Toolbar = defineComponent({
             }
             // 计算 toolbar 的左/右位置
             if (
-                SPACE_MINIMUM_WIDTH >
-                observed.left.value + observed.width.value
+                SPACE_MINIMUM_WIDTH
+                > observed.left.value + observed.width.value
             ) {
                 style.left = `${Math.max(
                     -BORDER,
                     observed.left.value - width - BORDER,
                 )}px`;
-            } else {
+            }
+            else {
                 style.right = `${Math.max(
                     -BORDER,
                     observed.right.value - width - BORDER,
@@ -123,13 +126,12 @@ export const Toolbar = defineComponent({
             node.componentMeta.availableActions.forEach((action) => {
                 const { important = true, condition, content, name } = action;
                 if (
-                    important &&
-                    (typeof condition === 'function'
+                    important
+                    && (typeof condition === 'function'
                         ? condition(node) !== false
                         : condition !== false)
-                ) {
+                )
                     actions.push(createAction(content, name, node, props.host));
-                }
             });
             return (
                 <div class={borderActionsCls} style={style}>
@@ -161,12 +163,11 @@ export const BorderSelectingInstance = defineComponent({
 
         return () => {
             const { observed, dragging } = props;
-            if (!observed.hasOffset) {
+            if (!observed.hasOffset)
                 return null;
-            }
 
-            const { offsetWidth, offsetHeight, offsetTop, offsetLeft } =
-                observed;
+            const { offsetWidth, offsetHeight, offsetTop, offsetLeft }
+                = observed;
 
             const style: CSSProperties = {
                 width: `${offsetWidth.value}px`,
@@ -208,9 +209,9 @@ export const BorderSelectingForNode = defineComponent({
 
         return () => {
             const instances = host.getComponentInstances(node);
-            if (!instances || instances.length < 1) {
+            if (!instances || instances.length < 1)
                 return;
-            }
+
             const dragging = designer.dragon.dragging;
             return (
                 <>
@@ -219,9 +220,9 @@ export const BorderSelectingForNode = defineComponent({
                             node,
                             instance,
                         });
-                        if (!observed) {
+                        if (!observed)
                             return null;
-                        }
+
                         return (
                             <BorderSelectingInstance
                                 key={observed.id}
@@ -250,20 +251,20 @@ export const BorderSelectingView = defineComponent({
         const selecting = computed(() => {
             const dragging = host.designer.dragon.dragging;
             const doc = host.project.currentDocument.value;
-            if (!doc) {
+            if (!doc)
                 return null;
-            }
+
             const { selection } = doc;
             return dragging ? selection.getTopNodes() : selection.getNodes();
         });
 
         return () => {
-            if (!selecting.value || selecting.value.length < 1) {
+            if (!selecting.value || selecting.value.length < 1)
                 return null;
-            }
+
             return (
                 <>
-                    {selecting.value.map((node) => (
+                    {selecting.value.map(node => (
                         <BorderSelectingForNode
                             key={node.id}
                             host={host}

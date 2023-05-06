@@ -1,7 +1,7 @@
 import { isNil, isObject } from 'lodash-es';
 import type { ComponentInternalInstance, VNode } from 'vue';
 import { isProxy } from 'vue';
-import type { ComponentInstance, IComponentRecord } from '@webank/letgo-types';
+import type { IPublicTypeComponentInstance, IPublicTypeComponentRecord } from '@webank/letgo-types';
 
 const SYMBOL_VDID = Symbol('_LCDocId');
 const SYMBOL_VNID = Symbol('_LCNodeId');
@@ -16,16 +16,16 @@ export interface VNodeHTMLElement extends HTMLElement {
 export interface CompRootHTMLElement extends HTMLElement {
     [SYMBOL_VDID]: string
     [SYMBOL_VNID]: string
-    [SYMBOL_VInstance]: ComponentInstance
+    [SYMBOL_VInstance]: IPublicTypeComponentInstance
 }
 
 export interface CompRootData {
     docId: string
     nodeId: string
-    instance: ComponentInstance
+    instance: IPublicTypeComponentInstance
 }
 
-export class ComponentRecord implements IComponentRecord {
+export class ComponentRecord implements IPublicTypeComponentRecord {
     [SYMBOL_RECORD_FLAG] = true;
     constructor(public did: string, public nid: string, public cid: number) {}
 }

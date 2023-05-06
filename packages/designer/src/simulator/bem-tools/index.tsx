@@ -1,5 +1,6 @@
-import { defineComponent, PropType } from 'vue';
-import { Simulator } from '../simulator';
+import type { PropType } from 'vue';
+import { defineComponent } from 'vue';
+import type { Simulator } from '../simulator';
 import { BorderDetectingView } from './border-detecting';
 import { BorderSelectingView } from './border-selecting';
 import { toolsCls } from './tools.css';
@@ -17,9 +18,9 @@ export const BemToolsView = defineComponent({
         const { scrollX, scrollY, scale } = host.viewport;
 
         return () => {
-            if (designMode.value === 'live') {
+            if (designMode.value === 'live')
                 return null;
-            }
+
             return (
                 <div
                     class={toolsCls}

@@ -1,53 +1,60 @@
 import { EventEmitter } from 'eventemitter3';
-import {
-    IEditor,
-    ProjectSchema,
-    ComponentAction,
-    ComponentMetadata,
+import type {
+    IPublicTypeComponentAction,
+    IPublicTypeComponentMetadata,
+    IPublicTypeComponentSchema,
+    IPublicTypeCompositeObject,
+    IPublicTypeEditor,
+    IPublicTypeProjectSchema,
+    IPublicTypePropsList,
+    IPublicTypeNpmInfo,
     TransformStage,
-    CompositeObject,
-    PropsList,
-    NpmInfo,
-    isNodeSchema,
-    ComponentSchema,
 } from '@webank/letgo-types';
-import { Component } from 'vue';
-import { ISimulator, INodeSelector } from '../types';
+import {
+    isNodeSchema,
+} from '@webank/letgo-types';
+import type { Component } from 'vue';
+import type { INodeSelector, ISimulator } from '../types';
 import { Project } from '../project';
 import { ComponentMeta } from '../component-meta';
-import { Node, insertChildren } from '../node';
-import { SimulatorProps, Simulator } from '../simulator';
+import type { Node } from '../node';
+import { insertChildren } from '../node';
+import type { Simulator, SimulatorProps } from '../simulator';
 import { SettingTop } from '../setting';
+import type {
+    DragObject,
+    LocateEvent,
+} from './dragon';
 import {
     Dragon,
-    isDragNodeObject,
     isDragNodeDataObject,
-    LocateEvent,
-    DragObject,
+    isDragNodeObject,
 } from './dragon';
-import { DropLocation, isLocationChildrenDetail } from './location';
+import type { DropLocation } from './location';
+import { isLocationChildrenDetail } from './location';
 import { Detecting } from './detecting';
-import { OffsetObserver, createOffsetObserver } from './offset-observer';
+import type { OffsetObserver } from './offset-observer';
+import { createOffsetObserver } from './offset-observer';
 
 export interface DesignerProps {
-    editor: IEditor;
-    defaultSchema?: ProjectSchema;
-    simulatorProps?: SimulatorProps | ((designer: Designer) => SimulatorProps);
-    simulatorComponent?: Component;
-    componentMetadatas?: ComponentMetadata[];
-    onDragstart?: (e: LocateEvent) => void;
-    onDrag?: (e: LocateEvent) => void;
+    editor: IPublicTypeEditor
+    defaultSchema?: IPublicTypeProjectSchema
+    simulatorProps?: SimulatorProps | ((designer: Designer) => SimulatorProps)
+    simulatorComponent?: Component
+    componentMetadatas?: IPublicTypeComponentMetadata[]
+    onDragstart?: (e: LocateEvent) => void
+    onDrag?: (e: LocateEvent) => void
     onDragend?: (
         e: { dragObject: DragObject; copy: boolean },
         loc?: DropLocation,
-    ) => void;
-    [key: string]: unknown;
+    ) => void
+    [key: string]: unknown
 }
 
 export class Designer {
     private emitter = new EventEmitter();
 
-    readonly editor: IEditor;
+    readonly editor: IPublicTypeEditor;
 
     readonly project: Project;
 
@@ -62,8 +69,8 @@ export class Designer {
     private _simulator?: ISimulator;
 
     private _simulatorProps?:
-        | SimulatorProps
-        | ((designer: Designer) => SimulatorProps);
+    | SimulatorProps
+    | ((designer: Designer) => SimulatorProps);
 
     private props?: DesignerProps;
 
@@ -94,13 +101,13 @@ export class Designer {
      * 模拟器参数
      */
     get simulatorProps(): SimulatorProps & {
-        designer: Designer;
-        onMount: (host: Simulator) => void;
+        designer: Designer
+        onMount: (host: Simulator) => void
     } {
         let simulatorProps = this._simulatorProps;
-        if (typeof simulatorProps === 'function') {
+        if (typeof simulatorProps === 'function')
             simulatorProps = simulatorProps(this);
-        }
+
         return {
             ...simulatorProps,
             designer: this,
@@ -109,19 +116,19 @@ export class Designer {
     }
 
     get componentsMap() {
-        const maps: { [key: string]: NpmInfo | ComponentSchema } = {};
+        const maps: { [key: string]: IPublicTypeNpmInfo | IPublicTypeComponentSchema } = {};
         this._componentMetaMap.forEach((config, key) => {
             const metaData = config.getMetadata();
-            if (metaData.devMode === 'lowCode') {
+            if (metaData.devMode === 'lowCode')
                 maps[key] = metaData.schema;
-            } else {
+
+            else
                 maps[key] = config.npm;
-            }
         });
         return maps;
     }
 
-    get schema(): ProjectSchema {
+    get schema(): IPublicTypeProjectSchema {
         return this.project.getSchema();
     }
 
@@ -139,25 +146,26 @@ export class Designer {
             const currentSelection = this.getCurrentSelection();
             if (isDragNodeObject(dragObject)) {
                 if (dragObject.nodes.length === 1) {
-                    if (dragObject.nodes[0].parent) {
+                    if (dragObject.nodes[0].parent)
                         currentSelection.select(dragObject.nodes[0].id);
-                    } else {
+
+                    else
                         currentSelection?.clear();
-                    }
                 }
-            } else {
+            }
+            else {
                 currentSelection?.clear();
             }
-            if (this.props?.onDragstart) {
+            if (this.props?.onDragstart)
                 this.props.onDragstart(e);
-            }
+
             this.postEvent('dragstart', e);
         });
 
         this.dragon.onDrag((e) => {
-            if (this.props?.onDrag) {
+            if (this.props?.onDrag)
                 this.props.onDrag(e);
-            }
+
             this.postEvent('drag', e);
         });
 
@@ -166,8 +174,8 @@ export class Designer {
             const loc = this.dropLocation;
             if (loc) {
                 if (
-                    isLocationChildrenDetail(loc.detail) &&
-                    loc.detail.valid !== false
+                    isLocationChildrenDetail(loc.detail)
+                    && loc.detail.valid !== false
                 ) {
                     let nodes: Node[] | undefined;
                     if (isDragNodeObject(dragObject)) {
@@ -177,17 +185,18 @@ export class Designer {
                             loc.detail.index,
                             copy,
                         );
-                    } else if (isDragNodeDataObject(dragObject)) {
+                    }
+                    else if (isDragNodeDataObject(dragObject)) {
                         // process nodeData
                         const nodeData = Array.isArray(dragObject.data)
                             ? dragObject.data
                             : [dragObject.data];
                         const isNotNodeSchema = nodeData.find(
-                            (item) => !isNodeSchema(item),
+                            item => !isNodeSchema(item),
                         );
-                        if (isNotNodeSchema) {
+                        if (isNotNodeSchema)
                             return;
-                        }
+
                         nodes = insertChildren(
                             loc.target,
                             nodeData,
@@ -196,14 +205,14 @@ export class Designer {
                     }
                     if (nodes) {
                         loc.document.selection.selectAll(
-                            nodes.map((o) => o.id),
+                            nodes.map(o => o.id),
                         );
                     }
                 }
             }
-            if (this.props?.onDragend) {
+            if (this.props?.onDragend)
                 this.props.onDragend(e, loc);
-            }
+
             this.detecting.enable = true;
             this.postEvent('dragend', e, loc);
         });
@@ -240,7 +249,7 @@ export class Designer {
         }
     };
 
-    setSchema(schema?: ProjectSchema) {
+    setSchema(schema?: IPublicTypeProjectSchema) {
         this.project.load(schema);
     }
 
@@ -248,43 +257,44 @@ export class Designer {
         const props = this.props ? { ...this.props, ...nextProps } : nextProps;
         if (this.props) {
             if (
-                props.componentMetadatas !== this.props.componentMetadatas &&
-                props.componentMetadatas != null
-            ) {
+                props.componentMetadatas !== this.props.componentMetadatas
+                && props.componentMetadatas != null
+            )
                 this.buildComponentMetaMap(props.componentMetadatas);
-            }
-            if (props.simulatorProps !== this.props.simulatorProps) {
+
+            if (props.simulatorProps !== this.props.simulatorProps)
                 this._simulatorProps = props.simulatorProps;
-            }
-        } else {
-            if (props.componentMetadatas != null) {
+        }
+        else {
+            if (props.componentMetadatas != null)
                 this.buildComponentMetaMap(props.componentMetadatas);
-            }
-            if (props.simulatorProps) {
+
+            if (props.simulatorProps)
                 this._simulatorProps = props.simulatorProps;
-            }
         }
         this.props = props;
     }
 
-    buildComponentMetaMap(metaDataList: ComponentMetadata[]) {
-        metaDataList.forEach((data) => this.createComponentMeta(data));
+    buildComponentMetaMap(metaDataList: IPublicTypeComponentMetadata[]) {
+        metaDataList.forEach(data => this.createComponentMeta(data));
     }
 
-    createComponentMeta(data: ComponentMetadata): ComponentMeta {
+    createComponentMeta(data: IPublicTypeComponentMetadata): ComponentMeta {
         const key = data.componentName;
         let meta = this._componentMetaMap.get(key);
         if (meta) {
             meta.setMetadata(data);
 
             this._componentMetaMap.set(key, meta);
-        } else {
+        }
+        else {
             meta = this._lostComponentMetaMap.get(key);
 
             if (meta) {
                 meta.setMetadata(data);
                 this._lostComponentMetaMap.delete(key);
-            } else {
+            }
+            else {
                 meta = new ComponentMeta(this, data);
             }
 
@@ -295,15 +305,13 @@ export class Designer {
 
     getComponentMeta(
         componentName: string,
-        generateMetadata?: () => ComponentMetadata | null,
+        generateMetadata?: () => IPublicTypeComponentMetadata | null,
     ): ComponentMeta {
-        if (this._componentMetaMap.has(componentName)) {
+        if (this._componentMetaMap.has(componentName))
             return this._componentMetaMap.get(componentName);
-        }
 
-        if (this._lostComponentMetaMap.has(componentName)) {
+        if (this._lostComponentMetaMap.has(componentName))
             return this._lostComponentMetaMap.get(componentName);
-        }
 
         const meta = new ComponentMeta(this, {
             componentName,
@@ -319,14 +327,14 @@ export class Designer {
         this.editor.emit(`designer.${event}`, ...args);
     }
 
-    getGlobalComponentActions(): ComponentAction[] {
+    getGlobalComponentActions(): IPublicTypeComponentAction[] {
         return [];
     }
 
     private propsReducers = new Map<TransformStage, PropsReducer[]>();
 
     transformProps(
-        props: CompositeObject | PropsList,
+        props: IPublicTypeCompositeObject | IPublicTypePropsList,
         node: Node,
         stage: TransformStage,
     ) {
@@ -336,16 +344,16 @@ export class Designer {
         }
 
         const reducers = this.propsReducers.get(stage);
-        if (!reducers) {
+        if (!reducers)
             return props;
-        }
 
         return reducers.reduce((xProps, reducer) => {
             try {
                 return reducer(xProps, node, {
                     stage,
                 });
-            } catch (e) {
+            }
+            catch (e) {
                 // todo: add log
                 console.warn(e);
                 return xProps;
@@ -388,9 +396,9 @@ export class Designer {
     createOffsetObserver(nodeInstance: INodeSelector) {
         const offsetObserver = createOffsetObserver(nodeInstance);
         this.clearOffsetObserverList();
-        if (offsetObserver) {
+        if (offsetObserver)
             this.offsetObserverList.push(offsetObserver);
-        }
+
         return offsetObserver;
     }
 
@@ -398,16 +406,15 @@ export class Designer {
         let l = this.offsetObserverList.length;
         if (l > 20 || force) {
             while (l-- > 0) {
-                if (this.offsetObserverList[l].isPurged()) {
+                if (this.offsetObserverList[l].isPurged())
                     this.offsetObserverList.splice(l, 1);
-                }
             }
         }
     }
 
     touchOffsetObserver() {
         this.clearOffsetObserverList(true);
-        this.offsetObserverList.forEach((item) => item.compute());
+        this.offsetObserverList.forEach(item => item.compute());
     }
 
     createSettingEntry(nodes: Node[]) {
@@ -415,9 +422,9 @@ export class Designer {
     }
 }
 
-export type PropsReducerContext = { stage: TransformStage };
+export interface PropsReducerContext { stage: TransformStage }
 export type PropsReducer = (
-    props: CompositeObject,
+    props: IPublicTypeCompositeObject,
     node: Node,
     ctx?: PropsReducerContext,
-) => CompositeObject;
+) => IPublicTypeCompositeObject;

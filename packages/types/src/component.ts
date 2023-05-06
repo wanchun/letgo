@@ -1,12 +1,12 @@
-import { ComponentPublicInstance } from 'vue';
+import type { ComponentPublicInstance } from 'vue';
 
 /**
  * 组件实例定义
  */
-export type ComponentInstance = ComponentPublicInstance;
+export type IPublicTypeComponentInstance = ComponentPublicInstance;
 
-export interface IComponentRecord {
-    did: string;
-    nid: string;
-    cid: number;
+export interface IPublicTypeComponentRecord {
+    did: string
+    nid: string
+    cid: number
 }

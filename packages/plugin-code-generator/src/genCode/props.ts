@@ -1,7 +1,7 @@
-import { PropsMap, isJSExpression, isJSFunction } from '@webank/letgo-types';
+import { IPublicTypePropsMap, isJSExpression, isJSFunction } from '@webank/letgo-types';
 
 // TODO 支持更多类型
-export function compileProps(props?: PropsMap) {
+export function compileProps(props?: IPublicTypePropsMap) {
     if (!props) {
         return [];
     }

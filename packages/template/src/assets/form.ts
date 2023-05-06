@@ -1,6 +1,6 @@
-import type { RootSchema } from '@webank/letgo-types';
+import type { IPublicTypeRootSchema } from '@webank/letgo-types';
 
-export const schema: RootSchema = {
+export const schema: IPublicTypeRootSchema = {
     componentName: 'Page',
     id: 'node_dockcviv8fo1',
     props: {

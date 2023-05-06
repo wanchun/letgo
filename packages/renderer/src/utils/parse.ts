@@ -1,13 +1,15 @@
+import type {
+    IPublicTypeJSExpression,
+    IPublicTypeJSFunction,
+} from '@webank/letgo-types';
 import {
-    JSFunction,
-    JSExpression,
     isJSExpression,
     isJSFunction,
 } from '@webank/letgo-types';
 import { isFunction, isString } from 'lodash-es';
 import { isObject } from './object';
 import { ensureArray } from './array';
-import { BlockScope, RuntimeScope } from './scope';
+import type { BlockScope, RuntimeScope } from './scope';
 
 export const EXPRESSION_TYPE = {
     JSEXPRESSION: 'JSExpression',
@@ -19,28 +21,29 @@ export const EXPRESSION_TYPE = {
 export function inSameDomain() {
     try {
         return (
-            window.parent !== window &&
-            window.parent.location.host === window.location.host
+            window.parent !== window
+            && window.parent.location.host === window.location.host
         );
-    } catch (e) {
+    }
+    catch (e) {
         return false;
     }
 }
 
 export function parseExpression(
-    str: JSFunction,
+    str: IPublicTypeJSFunction,
     scope?: RuntimeScope,
 ): CallableFunction;
 export function parseExpression(
-    str: JSExpression,
+    str: IPublicTypeJSExpression,
     scope?: RuntimeScope,
 ): unknown;
 export function parseExpression(
-    str: JSExpression | JSFunction,
+    str: IPublicTypeJSExpression | IPublicTypeJSFunction,
     scope?: RuntimeScope,
 ): CallableFunction | unknown;
 export function parseExpression(
-    str: JSExpression | JSFunction,
+    str: IPublicTypeJSExpression | IPublicTypeJSFunction,
     scope?: RuntimeScope,
 ): CallableFunction | unknown {
     try {
@@ -57,13 +60,14 @@ export function parseExpression(
         tarStr = contextArr.join('\n') + tarStr;
 
         // 默认调用顶层窗口的parseObj, 保障new Function的window对象是顶层的window对象
-        if (inSameDomain() && (window.parent as any).__newFunc) {
+        if (inSameDomain() && (window.parent as any).__newFunc)
             return (window.parent as any).__newFunc(tarStr)(self);
-        }
+
         return new Function('$scope', `with($scope || {}) { ${tarStr} }`)(
             scope,
         );
-    } catch (err) {
+    }
+    catch (err) {
         console.warn('parseExpression.error', err, str, self);
         return undefined;
     }
@@ -71,11 +75,11 @@ export function parseExpression(
 
 export function parseSchema(scope?: RuntimeScope): string | undefined;
 export function parseSchema(
-    schema: JSFunction,
+    schema: IPublicTypeJSFunction,
     scope?: RuntimeScope,
 ): CallableFunction;
 export function parseSchema(
-    schema: JSExpression,
+    schema: IPublicTypeJSExpression,
     scope?: RuntimeScope,
 ): unknown;
 export function parseSchema<T extends object>(
@@ -86,17 +90,23 @@ export function parseSchema<T>(schema: T, scope?: RuntimeScope): T;
 export function parseSchema(schema: unknown, scope?: RuntimeScope): unknown {
     if (isJSExpression(schema) || isJSFunction(schema)) {
         return parseExpression(schema, scope);
-    } else if (isString(schema)) {
+    }
+    else if (isString(schema)) {
         return schema.trim();
-    } else if (Array.isArray(schema)) {
-        return schema.map((item) => parseSchema(item, scope));
-    } else if (isFunction(schema)) {
+    }
+    else if (Array.isArray(schema)) {
+        return schema.map(item => parseSchema(item, scope));
+    }
+    else if (isFunction(schema)) {
         return schema.bind(scope);
-    } else if (isObject(schema)) {
-        if (!schema) return schema;
+    }
+    else if (isObject(schema)) {
+        if (!schema)
+            return schema;
         const res: Record<string, unknown> = {};
         Object.keys(schema).forEach((key) => {
-            if (key.startsWith('__')) return;
+            if (key.startsWith('__'))
+                return;
             res[key] = parseSchema(schema[key], scope);
         });
         return res;

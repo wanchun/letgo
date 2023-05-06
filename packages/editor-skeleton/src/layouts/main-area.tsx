@@ -1,7 +1,8 @@
-import { defineComponent, PropType } from 'vue';
-import { Area } from '../area';
-import { IWidgetConfig, IPanelConfig } from '../types';
-import { Widget, Panel } from '../widget';
+import type { PropType } from 'vue';
+import { defineComponent } from 'vue';
+import type { Area } from '../area';
+import type { IPanelConfig, IWidgetConfig } from '../types';
+import type { Panel, Widget } from '../widget';
 import { mainAreaCls } from './workbench.css';
 
 export default defineComponent({
@@ -18,7 +19,7 @@ export default defineComponent({
             const { area } = props;
             return (
                 <div class={mainAreaCls}>
-                    {area.items.value.map((item) => item.content)}
+                    {area.items.value.map(item => item.content)}
                 </div>
             );
         };

@@ -1,62 +1,62 @@
 /**
  * npm 源引入完整描述对象
  */
-export interface NpmInfo {
+export interface IPublicTypeNpmInfo {
     /**
      * 源码组件名称
      */
-    componentName?: string;
+    componentName?: string
     /**
      * 源码组件库名
      */
-    package: string;
+    package: string
     /**
      * 源码组件版本号
      */
-    version?: string;
+    version?: string
     /**
      * 是否解构
      */
-    destructuring?: boolean;
+    destructuring?: boolean
     /**
      * 源码组件名称
      */
-    exportName?: string;
+    exportName?: string
     /**
      * 子组件名
      */
-    subName?: string;
+    subName?: string
     /**
      * 组件路径
      */
-    main?: string;
+    main?: string
 }
 
-export interface LowCodeComponentType {
+export interface IPublicTypeLowCodeComponent {
     /**
      * 研发模式
      */
-    devMode: 'lowCode';
+    devMode: 'lowCode'
     /**
      * 组件名称
      */
-    componentName: string;
+    componentName: string
 }
 
-export type ProCodeComponentType = NpmInfo;
+export type IPublicTypeProCodeComponent = IPublicTypeNpmInfo;
 
-export type ComponentMap = ProCodeComponentType | LowCodeComponentType;
+export type IPublicTypeComponentMap = IPublicTypeProCodeComponent | IPublicTypeLowCodeComponent;
 
 export function isProCodeComponentType(
-    desc: ComponentMap,
-): desc is ProCodeComponentType {
+    desc: IPublicTypeComponentMap,
+): desc is IPublicTypeProCodeComponent {
     return 'package' in desc;
 }
 
 export function isLowCodeComponentType(
-    desc: ComponentMap,
-): desc is LowCodeComponentType {
+    desc: IPublicTypeComponentMap,
+): desc is IPublicTypeLowCodeComponent {
     return !isProCodeComponentType(desc);
 }
 
-export type ComponentsMap = ComponentMap[];
+export type IPublicTypeComponentsMap = IPublicTypeComponentMap[];

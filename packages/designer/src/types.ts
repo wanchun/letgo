@@ -1,108 +1,110 @@
-import {
-    NodeSchema,
-    PageSchema,
-    ComponentSchema,
-    IComponentRecord,
-    SlotSchema,
+import type {
+    IPublicTypeComponentRecord,
+    IPublicTypeComponentSchema,
+    IPublicTypeNodeSchema,
+    IPublicTypePageSchema,
+    IPublicTypeSlotSchema,
 } from '@webank/letgo-types';
-import { Node, NodeChildren } from './node';
-import { DocumentModel } from './document';
-import { ScrollTarget, LocateEvent, DropLocation } from './designer';
-import { ISimulatorRenderer } from './simulator';
+import type { Node, NodeChildren } from './node';
+import type { DocumentModel } from './document';
+import type { DropLocation, LocateEvent, ScrollTarget } from './designer';
+import type { ISimulatorRenderer } from './simulator';
 
-export type InnerComponentInstance = IComponentRecord | Element;
+export type InnerComponentInstance = IPublicTypeComponentRecord | Element;
 
 export type GetDataType<T, NodeType> = T extends undefined
     ? NodeType extends {
-          schema: infer R;
-      }
+        schema: infer R
+    }
         ? R
         : any
     : T;
 
-export interface ParentalNode<T extends NodeSchema = NodeSchema>
+export interface IBaseNode<T extends IPublicTypeNodeSchema = IPublicTypeNodeSchema>
     extends Node<T> {
-    readonly children: NodeChildren;
+    readonly children: NodeChildren
 }
 
 export interface LeafNode extends Node {
-    readonly children: null;
+    readonly children: null
 }
 
-export type PageNode = ParentalNode<PageSchema>;
+export type IPageNode = IBaseNode<IPublicTypePageSchema>;
 
-export type ComponentNode = ParentalNode<ComponentSchema>;
+export type IComponentNode = IBaseNode<IPublicTypeComponentSchema>;
 
-export type RootNode = PageNode | ComponentNode;
+export type ISlotNode = IBaseNode<IPublicTypeSlotSchema>;
 
-export type SlotNode = ParentalNode<SlotSchema>;
+export type IRootNode = IPageNode | IComponentNode;
+
+export type INode = IPageNode | ISlotNode | IComponentNode | IRootNode;
 
 export function isDocumentModel(obj: any): obj is DocumentModel {
     return obj && obj.rootNode;
 }
 
 export interface NodeInstance<T = InnerComponentInstance> {
-    docId: string;
-    nodeId: string;
-    instance: T;
-    node?: Node | null;
+    docId: string
+    nodeId: string
+    instance: T
+    node?: Node | null
 }
 
 export interface DropContainer {
-    container: ParentalNode;
-    instance: InnerComponentInstance;
+    container: IBaseNode
+    instance: InnerComponentInstance
 }
 
 export interface INodeSelector {
-    node: Node;
-    instance?: InnerComponentInstance;
+    node: Node
+    instance?: InnerComponentInstance
 }
 
 export interface ISensor {
     /**
      * 是否可响应，比如面板被隐藏，可设置该值 false
      */
-    readonly sensorAvailable: boolean;
+    readonly sensorAvailable: boolean
     /**
      * 给事件打补丁
      */
-    fixEvent(e: LocateEvent): LocateEvent;
+    fixEvent(e: LocateEvent): LocateEvent
     /**
      * 定位并激活
      */
-    locate(e: LocateEvent): DropLocation | undefined | null;
+    locate(e: LocateEvent): DropLocation | undefined | null
     /**
      * 是否进入敏感板区域
      */
-    isEnter(e: LocateEvent): boolean;
+    isEnter(e: LocateEvent): boolean
     /**
      * 取消激活
      */
-    deActiveSensor(): void;
+    deActiveSensor(): void
 }
 
 export interface ISimulator<P = object> extends ISensor {
-    readonly isSimulator: true;
-    readonly viewport: IViewport;
-    readonly contentWindow?: Window;
-    readonly contentDocument?: Document;
+    readonly isSimulator: true
+    readonly viewport: IViewport
+    readonly contentWindow?: Window
+    readonly contentDocument?: Document
 
-    readonly renderer?: ISimulatorRenderer;
+    readonly renderer?: ISimulatorRenderer
 
-    setProps(props: P): void;
+    setProps(props: P): void
 
     /**
      * 设置拖拽态
      */
-    setDraggingState(state: boolean): void;
+    setDraggingState(state: boolean): void
     /**
      * 设置拷贝态
      */
-    setCopyState(state: boolean): void;
+    setCopyState(state: boolean): void
     /**
      * 清除所有态：拖拽态、拷贝态
      */
-    clearState(): void;
+    clearState(): void
 
     /**
      * 缓存节点id的实例
@@ -111,42 +113,42 @@ export interface ISimulator<P = object> extends ISensor {
         docId: string,
         id: string,
         instances: InnerComponentInstance[] | null,
-    ): void;
+    ): void
     /**
      * 在组件实例上寻找子组件实例
      */
     getClosestNodeInstance(
         from: InnerComponentInstance,
         specId?: string,
-    ): NodeInstance | null;
+    ): NodeInstance | null
     /**
      * 获取节点实例
      */
     getNodeInstanceFromElement(
         e: Element | null,
-    ): NodeInstance<InnerComponentInstance> | null;
+    ): NodeInstance<InnerComponentInstance> | null
     /**
      * 根据节点获取节点的组件实例
      */
-    getComponentInstances(node: Node): InnerComponentInstance[] | null;
+    getComponentInstances(node: Node): InnerComponentInstance[] | null
     /**
      * 查找合适的投放容器
      */
-    getDropContainer(e: LocateEvent): DropContainer | null;
+    getDropContainer(e: LocateEvent): DropContainer | null
     /**
      * 查找节点的 dom
      */
     findDOMNodes(
         instance: InnerComponentInstance,
         selector?: string,
-    ): Array<Element | Text> | null;
+    ): Array<Element | Text> | null
     /**
      * 计算节点位置
      */
     computeComponentInstanceRect(
         instance: InnerComponentInstance,
         selector?: string,
-    ): DOMRect | null;
+    ): DOMRect | null
 }
 
 export function isSimulator(obj: any): obj is ISimulator {
@@ -154,70 +156,70 @@ export function isSimulator(obj: any): obj is ISimulator {
 }
 
 export interface Point {
-    clientX: number;
-    clientY: number;
+    clientX: number
+    clientY: number
 }
 
 export type AutoFit = '100%';
-// eslint-disable-next-line no-redeclare
+
 export const AutoFit = '100%';
 
 export interface IScrollable {
-    scrollTarget?: ScrollTarget | Element;
-    bounds?: DOMRect | null;
-    scale?: number;
+    scrollTarget?: ScrollTarget | Element
+    bounds?: DOMRect | null
+    scale?: number
 }
 
 export interface IViewport extends IScrollable {
     /**
      * 视口大小
      */
-    width: number;
-    height: number;
+    width: number
+    height: number
 
     /**
      * 内容大小
      */
-    contentWidth: number | AutoFit;
-    contentHeight: number | AutoFit;
+    contentWidth: number | AutoFit
+    contentHeight: number | AutoFit
 
     /**
      * 内容缩放
      */
-    scale: number;
+    scale: number
 
     /**
      * 视口矩形维度
      */
-    readonly bounds: DOMRect;
+    readonly bounds: DOMRect
     /**
      * 内容矩形维度
      */
-    readonly contentBounds: DOMRect;
+    readonly contentBounds: DOMRect
     /**
      * 视口滚动对象
      */
-    readonly scrollTarget?: ScrollTarget;
+    readonly scrollTarget?: ScrollTarget
     /**
      * 是否滚动中
      */
-    readonly scrolling: boolean;
+    readonly scrolling: boolean
     /**
      * 内容当前滚动 X
      */
-    readonly scrollX: number;
+    readonly scrollX: number
     /**
      * 内容当前滚动 Y
      */
-    readonly scrollY: number;
+    readonly scrollY: number
 
     /**
      * 全局坐标系转化为本地坐标系
      */
-    toLocalPoint(point: Point): Point;
+    toLocalPoint(point: Point): Point
 
     /**
      * 本地坐标系转化为全局坐标系
      */
-    toGlobalPoint(point: Point): Point;
+    toGlobalPoint(point: Point): Point
 }

@@ -1,19 +1,19 @@
-export interface AppConfig {
-    sdkVersion?: string;
-    historyMode?: string;
-    targetRootID?: string;
-    layout?: Layout;
-    theme?: Theme;
-    [key: string]: any;
+export interface IPublicTypeAppConfig {
+    sdkVersion?: string
+    historyMode?: string
+    targetRootID?: string
+    layout?: IPublicTypeLayout
+    theme?: IPublicTypeTheme
+    [key: string]: any
 }
 
-interface Theme {
-    package: string;
-    version: string;
-    primary: string;
+interface IPublicTypeTheme {
+    package: string
+    version: string
+    primary: string
 }
 
-interface Layout {
-    componentName?: string;
-    props?: Record<string, any>;
+interface IPublicTypeLayout {
+    componentName?: string
+    props?: Record<string, any>
 }

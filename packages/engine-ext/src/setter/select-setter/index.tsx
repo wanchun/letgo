@@ -1,5 +1,6 @@
-import { computed, defineComponent, PropType } from 'vue';
-import { Setter } from '@webank/letgo-types';
+import type { PropType } from 'vue';
+import { computed, defineComponent } from 'vue';
+import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { isUndefined } from 'lodash-es';
 import { FSelect } from '@fesjs/fes-design';
 import { commonProps } from '../../common/setter-props';
@@ -48,7 +49,7 @@ const SelectSetterView = defineComponent({
     },
 });
 
-export const SelectSetter: Setter = {
+export const SelectSetter: IPublicTypeSetter = {
     type: 'SelectSetter',
     title: '选择设置器',
     Component: SelectSetterView,

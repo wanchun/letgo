@@ -1,5 +1,5 @@
 import { defineComponent, onMounted } from 'vue';
-import { Setter } from '@webank/letgo-types';
+import { IPublicTypeSetter } from '@webank/letgo-types';
 import { isUndefined } from 'lodash-es';
 import { FInput } from '@fesjs/fes-design';
 import { commonProps } from '../../common/setter-props';
@@ -32,7 +32,7 @@ const StringSetterView = defineComponent({
     },
 });
 
-export const StringSetter: Setter = {
+export const StringSetter: IPublicTypeSetter = {
     type: 'StringSetter',
     title: '字符串设置器',
     Component: StringSetterView,

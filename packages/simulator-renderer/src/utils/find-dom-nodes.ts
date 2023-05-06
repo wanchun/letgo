@@ -1,9 +1,9 @@
 import { ComponentInternalInstance } from 'vue';
-import { ComponentInstance } from '@webank/letgo-types';
+import { IPublicTypeComponentInstance } from '@webank/letgo-types';
 import { isVNodeHTMLElement } from './comp-node';
 import { isEmptyNode } from './check-node';
 
-export function findDOMNodes(instance: ComponentInstance) {
+export function findDOMNodes(instance: IPublicTypeComponentInstance) {
     const els: (Element | Text)[] = [];
 
     const el: Element | Text = instance.$el;

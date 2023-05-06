@@ -1,5 +1,6 @@
-import { defineComponent, onMounted, PropType, CSSProperties } from 'vue';
-import { Setter } from '@webank/letgo-types';
+import type { CSSProperties, PropType } from 'vue';
+import { defineComponent, onMounted } from 'vue';
+import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { useModel } from '@webank/letgo-utils';
 import { NCollapse } from 'naive-ui';
 import { commonProps } from '../../common/setter-props';
@@ -47,13 +48,13 @@ const StyleSetterView = defineComponent({
             return (
                 <div class={wrapperCls}>
                     <NCollapse defaultExpandedNames={['layout', 'font']}>
-                        {styleModuleList.some((item) => item === 'layout') && (
+                        {styleModuleList.includes('layout') && (
                             <LayoutView
                                 onStyleChange={onStyleChange}
                                 value={currentValue.value}
                             ></LayoutView>
                         )}
-                        {styleModuleList.some((item) => item === 'font') && (
+                        {styleModuleList.includes('font') && (
                             <FontView
                                 onStyleChange={onStyleChange}
                                 value={currentValue.value}
@@ -66,7 +67,7 @@ const StyleSetterView = defineComponent({
     },
 });
 
-export const StyleSetter: Setter = {
+export const StyleSetter: IPublicTypeSetter = {
     type: 'StyleSetter',
     title: '样式设置器',
     Component: StyleSetterView,

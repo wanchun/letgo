@@ -1,6 +1,7 @@
-import { defineComponent, PropType } from 'vue';
-import { IWidget } from '../types';
-import { widgetCls, disabledCls } from './widget.css';
+import type { PropType } from 'vue';
+import { defineComponent } from 'vue';
+import type { IWidget } from '../types';
+import { disabledCls, widgetCls } from './widget.css';
 
 export default defineComponent({
     name: 'Widget',
@@ -15,9 +16,9 @@ export default defineComponent({
     setup(props) {
         return () => {
             const { widget } = props;
-            if (!widget.visible.value) {
+            if (!widget.visible.value)
                 return null;
-            }
+
             if (widget.disabled.value) {
                 return (
                     <div class={[widgetCls, disabledCls]}>{widget.body}</div>

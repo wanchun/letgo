@@ -1,7 +1,7 @@
-import { computed } from '@vue/reactivity';
-import { defineComponent, PropType } from 'vue';
+import type { PropType } from 'vue';
+import { defineComponent } from 'vue';
 import { isNil } from 'lodash-es';
-import { IWidget } from '../types';
+import type { IWidget } from '../types';
 import { panelCls } from './panel.css';
 
 export default defineComponent({
@@ -19,18 +19,18 @@ export default defineComponent({
         return () => {
             const { widget, width, height, maxWidth, maxHeight } = props;
             const style = [];
-            if (!isNil(width)) {
+            if (!isNil(width))
                 style.push({ width: `${width}px` });
-            }
-            if (!isNil(height)) {
+
+            if (!isNil(height))
                 style.push({ height: `${height}px` });
-            }
-            if (!isNil(maxWidth)) {
+
+            if (!isNil(maxWidth))
                 style.push({ maxWidth: `${maxWidth}px` });
-            }
-            if (!isNil(maxHeight)) {
+
+            if (!isNil(maxHeight))
                 style.push({ maxHeight: `${maxHeight}px` });
-            }
+
             return (
                 <div
                     v-show={widget.visible.value}

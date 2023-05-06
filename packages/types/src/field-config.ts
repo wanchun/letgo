@@ -1,94 +1,94 @@
-import { SetterType } from './setter-config';
-import { SettingTarget } from './setting-target';
+import type { IPublicTypeSetterType } from './setter-config';
+import type { IPublicTypeSettingTarget } from './setting-target';
 
 /**
  * extra props for field
  */
-export interface FieldExtraProps {
+export interface IPublicTypeFieldExtraProps {
     /**
      * 是否必填参数
      */
-    isRequired?: boolean;
+    isRequired?: boolean
     /**
      * default value of target prop for setter use
      */
-    defaultValue?: any | ((target: SettingTarget) => any);
+    defaultValue?: any | ((target: IPublicTypeSettingTarget) => any)
     /**
      * get value for field
      */
-    getValue?: (target: SettingTarget, fieldValue: any) => any;
+    getValue?: (target: IPublicTypeSettingTarget, fieldValue: any) => any
     /**
      * set value for field
      */
-    setValue?: (target: SettingTarget, value: any) => void;
+    setValue?: (target: IPublicTypeSettingTarget, value: any) => void
     /**
      * the field conditional show, is not set always true
      * @default undefined
      */
-    condition?: (target: SettingTarget) => boolean;
+    condition?: (target: IPublicTypeSettingTarget) => boolean
     /**
      * autoRun when something change
      */
-    autoRun?: (target: SettingTarget) => void;
+    autoRun?: (target: IPublicTypeSettingTarget) => void
     /**
      * is this field is a virtual field that not save to schema
      */
-    virtual?: (target: SettingTarget) => boolean;
+    virtual?: (target: IPublicTypeSettingTarget) => boolean
     /**
      * default collapsed when display accordion
      */
-    defaultCollapsed?: boolean;
+    defaultCollapsed?: boolean
     /**
      * important field
      */
-    important?: boolean;
+    important?: boolean
     /**
      * internal use
      */
-    forceInline?: number;
+    forceInline?: number
     /**
      * 是否支持变量配置
      */
-    supportVariable?: boolean;
+    supportVariable?: boolean
     /**
      * compatiable vision display
      */
-    display?: 'accordion' | 'inline' | 'block' | 'plain' | 'popup' | 'entry';
+    display?: 'accordion' | 'inline' | 'block' | 'plain' | 'popup' | 'entry'
 }
 
 /**
  * 属性面板配置
  */
-export interface FieldConfig extends FieldExtraProps {
+export interface IPublicTypeFieldConfig extends IPublicTypeFieldExtraProps {
     /**
      * 面板配置隶属于单个 field 还是分组
      */
-    type?: 'field' | 'group';
+    type?: 'field' | 'group'
     /**
      * the name of this setting field, which used in quickEditor
      */
-    name?: string | number;
+    name?: string | number
     /**
      * the field title
      */
-    title?: string;
+    title?: string
     /**
      * 单个属性的 setter 配置
      *
      * the field body contains when .type = 'field'
      */
-    setter?: SetterType;
+    setter?: IPublicTypeSetterType
     /**
      * the setting items which group body contains when .type = 'group'
      */
-    items?: FieldConfig[];
+    items?: IPublicTypeFieldConfig[]
     /**
      * extra props for field
      * 其他配置属性（不做流通要求）
      */
-    extraProps?: FieldExtraProps;
+    extraProps?: IPublicTypeFieldExtraProps
     /**
      * 属性描述
      */
-    description?: string;
+    description?: string
 }

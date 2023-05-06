@@ -1,5 +1,6 @@
-import { defineComponent, PropType } from 'vue';
-import { Skeleton } from '../skeleton';
+import type { PropType } from 'vue';
+import { defineComponent } from 'vue';
+import type { Skeleton } from '../skeleton';
 import TopArea from './top-area';
 import LeftArea from './left-area';
 import LeftFloatArea from './left-float-area';
@@ -9,9 +10,9 @@ import BottomArea from './bottom-area';
 import RightArea from './right-area';
 import GlobalArea from './global-area';
 import {
-    workbenchCls,
     workbenchBodyCls,
     workbenchCenterCls,
+    workbenchCls,
 } from './workbench.css';
 
 export default defineComponent({

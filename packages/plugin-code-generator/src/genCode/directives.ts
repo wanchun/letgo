@@ -1,35 +1,36 @@
-import { Directive, CompositeValue, isJSExpression } from '@webank/letgo-types';
+import type { IPublicTypeCompositeValue, IPublicTypeDirective } from '@webank/letgo-types';
+import { isJSExpression } from '@webank/letgo-types';
 
-function compileArg(arg?: CompositeValue) {
+function compileArg(arg?: IPublicTypeCompositeValue) {
     if (arg) {
-        if (isJSExpression(arg)) {
+        if (isJSExpression(arg))
             return `:[${arg.value}]`;
-        }
+
         return `:${arg}`;
     }
     return '';
 }
 
 function compileModifiers(modifiers?: string[]) {
-    if (modifiers) {
+    if (modifiers)
         return modifiers.join('.');
-    }
 
     return '';
 }
 
-function compileValue(value?: CompositeValue) {
+function compileValue(value?: IPublicTypeCompositeValue) {
     if (value) {
-        if (isJSExpression(value)) {
+        if (isJSExpression(value))
             return `="${value.value}"`;
-        }
+
         return `="${value}"`;
     }
     return '';
 }
 
-export function compileDirectives(directives?: Directive[]): string[] {
-    if (!directives) return [];
+export function compileDirectives(directives?: IPublicTypeDirective[]): string[] {
+    if (!directives)
+        return [];
 
     return directives.map((directive) => {
         return `${directive.name}${compileArg(directive.arg)}${compileModifiers(

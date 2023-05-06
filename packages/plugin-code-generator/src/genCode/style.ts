@@ -1,6 +1,6 @@
-import { RootSchema } from '@webank/letgo-types';
+import { IPublicTypeRootSchema } from '@webank/letgo-types';
 
-export function genStyle(rootSchema: RootSchema) {
+export function genStyle(rootSchema: IPublicTypeRootSchema) {
     if (rootSchema.css) {
         return `<style lang="less" scoped>
             ${rootSchema.css}

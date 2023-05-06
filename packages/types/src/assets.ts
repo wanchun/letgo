@@ -1,5 +1,5 @@
-import { ProjectSchema } from './schema';
-import { ComponentMetadata } from './metadata';
+import type { IPublicTypeProjectSchema } from './schema';
+import type { IPublicTypeComponentMetadata } from './metadata';
 
 export enum AssetLevel {
     // 环境依赖库 比如 react, react-dom
@@ -7,7 +7,7 @@ export enum AssetLevel {
     // 基础类库，比如 lodash deep fusion antd
     Library = 2,
     // 主题
-    Theme = 3,
+    IPublicTypeTheme = 3,
     // 运行时
     Runtime = 4,
     // 业务组件
@@ -19,13 +19,11 @@ export enum AssetLevel {
 export const AssetLevels = [
     AssetLevel.Environment,
     AssetLevel.Library,
-    AssetLevel.Theme,
+    AssetLevel.IPublicTypeTheme,
     AssetLevel.Runtime,
     AssetLevel.Components,
     AssetLevel.App,
 ];
-
-export type URL = string;
 
 export enum AssetType {
     JSUrl = 'jsUrl',
@@ -34,119 +32,122 @@ export enum AssetType {
     JSText = 'jsText',
     Bundle = 'bundle',
 }
-export interface AssetBundle {
-    type: AssetType.Bundle;
-    level?: AssetLevel;
-    assets?: Asset | AssetList | null;
+
+export type IPublicTypeURL = string;
+
+export interface IPublicTypeAssetBundle {
+    type: AssetType.Bundle
+    level?: AssetLevel
+    assets?: IPublicTypeAsset | IPublicTypeAssetList | null
 }
 
-export interface AssetItem {
-    type: AssetType;
-    content?: string | null;
-    device?: string;
-    level?: AssetLevel;
-    id?: string;
+export interface IPublicTypeAssetItem {
+    type: AssetType
+    content?: string | null
+    device?: string
+    level?: AssetLevel
+    id?: string
 }
 
-export type Asset = AssetList | AssetBundle | AssetItem | URL;
+export type IPublicTypeAsset = IPublicTypeAssetList | IPublicTypeAssetBundle | IPublicTypeAssetItem | IPublicTypeURL;
 
-export type AssetList = Array<Asset | undefined | null>;
+export type IPublicTypeAssetList = Array<IPublicTypeAsset | undefined | null>;
 
 /**
  * 资产包协议
  */
-export interface AssetsJson {
+export interface IPublicTypeAssetsJson {
     /**
      * 资产包协议版本号
      */
-    version?: string;
+    version?: string
     /**
      * 大包列表
      */
-    packages?: Package[];
+    packages?: IPublicTypePackage[]
     /**
      * 所有组件的描述协议列表所有组件的列表
      */
-    components?: Array<ComponentDescription | RemoteComponentDescription>;
-    sort?: ComponentSort;
+    components?: Array<IPublicTypeComponentDescription | IPublicTypeRemoteComponentDescription>
+    sort?: IPublicTypeComponentSort
 }
 
 /**
  * 用于描述组件面板中的 tab 和 category
  */
-export interface ComponentSort {
+export interface IPublicTypeComponentSort {
     /**
      * 用于描述组件面板的 tab 项及其排序，例如：["精选组件", "原子组件"]
      */
-    groupList?: string[];
+    groupList?: string[]
     /**
      * 组件面板中同一个 tab 下的不同区间用 category 区分，category 的排序依照 categoryList 顺序排列；
      */
-    categoryList?: string[];
+    categoryList?: string[]
 }
 
-export type codeType = 'proCode' | 'lowCode';
+export type IPublicTypeCodeType = 'proCode' | 'lowCode';
 
 /**
  * 定义组件大包及 external 资源的信息
  * 应该被编辑器默认加载
  */
-export interface Package {
+export interface IPublicTypePackage {
     /**
      * 资源唯一标识，如果为空，则以 package 为唯一标识
      */
-    id?: string;
+    id?: string
     /**
      * 资源标题
      */
-    title?: string;
-    type?: codeType;
+    title?: string
+    type?: IPublicTypeCodeType
     /**
      * 包名
      */
-    package: string;
+    package: string
     /**
      * 包版本号
      */
-    version: string;
+    version: string
     /**
      * 组件渲染态视图打包后的 CDN url 列表，包含 js 和 css
      */
-    urls?: string[] | any;
+    urls?: string[] | any
     /**
      * 组件编辑态视图打包后的 CDN url 列表，包含 js 和 css
      */
-    editUrls?: string[] | any;
+    editUrls?: string[] | any
     /**
      * 低代码组件的schema
      */
-    schema?: ProjectSchema;
+    schema?: IPublicTypeProjectSchema
     /**
      * 作为全局变量引用时的名称，和webpack output.library字段含义一样，用来定义全局变量名
      */
-    library: string;
+    library: string
     /**
      * 组件描述导出名字，可以通过 window[exportName] 获取到组件描述的 Object 内容；
      */
-    exportName?: string;
+    exportName?: string
     /**
      * 标识当前 package 资源加载在 window.library 上的是否是一个异步对象
      */
-    async?: boolean;
+    async?: boolean
     /**
      * 当前资源包的依赖资源的唯一标识列表
      */
-    deps?: string[];
+    deps?: string[]
 }
 
 /**
  * 本地物料描述
  */
-export interface ComponentDescription extends ComponentMetadata {
-    keywords?: string[];
+export interface IPublicTypeComponentDescription extends IPublicTypeComponentMetadata {
+    keywords?: string[]
 }
 
-export function isComponentDescription(obj: any): obj is ComponentDescription {
+export function isComponentDescription(obj: any): obj is IPublicTypeComponentDescription {
     return (
         obj && typeof obj === 'object' && typeof obj.componentName === 'string'
     );
@@ -155,19 +156,19 @@ export function isComponentDescription(obj: any): obj is ComponentDescription {
 /**
  * 远程物料描述
  */
-export interface RemoteComponentDescription {
+export interface IPublicTypeRemoteComponentDescription {
     /**
      * 组件描述导出名字，可以通过 window[exportName] 获取到组件描述的 Object 内容；
      */
-    exportName?: string;
+    exportName?: string
     /**
      * 组件描述的资源链接；
      */
-    url?: string;
+    url?: string
     /**
      * 组件(库)的 npm 信息；
      */
     package?: {
-        npm?: string;
-    };
+        npm?: string
+    }
 }

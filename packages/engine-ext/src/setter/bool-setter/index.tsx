@@ -1,5 +1,5 @@
 import { defineComponent, onMounted } from 'vue';
-import { Setter } from '@webank/letgo-types';
+import { IPublicTypeSetter } from '@webank/letgo-types';
 import { FSwitch } from '@fesjs/fes-design';
 import { isUndefined } from 'lodash-es';
 import { commonProps } from '../../common/setter-props';
@@ -30,7 +30,7 @@ const BoolSetterView = defineComponent({
     },
 });
 
-export const BoolSetter: Setter = {
+export const BoolSetter: IPublicTypeSetter = {
     type: 'BoolSetter',
     title: '布尔类型设置器',
     Component: BoolSetterView,

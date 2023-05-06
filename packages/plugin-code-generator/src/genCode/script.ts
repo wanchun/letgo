@@ -1,12 +1,12 @@
 import {
-    RootSchema,
-    ComponentMap,
-    NpmInfo,
+    IPublicTypeRootSchema,
+    IPublicTypeComponentMap,
+    IPublicTypeNpmInfo,
     isProCodeComponentType,
 } from '@webank/letgo-types';
 
-function genComponentImports(componentMaps: ComponentMap[]) {
-    const pkgs: Record<string, NpmInfo[]> = {};
+function genComponentImports(componentMaps: IPublicTypeComponentMap[]) {
+    const pkgs: Record<string, IPublicTypeNpmInfo[]> = {};
     componentMaps.forEach((componentMap) => {
         if (isProCodeComponentType(componentMap)) {
             if (pkgs[componentMap.package]) {
@@ -25,8 +25,8 @@ function genComponentImports(componentMaps: ComponentMap[]) {
 }
 
 export function genScript(
-    componentMaps: ComponentMap[],
-    rootSchema: RootSchema,
+    componentMaps: IPublicTypeComponentMap[],
+    rootSchema: IPublicTypeRootSchema,
 ) {
     if (rootSchema.code) {
         return `<script setup>

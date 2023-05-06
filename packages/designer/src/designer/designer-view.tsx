@@ -1,8 +1,9 @@
-import { defineComponent, PropType, onMounted, watch, ref } from 'vue';
-import { IEditor, ProjectSchema, ComponentMetadata } from '@webank/letgo-types';
+import type { PropType } from 'vue';
+import { defineComponent, onMounted, ref, watch } from 'vue';
+import type { IPublicTypeComponentMetadata, IPublicTypeEditor, IPublicTypeProjectSchema } from '@webank/letgo-types';
 import { FSpin } from '@fesjs/fes-design';
 import { SimulatorView } from '../simulator';
-import { Project } from '../project';
+import type { Project } from '../project';
 import { Designer } from './designer';
 import { DragHostView } from './drag-host';
 import {
@@ -64,13 +65,13 @@ export const DesignerView = defineComponent({
             type: Function as PropType<(designer: Designer) => void>,
         },
         componentMetadatas: {
-            type: Array as PropType<ComponentMetadata[]>,
+            type: Array as PropType<IPublicTypeComponentMetadata[]>,
         },
         defaultSchema: {
-            type: Object as PropType<ProjectSchema>,
+            type: Object as PropType<IPublicTypeProjectSchema>,
         },
         editor: {
-            type: Object as PropType<IEditor>,
+            type: Object as PropType<IPublicTypeEditor>,
         },
         simulatorProps: {
             type: [Object, Function] as PropType<
@@ -85,7 +86,8 @@ export const DesignerView = defineComponent({
         if (designer) {
             _designer = designer;
             _designer.setProps(designerProps);
-        } else {
+        }
+        else {
             _designer = new Designer(designerProps);
         }
 
@@ -107,9 +109,9 @@ export const DesignerView = defineComponent({
         );
 
         onMounted(() => {
-            if (props.onMount) {
+            if (props.onMount)
                 props.onMount(_designer);
-            }
+
             _designer.postEvent('mount', _designer);
         });
 

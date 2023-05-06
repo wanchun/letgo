@@ -1,7 +1,8 @@
-import { defineComponent, PropType, CSSProperties } from 'vue';
+import type { CSSProperties, PropType } from 'vue';
+import { defineComponent } from 'vue';
 import { useModel } from '@webank/letgo-utils';
 import { NCollapseItem } from 'naive-ui';
-import { FSelect, FInput } from '@fesjs/fes-design';
+import { FInput, FSelect } from '@fesjs/fes-design';
 import Row from '../../../component/row';
 import InputColor from '../../../component/input-color';
 import { addUnit, clearUnit } from '../utils';

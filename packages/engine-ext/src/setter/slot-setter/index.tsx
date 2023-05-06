@@ -1,20 +1,21 @@
-import { defineComponent, PropType, onMounted, computed } from 'vue';
-import { Setter, JSSlot } from '@webank/letgo-types';
-import { isUndefined, isNil } from 'lodash-es';
+import type { PropType } from 'vue';
+import { computed, defineComponent, onMounted } from 'vue';
+import type { IPublicTypeJSSlot, IPublicTypeSetter } from '@webank/letgo-types';
+import { isNil, isUndefined } from 'lodash-es';
 import { FSwitch } from '@fesjs/fes-design';
 import { commonProps } from '../../common/setter-props';
 import { wrapCls } from './index.css';
 
 interface Template {
     // 模板标签
-    label: string;
+    label: string
     // 模板ID
-    value: string;
+    value: string
     // 模板内容
-    content: object;
+    content: object
 }
 
-type ValueType = JSSlot & { visible: boolean; title: string };
+type ValueType = IPublicTypeJSSlot & { visible: boolean; title: string };
 
 const SlotSetterView = defineComponent({
     name: 'SlotSetterView',
@@ -32,14 +33,16 @@ const SlotSetterView = defineComponent({
                 const { value, visible } = props.value;
                 if (value) {
                     if (visible === undefined) {
-                        if (Array.isArray(value) && value.length == 0) {
+                        if (Array.isArray(value) && value.length == 0)
                             return false;
-                        } else if (Array.isArray(value) && value?.length > 0) {
+
+                        else if (Array.isArray(value) && value?.length > 0)
                             return true;
-                        } else {
+
+                        else
                             return !isNil(value);
-                        }
-                    } else {
+                    }
+                    else {
                         return visible;
                     }
                 }
@@ -56,7 +59,8 @@ const SlotSetterView = defineComponent({
                         value: null,
                     },
                 );
-            } else {
+            }
+            else {
                 onChange?.();
             }
         };
@@ -86,7 +90,7 @@ const SlotSetterView = defineComponent({
     },
 });
 
-export const SlotSetter: Setter = {
+export const SlotSetter: IPublicTypeSetter = {
     type: 'SlotSetter',
     title: '插槽设置器',
     Component: SlotSetterView,

@@ -1,17 +1,17 @@
-import { SetterType, FieldExtraProps, FieldConfig } from '@webank/letgo-types';
+import type { IPublicTypeFieldConfig, IPublicTypeFieldExtraProps, IPublicTypeSetterType } from '@webank/letgo-types';
 import { SettingProp } from './setting-prop';
-import { SettingEntry } from './types';
+import type { SettingEntry } from './types';
 
 function getSettingFieldCollectorKey(
     parent: SettingEntry,
-    config: FieldConfig,
+    config: IPublicTypeFieldConfig,
 ) {
     const path = [config.name];
     let cur = parent;
     while (cur !== parent.top) {
-        if (cur instanceof SettingField && cur.type !== 'group') {
+        if (cur instanceof SettingField && cur.type !== 'group')
             path.unshift(cur.name);
-        }
+
         cur = cur.parent;
     }
     return path.join('.');
@@ -22,9 +22,9 @@ export class SettingField extends SettingProp implements SettingEntry {
 
     readonly isRequired: boolean;
 
-    private _config: FieldConfig;
+    private _config: IPublicTypeFieldConfig;
 
-    extraProps: FieldExtraProps = {};
+    extraProps: IPublicTypeFieldExtraProps = {};
 
     // ==== dynamic properties ====
     private _title?: string;
@@ -32,17 +32,17 @@ export class SettingField extends SettingProp implements SettingEntry {
     get title() {
         // FIXME! intl
         return (
-            this._title ||
-            (typeof this.name === 'number' ? `项目 ${this.name}` : this.name)
+            this._title
+            || (typeof this.name === 'number' ? `项目 ${this.name}` : this.name)
         );
     }
 
-    private _setter?: SetterType;
+    private _setter?: IPublicTypeSetterType;
 
-    get setter(): SetterType | null {
-        if (!this._setter) {
+    get setter(): IPublicTypeSetterType | null {
+        if (!this._setter)
             return null;
-        }
+
         return this._setter;
     }
 
@@ -58,7 +58,7 @@ export class SettingField extends SettingProp implements SettingEntry {
 
     constructor(
         parent: SettingEntry,
-        config: FieldConfig,
+        config: IPublicTypeFieldConfig,
         settingFieldCollector?: (
             name: string | number,
             field: SettingField,
@@ -77,9 +77,9 @@ export class SettingField extends SettingProp implements SettingEntry {
         this._expanded = !extraProps?.defaultCollapsed;
 
         // initial items
-        if (items && items.length > 0) {
+        if (items && items.length > 0)
             this.initItems(items, settingFieldCollector);
-        }
+
         if (this.type !== 'group' && settingFieldCollector && config.name) {
             settingFieldCollector(
                 getSettingFieldCollectorKey(parent, config),
@@ -94,15 +94,15 @@ export class SettingField extends SettingProp implements SettingEntry {
         return this._items;
     }
 
-    get config(): FieldConfig {
+    get config(): IPublicTypeFieldConfig {
         return this._config;
     }
 
     private initItems(
-        items: Array<FieldConfig>,
+        items: Array<IPublicTypeFieldConfig>,
         settingFieldCollector?: {
-            (name: string | number, field: SettingField): void;
-            (name: string, field: SettingField): void;
+            (name: string | number, field: SettingField): void
+            (name: string, field: SettingField): void
         },
     ) {
         this._items = items.map((item) => {
@@ -111,29 +111,29 @@ export class SettingField extends SettingProp implements SettingEntry {
     }
 
     private disposeItems() {
-        this._items.forEach((item) => isSettingField(item) && item.purge());
+        this._items.forEach(item => isSettingField(item) && item.purge());
         this._items = [];
     }
 
     // 创建子配置项，通常用于 object/array 类型数据
-    createField(config: FieldConfig): SettingField {
+    createField(config: IPublicTypeFieldConfig): SettingField {
         return new SettingField(this, config);
     }
 
-    getConfig<K extends keyof FieldConfig>(
+    getConfig<K extends keyof IPublicTypeFieldConfig>(
         configName?: K,
-    ): FieldConfig[K] | FieldConfig {
-        if (configName) {
+    ): IPublicTypeFieldConfig[K] | IPublicTypeFieldConfig {
+        if (configName)
             return this.config[configName];
-        }
+
         return this._config;
     }
 
     getItems(filter?: (item: SettingField) => boolean): Array<SettingField> {
         return this._items.filter((item) => {
-            if (filter) {
+            if (filter)
                 return filter(item);
-            }
+
             return true;
         });
     }

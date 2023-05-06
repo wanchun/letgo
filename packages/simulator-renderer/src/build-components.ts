@@ -1,7 +1,7 @@
 import { Component, defineComponent, h } from 'vue';
 import { isFunction, isObject } from 'lodash-es';
 import { isESModule } from './utils';
-import type { ComponentSchema, NpmInfo } from '@webank/letgo-types';
+import type { IPublicTypeComponentSchema, IPublicTypeNpmInfo } from '@webank/letgo-types';
 
 export function isVueComponent(val: unknown): val is Component {
     if (isFunction(val)) return true;
@@ -13,7 +13,7 @@ export function isVueComponent(val: unknown): val is Component {
 
 export function isComponentSchema(val: unknown) {
     return (
-        isObject(val) && (val as ComponentSchema).componentName === 'Component'
+        isObject(val) && (val as IPublicTypeComponentSchema).componentName === 'Component'
     );
 }
 
@@ -66,7 +66,7 @@ export function getSubComponent(library: any, paths: string[]) {
 export function findComponent(
     libraryMap: Record<string, string>,
     componentName: string,
-    npm?: NpmInfo,
+    npm?: IPublicTypeNpmInfo,
 ) {
     if (!npm) {
         return accessLibrary(componentName);
@@ -85,8 +85,8 @@ export function findComponent(
 
 export function buildComponents(
     libraryMap: Record<string, string>,
-    componentsMap: Record<string, NpmInfo | Component | ComponentSchema>,
-    createComponent?: (schema: ComponentSchema) => Component | null,
+    componentsMap: Record<string, IPublicTypeNpmInfo | Component | IPublicTypeComponentSchema>,
+    createComponent?: (schema: IPublicTypeComponentSchema) => Component | null,
 ) {
     const components: any = {};
     Object.keys(componentsMap).forEach((componentName) => {
@@ -94,7 +94,7 @@ export function buildComponents(
         if (isComponentSchema(component)) {
             if (createComponent) {
                 components[componentName] = createComponent(
-                    component as ComponentSchema,
+                    component as IPublicTypeComponentSchema,
                 );
             }
         } else if (isVueComponent(component)) {
@@ -103,7 +103,7 @@ export function buildComponents(
             component = findComponent(
                 libraryMap,
                 componentName,
-                component as NpmInfo,
+                component as IPublicTypeNpmInfo,
             );
             if (component) {
                 components[componentName] = component;

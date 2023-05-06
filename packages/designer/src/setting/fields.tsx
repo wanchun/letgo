@@ -1,23 +1,24 @@
-import { defineComponent, PropType } from 'vue';
+import type { PropType } from 'vue';
+import { defineComponent } from 'vue';
 import {
     accordionFieldCls,
+    blockFieldCls,
+    bodyCls,
+    entryFieldCls,
+    headerCls,
     inlineFieldCls,
     plainFieldCls,
-    blockFieldCls,
     popupFieldCls,
-    entryFieldCls,
-    bodyCls,
-    headerCls,
 } from './fields.css';
 
 export interface IFieldProps {
-    name?: string;
-    title?: string | null;
-    display?: 'accordion' | 'inline' | 'block' | 'plain' | 'popup' | 'entry';
-    collapsed?: boolean;
-    valueState?: number;
-    onExpandChange?: (expandState: boolean) => void;
-    onClear?: () => void;
+    name?: string
+    title?: string | null
+    display?: 'accordion' | 'inline' | 'block' | 'plain' | 'popup' | 'entry'
+    collapsed?: boolean
+    valueState?: number
+    onExpandChange?: (expandState: boolean) => void
+    onClear?: () => void
 }
 
 const fieldClsMap = {

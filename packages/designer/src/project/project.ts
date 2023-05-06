@@ -1,10 +1,10 @@
 import { EventEmitter } from 'eventemitter3';
 import { shallowRef, ShallowRef, watch } from 'vue';
 import {
-    ProjectSchema,
-    RootSchema,
+    IPublicTypeProjectSchema,
+    IPublicTypeRootSchema,
     TransformStage,
-    ComponentsMap,
+    IPublicTypeComponentsMap,
     isProCodeComponentType,
     isLowCodeComponentType,
 } from '@webank/letgo-types';
@@ -15,7 +15,7 @@ import { DocumentModel } from '../document';
 export class Project {
     private emitter = new EventEmitter();
 
-    private data: ProjectSchema = {
+    private data: IPublicTypeProjectSchema = {
         version: '1.0.0',
         componentsMap: [],
         componentsTree: [],
@@ -38,16 +38,16 @@ export class Project {
         this._config = value;
     }
 
-    constructor(readonly designer: Designer, schema?: ProjectSchema) {
+    constructor(readonly designer: Designer, schema?: IPublicTypeProjectSchema) {
         watch(this.currentDocument, () => {
             this.emitter.emit('current-document.change', this.currentDocument);
         });
         this.load(schema);
     }
 
-    private getComponentsMap(): ComponentsMap {
+    private getComponentsMap(): IPublicTypeComponentsMap {
         return this.documents.reduce(
-            (componentsMap: ComponentsMap, curDoc: DocumentModel) => {
+            (componentsMap: IPublicTypeComponentsMap, curDoc: DocumentModel) => {
                 const curComponentsMap = curDoc.getComponentsMap();
                 if (Array.isArray(curComponentsMap)) {
                     curComponentsMap.forEach((item) => {
@@ -73,14 +73,14 @@ export class Project {
                 }
                 return componentsMap;
             },
-            [] as ComponentsMap,
+            [] as IPublicTypeComponentsMap,
         );
     }
 
     /**
      * 获取项目整体 schema
      */
-    getSchema(stage: TransformStage = TransformStage.Save): ProjectSchema {
+    getSchema(stage: TransformStage = TransformStage.Save): IPublicTypeProjectSchema {
         return {
             ...this.data,
             componentsMap: this.getComponentsMap(),
@@ -88,7 +88,7 @@ export class Project {
         };
     }
 
-    load(schema?: ProjectSchema, autoOpen?: boolean | string) {
+    load(schema?: IPublicTypeProjectSchema, autoOpen?: boolean | string) {
         this.unload();
         // load new document
         this.data = {
@@ -126,7 +126,7 @@ export class Project {
         }
     }
 
-    open(doc?: string | DocumentModel | RootSchema): DocumentModel | null {
+    open(doc?: string | DocumentModel | IPublicTypeRootSchema): DocumentModel | null {
         if (typeof doc === 'string') {
             const got = this.documents.find(
                 (item) => item.fileName === doc || item.id === doc,
@@ -155,7 +155,7 @@ export class Project {
         return doc;
     }
 
-    createDocument(data?: RootSchema): DocumentModel {
+    createDocument(data?: IPublicTypeRootSchema): DocumentModel {
         const doc = new DocumentModel(
             this,
             data || this?.data?.componentsTree?.[0],

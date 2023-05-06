@@ -1,5 +1,5 @@
 import { defineComponent, onMounted } from 'vue';
-import { Setter } from '@webank/letgo-types';
+import { IPublicTypeSetter } from '@webank/letgo-types';
 import { isUndefined } from 'lodash-es';
 import { FInput } from '@fesjs/fes-design';
 import { commonProps } from '../../common/setter-props';
@@ -33,7 +33,7 @@ const TextareaSetterView = defineComponent({
     },
 });
 
-export const TextareaSetter: Setter = {
+export const TextareaSetter: IPublicTypeSetter = {
     type: 'TextareaSetter',
     title: '多行文本设置器',
     Component: TextareaSetterView,

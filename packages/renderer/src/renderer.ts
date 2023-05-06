@@ -1,18 +1,19 @@
-import { PropType, Component, h, computed, defineComponent } from 'vue';
+import type { Component, PropType } from 'vue';
+import { computed, defineComponent, h } from 'vue';
+import type { IPublicTypeRootSchema } from '@webank/letgo-types';
 import config from './config';
 import { RENDERER_COMPS } from './renderers';
-import type { RootSchema } from '@webank/letgo-types';
 
 interface RendererProps {
-    schema: RootSchema;
-    components: Record<string, Component>;
-    device?: string;
+    schema: IPublicTypeRootSchema
+    components: Record<string, Component>
+    device?: string
 }
 
 const Renderer = defineComponent({
     props: {
         schema: {
-            type: Object as PropType<RootSchema>,
+            type: Object as PropType<IPublicTypeRootSchema>,
             required: true,
         },
         components: {
@@ -34,22 +35,22 @@ const Renderer = defineComponent({
         const renderContent = () => {
             const { value: components } = componentsRef;
             const { schema } = props;
-            if (!schema) return null;
+            if (!schema)
+                return null;
 
             const { componentName } = schema!;
-            let Comp =
-                components[componentName] ||
-                components[`${componentName}Renderer`];
-            if (Comp && !(Comp as any).__renderer__) {
+            let Comp
+                = components[componentName]
+                || components[`${componentName}Renderer`];
+            if (Comp && !(Comp as any).__renderer__)
                 Comp = RENDERER_COMPS[`${componentName}Renderer`];
-            }
 
             return Comp
                 ? h(Comp, {
-                      key: schema.id,
-                      __schema: schema,
-                      __components: components,
-                  } as any)
+                    key: schema.id,
+                    __schema: schema,
+                    __components: components,
+                } as any)
                 : null;
         };
 

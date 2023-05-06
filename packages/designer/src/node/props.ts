@@ -1,8 +1,8 @@
 import { uniqueId } from '@webank/letgo-utils';
 import {
-    PropsList,
-    PropsMap,
-    CompositeValue,
+    IPublicTypePropsList,
+    IPublicTypePropsMap,
+    IPublicTypeCompositeValue,
     TransformStage,
 } from '@webank/letgo-types';
 import { shallowRef, ShallowRef, triggerRef } from 'vue';
@@ -52,7 +52,7 @@ export class Props implements IPropParent {
 
     constructor(
         owner: Node,
-        value?: PropsMap | PropsList | null,
+        value?: IPublicTypePropsMap | IPublicTypePropsList | null,
         extras?: ExtrasObject,
     ) {
         this.owner = owner;
@@ -74,7 +74,7 @@ export class Props implements IPropParent {
         }
     }
 
-    import(value?: PropsMap | PropsList | null, extras?: ExtrasObject) {
+    import(value?: IPublicTypePropsMap | IPublicTypePropsList | null, extras?: ExtrasObject) {
         this.items.value.forEach((item) => item.purge());
         this.itemMap.clear();
         this.items.value = [];
@@ -100,7 +100,7 @@ export class Props implements IPropParent {
     }
 
     export(stage: TransformStage = TransformStage.Save): {
-        props?: PropsMap | PropsList;
+        props?: IPublicTypePropsMap | IPublicTypePropsList;
         extras?: ExtrasObject;
     } {
         if (this.items.value.length < 1) {
@@ -147,7 +147,7 @@ export class Props implements IPropParent {
         return { props, extras };
     }
 
-    merge(value: PropsMap, extras?: PropsMap) {
+    merge(value: IPublicTypePropsMap, extras?: IPublicTypePropsMap) {
         Object.keys(value).forEach((key) => {
             this.getProp(key).setValue(value[key]);
         });
@@ -197,7 +197,7 @@ export class Props implements IPropParent {
         return this.itemMap.has(getConvertedExtraKey(key));
     }
 
-    add(key: string | number, value: CompositeValue | null | UNSET): Prop {
+    add(key: string | number, value: IPublicTypeCompositeValue | null | UNSET): Prop {
         const prop = new Prop(this, value, key);
         this.items.value.push(prop);
         this.itemMap.set(prop.key, prop);
@@ -205,7 +205,7 @@ export class Props implements IPropParent {
         return prop;
     }
 
-    addExtra(key: string | number, value: CompositeValue | null | UNSET): Prop {
+    addExtra(key: string | number, value: IPublicTypeCompositeValue | null | UNSET): Prop {
         return this.add(getConvertedExtraKey(String(key)), value);
     }
 

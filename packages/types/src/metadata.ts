@@ -1,16 +1,16 @@
 import type { Slot } from 'vue';
-import type { PropConfig, PropType } from './prop-config';
-import type { NpmInfo } from './npm';
-import type { ComponentSchema, NodeSchema } from './schema';
-import type { IconType } from './icon';
-import type { FieldConfig } from './field-config';
+import type { IPublicTypeProp, IPublicTypePropConfig } from './prop-config';
+import type { IPublicTypeNpmInfo } from './npm';
+import type { IPublicTypeComponentSchema, IPublicTypeNodeSchema } from './schema';
+import type { IPublicTypeIcon } from './icon';
+import type { IPublicTypeFieldConfig } from './field-config';
 
 /**
  * 可用片段
  *
  * 内容为组件不同状态下的低代码 schema (可以有多个)，用户从组件面板拖入组件到设计器时会向页面 schema 中插入 snippets 中定义的组件低代码 schema
  */
-export interface Snippet {
+export interface IPublicTypeSnippet {
     /**
      * 组件分类title
      */
@@ -22,35 +22,35 @@ export interface Snippet {
     /**
      * 待插入的 schema
      */
-    schema: NodeSchema
+    schema: IPublicTypeNodeSchema
 }
 
 /**
  * 编辑体验配置
  */
-export interface Configure {
+export interface IPublicTypeConfigure {
     /**
      * 属性面板配置
      */
-    props?: FieldConfig[]
+    props?: IPublicTypeFieldConfig[]
     /**
      * 组件能力配置
      */
-    component?: ComponentConfigure
+    component?: IPublicTypeComponentConfigure
     /**
      * 通用扩展面板支持性配置
      */
-    supports?: ConfigureSupport
+    supports?: IPublicTypeConfigureSupport
     /**
      * 高级特性配置
      */
-    advanced?: Advanced
+    advanced?: IPublicTypeAdvanced
 }
 
 /**
  * 组件 meta 配置
  */
-export interface ComponentMetadata {
+export interface IPublicTypeComponentMetadata {
     /**
      * 组件名
      */
@@ -78,23 +78,23 @@ export interface ComponentMetadata {
     /**
      * npm 源引入完整描述对象
      */
-    npm?: NpmInfo
+    npm?: IPublicTypeNpmInfo
     /**
      * lowCode组件的 schema
      */
-    schema?: ComponentSchema
+    schema?: IPublicTypeComponentSchema
     /**
      * 组件属性信息
      */
-    props?: PropConfig[]
+    props?: IPublicTypePropConfig[]
     /**
      * 编辑体验增强
      */
-    configure?: Configure
+    configure?: IPublicTypeConfigure
     /**
      * 可用片段
      */
-    snippets?: Snippet[]
+    snippets?: IPublicTypeSnippet[]
     /**
      * 一级分组
      */
@@ -109,45 +109,45 @@ export interface ComponentMetadata {
     priority?: number
 }
 
-export interface TransformedComponentMetadata extends ComponentMetadata {
-    configure: Configure & { combined?: FieldConfig[] }
+export interface IPublicTypeTransformedComponentMetadata extends IPublicTypeComponentMetadata {
+    configure: IPublicTypeConfigure & { combined?: IPublicTypeFieldConfig[] }
 }
 
 /**
  * 嵌套控制函数
  */
-export type NestingFilter = (testNode: any, currentNode?: any) => boolean;
+export type IPublicTypeNestingFilter = (testNode: any, currentNode?: any) => boolean;
 /**
  * 嵌套控制
  * 防止错误的节点嵌套，比如 a 嵌套 a, FormField 只能在 Form 容器下，Column 只能在 Table 下等
  */
-export interface NestingRule {
+export interface IPublicTypeNestingRule {
     /**
      * 子级白名单
      */
-    childWhitelist?: string[] | string | RegExp | NestingFilter
+    childWhitelist?: string[] | string | RegExp | IPublicTypeNestingFilter
     /**
      * 父级白名单
      */
-    parentWhitelist?: string[] | string | RegExp | NestingFilter
+    parentWhitelist?: string[] | string | RegExp | IPublicTypeNestingFilter
     /**
      * 后裔白名单
      */
-    descendantWhitelist?: string[] | string | RegExp | NestingFilter
+    descendantWhitelist?: string[] | string | RegExp | IPublicTypeNestingFilter
     /**
      * 后裔黑名单
      */
-    descendantBlacklist?: string[] | string | RegExp | NestingFilter
+    descendantBlacklist?: string[] | string | RegExp | IPublicTypeNestingFilter
     /**
      * 祖先白名单 可用来做区域高亮
      */
-    ancestorWhitelist?: string[] | string | RegExp | NestingFilter
+    ancestorWhitelist?: string[] | string | RegExp | IPublicTypeNestingFilter
 }
 
 /**
  * 组件能力配置
  */
-export interface ComponentConfigure {
+export interface IPublicTypeComponentConfigure {
     /**
      * 是否容器组件
      */
@@ -164,7 +164,7 @@ export interface ComponentConfigure {
      * 嵌套控制：防止错误的节点嵌套
      * 比如 a 嵌套 a, FormField 只能在 Form 容器下，Column 只能在 Table 下等
      */
-    nestingRule?: NestingRule
+    nestingRule?: IPublicTypeNestingRule
 
     /**
      * 是否是最小渲染单元
@@ -183,25 +183,25 @@ export interface ComponentConfigure {
     /**
      * 用于详细配置上述操作项的内容
      */
-    actions?: ComponentAction[]
+    actions?: IPublicTypeComponentAction[]
 }
 
-export type ConfigureSupportEvent =
+export type IPublicTypeConfigureSupportEvent =
     | string
     | {
         name: string
-        propType?: PropType
+        propType?: IPublicTypeProp
         description?: string
     };
 
 /**
  * 通用扩展面板支持性配置
  */
-export interface ConfigureSupport {
+export interface IPublicTypeConfigureSupport {
     /**
      * 支持事件列表
      */
-    events?: ConfigureSupportEvent[]
+    events?: IPublicTypeConfigureSupportEvent[]
     methods?: string[] // TODO 具体类型后续补充
     /**
      * 支持 className 设置
@@ -224,11 +224,11 @@ export interface ConfigureSupport {
 /**
  * 动作描述
  */
-export interface ActionContentObject {
+export interface IPublicTypeActionContent {
     /**
      * 图标
      */
-    icon?: IconType
+    icon?: IPublicTypeIcon
     /**
      * 描述
      */
@@ -239,9 +239,9 @@ export interface ActionContentObject {
     action?: (currentNode: any) => void
 }
 
-export type ComponentActionType = string | ActionContentObject | Slot;
+export type IPublicTypeComponentActionContent = string | IPublicTypeActionContent | Slot;
 
-export interface ComponentAction {
+export interface IPublicTypeComponentAction {
     /**
      * behaviorName
      */
@@ -249,11 +249,11 @@ export interface ComponentAction {
     /**
      * 菜单名称
      */
-    content: ComponentActionType
+    content: IPublicTypeComponentActionContent
     /**
      * 子集
      */
-    items?: ComponentAction[]
+    items?: IPublicTypeComponentAction[]
     /**
      * 显示与否
      * always: 无法禁用
@@ -265,21 +265,21 @@ export interface ComponentAction {
     important?: boolean
 }
 
-export function isActionContentObject(obj: any): obj is ActionContentObject {
+export function isActionContentObject(obj: any): obj is IPublicTypeActionContent {
     return obj && typeof obj === 'object';
 }
 
-export interface Advanced {
+export interface IPublicTypeAdvanced {
     /**
      * 配置 callbacks 可捕获引擎抛出的一些事件，例如 onNodeAdd、onResize 等
      */
-    callbacks?: Callbacks
+    callbacks?: IPublicTypeCallbacks
 }
 
 /**
  * 配置 callbacks 可捕获引擎抛出的一些事件，例如 onNodeAdd、onResize 等
  */
-export interface Callbacks {
+export interface IPublicTypeCallbacks {
     // hooks
     onMouseDownHook?: (e: MouseEvent, currentNode: any) => any
     onDblClickHook?: (e: MouseEvent, currentNode: any) => any

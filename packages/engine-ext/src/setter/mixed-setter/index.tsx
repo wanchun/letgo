@@ -1,41 +1,44 @@
-import { defineComponent, computed, ref, Ref, PropType } from 'vue';
-import {
-    Setter,
-    isSetterConfig,
-    DynamicProps,
-    CustomView,
-    SetterType,
+import type { PropType, Ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
+import type {
+    IPublicTypeCustomView,
+    IPublicTypeDynamicProps,
+    IPublicTypeSetter,
+    IPublicTypeSetterType,
 } from '@webank/letgo-types';
 import {
-    SettingField,
+    isSetterConfig,
+} from '@webank/letgo-types';
+import type { SettingField } from '@webank/letgo-designer';
+import {
     SetterFactory,
     createSetterContent,
 } from '@webank/letgo-designer';
 import { FDropdown } from '@fesjs/fes-design';
 import { Switch } from '@icon-park/vue-next';
 import { commonProps } from '../../common/setter-props';
-import { wrapperCls, contentCls, actionsCls, iconCls } from './index.css';
+import { actionsCls, contentCls, iconCls, wrapperCls } from './index.css';
 
-type SetterItem = {
-    name: string;
-    title: string;
-    setter: string | CustomView;
-    props?: object | DynamicProps;
-    condition?: (field: SettingField) => boolean;
-    defaultValue?: any;
-};
+interface SetterItem {
+    name: string
+    title: string
+    setter: string | IPublicTypeCustomView
+    props?: object | IPublicTypeDynamicProps
+    condition?: (field: SettingField) => boolean
+    defaultValue?: any
+}
 
-const normalizeSetters = (setters?: Array<SetterType>): SetterItem[] => {
-    if (!setters) {
+function normalizeSetters(setters?: Array<IPublicTypeSetterType>): SetterItem[] {
+    if (!setters)
         return [];
-    }
+
     const names: string[] = [];
     function generateName(n: string) {
         let idx = 1;
         let got = n;
-        while (names.indexOf(got) > -1) {
+        while (names.includes(got))
             got = `${n}:${idx++}`;
-        }
+
         names.push(got);
         return got;
     }
@@ -48,7 +51,8 @@ const normalizeSetters = (setters?: Array<SetterType>): SetterItem[] => {
                 const info = SetterFactory.getSetter(setter.componentName);
                 config.name = info?.type || generateName('CustomSetter');
                 config.title = setter.title || info?.title;
-            } else {
+            }
+            else {
                 config.name = generateName('CustomSetter');
                 config.title = setter.title;
             }
@@ -60,19 +64,18 @@ const normalizeSetters = (setters?: Array<SetterType>): SetterItem[] => {
         if (typeof setter === 'string') {
             const info = SetterFactory.getSetter(config.setter);
             config.name = setter;
-            if (!config.title) {
+            if (!config.title)
                 config.title = info?.title || config.setter;
-            }
-            if (!config.condition) {
+
+            if (!config.condition)
                 config.condition = info?.condition;
-            }
         }
-        if (!config.title) {
+        if (!config.title)
             config.title = config.name;
-        }
+
         return config;
     });
-    const hasComplexSetter = formattedSetters.filter((item) =>
+    const hasComplexSetter = formattedSetters.filter(item =>
         ['ArraySetter', 'ObjectSetter'].includes(item.setter),
     ).length;
     return formattedSetters.map((item) => {
@@ -82,13 +85,13 @@ const normalizeSetters = (setters?: Array<SetterType>): SetterItem[] => {
         }
         return item;
     });
-};
+}
 
 const MixedSetterView = defineComponent({
     name: 'MixedSetterView',
     props: {
         ...commonProps,
-        setters: Array as PropType<Array<SetterType>>,
+        setters: Array as PropType<Array<IPublicTypeSetterType>>,
         onSetterChange: Function as PropType<
             (field: SettingField, name: string) => void
         >,
@@ -129,18 +132,17 @@ const MixedSetterView = defineComponent({
             let firstMatched: SetterItem | undefined;
             let firstDefault: SetterItem | undefined;
             for (const setter of setters.value) {
-                if (setter.name === currentSetterName.value) {
+                if (setter.name === currentSetterName.value)
                     return setter;
-                }
+
                 if (!setter.condition) {
-                    if (!firstDefault) {
+                    if (!firstDefault)
                         firstDefault = setter;
-                    }
+
                     continue;
                 }
-                if (!firstMatched && setter.condition(field)) {
+                if (!firstMatched && setter.condition(field))
                     firstMatched = setter;
-                }
             }
             return firstMatched || firstDefault || setters.value[0];
         });
@@ -151,18 +153,17 @@ const MixedSetterView = defineComponent({
         ) => {
             const { field, ...restProps } = props;
             if (!currentSetter) {
-                if (restProps.value == null) {
+                if (restProps.value == null)
                     return <span>NullValue</span>;
-                } else {
+
+                else
                     return <span>InvalidValue</span>;
-                }
             }
             let setterProps: any = {};
             if (currentSetter.props) {
                 setterProps = currentSetter.props;
-                if (typeof setterProps === 'function') {
+                if (typeof setterProps === 'function')
                     setterProps = setterProps(field);
-                }
             }
 
             return createSetterContent(currentSetter.setter, {
@@ -211,7 +212,7 @@ const MixedSetterView = defineComponent({
     },
 });
 
-export const MixedSetter: Setter = {
+export const MixedSetter: IPublicTypeSetter = {
     type: 'MixedSetter',
     title: '混合设置器',
     Component: MixedSetterView,

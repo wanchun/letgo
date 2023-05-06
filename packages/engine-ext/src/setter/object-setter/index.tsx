@@ -1,5 +1,6 @@
-import { defineComponent, onMounted, PropType, computed } from 'vue';
-import { Setter, FieldConfig, SetterType } from '@webank/letgo-types';
+import type { PropType } from 'vue';
+import { computed, defineComponent, onMounted } from 'vue';
+import type { IPublicTypeFieldConfig, IPublicTypeSetter, IPublicTypeSetterType } from '@webank/letgo-types';
 import { createSettingFieldView } from '@webank/letgo-designer';
 import { commonProps } from '../../common/setter-props';
 import { wrapperCls } from './index.css';
@@ -10,8 +11,8 @@ const ObjectSetterView = defineComponent({
         ...commonProps,
         value: Object,
         defaultValue: Object,
-        items: Object as PropType<FieldConfig[]>,
-        extraSetter: [String, Object, Array] as PropType<SetterType>,
+        items: Object as PropType<IPublicTypeFieldConfig[]>,
+        extraSetter: [String, Object, Array] as PropType<IPublicTypeSetterType>,
     },
     setup(props) {
         onMounted(() => {
@@ -33,7 +34,7 @@ const ObjectSetterView = defineComponent({
                 });
                 return field.items;
             }
-            return (items || []).map((conf) =>
+            return (items || []).map(conf =>
                 field.createField({
                     ...conf,
                     setValue: extraProps?.setValue,
@@ -44,14 +45,14 @@ const ObjectSetterView = defineComponent({
         return () => {
             return (
                 <div class={wrapperCls}>
-                    {items.value.map((item) => createSettingFieldView(item))}
+                    {items.value.map(item => createSettingFieldView(item))}
                 </div>
             );
         };
     },
 });
 
-export const ObjectSetter: Setter = {
+export const ObjectSetter: IPublicTypeSetter = {
     type: 'ObjectSetter',
     title: '对象设置器',
     Component: ObjectSetterView,

@@ -1,17 +1,17 @@
-import { NpmInfo } from './npm';
-import { JSExpression, JSFunction } from './value-type';
+import type { IPublicTypeNpmInfo } from './npm';
+import type { IPublicTypeJSExpression, IPublicTypeJSFunction } from './value-type';
 
-export type InternalUtils = {
-    name: string;
-    type: 'function';
-    content: JSFunction | JSExpression;
-};
+export interface IPublicTypeInternalUtils {
+    name: string
+    type: 'function'
+    content: IPublicTypeJSFunction | IPublicTypeJSExpression
+}
 
-export type ExternalUtils = {
-    name: string;
-    type: 'npm' | 'wnpm';
-    content: NpmInfo;
-};
+export interface IPublicTypeExternalUtils {
+    name: string
+    type: 'npm' | 'wnpm'
+    content: IPublicTypeNpmInfo
+}
 
-export type UtilItem = InternalUtils | ExternalUtils;
-export type UtilsMap = UtilItem[];
+export type IPublicTypeUtilItem = IPublicTypeInternalUtils | IPublicTypeExternalUtils;
+export type IPublicTypeUtilsMap = IPublicTypeUtilItem[];

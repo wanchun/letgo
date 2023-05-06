@@ -9,6 +9,7 @@
         "strictNullChecks": false,
         "forceConsistentCasingInFileNames": true,
         "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true,
         "resolveJsonModule": true,
         "skipLibCheck": true,
         "composite": true,

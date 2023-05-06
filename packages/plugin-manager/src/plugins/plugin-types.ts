@@ -1,7 +1,7 @@
 import { Logger } from '@webank/letgo-utils';
 import { EngineConfig, Editor } from '@webank/letgo-editor-core';
 import { Designer } from '@webank/letgo-designer';
-import { CompositeObject } from '@webank/letgo-types';
+import { IPublicTypeCompositeObject } from '@webank/letgo-types';
 import { Skeleton, Hotkey, Setters, Project, Material } from '../shell';
 
 export type PreferenceValueType = string | number | boolean;
@@ -103,7 +103,7 @@ export interface IPluginManagerCore {
     register(
         pluginConfig: IPluginConfig,
         pluginOptions?: any,
-        registerOptions?: CompositeObject,
+        registerOptions?: IPublicTypeCompositeObject,
     ): Promise<void>;
     init(
         pluginPreference?: Map<string, Record<string, PreferenceValueType>>,

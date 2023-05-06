@@ -2,10 +2,10 @@ import { Router } from 'vue-router';
 import { Config } from '@webank/letgo-renderer';
 import { Component, App } from 'vue';
 import {
-    ComponentSchema,
-    NpmInfo,
-    RootSchema,
-    ComponentInstance,
+    IPublicTypeComponentSchema,
+    IPublicTypeNpmInfo,
+    IPublicTypeRootSchema,
+    IPublicTypeComponentInstance,
 } from '@webank/letgo-types';
 import {
     ISimulatorRenderer,
@@ -13,7 +13,7 @@ import {
     Node,
 } from '@webank/letgo-designer';
 
-export type MixedComponent = NpmInfo | Component | ComponentSchema;
+export type MixedComponent = IPublicTypeNpmInfo | Component | IPublicTypeComponentSchema;
 
 export interface SimulatorViewLayout {
     Component?: Component;
@@ -44,11 +44,11 @@ export interface DocumentInstance {
     readonly key: string;
     readonly path: string;
     readonly document: DocumentModel;
-    readonly instancesMap: Map<string, ComponentInstance[]>;
-    readonly schema: RootSchema;
-    getComponentInstance(id: number): ComponentInstance | null;
-    mountInstance(id: string, instance: ComponentInstance): (() => void) | void;
-    unmountInstance(id: string, instance: ComponentInstance): void;
+    readonly instancesMap: Map<string, IPublicTypeComponentInstance[]>;
+    readonly schema: IPublicTypeRootSchema;
+    getComponentInstance(id: number): IPublicTypeComponentInstance | null;
+    mountInstance(id: string, instance: IPublicTypeComponentInstance): (() => void) | void;
+    unmountInstance(id: string, instance: IPublicTypeComponentInstance): void;
     rerender(): void;
     getNode(id: string): Node | null;
 }

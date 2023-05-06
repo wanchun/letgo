@@ -1,9 +1,9 @@
-import { SettingTarget } from '@webank/letgo-types';
+import { IPublicTypeSettingTarget } from '@webank/letgo-types';
 import { ComponentMeta } from '../component-meta';
 import { Designer } from '../designer';
 import { Node } from '../node';
 
-export interface SettingEntry extends SettingTarget {
+export interface SettingEntry extends IPublicTypeSettingTarget {
     readonly nodes: Node[];
     readonly componentMeta: ComponentMeta | null;
     readonly designer: Designer;

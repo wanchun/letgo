@@ -1,16 +1,17 @@
-import { defineComponent, PropType, onMounted, ref, Ref, watch } from 'vue';
-import { Setter } from '@webank/letgo-types';
+import type { PropType, Ref } from 'vue';
+import { defineComponent, onMounted, ref, watch } from 'vue';
+import type { IPublicTypeSetter } from '@webank/letgo-types';
 import {
-    FSelect,
     FForm,
     FFormItem,
+    FSelect,
     FSpace,
     FTable,
     FTableColumn,
 } from '@fesjs/fes-design';
-import { Setting, Delete } from '@icon-park/vue-next';
+import { Delete, Setting } from '@icon-park/vue-next';
 import { commonProps } from '../../common/setter-props';
-import { pointerCls, lightCls } from './index.css';
+import { lightCls, pointerCls } from './index.css';
 
 const DEFINITION_EVENT_TYPE = {
     EVENTS: 'events',
@@ -20,24 +21,24 @@ const DEFINITION_EVENT_TYPE = {
 
 type EventList = Array<{ name: string; description?: string }>;
 
-type EventDefinition = {
-    type: 'events' | 'nativeEvents' | 'lifeCycleEvent';
-    title: string;
-    list: EventList;
-};
+interface EventDefinition {
+    type: 'events' | 'nativeEvents' | 'lifeCycleEvent'
+    title: string
+    list: EventList
+}
 
 type OptionList = Array<{
-    value: string;
-    label: string;
-    description?: string;
+    value: string
+    label: string
+    description?: string
 }>;
 
-type EventType = {
-    value: string;
-    label: string;
-    list: OptionList;
-    choose: string[];
-};
+interface EventType {
+    value: string
+    label: string
+    list: OptionList
+    choose: string[]
+}
 
 function transformList(list: EventList): OptionList {
     return list.map((event) => {
@@ -129,9 +130,8 @@ const EventSetterView = defineComponent({
         const handleDelete = (row: any) => {
             const { name, target } = row;
             const index = target.choose.indexOf(name);
-            if (index !== -1) {
+            if (index !== -1)
                 target.choose.splice(index, 1);
-            }
         };
 
         onMounted(() => {
@@ -154,8 +154,8 @@ const EventSetterView = defineComponent({
                                                 value,
                                                 description,
                                             }: {
-                                                value: string;
-                                                description: string;
+                                                value: string
+                                                description: string
                                             }) => {
                                                 return (
                                                     <FSpace justify="space-between">
@@ -205,7 +205,7 @@ const EventSetterView = defineComponent({
     },
 });
 
-export const EventSetter: Setter = {
+export const EventSetter: IPublicTypeSetter = {
     type: 'EventSetter',
     title: '事件设置器',
     Component: EventSetterView,

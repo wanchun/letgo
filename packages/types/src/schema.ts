@@ -1,24 +1,24 @@
 import type {
-    CompositeObject,
-    CompositeValue,
-    JSExpression,
-    JSONObject,
+    IPublicTypeCompositeObject,
+    IPublicTypeCompositeValue,
+    IPublicTypeJSExpression,
+    IPublicTypeJSONObject,
 } from './value-type';
-import type { ComponentsMap } from './npm';
-import type { UtilsMap } from './utils';
-import type { AppConfig } from './app-config';
+import type { IPublicTypeComponentsMap } from './npm';
+import type { IPublicTypeUtilsMap } from './utils';
+import type { IPublicTypeAppConfig } from './app-config';
 
-export interface Directive {
+export interface IPublicTypeDirective {
     name: string
-    value: CompositeValue
-    arg?: CompositeValue
+    value: IPublicTypeCompositeValue
+    arg?: IPublicTypeCompositeValue
     modifiers: string[]
 }
 
 /**
  * 搭建基础协议 - 单个组件树节点描述
  */
-export interface NodeSchema {
+export interface IPublicTypeNodeSchema {
     id?: string
     /**
      * 组件 ref
@@ -33,31 +33,31 @@ export interface NodeSchema {
      */
     title?: string
     /**
-     * 节点描述
+     * 组件描述
      */
     description?: string
     /**
      * 组件属性对象
      */
     props?: {
-        children?: NodeData | NodeData[]
-    } & PropsMap
+        children?: IPublicTypeNodeData | IPublicTypeNodeData[]
+    } & IPublicTypePropsMap
     /**
      * 组件指令数组
      */
-    directives?: Directive[]
+    directives?: IPublicTypeDirective[]
     /**
      * 渲染条件
      */
-    condition?: CompositeValue
+    condition?: IPublicTypeCompositeValue
     /**
      * 显示条件
      */
-    visible?: CompositeValue
+    visible?: IPublicTypeCompositeValue
     /**
      * 循环数据
      */
-    loop?: CompositeValue
+    loop?: IPublicTypeCompositeValue
     /**
      * 循环迭代对象、索引名称 ["item", "index"]
      */
@@ -65,28 +65,27 @@ export interface NodeSchema {
     /**
      * 子节点
      */
-    children?: NodeData | NodeData[]
+    children?: IPublicTypeNodeData | IPublicTypeNodeData[]
 }
 
-export type PropsMap = CompositeObject;
-export type PropsList = Array<{
+export type IPublicTypePropsMap = IPublicTypeCompositeObject;
+export type IPublicTypePropsList = Array<{
     name?: string
-    value: CompositeValue
+    value: IPublicTypeCompositeValue
 }>;
 
-export type NodeData = NodeSchema | JSExpression | DOMText;
-export type NodeDataType = NodeData | NodeData[];
+export type IPublicTypeNodeData = IPublicTypeNodeSchema | IPublicTypeJSExpression | IPublicTypeDOMText;
 
-export function isDOMText(data: any): data is DOMText {
+export function isDOMText(data: any): data is IPublicTypeDOMText {
     return typeof data === 'string';
 }
 
-export type DOMText = string;
+export type IPublicTypeDOMText = string;
 
 /**
  * 容器结构描述
  */
-export interface ContainerSchema extends NodeSchema {
+export interface IPublicTypeContainerSchema extends IPublicTypeNodeSchema {
     /**
      * 'Block' | 'Page' | 'Component';
      */
@@ -106,45 +105,45 @@ export interface ContainerSchema extends NodeSchema {
     /**
      * 低代码业务组件默认属性
      */
-    defaultProps?: CompositeObject
+    defaultProps?: IPublicTypeCompositeObject
 }
 
 /**
  * 页面容器
  */
-export interface PageSchema extends ContainerSchema {
+export interface IPublicTypePageSchema extends IPublicTypeContainerSchema {
     componentName: 'Page'
 }
 
 /**
  * 低代码业务组件容器
  */
-export interface ComponentSchema extends ContainerSchema {
+export interface IPublicTypeComponentSchema extends IPublicTypeContainerSchema {
     componentName: 'Component'
 }
 
 /**
  * 区块容器
  */
-export interface BlockSchema extends ContainerSchema {
+export interface IPublicTypeBlockSchema extends IPublicTypeContainerSchema {
     componentName: 'Block'
 }
-
-export type RootSchema = PageSchema | ComponentSchema | BlockSchema;
 
 /**
  * Slot schema 描述
  */
-export interface SlotSchema extends NodeSchema {
+export interface IPublicTypeSlotSchema extends IPublicTypeNodeSchema {
     componentName: 'Slot'
     name?: string
     params?: string[]
 }
 
+export type IPublicTypeRootSchema = IPublicTypePageSchema | IPublicTypeComponentSchema | IPublicTypeBlockSchema;
+
 /**
  * 应用描述
  */
-export interface ProjectSchema {
+export interface IPublicTypeProjectSchema {
     id?: string
     /**
      * 当前应用协议版本号
@@ -153,21 +152,21 @@ export interface ProjectSchema {
     /**
      * 当前应用所有组件映射关系
      */
-    componentsMap: ComponentsMap
+    componentsMap: IPublicTypeComponentsMap
     /**
      * 描述应用所有页面、低代码组件的组件树
      * 低代码业务组件树描述
      * 是长度固定为1的数组, 即数组内仅包含根容器的描述（低代码业务组件容器类型）
      */
-    componentsTree: RootSchema[]
+    componentsTree: IPublicTypeRootSchema[]
     /**
      * 应用范围内的全局自定义函数或第三方工具类扩展
      */
-    utils?: UtilsMap
+    utils?: IPublicTypeUtilsMap
     /**
      * 应用范围内的全局常量
      */
-    constants?: JSONObject
+    constants?: IPublicTypeJSONObject
     /**
      * 应用范围内的全局样式
      */
@@ -175,17 +174,17 @@ export interface ProjectSchema {
     /**
      * 当前应用配置信息
      */
-    config?: AppConfig | Record<string, any>
+    config?: IPublicTypeAppConfig | Record<string, any>
     /**
      * 当前应用元数据信息
      */
     meta?: Record<string, any>
 }
 
-export function isNodeSchema(data: any): data is NodeSchema {
+export function isNodeSchema(data: any): data is IPublicTypeNodeSchema {
     return data && data.componentName;
 }
 
-export function isProjectSchema(data: any): data is ProjectSchema {
+export function isProjectSchema(data: any): data is IPublicTypeProjectSchema {
     return data && data.componentsTree;
 }

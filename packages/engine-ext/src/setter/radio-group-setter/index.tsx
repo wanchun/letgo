@@ -1,7 +1,8 @@
-import { defineComponent, computed, PropType } from 'vue';
-import { Setter } from '@webank/letgo-types';
+import type { PropType } from 'vue';
+import { computed, defineComponent } from 'vue';
+import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { isUndefined } from 'lodash-es';
-import { FRadioGroup, FRadio } from '@fesjs/fes-design';
+import { FRadio, FRadioGroup } from '@fesjs/fes-design';
 import { commonProps } from '../../common/setter-props';
 
 const RadioGroupSetterView = defineComponent({
@@ -54,7 +55,7 @@ const RadioGroupSetterView = defineComponent({
 
 RadioGroupSetterView.name = 'RadioGroupSetterView';
 
-export const RadioGroupSetter: Setter = {
+export const RadioGroupSetter: IPublicTypeSetter = {
     type: 'RadioGroupSetter',
     title: '单选设置器',
     Component: RadioGroupSetterView,

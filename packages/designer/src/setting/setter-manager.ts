@@ -1,15 +1,15 @@
-import { Setter } from '@webank/letgo-types';
+import { IPublicTypeSetter } from '@webank/letgo-types';
 
 export class SetterFactory {
-    private static renderMap = new Map<string, Setter>();
+    private static renderMap = new Map<string, IPublicTypeSetter>();
 
-    static register(commands: Setter[]) {
+    static register(commands: IPublicTypeSetter[]) {
         commands.forEach((command) => {
             this.renderMap.set(command.type, command);
         });
     }
 
-    static getSetter(type: string): Setter | null {
+    static getSetter(type: string): IPublicTypeSetter | null {
         return this.renderMap.get(type) || null;
     }
 

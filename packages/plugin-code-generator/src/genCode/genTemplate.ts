@@ -1,32 +1,34 @@
-import {
-    NodeSchema,
-    RootSchema,
-    NodeData,
-    Directive,
-    isJSSlot,
-    isJSExpression,
-    isNodeSchema,
-    isDOMText,
-    DOMText,
-    JSExpression,
-    JSSlot,
+import type {
+    IPublicTypeDOMText,
+    IPublicTypeDirective,
+    IPublicTypeJSExpression,
+    IPublicTypeJSSlot,
+    IPublicTypeNodeData,
+    IPublicTypeNodeSchema,
+    IPublicTypeRootSchema,
 } from '@webank/letgo-types';
-import { isEmpty, isArray, isNil } from 'lodash-es';
+import {
+    isDOMText,
+    isJSExpression,
+    isJSSlot,
+    isNodeSchema,
+} from '@webank/letgo-types';
+import { isArray, isEmpty, isNil } from 'lodash-es';
 import { compileDirectives } from './directives';
 import { compileProps } from './props';
 
-function genNodeSchemaChildren(nodeSchema: NodeSchema): NodeData[] {
+function genNodeSchemaChildren(nodeSchema: IPublicTypeNodeSchema): IPublicTypeNodeData[] {
     if (nodeSchema.props?.children) {
-        if (isArray(nodeSchema.props.children)) {
+        if (isArray(nodeSchema.props.children))
             return nodeSchema.props.children;
-        }
+
         return [nodeSchema.props.children];
     }
     return nodeSchema.children || [];
 }
 
-function getDirectives(nodeSchema: NodeSchema): Directive[] {
-    const directives: Directive[] = nodeSchema.directives || [];
+function getDirectives(nodeSchema: IPublicTypeNodeSchema): IPublicTypeDirective[] {
+    const directives: IPublicTypeDirective[] = nodeSchema.directives || [];
     if (isNil(nodeSchema.visible)) {
         directives.unshift({
             name: 'v-show',
@@ -46,7 +48,7 @@ function getDirectives(nodeSchema: NodeSchema): Directive[] {
 }
 
 // TODO 支持 loop loopArgs
-function compileNodeSchema(nodeSchema: NodeSchema) {
+function compileNodeSchema(nodeSchema: IPublicTypeNodeSchema) {
     const children = genNodeSchemaChildren(nodeSchema);
     return `<${nodeSchema.componentName} ${compileDirectives(
         getDirectives(nodeSchema),
@@ -63,15 +65,15 @@ function compileNodeSchema(nodeSchema: NodeSchema) {
     }`;
 }
 
-function compileJSExpression(expression: JSExpression) {
+function compileJSExpression(expression: IPublicTypeJSExpression) {
     return `{{ ${expression.value} }}`;
 }
 
-function compileDOMText(domText: DOMText) {
+function compileDOMText(domText: IPublicTypeDOMText) {
     return domText;
 }
 
-function compileJsSlot(slot: JSSlot): string {
+function compileJsSlot(slot: IPublicTypeJSSlot): string {
     const slotContent = slot.value;
     return `<template ${slot.name ? `#${slot.name}` : ''}${
         slot.params ? `="${slot.params.join(', ')}"` : ''
@@ -82,20 +84,23 @@ function compileJsSlot(slot: JSSlot): string {
     </template>`;
 }
 
-function compileNodeData(nodeData: NodeData): string {
-    if (isNodeSchema(nodeData)) {
+function compileNodeData(nodeData: IPublicTypeNodeData): string {
+    if (isNodeSchema(nodeData))
         return compileNodeSchema(nodeData);
-    } else if (isJSExpression(nodeData)) {
+
+    else if (isJSExpression(nodeData))
         return compileJSExpression(nodeData);
-    } else if (isJSSlot(nodeData)) {
+
+    else if (isJSSlot(nodeData))
         return compileJsSlot(nodeData);
-    } else if (isDOMText(nodeData)) {
+
+    else if (isDOMText(nodeData))
         return compileDOMText(nodeData);
-    }
+
     return '';
 }
 
-export function genPageTemplate(rootSchema: RootSchema) {
+export function genPageTemplate(rootSchema: IPublicTypeRootSchema) {
     return `<template>
         <div class="letgo-page" ${compileProps(rootSchema.defaultProps).join(
             ' ',

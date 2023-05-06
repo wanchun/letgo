@@ -1,9 +1,9 @@
-export interface ChangeOptions {
-    key?: string | number;
-    prop?: any;
-    node?: any;
-    newValue: any;
-    oldValue: any;
+export interface IPublicTypeChangeOptions {
+    key?: string | number
+    prop?: any
+    node?: any
+    newValue: any
+    oldValue: any
 }
 
 /**

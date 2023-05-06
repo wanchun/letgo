@@ -1,10 +1,10 @@
 import {
     AssetType,
-    AssetItem,
-    Asset,
-    AssetList,
-    AssetBundle,
-    AssetsJson,
+    IPublicTypeAssetItem,
+    IPublicTypeAsset,
+    IPublicTypeAssetList,
+    IPublicTypeAssetBundle,
+    IPublicTypeAssetsJson,
     AssetLevels,
     AssetLevel,
 } from '@webank/letgo-types';
@@ -12,18 +12,18 @@ import { isCSSUrl } from './is-css-url';
 import { createDefer } from './create-defer';
 import { load, evaluate } from './script';
 
-export function isAssetItem(obj: any): obj is AssetItem {
+export function isAssetItem(obj: any): obj is IPublicTypeAssetItem {
     return obj && obj.type;
 }
 
-export function isAssetBundle(obj: any): obj is AssetBundle {
+export function isAssetBundle(obj: any): obj is IPublicTypeAssetBundle {
     return obj && obj.type === AssetType.Bundle;
 }
 
 export function assetBundle(
-    assets?: Asset | AssetList | null,
+    assets?: IPublicTypeAsset | IPublicTypeAssetList | null,
     level?: AssetLevel,
-): AssetBundle | null {
+): IPublicTypeAssetBundle | null {
     if (!assets) {
         return null;
     }
@@ -47,7 +47,7 @@ export function assetItem(
     content?: string | null,
     level?: AssetLevel,
     id?: string,
-): AssetItem | null {
+): IPublicTypeAssetItem | null {
     if (!content) {
         return null;
     }
@@ -60,9 +60,9 @@ export function assetItem(
 }
 
 export function mergeAssets(
-    assets: AssetsJson,
-    incrementalAssets: AssetsJson,
-): AssetsJson {
+    assets: IPublicTypeAssetsJson,
+    incrementalAssets: IPublicTypeAssetsJson,
+): IPublicTypeAssetsJson {
     if (incrementalAssets.packages) {
         assets.packages = [
             ...(assets.packages || []),
@@ -175,7 +175,7 @@ export class StylePoint {
 function parseAssetList(
     scripts: any,
     styles: any,
-    assets: AssetList,
+    assets: IPublicTypeAssetList,
     level?: AssetLevel,
 ) {
     for (const asset of assets) {
@@ -186,7 +186,7 @@ function parseAssetList(
 function parseAsset(
     scripts: any,
     styles: any,
-    asset: Asset | undefined | null,
+    asset: IPublicTypeAsset | undefined | null,
     level?: AssetLevel,
 ) {
     if (!asset) {
@@ -236,7 +236,7 @@ function parseAsset(
 }
 
 export class AssetLoader {
-    async load(asset: Asset) {
+    async load(asset: IPublicTypeAsset) {
         const styles: any = {};
         const scripts: any = {};
         AssetLevels.forEach((lv) => {
@@ -244,15 +244,15 @@ export class AssetLoader {
             scripts[lv] = [];
         });
         parseAsset(scripts, styles, asset);
-        const styleQueue: AssetItem[] = styles[AssetLevel.Environment].concat(
+        const styleQueue: IPublicTypeAssetItem[] = styles[AssetLevel.Environment].concat(
             styles[AssetLevel.Library],
-            styles[AssetLevel.Theme],
+            styles[AssetLevel.IPublicTypeTheme],
             styles[AssetLevel.Runtime],
             styles[AssetLevel.App],
         );
-        const scriptQueue: AssetItem[] = scripts[AssetLevel.Environment].concat(
+        const scriptQueue: IPublicTypeAssetItem[] = scripts[AssetLevel.Environment].concat(
             scripts[AssetLevel.Library],
-            scripts[AssetLevel.Theme],
+            scripts[AssetLevel.IPublicTypeTheme],
             scripts[AssetLevel.Runtime],
             scripts[AssetLevel.App],
         );

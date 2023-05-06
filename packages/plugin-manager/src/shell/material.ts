@@ -1,6 +1,6 @@
 import { Editor } from '@webank/letgo-editor-core';
 import { Designer } from '@webank/letgo-designer';
-import { AssetsJson } from '@webank/letgo-types';
+import { IPublicTypeAssetsJson } from '@webank/letgo-types';
 import { editorSymbol, designerSymbol } from './symbols';
 
 export class Material {
@@ -17,7 +17,7 @@ export class Material {
      * @param assets
      * @returns
      */
-    async setAssets(assets: AssetsJson) {
+    async setAssets(assets: IPublicTypeAssetsJson) {
         return await this[editorSymbol].setAssets(assets);
     }
 
@@ -25,7 +25,7 @@ export class Material {
      * 获取「资产包」结构
      * @returns
      */
-    getAssets(): AssetsJson {
+    getAssets(): IPublicTypeAssetsJson {
         return this[editorSymbol].get('assets');
     }
 
@@ -33,7 +33,7 @@ export class Material {
      * 添加资产包
      * @returns
      */
-    addAssets(incrementalAssets: AssetsJson) {
+    addAssets(incrementalAssets: IPublicTypeAssetsJson) {
         const assets = this.getAssets();
         if (incrementalAssets.packages) {
             assets.packages = [

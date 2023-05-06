@@ -1,10 +1,10 @@
 import { EventEmitter } from 'eventemitter3';
 import type {
     GlobalEvent,
-    NodeData,
-    NodeSchema,
-    PropsList,
-    PropsMap,
+    IPublicTypeNodeData,
+    IPublicTypeNodeSchema,
+    IPublicTypePropsList,
+    IPublicTypePropsMap,
 } from '@webank/letgo-types';
 import {
     TransformStage,
@@ -16,7 +16,7 @@ import type { ComputedRef } from 'vue';
 import { computed } from 'vue';
 import type { ComponentMeta } from '../component-meta';
 import type { DocumentModel } from '../document';
-import type { LeafNode, ParentalNode, RootNode } from '../types';
+import type { IBaseNode, IRootNode, LeafNode } from '../types';
 import type { SettingTop } from '../setting';
 import { includeSlot, removeSlot } from '../utils/slot';
 import { NodeChildren } from './node-children';
@@ -24,11 +24,11 @@ import { Props } from './props';
 import type { Prop } from './prop';
 
 export type PropChangeOptions = Omit<
-    GlobalEvent.Node.Prop.ChangeOptions,
+    GlobalEvent.Node.Prop.IPublicTypeChangeOptions,
     'node'
 >;
 
-export class Node<Schema extends NodeSchema = NodeSchema> {
+export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> {
     private emitter = new EventEmitter();
 
     /**
@@ -60,7 +60,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
 
     private _children?: NodeChildren;
 
-    private _parent: ParentalNode | null = null;
+    private _parent: IBaseNode | null = null;
 
     /**
      * 【响应式】获取符合搭建协议-节点 schema 结构
@@ -79,7 +79,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     /**
      * 父级节点
      */
-    get parent(): ParentalNode | null {
+    get parent(): IBaseNode | null {
         return this._parent;
     }
 
@@ -111,7 +111,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         return this.document.getComponentMeta(this.componentName);
     }
 
-    get propsData(): PropsMap | PropsList | null {
+    get propsData(): IPublicTypePropsMap | IPublicTypePropsList | null {
         if (!this.isParental() || this.componentName === 'Fragment')
             return null;
 
@@ -166,7 +166,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     /**
      * 是否一个父亲类节点
      */
-    isParental(): this is ParentalNode {
+    isParental(): this is IBaseNode {
         return !this.isLeaf();
     }
 
@@ -227,7 +227,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
                 this.upgradeProps(this.initProps(props || {})),
                 this.upgradeProps(extras),
             );
-            this._children = new NodeChildren(this as ParentalNode, children);
+            this._children = new NodeChildren(this as IBaseNode, children);
             this._children.initParent();
         }
         this.initBuiltinProps();
@@ -310,14 +310,14 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
     /**
      * 设置多个属性值，和原有值合并
      */
-    mergeProps(props: PropsMap) {
+    mergeProps(props: IPublicTypePropsMap) {
         this.props.merge(props);
     }
 
     /**
      * 设置多个属性值，替换原有值
      */
-    setProps(props?: PropsMap | PropsList | Props | null) {
+    setProps(props?: IPublicTypePropsMap | IPublicTypePropsList | Props | null) {
         if (props instanceof Props) {
             this.props = props;
             return;
@@ -407,7 +407,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         }
     }
 
-    setParent(parent: ParentalNode | null) {
+    setParent(parent: IBaseNode | null) {
         if (this._parent === parent)
             return;
 
@@ -547,7 +547,7 @@ export class Node<Schema extends NodeSchema = NodeSchema> {
         if (includeSlot(this, slotName))
             removeSlot(this, slotName);
 
-        slotNode.setParent(this as ParentalNode);
+        slotNode.setParent(this as IBaseNode);
         this._slots.push(slotNode);
     }
 
@@ -574,7 +574,7 @@ export function isNode(node: any): node is Node {
     return node && node.isNode;
 }
 
-export function isRootNode(node: Node): node is RootNode {
+export function isRootNode(node: Node): node is IRootNode {
     return node && node.isRoot();
 }
 
@@ -650,8 +650,8 @@ export function contains(node1: Node, node2: Node): boolean {
 }
 
 export function insertChild(
-    container: ParentalNode,
-    thing: Node | NodeData,
+    container: IBaseNode,
+    thing: Node | IPublicTypeNodeData,
     at?: number | null,
     copy?: boolean,
 ): Node {
@@ -671,8 +671,8 @@ export function insertChild(
 }
 
 export function insertChildren(
-    container: ParentalNode,
-    nodes: Node[] | NodeData[],
+    container: IBaseNode,
+    nodes: Node[] | IPublicTypeNodeData[],
     at?: number | null,
     copy?: boolean,
 ): Node[] {

@@ -1,5 +1,6 @@
-import { defineComponent, PropType, shallowRef, onBeforeUnmount } from 'vue';
-import { isDragNodeObject, isDragNodeDataObject } from './dragon';
+import type { PropType } from 'vue';
+import { defineComponent, onBeforeUnmount, shallowRef } from 'vue';
+import { isDragNodeDataObject, isDragNodeObject } from './dragon';
 import { ghostGroupCls, ghostTitleCls } from './drag-host.css';
 import type { Designer } from './designer';
 
@@ -21,9 +22,9 @@ export const DragHostView = defineComponent({
 
         const dispose = [
             dragon.onDragstart((e) => {
-                if (e.originalEvent.type.slice(0, 4) === 'drag') {
+                if (e.originalEvent.type.slice(0, 4) === 'drag')
                     return;
-                }
+
                 dragObject.value = e.dragObject;
                 x.value = e.globalX;
                 y.value = e.globalY;
@@ -46,41 +47,44 @@ export const DragHostView = defineComponent({
                     const ghost = <div key={node.id}>{node.title}</div>;
                     return ghost;
                 });
-            } else if (isDragNodeDataObject(_dragObject)) {
-                return Array.isArray(_dragObject.data) ? (
-                    _dragObject.data.map((item, index) => {
-                        return (
+            }
+            else if (isDragNodeDataObject(_dragObject)) {
+                return Array.isArray(_dragObject.data)
+                    ? (
+                            _dragObject.data.map((item, index) => {
+                                return (
                             <div key={`ghost-${index}`}>
                                 <div class={ghostTitleCls}>
                                     {item.componentName}
                                 </div>
                             </div>
-                        );
-                    })
-                ) : (
+                                );
+                            })
+                        )
+                    : (
                     <div>
                         <div class={ghostTitleCls}>
                             {_dragObject.data.componentName}
                         </div>
                     </div>
-                );
+                        );
             }
         };
 
         onBeforeUnmount(() => {
-            dispose.forEach((off) => off());
+            dispose.forEach(off => off());
         });
 
         return () => {
-            if (!dragObject.value) {
+            if (!dragObject.value)
                 return null;
-            }
+
             return (
                 <div
                     class={ghostGroupCls}
                     style={{
-                        left: x.value + 'px',
-                        top: y.value + 'px',
+                        left: `${x.value}px`,
+                        top: `${y.value}px`,
                     }}
                 >
                     {renderGhostGroup()}

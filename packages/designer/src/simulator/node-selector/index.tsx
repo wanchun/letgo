@@ -1,17 +1,19 @@
+import type {
+    PropType,
+    ShallowRef,
+} from 'vue';
 import {
     defineComponent,
-    PropType,
     onMounted,
-    ShallowRef,
     shallowRef,
 } from 'vue';
 import { FPopper } from '@fesjs/fes-design';
 import { canClickNode } from '../../utils';
-import { Node } from '../../node';
-import { ParentalNode } from '../../types';
-import { wrapperCls, triggerCls, nodeCls, nodeContentCls } from './index.css';
+import type { Node } from '../../node';
+import type { IBaseNode } from '../../types';
+import { nodeCls, nodeContentCls, triggerCls, wrapperCls } from './index.css';
 
-type UnionNode = Node | ParentalNode | null;
+type UnionNode = Node | IBaseNode | null;
 
 const NodeSelectorView = defineComponent({
     name: 'NodeSelectorView',
@@ -27,20 +29,18 @@ const NodeSelectorView = defineComponent({
             const parentNodes: Node[] = [];
             const { focusNode } = node.document;
 
-            if (node.contains(focusNode) || !focusNode.contains(node)) {
+            if (node.contains(focusNode) || !focusNode.contains(node))
                 return parentNodes;
-            }
 
             let currentNode: UnionNode = node;
 
             while (currentNode && parentNodes.length < 5) {
                 currentNode = currentNode.parent;
-                if (currentNode) {
+                if (currentNode)
                     parentNodes.push(currentNode);
-                }
-                if (currentNode === focusNode) {
+
+                if (currentNode === focusNode)
                     break;
-                }
             }
             return parentNodes;
         };
@@ -50,9 +50,8 @@ const NodeSelectorView = defineComponent({
         });
 
         const onSelect = (node: Node, e: MouseEvent) => {
-            if (!node) {
+            if (!node)
                 return;
-            }
 
             const canClick = canClickNode(node, e);
 
@@ -60,12 +59,12 @@ const NodeSelectorView = defineComponent({
                 node.document.selection.select(node.id);
                 const editor = node.document.project.designer.editor;
                 const npm = node?.componentMeta?.npm;
-                const selected =
-                    [npm?.package, npm?.componentName]
-                        .filter((item) => !!item)
-                        .join('-') ||
-                    node?.componentMeta?.componentName ||
-                    '';
+                const selected
+                    = [npm?.package, npm?.componentName]
+                        .filter(item => !!item)
+                        .join('-')
+                    || node?.componentMeta?.componentName
+                    || '';
                 editor?.emit('designer.border.action', {
                     name: 'select',
                     selected,
@@ -74,22 +73,20 @@ const NodeSelectorView = defineComponent({
         };
 
         const onMouseOver = (node: Node) => {
-            if (node && typeof node.hover === 'function') {
+            if (node && typeof node.hover === 'function')
                 node.hover(true);
-            }
         };
 
         const onMouseOut = (node: Node) => {
-            if (node && typeof node.hover === 'function') {
+            if (node && typeof node.hover === 'function')
                 node.hover(false);
-            }
         };
 
         const renderNodes = () => {
             const nodes = parentNodes.value;
-            if (!nodes || nodes.length < 1) {
+            if (!nodes || nodes.length < 1)
                 return null;
-            }
+
             const children = nodes.map((node, key) => {
                 return (
                     <div

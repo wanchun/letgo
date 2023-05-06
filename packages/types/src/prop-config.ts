@@ -1,5 +1,5 @@
-export type PropType = BasicType | RequiredType | ComplexType;
-export type BasicType =
+export type IPublicTypeProp = IPublicTypeBasicProp | IPublicTypeRequiredProp | IPublicTypeComplexProp;
+export type IPublicTypeBasicProp =
     | 'array'
     | 'bool'
     | 'func'
@@ -9,72 +9,72 @@ export type BasicType =
     | 'node'
     | 'element'
     | 'any';
-export type ComplexType =
-    | OneOf
-    | OneOfType
-    | ArrayOf
-    | ObjectOf
-    | Shape
-    | Exact;
+export type IPublicTypeComplexProp =
+    | IPublicTypeOneOf
+    | IPublicTypeOneOfType
+    | IPublicTypeArrayOf
+    | IPublicTypeObjectOf
+    | IPublicTypeShapeProp
+    | IPublicTypeExactProp;
 
-export interface RequiredType {
-    type: BasicType;
-    isRequired?: boolean;
+export interface IPublicTypeRequiredProp {
+    type: IPublicTypeBasicProp
+    isRequired?: boolean
 }
 
-export interface OneOf {
-    type: 'oneOf';
-    value: string[];
-    isRequired?: boolean;
+export interface IPublicTypeOneOf {
+    type: 'oneOf'
+    value: string[]
+    isRequired?: boolean
 }
-export interface OneOfType {
-    type: 'oneOfType';
-    value: PropType[];
-    isRequired?: boolean;
+export interface IPublicTypeOneOfType {
+    type: 'oneOfType'
+    value: IPublicTypeProp[]
+    isRequired?: boolean
 }
-export interface ArrayOf {
-    type: 'arrayOf';
-    value: PropType;
-    isRequired?: boolean;
+export interface IPublicTypeArrayOf {
+    type: 'arrayOf'
+    value: IPublicTypeProp
+    isRequired?: boolean
 }
-export interface ObjectOf {
-    type: 'objectOf';
-    value: PropType;
-    isRequired?: boolean;
+export interface IPublicTypeObjectOf {
+    type: 'objectOf'
+    value: IPublicTypeProp
+    isRequired?: boolean
 }
-export interface Shape {
-    type: 'shape';
-    value: PropConfig[];
-    isRequired?: boolean;
+export interface IPublicTypeShapeProp {
+    type: 'shape'
+    value: IPublicTypePropConfig[]
+    isRequired?: boolean
 }
-export interface Exact {
-    type: 'exact';
-    value: PropConfig[];
-    isRequired?: boolean;
+export interface IPublicTypeExactProp {
+    type: 'exact'
+    value: IPublicTypePropConfig[]
+    isRequired?: boolean
 }
 
 /**
  * 组件属性信息
  */
-export interface PropConfig {
+export interface IPublicTypePropConfig {
     /**
      * 属性名称
      */
-    name: string;
+    name: string
     /**
      * 属性中文名
      */
-    title?: string;
+    title?: string
     /**
      * 属性类型
      */
-    propType: PropType;
+    propType: IPublicTypeProp
     /**
      * 属性描述
      */
-    description?: string;
+    description?: string
     /**
      * 属性默认值
      */
-    defaultValue?: any;
+    defaultValue?: any
 }

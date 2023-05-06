@@ -1,15 +1,15 @@
 import { EventEmitter } from 'eventemitter3';
-import { IEditor } from '@webank/letgo-types';
-import { Node } from '../node';
-import { ComponentMeta } from '../component-meta';
-import { Designer } from '../designer';
-import { SettingEntry } from './types';
+import type { IPublicTypeEditor } from '@webank/letgo-types';
+import type { Node } from '../node';
+import type { ComponentMeta } from '../component-meta';
+import type { Designer } from '../designer';
+import type { SettingEntry } from './types';
 import { SettingField } from './setting-field';
 import { SettingProp } from './setting-prop';
 
 function generateSessionId(nodes: Node[]) {
     return nodes
-        .map((node) => node.id)
+        .map(node => node.id)
         .sort()
         .join(',');
 }
@@ -72,10 +72,10 @@ export class SettingTop implements SettingEntry {
 
     disposeFunctions: any[] = [];
 
-    constructor(readonly editor: IEditor, readonly nodes: Node[]) {
-        if (!Array.isArray(nodes) || nodes.length < 1) {
+    constructor(readonly editor: IPublicTypeEditor, readonly nodes: Node[]) {
+        if (!Array.isArray(nodes) || nodes.length < 1)
             throw new ReferenceError('nodes should not be empty');
-        }
+
         this.top = this;
         this.parent = this;
         this.id = generateSessionId(nodes);
@@ -107,7 +107,8 @@ export class SettingTop implements SettingEntry {
         if (theSame) {
             this._isSame = true;
             this._componentMeta = meta;
-        } else {
+        }
+        else {
             this._isSame = false;
             this._componentMeta = null;
         }
@@ -153,7 +154,8 @@ export class SettingTop implements SettingEntry {
      * 获取子项
      */
     get(propName: string | number): SettingProp | null {
-        if (!propName) return null;
+        if (!propName)
+            return null;
         return (
             this._settingFieldMap[propName] || new SettingProp(this, propName)
         );
@@ -227,7 +229,7 @@ export class SettingTop implements SettingEntry {
     }
 
     private disposeItems() {
-        this._items.forEach((item) => isPurge(item) && item.purge());
+        this._items.forEach(item => isPurge(item) && item.purge());
         this._items = [];
     }
 
@@ -235,13 +237,13 @@ export class SettingTop implements SettingEntry {
         this.disposeItems();
         this._settingFieldMap = {};
         this.emitter.removeAllListeners();
-        this.disposeFunctions.forEach((f) => f());
+        this.disposeFunctions.forEach(f => f());
         this.disposeFunctions = [];
     }
 }
 
 interface Purge {
-    purge(): void;
+    purge(): void
 }
 
 function isPurge(obj: any): obj is Purge {

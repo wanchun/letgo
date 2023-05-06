@@ -1,10 +1,10 @@
 import * as Icons from '@fesjs/fes-design/icon';
-import { IconType } from '@webank/letgo-types';
+import { IPublicTypeIcon } from '@webank/letgo-types';
 
 const URL_RE = /^(https?:)\/\//i;
 
 export function createIcon(
-    icon?: IconType | null,
+    icon?: IPublicTypeIcon | null,
     props?: Record<string, unknown>,
 ) {
     if (!icon) {

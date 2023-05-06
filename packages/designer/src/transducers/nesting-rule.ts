@@ -1,8 +1,8 @@
-import { TransformedComponentMetadata } from '@webank/letgo-types';
+import { IPublicTypeTransformedComponentMetadata } from '@webank/letgo-types';
 
 export default function componentDefaults(
-    metadata: TransformedComponentMetadata,
-): TransformedComponentMetadata {
+    metadata: IPublicTypeTransformedComponentMetadata,
+): IPublicTypeTransformedComponentMetadata {
     const { configure = {}, componentName } = metadata;
     const { component = {} } = configure;
     if (!component.nestingRule) {

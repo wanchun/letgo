@@ -1,17 +1,20 @@
 import { EventEmitter } from 'eventemitter3';
-import { NodeData, isNodeSchema, TransformStage } from '@webank/letgo-types';
+import type { IPublicTypeNodeData } from '@webank/letgo-types';
+import { TransformStage, isNodeSchema } from '@webank/letgo-types';
 import { shallowEqual } from '@webank/letgo-utils';
-import { shallowRef, ShallowRef, triggerRef } from 'vue';
-import { ParentalNode } from '../types';
-import { Node } from './node';
+import type { ShallowRef } from 'vue';
+import { shallowRef, triggerRef } from 'vue';
+import type { IBaseNode } from '../types';
+import type { Node } from './node';
+
 export interface IOnChangeOptions {
-    type: string;
-    node: Node;
+    type: string
+    node: Node
 }
 
-export type NodeRemoveOptions = {
-    suppressRemoveEvent?: boolean;
-};
+export interface NodeRemoveOptions {
+    suppressRemoveEvent?: boolean
+}
 
 export class NodeChildren {
     private children: ShallowRef<Node[]> = shallowRef([]);
@@ -25,7 +28,7 @@ export class NodeChildren {
         return this.children.value.length;
     }
 
-    constructor(readonly owner: ParentalNode, data?: NodeData | NodeData[]) {
+    constructor(readonly owner: IBaseNode, data?: IPublicTypeNodeData | IPublicTypeNodeData[]) {
         if (data) {
             this.children.value = (Array.isArray(data) ? data : [data]).map(
                 (child) => {
@@ -35,21 +38,21 @@ export class NodeChildren {
         }
     }
 
-    export(stage: TransformStage = TransformStage.Save): NodeData[] {
+    export(stage: TransformStage = TransformStage.Save): IPublicTypeNodeData[] {
         return this.children.value.map((node) => {
             const data = node.export(stage);
-            if (node.isLeaf() && TransformStage.Save === stage) {
-                return data.children as NodeData;
-            }
+            if (node.isLeaf() && TransformStage.Save === stage)
+                return data.children as IPublicTypeNodeData;
+
             return data;
         });
     }
 
-    import(data?: NodeData | NodeData[]) {
+    import(data?: IPublicTypeNodeData | IPublicTypeNodeData[]) {
         data = data ? (Array.isArray(data) ? data : [data]) : [];
 
         const originChildren = this.children.value.slice();
-        this.children.value.forEach((child) => child.setParent(null));
+        this.children.value.forEach(child => child.setParent(null));
 
         const children = new Array<Node>(data.length);
         for (let i = 0, l = data.length; i < l; i++) {
@@ -58,13 +61,14 @@ export class NodeChildren {
 
             let node: Node | undefined;
             if (
-                isNodeSchema(item) &&
-                child &&
-                child.componentName === item.componentName
+                isNodeSchema(item)
+                && child
+                && child.componentName === item.componentName
             ) {
                 node = child;
                 node.import(item);
-            } else {
+            }
+            else {
                 node = this.owner.document.createNode(item);
             }
             children[i] = node;
@@ -72,13 +76,12 @@ export class NodeChildren {
 
         this.children.value = children;
         this.initParent();
-        if (!shallowEqual(children, originChildren)) {
+        if (!shallowEqual(children, originChildren))
             this.emitter.emit('change');
-        }
     }
 
     initParent() {
-        this.children.value.forEach((child) => child.setParent(this.owner));
+        this.children.value.forEach(child => child.setParent(this.owner));
     }
 
     /**
@@ -99,9 +102,9 @@ export class NodeChildren {
 
     unlinkChild(node: Node) {
         const i = this.children.value.indexOf(node);
-        if (i < 0) {
+        if (i < 0)
             return;
-        }
+
         this.children.value.splice(i, 1);
         triggerRef(this.children);
         this.emitter.emit('change', {
@@ -127,7 +130,8 @@ export class NodeChildren {
             node.setParent(null);
             try {
                 node.purge();
-            } catch (err) {
+            }
+            catch (err) {
                 console.error(err);
             }
         }
@@ -155,20 +159,20 @@ export class NodeChildren {
         const i = children.value.indexOf(node);
 
         if (i < 0) {
-            if (index < children.value.length) {
+            if (index < children.value.length)
                 children.value.splice(index, 0, node);
-            } else {
-                children.value.push(node);
-            }
-            node.setParent(this.owner);
-        } else {
-            if (index > i) {
-                index -= 1;
-            }
 
-            if (index === i) {
+            else
+                children.value.push(node);
+
+            node.setParent(this.owner);
+        }
+        else {
+            if (index > i)
+                index -= 1;
+
+            if (index === i)
                 return;
-            }
 
             children.value.splice(i, 1);
             children.value.splice(index, 0, node);
@@ -192,9 +196,9 @@ export class NodeChildren {
      * 回收销毁
      */
     purge() {
-        if (this.purged) {
+        if (this.purged)
             return;
-        }
+
         this.purged = true;
         this.children.value.forEach((child) => {
             child.purge();

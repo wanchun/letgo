@@ -1,14 +1,15 @@
-import { defineComponent, PropType, VNode } from 'vue';
-import { Area } from '../area';
-import {
+import type { PropType, VNode } from 'vue';
+import { defineComponent } from 'vue';
+import type { Area } from '../area';
+import type {
     IWidgetConfig,
-    IWidgetPanelConfig,
     IWidgetModalConfig,
+    IWidgetPanelConfig,
 } from '../types';
-import { Widget, WidgetModal, WidgetPanel } from '../widget';
+import type { Widget, WidgetModal, WidgetPanel } from '../widget';
 import {
-    bottomAreaCls,
     bottomAreaCenterCls,
+    bottomAreaCls,
     bottomAreaLeftCls,
     bottomAreaRightCls,
 } from './workbench.css';
@@ -32,9 +33,8 @@ export default defineComponent({
             const center: VNode[] = [];
             const right: VNode[] = [];
             const itemsValue = area.items.value;
-            if (!itemsValue.length) {
+            if (!itemsValue.length)
                 return null;
-            }
 
             itemsValue
                 .slice()
@@ -49,13 +49,14 @@ export default defineComponent({
                             {item.content}
                         </div>
                     );
-                    if (item.align === 'center') {
+                    if (item.align === 'center')
                         center.push(content);
-                    } else if (item.align === 'left') {
+
+                    else if (item.align === 'left')
                         left.push(content);
-                    } else {
+
+                    else
                         right.push(content);
-                    }
                 });
             return (
                 <div class={bottomAreaCls}>

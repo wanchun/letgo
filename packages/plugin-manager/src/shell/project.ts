@@ -1,5 +1,5 @@
 import { Project as InnerProject } from '@webank/letgo-designer';
-import { RootSchema, TransformStage, ProjectSchema } from '@webank/letgo-types';
+import { IPublicTypeRootSchema, TransformStage, IPublicTypeProjectSchema } from '@webank/letgo-types';
 
 import { projectSymbol } from './symbols';
 
@@ -19,13 +19,13 @@ export class Project {
      * @param doc
      * @returns
      */
-    openDocument(doc?: string | RootSchema | undefined) {
+    openDocument(doc?: string | IPublicTypeRootSchema | undefined) {
         const documentModel = this[projectSymbol].open(doc);
         if (!documentModel) return null;
         return documentModel;
     }
 
-    getSchema(stage: TransformStage = TransformStage.Save): ProjectSchema {
+    getSchema(stage: TransformStage = TransformStage.Save): IPublicTypeProjectSchema {
         return this[projectSymbol].getSchema(stage);
     }
 }

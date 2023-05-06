@@ -1,15 +1,15 @@
-import { Component, PropType, VNodeProps } from 'vue';
-import { RuntimeScope } from '../utils';
+import type { Component, PropType, VNodeProps } from 'vue';
 import type {
-    NodeSchema,
-    RootSchema,
-    NodeData,
-    SlotSchema,
+    IPublicTypeNodeData,
+    IPublicTypeNodeSchema,
+    IPublicTypeRootSchema,
+    IPublicTypeSlotSchema,
 } from '@webank/letgo-types';
+import type { RuntimeScope } from '../utils';
 
 export const rendererProps = {
     __schema: {
-        type: Object as PropType<RootSchema>,
+        type: Object as PropType<IPublicTypeRootSchema>,
         required: true,
     },
     __components: {
@@ -19,19 +19,19 @@ export const rendererProps = {
 } as const;
 
 export interface RendererProps {
-    __schema: RootSchema;
-    __components: Record<string, Component>;
+    __schema: IPublicTypeRootSchema
+    __components: Record<string, Component>
 }
 
 export const baseRendererPropKeys = Object.keys(
     rendererProps,
 ) as (keyof RendererProps)[];
 
-export type RendererComponent = {
+export interface RendererComponent {
     new (...args: any[]): {
-        $props: VNodeProps & RendererProps;
-    };
-};
+        $props: VNodeProps & RendererProps
+    }
+}
 
 export const leafProps = {
     comp: {
@@ -42,29 +42,29 @@ export const leafProps = {
         default: () => ({}),
     },
     schema: {
-        type: Object as PropType<NodeSchema>,
+        type: Object as PropType<IPublicTypeNodeSchema>,
         default: () => ({}),
     },
 } as const;
 
 export interface LeafProps {
-    comp?: Component | null;
-    scope: RuntimeScope;
-    schema: NodeSchema;
+    comp?: Component | null
+    scope: RuntimeScope
+    schema: IPublicTypeNodeSchema
 }
 
 export const leafPropKeys = Object.keys(rendererProps) as (keyof LeafProps)[];
 
-export type LeafComponent = {
+export interface LeafComponent {
     new (...args: any[]): {
-        $props: VNodeProps & LeafProps;
-    };
-};
+        $props: VNodeProps & LeafProps
+    }
+}
 
-export type SlotSchemaMap = {
-    [x: string]: SlotSchema | NodeData[] | undefined;
-};
+export interface SlotSchemaMap {
+    [x: string]: IPublicTypeSlotSchema | IPublicTypeNodeData[] | undefined
+}
 
-export type PropSchemaMap = {
-    [x: string]: unknown;
-};
+export interface PropSchemaMap {
+    [x: string]: unknown
+}

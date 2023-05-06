@@ -1,22 +1,21 @@
-import {
-    TransformedComponentMetadata,
-    FieldConfig,
-    SettingTarget,
+import type {
+    IPublicTypeFieldConfig,
+    IPublicTypeSettingTarget,
+    IPublicTypeTransformedComponentMetadata,
 } from '@webank/letgo-types';
 
 export default function (
-    metadata: TransformedComponentMetadata,
-): TransformedComponentMetadata {
+    metadata: IPublicTypeTransformedComponentMetadata,
+): IPublicTypeTransformedComponentMetadata {
     const { componentName, configure = {} } = metadata;
 
     // 如果已经处理过，不再重新执行一遍
-    if (configure.combined) {
+    if (configure.combined)
         return metadata;
-    }
 
     const { props, supports = {} } = configure;
-    const isRoot: boolean =
-        componentName === 'Page' || componentName === 'Component';
+    const isRoot: boolean
+        = componentName === 'Page' || componentName === 'Component';
     const eventsDefinition: any[] = [];
     if (supports.events) {
         eventsDefinition.push({
@@ -31,30 +30,29 @@ export default function (
     const propsGroup = props ? [...props] : [];
     const basicInfo: any = {};
 
-    const stylesGroup: FieldConfig[] = [];
-    const advancedGroup: FieldConfig[] = [];
+    const stylesGroup: IPublicTypeFieldConfig[] = [];
+    const advancedGroup: IPublicTypeFieldConfig[] = [];
     if (propsGroup) {
         let l = propsGroup.length;
         while (l-- > 0) {
             const item = propsGroup[l];
             if (
-                item.name === '__style__' ||
-                item.name === 'style' ||
-                item.name === 'containerStyle' ||
-                item.name === 'pageStyle'
+                item.name === '__style__'
+                || item.name === 'style'
+                || item.name === 'containerStyle'
+                || item.name === 'pageStyle'
             ) {
                 propsGroup.splice(l, 1);
                 stylesGroup.push(item);
                 if (
-                    item.extraProps?.defaultCollapsed &&
-                    item.name !== 'containerStyle'
-                ) {
+                    item.extraProps?.defaultCollapsed
+                    && item.name !== 'containerStyle'
+                )
                     item.extraProps.defaultCollapsed = false;
-                }
             }
         }
     }
-    const combined: FieldConfig[] = [
+    const combined: IPublicTypeFieldConfig[] = [
         {
             title: '属性',
             name: '#props',
@@ -102,10 +100,10 @@ export default function (
                     },
                     extraProps: {
                         display: 'block',
-                        getValue(field: SettingTarget, val?: any[]) {
+                        getValue(field: IPublicTypeSettingTarget, val?: any[]) {
                             return val;
                         },
-                        setValue(field: SettingTarget, eventData) {
+                        setValue(field: IPublicTypeSettingTarget, eventData) {
                             const { eventDataList, eventList } = eventData;
 
                             if (Array.isArray(eventList)) {

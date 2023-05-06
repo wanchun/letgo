@@ -1,9 +1,11 @@
-import { h, defineComponent, PropType, computed } from 'vue';
-import { CustomView, isSetterConfig } from '@webank/letgo-types';
-import { VNode, createVNode } from 'vue';
+import type { PropType, VNode } from 'vue';
+import { computed, createVNode, defineComponent, h } from 'vue';
+import type { IPublicTypeCustomView } from '@webank/letgo-types';
+import { isSetterConfig } from '@webank/letgo-types';
 import { isFunction } from 'lodash-es';
-import { IFieldProps, FieldView, PlainFieldView } from './fields';
-import { SettingField } from './setting-field';
+import type { IFieldProps } from './fields';
+import { FieldView, PlainFieldView } from './fields';
+import type { SettingField } from './setting-field';
 import { SetterFactory } from './setter-manager';
 
 export function createFieldContent(
@@ -17,21 +19,21 @@ export function createFieldContent(
     // if (type === 'entry') {
     //     return createVNode(EntryField, props, children);
     // }
-    if (type === 'plain' || !props.title) {
+    if (type === 'plain' || !props.title)
         return h(PlainFieldView, {}, () => children);
-    }
+
     return h(FieldView, { ...props, display: type }, () => children);
 }
 
 export function createSetterContent(
-    setter: string | CustomView,
+    setter: string | IPublicTypeCustomView,
     props: Record<string, any>,
 ): VNode[] {
     if (typeof setter === 'string') {
         const _setter = SetterFactory.getSetter(setter);
-        if (!_setter) {
+        if (!_setter)
             return null;
-        }
+
         return [createVNode(_setter.Component, props)];
     }
 
@@ -47,19 +49,19 @@ export const SettingGroupView = defineComponent({
         const { field } = this;
         const { extraProps } = field;
         const { condition, display } = extraProps;
-        const visible =
-            field.isSingle && typeof condition === 'function'
+        const visible
+            = field.isSingle && typeof condition === 'function'
                 ? condition(field) !== false
                 : true;
 
-        if (!visible) {
+        if (!visible)
             return null;
-        }
+
         return createFieldContent(
             {
                 title: field.title,
                 collapsed: !field.expanded,
-                onExpandChange: (expandState) => field.setExpanded(expandState),
+                onExpandChange: expandState => field.setExpanded(expandState),
             },
             field.items.map((item) => {
                 return createSettingFieldView(item);
@@ -79,11 +81,12 @@ export const SettingFieldView = defineComponent({
             const condition = props.field.extraProps?.condition;
             let _visible = true;
             try {
-                _visible =
-                    typeof condition === 'function'
+                _visible
+                    = typeof condition === 'function'
                         ? condition(props.field) !== false
                         : true;
-            } catch (error) {
+            }
+            catch (error) {
                 _visible = false;
                 console.error(
                     'exception when condition (hidden) is executed',
@@ -98,7 +101,8 @@ export const SettingFieldView = defineComponent({
     },
     render() {
         const { field, visible } = this;
-        if (!visible) return;
+        if (!visible)
+            return;
 
         const { extraProps } = field;
         const { defaultValue } = extraProps;
@@ -107,35 +111,35 @@ export const SettingFieldView = defineComponent({
 
         let _defaultValue: any = defaultValue;
         let setterProps: any = {};
-        let setterType: string | CustomView;
+        let setterType: string | IPublicTypeCustomView;
 
         if (Array.isArray(setter)) {
             setterType = 'MixedSetter';
             setterProps = {
                 setters: setter,
             };
-        } else if (isSetterConfig(setter)) {
+        }
+        else if (isSetterConfig(setter)) {
             setterType = setter.componentName;
             if (setter.props) {
                 setterProps = setter.props;
-                if (typeof setterProps === 'function') {
+                if (typeof setterProps === 'function')
                     setterProps = setterProps(field);
-                }
             }
-            if (setter.defaultValue) {
+            if (setter.defaultValue)
                 _defaultValue = setter.defaultValue;
-            }
-        } else if (setter) {
+        }
+        else if (setter) {
             setterType = setter;
         }
 
         let value = null;
         if (field.valueState === -1) {
             setterProps.multiValue = true;
-            if (!('placeholder' in setterProps)) {
+            if (!('placeholder' in setterProps))
                 setterProps.placeholder = 'Multiple Value';
-            }
-        } else {
+        }
+        else {
             value = field.getValue();
         }
 
@@ -145,12 +149,12 @@ export const SettingFieldView = defineComponent({
             if (setterType === 'MixedSetter') {
                 // VariableSetter 不单独使用
                 if (
-                    Array.isArray(setterProps.setters) &&
-                    !setterProps.setters.includes('VariableSetter')
-                ) {
+                    Array.isArray(setterProps.setters)
+                    && !setterProps.setters.includes('VariableSetter')
+                )
                     setterProps.setters.push('VariableSetter');
-                }
-            } else {
+            }
+            else {
                 setterType = 'MixedSetter';
                 setterProps = {
                     setters: [setter, 'VariableSetter'],
@@ -161,13 +165,13 @@ export const SettingFieldView = defineComponent({
         return createFieldContent(
             {
                 title: field.title,
-                onExpandChange: (expandState) => field.setExpanded(expandState),
+                onExpandChange: expandState => field.setExpanded(expandState),
                 onClear: () => field.clearValue(),
                 ...extraProps,
             },
             createSetterContent(setterType, {
                 ...setterProps,
-                field: field,
+                field,
                 node: field.top.getNode(),
                 key: field.id,
                 value,
@@ -186,10 +190,9 @@ export const SettingFieldView = defineComponent({
     },
 });
 
-export const createSettingFieldView = (item: SettingField) => {
-    if (item.isGroup) {
+export function createSettingFieldView(item: SettingField) {
+    if (item.isGroup)
         return <SettingGroupView field={item} key={item.id} />;
-    } else {
+    else
         return <SettingFieldView field={item} key={item.id} />;
-    }
-};
+}

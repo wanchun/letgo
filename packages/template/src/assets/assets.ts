@@ -1,6 +1,6 @@
-import type { AssetsJson } from '@webank/letgo-types';
+import type { IPublicTypeAssetsJson } from '@webank/letgo-types';
 
-const assets: AssetsJson = {
+const assets: IPublicTypeAssetsJson = {
     packages: [
         {
             package: '@fesjs/fes-design',

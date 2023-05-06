@@ -1,25 +1,28 @@
-import {
-    defineComponent,
+import type {
+    CSSProperties,
     PropType,
+} from 'vue';
+import {
+    computed,
+    defineComponent,
+    nextTick,
     onUnmounted,
     watch,
-    CSSProperties,
-    nextTick,
-    computed,
 } from 'vue';
-import { Designer } from '../designer';
-import { Simulator, SimulatorProps } from './simulator';
+import type { Designer } from '../designer';
+import type { SimulatorProps } from './simulator';
+import { Simulator } from './simulator';
 import { BemToolsView } from './bem-tools';
 import {
     canvasCls,
     canvasViewportCls,
     contentCls,
     contentIframeCls,
-    simulatorCls,
     deviceDefaultCls,
     deviceIphone6Cls,
     deviceIphoneXCls,
     deviceMobileCls,
+    simulatorCls,
 } from './simulator-view.css';
 
 const ContentView = defineComponent({
@@ -45,9 +48,8 @@ const ContentView = defineComponent({
                         class={contentIframeCls}
                         style={frameStyle}
                         onLoad={(e) => {
-                            if (e.target instanceof HTMLIFrameElement) {
+                            if (e.target instanceof HTMLIFrameElement)
                                 host.mountContentFrame(e.target);
-                            }
                         }}
                     />
                 </div>
@@ -62,8 +64,8 @@ export const SimulatorView = defineComponent({
         simulatorProps: {
             type: Object as PropType<
                 SimulatorProps & {
-                    designer: Designer;
-                    onMount?: (host: Simulator) => void;
+                    designer: Designer
+                    onMount?: (host: Simulator) => void
                 }
             >,
         },
@@ -71,23 +73,22 @@ export const SimulatorView = defineComponent({
     setup(props) {
         const { designer, onMount } = props.simulatorProps;
 
-        const host =
-            (designer.simulator as Simulator) || new Simulator(designer);
+        const host
+            = (designer.simulator as Simulator) || new Simulator(designer);
 
         const { deviceStyle } = host;
         const innerDeviceCls = computed(() => {
-            if (host.deviceClassName.value) {
+            if (host.deviceClassName.value)
                 return host.deviceClassName.value;
-            }
-            if (host.device.value === 'mobile') {
+
+            if (host.device.value === 'mobile')
                 return deviceMobileCls;
-            }
-            if (host.device.value === 'iphoneX') {
+
+            if (host.device.value === 'iphoneX')
                 return deviceIphoneXCls;
-            }
-            if (host.device.value === 'iphone6') {
+
+            if (host.device.value === 'iphone6')
                 return deviceIphone6Cls;
-            }
 
             return deviceDefaultCls;
         });

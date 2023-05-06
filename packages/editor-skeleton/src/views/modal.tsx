@@ -1,6 +1,7 @@
-import { defineComponent, PropType } from 'vue';
+import type { PropType } from 'vue';
+import { defineComponent } from 'vue';
 import { FModal } from '@fesjs/fes-design';
-import { Modal } from '../widget';
+import type { Modal } from '../widget';
 
 export default defineComponent({
     name: 'Modal',
@@ -12,9 +13,9 @@ export default defineComponent({
     setup(props) {
         return () => {
             const { widget } = props;
-            if (!widget.visible.value) {
+            if (!widget.visible.value)
                 return null;
-            }
+
             return (
                 <FModal show={true} {...widget.props}>
                     {widget.body}

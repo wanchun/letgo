@@ -1,20 +1,23 @@
+import type {
+    PropType,
+    ShallowRef,
+} from 'vue';
 import {
     defineComponent,
     onBeforeMount,
     onMounted,
-    PropType,
-    ShallowRef,
     shallowRef,
     triggerRef,
 } from 'vue';
 import { isArray, isNil } from 'lodash-es';
-import { Setter, SetterType, SettingTarget } from '@webank/letgo-types';
-import { SettingField, createSettingFieldView } from '@webank/letgo-designer';
+import type { IPublicTypeSetter, IPublicTypeSetterType, IPublicTypeSettingTarget } from '@webank/letgo-types';
+import type { SettingField } from '@webank/letgo-designer';
+import { createSettingFieldView } from '@webank/letgo-designer';
 import { FButton } from '@fesjs/fes-design';
 import { PlusOutlined } from '@fesjs/fes-design/icon';
 import { Delete } from '@icon-park/vue-next';
 import { commonProps } from '../../common/setter-props';
-import { wrapperCls, itemCls, itemIconCls, itemContentCls } from './index.css';
+import { itemCls, itemContentCls, itemIconCls, wrapperCls } from './index.css';
 
 const ArraySetterView = defineComponent({
     name: 'ArraySetterView',
@@ -27,7 +30,7 @@ const ArraySetterView = defineComponent({
             type: Array,
         },
         itemSetter: {
-            type: [String, Object, Array] as PropType<SetterType>,
+            type: [String, Object, Array] as PropType<IPublicTypeSetterType>,
         },
     },
     setup(props) {
@@ -35,7 +38,7 @@ const ArraySetterView = defineComponent({
 
         const items: ShallowRef<SettingField[]> = shallowRef([]);
 
-        const onItemChange = (target: SettingTarget) => {
+        const onItemChange = (target: IPublicTypeSettingTarget) => {
             const targetPath: Array<string | number> = target?.path;
             if (!targetPath || targetPath.length < 2) {
                 console.warn(
@@ -59,7 +62,8 @@ const ArraySetterView = defineComponent({
                     fieldValue[index] = items.value[index].getValue();
                     field?.extraProps?.setValue?.call(field, field, fieldValue);
                 }
-            } catch (e) {
+            }
+            catch (e) {
                 console.warn('[ArraySetter] extraProps.setValue failed :', e);
             }
         };
@@ -166,7 +170,7 @@ const ArraySetterView = defineComponent({
     },
 });
 
-export const ArraySetter: Setter = {
+export const ArraySetter: IPublicTypeSetter = {
     type: 'ArraySetter',
     title: '数组设置器',
     Component: ArraySetterView,

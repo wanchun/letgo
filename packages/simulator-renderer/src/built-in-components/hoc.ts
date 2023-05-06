@@ -18,12 +18,12 @@ import {
     leafProps,
     useLeaf,
 } from '@webank/letgo-renderer';
-import type { ComponentInstance } from '@webank/letgo-types';
+import type { IPublicTypeComponentInstance } from '@webank/letgo-types';
 import {
     TransformStage,
     isJSSlot,
 } from '@webank/letgo-types';
-import type { SlotNode } from '@webank/letgo-designer';
+import type { ISlotNode } from '@webank/letgo-designer';
 import type {
     BlockScope,
     SlotSchemaMap,
@@ -138,7 +138,7 @@ export const Hoc = defineComponent({
                         else if (key === 'children') {
                             // 默认插槽更新
                             if (isJSSlot(newValue)) {
-                                const slotNode: SlotNode = prop.slotNode;
+                                const slotNode: ISlotNode = prop.slotNode;
                                 const schema = slotNode.export(
                                     TransformStage.Render,
                                 );
@@ -152,7 +152,7 @@ export const Hoc = defineComponent({
                         }
                         else if (isJSSlot(newValue)) {
                             // 具名插槽更新
-                            const slotNode: SlotNode = prop.slotNode;
+                            const slotNode: ISlotNode = prop.slotNode;
                             const schema = slotNode.export(
                                 TransformStage.Render,
                             );
@@ -179,7 +179,7 @@ export const Hoc = defineComponent({
             );
         }
 
-        const getRef = (inst: ComponentInstance) => {
+        const getRef = (inst: IPublicTypeComponentInstance) => {
             onCompGetCtx(props.schema, inst);
         };
 

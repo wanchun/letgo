@@ -1,6 +1,7 @@
-import { defineComponent, PropType, CSSProperties, computed } from 'vue';
+import type { CSSProperties, PropType } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { NCollapseItem } from 'naive-ui';
-import { FGrid, FGridItem, FSelect, FInput, FSpace } from '@fesjs/fes-design';
+import { FGrid, FGridItem, FInput, FSelect, FSpace } from '@fesjs/fes-design';
 import { useModel } from '@webank/letgo-utils';
 import Row from '../../../component/row';
 import { lightCls } from '../index.css';
@@ -39,7 +40,7 @@ const display = [
     },
 ];
 
-//row | row-reverse | column | column-reverse
+// row | row-reverse | column | column-reverse
 const flexDirection = [
     {
         value: 'row',
@@ -151,8 +152,8 @@ export const LayoutView = defineComponent({
 
         const isFlex = computed(() => {
             return (
-                currentValue.value.display === 'inline-flex' ||
-                currentValue.value.display === 'flex'
+                currentValue.value.display === 'inline-flex'
+                || currentValue.value.display === 'flex'
             );
         });
 
@@ -173,8 +174,8 @@ export const LayoutView = defineComponent({
                                     value,
                                     description,
                                 }: {
-                                    value: string;
-                                    description: string;
+                                    value: string
+                                    description: string
                                 }) => {
                                     return (
                                         <FSpace>
@@ -206,8 +207,8 @@ export const LayoutView = defineComponent({
                                             value,
                                             description,
                                         }: {
-                                            value: string;
-                                            description: string;
+                                            value: string
+                                            description: string
                                         }) => {
                                             return (
                                                 <FSpace>
@@ -237,8 +238,8 @@ export const LayoutView = defineComponent({
                                             value,
                                             description,
                                         }: {
-                                            value: string;
-                                            description: string;
+                                            value: string
+                                            description: string
                                         }) => {
                                             return (
                                                 <FSpace>
@@ -266,8 +267,8 @@ export const LayoutView = defineComponent({
                                             value,
                                             description,
                                         }: {
-                                            value: string;
-                                            description: string;
+                                            value: string
+                                            description: string
                                         }) => {
                                             return (
                                                 <FSpace>
@@ -295,8 +296,8 @@ export const LayoutView = defineComponent({
                                             value,
                                             description,
                                         }: {
-                                            value: string;
-                                            description: string;
+                                            value: string
+                                            description: string
                                         }) => {
                                             return (
                                                 <FSpace>

@@ -1,13 +1,13 @@
-import { DocumentModel } from '../document';
-import { Node as ComponentNode } from '../node';
-import { ParentalNode } from '../types';
-import { LocateEvent } from './dragon';
+import type { DocumentModel } from '../document';
+import type { Node as IComponentNode } from '../node';
+import type { IBaseNode } from '../types';
+import type { LocateEvent } from './dragon';
 
 export interface LocationData {
-    target: ParentalNode; // shadowNode | ConditionFlow | ElementNode | RootNode
-    detail: LocationDetail;
-    source: string;
-    event: LocateEvent;
+    target: IBaseNode // shadowNode | ConditionFlow | ElementNode | IRootNode
+    detail: LocationDetail
+    source: string
+    event: LocateEvent
 }
 
 export enum LocationDetailType {
@@ -16,27 +16,27 @@ export enum LocationDetailType {
 }
 
 export interface LocationChildrenDetail {
-    type: LocationDetailType.Children;
-    index?: number | null;
+    type: LocationDetailType.Children
+    index?: number | null
     /**
      * 是否有效位置
      */
-    valid?: boolean;
-    edge?: DOMRect;
+    valid?: boolean
+    edge?: DOMRect
     near?: {
-        node: ComponentNode;
-        pos: 'before' | 'after' | 'replace';
-        rect?: Rect;
-        align?: 'V' | 'H';
-    };
-    focus?: { type: 'slots' } | { type: 'node'; node: ParentalNode };
+        node: IComponentNode
+        pos: 'before' | 'after' | 'replace'
+        rect?: Rect
+        align?: 'V' | 'H'
+    }
+    focus?: { type: 'slots' } | { type: 'node'; node: IBaseNode }
 }
 
 export interface LocationPropDetail {
     // cover 形态，高亮 domNode，如果 domNode 为空，取 container 的值
-    type: LocationDetailType.Prop;
-    name: string;
-    domNode?: HTMLElement;
+    type: LocationDetailType.Prop
+    name: string
+    domNode?: HTMLElement
 }
 
 export type LocationDetail =
@@ -45,17 +45,17 @@ export type LocationDetail =
     | { type: string; [key: string]: any };
 
 export interface CanvasPoint {
-    canvasX: number;
-    canvasY: number;
+    canvasX: number
+    canvasY: number
 }
 
 export type Rects = DOMRect[] & {
-    elements: Array<Element | Text>;
+    elements: Array<Element | Text>
 };
 
 export type Rect = DOMRect & {
-    elements: Array<Element | Text>;
-    computed?: boolean;
+    elements: Array<Element | Text>
+    computed?: boolean
 };
 
 export function isLocationData(obj: any): obj is LocationData {
@@ -69,58 +69,57 @@ export function isLocationChildrenDetail(
 }
 
 export function isRowContainer(container: Element | Text, win?: Window) {
-    if (isText(container)) {
+    if (isText(container))
         return true;
-    }
+
     const style = (win || getWindow(container)).getComputedStyle(container);
     const display = style.getPropertyValue('display');
-    if (/flex$/.test(display)) {
+    if (display.endsWith('flex')) {
         const direction = style.getPropertyValue('flex-direction') || 'row';
-        if (direction === 'row' || direction === 'row-reverse') {
+        if (direction === 'row' || direction === 'row-reverse')
             return true;
-        }
     }
-    if (/grid$/.test(display)) {
+    if (display.endsWith('grid'))
         return true;
-    }
+
     return false;
 }
 
 export function isChildInline(child: Element | Text, win?: Window) {
-    if (isText(child)) {
+    if (isText(child))
         return true;
-    }
+
     const style = (win || getWindow(child)).getComputedStyle(child);
     return (
-        /^inline/.test(style.getPropertyValue('display')) ||
-        /^(left|right)$/.test(style.getPropertyValue('float'))
+        style.getPropertyValue('display').startsWith('inline')
+        || /^(left|right)$/.test(style.getPropertyValue('float'))
     );
 }
 
 export function getRectTarget(rect: Rect | null) {
-    if (!rect || rect.computed) {
+    if (!rect || rect.computed)
         return null;
-    }
+
     const els = rect.elements;
     return els && els.length > 0 ? els[0] : null;
 }
 
 export function isVerticalContainer(rect: Rect | null) {
     const el = getRectTarget(rect);
-    if (!el) {
+    if (!el)
         return false;
-    }
+
     return isRowContainer(el);
 }
 
 export function isVertical(rect: Rect | null) {
     const el = getRectTarget(rect);
-    if (!el) {
+    if (!el)
         return false;
-    }
+
     return (
-        isChildInline(el) ||
-        (el.parentElement ? isRowContainer(el.parentElement) : false)
+        isChildInline(el)
+        || (el.parentElement ? isRowContainer(el.parentElement) : false)
     );
 }
 
@@ -137,7 +136,7 @@ export function getWindow(elem: Element | Document): Window {
 }
 
 export class DropLocation {
-    readonly target: ParentalNode;
+    readonly target: IBaseNode;
 
     readonly detail: LocationDetail;
 

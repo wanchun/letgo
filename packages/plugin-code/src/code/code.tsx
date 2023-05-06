@@ -7,6 +7,7 @@ import FolderIcon from './folder-icon';
 import StateIcon from './state-icon';
 import JsIcon from './js-icon';
 import ComputedIcon from './computed-icon';
+import MoreIcon from './more-icon';
 
 export default defineComponent({
     setup() {
@@ -33,33 +34,54 @@ export default defineComponent({
             },
         ];
 
+        const commonActions = [
+            {
+                value: 'duplicate',
+                label: '复制',
+            },
+            {
+                value: 'delete',
+                label: () => h('span', {
+                    style: 'color: #ff4d4f',
+                }, '删除'),
+            },
+        ];
+
         return () => {
             return <div class={codeCls}>
                 <div class={codeHeaderCls}>
-                <FDropdown trigger="click" placement="bottom-start" options={options}>
-                    <PlusOutlined class={headerIconCls} />
-                </FDropdown>
+                    <FDropdown trigger="click" placement="bottom-start" options={options}>
+                        <PlusOutlined class={headerIconCls} />
+                    </FDropdown>
                 </div>
                 <ul class={codeWrapCls}>
                     <li class={codeItemCls}>
                         <FolderIcon />
                         <span class={codeItemIdCls}>folder</span>
-                        <span>C</span>
+                        <FDropdown appendToContainer={false} trigger="click" placement="bottom-end" options={commonActions}>
+                            <MoreIcon />
+                        </FDropdown>
                     </li>
                     <li class={codeItemCls}>
                         <StateIcon />
                         <span class={codeItemIdCls}>state1</span>
-                        <span>C</span>
+                        <FDropdown appendToContainer={false} trigger="click" placement="bottom-end" options={commonActions}>
+                            <MoreIcon />
+                        </FDropdown>
                     </li>
                     <li class={codeItemCls}>
                         <JsIcon />
                         <span class={codeItemIdCls}>js</span>
-                        <span>C</span>
+                        <FDropdown appendToContainer={false} trigger="click" placement="bottom-end" options={commonActions}>
+                            <MoreIcon />
+                        </FDropdown>
                     </li>
                     <li class={codeItemCls}>
                         <ComputedIcon />
                         <span class={codeItemIdCls}>computed</span>
-                        <span>C</span>
+                        <FDropdown appendToContainer={false} trigger="click" placement="bottom-end" options={commonActions}>
+                            <MoreIcon />
+                        </FDropdown>
                     </li>
                 </ul>
             </div>;

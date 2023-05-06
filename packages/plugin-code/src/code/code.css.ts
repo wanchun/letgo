@@ -63,3 +63,24 @@ export const codeCommonIconCls = style({
     borderRadius: '4px',
     backgroundColor: '#ffcc66',
 });
+
+export const codeMoreIconCls = style({
+    display: 'none',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: '#8a8a8a',
+    fontSize: '15px',
+    width: '22px',
+    height: '18px',
+    borderRadius: '4px',
+    backgroundColor: '#fff',
+    border: '1px solid #ebebeb',
+    selectors: {
+        [`${codeItemCls}:hover &`]: {
+            display: 'inline-flex',
+        },
+        [`${codeItemActiveCls} &`]: {
+            display: 'inline-flex',
+        },
+    },
+});

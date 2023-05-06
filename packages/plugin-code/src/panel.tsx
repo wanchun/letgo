@@ -14,6 +14,7 @@ import type { Designer } from '@webank/letgo-designer';
 import type { Editor } from '@webank/letgo-editor-core';
 import State from './state/state';
 import CodeSetting from './code/code';
+import { leftPanelCls } from './panel.css';
 
 export default defineComponent({
     props: {
@@ -27,7 +28,7 @@ export default defineComponent({
     setup(props) {
         return () => {
             return (
-                <div>
+                <div class={leftPanelCls}>
                     <FScrollbar>
                         <FTabs>
                             <FTabPane

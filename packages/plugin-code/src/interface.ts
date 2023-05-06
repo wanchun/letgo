@@ -12,10 +12,8 @@ export interface QueryResource {
     enableTransformer: boolean
     query: string
     queryFailureCondition: FailureCondition[]
-
     showSuccessToaster: boolean
     successMessage: string
-
     runWhenModelUpdates: boolean
     runWhenPageLoads: boolean
     enableCaching?: boolean

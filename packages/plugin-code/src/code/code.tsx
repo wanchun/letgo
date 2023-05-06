@@ -1,14 +1,16 @@
 import { defineComponent, h } from 'vue';
 import { FDropdown } from '@fesjs/fes-design';
 import { PlusOutlined } from '@fesjs/fes-design/icon';
-import { codeCls, codeHeaderCls, codeItemCls, codeItemIdCls, codeWrapCls, headerIconCls } from './code.css';
+import { codeCls, codeHeaderCls, codeItemActiveCls, codeItemCls, codeItemIdCls, codeWrapCls, headerIconCls } from './code.css';
 
+import CodeId from './code-id';
 import FolderIcon from './folder-icon';
 import StateIcon from './state-icon';
 import JsIcon from './js-icon';
 import ComputedIcon from './computed-icon';
 import MoreIcon from './more-icon';
 
+// TODO 拖拽交换 code 顺序
 export default defineComponent({
     setup() {
         const options = [
@@ -62,23 +64,23 @@ export default defineComponent({
                             <MoreIcon />
                         </FDropdown>
                     </li>
-                    <li class={codeItemCls}>
+                    <li class={[codeItemCls, codeItemActiveCls]}>
                         <StateIcon />
-                        <span class={codeItemIdCls}>state1</span>
+                        <CodeId id="state1" />
                         <FDropdown appendToContainer={false} trigger="click" placement="bottom-end" options={commonActions}>
                             <MoreIcon />
                         </FDropdown>
                     </li>
                     <li class={codeItemCls}>
                         <JsIcon />
-                        <span class={codeItemIdCls}>js</span>
+                        <CodeId id="js" />
                         <FDropdown appendToContainer={false} trigger="click" placement="bottom-end" options={commonActions}>
                             <MoreIcon />
                         </FDropdown>
                     </li>
                     <li class={codeItemCls}>
                         <ComputedIcon />
-                        <span class={codeItemIdCls}>computed</span>
+                        <CodeId id="computed" />
                         <FDropdown appendToContainer={false} trigger="click" placement="bottom-end" options={commonActions}>
                             <MoreIcon />
                         </FDropdown>

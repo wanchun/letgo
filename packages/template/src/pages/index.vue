@@ -1,9 +1,7 @@
-<template>
-    <div ref="containerRef" class="engine"></div>
-</template>
 <script lang="ts">
-import { defineComponent, ref, onMounted, onBeforeUnmount } from 'vue';
-import { init, destroy, project } from '@webank/letgo-engine';
+import { defineComponent, onBeforeUnmount, onMounted, ref } from 'vue';
+import { destroy, init, project } from '@webank/letgo-engine';
+import { schema } from '../assets/form1';
 
 export default defineComponent({
     setup() {
@@ -14,11 +12,11 @@ export default defineComponent({
                 vueRuntimeUrl:
                     'https://unpkg.com/vue/dist/vue.runtime.global.js',
                 simulatorUrl: [
-                    `http://127.0.0.1:8082/index.umd.js`,
-                    `http://127.0.0.1:8082/style.css`,
+                    'http://127.0.0.1:8082/index.umd.js',
+                    'http://127.0.0.1:8082/style.css',
                 ],
             });
-            project.openDocument();
+            project.openDocument(schema);
         });
 
         onBeforeUnmount(() => {
@@ -31,6 +29,11 @@ export default defineComponent({
     },
 });
 </script>
+
+<template>
+  <div ref="containerRef" class="engine" />
+</template>
+
 <style>
 .engine {
     width: 100%;

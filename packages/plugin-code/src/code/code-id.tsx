@@ -1,5 +1,6 @@
 import type { PropType } from 'vue';
-import { defineComponent, nextTick, ref } from 'vue';
+import { defineComponent, inject, nextTick, ref } from 'vue';
+import { CODE_INJECTION_KEY } from '../constants';
 import { codeIdCls, editIconCls, idContentCls, inputCls } from './code-id.css';
 
 import EditIcon from './edit-icon';
@@ -12,6 +13,9 @@ export default defineComponent({
     setup(props) {
         const inputRefEl = ref<HTMLElement>();
         const editing = ref(false);
+
+        const { hasCodeId } = inject(CODE_INJECTION_KEY);
+
         const goEdit = () => {
             editing.value = true;
             nextTick(() => {
@@ -21,10 +25,15 @@ export default defineComponent({
         const cancelEdit = () => {
             editing.value = false;
         };
+
         const changeId = (event: Event) => {
-            props.onChange((event.target as HTMLInputElement).value, props.id);
-            cancelEdit();
+            const newId = (event.target as HTMLInputElement).value;
+            if (!hasCodeId(newId)) {
+                props.onChange(newId, props.id);
+                cancelEdit();
+            }
         };
+        // TODO 输入重复的 ID 输入框变红
         return () => {
             return <div class={codeIdCls}>
                 <span v-show={!editing.value} class={idContentCls}>

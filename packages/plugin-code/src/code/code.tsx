@@ -1,7 +1,9 @@
-import { defineComponent, h, reactive, ref } from 'vue';
+import { defineComponent, h, ref } from 'vue';
 import { FDropdown } from '@fesjs/fes-design';
 import { PlusOutlined } from '@fesjs/fes-design/icon';
-import type { Code, CodeItem } from '../interface';
+import { JAVASCRIPT_COMPUTED, JAVASCRIPT_QUERY, TEMPORARY_STATE } from '../constants';
+
+import type { CodeItem } from '../interface';
 import { codeCls, codeHeaderCls, codeItemActiveCls, codeItemCls, codeItemIdCls, codeWrapCls, headerIconCls } from './code.css';
 
 import CodeId from './code-id';
@@ -10,34 +12,42 @@ import StateIcon from './state-icon';
 import JsIcon from './js-icon';
 import ComputedIcon from './computed-icon';
 import MoreIcon from './more-icon';
+import useCode from './useCode';
+
+const iconMap = {
+    [JAVASCRIPT_QUERY]: JsIcon,
+    [JAVASCRIPT_COMPUTED]: ComputedIcon,
+    [TEMPORARY_STATE]: StateIcon,
+};
 
 // TODO 拖拽交换 code 顺序
 export default defineComponent({
     setup() {
         const options = [
             {
-                value: '1',
+                value: JAVASCRIPT_QUERY,
                 label: 'Javascript query',
-                icon: () => h(JsIcon),
+                icon: () => h(iconMap[JAVASCRIPT_QUERY]),
             },
             {
-                value: '2',
+                value: JAVASCRIPT_COMPUTED,
                 label: 'Javascript computed',
-                icon: () => h(ComputedIcon),
+                icon: () => h(iconMap[JAVASCRIPT_COMPUTED]),
             },
             {
-                value: '3',
+                value: TEMPORARY_STATE,
                 label: 'Temporary state',
-                icon: () => h(StateIcon),
+                icon: () => h(iconMap[TEMPORARY_STATE]),
             },
-            {
-                value: '4',
-                label: '目录',
-                icon: () => h(FolderIcon),
-            },
+            // {
+            //     value: '4',
+            //     label: '目录',
+            //     icon: () => h(FolderIcon),
+            // },
         ];
 
-        const commonActions = [
+        // TODO 复制的功能
+        const commonOptions = [
             {
                 value: 'duplicate',
                 label: '复制',
@@ -50,17 +60,19 @@ export default defineComponent({
             },
         ];
 
-        const code: Code = reactive({
-            directory: [],
-            code: [],
-        });
+        const { code, changeCodeId, addCodeItem, deleteCodeItem } = useCode();
+
+        const onCommonAction = (value: string, item: CodeItem) => {
+            if (value === 'delete')
+                deleteCodeItem(item.id);
+        };
 
         const renderFolders = () => {
-            return code.directory.map((item) => {
+            return code.directories.map((item) => {
                 return <li class={codeItemCls}>
                         <FolderIcon />
                         <span class={codeItemIdCls}>{item.name}</span>
-                        <FDropdown appendToContainer={false} trigger="click" placement="bottom-end" options={commonActions}>
+                        <FDropdown appendToContainer={false} trigger="click" placement="bottom-end" options={commonOptions}>
                             <MoreIcon />
                         </FDropdown>
                     </li>;
@@ -69,26 +81,19 @@ export default defineComponent({
 
         const activeCodeId = ref('');
         const selectCode = (item: CodeItem) => {
+            console.log(item.id);
             activeCodeId.value = item.id;
         };
-        const changeCodeId = (id: string, preId: string) => {
-            if (code.code.find(item => item.id === id))
-                return;
-            const currentCode = code.code.find(item => item.id === preId);
-            if (currentCode)
-                currentCode.id = id;
-        };
         const renderCodeIcon = (item: CodeItem) => {
-            if (item.type === 'temporaryState') {
-
-            }
+            if (iconMap[item.type])
+                return h(iconMap[item.type]);
         };
         const renderCode = () => {
             return code.code.map((item) => {
                 return <li onClick={() => selectCode(item)} class={[codeItemCls, activeCodeId.value === item.id ? codeItemActiveCls : '']}>
-                    <StateIcon />
+                    {renderCodeIcon(item)}
                     <CodeId id={item.id} onChange={changeCodeId} />
-                    <FDropdown appendToContainer={false} trigger="click" placement="bottom-end" options={commonActions}>
+                    <FDropdown onClick={value => onCommonAction(value, item)} appendToContainer={false} trigger="click" placement="bottom-end" options={commonOptions}>
                         <MoreIcon />
                     </FDropdown>
                 </li>;
@@ -98,33 +103,13 @@ export default defineComponent({
         return () => {
             return <div class={codeCls}>
                 <div class={codeHeaderCls}>
-                    <FDropdown trigger="click" placement="bottom-start" options={options}>
+                    <FDropdown trigger="click" onClick={addCodeItem} placement="bottom-start" options={options}>
                         <PlusOutlined class={headerIconCls} />
                     </FDropdown>
                 </div>
                 <ul class={codeWrapCls}>
                     {renderFolders()}
-                    <li class={[codeItemCls, codeItemActiveCls]}>
-                        <StateIcon />
-                        <CodeId id="state1" />
-                        <FDropdown appendToContainer={false} trigger="click" placement="bottom-end" options={commonActions}>
-                            <MoreIcon />
-                        </FDropdown>
-                    </li>
-                    <li class={codeItemCls}>
-                        <JsIcon />
-                        <CodeId id="js" />
-                        <FDropdown appendToContainer={false} trigger="click" placement="bottom-end" options={commonActions}>
-                            <MoreIcon />
-                        </FDropdown>
-                    </li>
-                    <li class={codeItemCls}>
-                        <ComputedIcon />
-                        <CodeId id="computed" />
-                        <FDropdown appendToContainer={false} trigger="click" placement="bottom-end" options={commonActions}>
-                            <MoreIcon />
-                        </FDropdown>
-                    </li>
+                    {renderCode()}
                 </ul>
             </div>;
         };

@@ -1,4 +1,5 @@
-import { provide, reactive } from 'vue';
+import { provide, reactive, ref } from 'vue';
+import { createSharedComposable } from '@vueuse/core';
 import { CODE_INJECTION_KEY } from '../constants';
 import type { CodeItem, CodeStruct, CodeType } from '../interface';
 import { codeTypeEdit } from './code-type';
@@ -19,7 +20,7 @@ function genCodeMap(code: CodeStruct) {
     return codeMap;
 }
 
-export default function useCode() {
+function useCode() {
     const code: CodeStruct = reactive({
         directories: [],
         code: [],
@@ -77,6 +78,16 @@ export default function useCode() {
         }
     };
 
+    const changeCodeItemContent = (id: string, content: Record<string, any>) => {
+        const item = codeMap.get(id);
+        Object.assign(item, content);
+    };
+
+    const currentCodeItem = ref<CodeItem>();
+    const changeCurrentCodeItem = (item: CodeItem) => {
+        currentCodeItem.value = item;
+    };
+
     provide(CODE_INJECTION_KEY, {
         hasCodeId,
     });
@@ -86,5 +97,12 @@ export default function useCode() {
         changeCodeId,
         addCodeItem,
         deleteCodeItem,
+
+        currentCodeItem,
+        changeCurrentCodeItem,
+
+        changeCodeItemContent,
     };
 }
+
+export default createSharedComposable(useCode);

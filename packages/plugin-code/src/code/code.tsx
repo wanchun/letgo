@@ -1,4 +1,4 @@
-import { defineComponent, h, ref } from 'vue';
+import { defineComponent, h } from 'vue';
 import { FDropdown } from '@fesjs/fes-design';
 import { PlusOutlined } from '@fesjs/fes-design/icon';
 import { JAVASCRIPT_COMPUTED, JAVASCRIPT_QUERY, TEMPORARY_STATE } from '../constants';
@@ -60,7 +60,14 @@ export default defineComponent({
             },
         ];
 
-        const { code, changeCodeId, addCodeItem, deleteCodeItem } = useCode();
+        const {
+            code,
+            changeCodeId,
+            addCodeItem,
+            deleteCodeItem,
+            currentCodeItem,
+            changeCurrentCodeItem,
+        } = useCode();
 
         const onCommonAction = (value: string, item: CodeItem) => {
             if (value === 'delete')
@@ -79,18 +86,13 @@ export default defineComponent({
             });
         };
 
-        const activeCodeId = ref('');
-        const selectCode = (item: CodeItem) => {
-            console.log(item.id);
-            activeCodeId.value = item.id;
-        };
         const renderCodeIcon = (item: CodeItem) => {
             if (iconMap[item.type])
                 return h(iconMap[item.type]);
         };
         const renderCode = () => {
             return code.code.map((item) => {
-                return <li onClick={() => selectCode(item)} class={[codeItemCls, activeCodeId.value === item.id ? codeItemActiveCls : '']}>
+                return <li onClick={() => changeCurrentCodeItem(item)} class={[codeItemCls, currentCodeItem.value?.id === item.id ? codeItemActiveCls : '']}>
                     {renderCodeIcon(item)}
                     <CodeId id={item.id} onChange={changeCodeId} />
                     <FDropdown onClick={value => onCommonAction(value, item)} appendToContainer={false} trigger="click" placement="bottom-end" options={commonOptions}>

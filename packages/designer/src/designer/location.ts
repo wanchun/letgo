@@ -1,22 +1,22 @@
 import type { DocumentModel } from '../document';
 import type { Node as IComponentNode } from '../node';
 import type { INode } from '../types';
-import type { LocateEvent } from './dragon';
+import type { ILocateEvent } from './dragon';
 
-export interface LocationData {
-    target: INode // shadowNode | ConditionFlow | ElementNode | IRootNode
-    detail: LocationDetail
-    source: string
-    event: LocateEvent
-}
-
-export enum LocationDetailType {
+export enum EnumLocationDetail {
     Children = 'Children',
     Prop = 'Prop',
 }
 
-export interface LocationChildrenDetail {
-    type: LocationDetailType.Children
+export interface ILocationData {
+    target: INode // shadowNode | ConditionFlow | ElementNode | IRootNode
+    detail: ILocationDetail
+    source: string
+    event: ILocateEvent
+}
+
+export interface ILocationChildrenDetail {
+    type: EnumLocationDetail.Children
     index?: number | null
     /**
      * 是否有效位置
@@ -26,46 +26,46 @@ export interface LocationChildrenDetail {
     near?: {
         node: IComponentNode
         pos: 'before' | 'after' | 'replace'
-        rect?: Rect
+        rect?: IRect
         align?: 'V' | 'H'
     }
     focus?: { type: 'slots' } | { type: 'node'; node: INode }
 }
 
-export interface LocationPropDetail {
+export interface ILocationPropDetail {
     // cover 形态，高亮 domNode，如果 domNode 为空，取 container 的值
-    type: LocationDetailType.Prop
+    type: EnumLocationDetail.Prop
     name: string
     domNode?: HTMLElement
 }
 
-export type LocationDetail =
-    | LocationChildrenDetail
-    | LocationPropDetail
+export type ILocationDetail =
+    | ILocationChildrenDetail
+    | ILocationPropDetail
     | { type: string; [key: string]: any };
 
-export interface CanvasPoint {
+export interface ICanvasPoint {
     canvasX: number
     canvasY: number
 }
 
-export type Rects = DOMRect[] & {
+export type IRects = DOMRect[] & {
     elements: Array<Element | Text>
 };
 
-export type Rect = DOMRect & {
+export type IRect = DOMRect & {
     elements: Array<Element | Text>
     computed?: boolean
 };
 
-export function isLocationData(obj: any): obj is LocationData {
+export function isLocationData(obj: any): obj is ILocationData {
     return obj && obj.target && obj.detail;
 }
 
 export function isLocationChildrenDetail(
     obj: any,
-): obj is LocationChildrenDetail {
-    return obj && obj.type === LocationDetailType.Children;
+): obj is ILocationChildrenDetail {
+    return obj && obj.type === EnumLocationDetail.Children;
 }
 
 export function isRowContainer(container: Element | Text, win?: Window) {
@@ -96,7 +96,7 @@ export function isChildInline(child: Element | Text, win?: Window) {
     );
 }
 
-export function getRectTarget(rect: Rect | null) {
+export function getRectTarget(rect: IRect | null) {
     if (!rect || rect.computed)
         return null;
 
@@ -104,7 +104,7 @@ export function getRectTarget(rect: Rect | null) {
     return els?.length > 0 ? els[0] : null;
 }
 
-export function isVerticalContainer(rect: Rect | null) {
+export function isVerticalContainer(rect: IRect | null) {
     const el = getRectTarget(rect);
     if (!el)
         return false;
@@ -112,7 +112,7 @@ export function isVerticalContainer(rect: Rect | null) {
     return isRowContainer(el);
 }
 
-export function isVertical(rect: Rect | null) {
+export function isVertical(rect: IRect | null) {
     const el = getRectTarget(rect);
     if (!el)
         return false;
@@ -138,9 +138,9 @@ export function getWindow(elem: Element | Document): Window {
 export class DropLocation {
     readonly target: INode;
 
-    readonly detail: LocationDetail;
+    readonly detail: ILocationDetail;
 
-    readonly event: LocateEvent;
+    readonly event: ILocateEvent;
 
     readonly source: string;
 
@@ -148,14 +148,14 @@ export class DropLocation {
         return this.target.document;
     }
 
-    constructor({ target, detail, source, event }: LocationData) {
+    constructor({ target, detail, source, event }: ILocationData) {
         this.target = target;
         this.detail = detail;
         this.source = source;
         this.event = event;
     }
 
-    clone(event: LocateEvent): DropLocation {
+    clone(event: ILocateEvent): DropLocation {
         return new DropLocation({
             target: this.target,
             detail: this.detail,

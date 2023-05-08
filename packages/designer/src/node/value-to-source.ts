@@ -11,7 +11,8 @@ function propertyNameRequiresQuotes(propertyName: string) {
         )();
 
         return !context.worksWithoutQuotes;
-    } catch (ex) {
+    }
+    catch (ex) {
         return true;
     }
 }
@@ -19,7 +20,7 @@ function propertyNameRequiresQuotes(propertyName: string) {
 function quoteString(str: string, { doubleQuote }: any) {
     return doubleQuote
         ? `"${str.replace(/"/gu, '\\"')}"`
-        : `'${str.replace(/'/gu, "\\'")}'`;
+        : `'${str.replace(/'/gu, '\\\'')}'`;
 }
 
 export function valueToSource(
@@ -41,16 +42,15 @@ export function valueToSource(
                 ? `${indentString.repeat(indentLevel)}true`
                 : `${indentString.repeat(indentLevel)}false`;
         case 'function':
-            if (includeFunctions) {
+            if (includeFunctions)
                 return `${indentString.repeat(indentLevel)}${value}`;
-            }
+
             return null;
         case 'number':
             return `${indentString.repeat(indentLevel)}${value}`;
         case 'object':
-            if (!value) {
+            if (!value)
                 return `${indentString.repeat(indentLevel)}null`;
-            }
 
             if (visitedObjects.has(value)) {
                 return `${indentString.repeat(
@@ -69,66 +69,63 @@ export function valueToSource(
             if (value instanceof Map) {
                 return value.size
                     ? `${indentString.repeat(
-                          indentLevel,
-                      )}new Map(${valueToSource([...value], {
-                          circularReferenceToken,
-                          doubleQuote,
-                          includeFunctions,
-                          includeUndefinedProperties,
-                          indentLevel,
-                          indentString,
-                          lineEnding,
-                          visitedObjects: new Set([value, ...visitedObjects]),
-                      }).slice(indentLevel * indentString.length)})`
+                        indentLevel,
+                    )}new Map(${valueToSource([...value], {
+                        circularReferenceToken,
+                        doubleQuote,
+                        includeFunctions,
+                        includeUndefinedProperties,
+                        indentLevel,
+                        indentString,
+                        lineEnding,
+                        visitedObjects: new Set([value, ...visitedObjects]),
+                    }).slice(indentLevel * indentString.length)})`
                     : `${indentString.repeat(indentLevel)}new Map()`;
             }
 
             if (value instanceof RegExp) {
-                return `${indentString.repeat(indentLevel)}/${value.source}/${
-                    value.flags
-                }`;
+                return `${indentString.repeat(indentLevel)}/${value.source}/${value.flags
+                    }`;
             }
 
             if (value instanceof Set) {
                 return value.size
                     ? `${indentString.repeat(
-                          indentLevel,
-                      )}new Set(${valueToSource([...value], {
-                          circularReferenceToken,
-                          doubleQuote,
-                          includeFunctions,
-                          includeUndefinedProperties,
-                          indentLevel,
-                          indentString,
-                          lineEnding,
-                          visitedObjects: new Set([value, ...visitedObjects]),
-                      }).slice(indentLevel * indentString.length)})`
+                        indentLevel,
+                    )}new Set(${valueToSource([...value], {
+                        circularReferenceToken,
+                        doubleQuote,
+                        includeFunctions,
+                        includeUndefinedProperties,
+                        indentLevel,
+                        indentString,
+                        lineEnding,
+                        visitedObjects: new Set([value, ...visitedObjects]),
+                    }).slice(indentLevel * indentString.length)})`
                     : `${indentString.repeat(indentLevel)}new Set()`;
             }
 
             if (Array.isArray(value)) {
-                if (!value.length) {
+                if (!value.length)
                     return `${indentString.repeat(indentLevel)}[]`;
-                }
 
                 const itemsStayOnTheSameLine = value.every(
-                    (item) =>
-                        typeof item === 'object' &&
-                        item &&
-                        !(item instanceof Date) &&
-                        !(item instanceof Map) &&
-                        !(item instanceof RegExp) &&
-                        !(item instanceof Set) &&
-                        (Object.keys(item).length || value.length === 1),
+                    item =>
+                        typeof item === 'object'
+                        && item
+                        && !(item instanceof Date)
+                        && !(item instanceof Map)
+                        && !(item instanceof RegExp)
+                        && !(item instanceof Set)
+                        && (Object.keys(item).length || value.length === 1),
                 );
 
                 let previousIndex: number | null = null;
 
                 value = value.reduce((items, item, index) => {
                     if (previousIndex !== null) {
-                        for (let i = index - previousIndex - 1; i > 0; i -= 1) {
+                        for (let i = index - previousIndex - 1; i > 0; i -= 1)
                             items.push(indentString.repeat(indentLevel + 1));
-                        }
                     }
 
                     previousIndex = index;
@@ -148,11 +145,13 @@ export function valueToSource(
 
                     if (item === null) {
                         items.push(indentString.repeat(indentLevel + 1));
-                    } else if (itemsStayOnTheSameLine) {
+                    }
+                    else if (itemsStayOnTheSameLine) {
                         items.push(
                             item.slice(indentLevel * indentString.length),
                         );
-                    } else {
+                    }
+                    else {
                         items.push(item);
                     }
 
@@ -162,31 +161,31 @@ export function valueToSource(
                 return itemsStayOnTheSameLine
                     ? `${indentString.repeat(indentLevel)}[${value.join(', ')}]`
                     : `${indentString.repeat(
-                          indentLevel,
-                      )}[${lineEnding}${value.join(
-                          `,${lineEnding}`,
-                      )}${lineEnding}${indentString.repeat(indentLevel)}]`;
+                        indentLevel,
+                    )}[${lineEnding}${value.join(
+                        `,${lineEnding}`,
+                    )}${lineEnding}${indentString.repeat(indentLevel)}]`;
             }
 
             value = Object.keys(value).reduce<string[]>(
                 (entries, propertyName) => {
                     const propertyValue = value[propertyName];
-                    const propertyValueString =
-                        typeof propertyValue !== 'undefined' ||
-                        includeUndefinedProperties
+                    const propertyValueString
+                        = (typeof propertyValue !== 'undefined'
+                            || includeUndefinedProperties)
                             ? valueToSource(value[propertyName], {
-                                  circularReferenceToken,
-                                  doubleQuote,
-                                  includeFunctions,
-                                  includeUndefinedProperties,
-                                  indentLevel: indentLevel + 1,
-                                  indentString,
-                                  lineEnding,
-                                  visitedObjects: new Set([
-                                      value,
-                                      ...visitedObjects,
-                                  ]),
-                              })
+                                circularReferenceToken,
+                                doubleQuote,
+                                includeFunctions,
+                                includeUndefinedProperties,
+                                indentLevel: indentLevel + 1,
+                                indentString,
+                                lineEnding,
+                                visitedObjects: new Set([
+                                    value,
+                                    ...visitedObjects,
+                                ]),
+                            })
                             : null;
 
                     if (propertyValueString) {
@@ -194,17 +193,17 @@ export function valueToSource(
                             propertyName,
                         )
                             ? quoteString(propertyName, {
-                                  doubleQuote,
-                              })
+                                doubleQuote,
+                            })
                             : propertyName;
-                        const trimmedPropertyValueString =
-                            propertyValueString.slice(
+                        const trimmedPropertyValueString
+                            = propertyValueString.slice(
                                 (indentLevel + 1) * indentString.length,
                             );
 
                         if (
-                            typeof propertyValue === 'function' &&
-                            trimmedPropertyValueString.startsWith(
+                            typeof propertyValue === 'function'
+                            && trimmedPropertyValueString.startsWith(
                                 `${propertyName}()`,
                             )
                         ) {
@@ -215,7 +214,8 @@ export function valueToSource(
                                     propertyName.length,
                                 )}`,
                             );
-                        } else {
+                        }
+                        else {
                             entries.push(
                                 `${indentString.repeat(
                                     indentLevel + 1,
@@ -231,10 +231,10 @@ export function valueToSource(
 
             return value.length
                 ? `${indentString.repeat(
-                      indentLevel,
-                  )}{${lineEnding}${value.join(
-                      `,${lineEnding}`,
-                  )}${lineEnding}${indentString.repeat(indentLevel)}}`
+                    indentLevel,
+                )}{${lineEnding}${value.join(
+                    `,${lineEnding}`,
+                )}${lineEnding}${indentString.repeat(indentLevel)}}`
                 : `${indentString.repeat(indentLevel)}{}`;
         case 'string':
             return `${indentString.repeat(indentLevel)}${quoteString(value, {
@@ -270,17 +270,18 @@ export function valueToSource(
 }
 
 export function getSource(value: any): string {
-    if (value && value.__source) {
+    if (value && value.__source)
         return value.__source;
-    }
+
     let source = valueToSource(value);
-    if (source === 'undefined') {
+    if (source === 'undefined')
         source = '';
-    }
+
     if (value) {
         try {
             value.__source = source;
-        } catch (ex) {
+        }
+        catch (ex) {
             console.error(ex);
         }
     }

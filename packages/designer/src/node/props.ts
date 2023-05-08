@@ -18,6 +18,7 @@ interface ExtrasObject {
 }
 
 export const EXTRA_KEY_PREFIX = '___';
+
 export function getConvertedExtraKey(key: string): string {
     if (!key)
         return '';
@@ -28,6 +29,7 @@ export function getConvertedExtraKey(key: string): string {
 
     return EXTRA_KEY_PREFIX + _key + EXTRA_KEY_PREFIX + key.slice(_key.length);
 }
+
 export function getOriginalExtraKey(key: string): string {
     return key.replace(new RegExp(`${EXTRA_KEY_PREFIX}`, 'g'), '');
 }

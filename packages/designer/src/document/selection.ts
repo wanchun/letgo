@@ -1,6 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
 import { reactive } from 'vue';
-import { PositionNO, comparePosition } from '../node/node';
+import { EnumPositionNO, comparePosition } from '../node/node';
 import type { INode } from '../types';
 import type { DocumentModel } from './document-model';
 
@@ -138,12 +138,12 @@ export class Selection {
             while (i-- > 0) {
                 const n = comparePosition(nodes[i], node);
                 // nodes[i] contains node
-                if (n === PositionNO.Contains || n === PositionNO.TheSame) {
+                if (n === EnumPositionNO.Contains || n === EnumPositionNO.TheSame) {
                     isTop = false;
                     break;
                 }
                 // node contains nodes[i], delete nodes[i]
-                if (n === PositionNO.ContainedBy)
+                if (n === EnumPositionNO.ContainedBy)
                     nodes.splice(i, 1);
             }
             // node is top item, push to nodes

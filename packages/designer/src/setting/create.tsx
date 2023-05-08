@@ -50,7 +50,7 @@ export const SettingGroupView = defineComponent({
         const { extraProps } = field;
         const { condition, display } = extraProps;
         const visible
-            = field.isSingle && typeof condition === 'function'
+            = (field.isSingle && typeof condition === 'function')
                 ? condition(field) !== false
                 : true;
 

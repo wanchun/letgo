@@ -1,5 +1,5 @@
 import { ScrollTarget } from '../designer';
-import type { IViewport, IPoint, TypeAutoFit } from '../types';
+import type { IPoint, IViewport, TypeAutoFit } from '../types';
 import { AutoFit } from '../types';
 
 export class Viewport implements IViewport {

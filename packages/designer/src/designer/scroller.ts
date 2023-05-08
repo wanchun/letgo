@@ -1,5 +1,5 @@
 import { isElement } from '@webank/letgo-utils';
-import { IScrollable } from '../types';
+import type { IScrollable } from '../types';
 
 export class ScrollTarget {
     get left() {
@@ -33,9 +33,8 @@ export class ScrollTarget {
     private doc?: HTMLElement;
 
     constructor(private target: Window | Element) {
-        if (isWindow(target)) {
+        if (isWindow(target))
             this.doc = target.document.documentElement;
-        }
     }
 }
 
@@ -56,9 +55,9 @@ export class Scroller {
 
     get scrollTarget(): ScrollTarget | null {
         let target = this.scrollable.scrollTarget;
-        if (!target) {
+        if (!target)
             return null;
-        }
+
         if (isElement(target)) {
             target = new ScrollTarget(target);
             this.scrollable.scrollTarget = target;
@@ -70,9 +69,8 @@ export class Scroller {
         this.cancel();
 
         const { scrollTarget } = this;
-        if (!scrollTarget) {
+        if (!scrollTarget)
             return;
-        }
 
         let pid: number;
         const { left } = scrollTarget;
@@ -82,8 +80,8 @@ export class Scroller {
         };
 
         if (
-            (left === options.left || options.left == null) &&
-            top === options.top
+            (left === options.left || options.left == null)
+            && top === options.top
         ) {
             end();
             return;
@@ -93,27 +91,26 @@ export class Scroller {
         const start = +new Date();
 
         const animate = () => {
-            if (pid !== this.pid) {
+            if (pid !== this.pid)
                 return;
-            }
 
             const now = +new Date();
             const time = Math.min(1, (now - start) / duration);
             const eased = easing(time);
             const opt: any = {};
-            if (options.left != null) {
+            if (options.left != null)
                 opt.left = eased * (options.left - left) + left;
-            }
-            if (options.top != null) {
+
+            if (options.top != null)
                 opt.top = eased * (options.top - top) + top;
-            }
 
             scrollTarget.scrollTo(opt);
 
             if (time < 1) {
                 this.pid = requestAnimationFrame(animate);
                 pid = this.pid;
-            } else {
+            }
+            else {
                 end();
             }
         };
@@ -127,44 +124,44 @@ export class Scroller {
 
         const { bounds, scale = 1 } = this.scrollable;
         const { scrollTarget } = this;
-        if (!scrollTarget || !bounds) {
+        if (!scrollTarget || !bounds)
             return;
-        }
 
         const x = point.globalX;
         const y = point.globalY;
 
-        const maxScrollHeight =
-            scrollTarget.scrollHeight - bounds.height / scale;
+        const maxScrollHeight
+            = scrollTarget.scrollHeight - bounds.height / scale;
         const maxScrollWidth = scrollTarget.scrollWidth - bounds.width / scale;
         let sx = scrollTarget.left;
         let sy = scrollTarget.top;
         let ax = 0;
         let ay = 0;
         if (y < bounds.top + SCROLL_ACCURACY) {
-            ay =
-                -Math.min(Math.max(bounds.top + SCROLL_ACCURACY - y, 10), 50) /
-                scale;
-        } else if (y > bounds.bottom - SCROLL_ACCURACY) {
-            ay =
-                Math.min(
+            ay
+                = -Math.min(Math.max(bounds.top + SCROLL_ACCURACY - y, 10), 50)
+                / scale;
+        }
+        else if (y > bounds.bottom - SCROLL_ACCURACY) {
+            ay
+                = Math.min(
                     Math.max(y + SCROLL_ACCURACY - bounds.bottom, 10),
                     50,
                 ) / scale;
         }
         if (x < bounds.left + SCROLL_ACCURACY) {
-            ax =
-                -Math.min(Math.max(bounds.top + SCROLL_ACCURACY - y, 10), 50) /
-                scale;
-        } else if (x > bounds.right - SCROLL_ACCURACY) {
-            ax =
-                Math.min(Math.max(x + SCROLL_ACCURACY - bounds.right, 10), 50) /
-                scale;
+            ax
+                = -Math.min(Math.max(bounds.top + SCROLL_ACCURACY - y, 10), 50)
+                / scale;
+        }
+        else if (x > bounds.right - SCROLL_ACCURACY) {
+            ax
+                = Math.min(Math.max(x + SCROLL_ACCURACY - bounds.right, 10), 50)
+                / scale;
         }
 
-        if (!ax && !ay) {
+        if (!ax && !ay)
             return;
-        }
 
         const animate = () => {
             let scroll = false;
@@ -178,9 +175,8 @@ export class Scroller {
                 sx = Math.min(Math.max(sx, 0), maxScrollWidth);
                 scroll = true;
             }
-            if (!scroll) {
+            if (!scroll)
                 return;
-            }
 
             scrollTarget.scrollTo({ left: sx, top: sy });
             this.pid = requestAnimationFrame(animate);
@@ -190,9 +186,9 @@ export class Scroller {
     }
 
     cancel() {
-        if (this.pid) {
+        if (this.pid)
             cancelAnimationFrame(this.pid);
-        }
+
         this.pid = undefined;
     }
 }

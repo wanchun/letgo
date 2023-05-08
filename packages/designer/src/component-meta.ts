@@ -66,7 +66,7 @@ function preprocessMetadata(
     };
 }
 
-export interface MetadataTransducer {
+interface IMetadataTransducer {
     (prev: IPublicTypeTransformedComponentMetadata): IPublicTypeTransformedComponentMetadata
     /**
      * 0 - 9   system
@@ -80,10 +80,10 @@ export interface MetadataTransducer {
     id?: string
 }
 
-const metadataTransducers: MetadataTransducer[] = [];
+const metadataTransducers: IMetadataTransducer[] = [];
 
 export function registerMetadataTransducer(
-    transducer: MetadataTransducer,
+    transducer: IMetadataTransducer,
     level = 100,
     id?: string,
 ) {
@@ -99,7 +99,7 @@ export function registerMetadataTransducer(
         metadataTransducers.splice(i, 0, transducer);
 }
 
-export function getRegisteredMetadataTransducers(): MetadataTransducer[] {
+export function getRegisteredMetadataTransducers(): IMetadataTransducer[] {
     return metadataTransducers;
 }
 

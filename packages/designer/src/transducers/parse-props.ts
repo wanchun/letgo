@@ -53,18 +53,20 @@ function propTypeToSetter(propType: IPublicTypeProp): IPublicTypeSetterType {
                 defaultValue: false,
             };
         case 'oneOf':
+            // eslint-disable-next-line no-case-declarations
             const dataSource = ((propType as IPublicTypeOneOf).value || []).map(
                 (value, index) => {
                     const t = typeof value;
                     return {
                         label:
-                            t === 'string' || t === 'number' || t === 'boolean'
+                            (t === 'string' || t === 'number' || t === 'boolean')
                                 ? String(value)
                                 : `value ${index}`,
                         value,
                     };
                 },
             );
+            // eslint-disable-next-line no-case-declarations
             const componentName
                 = dataSource.length >= 4 ? 'SelectSetter' : 'RadioGroupSetter';
             return {
@@ -90,6 +92,7 @@ function propTypeToSetter(propType: IPublicTypeProp): IPublicTypeSetterType {
             };
         case 'shape':
         case 'exact':
+            // eslint-disable-next-line no-case-declarations
             const items = ((propType as any).value || []).map((item: any) =>
                 propConfigToFieldConfig(item),
             );

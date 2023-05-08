@@ -3,20 +3,20 @@ import type { ComponentMeta } from '../component-meta';
 import type { Designer } from '../designer';
 import type { INode } from '../types';
 
-export interface SettingEntry extends IPublicTypeSettingTarget {
+export interface ISettingEntry extends IPublicTypeSettingTarget {
     readonly nodes: INode[]
     readonly componentMeta: ComponentMeta | null
     readonly designer: Designer
 
     // 顶端
-    readonly top: SettingEntry
+    readonly top: ISettingEntry
     // 父级
-    readonly parent: SettingEntry
+    readonly parent: ISettingEntry
 
-    get: (propName: string | number) => SettingEntry | null
+    get: (propName: string | number) => ISettingEntry | null
 }
 
-export enum PROP_VALUE_CHANGED_TYPE {
+export enum EnumPropValueChangeType {
     /**
      * normal set value
      */
@@ -29,6 +29,6 @@ export enum PROP_VALUE_CHANGED_TYPE {
 
 export interface ISetValueOptions {
     disableMutator?: boolean
-    type?: PROP_VALUE_CHANGED_TYPE
+    type?: EnumPropValueChangeType
     fromSetHotValue?: boolean
 }

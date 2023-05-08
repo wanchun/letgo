@@ -6,7 +6,7 @@ import type { INode, ISensor, ISimulator } from '../types';
 import { isSimulator } from '../types';
 import { makeEventsHandler } from '../utils';
 import type { Designer } from './designer';
-import type { LocationData } from './location';
+import type { ILocationData } from './location';
 import { DropLocation } from './location';
 
 export enum EnumDragObject {
@@ -14,34 +14,34 @@ export enum EnumDragObject {
     NodeData = 'nodeData',
 }
 
-export interface DragNodeObject {
+export interface IDragNodeObject {
     type: EnumDragObject.Node
     nodes: INode[]
 }
 
-export interface DragNodeDataObject {
+export interface IDragNodeDataObject {
     type: EnumDragObject.NodeData
     data: IPublicTypeNodeSchema | IPublicTypeNodeSchema[]
     description?: string
     [extra: string]: unknown
 }
 
-export interface DragAnyObject {
+export interface IDragAnyObject {
     type: string
     [key: string]: unknown
 }
 
-export type DragObject = DragNodeObject | DragNodeDataObject | DragAnyObject;
+export type IDragObject = IDragNodeObject | IDragNodeDataObject | IDragAnyObject;
 
-export function isDragNodeObject(obj: any): obj is DragNodeObject {
+export function isDragNodeObject(obj: any): obj is IDragNodeObject {
     return obj && obj.type === EnumDragObject.Node;
 }
 
-export function isDragNodeDataObject(obj: any): obj is DragNodeDataObject {
+export function isDragNodeDataObject(obj: any): obj is IDragNodeDataObject {
     return obj && obj.type === EnumDragObject.NodeData;
 }
 
-export function isDragAnyObject(obj: any): obj is DragAnyObject {
+export function isDragAnyObject(obj: any): obj is IDragAnyObject {
     return (
         obj
         && obj.type !== EnumDragObject.NodeData
@@ -49,7 +49,7 @@ export function isDragAnyObject(obj: any): obj is DragAnyObject {
     );
 }
 
-export interface LocateEvent {
+export interface ILocateEvent {
     readonly type: 'LocateEvent'
     /**
      * 浏览器窗口坐标系
@@ -63,7 +63,7 @@ export interface LocateEvent {
     /**
      * 拖拽对象
      */
-    readonly dragObject: DragObject
+    readonly dragObject: IDragObject
 
     /**
      * 激活的感应器
@@ -132,7 +132,7 @@ export function isSameAs(
     return e1.clientY === e2.clientY && e1.clientX === e2.clientX;
 }
 
-function getSourceSensor(dragObject: DragObject): ISimulator | null {
+function getSourceSensor(dragObject: IDragObject): ISimulator | null {
     if (!isDragNodeObject(dragObject))
         return null;
 
@@ -175,7 +175,7 @@ export class Dragon {
      * @param shell container element
      * @param boost boost got a drag object
      */
-    from(shell: Element, boost: (e: MouseEvent) => DragObject | null) {
+    from(shell: Element, boost: (e: MouseEvent) => IDragObject | null) {
         const mousedown = (e: MouseEvent) => {
             // ESC or RightClick
             if (e.which === 3 || e.button === 2)
@@ -200,7 +200,7 @@ export class Dragon {
      * @param dragObject 拖拽对象
      * @param boostEvent 拖拽初始时事件
      */
-    boost(dragObject: DragObject, boostEvent: MouseEvent | DragEvent) {
+    boost(dragObject: IDragObject, boostEvent: MouseEvent | DragEvent) {
         const { designer } = this;
         const handleEvents = makeEventsHandler(boostEvent, [
             designer.simulator,
@@ -242,7 +242,7 @@ export class Dragon {
             }
         };
 
-        const createLocateEvent = (e: MouseEvent | DragEvent): LocateEvent => {
+        const createLocateEvent = (e: MouseEvent | DragEvent): ILocateEvent => {
             const evt: any = {
                 type: 'LocateEvent',
                 dragObject,
@@ -291,7 +291,7 @@ export class Dragon {
             return evt;
         };
 
-        const chooseSensor = (e: LocateEvent) => {
+        const chooseSensor = (e: ILocateEvent) => {
             // this.sensors will change on dragstart
             const sensors: ISensor[] = [...this.sensors, designer.simulator];
             let sensor
@@ -481,7 +481,7 @@ export class Dragon {
     /**
      * 创建插入位置，考虑放到 dragon 中
      */
-    createLocation(locationData: LocationData): DropLocation {
+    createLocation(locationData: ILocationData): DropLocation {
         const loc = new DropLocation(locationData);
         this._dropLocation = loc;
         this.emitter.emit('dropLocation.change', loc);
@@ -519,21 +519,21 @@ export class Dragon {
         this.designer.simulator.clearState();
     }
 
-    onDragstart(func: (e: LocateEvent) => any) {
+    onDragstart(func: (e: ILocateEvent) => any) {
         this.emitter.on('dragstart', func);
         return () => {
             this.emitter.off('dragstart', func);
         };
     }
 
-    onDrag(func: (e: LocateEvent) => any) {
+    onDrag(func: (e: ILocateEvent) => any) {
         this.emitter.on('drag', func);
         return () => {
             this.emitter.off('drag', func);
         };
     }
 
-    onDragend(func: (x: { dragObject: DragObject; copy: boolean }) => any) {
+    onDragend(func: (x: { dragObject: IDragObject; copy: boolean }) => any) {
         this.emitter.on('dragend', func);
         return () => {
             this.emitter.off('dragend', func);

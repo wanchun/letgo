@@ -1,9 +1,9 @@
 import type { IPublicTypeFieldConfig, IPublicTypeFieldExtraProps, IPublicTypeSetterType } from '@webank/letgo-types';
 import { SettingProp } from './setting-prop';
-import type { SettingEntry } from './types';
+import type { ISettingEntry } from './types';
 
 function getSettingFieldCollectorKey(
-    parent: SettingEntry,
+    parent: ISettingEntry,
     config: IPublicTypeFieldConfig,
 ) {
     const path = [config.name];
@@ -17,7 +17,7 @@ function getSettingFieldCollectorKey(
     return path.join('.');
 }
 
-export class SettingField extends SettingProp implements SettingEntry {
+export class SettingField extends SettingProp implements ISettingEntry {
     readonly isSettingField = true;
 
     readonly isRequired: boolean;
@@ -57,7 +57,7 @@ export class SettingField extends SettingProp implements SettingEntry {
     }
 
     constructor(
-        parent: SettingEntry,
+        parent: ISettingEntry,
         config: IPublicTypeFieldConfig,
         settingFieldCollector?: (
             name: string | number,

@@ -1,5 +1,5 @@
+import type { IPublicTypeTransformedComponentMetadata } from '@webank/letgo-types';
 import {
-    IPublicTypeTransformedComponentMetadata,
     isJSFunction,
 } from '@webank/letgo-types';
 import { isPlainObject } from 'lodash-es';
@@ -15,12 +15,13 @@ const leadingFnNameRe = /^\w+\s*\(/;
  * @returns
  */
 function transformStringToFunction(str: string) {
-    if (typeof str !== 'string') return str;
+    if (typeof str !== 'string')
+        return str;
 
     let fn;
-    if (leadingFnNameRe.test(str) && !leadingFnRe.test(str)) {
+    if (leadingFnNameRe.test(str) && !leadingFnRe.test(str))
         str = `function ${str}`;
-    }
+
     const fnBody = `
     return function() {
       const self = this;
@@ -34,7 +35,8 @@ function transformStringToFunction(str: string) {
   `;
     try {
         fn = new Function(fnBody)();
-    } catch (e) {
+    }
+    catch (e) {
         console.error(str);
         console.error(e.message);
     }
@@ -42,16 +44,18 @@ function transformStringToFunction(str: string) {
 }
 
 function parseJSFunc(obj: any, enableAllowedKeys = true) {
-    if (!obj) return;
+    if (!obj)
+        return;
     Object.keys(obj).forEach((key) => {
         const item = obj[key];
-        if (isJSFunction(item)) {
+        if (isJSFunction(item))
             obj[key] = transformStringToFunction(item.value);
-        } else if (Array.isArray(item)) {
-            item.forEach((o) => parseJSFunc(o, enableAllowedKeys));
-        } else if (isPlainObject(item)) {
+
+        else if (Array.isArray(item))
+            item.forEach(o => parseJSFunc(o, enableAllowedKeys));
+
+        else if (isPlainObject(item))
             parseJSFunc(item, enableAllowedKeys);
-        }
     });
 }
 

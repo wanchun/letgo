@@ -7,7 +7,7 @@ import type {
 } from '@webank/letgo-types';
 import type { Node, NodeChildren } from './node';
 import type { DocumentModel } from './document';
-import type { DropLocation, LocateEvent, ScrollTarget } from './designer';
+import type { DropLocation, ILocateEvent, ScrollTarget } from './designer';
 import type { ISimulatorRenderer } from './simulator';
 
 export type IComponentInstance = IPublicTypeComponentRecord | Element;
@@ -60,15 +60,15 @@ export interface ISensor {
     /**
      * 给事件打补丁
      */
-    fixEvent(e: LocateEvent): LocateEvent
+    fixEvent(e: ILocateEvent): ILocateEvent
     /**
      * 定位并激活
      */
-    locate(e: LocateEvent): DropLocation | undefined | null
+    locate(e: ILocateEvent): DropLocation | undefined | null
     /**
      * 是否进入敏感板区域
      */
-    isEnter(e: LocateEvent): boolean
+    isEnter(e: ILocateEvent): boolean
     /**
      * 取消激活
      */
@@ -126,7 +126,7 @@ export interface ISimulator<P = object> extends ISensor {
     /**
      * 查找合适的投放容器
      */
-    getDropContainer(e: LocateEvent): IDropContainer | null
+    getDropContainer(e: ILocateEvent): IDropContainer | null
     /**
      * 查找节点的 dom
      */

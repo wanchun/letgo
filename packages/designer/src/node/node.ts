@@ -23,7 +23,7 @@ import { NodeChildren } from './node-children';
 import { Props } from './props';
 import type { Prop } from './prop';
 
-export type PropChangeOptions = Omit<
+type IPropChangeOptions = Omit<
     GlobalEvent.Node.Prop.ChangeOptions,
     'node'
 >;
@@ -325,11 +325,11 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         this.props.import(props);
     }
 
-    emitPropChange(val: PropChangeOptions) {
+    emitPropChange(val: IPropChangeOptions) {
         this.emitter.emit('propChange', val);
     }
 
-    onPropChange(func: (info: PropChangeOptions) => void): () => void {
+    onPropChange(func: (info: IPropChangeOptions) => void): () => void {
         const wrappedFunc = wrapWithEventSwitch(func);
         this.emitter.on('propChange', wrappedFunc);
         return () => {
@@ -604,36 +604,36 @@ export function getZLevelTop(child: INode, zLevel: number): INode | null {
 // 8  node1 contained_by node2
 // 2  node1 before or after node2
 // 0  node1 same as node2
-export enum PositionNO {
+export enum EnumPositionNO {
     Contains = 16,
     ContainedBy = 8,
     BeforeOrAfter = 2,
     TheSame = 0,
 }
 
-export function comparePosition(node1: INode, node2: INode): PositionNO {
+export function comparePosition(node1: INode, node2: INode): EnumPositionNO {
     if (node1 === node2)
-        return PositionNO.TheSame;
+        return EnumPositionNO.TheSame;
 
     const l1 = node1.zLevel;
     const l2 = node2.zLevel;
     if (l1 === l2)
-        return PositionNO.BeforeOrAfter;
+        return EnumPositionNO.BeforeOrAfter;
 
     let p: any;
     if (l1 < l2) {
         p = getZLevelTop(node2, l1);
         if (p && p === node1)
-            return PositionNO.Contains;
+            return EnumPositionNO.Contains;
 
-        return PositionNO.BeforeOrAfter;
+        return EnumPositionNO.BeforeOrAfter;
     }
 
     p = getZLevelTop(node1, l2);
     if (p && p === node2)
-        return PositionNO.ContainedBy;
+        return EnumPositionNO.ContainedBy;
 
-    return PositionNO.BeforeOrAfter;
+    return EnumPositionNO.BeforeOrAfter;
 }
 
 /**

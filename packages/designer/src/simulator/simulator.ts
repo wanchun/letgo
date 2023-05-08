@@ -18,8 +18,8 @@ import type {
     IPublicTypePackage,
 } from '@webank/letgo-types';
 import {
-    AssetLevel,
-    AssetType,
+    IPublicEnumAssetLevel,
+    IPublicEnumAssetType,
 } from '@webank/letgo-types';
 import {
     assetBundle,
@@ -37,17 +37,17 @@ import type {
 } from '../types';
 import type { Project } from '../project';
 import type {
-    CanvasPoint,
     Designer,
-    DragNodeObject,
     DropLocation,
-    LocateEvent,
-    LocationChildrenDetail,
-    Rect,
+    ICanvasPoint,
+    IDragNodeObject,
+    ILocateEvent,
+    ILocationChildrenDetail,
+    IRect,
 } from '../designer';
 import {
     EnumDragObject,
-    LocationDetailType,
+    EnumLocationDetail,
     Scroller,
     getRectTarget,
     isChildInline,
@@ -63,15 +63,15 @@ import { Viewport } from './viewport';
 import type { ISimulatorRenderer } from './renderer';
 import { createSimulator } from './create-simulator';
 
-export interface DeviceStyleProps {
+export interface IDeviceStyleProps {
     canvas?: CSSProperties
     viewport?: CSSProperties
 }
 
-export interface SimulatorProps {
+export interface ISimulatorProps {
     designMode?: 'live' | 'design' | 'preview' | 'extend' | 'border'
     device?: 'mobile' | 'iphone' | string
-    deviceStyle?: DeviceStyleProps
+    deviceStyle?: IDeviceStyleProps
     deviceClassName?: string
     library?: IPublicTypePackage[]
     simulatorUrl?: IPublicTypeAsset
@@ -84,19 +84,19 @@ win.Vue = Vue;
 
 const defaultEnvironment = [
     assetItem(
-        AssetType.JSText,
+        IPublicEnumAssetType.JSText,
         'window.__is_simulator_env__=true;window.__VUE_DEVTOOLS_GLOBAL_HOOK__=window.parent.__VUE_DEVTOOLS_GLOBAL_HOOK__;',
     ),
 ];
 
-export class Simulator implements ISimulator<SimulatorProps> {
+export class Simulator implements ISimulator<ISimulatorProps> {
     readonly isSimulator = true;
 
     private emitter = new EventEmitter();
 
     private _sensorAvailable = true;
 
-    private props: ShallowReactive<SimulatorProps> = shallowReactive({});
+    private props: ShallowReactive<ISimulatorProps> = shallowReactive({});
 
     private _contentWindow?: Window;
 
@@ -154,7 +154,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
         return this.get('deviceClassName');
     });
 
-    deviceStyle: ComputedRef<DeviceStyleProps | undefined> = computed(() => {
+    deviceStyle: ComputedRef<IDeviceStyleProps | undefined> = computed(() => {
         return this.get('deviceStyle');
     });
 
@@ -168,7 +168,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
         this.scroller = new Scroller(this.viewport);
     }
 
-    setProps(props: SimulatorProps) {
+    setProps(props: ISimulatorProps) {
         for (const p in this.props)
             delete this.props[p];
 
@@ -208,20 +208,20 @@ export class Simulator implements ISimulator<SimulatorProps> {
             // required & use once
             assetBundle(
                 this.get('environment') || defaultEnvironment,
-                AssetLevel.Environment,
+                IPublicEnumAssetLevel.Environment,
             ),
 
             assetBundle(
                 engineConfig.get('vueRuntimeUrl')
                     ?? 'https://unpkg.com/vue/dist/vue.runtime.global.js',
-                AssetLevel.Environment,
+                IPublicEnumAssetLevel.Environment,
             ),
 
             // required & use once
-            assetBundle(libraryAsset, AssetLevel.Library),
+            assetBundle(libraryAsset, IPublicEnumAssetLevel.Library),
 
             // required & use once
-            assetBundle(this.get('simulatorUrl'), AssetLevel.Runtime),
+            assetBundle(this.get('simulatorUrl'), IPublicEnumAssetLevel.Runtime),
         ];
 
         // wait 准备 iframe 内容、依赖库注入
@@ -281,7 +281,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
             });
         }
         libraryAsset.unshift(
-            assetItem(AssetType.JSText, libraryExportList.join('')),
+            assetItem(IPublicEnumAssetType.JSText, libraryExportList.join('')),
         );
 
         return libraryAsset;
@@ -431,7 +431,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
     /**
      * @see ISimulator
      */
-    fixEvent(e: LocateEvent): LocateEvent {
+    fixEvent(e: ILocateEvent): ILocateEvent {
         if (e.fixed)
             return e;
 
@@ -466,9 +466,9 @@ export class Simulator implements ISimulator<SimulatorProps> {
     /**
      * @see ISimulator
      */
-    locate(e: LocateEvent): DropLocation | undefined | null {
+    locate(e: ILocateEvent): DropLocation | undefined | null {
         const { dragObject } = e;
-        const { nodes } = dragObject as DragNodeObject;
+        const { nodes } = dragObject as IDragNodeObject;
 
         const operationalNodes = nodes?.filter((node) => {
             const onMoveHook
@@ -525,8 +525,8 @@ export class Simulator implements ISimulator<SimulatorProps> {
 
         const { children } = container;
 
-        const detail: LocationChildrenDetail = {
-            type: LocationDetailType.Children,
+        const detail: ILocationChildrenDetail = {
+            type: EnumLocationDetail.Children,
             index: 0,
             edge,
         };
@@ -647,7 +647,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
     /**
      * @see ISimulator
      */
-    getDropContainer(e: LocateEvent): IDropContainer | null {
+    getDropContainer(e: ILocateEvent): IDropContainer | null {
         const { target, dragObject } = e;
         const isAny = isDragAnyObject(dragObject);
 
@@ -755,7 +755,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
     /**
      * 控制接受
      */
-    handleAccept({ container }: IDropContainer, e: LocateEvent): boolean {
+    handleAccept({ container }: IDropContainer, e: ILocateEvent): boolean {
         const { dragObject } = e;
         const document = this.project.currentDocument.value;
         const focusNode = document.focusNode;
@@ -822,7 +822,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
     /**
      * @see ISimulator
      */
-    isEnter(e: LocateEvent): boolean {
+    isEnter(e: ILocateEvent): boolean {
         const rect = this.viewport.bounds;
         return (
             e.globalY >= rect.top
@@ -899,7 +899,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
     computeComponentInstanceRect(
         instance: IComponentInstance,
         selector?: string,
-    ): Rect | null {
+    ): IRect | null {
         const renderer = this.renderer;
         let elements = this.findDOMNodes(instance, selector);
         if (!elements)
@@ -1007,7 +1007,7 @@ function getMatched(
     return firstQueried;
 }
 
-function isPointInRect(point: CanvasPoint, rect: Rect) {
+function isPointInRect(point: ICanvasPoint, rect: IRect) {
     return (
         point.canvasY >= rect.top
         && point.canvasY <= rect.bottom
@@ -1016,7 +1016,7 @@ function isPointInRect(point: CanvasPoint, rect: Rect) {
     );
 }
 
-function distanceToRect(point: CanvasPoint, rect: Rect) {
+function distanceToRect(point: ICanvasPoint, rect: IRect) {
     let minX = Math.min(
         Math.abs(point.canvasX - rect.left),
         Math.abs(point.canvasX - rect.right),
@@ -1034,7 +1034,7 @@ function distanceToRect(point: CanvasPoint, rect: Rect) {
     return Math.sqrt(minX ** 2 + minY ** 2);
 }
 
-function distanceToEdge(point: CanvasPoint, rect: Rect) {
+function distanceToEdge(point: ICanvasPoint, rect: IRect) {
     const distanceTop = Math.abs(point.canvasY - rect.top);
     const distanceBottom = Math.abs(point.canvasY - rect.bottom);
 
@@ -1044,7 +1044,7 @@ function distanceToEdge(point: CanvasPoint, rect: Rect) {
     };
 }
 
-function isNearAfter(point: CanvasPoint, rect: Rect, inline: boolean) {
+function isNearAfter(point: ICanvasPoint, rect: IRect, inline: boolean) {
     if (inline) {
         return (
             Math.abs(point.canvasX - rect.left)

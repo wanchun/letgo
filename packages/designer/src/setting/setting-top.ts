@@ -3,7 +3,7 @@ import type { IPublicTypeEditor } from '@webank/letgo-types';
 import type { ComponentMeta } from '../component-meta';
 import type { Designer } from '../designer';
 import type { INode } from '../types';
-import type { SettingEntry } from './types';
+import type { ISettingEntry } from './types';
 import { SettingField } from './setting-field';
 import { SettingProp } from './setting-prop';
 
@@ -14,7 +14,7 @@ function generateSessionId(nodes: INode[]) {
         .join(',');
 }
 
-export class SettingTop implements SettingEntry {
+export class SettingTop implements ISettingEntry {
     private emitter = new EventEmitter();
 
     private _items: Array<SettingField> = [];
@@ -27,9 +27,9 @@ export class SettingTop implements SettingEntry {
 
     readonly path: string[] = [];
 
-    readonly top: SettingEntry;
+    readonly top: ISettingEntry;
 
-    readonly parent: SettingEntry;
+    readonly parent: ISettingEntry;
 
     get componentMeta() {
         return this._componentMeta;

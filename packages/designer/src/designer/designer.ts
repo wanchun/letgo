@@ -18,11 +18,11 @@ import type { INode, INodeSelector, ISimulator } from '../types';
 import { Project } from '../project';
 import { ComponentMeta } from '../component-meta';
 import { insertChildren } from '../node';
-import type { Simulator, SimulatorProps } from '../simulator';
+import type { Simulator, ISimulatorProps } from '../simulator';
 import { SettingTop } from '../setting';
 import type {
-    DragObject,
-    LocateEvent,
+    IDragObject,
+    ILocateEvent,
 } from './dragon';
 import {
     Dragon,
@@ -35,20 +35,30 @@ import { Detecting } from './detecting';
 import type { OffsetObserver } from './offset-observer';
 import { createOffsetObserver } from './offset-observer';
 
-export interface DesignerProps {
+interface IDesignerProps {
     editor: IPublicTypeEditor
     defaultSchema?: IPublicTypeProjectSchema
-    simulatorProps?: SimulatorProps | ((designer: Designer) => SimulatorProps)
+    simulatorProps?: ISimulatorProps | ((designer: Designer) => ISimulatorProps)
     simulatorComponent?: Component
     componentMetadatas?: IPublicTypeComponentMetadata[]
-    onDragstart?: (e: LocateEvent) => void
-    onDrag?: (e: LocateEvent) => void
+    onDragstart?: (e: ILocateEvent) => void
+    onDrag?: (e: ILocateEvent) => void
     onDragend?: (
-        e: { dragObject: DragObject; copy: boolean },
+        e: { dragObject: IDragObject; copy: boolean },
         loc?: DropLocation,
     ) => void
     [key: string]: unknown
 }
+
+interface IPropsReducerContext {
+    stage: IPublicEnumTransformStage
+}
+
+type IPropsReducer = (
+    props: IPublicTypeCompositeObject,
+    node: INode,
+    ctx?: IPropsReducerContext,
+) => IPublicTypeCompositeObject;
 
 export class Designer {
     private emitter = new EventEmitter();
@@ -68,10 +78,10 @@ export class Designer {
     private _simulator?: ISimulator;
 
     private _simulatorProps?:
-    | SimulatorProps
-    | ((designer: Designer) => SimulatorProps);
+    | ISimulatorProps
+    | ((designer: Designer) => ISimulatorProps);
 
-    private props?: DesignerProps;
+    private props?: IDesignerProps;
 
     get componentMetaMap() {
         return this._componentMetaMap;
@@ -99,7 +109,7 @@ export class Designer {
     /**
      * 模拟器参数
      */
-    get simulatorProps(): SimulatorProps & {
+    get simulatorProps(): ISimulatorProps & {
         designer: Designer
         onMount: (host: Simulator) => void
     } {
@@ -135,7 +145,7 @@ export class Designer {
         return this.dragon.dropLocation;
     }
 
-    constructor(props: DesignerProps) {
+    constructor(props: IDesignerProps) {
         this.editor = props.editor;
         this.project = new Project(this, props.defaultSchema);
 
@@ -252,7 +262,7 @@ export class Designer {
         this.project.load(schema);
     }
 
-    setProps(nextProps: DesignerProps) {
+    setProps(nextProps: IDesignerProps) {
         const props = this.props ? { ...this.props, ...nextProps } : nextProps;
         if (this.props) {
             if (
@@ -330,7 +340,7 @@ export class Designer {
         return [];
     }
 
-    private propsReducers = new Map<IPublicEnumTransformStage, PropsReducer[]>();
+    private propsReducers = new Map<IPublicEnumTransformStage, IPropsReducer[]>();
 
     transformProps(
         props: IPublicTypeCompositeObject | IPublicTypePropsList,
@@ -420,10 +430,3 @@ export class Designer {
         return new SettingTop(this.editor, nodes);
     }
 }
-
-export interface PropsReducerContext { stage: IPublicEnumTransformStage }
-export type PropsReducer = (
-    props: IPublicTypeCompositeObject,
-    node: INode,
-    ctx?: PropsReducerContext,
-) => IPublicTypeCompositeObject;

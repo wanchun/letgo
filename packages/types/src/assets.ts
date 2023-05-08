@@ -1,7 +1,7 @@
 import type { IPublicTypeProjectSchema } from './schema';
 import type { IPublicTypeComponentMetadata } from './metadata';
 
-export enum AssetLevel {
+export enum IPublicEnumAssetLevel {
     // 环境依赖库 比如 react, react-dom
     Environment = 1,
     // 基础类库，比如 lodash deep fusion antd
@@ -17,15 +17,15 @@ export enum AssetLevel {
 }
 
 export const AssetLevels = [
-    AssetLevel.Environment,
-    AssetLevel.Library,
-    AssetLevel.IPublicTypeTheme,
-    AssetLevel.Runtime,
-    AssetLevel.Components,
-    AssetLevel.App,
+    IPublicEnumAssetLevel.Environment,
+    IPublicEnumAssetLevel.Library,
+    IPublicEnumAssetLevel.IPublicTypeTheme,
+    IPublicEnumAssetLevel.Runtime,
+    IPublicEnumAssetLevel.Components,
+    IPublicEnumAssetLevel.App,
 ];
 
-export enum AssetType {
+export enum IPublicEnumAssetType {
     JSUrl = 'jsUrl',
     CSSUrl = 'cssUrl',
     CSSText = 'cssText',
@@ -36,16 +36,16 @@ export enum AssetType {
 export type IPublicTypeURL = string;
 
 export interface IPublicTypeAssetBundle {
-    type: AssetType.Bundle
-    level?: AssetLevel
+    type: IPublicEnumAssetType.Bundle
+    level?: IPublicEnumAssetLevel
     assets?: IPublicTypeAsset | IPublicTypeAssetList | null
 }
 
 export interface IPublicTypeAssetItem {
-    type: AssetType
+    type: IPublicEnumAssetType
     content?: string | null
     device?: string
-    level?: AssetLevel
+    level?: IPublicEnumAssetLevel
     id?: string
 }
 

@@ -18,8 +18,8 @@ import { camelCase } from 'lodash-es';
 import type { INode, IRootNode, ISimulator } from '../types';
 import type {
     Designer,
-    DragNodeDataObject,
-    DragNodeObject,
+    IDragNodeDataObject,
+    IDragNodeObject,
 } from '../designer';
 import {
     isDragNodeDataObject,
@@ -31,7 +31,7 @@ import { Selection } from './selection';
 
 const componentUseTimes: Record<string, number> = {};
 
-type GetDataType<T, NodeType> = T extends undefined
+type TypeGetData<T, NodeType> = T extends undefined
     ? NodeType extends {
         schema: infer R
     }
@@ -221,7 +221,7 @@ export class DocumentModel {
      * 根据 schema 创建一个节点
      */
     createNode<T extends INode = INode, C = undefined>(
-        data: GetDataType<C, T>,
+        data: TypeGetData<C, T>,
     ): T {
         let schema: any;
         if (isDOMText(data) || isJSExpression(data)) {
@@ -341,7 +341,7 @@ export class DocumentModel {
 
     checkDropTarget(
         dropTarget: INode,
-        dragObject: DragNodeObject | DragNodeDataObject,
+        dragObject: IDragNodeObject | IDragNodeDataObject,
     ): boolean {
         let items: Array<INode | IPublicTypeNodeSchema>;
         if (isDragNodeDataObject(dragObject)) {
@@ -357,7 +357,7 @@ export class DocumentModel {
 
     checkNesting(
         dropTarget: INode,
-        dragObject: DragNodeObject | DragNodeDataObject,
+        dragObject: IDragNodeObject | IDragNodeDataObject,
     ): boolean {
         let items: Array<INode | IPublicTypeNodeSchema>;
         if (isDragNodeDataObject(dragObject)) {

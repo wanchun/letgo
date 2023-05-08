@@ -1,19 +1,18 @@
 // NOTE: 仅用作类型标注，切勿作为实体使用
 import {
+    assetItem,
     isAssetBundle,
     isAssetItem,
-    assetItem,
     isCSSUrl,
 } from '@webank/letgo-utils';
+import type { IPublicTypeAssetList } from '@webank/letgo-types';
 import {
-    AssetLevel,
     AssetLevels,
-    IPublicTypeAssetList,
-    AssetType,
+    IPublicEnumAssetLevel,
+    IPublicEnumAssetType,
 } from '@webank/letgo-types';
-import { Simulator } from './simulator';
-
-import { ISimulatorRenderer } from './renderer';
+import type { Simulator } from './simulator';
+import type { ISimulatorRenderer } from './renderer';
 
 export function createSimulator(
     simulator: Simulator,
@@ -33,11 +32,11 @@ export function createSimulator(
         scripts[lv] = [];
     });
 
-    function parseAssetList(assets: IPublicTypeAssetList, level?: AssetLevel) {
+    function parseAssetList(assets: IPublicTypeAssetList, level?: IPublicEnumAssetLevel) {
         for (let asset of assets) {
-            if (!asset) {
+            if (!asset)
                 continue;
-            }
+
             if (isAssetBundle(asset)) {
                 if (asset.assets) {
                     parseAssetList(
@@ -55,24 +54,27 @@ export function createSimulator(
             }
             if (!isAssetItem(asset)) {
                 asset = assetItem(
-                    isCSSUrl(asset) ? AssetType.CSSUrl : AssetType.JSUrl,
+                    isCSSUrl(asset) ? IPublicEnumAssetType.CSSUrl : IPublicEnumAssetType.JSUrl,
                     asset,
                     level,
                 );
             }
             const id = asset.id ? ` data-id="${asset.id}"` : '';
-            const lv = asset.level || level || AssetLevel.Environment;
-            if (asset.type === AssetType.JSUrl) {
+            const lv = asset.level || level || IPublicEnumAssetLevel.Environment;
+            if (asset.type === IPublicEnumAssetType.JSUrl) {
                 scripts[lv].push(
                     `<script src="${asset.content}"${id}></script>`,
                 );
-            } else if (asset.type === AssetType.JSText) {
+            }
+            else if (asset.type === IPublicEnumAssetType.JSText) {
                 scripts[lv].push(`<script${id}>${asset.content}</script>`);
-            } else if (asset.type === AssetType.CSSUrl) {
+            }
+            else if (asset.type === IPublicEnumAssetType.CSSUrl) {
                 styles[lv].push(
                     `<link rel="stylesheet" href="${asset.content}"${id} />`,
                 );
-            } else if (asset.type === AssetType.CSSText) {
+            }
+            else if (asset.type === IPublicEnumAssetType.CSSText) {
                 styles[lv].push(
                     `<style type="text/css"${id}>${asset.content}</style>`,
                 );
@@ -111,9 +113,9 @@ export function createSimulator(
 
     return new Promise((resolve) => {
         const renderer = win.LETGO_SimulatorRenderer || simulator.renderer;
-        if (renderer) {
+        if (renderer)
             return resolve(renderer);
-        }
+
         const loaded = () => {
             resolve(win.LETGO_SimulatorRenderer || simulator.renderer);
             win.removeEventListener('load', loaded);

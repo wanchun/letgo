@@ -28,7 +28,7 @@ export interface IPropParent {
     readonly path: string[]
 }
 
-export type ValueTypes =
+type IValueTypes =
     | 'unset'
     | 'literal'
     | 'map'
@@ -52,7 +52,7 @@ export class Prop implements IPropParent {
 
     private _value: ShallowRef<any> = shallowRef(UNSET);
 
-    private _type: ShallowRef<ValueTypes> = shallowRef('unset');
+    private _type: ShallowRef<IValueTypes> = shallowRef('unset');
 
     private _items: ShallowRef<Prop[] | null> = shallowRef(null);
 
@@ -71,7 +71,7 @@ export class Prop implements IPropParent {
     /**
      * 属性类型
      */
-    get type(): ValueTypes {
+    get type(): IValueTypes {
         return this._type.value;
     }
 

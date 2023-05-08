@@ -1,34 +1,36 @@
-import {
-    AssetType,
-    IPublicTypeAssetItem,
+import type {
     IPublicTypeAsset,
-    IPublicTypeAssetList,
     IPublicTypeAssetBundle,
+    IPublicTypeAssetItem,
+    IPublicTypeAssetList,
     IPublicTypeAssetsJson,
+} from '@webank/letgo-types';
+import {
+    IPublicEnumAssetLevel,
     AssetLevels,
-    AssetLevel,
+    IPublicEnumAssetType,
 } from '@webank/letgo-types';
 import { isCSSUrl } from './is-css-url';
 import { createDefer } from './create-defer';
-import { load, evaluate } from './script';
+import { evaluate, load } from './script';
 
 export function isAssetItem(obj: any): obj is IPublicTypeAssetItem {
     return obj && obj.type;
 }
 
 export function isAssetBundle(obj: any): obj is IPublicTypeAssetBundle {
-    return obj && obj.type === AssetType.Bundle;
+    return obj && obj.type === IPublicEnumAssetType.Bundle;
 }
 
 export function assetBundle(
     assets?: IPublicTypeAsset | IPublicTypeAssetList | null,
-    level?: AssetLevel,
+    level?: IPublicEnumAssetLevel,
 ): IPublicTypeAssetBundle | null {
-    if (!assets) {
+    if (!assets)
         return null;
-    }
+
     return {
-        type: AssetType.Bundle,
+        type: IPublicEnumAssetType.Bundle,
         assets,
         level,
     };
@@ -43,14 +45,14 @@ urls: [
   "view2.js <device selector>"
 ] */
 export function assetItem(
-    type: AssetType,
+    type: IPublicEnumAssetType,
     content?: string | null,
-    level?: AssetLevel,
+    level?: IPublicEnumAssetLevel,
     id?: string,
 ): IPublicTypeAssetItem | null {
-    if (!content) {
+    if (!content)
         return null;
-    }
+
     return {
         type,
         content,
@@ -93,36 +95,36 @@ export class StylePoint {
 
     constructor(level: number, id?: string) {
         this.level = level;
-        if (id) {
+        if (id)
             this.id = id;
-        }
+
         let placeholder: any;
-        if (id) {
+        if (id)
             placeholder = document.head.querySelector(`style[data-id="${id}"]`);
-        }
+
         if (!placeholder) {
             placeholder = document.createTextNode('');
             const meta = document.head.querySelector(`meta[level="${level}"]`);
-            if (meta) {
+            if (meta)
                 document.head.insertBefore(placeholder, meta);
-            } else {
+
+            else
                 document.head.appendChild(placeholder);
-            }
         }
         this.placeholder = placeholder;
     }
 
     applyText(content: string) {
-        if (this.lastContent === content) {
+        if (this.lastContent === content)
             return;
-        }
+
         this.lastContent = content;
         this.lastUrl = undefined;
         const element = document.createElement('style');
         element.setAttribute('type', 'text/css');
-        if (this.id) {
+        if (this.id)
             element.setAttribute('data-id', this.id);
-        }
+
         element.appendChild(document.createTextNode(content));
         document.head.insertBefore(
             element,
@@ -135,9 +137,9 @@ export class StylePoint {
     }
 
     applyUrl(url: string) {
-        if (this.lastUrl === url) {
+        if (this.lastUrl === url)
             return;
-        }
+
         this.lastContent = undefined;
         this.lastUrl = url;
         const element = document.createElement('link');
@@ -148,18 +150,18 @@ export class StylePoint {
         function onload(e: any) {
             element.onload = null;
             element.onerror = null;
-            if (e.type === 'load') {
+            if (e.type === 'load')
                 i.resolve();
-            } else {
+
+            else
                 i.reject();
-            }
         }
 
         element.href = url;
         element.rel = 'stylesheet';
-        if (this.id) {
+        if (this.id)
             element.setAttribute('data-id', this.id);
-        }
+
         document.head.insertBefore(
             element,
             this.placeholder.parentNode === document.head
@@ -176,25 +178,23 @@ function parseAssetList(
     scripts: any,
     styles: any,
     assets: IPublicTypeAssetList,
-    level?: AssetLevel,
+    level?: IPublicEnumAssetLevel,
 ) {
-    for (const asset of assets) {
+    for (const asset of assets)
         parseAsset(scripts, styles, asset, level);
-    }
 }
 
 function parseAsset(
     scripts: any,
     styles: any,
     asset: IPublicTypeAsset | undefined | null,
-    level?: AssetLevel,
+    level?: IPublicEnumAssetLevel,
 ) {
-    if (!asset) {
+    if (!asset)
         return;
-    }
-    if (Array.isArray(asset)) {
+
+    if (Array.isArray(asset))
         return parseAssetList(scripts, styles, asset, level);
-    }
 
     if (isAssetBundle(asset)) {
         if (asset.assets) {
@@ -205,7 +205,8 @@ function parseAsset(
                     asset.assets,
                     asset.level || level,
                 );
-            } else {
+            }
+            else {
                 parseAsset(scripts, styles, asset.assets, asset.level || level);
             }
             return;
@@ -215,7 +216,7 @@ function parseAsset(
 
     if (!isAssetItem(asset)) {
         asset = assetItem(
-            isCSSUrl(asset) ? AssetType.CSSUrl : AssetType.JSUrl,
+            isCSSUrl(asset) ? IPublicEnumAssetType.CSSUrl : IPublicEnumAssetType.JSUrl,
             asset,
             level,
         )!;
@@ -223,16 +224,15 @@ function parseAsset(
 
     let lv = asset.level || level;
 
-    if (!lv || AssetLevel[lv] == null) {
-        lv = AssetLevel.App;
-    }
+    if (!lv || IPublicEnumAssetLevel[lv] == null)
+        lv = IPublicEnumAssetLevel.App;
 
     asset.level = lv;
-    if (asset.type === AssetType.CSSUrl || asset.type == AssetType.CSSText) {
+    if (asset.type === IPublicEnumAssetType.CSSUrl || asset.type == IPublicEnumAssetType.CSSText)
         styles[lv].push(asset);
-    } else {
+
+    else
         scripts[lv].push(asset);
-    }
 }
 
 export class AssetLoader {
@@ -244,26 +244,26 @@ export class AssetLoader {
             scripts[lv] = [];
         });
         parseAsset(scripts, styles, asset);
-        const styleQueue: IPublicTypeAssetItem[] = styles[AssetLevel.Environment].concat(
-            styles[AssetLevel.Library],
-            styles[AssetLevel.IPublicTypeTheme],
-            styles[AssetLevel.Runtime],
-            styles[AssetLevel.App],
+        const styleQueue: IPublicTypeAssetItem[] = styles[IPublicEnumAssetLevel.Environment].concat(
+            styles[IPublicEnumAssetLevel.Library],
+            styles[IPublicEnumAssetLevel.IPublicTypeTheme],
+            styles[IPublicEnumAssetLevel.Runtime],
+            styles[IPublicEnumAssetLevel.App],
         );
-        const scriptQueue: IPublicTypeAssetItem[] = scripts[AssetLevel.Environment].concat(
-            scripts[AssetLevel.Library],
-            scripts[AssetLevel.IPublicTypeTheme],
-            scripts[AssetLevel.Runtime],
-            scripts[AssetLevel.App],
+        const scriptQueue: IPublicTypeAssetItem[] = scripts[IPublicEnumAssetLevel.Environment].concat(
+            scripts[IPublicEnumAssetLevel.Library],
+            scripts[IPublicEnumAssetLevel.IPublicTypeTheme],
+            scripts[IPublicEnumAssetLevel.Runtime],
+            scripts[IPublicEnumAssetLevel.App],
         );
         await Promise.all(
             styleQueue.map(({ content, level, type, id }) =>
-                this.loadStyle(content, level!, type === AssetType.CSSUrl, id),
+                this.loadStyle(content, level!, type === IPublicEnumAssetType.CSSUrl, id),
             ),
         );
         await Promise.all(
             scriptQueue.map(({ content, type }) =>
-                this.loadScript(content, type === AssetType.JSUrl),
+                this.loadScript(content, type === IPublicEnumAssetType.JSUrl),
             ),
         );
     }
@@ -272,13 +272,13 @@ export class AssetLoader {
 
     private loadStyle(
         content: string | undefined | null,
-        level: AssetLevel,
+        level: IPublicEnumAssetLevel,
         isUrl?: boolean,
         id?: string,
     ) {
-        if (!content) {
+        if (!content)
             return;
-        }
+
         let point: StylePoint | undefined;
         if (id) {
             point = this.stylePoints.get(id);
@@ -286,16 +286,17 @@ export class AssetLoader {
                 point = new StylePoint(level, id);
                 this.stylePoints.set(id, point);
             }
-        } else {
+        }
+        else {
             point = new StylePoint(level);
         }
         return isUrl ? point.applyUrl(content) : point.applyText(content);
     }
 
     private loadScript(content: string | undefined | null, isUrl?: boolean) {
-        if (!content) {
+        if (!content)
             return;
-        }
+
         return isUrl ? load(content) : evaluate(content);
     }
 

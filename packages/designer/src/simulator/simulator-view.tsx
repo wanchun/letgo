@@ -10,7 +10,7 @@ import {
     watch,
 } from 'vue';
 import type { Designer } from '../designer';
-import type { SimulatorProps } from './simulator';
+import type { ISimulatorProps } from './simulator';
 import { Simulator } from './simulator';
 import { BemToolsView } from './bem-tools';
 import {
@@ -63,7 +63,7 @@ export const SimulatorView = defineComponent({
     props: {
         simulatorProps: {
             type: Object as PropType<
-                SimulatorProps & {
+                ISimulatorProps & {
                     designer: Designer
                     onMount?: (host: Simulator) => void
                 }

@@ -6,13 +6,9 @@ import type { ShallowRef } from 'vue';
 import { shallowRef, triggerRef } from 'vue';
 import type { INode } from '../types';
 
-export interface IOnChangeOptions {
+interface IOnChangeOptions {
     type: string
     node: INode
-}
-
-export interface NodeRemoveOptions {
-    suppressRemoveEvent?: boolean
 }
 
 export class NodeChildren {

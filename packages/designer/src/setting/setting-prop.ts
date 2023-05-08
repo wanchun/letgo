@@ -5,9 +5,9 @@ import { uniqueId } from '@webank/letgo-utils';
 import type { ComponentMeta } from '../component-meta';
 import type { Designer } from '../designer';
 import type { INode } from '../types';
-import type { ISetValueOptions, SettingEntry } from './types';
+import type { ISetValueOptions, ISettingEntry } from './types';
 
-export class SettingProp implements SettingEntry {
+export class SettingProp implements ISettingEntry {
     // === static properties ===
     readonly editor: IPublicTypeEditor;
 
@@ -23,9 +23,9 @@ export class SettingProp implements SettingEntry {
 
     readonly designer: Designer;
 
-    readonly top: SettingEntry;
+    readonly top: ISettingEntry;
 
-    readonly parent: SettingEntry;
+    readonly parent: ISettingEntry;
 
     readonly isGroup: boolean;
 
@@ -53,7 +53,7 @@ export class SettingProp implements SettingEntry {
     extraProps: any = {};
 
     constructor(
-        parent: SettingEntry,
+        parent: ISettingEntry,
         name: string | number,
         type?: 'field' | 'group',
     ) {

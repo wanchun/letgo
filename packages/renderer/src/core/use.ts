@@ -159,7 +159,7 @@ export function buildSchema(props: LeafProps) {
         if (isJSSlot(val)) {
             if (val.value) {
                 // live 模式，直接获取 schema 值，若值为空则不渲染插槽
-                slotProps[key] = {
+                slotProps[val.name || key] = {
                     componentName: 'Slot',
                     props: {
                         slotTitle: val.title,

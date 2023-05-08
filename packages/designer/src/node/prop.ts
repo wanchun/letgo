@@ -161,19 +161,22 @@ export class Prop implements IPropParent {
             return this._value.value;
 
         if (type === 'slot') {
-            const schema = this._slotNode?.export(stage) || ({} as any);
+            const schema = this._slotNode?.export(stage);
             if (stage === IPublicEnumTransformStage.Render) {
                 return {
                     type: 'JSSlot',
-                    params: schema.params,
+                    name: schema.props.slotName,
+                    title: schema.props.slotTitle,
+                    params: schema.props.slotParams,
                     value: schema,
                 };
             }
             return {
                 type: 'JSSlot',
-                params: schema.params,
+                name: schema.props.slotName,
+                title: schema.props.slotTitle,
+                params: schema.props.slotParams,
                 value: schema.children,
-                name: schema.name,
             };
         }
         if (type === 'map') {
@@ -228,6 +231,7 @@ export class Prop implements IPropParent {
                 componentName: 'Slot',
                 props: {
                     slotName: data.name,
+                    slotTitle: data.title,
                     slotParams: data.params,
                 },
                 children: data.value,

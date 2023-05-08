@@ -1,10 +1,12 @@
-import {
-    IPublicTypeProjectSchema,
-    isNodeSchema,
-    IPublicTypeNodeData,
+import type {
     IPublicTypeComponentMap,
+    IPublicTypeNodeData,
+    IPublicTypeProjectSchema,
     IPublicTypeRootSchema,
+} from '@webank/letgo-types';
+import {
     isJSSlot,
+    isNodeSchema,
 } from '@webank/letgo-types';
 import { isArray } from 'lodash-es';
 import { genPageTemplate } from './genTemplate';
@@ -33,16 +35,16 @@ function getUseComponentNames(
         if (isNodeSchema(item)) {
             componentNames.add(item.componentName);
             if (item.props.children) {
-                if (isArray(item.props.children)) {
+                if (isArray(item.props.children))
                     getUseComponentNames(item.props.children, componentNames);
-                } else {
+
+                else
                     getUseComponentNames([item.props.children], componentNames);
-                }
             }
-            if (item.children) {
+            if (item.children)
                 getUseComponentNames(item.children, componentNames);
-            }
-        } else if (isJSSlot(item)) {
+        }
+        else if (isJSSlot(item)) {
             getUseComponentNames(
                 isArray(item.value) ? item.value : [item.value],
                 componentNames,
@@ -60,9 +62,10 @@ function getUseComponents(
     const useComponents: IPublicTypeComponentMap[] = [];
     for (const componentName of componentNames.values()) {
         const component = componentMaps.find(
-            (item) => item.componentName === componentName,
+            item => item.componentName === componentName,
         );
-        if (component) useComponents.push(component);
+        if (component)
+            useComponents.push(component);
     }
 
     return useComponents;

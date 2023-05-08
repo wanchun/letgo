@@ -94,7 +94,7 @@ export const Hoc = defineComponent({
                     const slotSchema = prop.slotNode.export(
                         IPublicEnumTransformStage.Render,
                     );
-                    result.slots[key] = slotSchema;
+                    result.slots[slotSchema?.props?.slotName || key] = slotSchema;
                 }
             }
         });

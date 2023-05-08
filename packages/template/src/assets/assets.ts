@@ -44,6 +44,26 @@ const assets: IPublicTypeAssetsJson = {
         {
             title: '插槽',
             componentName: 'Slot',
+            props: [
+                {
+                    name: 'slotName',
+                    title: '插槽名',
+                    propType: 'string',
+                },
+                {
+                    name: 'slotTitle',
+                    title: '插槽描述',
+                    propType: 'string',
+                },
+                {
+                    name: 'slotParams',
+                    title: '插槽参数',
+                    propType: {
+                        type: 'arrayOf',
+                        value: 'string',
+                    },
+                },
+            ],
             configure: {
                 component: {
                     isContainer: true,

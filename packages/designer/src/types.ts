@@ -10,15 +10,7 @@ import type { DocumentModel } from './document';
 import type { DropLocation, LocateEvent, ScrollTarget } from './designer';
 import type { ISimulatorRenderer } from './simulator';
 
-export type InnerComponentInstance = IPublicTypeComponentRecord | Element;
-
-export type GetDataType<T, NodeType> = T extends undefined
-    ? NodeType extends {
-        schema: infer R
-    }
-        ? R
-        : any
-    : T;
+export type IComponentInstance = IPublicTypeComponentRecord | Element;
 
 export interface IBaseNode<T extends IPublicTypeNodeSchema = IPublicTypeNodeSchema>
     extends Node<T> {
@@ -43,21 +35,21 @@ export function isDocumentModel(obj: any): obj is DocumentModel {
     return obj && obj.rootNode;
 }
 
-export interface NodeInstance<T = InnerComponentInstance> {
+export interface INodeInstance<T = IComponentInstance> {
     docId: string
     nodeId: string
     instance: T
     node?: INode | null
 }
 
-export interface DropContainer {
-    container: IBaseNode
-    instance: InnerComponentInstance
+export interface IDropContainer {
+    container: INode
+    instance: IComponentInstance
 }
 
 export interface INodeSelector {
     node: INode
-    instance?: InnerComponentInstance
+    instance?: IComponentInstance
 }
 
 export interface ISensor {
@@ -112,41 +104,41 @@ export interface ISimulator<P = object> extends ISensor {
     setInstance(
         docId: string,
         id: string,
-        instances: InnerComponentInstance[] | null,
+        instances: IComponentInstance[] | null,
     ): void
     /**
      * 在组件实例上寻找子组件实例
      */
     getClosestNodeInstance(
-        from: InnerComponentInstance,
+        from: IComponentInstance,
         specId?: string,
-    ): NodeInstance | null
+    ): INodeInstance | null
     /**
      * 获取节点实例
      */
     getNodeInstanceFromElement(
         e: Element | null,
-    ): NodeInstance<InnerComponentInstance> | null
+    ): INodeInstance<IComponentInstance> | null
     /**
      * 根据节点获取节点的组件实例
      */
-    getComponentInstances(node: INode): InnerComponentInstance[] | null
+    getComponentInstances(node: INode): IComponentInstance[] | null
     /**
      * 查找合适的投放容器
      */
-    getDropContainer(e: LocateEvent): DropContainer | null
+    getDropContainer(e: LocateEvent): IDropContainer | null
     /**
      * 查找节点的 dom
      */
     findDOMNodes(
-        instance: InnerComponentInstance,
+        instance: IComponentInstance,
         selector?: string,
     ): Array<Element | Text> | null
     /**
      * 计算节点位置
      */
     computeComponentInstanceRect(
-        instance: InnerComponentInstance,
+        instance: IComponentInstance,
         selector?: string,
     ): DOMRect | null
 }
@@ -155,7 +147,7 @@ export function isSimulator(obj: any): obj is ISimulator {
     return obj && obj.isSimulator;
 }
 
-export interface Point {
+export interface IPoint {
     clientX: number
     clientY: number
 }
@@ -216,10 +208,10 @@ export interface IViewport extends IScrollable {
     /**
      * 全局坐标系转化为本地坐标系
      */
-    toLocalPoint(point: Point): Point
+    toLocalPoint(point: IPoint): IPoint
 
     /**
      * 本地坐标系转化为全局坐标系
      */
-    toGlobalPoint(point: Point): Point
+    toGlobalPoint(point: IPoint): IPoint
 }

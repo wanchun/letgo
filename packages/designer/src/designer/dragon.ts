@@ -9,18 +9,18 @@ import type { Designer } from './designer';
 import type { LocationData } from './location';
 import { DropLocation } from './location';
 
-export enum DragObjectType {
+export enum EnumDragObject {
     Node = 'node',
-    IPublicTypeNodeData = 'nodeData',
+    NodeData = 'nodeData',
 }
 
 export interface DragNodeObject {
-    type: DragObjectType.Node
+    type: EnumDragObject.Node
     nodes: INode[]
 }
 
 export interface DragNodeDataObject {
-    type: DragObjectType.IPublicTypeNodeData
+    type: EnumDragObject.NodeData
     data: IPublicTypeNodeSchema | IPublicTypeNodeSchema[]
     description?: string
     [extra: string]: unknown
@@ -34,18 +34,18 @@ export interface DragAnyObject {
 export type DragObject = DragNodeObject | DragNodeDataObject | DragAnyObject;
 
 export function isDragNodeObject(obj: any): obj is DragNodeObject {
-    return obj && obj.type === DragObjectType.Node;
+    return obj && obj.type === EnumDragObject.Node;
 }
 
 export function isDragNodeDataObject(obj: any): obj is DragNodeDataObject {
-    return obj && obj.type === DragObjectType.IPublicTypeNodeData;
+    return obj && obj.type === EnumDragObject.NodeData;
 }
 
 export function isDragAnyObject(obj: any): obj is DragAnyObject {
     return (
         obj
-        && obj.type !== DragObjectType.IPublicTypeNodeData
-        && obj.type !== DragObjectType.Node
+        && obj.type !== EnumDragObject.NodeData
+        && obj.type !== EnumDragObject.Node
     );
 }
 

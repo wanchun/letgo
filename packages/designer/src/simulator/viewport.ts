@@ -1,5 +1,5 @@
 import { ScrollTarget } from '../designer';
-import type { IViewport, Point, TypeAutoFit } from '../types';
+import type { IViewport, IPoint, TypeAutoFit } from '../types';
 import { AutoFit } from '../types';
 
 export class Viewport implements IViewport {
@@ -154,7 +154,7 @@ export class Viewport implements IViewport {
         this._scrollTarget = scrollTarget;
     }
 
-    toGlobalPoint(point: Point): Point {
+    toGlobalPoint(point: IPoint): IPoint {
         if (!this.viewportElement)
             return point;
 
@@ -165,7 +165,7 @@ export class Viewport implements IViewport {
         };
     }
 
-    toLocalPoint(point: Point): Point {
+    toLocalPoint(point: IPoint): IPoint {
         if (!this.viewportElement)
             return point;
 

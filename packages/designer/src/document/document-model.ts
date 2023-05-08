@@ -15,7 +15,7 @@ import {
 import type { ComputedRef } from 'vue';
 import { computed } from 'vue';
 import { camelCase } from 'lodash-es';
-import type { GetDataType, INode, IRootNode, ISimulator } from '../types';
+import type { INode, IRootNode, ISimulator } from '../types';
 import type {
     Designer,
     DragNodeDataObject,
@@ -30,6 +30,14 @@ import type { ComponentMeta } from '../component-meta';
 import { Selection } from './selection';
 
 const componentUseTimes: Record<string, number> = {};
+
+type GetDataType<T, NodeType> = T extends undefined
+    ? NodeType extends {
+        schema: infer R
+    }
+        ? R
+        : any
+    : T;
 
 export class DocumentModel {
     readonly project: Project;

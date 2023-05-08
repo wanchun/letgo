@@ -1,4 +1,4 @@
-import type { NodeInstance } from '@webank/letgo-designer';
+import type { INodeInstance } from '@webank/letgo-designer';
 import type { ComponentInternalInstance } from 'vue';
 import {
     ComponentRecord,
@@ -10,7 +10,7 @@ import {
 export function getClosestNodeInstance(
     el: Element,
     specId: string | undefined,
-): NodeInstance<ComponentRecord> | null {
+): INodeInstance<ComponentRecord> | null {
     if (!document.contains(el))
         return null;
 
@@ -20,7 +20,7 @@ export function getClosestNodeInstance(
 export function getClosestNodeInstanceByComponent(
     instance: ComponentInternalInstance | null,
     specId: string | undefined,
-): NodeInstance<ComponentRecord> | null {
+): INodeInstance<ComponentRecord> | null {
     while (instance) {
         const el = instance.vnode.el as Element;
         if (el && isCompRootHTMLElement(el)) {
@@ -45,7 +45,7 @@ export function getClosestNodeInstanceByComponent(
 export function getClosestNodeInstanceByElement(
     el: Element,
     specId: string | undefined,
-): NodeInstance<ComponentRecord> | null {
+): INodeInstance<ComponentRecord> | null {
     while (el) {
         if (isVNodeHTMLElement(el)) {
             const component = el.__vueParentComponent;

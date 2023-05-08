@@ -1,17 +1,17 @@
 import type { Component } from 'vue';
 import type { IPublicTypeNodeSchema } from '@webank/letgo-types';
-import type { InnerComponentInstance, NodeInstance } from '../types';
+import type { IComponentInstance, INodeInstance } from '../types';
 
 export interface ISimulatorRenderer {
     readonly isSimulatorRenderer: true
     createComponent(schema: IPublicTypeNodeSchema): Component | null
     getComponent(componentName: string): Component
     getClosestNodeInstance(
-        from: InnerComponentInstance,
+        from: IComponentInstance,
         nodeId?: string,
-    ): NodeInstance<InnerComponentInstance> | null
+    ): INodeInstance<IComponentInstance> | null
     findDOMNodes(
-        instance: InnerComponentInstance,
+        instance: IComponentInstance,
     ): Array<Element | Text> | null
     getClientRects(element: Element | Text): DOMRect[]
     setNativeSelection(enableFlag: boolean): void

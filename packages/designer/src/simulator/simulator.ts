@@ -29,11 +29,11 @@ import {
 } from '@webank/letgo-utils';
 import { engineConfig } from '@webank/letgo-editor-core';
 import type {
-    DropContainer,
+    IComponentInstance,
+    IDropContainer,
     INode,
+    INodeInstance,
     ISimulator,
-    InnerComponentInstance,
-    NodeInstance,
 } from '../types';
 import type { Project } from '../project';
 import type {
@@ -46,7 +46,7 @@ import type {
     Rect,
 } from '../designer';
 import {
-    DragObjectType,
+    EnumDragObject,
     LocationDetailType,
     Scroller,
     getRectTarget,
@@ -349,7 +349,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
                 }
                 designer.dragon.boost(
                     {
-                        type: DragObjectType.Node,
+                        type: EnumDragObject.Node,
                         nodes,
                     },
                     downEvent,
@@ -647,7 +647,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
     /**
      * @see ISimulator
      */
-    getDropContainer(e: LocateEvent): DropContainer | null {
+    getDropContainer(e: LocateEvent): IDropContainer | null {
         const { target, dragObject } = e;
         const isAny = isDragAnyObject(dragObject);
 
@@ -660,7 +660,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
         const document = this.project.currentDocument.value;
         const { focusNode } = document;
         let container: INode;
-        let nodeInstance: NodeInstance<InnerComponentInstance> | undefined;
+        let nodeInstance: INodeInstance<IComponentInstance> | undefined;
 
         if (target) {
             const ref = this.getNodeInstanceFromElement(target);
@@ -714,13 +714,13 @@ export class Simulator implements ISimulator<SimulatorProps> {
             instance = this.getComponentInstances(container)?.[0];
         }
 
-        let dropContainer: DropContainer = {
+        let dropContainer: IDropContainer = {
             container: container as any,
             instance,
         };
 
         let res: any;
-        let upward: DropContainer | null = null;
+        let upward: IDropContainer | null = null;
         while (container) {
             res = this.handleAccept(dropContainer, e);
             if (res === true)
@@ -755,7 +755,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
     /**
      * 控制接受
      */
-    handleAccept({ container }: DropContainer, e: LocateEvent): boolean {
+    handleAccept({ container }: IDropContainer, e: LocateEvent): boolean {
         const { dragObject } = e;
         const document = this.project.currentDocument.value;
         const focusNode = document.focusNode;
@@ -772,7 +772,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
     }
 
     private instancesMapRef: ShallowRef<{
-        [docId: string]: Map<string, InnerComponentInstance[]>
+        [docId: string]: Map<string, IComponentInstance[]>
     }> = shallowRef({});
 
     /**
@@ -781,7 +781,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
     setInstance(
         docId: string,
         id: string,
-        instances: InnerComponentInstance[] | null,
+        instances: IComponentInstance[] | null,
     ) {
         const instancesMap = this.instancesMapRef.value;
         if (!hasOwnProperty(instancesMap, docId))
@@ -801,8 +801,8 @@ export class Simulator implements ISimulator<SimulatorProps> {
      */
     getComponentInstances(
         node: INode,
-        context?: NodeInstance,
-    ): InnerComponentInstance[] | null {
+        context?: INodeInstance,
+    ): IComponentInstance[] | null {
         const docId = node.document.id;
 
         const instances
@@ -845,7 +845,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
      */
     getNodeInstanceFromElement(
         target: Element | null,
-    ): NodeInstance<InnerComponentInstance> | null {
+    ): INodeInstance<IComponentInstance> | null {
         if (!target)
             return null;
 
@@ -866,9 +866,9 @@ export class Simulator implements ISimulator<SimulatorProps> {
      * @see ISimulator
      */
     getClosestNodeInstance(
-        from: InnerComponentInstance,
+        from: IComponentInstance,
         specId?: string,
-    ): NodeInstance<InnerComponentInstance> | null {
+    ): INodeInstance<IComponentInstance> | null {
         return this.renderer?.getClosestNodeInstance(from, specId) || null;
     }
 
@@ -876,7 +876,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
      * @see ISimulator
      */
     findDOMNodes(
-        instance: InnerComponentInstance,
+        instance: IComponentInstance,
         selector?: string,
     ): Array<Element | Text> | null {
         const elements = this._renderer?.findDOMNodes(instance);
@@ -897,7 +897,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
      * @see ISimulator
      */
     computeComponentInstanceRect(
-        instance: InnerComponentInstance,
+        instance: IComponentInstance,
         selector?: string,
     ): Rect | null {
         const renderer = this.renderer;

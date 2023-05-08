@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent } from 'vue';
-import type { InnerComponentInstance } from '../../types';
+import type { IComponentInstance } from '../../types';
 import type { Simulator } from '../simulator';
 import {
     borderCls,
@@ -122,7 +122,7 @@ export const BorderDetectingView = defineComponent({
             if (!instances || instances.length < 1)
                 return null;
 
-            const getReact = (inst: InnerComponentInstance) => {
+            const getReact = (inst: IComponentInstance) => {
                 return host.computeComponentInstanceRect(
                     inst,
                     currentNode.componentMeta.rootSelector,

@@ -1,5 +1,6 @@
 import { ScrollTarget } from '../designer';
-import { Point, AutoFit, IViewport } from '../types';
+import type { IViewport, Point, TypeAutoFit } from '../types';
+import { AutoFit } from '../types';
 
 export class Viewport implements IViewport {
     private rect?: DOMRect;
@@ -7,9 +8,9 @@ export class Viewport implements IViewport {
     private _bounds?: DOMRect;
 
     get bounds(): DOMRect {
-        if (this._bounds) {
+        if (this._bounds)
             return this._bounds;
-        }
+
         this._bounds = this.viewportElement.getBoundingClientRect();
         requestAnimationFrame(() => {
             this._bounds = undefined;
@@ -25,23 +26,22 @@ export class Viewport implements IViewport {
     private viewportElement?: HTMLElement;
 
     mount(viewportElement: HTMLElement | null) {
-        if (!viewportElement || this.viewportElement === viewportElement) {
+        if (!viewportElement || this.viewportElement === viewportElement)
             return;
-        }
+
         this.viewportElement = viewportElement;
         this.touch();
     }
 
     touch() {
-        if (this.viewportElement) {
+        if (this.viewportElement)
             this.rect = this.bounds;
-        }
     }
 
     get height(): number {
-        if (!this.rect) {
+        if (!this.rect)
             return 600;
-        }
+
         return this.rect.height;
     }
 
@@ -54,9 +54,9 @@ export class Viewport implements IViewport {
     }
 
     get width(): number {
-        if (!this.rect) {
+        if (!this.rect)
             return 1000;
-        }
+
         return this.rect.width;
     }
 
@@ -78,32 +78,31 @@ export class Viewport implements IViewport {
     }
 
     set scale(newScale: number) {
-        if (isNaN(newScale) || newScale <= 0) {
+        if (isNaN(newScale) || newScale <= 0)
             throw new Error(`invalid new scale "${newScale}"`);
-        }
 
         this._scale = newScale;
         this._contentWidth = this.width / this.scale;
         this._contentHeight = this.height / this.scale;
     }
 
-    private _contentWidth: number | AutoFit = AutoFit;
+    private _contentWidth: number | TypeAutoFit = AutoFit;
 
-    private _contentHeight: number | AutoFit = AutoFit;
+    private _contentHeight: number | TypeAutoFit = AutoFit;
 
-    get contentHeight(): number | AutoFit {
+    get contentHeight(): number | TypeAutoFit {
         return this._contentHeight;
     }
 
-    set contentHeight(newContentHeight: number | AutoFit) {
+    set contentHeight(newContentHeight: number | TypeAutoFit) {
         this._contentHeight = newContentHeight;
     }
 
-    get contentWidth(): number | AutoFit {
+    get contentWidth(): number | TypeAutoFit {
         return this._contentWidth;
     }
 
-    set contentWidth(val: number | AutoFit) {
+    set contentWidth(val: number | TypeAutoFit) {
         this._contentWidth = val;
     }
 
@@ -144,9 +143,9 @@ export class Viewport implements IViewport {
             this._scrollX = scrollTarget.left;
             this._scrollY = scrollTarget.top;
             this._scrolling = true;
-            if (scrollTimer) {
+            if (scrollTimer)
                 clearTimeout(scrollTimer);
-            }
+
             scrollTimer = setTimeout(() => {
                 this._scrolling = false;
             }, 80);
@@ -156,9 +155,8 @@ export class Viewport implements IViewport {
     }
 
     toGlobalPoint(point: Point): Point {
-        if (!this.viewportElement) {
+        if (!this.viewportElement)
             return point;
-        }
 
         const rect = this.bounds;
         return {
@@ -168,9 +166,8 @@ export class Viewport implements IViewport {
     }
 
     toLocalPoint(point: Point): Point {
-        if (!this.viewportElement) {
+        if (!this.viewportElement)
             return point;
-        }
 
         const rect = this.bounds;
         return {

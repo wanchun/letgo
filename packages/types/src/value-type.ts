@@ -1,4 +1,4 @@
-import type { IPublicTypeNodeSchema } from './schema';
+import type { IPublicTypeNodeData, IPublicTypeSlotSchema } from './schema';
 
 /**
  * 变量表达式
@@ -45,9 +45,13 @@ export interface IPublicTypeJSSlot {
     /**
      * 具体的值。
      */
-    value: IPublicTypeNodeSchema | IPublicTypeNodeSchema[]
+    value: IPublicTypeSlotSchema | IPublicTypeNodeData | IPublicTypeNodeData[]
     /**
      * 插槽名称
+     */
+    title?: string
+    /**
+     * 插槽名
      */
     name?: string
     /**

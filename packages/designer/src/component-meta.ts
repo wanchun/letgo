@@ -17,7 +17,7 @@ import parseNestingRule from './transducers/nesting-rule';
 import addonCombine from './transducers/addon-combine';
 import parseJSFunc from './transducers/parse-func';
 import parseProps from './transducers/parse-props';
-import type { IBaseNode } from './types';
+import type { INode } from './types';
 
 export function ensureAList(list?: string | string[]): string[] | null {
     if (!list)
@@ -43,14 +43,14 @@ export function buildFilter(rule?: string | string[] | RegExp | IPublicTypeNesti
         return rule;
 
     if (isRegExp(rule)) {
-        return (testNode: Node | IPublicTypeNodeSchema) =>
+        return (testNode: INode | IPublicTypeNodeSchema) =>
             rule.test(testNode.componentName);
     }
     const list = ensureAList(rule);
     if (!list)
         return null;
 
-    return (testNode: Node | IPublicTypeNodeSchema) =>
+    return (testNode: INode | IPublicTypeNodeSchema) =>
         list.includes(testNode.componentName);
 }
 
@@ -109,7 +109,7 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
         content: {
             icon: () => [h(Delete, { size: 14 })],
             title: '删除',
-            action(node: Node) {
+            action(node: INode) {
                 node.remove();
             },
         },
@@ -120,11 +120,11 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
         content: {
             icon: () => [h(FileHidingOne, { size: 14 })],
             title: '隐藏',
-            action(node: Node) {
+            action(node: INode) {
                 node.setVisible(false);
             },
         },
-        condition: (node: Node) => {
+        condition: (node: INode) => {
             return node.componentMeta.isModal;
         },
         important: true,
@@ -134,7 +134,7 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
         content: {
             icon: () => [h(Copy, { size: 14 })],
             title: '复制',
-            action(node: Node) {
+            action(node: INode) {
                 const { document: doc, parent, index } = node;
                 if (parent) {
                     const newNode = doc.insertNode(
@@ -155,11 +155,11 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
         content: {
             icon: () => [h(Lock, { size: 14 })],
             title: '锁定',
-            action(node: Node) {
+            action(node: INode) {
                 node.props.getExtraProp('isLock').setValue(true);
             },
         },
-        condition: (node: Node) => {
+        condition: (node: INode) => {
             return node.isContainer() && !node.isLocked;
         },
         important: true,
@@ -169,11 +169,11 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
         content: {
             icon: () => [h(Unlock, { size: 14 })],
             title: '解锁',
-            action(node: Node) {
+            action(node: INode) {
                 node.props.getExtraProp('isLock').setValue(false);
             },
         },
-        condition: (node: Node) => {
+        condition: (node: INode) => {
             return node.isContainer() && node.isLocked;
         },
         important: true,
@@ -363,7 +363,7 @@ export class ComponentMeta {
         return actions;
     }
 
-    checkNestingUp(my: Node | IPublicTypeNodeData, parent: IBaseNode) {
+    checkNestingUp(my: INode | IPublicTypeNodeData, parent: INode) {
         // 检查父子关系，直接约束型，在画布中拖拽直接掠过目标容器
         if (this.parentWhitelist)
             return this.parentWhitelist(parent, isNode(my) ? my : my);
@@ -371,12 +371,12 @@ export class ComponentMeta {
         return true;
     }
 
-    checkNestingDown(my: Node, target: Node | IPublicTypeNodeSchema | IPublicTypeNodeSchema[]) {
+    checkNestingDown(my: INode, target: INode | IPublicTypeNodeSchema | IPublicTypeNodeSchema[]) {
         // 检查父子关系，直接约束型，在画布中拖拽直接掠过目标容器
         if (this.childWhitelist) {
             const _target: any = !Array.isArray(target) ? [target] : target;
-            return _target.every((item: Node | IPublicTypeNodeSchema) => {
-                const _item = !isNode(item)
+            return _target.every((item: INode | IPublicTypeNodeSchema) => {
+                const _item = !isNode<INode>(item)
                     ? new Node(my.document, item)
                     : item;
                 return this.childWhitelist && this.childWhitelist(_item, my);

@@ -5,27 +5,26 @@ import type {
 } from '@webank/letgo-types';
 import {
     GlobalEvent,
-    TransformStage,
+    IPublicEnumTransformStage,
     isJSExpression,
     isJSFunction,
     isJSSlot,
+    isSlotSchema,
 } from '@webank/letgo-types';
 import { uniqueId } from '@webank/letgo-utils';
 import type { ComputedRef, ShallowRef } from 'vue';
 import { computed, shallowRef, triggerRef } from 'vue';
 import { isPlainObject } from 'lodash-es';
-import type { ISlotNode } from '../types';
-import type { Node } from './node';
+import type { INode, ISlotNode } from '../types';
 import type { Props } from './props';
 import { valueToSource } from './value-to-source';
 
 export const UNSET = Symbol.for('unset');
-export type UNSET = typeof UNSET;
 
 export interface IPropParent {
     delete(prop: Prop): void
     readonly props: Props
-    readonly owner: Node
+    readonly owner: INode
     readonly path: string[]
 }
 
@@ -38,12 +37,14 @@ export type ValueTypes =
     | 'function'
     | 'slot';
 
+type TypeUNSET = typeof UNSET;
+
 export class Prop implements IPropParent {
     readonly isProp = true;
 
     readonly id = uniqueId('prop$');
 
-    readonly owner: Node;
+    readonly owner: INode;
 
     readonly props: Props;
 
@@ -99,13 +100,13 @@ export class Prop implements IPropParent {
     /**
      * 属性值【响应性】
      */
-    ComputedValue: ComputedRef<IPublicTypeCompositeValue | UNSET> = computed(() => {
+    ComputedValue: ComputedRef<IPublicTypeCompositeValue | TypeUNSET> = computed(() => {
         return this.getValue();
     });
 
     constructor(
         public parent: IPropParent,
-        value: IPublicTypeCompositeValue | UNSET = UNSET,
+        value: IPublicTypeCompositeValue | TypeUNSET = UNSET,
         key: string | number,
         spread = false,
         options = {},
@@ -150,7 +151,7 @@ export class Prop implements IPropParent {
         this._items.value = items;
     }
 
-    export(stage: TransformStage = TransformStage.Save): IPublicTypeCompositeValue {
+    export(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Save): IPublicTypeCompositeValue {
         const type = this._type.value;
 
         if (type === 'unset')
@@ -161,7 +162,7 @@ export class Prop implements IPropParent {
 
         if (type === 'slot') {
             const schema = this._slotNode?.export(stage) || ({} as any);
-            if (stage === TransformStage.Render) {
+            if (stage === IPublicEnumTransformStage.Render) {
                 return {
                     type: 'JSSlot',
                     params: schema.params,
@@ -218,16 +219,17 @@ export class Prop implements IPropParent {
         let slotSchema: IPublicTypeSlotSchema;
         // 当 data.value 的结构为 { componentName: 'Slot' } 时，直接当成 slotSchema 使用
         if (
-            isPlainObject(data.value)
-            && (data.value as IPublicTypeSlotSchema)?.componentName === 'Slot'
+            isSlotSchema(data.value)
         ) {
-            slotSchema = data.value as IPublicTypeSlotSchema;
+            slotSchema = data.value;
         }
         else {
             slotSchema = {
                 componentName: 'Slot',
-                name: data.name,
-                params: data.params,
+                props: {
+                    slotName: data.name,
+                    slotParams: data.params,
+                },
                 children: data.value,
             };
         }
@@ -244,7 +246,7 @@ export class Prop implements IPropParent {
     }
 
     getValue(): IPublicTypeCompositeValue {
-        return this.export(TransformStage.Serialize);
+        return this.export(IPublicEnumTransformStage.Serialize);
     }
 
     getAsString(): string {
@@ -336,7 +338,7 @@ export class Prop implements IPropParent {
             return this.value.value;
 
         if (this.type === 'slot')
-            return JSON.stringify(this._slotNode.export(TransformStage.Save));
+            return JSON.stringify(this._slotNode.export(IPublicEnumTransformStage.Save));
 
         return this._code != null ? this._code : JSON.stringify(this.value);
     }

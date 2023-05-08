@@ -16,7 +16,7 @@ import {
 import { createIcon } from '@webank/letgo-utils';
 import type { Simulator } from '../simulator';
 import NodeSelectorView from '../node-selector';
-import type { Node } from '../../node';
+import type { INode } from '../../types';
 import type { OffsetObserver } from '../../designer';
 import {
     borderActionCls,
@@ -27,7 +27,7 @@ import {
 
 export function createAction(content: IPublicTypeComponentActionContent,
     key: string,
-    node: Node,
+    node: INode,
     host: Simulator) {
     if (typeof content === 'string')
         return content;
@@ -200,7 +200,7 @@ export const BorderSelectingForNode = defineComponent({
             type: Object as PropType<Simulator>,
         },
         node: {
-            type: Object as PropType<Node>,
+            type: Object as PropType<INode>,
         },
     },
     setup(props) {

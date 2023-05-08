@@ -1,6 +1,6 @@
 import type { DocumentModel } from '@webank/letgo-designer';
 import type { IPublicTypeComponentInstance } from '@webank/letgo-types';
-import { TransformStage } from '@webank/letgo-types';
+import { IPublicEnumTransformStage } from '@webank/letgo-types';
 import { cursor, isElement, setNativeSelection } from '@webank/letgo-utils';
 import type {
     Component,
@@ -147,7 +147,7 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
             return fileName.startsWith('/') ? fileName : `/${fileName}`;
         }),
         key: computed(() => `${document.id}:${timestamp.value}`),
-        schema: computed(() => document.export(TransformStage.Render)),
+        schema: computed(() => document.export(IPublicEnumTransformStage.Render)),
         document: computed(() => document),
         instancesMap: computed(() => instancesMap),
         getNode,

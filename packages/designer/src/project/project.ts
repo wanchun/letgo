@@ -1,15 +1,18 @@
 import { EventEmitter } from 'eventemitter3';
-import { shallowRef, ShallowRef, watch } from 'vue';
-import {
+import type { ShallowRef } from 'vue';
+import { shallowRef, watch } from 'vue';
+import type {
+    IPublicTypeComponentsMap,
     IPublicTypeProjectSchema,
     IPublicTypeRootSchema,
-    TransformStage,
-    IPublicTypeComponentsMap,
-    isProCodeComponentType,
+} from '@webank/letgo-types';
+import {
+    IPublicEnumTransformStage,
     isLowCodeComponentType,
+    isProCodeComponentType,
 } from '@webank/letgo-types';
 import { isDocumentModel } from '../types';
-import { Designer } from '../designer';
+import type { Designer } from '../designer';
 import { DocumentModel } from '../document';
 
 export class Project {
@@ -53,21 +56,23 @@ export class Project {
                     curComponentsMap.forEach((item) => {
                         const found = componentsMap.find((eItem) => {
                             if (
-                                isProCodeComponentType(eItem) &&
-                                isProCodeComponentType(item) &&
-                                eItem.package === item.package &&
-                                eItem.componentName === item.componentName
-                            ) {
+                                isProCodeComponentType(eItem)
+                                && isProCodeComponentType(item)
+                                && eItem.package === item.package
+                                && eItem.componentName === item.componentName
+                            )
                                 return true;
-                            } else if (
-                                isLowCodeComponentType(eItem) &&
-                                eItem.componentName === item.componentName
-                            ) {
+
+                            else if (
+                                isLowCodeComponentType(eItem)
+                                && eItem.componentName === item.componentName
+                            )
                                 return true;
-                            }
+
                             return false;
                         });
-                        if (found) return;
+                        if (found)
+                            return;
                         componentsMap.push(item);
                     });
                 }
@@ -80,11 +85,11 @@ export class Project {
     /**
      * 获取项目整体 schema
      */
-    getSchema(stage: TransformStage = TransformStage.Save): IPublicTypeProjectSchema {
+    getSchema(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Save): IPublicTypeProjectSchema {
         return {
             ...this.data,
             componentsMap: this.getComponentsMap(),
-            componentsTree: this.documents.map((doc) => doc.export(stage)),
+            componentsTree: this.documents.map(doc => doc.export(stage)),
         };
     }
 
@@ -103,11 +108,12 @@ export class Project {
             if (autoOpen === true) {
                 // auto open first document or open a blank page
                 // this.open(this.data.componentsTree[0]);
-                const documentInstances = this.data.componentsTree.map((data) =>
+                const documentInstances = this.data.componentsTree.map(data =>
                     this.createDocument(data),
                 );
                 this.open(documentInstances[0]);
-            } else {
+            }
+            else {
                 // auto open should be string of fileName
                 this.open(autoOpen);
             }
@@ -118,18 +124,17 @@ export class Project {
      * 卸载当前项目数据
      */
     unload() {
-        if (this.documents.length < 1) {
+        if (this.documents.length < 1)
             return;
-        }
-        for (let i = this.documents.length - 1; i >= 0; i--) {
+
+        for (let i = this.documents.length - 1; i >= 0; i--)
             this.documents[i].remove();
-        }
     }
 
     open(doc?: string | DocumentModel | IPublicTypeRootSchema): DocumentModel | null {
         if (typeof doc === 'string') {
             const got = this.documents.find(
-                (item) => item.fileName === doc || item.id === doc,
+                item => item.fileName === doc || item.id === doc,
             );
             if (got) {
                 this.currentDocument.value = got;
@@ -137,7 +142,7 @@ export class Project {
             }
 
             const data = this.data.componentsTree.find(
-                (data) => data.fileName === doc,
+                data => data.fileName === doc,
             );
             if (data) {
                 doc = this.createDocument(data);
@@ -167,16 +172,16 @@ export class Project {
 
     removeDocument(doc: DocumentModel) {
         const index = this.documents.indexOf(doc);
-        if (index < 0) {
+        if (index < 0)
             return;
-        }
+
         this.documents.splice(index, 1);
         this.documentsMap.delete(doc.id);
     }
 
     findDocument(id: string): DocumentModel | null {
         // 此处不能使用 this.documentsMap.get(id)，因为在乐高 rollback 场景，document.id 会被改成其他值
-        return this.documents.find((doc) => doc.id === id) || null;
+        return this.documents.find(doc => doc.id === id) || null;
     }
 
     /**
@@ -195,9 +200,9 @@ export class Project {
             | string,
         value: any,
     ): void {
-        if (key === 'config') {
+        if (key === 'config')
             this.config = value;
-        }
+
         Object.assign(this.data, { [key]: value });
     }
 
@@ -217,9 +222,9 @@ export class Project {
             | 'config'
             | string,
     ): any {
-        if (key === 'config') {
+        if (key === 'config')
             return this.config;
-        }
+
         return Reflect.get(this.data, key);
     }
 

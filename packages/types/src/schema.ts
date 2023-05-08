@@ -134,8 +134,12 @@ export interface IPublicTypeBlockSchema extends IPublicTypeContainerSchema {
  */
 export interface IPublicTypeSlotSchema extends IPublicTypeNodeSchema {
     componentName: 'Slot'
-    name?: string
-    params?: string[]
+    props?: {
+        slotTitle?: string
+        slotName?: string
+        slotParams?: string[]
+    }
+    children?: IPublicTypeNodeData[] | IPublicTypeNodeData
 }
 
 export type IPublicTypeRootSchema = IPublicTypePageSchema | IPublicTypeComponentSchema | IPublicTypeBlockSchema;
@@ -183,6 +187,10 @@ export interface IPublicTypeProjectSchema {
 
 export function isNodeSchema(data: any): data is IPublicTypeNodeSchema {
     return data && data.componentName;
+}
+
+export function isSlotSchema(data: any): data is IPublicTypeSlotSchema {
+    return data && data.componentName && data.componentName === 'Slot';
 }
 
 export function isProjectSchema(data: any): data is IPublicTypeProjectSchema {

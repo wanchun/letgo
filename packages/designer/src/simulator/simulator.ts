@@ -30,7 +30,7 @@ import {
 import { engineConfig } from '@webank/letgo-editor-core';
 import type {
     DropContainer,
-    IBaseNode,
+    INode,
     ISimulator,
     InnerComponentInstance,
     NodeInstance,
@@ -58,7 +58,6 @@ import {
     isShaken,
 } from '../designer';
 import { getClosestClickableNode, getClosestNode } from '../utils';
-import type { Node } from '../node';
 import { contains, isRootNode } from '../node';
 import { Viewport } from './viewport';
 import type { ISimulatorRenderer } from './renderer';
@@ -331,7 +330,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
             const isClickLeft = downEvent.button === 0;
 
             if (isClickLeft && !node.contains(focusNode)) {
-                let nodes: Node[] = [node];
+                let nodes: INode[] = [node];
                 let ignoreUpSelected = false;
                 if (isMulti) {
                     if (!selection.has(node.id)) {
@@ -498,7 +497,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
         const childWhitelist
             = dropContainer?.container?.componentMeta?.childWhitelist;
         const lockedNode = getClosestNode(
-            dropContainer?.container as Node,
+            dropContainer?.container as INode,
             node => node.isLocked,
         );
         if (lockedNode)
@@ -533,7 +532,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
         };
 
         const locationData = {
-            target: container as IBaseNode,
+            target: container as INode,
             detail,
             source: `simulator${document.id}`,
             event: e,
@@ -660,7 +659,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
 
         const document = this.project.currentDocument.value;
         const { focusNode } = document;
-        let container: Node;
+        let container: INode;
         let nodeInstance: NodeInstance<InnerComponentInstance> | undefined;
 
         if (target) {
@@ -684,7 +683,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
             container = container.parent || focusNode;
 
         // get common parent, avoid drop container contains by dragObject
-        const drillDownExcludes = new Set<Node>();
+        const drillDownExcludes = new Set<INode>();
         if (isDragNodeObject(dragObject)) {
             const { nodes } = dragObject;
             let i = nodes.length;
@@ -741,7 +740,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
                         container.id,
                     )?.instance;
                     dropContainer = {
-                        container: container as IBaseNode,
+                        container: container as INode,
                         instance,
                     };
                 }
@@ -763,7 +762,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
         if (isRootNode(container) || container.contains(focusNode))
             return document.checkDropTarget(focusNode, dragObject as any);
 
-        const meta = (container as Node).componentMeta;
+        const meta = (container as INode).componentMeta;
 
         if (!meta.isContainer)
             return false;
@@ -801,7 +800,7 @@ export class Simulator implements ISimulator<SimulatorProps> {
      * @see ISimulator
      */
     getComponentInstances(
-        node: Node,
+        node: INode,
         context?: NodeInstance,
     ): InnerComponentInstance[] | null {
         const docId = node.document.id;

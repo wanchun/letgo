@@ -1,6 +1,6 @@
-import { Node } from '../node/node';
+import type { INode } from '../types';
 
-export function includeSlot(node: Node, slotName: string | undefined): boolean {
+export function includeSlot(node: INode, slotName: string | undefined): boolean {
     const { slots = [] } = node;
     return slots.some((slot) => {
         return (
@@ -9,12 +9,12 @@ export function includeSlot(node: Node, slotName: string | undefined): boolean {
     });
 }
 
-export function removeSlot(node: Node, slotName: string | undefined): boolean {
+export function removeSlot(node: INode, slotName: string | undefined): boolean {
     const { slots = [] } = node;
     return slots.some((slot, idx) => {
         if (
-            slotName &&
-            slotName === slot?.getExtraProp('name')?.getAsString()
+            slotName
+            && slotName === slot?.getExtraProp('name')?.getAsString()
         ) {
             slot.remove();
             slots.splice(idx, 1);

@@ -2,8 +2,7 @@ import { EventEmitter } from 'eventemitter3';
 import type { IPublicTypeNodeSchema } from '@webank/letgo-types';
 import { cursor } from '@webank/letgo-utils';
 import type { DocumentModel } from '../document';
-import type { Node } from '../node';
-import type { ISensor, ISimulator } from '../types';
+import type { INode, ISensor, ISimulator } from '../types';
 import { isSimulator } from '../types';
 import { makeEventsHandler } from '../utils';
 import type { Designer } from './designer';
@@ -17,7 +16,7 @@ export enum DragObjectType {
 
 export interface DragNodeObject {
     type: DragObjectType.Node
-    nodes: Node[]
+    nodes: INode[]
 }
 
 export interface DragNodeDataObject {

@@ -2,9 +2,9 @@ import { EventEmitter } from 'eventemitter3';
 import type { IPublicTypeEditor } from '@webank/letgo-types';
 import { GlobalEvent, isJSExpression } from '@webank/letgo-types';
 import { uniqueId } from '@webank/letgo-utils';
-import type { Node } from '../node';
 import type { ComponentMeta } from '../component-meta';
 import type { Designer } from '../designer';
+import type { INode } from '../types';
 import type { ISetValueOptions, SettingEntry } from './types';
 
 export class SettingProp implements SettingEntry {
@@ -17,7 +17,7 @@ export class SettingProp implements SettingEntry {
 
     readonly isSingle: boolean;
 
-    readonly nodes: Node[];
+    readonly nodes: INode[];
 
     readonly componentMeta: ComponentMeta | null;
 

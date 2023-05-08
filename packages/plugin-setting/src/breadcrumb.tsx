@@ -1,5 +1,5 @@
 import type { PropType } from 'vue';
-import type { Node } from '@webank/letgo-designer';
+import type { INode } from '@webank/letgo-designer';
 import { RightOutlined } from '@fesjs/fes-design/icon';
 import { defineComponent } from 'vue';
 
@@ -11,13 +11,13 @@ import {
 export default defineComponent({
     name: 'Breadcrumb',
     props: {
-        node: Object as PropType<Node>,
+        node: Object as PropType<INode>,
     },
     setup(props) {
         return () => {
             const node = props.node;
             const { focusNode } = node.document;
-            const parentNodeList: Node[] = [];
+            const parentNodeList: INode[] = [];
             let _node = node;
 
             let l = 3;
@@ -38,7 +38,7 @@ export default defineComponent({
                 <div class={navigatorCls}>
                     {parentNodeList
                         .reverse()
-                        .map((node: Node, index: number) => {
+                        .map((node: INode, index: number) => {
                             const isParentNode = index < len - 1;
                             const isCurrentNode = (index === len - 1);
                             return (

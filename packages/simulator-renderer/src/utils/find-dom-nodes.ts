@@ -1,5 +1,5 @@
-import { ComponentInternalInstance } from 'vue';
-import { IPublicTypeComponentInstance } from '@webank/letgo-types';
+import type { ComponentInternalInstance } from 'vue';
+import type { IPublicTypeComponentInstance } from '@webank/letgo-types';
 import { isVNodeHTMLElement } from './comp-node';
 import { isEmptyNode } from './check-node';
 
@@ -15,7 +15,8 @@ export function findDOMNodes(instance: IPublicTypeComponentInstance) {
         appendSiblingElement(els, instance.$, el, (node) => {
             return node.nextSibling;
         });
-    } else {
+    }
+    else {
         els.push(el);
     }
 
@@ -50,8 +51,11 @@ function isChildInstance(
     target: ComponentInternalInstance,
     source: ComponentInternalInstance | null,
 ): boolean {
-    if (source == null) return false;
-    if (target.uid > source.uid) return false;
-    if (target.uid === source.uid) return true;
+    if (source == null)
+        return false;
+    if (target.uid > source.uid)
+        return false;
+    if (target.uid === source.uid)
+        return true;
     return isChildInstance(target, source.parent);
 }

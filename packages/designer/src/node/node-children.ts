@@ -1,15 +1,14 @@
 import { EventEmitter } from 'eventemitter3';
 import type { IPublicTypeNodeData } from '@webank/letgo-types';
-import { TransformStage, isNodeSchema } from '@webank/letgo-types';
+import { IPublicEnumTransformStage, isNodeSchema } from '@webank/letgo-types';
 import { shallowEqual } from '@webank/letgo-utils';
 import type { ShallowRef } from 'vue';
 import { shallowRef, triggerRef } from 'vue';
-import type { IBaseNode } from '../types';
-import type { Node } from './node';
+import type { INode } from '../types';
 
 export interface IOnChangeOptions {
     type: string
-    node: Node
+    node: INode
 }
 
 export interface NodeRemoveOptions {
@@ -17,7 +16,7 @@ export interface NodeRemoveOptions {
 }
 
 export class NodeChildren {
-    private children: ShallowRef<Node[]> = shallowRef([]);
+    private children: ShallowRef<INode[]> = shallowRef([]);
 
     private emitter = new EventEmitter();
 
@@ -28,7 +27,7 @@ export class NodeChildren {
         return this.children.value.length;
     }
 
-    constructor(readonly owner: IBaseNode, data?: IPublicTypeNodeData | IPublicTypeNodeData[]) {
+    constructor(readonly owner: INode, data?: IPublicTypeNodeData | IPublicTypeNodeData[]) {
         if (data) {
             this.children.value = (Array.isArray(data) ? data : [data]).map(
                 (child) => {
@@ -38,10 +37,10 @@ export class NodeChildren {
         }
     }
 
-    export(stage: TransformStage = TransformStage.Save): IPublicTypeNodeData[] {
+    export(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Save): IPublicTypeNodeData[] {
         return this.children.value.map((node) => {
             const data = node.export(stage);
-            if (node.isLeaf() && TransformStage.Save === stage)
+            if (node.isLeaf() && IPublicEnumTransformStage.Save === stage)
                 return data.children as IPublicTypeNodeData;
 
             return data;
@@ -54,12 +53,12 @@ export class NodeChildren {
         const originChildren = this.children.value.slice();
         this.children.value.forEach(child => child.setParent(null));
 
-        const children = new Array<Node>(data.length);
+        const children = new Array<INode>(data.length);
         for (let i = 0, l = data.length; i < l; i++) {
             const child = originChildren[i];
             const item = data[i];
 
-            let node: Node | undefined;
+            let node: INode | undefined;
             if (
                 isNodeSchema(item)
                 && child
@@ -87,20 +86,20 @@ export class NodeChildren {
     /**
      * 取得节点索引编号
      */
-    indexOf(node: Node): number {
+    indexOf(node: INode): number {
         return this.children.value.indexOf(node);
     }
 
     /**
      * 根据索引获得节点
      */
-    get(index: number): Node | null {
+    get(index: number): INode | null {
         return this.children.value.length > index
             ? this.children.value[index]
             : null;
     }
 
-    unlinkChild(node: Node) {
+    unlinkChild(node: INode) {
         const i = this.children.value.indexOf(node);
         if (i < 0)
             return;
@@ -123,7 +122,7 @@ export class NodeChildren {
     /**
      * 删除一个节点
      */
-    deleteChild(node: Node, purge = false) {
+    deleteChild(node: INode, purge = false) {
         // 需要在从 children 中删除 node 前记录下 index，internalSetParent 中会执行删除(unlink)操作
         const i = this.children.value.indexOf(node);
         if (purge) {
@@ -152,9 +151,9 @@ export class NodeChildren {
     /**
      * 插入一个节点
      */
-    insertChild(node: Node, at?: number | null): void {
+    insertChild(node: INode, at?: number | null): void {
         const { children } = this;
-        let index = at == null || at === -1 ? children.value.length : at;
+        let index = (at == null || at === -1) ? children.value.length : at;
 
         const i = children.value.indexOf(node);
 

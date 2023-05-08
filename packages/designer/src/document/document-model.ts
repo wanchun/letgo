@@ -7,7 +7,7 @@ import type {
     IPublicTypeRootSchema,
 } from '@webank/letgo-types';
 import {
-    TransformStage,
+    IPublicEnumTransformStage,
     isDOMText,
     isJSExpression,
     isNodeSchema,
@@ -15,7 +15,7 @@ import {
 import type { ComputedRef } from 'vue';
 import { computed } from 'vue';
 import { camelCase } from 'lodash-es';
-import type { GetDataType, IBaseNode, ISimulator, IRootNode } from '../types';
+import type { GetDataType, INode, IRootNode, ISimulator } from '../types';
 import type {
     Designer,
     DragNodeDataObject,
@@ -46,9 +46,9 @@ export class DocumentModel {
      */
     readonly selection: Selection = new Selection(this);
 
-    private _nodesMap = new Map<string, Node>();
+    private _nodesMap = new Map<string, INode>();
 
-    private nodes = new Set<Node>();
+    private nodes = new Set<INode>();
 
     private emitter = new EventEmitter();
 
@@ -71,7 +71,7 @@ export class DocumentModel {
         return this.designer.simulator;
     }
 
-    get nodesMap(): Map<string, Node> {
+    get nodesMap(): Map<string, INode> {
         return this._nodesMap;
     }
 
@@ -105,7 +105,7 @@ export class DocumentModel {
 
     get focusNode() {
         const selector = this.designer.editor?.get<
-        ((rootNode: IRootNode) => Node) | null
+        ((rootNode: IRootNode) => INode) | null
             >('focusNodeSelector');
         if (selector && typeof selector === 'function')
             return selector(this.rootNode);
@@ -129,7 +129,7 @@ export class DocumentModel {
         this.isMounted = true;
     }
 
-    export(stage: TransformStage = TransformStage.Serialize) {
+    export(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Serialize) {
         const currentSchema = this.rootNode?.export(stage);
         return currentSchema;
     }
@@ -212,7 +212,7 @@ export class DocumentModel {
     /**
      * 根据 schema 创建一个节点
      */
-    createNode<T extends Node = Node, C = undefined>(
+    createNode<T extends INode = INode, C = undefined>(
         data: GetDataType<C, T>,
     ): T {
         let schema: any;
@@ -226,7 +226,7 @@ export class DocumentModel {
             schema = data;
         }
 
-        let node: Node | null = null;
+        let node: INode | null = null;
         if (this.hasNode(schema?.id))
             schema.id = null;
 
@@ -252,11 +252,11 @@ export class DocumentModel {
     /**
      * 根据 id 获取节点
      */
-    getNode(id: string): Node | null {
+    getNode(id: string): INode | null {
         return this._nodesMap.get(id) || null;
     }
 
-    findNode(isMatch: (node: Node) => Boolean): Node | null {
+    findNode(isMatch: (node: INode) => Boolean): INode | null {
         for (const node of this.nodes) {
             if (isMatch(node))
                 return node;
@@ -276,11 +276,11 @@ export class DocumentModel {
      * 插入一个节点
      */
     insertNode(
-        parent: IBaseNode,
-        thing: Node | IPublicTypeNodeData,
+        parent: INode,
+        thing: INode | IPublicTypeNodeData,
         at?: number | null,
         copy?: boolean,
-    ): Node {
+    ): INode {
         return insertChild(parent, thing, at, copy);
     }
 
@@ -288,8 +288,8 @@ export class DocumentModel {
      * 插入多个节点
      */
     insertNodes(
-        parent: IBaseNode,
-        thing: Node[] | IPublicTypeNodeData[],
+        parent: INode,
+        thing: INode[] | IPublicTypeNodeData[],
         at?: number | null,
         copy?: boolean,
     ) {
@@ -299,9 +299,9 @@ export class DocumentModel {
     /**
      * 移除一个节点
      */
-    removeNode(idOrNode: string | Node) {
+    removeNode(idOrNode: string | INode) {
         let id: string;
-        let node: Node | null;
+        let node: INode | null;
         if (typeof idOrNode === 'string') {
             id = idOrNode;
             node = this.getNode(id);
@@ -319,7 +319,7 @@ export class DocumentModel {
         node.remove(true);
     }
 
-    unlinkNode(node: Node) {
+    unlinkNode(node: INode) {
         this.nodes.delete(node);
         this._nodesMap.delete(node.id);
     }
@@ -332,10 +332,10 @@ export class DocumentModel {
     }
 
     checkDropTarget(
-        dropTarget: IBaseNode,
+        dropTarget: INode,
         dragObject: DragNodeObject | DragNodeDataObject,
     ): boolean {
-        let items: Array<Node | IPublicTypeNodeSchema>;
+        let items: Array<INode | IPublicTypeNodeSchema>;
         if (isDragNodeDataObject(dragObject)) {
             items = Array.isArray(dragObject.data)
                 ? dragObject.data
@@ -348,10 +348,10 @@ export class DocumentModel {
     }
 
     checkNesting(
-        dropTarget: IBaseNode,
+        dropTarget: INode,
         dragObject: DragNodeObject | DragNodeDataObject,
     ): boolean {
-        let items: Array<Node | IPublicTypeNodeSchema>;
+        let items: Array<INode | IPublicTypeNodeSchema>;
         if (isDragNodeDataObject(dragObject)) {
             items = Array.isArray(dragObject.data)
                 ? dragObject.data
@@ -366,7 +366,7 @@ export class DocumentModel {
     /**
      * 检查对象对父级的要求，涉及配置 parentWhitelist
      */
-    checkNestingUp(parent: IBaseNode, obj: IPublicTypeNodeSchema | Node): boolean {
+    checkNestingUp(parent: INode, obj: IPublicTypeNodeSchema | INode): boolean {
         if (isNode(obj) || isNodeSchema(obj)) {
             const config = isNode(obj)
                 ? obj.componentMeta
@@ -381,7 +381,7 @@ export class DocumentModel {
     /**
      * 检查投放位置对子级的要求，涉及配置 childWhitelist
      */
-    checkNestingDown(parent: IBaseNode, obj: IPublicTypeNodeSchema | Node): boolean {
+    checkNestingDown(parent: INode, obj: IPublicTypeNodeSchema | INode): boolean {
         const config = parent.componentMeta;
         return (
             config.checkNestingDown(parent, obj)

@@ -1,19 +1,19 @@
-import { IPublicTypeSettingTarget } from '@webank/letgo-types';
-import { ComponentMeta } from '../component-meta';
-import { Designer } from '../designer';
-import { Node } from '../node';
+import type { IPublicTypeSettingTarget } from '@webank/letgo-types';
+import type { ComponentMeta } from '../component-meta';
+import type { Designer } from '../designer';
+import type { INode } from '../types';
 
 export interface SettingEntry extends IPublicTypeSettingTarget {
-    readonly nodes: Node[];
-    readonly componentMeta: ComponentMeta | null;
-    readonly designer: Designer;
+    readonly nodes: INode[]
+    readonly componentMeta: ComponentMeta | null
+    readonly designer: Designer
 
     // 顶端
-    readonly top: SettingEntry;
+    readonly top: SettingEntry
     // 父级
-    readonly parent: SettingEntry;
+    readonly parent: SettingEntry
 
-    get: (propName: string | number) => SettingEntry | null;
+    get: (propName: string | number) => SettingEntry | null
 }
 
 export enum PROP_VALUE_CHANGED_TYPE {
@@ -28,7 +28,7 @@ export enum PROP_VALUE_CHANGED_TYPE {
 }
 
 export interface ISetValueOptions {
-    disableMutator?: boolean;
-    type?: PROP_VALUE_CHANGED_TYPE;
-    fromSetHotValue?: boolean;
+    disableMutator?: boolean
+    type?: PROP_VALUE_CHANGED_TYPE
+    fromSetHotValue?: boolean
 }

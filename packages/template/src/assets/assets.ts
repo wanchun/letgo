@@ -42,6 +42,16 @@ const assets: IPublicTypeAssetsJson = {
             },
         },
         {
+            title: '插槽',
+            componentName: 'Slot',
+            configure: {
+                component: {
+                    isContainer: true,
+                    disableBehaviors: '*',
+                },
+            },
+        },
+        {
             title: '图片',
             componentName: 'img',
             props: [
@@ -51,16 +61,6 @@ const assets: IPublicTypeAssetsJson = {
                     propType: 'string',
                 },
             ],
-        },
-        {
-            title: '插槽',
-            componentName: 'Slot',
-            configure: {
-                component: {
-                    isContainer: true,
-                    disableBehaviors: '*',
-                },
-            },
         },
         {
             title: '文本',

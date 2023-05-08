@@ -1,4 +1,4 @@
-import { IPublicTypeTransformedComponentMetadata } from '@webank/letgo-types';
+import type { IPublicTypeTransformedComponentMetadata } from '@webank/letgo-types';
 
 export default function componentDefaults(
     metadata: IPublicTypeTransformedComponentMetadata,
@@ -14,15 +14,15 @@ export default function componentDefaults(
             component.nestingRule = {
                 childWhitelist: [`${m[1]}`],
             };
-            // eslint-disable-next-line no-cond-assign
-        } else if ((m = /^(.+)\.Node$/.exec(componentName))) {
+        }
+        else if ((m = /^(.+)\.Node$/.exec(componentName))) {
             // uri match xx.Node set selfControlled: false, parentWhiteList
             // component.selfControlled = false;
             component.nestingRule = {
                 parentWhitelist: [`${m[1]}`, componentName],
             };
-            // eslint-disable-next-line no-cond-assign
-        } else if ((m = /^(.+)\.(Item|Node|Option)$/.exec(componentName))) {
+        }
+        else if ((m = /^(.+)\.(Item|Node|Option)$/.exec(componentName))) {
             // uri match .Item .Node .Option set parentWhiteList
             component.nestingRule = {
                 parentWhitelist: [`${m[1]}`],

@@ -1,4 +1,4 @@
-export enum TransformStage {
+export enum IPublicEnumTransformStage {
     Render = 'render',
     Serialize = 'serialize',
     Save = 'save',

@@ -1,33 +1,30 @@
 // 仅使用类型
-import { Node } from '../node';
+import type { INode } from '../types';
 
-export const getClosestNode = (
-    node: Node,
-    until: (node: Node) => boolean,
-): Node | undefined => {
-    if (!node) {
+export function getClosestNode(node: INode,
+    until: (node: INode) => boolean): INode | undefined {
+    if (!node)
         return undefined;
-    }
-    if (until(node)) {
+
+    if (until(node))
         return node;
-    } else {
+    else
         return getClosestNode(node.parent, until);
-    }
-};
+}
 
 /**
  * 判断节点是否可被点击
- * @param {Node} node 节点
+ * @param {INode} node 节点
  * @param {unknown} e 点击事件
  * @returns {boolean} 是否可点击，true表示可点击
  */
-export const canClickNode = (node: Node, e: unknown): boolean => {
-    const onClickHook =
-        node.componentMeta?.getMetadata().configure?.advanced?.callbacks
+export function canClickNode(node: INode, e: unknown): boolean {
+    const onClickHook
+        = node.componentMeta?.getMetadata().configure?.advanced?.callbacks
             ?.onClickHook;
-    const canClick =
-        typeof onClickHook === 'function'
+    const canClick
+        = typeof onClickHook === 'function'
             ? onClickHook(e as MouseEvent, node)
             : true;
     return canClick;
-};
+}

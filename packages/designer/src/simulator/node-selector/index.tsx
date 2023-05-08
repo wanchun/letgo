@@ -9,24 +9,23 @@ import {
 } from 'vue';
 import { FPopper } from '@fesjs/fes-design';
 import { canClickNode } from '../../utils';
-import type { Node } from '../../node';
-import type { IBaseNode } from '../../types';
+import type { INode } from '../../types';
 import { nodeCls, nodeContentCls, triggerCls, wrapperCls } from './index.css';
 
-type UnionNode = Node | IBaseNode | null;
+type UnionNode = INode | null;
 
 const NodeSelectorView = defineComponent({
     name: 'NodeSelectorView',
     props: {
-        node: Object as PropType<Node>,
+        node: Object as PropType<INode>,
     },
     setup(props) {
         const { node } = props;
 
-        const parentNodes: ShallowRef<Node[]> = shallowRef([]);
+        const parentNodes: ShallowRef<INode[]> = shallowRef([]);
 
-        const getParentNodes = (node: Node) => {
-            const parentNodes: Node[] = [];
+        const getParentNodes = (node: INode) => {
+            const parentNodes: INode[] = [];
             const { focusNode } = node.document;
 
             if (node.contains(focusNode) || !focusNode.contains(node))
@@ -49,7 +48,7 @@ const NodeSelectorView = defineComponent({
             parentNodes.value = getParentNodes(node);
         });
 
-        const onSelect = (node: Node, e: MouseEvent) => {
+        const onSelect = (node: INode, e: MouseEvent) => {
             if (!node)
                 return;
 
@@ -72,12 +71,12 @@ const NodeSelectorView = defineComponent({
             }
         };
 
-        const onMouseOver = (node: Node) => {
+        const onMouseOver = (node: INode) => {
             if (node && typeof node.hover === 'function')
                 node.hover(true);
         };
 
-        const onMouseOut = (node: Node) => {
+        const onMouseOut = (node: INode) => {
             if (node && typeof node.hover === 'function')
                 node.hover(false);
         };
@@ -94,10 +93,10 @@ const NodeSelectorView = defineComponent({
                         onClick={(e: MouseEvent) => {
                             onSelect(node, e);
                         }}
-                        onMouseEnter={() => {
+                        onMouseenter={() => {
                             onMouseOver(node);
                         }}
-                        onMouseLeave={() => {
+                        onMouseleave={() => {
                             onMouseOut(node);
                         }}
                         class={nodeCls}

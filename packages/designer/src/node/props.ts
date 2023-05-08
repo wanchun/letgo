@@ -1,27 +1,31 @@
 import { uniqueId } from '@webank/letgo-utils';
-import {
+import type {
+    IPublicTypeCompositeValue,
     IPublicTypePropsList,
     IPublicTypePropsMap,
-    IPublicTypeCompositeValue,
-    TransformStage,
 } from '@webank/letgo-types';
-import { shallowRef, ShallowRef, triggerRef } from 'vue';
-import { Node } from './node';
-import { Prop, UNSET, IPropParent } from './prop';
+import {
+    IPublicEnumTransformStage,
+} from '@webank/letgo-types';
+import type { ShallowRef } from 'vue';
+import { shallowRef, triggerRef } from 'vue';
+import type { INode } from '../types';
+import type { IPropParent } from './prop';
+import { Prop, UNSET } from './prop';
 
 interface ExtrasObject {
-    [key: string]: any;
+    [key: string]: any
 }
 
 export const EXTRA_KEY_PREFIX = '___';
 export function getConvertedExtraKey(key: string): string {
-    if (!key) {
+    if (!key)
         return '';
-    }
+
     let _key = key;
-    if (key.indexOf('.') > 0) {
+    if (key.indexOf('.') > 0)
         _key = key.split('.')[0];
-    }
+
     return EXTRA_KEY_PREFIX + _key + EXTRA_KEY_PREFIX + key.slice(_key.length);
 }
 export function getOriginalExtraKey(key: string): string {
@@ -40,7 +44,7 @@ export class Props implements IPropParent {
 
     private purged = false;
 
-    readonly owner: Node;
+    readonly owner: INode;
 
     readonly path: string[] = [];
 
@@ -51,7 +55,7 @@ export class Props implements IPropParent {
     type: 'map' | 'list' = 'map';
 
     constructor(
-        owner: Node,
+        owner: INode,
         value?: IPublicTypePropsMap | IPublicTypePropsList | null,
         extras?: ExtrasObject,
     ) {
@@ -61,7 +65,8 @@ export class Props implements IPropParent {
             value.forEach((item) => {
                 this.add(item.name, item.value);
             });
-        } else if (value != null) {
+        }
+        else if (value != null) {
             this.type = 'map';
             Object.keys(value).forEach((key) => {
                 this.add(key, value[key]);
@@ -75,7 +80,7 @@ export class Props implements IPropParent {
     }
 
     import(value?: IPublicTypePropsMap | IPublicTypePropsList | null, extras?: ExtrasObject) {
-        this.items.value.forEach((item) => item.purge());
+        this.items.value.forEach(item => item.purge());
         this.itemMap.clear();
         this.items.value = [];
         if (Array.isArray(value)) {
@@ -83,12 +88,14 @@ export class Props implements IPropParent {
             value.forEach((item) => {
                 this.add(item.name, item.value);
             });
-        } else if (value != null) {
+        }
+        else if (value != null) {
             this.type = 'map';
             Object.keys(value).forEach((key) => {
                 this.add(key, value[key]);
             });
-        } else {
+        }
+        else {
             this.type = 'map';
         }
 
@@ -99,13 +106,13 @@ export class Props implements IPropParent {
         }
     }
 
-    export(stage: TransformStage = TransformStage.Save): {
-        props?: IPublicTypePropsMap | IPublicTypePropsList;
-        extras?: ExtrasObject;
+    export(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Save): {
+        props?: IPublicTypePropsMap | IPublicTypePropsList
+        extras?: ExtrasObject
     } {
-        if (this.items.value.length < 1) {
+        if (this.items.value.length < 1)
             return {};
-        }
+
         let props: any = {};
         const extras: any = {};
         if (this.type === 'list') {
@@ -114,31 +121,35 @@ export class Props implements IPropParent {
                 const value = item.export(stage);
                 let name = item.key as string;
                 if (
-                    name &&
-                    typeof name === 'string' &&
-                    name.startsWith(EXTRA_KEY_PREFIX)
+                    name
+                    && typeof name === 'string'
+                    && name.startsWith(EXTRA_KEY_PREFIX)
                 ) {
                     name = getOriginalExtraKey(name);
                     extras[name] = value;
-                } else {
+                }
+                else {
                     props.push({
                         name,
                         value,
                     });
                 }
             });
-        } else {
+        }
+        else {
             this.items.value.forEach((item) => {
                 const value = item.export(stage);
                 let name = item.key as string;
-                if (name == null || item.isUnset()) return;
+                if (name == null || item.isUnset())
+                    return;
                 if (
-                    typeof name === 'string' &&
-                    name.startsWith(EXTRA_KEY_PREFIX)
+                    typeof name === 'string'
+                    && name.startsWith(EXTRA_KEY_PREFIX)
                 ) {
                     name = getOriginalExtraKey(name);
                     extras[name] = value;
-                } else {
+                }
+                else {
                     props[name] = value;
                 }
             });
@@ -168,19 +179,16 @@ export class Props implements IPropParent {
         const i = path.indexOf('.');
         if (i > 0) {
             nest = path.slice(i + 1);
-            if (nest) {
+            if (nest)
                 entry = path.slice(0, i);
-            }
         }
 
         let prop = this.itemMap.get(entry);
-        if (!prop && createIfNone) {
+        if (!prop && createIfNone)
             prop = this.add(entry, UNSET);
-        }
 
-        if (prop) {
+        if (prop)
             return nest ? prop.get(nest, createIfNone) : prop;
-        }
 
         return null;
     }
@@ -220,11 +228,11 @@ export class Props implements IPropParent {
     }
 
     purge() {
-        if (this.purged) {
+        if (this.purged)
             return;
-        }
+
         this.purged = true;
-        this.items.value.forEach((item) => item.purge());
+        this.items.value.forEach(item => item.purge());
         this.itemMap.clear();
         this.items.value = [];
     }

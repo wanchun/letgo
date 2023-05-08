@@ -20,7 +20,7 @@ import {
 } from '@webank/letgo-renderer';
 import type { IPublicTypeComponentInstance } from '@webank/letgo-types';
 import {
-    TransformStage,
+    IPublicEnumTransformStage,
     isJSSlot,
 } from '@webank/letgo-types';
 import type { ISlotNode } from '@webank/letgo-designer';
@@ -92,7 +92,7 @@ export const Hoc = defineComponent({
                 if (prop && prop.slotNode) {
                     // design 模式，从 prop 对象到处 schema
                     const slotSchema = prop.slotNode.export(
-                        TransformStage.Render,
+                        IPublicEnumTransformStage.Render,
                     );
                     result.slots[key] = slotSchema;
                 }
@@ -110,7 +110,7 @@ export const Hoc = defineComponent({
             );
             disposeFunctions.push(
                 node.onChildrenChange(() => {
-                    const schema = node.export(TransformStage.Render);
+                    const schema = node.export(IPublicEnumTransformStage.Render);
                     compSlots.default = ensureArray(schema.children);
                 }),
             );
@@ -140,7 +140,7 @@ export const Hoc = defineComponent({
                             if (isJSSlot(newValue)) {
                                 const slotNode: ISlotNode = prop.slotNode;
                                 const schema = slotNode.export(
-                                    TransformStage.Render,
+                                    IPublicEnumTransformStage.Render,
                                 );
                                 compSlots.default = schema;
                             }
@@ -154,7 +154,7 @@ export const Hoc = defineComponent({
                             // 具名插槽更新
                             const slotNode: ISlotNode = prop.slotNode;
                             const schema = slotNode.export(
-                                TransformStage.Render,
+                                IPublicEnumTransformStage.Render,
                             );
                             compSlots[key] = schema;
                         }

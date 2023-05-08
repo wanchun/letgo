@@ -25,7 +25,7 @@ export interface IBaseNode<T extends IPublicTypeNodeSchema = IPublicTypeNodeSche
     readonly children: NodeChildren
 }
 
-export interface LeafNode extends Node {
+export interface ILeafNode extends IBaseNode {
     readonly children: null
 }
 
@@ -37,7 +37,7 @@ export type ISlotNode = IBaseNode<IPublicTypeSlotSchema>;
 
 export type IRootNode = IPageNode | IComponentNode;
 
-export type INode = IPageNode | ISlotNode | IComponentNode | IRootNode;
+export type INode = ISlotNode | IPageNode | IComponentNode;
 
 export function isDocumentModel(obj: any): obj is DocumentModel {
     return obj && obj.rootNode;
@@ -47,7 +47,7 @@ export interface NodeInstance<T = InnerComponentInstance> {
     docId: string
     nodeId: string
     instance: T
-    node?: Node | null
+    node?: INode | null
 }
 
 export interface DropContainer {
@@ -56,7 +56,7 @@ export interface DropContainer {
 }
 
 export interface INodeSelector {
-    node: Node
+    node: INode
     instance?: InnerComponentInstance
 }
 
@@ -130,7 +130,7 @@ export interface ISimulator<P = object> extends ISensor {
     /**
      * 根据节点获取节点的组件实例
      */
-    getComponentInstances(node: Node): InnerComponentInstance[] | null
+    getComponentInstances(node: INode): InnerComponentInstance[] | null
     /**
      * 查找合适的投放容器
      */
@@ -160,7 +160,7 @@ export interface Point {
     clientY: number
 }
 
-export type AutoFit = '100%';
+export type TypeAutoFit = '100%';
 
 export const AutoFit = '100%';
 
@@ -180,8 +180,8 @@ export interface IViewport extends IScrollable {
     /**
      * 内容大小
      */
-    contentWidth: number | AutoFit
-    contentHeight: number | AutoFit
+    contentWidth: number | TypeAutoFit
+    contentHeight: number | TypeAutoFit
 
     /**
      * 内容缩放

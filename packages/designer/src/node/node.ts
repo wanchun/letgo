@@ -7,7 +7,7 @@ import type {
     IPublicTypePropsMap,
 } from '@webank/letgo-types';
 import {
-    TransformStage,
+    IPublicEnumTransformStage,
     isDOMText,
     isJSExpression,
 } from '@webank/letgo-types';
@@ -16,7 +16,7 @@ import type { ComputedRef } from 'vue';
 import { computed } from 'vue';
 import type { ComponentMeta } from '../component-meta';
 import type { DocumentModel } from '../document';
-import type { IBaseNode, IRootNode, LeafNode } from '../types';
+import type { IBaseNode, INode, IRootNode } from '../types';
 import type { SettingTop } from '../setting';
 import { includeSlot, removeSlot } from '../utils/slot';
 import { NodeChildren } from './node-children';
@@ -24,7 +24,7 @@ import { Props } from './props';
 import type { Prop } from './prop';
 
 export type PropChangeOptions = Omit<
-    GlobalEvent.Node.Prop.IPublicTypeChangeOptions,
+    GlobalEvent.Node.Prop.ChangeOptions,
     'node'
 >;
 
@@ -60,13 +60,13 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
 
     private _children?: NodeChildren;
 
-    private _parent: IBaseNode | null = null;
+    private _parent: INode | null = null;
 
     /**
      * 【响应式】获取符合搭建协议-节点 schema 结构
      */
     schema: ComputedRef<Schema> = computed(() => {
-        return this.export(TransformStage.Save);
+        return this.export(IPublicEnumTransformStage.Save);
     });
 
     /**
@@ -79,7 +79,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     /**
      * 父级节点
      */
-    get parent(): IBaseNode | null {
+    get parent(): INode | null {
         return this._parent;
     }
 
@@ -115,7 +115,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         if (!this.isParental() || this.componentName === 'Fragment')
             return null;
 
-        return this.props.export(TransformStage.Serialize).props || null;
+        return this.props.export(IPublicEnumTransformStage.Serialize).props || null;
     }
 
     /**
@@ -125,13 +125,13 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         if (!this.parent)
             return -1;
 
-        return this.parent.children.indexOf(this);
+        return this.parent.children.indexOf(this as INode);
     }
 
     /**
      * 获取下一个兄弟节点
      */
-    get nextSibling(): Node | null {
+    get nextSibling(): INode | null {
         if (!this.parent)
             return null;
 
@@ -145,7 +145,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     /**
      * 获取上一个兄弟节点
      */
-    get prevSibling(): Node | null {
+    get prevSibling(): INode | null {
         if (!this.parent)
             return null;
 
@@ -159,14 +159,14 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     /**
      * 终端节点，内容一般为 文字 或者 表达式
      */
-    isLeaf(): this is LeafNode {
+    isLeaf() {
         return this.componentName === 'Leaf';
     }
 
     /**
      * 是否一个父亲类节点
      */
-    isParental(): this is IBaseNode {
+    isParental() {
         return !this.isLeaf();
     }
 
@@ -214,7 +214,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         this.ref = this.id;
         this.componentName = componentName;
         if (this.componentName === 'Leaf') {
-            this.props = new Props(this, {
+            this.props = new Props(this as INode, {
                 children:
                     isDOMText(children) || (isJSExpression(children)
                         ? children
@@ -222,12 +222,12 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
             });
         }
         else {
-            this.props = new Props(this, props, extras);
+            this.props = new Props(this as INode, props, extras);
             this.props.merge(
                 this.upgradeProps(this.initProps(props || {})),
                 this.upgradeProps(extras),
             );
-            this._children = new NodeChildren(this as IBaseNode, children);
+            this._children = new NodeChildren(this as INode, children);
             this._children.initParent();
         }
         this.initBuiltinProps();
@@ -236,16 +236,16 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     private initProps(props: any): any {
         return this.document.designer.transformProps(
             props,
-            this,
-            TransformStage.Init,
+            this as INode,
+            IPublicEnumTransformStage.Init,
         );
     }
 
     private upgradeProps(props: any): any {
         return this.document.designer.transformProps(
             props,
-            this,
-            TransformStage.Upgrade,
+            this as INode,
+            IPublicEnumTransformStage.Upgrade,
         );
     }
 
@@ -292,7 +292,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     }
 
     setRef(ref: string) {
-        if (this.document.findNode((node: Node) => node.ref === ref))
+        if (this.document.findNode((node: INode) => node.ref === ref))
             throw new Error(`已有名为 ${ref} 的节点`);
 
         // TODO 变更代码变量
@@ -338,7 +338,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     }
 
     onChildrenChange(
-        fn: (param?: { type: string; node: Node }) => void,
+        fn: (param?: { type: string; node: INode }) => void,
     ): (() => void) | undefined {
         const wrappedFunc = wrapWithEventSwitch(fn);
         return this.children?.onChange(wrappedFunc);
@@ -348,7 +348,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
      * 导出 schema
      */
     export(
-        stage: TransformStage = TransformStage.Save,
+        stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Save,
         options: any = {},
     ): Schema {
         const baseSchema: any = {
@@ -356,10 +356,10 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
             componentName: this.componentName,
         };
 
-        if (stage !== TransformStage.Clone)
+        if (stage !== IPublicEnumTransformStage.Clone)
             baseSchema.id = this.id;
 
-        if (stage === TransformStage.Render)
+        if (stage === IPublicEnumTransformStage.Render)
             baseSchema.docId = this.document.id;
 
         if (this.isLeaf()) {
@@ -376,8 +376,8 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
 
         const schema: any = {
             ...baseSchema,
-            props: this.document.designer.transformProps(props, this, stage),
-            ...this.document.designer.transformProps(_extras_, this, stage),
+            props: this.document.designer.transformProps(props, this as INode, stage),
+            ...this.document.designer.transformProps(_extras_, this as INode, stage),
         };
 
         if (
@@ -407,17 +407,17 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         }
     }
 
-    setParent(parent: IBaseNode | null) {
+    setParent(parent: INode | null) {
         if (this._parent === parent)
             return;
 
         // 解除老的父子关系，但不需要真的删除节点
         if (this._parent) {
             if (this.isSlot())
-                this._parent.unlinkSlot(this);
+                this._parent.unlinkSlot(this as INode);
 
             else
-                this._parent.children.unlinkChild(this);
+                this._parent.children.unlinkChild(this as INode);
         }
 
         if (parent) {
@@ -429,17 +429,17 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     /**
      * 判断是否包含特定节点
      */
-    contains(node: Node): boolean {
-        return contains(this, node);
+    contains(node: INode): boolean {
+        return contains(this as INode, node);
     }
 
     remove(purge = true) {
         if (this._parent) {
             if (this.isSlot())
-                this._parent.unlinkSlot(this);
+                this._parent.unlinkSlot(this as INode);
 
             else
-                this._parent.children?.deleteChild(this, purge);
+                this._parent.children?.deleteChild(this as INode, purge);
         }
     }
 
@@ -465,10 +465,10 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
      */
     hover(flag = true) {
         if (flag)
-            this.document.designer.detecting.capture(this);
+            this.document.designer.detecting.capture(this as INode);
 
         else
-            this.document.designer.detecting.release(this);
+            this.document.designer.detecting.release(this as INode);
     }
 
     isEmpty(): boolean {
@@ -478,7 +478,14 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     /**
      * 获取磁贴相关信息
      */
-    getRGL() {
+    getRGL(): {
+        isContainerNode: boolean
+        isEmptyNode: boolean
+        isRGLContainerNode: boolean
+        isRGLNode: boolean
+        isRGL: boolean
+        rglNode: INode
+    } {
         const isContainerNode = this.isContainer();
         const isEmptyNode = this.isEmpty();
         const isRGLContainerNode = this.isRGLContainer;
@@ -486,8 +493,8 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         const isRGL
             = isRGLContainerNode
             || (isRGLNode && (!isContainerNode || !isEmptyNode));
-        const rglNode: Node | null = isRGLContainerNode
-            ? this
+        const rglNode: INode | null = isRGLContainerNode
+            ? this as INode
             : isRGL
                 ? this.parent
                 : null;
@@ -506,7 +513,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     get settingEntry(): SettingTop {
         if (this._settingEntry)
             return this._settingEntry;
-        this._settingEntry = this.document.designer.createSettingEntry([this]);
+        this._settingEntry = this.document.designer.createSettingEntry([this as INode]);
         return this._settingEntry;
     }
 
@@ -523,7 +530,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         this._slotFor = slotFor;
     }
 
-    private _slots: Node[] = [];
+    private _slots: INode[] = [];
 
     hasSlots() {
         return this._slots.length > 0;
@@ -533,7 +540,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         return this._slots;
     }
 
-    unlinkSlot(slotNode: Node) {
+    unlinkSlot(slotNode: INode) {
         const i = this._slots.indexOf(slotNode);
         if (i < 0)
             return false;
@@ -541,13 +548,13 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         this._slots.splice(i, 1);
     }
 
-    addSlot(slotNode: Node) {
+    addSlot(slotNode: INode) {
         const slotName = slotNode?.getExtraProp('name')?.getAsString();
         // 一个组件下的所有 slot，相同 slotName 的 slot 应该是唯一的
-        if (includeSlot(this, slotName))
-            removeSlot(this, slotName);
+        if (includeSlot(this as INode, slotName))
+            removeSlot(this as INode, slotName);
 
-        slotNode.setParent(this as IBaseNode);
+        slotNode.setParent(this as INode);
         this._slots.push(slotNode);
     }
 
@@ -570,15 +577,15 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     }
 }
 
-export function isNode(node: any): node is Node {
+export function isNode<Node = IBaseNode>(node: any): node is Node {
     return node && node.isNode;
 }
 
-export function isRootNode(node: Node): node is IRootNode {
+export function isRootNode(node: INode): node is IRootNode {
     return node && node.isRoot();
 }
 
-export function getZLevelTop(child: Node, zLevel: number): Node | null {
+export function getZLevelTop(child: INode, zLevel: number): INode | null {
     let l = child.zLevel;
     if (l < zLevel || zLevel < 0)
         return null;
@@ -604,7 +611,7 @@ export enum PositionNO {
     TheSame = 0,
 }
 
-export function comparePosition(node1: Node, node2: Node): PositionNO {
+export function comparePosition(node1: INode, node2: INode): PositionNO {
     if (node1 === node2)
         return PositionNO.TheSame;
 
@@ -635,7 +642,7 @@ export function comparePosition(node1: Node, node2: Node): PositionNO {
  * @param node2 测试的被包含节点
  * @returns 是否包含
  */
-export function contains(node1: Node, node2: Node): boolean {
+export function contains(node1: INode, node2: INode): boolean {
     if (node1 === node2)
         return true;
 
@@ -650,14 +657,14 @@ export function contains(node1: Node, node2: Node): boolean {
 }
 
 export function insertChild(
-    container: IBaseNode,
-    thing: Node | IPublicTypeNodeData,
+    container: INode,
+    thing: INode | IPublicTypeNodeData,
     at?: number | null,
     copy?: boolean,
-): Node {
-    let node: Node;
+): INode {
+    let node: INode;
     if (isNode(thing) && copy)
-        thing = thing.export(TransformStage.Clone);
+        thing = thing.export(IPublicEnumTransformStage.Clone);
 
     if (isNode(thing))
         node = thing;
@@ -671,14 +678,14 @@ export function insertChild(
 }
 
 export function insertChildren(
-    container: IBaseNode,
-    nodes: Node[] | IPublicTypeNodeData[],
+    container: INode,
+    nodes: INode[] | IPublicTypeNodeData[],
     at?: number | null,
     copy?: boolean,
-): Node[] {
+): INode[] {
     let index = at;
     let node: any;
-    const results: Node[] = [];
+    const results: INode[] = [];
     // eslint-disable-next-line no-cond-assign
     while ((node = nodes.pop())) {
         node = insertChild(container, node, index, copy);

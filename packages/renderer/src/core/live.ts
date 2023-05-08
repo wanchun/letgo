@@ -1,14 +1,14 @@
-import { defineComponent, Fragment, h } from 'vue';
+import { Fragment, defineComponent, h } from 'vue';
+import type { BlockScope } from '../utils';
 import {
-    useLeaf,
-    buildSchema,
-    buildProps,
     buildLoop,
+    buildProps,
+    buildSchema,
     buildShow,
     buildSlots,
+    useLeaf,
 } from './use';
 import { leafProps } from './base';
-import type { BlockScope } from '../utils';
 import type { SlotSchemaMap } from './base';
 
 export const Live = defineComponent({
@@ -48,8 +48,10 @@ export const Live = defineComponent({
             scope,
         } = this;
 
-        if (!show) return null;
-        if (!comp) return h('div', 'component not found');
+        if (!show)
+            return null;
+        if (!comp)
+            return h('div', 'component not found');
         if (!loop) {
             return h(
                 comp,

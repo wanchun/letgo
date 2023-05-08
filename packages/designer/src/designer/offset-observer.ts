@@ -1,7 +1,6 @@
 import { computed, ref } from 'vue';
 import { uniqueId } from '@webank/letgo-utils';
-import { INodeSelector, IViewport } from '../types';
-import { Node } from '../node';
+import type { INode, INodeSelector, IViewport } from '../types';
 
 export class OffsetObserver {
     readonly id = uniqueId('offsetObserver');
@@ -61,23 +60,23 @@ export class OffsetObserver {
     });
 
     offsetLeft = computed(() => {
-        if (this.isRoot) {
+        if (this.isRoot)
             return this.viewport.scrollX * this.scale;
-        }
+
         if (!this.viewport.scrolling || this.lastOffsetLeft == null) {
-            this.lastOffsetLeft =
-                this.left.value + this.viewport.scrollX * this.scale;
+            this.lastOffsetLeft
+                = this.left.value + this.viewport.scrollX * this.scale;
         }
         return this.lastOffsetLeft;
     });
 
     offsetTop = computed(() => {
-        if (this.isRoot) {
+        if (this.isRoot)
             return this.viewport.scrollY * this.scale;
-        }
+
         if (!this.viewport.scrolling || this.lastOffsetTop == null) {
-            this.lastOffsetTop =
-                this.top.value + this.viewport.scrollY * this.scale;
+            this.lastOffsetTop
+                = this.top.value + this.viewport.scrollY * this.scale;
         }
         return this.lastOffsetTop;
     });
@@ -110,7 +109,7 @@ export class OffsetObserver {
 
     private isRoot: boolean;
 
-    readonly node: Node;
+    readonly node: INode;
 
     readonly compute: () => void;
 
@@ -126,15 +125,13 @@ export class OffsetObserver {
             this.hasOffset.value = true;
             return;
         }
-        if (!instance) {
+        if (!instance)
             return;
-        }
 
         let pid: number;
         const compute = () => {
-            if (pid !== this.pid) {
+            if (pid !== this.pid)
                 return;
-            }
 
             const rect = host.computeComponentInstanceRect(
                 instance,
@@ -143,7 +140,8 @@ export class OffsetObserver {
 
             if (!rect) {
                 this.hasOffset.value = false;
-            } else if (!this.viewport.scrolling || !this.hasOffset.value) {
+            }
+            else if (!this.viewport.scrolling || !this.hasOffset.value) {
                 this._height.value = rect.height;
                 this._width.value = rect.width;
                 this._left.value = rect.left;
@@ -166,9 +164,9 @@ export class OffsetObserver {
     }
 
     purge() {
-        if (this.pid) {
+        if (this.pid)
             (window as any).cancelIdleCallback(this.pid);
-        }
+
         this.pid = undefined;
     }
 
@@ -180,8 +178,8 @@ export class OffsetObserver {
 export function createOffsetObserver(
     nodeInstance: INodeSelector,
 ): OffsetObserver | null {
-    if (!nodeInstance.instance) {
+    if (!nodeInstance.instance)
         return null;
-    }
+
     return new OffsetObserver(nodeInstance);
 }

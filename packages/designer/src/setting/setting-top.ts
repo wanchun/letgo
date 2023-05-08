@@ -1,13 +1,13 @@
 import { EventEmitter } from 'eventemitter3';
 import type { IPublicTypeEditor } from '@webank/letgo-types';
-import type { Node } from '../node';
 import type { ComponentMeta } from '../component-meta';
 import type { Designer } from '../designer';
+import type { INode } from '../types';
 import type { SettingEntry } from './types';
 import { SettingField } from './setting-field';
 import { SettingProp } from './setting-prop';
 
-function generateSessionId(nodes: Node[]) {
+function generateSessionId(nodes: INode[]) {
     return nodes
         .map(node => node.id)
         .sort()
@@ -66,13 +66,13 @@ export class SettingTop implements SettingEntry {
 
     readonly id: string;
 
-    readonly firstNode: Node;
+    readonly firstNode: INode;
 
     readonly designer: Designer;
 
     disposeFunctions: any[] = [];
 
-    constructor(readonly editor: IPublicTypeEditor, readonly nodes: Node[]) {
+    constructor(readonly editor: IPublicTypeEditor, readonly nodes: INode[]) {
         if (!Array.isArray(nodes) || nodes.length < 1)
             throw new ReferenceError('nodes should not be empty');
 
@@ -224,7 +224,7 @@ export class SettingTop implements SettingEntry {
         return this.firstNode.document;
     }
 
-    getNode(): Node {
+    getNode(): INode {
         return this.nodes[0];
     }
 

@@ -1,4 +1,4 @@
-export interface IPublicTypeChangeOptions {
+export interface ChangeOptions {
     key?: string | number
     prop?: any
     node?: any

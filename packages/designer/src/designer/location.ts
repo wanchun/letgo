@@ -1,10 +1,10 @@
 import type { DocumentModel } from '../document';
 import type { Node as IComponentNode } from '../node';
-import type { IBaseNode } from '../types';
+import type { INode } from '../types';
 import type { LocateEvent } from './dragon';
 
 export interface LocationData {
-    target: IBaseNode // shadowNode | ConditionFlow | ElementNode | IRootNode
+    target: INode // shadowNode | ConditionFlow | ElementNode | IRootNode
     detail: LocationDetail
     source: string
     event: LocateEvent
@@ -29,7 +29,7 @@ export interface LocationChildrenDetail {
         rect?: Rect
         align?: 'V' | 'H'
     }
-    focus?: { type: 'slots' } | { type: 'node'; node: IBaseNode }
+    focus?: { type: 'slots' } | { type: 'node'; node: INode }
 }
 
 export interface LocationPropDetail {
@@ -101,7 +101,7 @@ export function getRectTarget(rect: Rect | null) {
         return null;
 
     const els = rect.elements;
-    return els && els.length > 0 ? els[0] : null;
+    return els?.length > 0 ? els[0] : null;
 }
 
 export function isVerticalContainer(rect: Rect | null) {
@@ -136,7 +136,7 @@ export function getWindow(elem: Element | Document): Window {
 }
 
 export class DropLocation {
-    readonly target: IBaseNode;
+    readonly target: INode;
 
     readonly detail: LocationDetail;
 

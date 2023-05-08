@@ -161,7 +161,11 @@ export function buildSchema(props: LeafProps) {
                 // live 模式，直接获取 schema 值，若值为空则不渲染插槽
                 slotProps[key] = {
                     componentName: 'Slot',
-                    params: val.params,
+                    props: {
+                        slotTitle: val.title,
+                        slotName: val.name,
+                        slotParams: val.params,
+                    },
                     children: val.value,
                 };
             }
@@ -494,7 +498,7 @@ blockScope?: BlockScope | null): Slots {
                 // 存在 slot id，则当前插槽可拖拽编辑，渲染 Hoc
                 const vNode = render(slotSchema, [
                     blockScope,
-                    parseSlotScope(args, slotSchema.params ?? []),
+                    parseSlotScope(args, slotSchema.props.slotParams ?? []),
                 ]);
                 if (vNode)
                     vNodes.push(vNode);
@@ -504,7 +508,7 @@ blockScope?: BlockScope | null): Slots {
                 ensureArray(slotSchema.children).forEach((item) => {
                     const vNode = render(item, [
                         blockScope,
-                        parseSlotScope(args, slotSchema.params ?? []),
+                        parseSlotScope(args, slotSchema.props.slotParams ?? []),
                     ]);
                     if (vNode)
                         vNodes.push(vNode);

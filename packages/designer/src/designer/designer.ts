@@ -1,23 +1,22 @@
 import { EventEmitter } from 'eventemitter3';
 import type {
+    IPublicEnumTransformStage,
     IPublicTypeComponentAction,
     IPublicTypeComponentMetadata,
     IPublicTypeComponentSchema,
     IPublicTypeCompositeObject,
     IPublicTypeEditor,
+    IPublicTypeNpmInfo,
     IPublicTypeProjectSchema,
     IPublicTypePropsList,
-    IPublicTypeNpmInfo,
-    TransformStage,
 } from '@webank/letgo-types';
 import {
     isNodeSchema,
 } from '@webank/letgo-types';
 import type { Component } from 'vue';
-import type { INodeSelector, ISimulator } from '../types';
+import type { INode, INodeSelector, ISimulator } from '../types';
 import { Project } from '../project';
 import { ComponentMeta } from '../component-meta';
-import type { Node } from '../node';
 import { insertChildren } from '../node';
 import type { Simulator, SimulatorProps } from '../simulator';
 import { SettingTop } from '../setting';
@@ -177,7 +176,7 @@ export class Designer {
                     isLocationChildrenDetail(loc.detail)
                     && loc.detail.valid !== false
                 ) {
-                    let nodes: Node[] | undefined;
+                    let nodes: INode[] | undefined;
                     if (isDragNodeObject(dragObject)) {
                         nodes = insertChildren(
                             loc.target,
@@ -331,12 +330,12 @@ export class Designer {
         return [];
     }
 
-    private propsReducers = new Map<TransformStage, PropsReducer[]>();
+    private propsReducers = new Map<IPublicEnumTransformStage, PropsReducer[]>();
 
     transformProps(
         props: IPublicTypeCompositeObject | IPublicTypePropsList,
-        node: Node,
-        stage: TransformStage,
+        node: INode,
+        stage: IPublicEnumTransformStage,
     ) {
         if (Array.isArray(props)) {
             // current not support, make this future
@@ -417,14 +416,14 @@ export class Designer {
         this.offsetObserverList.forEach(item => item.compute());
     }
 
-    createSettingEntry(nodes: Node[]) {
+    createSettingEntry(nodes: INode[]) {
         return new SettingTop(this.editor, nodes);
     }
 }
 
-export interface PropsReducerContext { stage: TransformStage }
+export interface PropsReducerContext { stage: IPublicEnumTransformStage }
 export type PropsReducer = (
     props: IPublicTypeCompositeObject,
-    node: Node,
+    node: INode,
     ctx?: PropsReducerContext,
 ) => IPublicTypeCompositeObject;

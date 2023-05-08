@@ -1,7 +1,8 @@
 import { EventEmitter } from 'eventemitter3';
 import { reactive } from 'vue';
-import { Node, comparePosition, PositionNO } from '../node/node';
-import { DocumentModel } from './document-model';
+import { PositionNO, comparePosition } from '../node/node';
+import type { INode } from '../types';
+import type { DocumentModel } from './document-model';
 
 export class Selection {
     private emitter = new EventEmitter();
@@ -20,9 +21,8 @@ export class Selection {
      * 添加选中
      */
     add(id: string) {
-        if (this._selected.indexOf(id) > -1) {
+        if (this._selected.includes(id))
             return;
-        }
 
         this._selected.push(id);
         this.emitter.emit('selectionchange', this._selected);
@@ -32,7 +32,7 @@ export class Selection {
      * 切换选中
      */
     select(id: string) {
-        if (this._selected.length === 1 && this._selected.indexOf(id) > -1) {
+        if (this._selected.length === 1 && this._selected.includes(id)) {
             // avoid cause reaction
             return;
         }
@@ -44,9 +44,9 @@ export class Selection {
      */
     selectAll(ids: string[]) {
         this._selected.length = 0;
-        for (let i = 0; i < ids.length; i++) {
+        for (let i = 0; i < ids.length; i++)
             this._selected.push(ids[i]);
-        }
+
         this.emitter.emit('selectionchange', this._selected);
     }
 
@@ -54,9 +54,9 @@ export class Selection {
      * 清除选中
      */
     clear() {
-        if (this._selected.length < 1) {
+        if (this._selected.length < 1)
             return;
-        }
+
         this._selected.length = 0;
         this.emitter.emit('selectionchange', this._selected);
     }
@@ -69,20 +69,18 @@ export class Selection {
         let i = l;
         while (i-- > 0) {
             const id = this._selected[i];
-            if (!this.doc.hasNode(id)) {
+            if (!this.doc.hasNode(id))
                 this._selected.splice(i, 1);
-            }
         }
-        if (this._selected.length !== l) {
+        if (this._selected.length !== l)
             this.emitter.emit('selectionchange', this._selected);
-        }
     }
 
     /**
      * 是否选中
      */
     has(id: string) {
-        return this._selected.indexOf(id) > -1;
+        return this._selected.includes(id);
     }
 
     /**
@@ -99,15 +97,14 @@ export class Selection {
     /**
      * 选区是否包含节点
      */
-    containsNode(node: Node, excludeRoot = false) {
+    containsNode(node: INode, excludeRoot = false) {
         for (const id of this._selected) {
             const parent = this.doc.getNode(id);
-            if (excludeRoot && parent?.contains(this.doc.focusNode)) {
+            if (excludeRoot && parent?.contains(this.doc.focusNode))
                 continue;
-            }
-            if (parent?.contains(node)) {
+
+            if (parent?.contains(node))
                 return true;
-            }
         }
         return false;
     }
@@ -115,13 +112,12 @@ export class Selection {
     /**
      * 获取选中的节点
      */
-    getNodes(): Node[] {
+    getNodes(): INode[] {
         const nodes = [];
         for (const id of this._selected) {
             const node = this.doc.getNode(id);
-            if (node) {
+            if (node)
                 nodes.push(node);
-            }
         }
         return nodes;
     }
@@ -134,9 +130,9 @@ export class Selection {
         for (const id of this._selected) {
             const node = this.doc.getNode(id);
             // 排除根节点
-            if (!node || (!includeRoot && node.contains(this.doc.focusNode))) {
+            if (!node || (!includeRoot && node.contains(this.doc.focusNode)))
                 continue;
-            }
+
             let i = nodes.length;
             let isTop = true;
             while (i-- > 0) {
@@ -147,14 +143,12 @@ export class Selection {
                     break;
                 }
                 // node contains nodes[i], delete nodes[i]
-                if (n === PositionNO.ContainedBy) {
+                if (n === PositionNO.ContainedBy)
                     nodes.splice(i, 1);
-                }
             }
             // node is top item, push to nodes
-            if (isTop) {
+            if (isTop)
                 nodes.push(node);
-            }
         }
         return nodes;
     }

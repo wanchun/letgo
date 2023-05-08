@@ -1,7 +1,8 @@
-import { ShallowRef, shallowRef } from 'vue';
+import type { ShallowRef } from 'vue';
+import { shallowRef } from 'vue';
 import { EventEmitter } from 'eventemitter3';
-import { DocumentModel } from '../document';
-import { Node } from '../node';
+import type { DocumentModel } from '../document';
+import type { INode } from '../types';
 
 const DETECTING_CHANGE_EVENT = 'detectingChange';
 
@@ -14,14 +15,13 @@ export class Detecting {
 
     set enable(flag: boolean) {
         this._enable = flag;
-        if (!flag) {
+        if (!flag)
             this._current.value = null;
-        }
     }
 
     xRayMode = false;
 
-    private _current: ShallowRef<Node | null> = shallowRef(null);
+    private _current: ShallowRef<INode | null> = shallowRef(null);
 
     private emitter = new EventEmitter();
 
@@ -29,14 +29,14 @@ export class Detecting {
         return this._current;
     }
 
-    capture(node: Node | null) {
+    capture(node: INode | null) {
         if (this._current.value !== node) {
             this._current.value = node;
             this.emitter.emit(DETECTING_CHANGE_EVENT, this.current);
         }
     }
 
-    release(node: Node | null) {
+    release(node: INode | null) {
         if (this._current.value === node) {
             this._current.value = null;
             this.emitter.emit(DETECTING_CHANGE_EVENT, this.current);
@@ -44,12 +44,11 @@ export class Detecting {
     }
 
     leave(document: DocumentModel | undefined) {
-        if (this.current.value && this.current.value.document === document) {
+        if (this.current.value && this.current.value.document === document)
             this._current.value = null;
-        }
     }
 
-    onDetectingChange(fn: (node: Node) => void) {
+    onDetectingChange(fn: (node: INode) => void) {
         this.emitter.on(DETECTING_CHANGE_EVENT, fn);
         return () => {
             this.emitter.off(DETECTING_CHANGE_EVENT, fn);

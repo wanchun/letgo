@@ -248,6 +248,15 @@ importers:
 
   packages/plugin-code:
     dependencies:
+      '@codemirror/lang-javascript':
+        specifier: ^6.1.7
+        version: 6.1.7
+      '@codemirror/state':
+        specifier: ^6.2.0
+        version: 6.2.0
+      '@codemirror/view':
+        specifier: ^6.11.0
+        version: 6.11.0
       '@fesjs/fes-design':
         specifier: ^0.7.25
         version: 0.7.25(vue@3.2.47)
@@ -269,6 +278,9 @@ importers:
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
+      codemirror:
+        specifier: ^6.0.1
+        version: 6.0.1(@lezer/common@1.0.2)
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -1832,6 +1844,18 @@ packages:
       - '@codemirror/view'
     dev: false
 
+  /@codemirror/lang-javascript@6.1.7:
+    resolution: {integrity: sha512-KXKqxlZ4W6t5I7i2ScmITUD3f/F5Cllk3kj0De9P9mFeYVfhOVOWuDLgYiLpk357u7Xh4dhqjJAnsNPPoTLghQ==}
+    dependencies:
+      '@codemirror/autocomplete': 6.6.1(@codemirror/language@6.6.0)(@codemirror/state@6.2.0)(@codemirror/view@6.11.0)(@lezer/common@1.0.2)
+      '@codemirror/language': 6.6.0
+      '@codemirror/lint': 6.2.1
+      '@codemirror/state': 6.2.0
+      '@codemirror/view': 6.11.0
+      '@lezer/common': 1.0.2
+      '@lezer/javascript': 1.4.3
+    dev: false
+
   /@codemirror/lang-json@6.0.1:
     resolution: {integrity: sha512-+T1flHdgpqDDlJZ2Lkil/rLiRy684WMLc74xUnjJH48GQdfJo/pudlTRreZmKwzP8/tGdKf83wlbAdOCzlJOGQ==}
     dependencies:
@@ -2460,7 +2484,7 @@ packages:
       vue: ^3.2.47
     dependencies:
       vue: 3.2.47
-      vue-router: 4.1.5(vue@3.2.47)
+      vue-router: 4.1.6(vue@3.2.47)
     dev: false
 
   /@fesjs/utils@3.0.0:
@@ -2599,6 +2623,13 @@ packages:
     resolution: {integrity: sha512-IECkFmw2l7sFcYXrV8iT9GeY4W0fU4CxX0WMwhmhMIVjoDdD1Hr6q3G2NqVtLg/yVe5n7i4menG3tJ2r4eCrPQ==}
     dependencies:
       '@lezer/common': 1.0.2
+    dev: false
+
+  /@lezer/javascript@1.4.3:
+    resolution: {integrity: sha512-k7Eo9z9B1supZ5cCD4ilQv/RZVN30eUQL+gGbr6ybrEY3avBAL5MDiYi2aa23Aj0A79ry4rJRvPAwE2TM8bd+A==}
+    dependencies:
+      '@lezer/highlight': 1.1.4
+      '@lezer/lr': 1.3.4
     dev: false
 
   /@lezer/json@1.0.0:
@@ -3841,7 +3872,7 @@ packages:
     resolution: {integrity: sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==}
 
   /cookie-signature@1.0.6:
-    resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
+    resolution: {integrity: sha1-4wOogrNCzD7oylE6eZmXNNqzriw=, tarball: https://registry.npmmirror.com/cookie-signature/download/cookie-signature-1.0.6.tgz}
     dev: false
 
   /cookie@0.5.0:
@@ -4969,7 +5000,7 @@ packages:
     dev: false
 
   /forwarded@0.2.0:
-    resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
+    resolution: {integrity: sha1-ImmTZCiq1MFcfr6XeahL8LKoGBE=, tarball: https://registry.npmmirror.com/forwarded/download/forwarded-0.2.0.tgz}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -5846,7 +5877,7 @@ packages:
       '@babel/runtime': 7.21.5
 
   /media-typer@0.3.0:
-    resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
+    resolution: {integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=, tarball: https://registry.npmmirror.com/media-typer/download/media-typer-0.3.0.tgz}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -7212,7 +7243,7 @@ packages:
     dev: false
 
   /setprototypeof@1.2.0:
-    resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==}
+    resolution: {integrity: sha1-ZsmiSnP5/CjL5msJ/tPTPcrxtCQ=, tarball: https://registry.npmmirror.com/setprototypeof/download/setprototypeof-1.2.0.tgz}
     dev: false
 
   /shallow-clone@3.0.1:
@@ -7481,7 +7512,7 @@ packages:
       is-number: 7.0.0
 
   /toidentifier@1.0.1:
-    resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==}
+    resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==, tarball: https://registry.npmmirror.com/toidentifier/download/toidentifier-1.0.1.tgz}
     engines: {node: '>=0.6'}
     dev: false
 
@@ -7641,7 +7672,7 @@ packages:
     dev: true
 
   /utils-merge@1.0.1:
-    resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
+    resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=, tarball: https://registry.npmmirror.com/utils-merge/download/utils-merge-1.0.1.tgz}
     engines: {node: '>= 0.4.0'}
     dev: false
 
@@ -7780,15 +7811,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
-
-  /vue-router@4.1.5(vue@3.2.47):
-    resolution: {integrity: sha512-IsvoF5D2GQ/EGTs/Th4NQms9gd2NSqV+yylxIyp/OYp8xOwxmU8Kj/74E9DTSYAyH5LX7idVUngN3JSj1X4xcQ==}
-    peerDependencies:
-      vue: ^3.2.0
-    dependencies:
-      '@vue/devtools-api': 6.5.0
-      vue: 3.2.47
-    dev: false
 
   /vue-router@4.1.5(vue@3.3.4):
     resolution: {integrity: sha512-IsvoF5D2GQ/EGTs/Th4NQms9gd2NSqV+yylxIyp/OYp8xOwxmU8Kj/74E9DTSYAyH5LX7idVUngN3JSj1X4xcQ==}

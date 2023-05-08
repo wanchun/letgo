@@ -18,6 +18,9 @@
     "vue": "^3.2.37"
   },
   "dependencies": {
+    "@codemirror/lang-javascript": "^6.1.7",
+    "@codemirror/state": "^6.2.0",
+    "@codemirror/view": "^6.11.0",
     "@fesjs/fes-design": "^0.7.25",
     "@vanilla-extract/css": "^1.9.2",
     "@vueuse/core": "^10.1.2",
@@ -25,6 +28,7 @@
     "@webank/letgo-editor-core": "workspace:*",
     "@webank/letgo-plugin-manager": "workspace:*",
     "@webank/letgo-types": "workspace:*",
+    "codemirror": "^6.0.1",
     "lodash-es": "^4.17.21"
   },
   "publishConfig": {

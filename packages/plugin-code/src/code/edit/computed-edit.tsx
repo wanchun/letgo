@@ -1,8 +1,8 @@
 import type { PropType } from 'vue';
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { FButton } from '@fesjs/fes-design';
 import type { JavascriptComputed } from '../../interface';
-import Editor from '../../editor';
+import CodeEditor from '../../code-editor';
 import { contentCls, headerCls } from './computed-edit.css';
 
 /**
@@ -16,14 +16,15 @@ export default defineComponent({
         changeContent: Function as PropType<(id: string, content: Partial<JavascriptComputed>) => void>,
     },
     setup(props) {
-        const changeInitValue = (value: string) => {
-            props.changeContent(props.codeItem.id, {
-                funcBody: value,
-            });
+        const tmpFuncBody = ref(props.codeItem.funcBody);
+        const changeFuncBody = (value: string) => {
+            tmpFuncBody.value = value;
         };
 
         const onSave = () => {
-
+            props.changeContent(props.codeItem.id, {
+                funcBody: tmpFuncBody.value,
+            });
         };
 
         return () => {
@@ -32,11 +33,11 @@ export default defineComponent({
                     <span></span>
                     <span>{props.codeItem.id}</span>
                     <div>
-                        <FButton type="primary" size="small" onClick={onSave}>保存</FButton>
+                        <FButton type="primary" size="small" disabled={tmpFuncBody.value === props.codeItem.funcBody} onClick={onSave}>保存</FButton>
                     </div>
                 </div>
                 <div class={contentCls}>
-                    <Editor />
+                    <CodeEditor doc={props.codeItem.funcBody} changeDoc={changeFuncBody} />
                 </div>
             </div>;
         };

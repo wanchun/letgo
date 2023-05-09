@@ -20,7 +20,7 @@ class JavascriptComputedEdit implements CodeTypeEdit {
         return {
             id,
             type: JAVASCRIPT_COMPUTED,
-            funcBody: 'return 5',
+            funcBody: '// Tip: 通过一个状态计算另一个状态 \n\nreturn 5',
         };
     }
 }

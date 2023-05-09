@@ -1,7 +1,6 @@
 <script lang="ts">
 import { defineComponent, onBeforeUnmount, onMounted, ref } from 'vue';
 import { destroy, init, project } from '@webank/letgo-engine';
-import { schema } from '../assets/form1';
 
 export default defineComponent({
     setup() {
@@ -16,7 +15,7 @@ export default defineComponent({
                     'http://127.0.0.1:8082/style.css',
                 ],
             });
-            project.openDocument(schema);
+            project.openDocument();
         });
 
         onBeforeUnmount(() => {

@@ -39,7 +39,7 @@ import {
     isJSSlot,
     isNodeSchema,
 } from '@webank/letgo-types';
-import { camelCase, isFunction, isNil, isString } from 'lodash-es';
+import { camelCase, isArray, isFunction, isNil, isString } from 'lodash-es';
 import { contextFactory, useRendererContext } from '../context';
 import type { BlockScope, MaybeArray, RuntimeScope } from '../utils';
 import {
@@ -200,6 +200,23 @@ function buildProp(schema: unknown, scope: RuntimeScope): any {
         // 处理表达式和函数
         return parseExpression(schema, scope);
     }
+    else if (isArray(schema)) {
+        // 属性值为 array，递归处理属性的每一项
+        return schema.map(item =>
+            buildProp(item, scope),
+        );
+    }
+    else if (schema && isObject(schema)) {
+        // 属性值为 object，递归处理属性的每一项
+        const res: Record<string, unknown> = {};
+        Object.keys(schema).forEach((key) => {
+            if (key.startsWith('__'))
+                return;
+            const val = schema[key];
+            res[key] = buildProp(val, scope);
+        });
+        return res;
+    }
     return schema;
 }
 
@@ -275,7 +292,8 @@ function buildRefProp(schema: unknown,
  * @param key - 属性名
  * @param val - 属性值
  */
-function processProp(target: Record<string, unknown>,
+function processProp(
+    target: Record<string, unknown>,
     key: string,
     val: unknown) {
     if (key.startsWith('v-model')) {
@@ -340,7 +358,8 @@ function processProp(target: Record<string, unknown>,
  * @param blockScope - 当前块级作用域
  * @param extraProps - 运行时附加属性
  */
-export function buildProps(scope: RuntimeScope,
+export function buildProps(
+    scope: RuntimeScope,
     propsSchema: Record<string, unknown>,
     blockScope?: BlockScope | null,
     extraProps?: Record<string, unknown>): any {

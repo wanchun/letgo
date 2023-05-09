@@ -283,8 +283,7 @@ export class Prop implements IPropParent {
             else if (isJSFunction(val))
                 this._type.value = 'function';
 
-            else
-                this._type.value = 'map';
+            else this._type.value = 'map';
         }
         else {
             this._type.value = 'expression';

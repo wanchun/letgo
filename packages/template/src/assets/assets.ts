@@ -5463,14 +5463,26 @@ const assets: IPublicTypeAssetsJson = {
                                 {
                                     name: 'T恤',
                                     value: 'T恤',
+                                    render: {
+                                        type: 'JSFunction',
+                                        value: '()=> 1',
+                                    },
                                 },
                                 {
                                     name: '卫衣啊卫衣',
                                     value: '卫衣',
+                                    render: {
+                                        type: 'JSFunction',
+                                        value: '()=> 1',
+                                    },
                                 },
                                 {
                                     name: '衬衫',
                                     value: '衬衫',
+                                    render: {
+                                        type: 'JSFunction',
+                                        value: '()=> 1',
+                                    },
                                 },
                             ],
                         },

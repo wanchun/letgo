@@ -1,10 +1,11 @@
 import { EditorView, basicSetup } from 'codemirror';
 import { EditorState } from '@codemirror/state';
 import { javascript } from '@codemirror/lang-javascript';
+import { placeholder } from '@codemirror/view';
 import type { ViewUpdate } from '@codemirror/view';
 import type { PropType } from 'vue';
 import { defineComponent, onMounted, ref, watch } from 'vue';
-import { editorCls } from './editor.css';
+import { editorCls } from './code-editor.css';
 
 export default defineComponent({
     props: {
@@ -20,7 +21,9 @@ export default defineComponent({
             return EditorState.create({
                 doc: props.doc,
                 extensions: [
-                    basicSetup, javascript(),
+                    basicSetup,
+                    javascript(),
+                    placeholder('Type your code here'),
                     EditorView.updateListener.of((v: ViewUpdate) => {
                         if (v.docChanged) {
                             currentDoc = v.state.sliceDoc();

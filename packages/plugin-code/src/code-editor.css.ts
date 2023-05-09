@@ -5,6 +5,7 @@ export const editorCls = style({
 
 globalStyle(`${editorCls} > .cm-editor`, {
     borderRadius: '4px',
+    minHeight: '85px',
     border: '1px solid #ebebeb',
 });
 
@@ -13,5 +14,6 @@ globalStyle(`${editorCls} > .cm-focused`, {
 });
 
 globalStyle(`${editorCls} .cm-gutters`, {
+    minHeight: '85px !important',
     borderRight: 0,
 });

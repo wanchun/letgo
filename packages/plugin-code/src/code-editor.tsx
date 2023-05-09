@@ -7,6 +7,7 @@ import type { PropType } from 'vue';
 import { defineComponent, onMounted, ref, watch } from 'vue';
 import { editorCls } from './code-editor.css';
 
+// TODO: 语法校验、语法提示
 export default defineComponent({
     props: {
         doc: String,

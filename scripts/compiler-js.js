@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-
-const path = require('path');
+const path = require('node:path');
 const rollup = require('rollup');
 const babel = require('@rollup/plugin-babel');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const vanillaExtract = require('@vanilla-extract/rollup-plugin');
-const renameExtensions =
-    require('@betit/rollup-plugin-rename-extensions').default;
+const renameExtensions
+    = require('@betit/rollup-plugin-rename-extensions').default;
 
 const injectcss = require('./injectcss');
 const { extensions } = require('./build-shard');
@@ -26,8 +24,8 @@ async function compiler(codePath, outputDir) {
         onwarn(warning, warn) {
             // 跳过未使用模块的警告（tree-shaking 会将其移除）
             if (
-                warning.code === 'UNUSED_EXTERNAL_IMPORT' ||
-                warning.code === 'PLUGIN_WARNING'
+                warning.code === 'UNUSED_EXTERNAL_IMPORT'
+                || warning.code === 'PLUGIN_WARNING'
             )
                 return;
 
@@ -37,13 +35,13 @@ async function compiler(codePath, outputDir) {
         external: (id) => {
             id = id.split('?')[0];
             if (
-                id.indexOf(codePath) !== -1 ||
-                id.endsWith('.css') ||
-                id.endsWith('.css.ts') ||
-                id.endsWith('vanilla.css')
-            ) {
+                id.includes(codePath)
+                || id.endsWith('.css')
+                || id.endsWith('.css.ts')
+                || id.endsWith('vanilla.css')
+            )
                 return false;
-            }
+
             return true;
         },
         plugins: [
@@ -86,6 +84,7 @@ async function compiler(codePath, outputDir) {
                         },
                     ],
                     ['@babel/plugin-transform-runtime', { useESModules: true }],
+                    ['@babel/plugin-proposal-decorators', { version: '2023-01' }],
                 ],
             }),
         ],
@@ -97,7 +96,8 @@ async function compiler(codePath, outputDir) {
             assetFileNames: '[name][extname]',
             format: 'esm',
         });
-    } else {
+    }
+    else {
         bundle.write({
             // file: outputPath,
             format: 'esm',

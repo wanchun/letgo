@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 const chalk = require('chalk');
 const {
     getEsOutputPath,
@@ -35,17 +34,17 @@ async function compilerFile(filePath, outputDir, isForceUpdate) {
     const extname = path.extname(filePath);
     const fileName = path.basename(filePath);
     if (
-        ['.ts', '.tsx'].includes(extname) &&
-        (isForceUpdate || !isWatch() || isScriptFileChange(filePath)) &&
-        !filePath.endsWith('.css.ts')
-    ) {
+        ['.ts', '.tsx'].includes(extname)
+        && (isForceUpdate || !isWatch() || isScriptFileChange(filePath))
+        && !filePath.endsWith('.css.ts')
+    )
         await compiler(filePath, outputDir);
-    } else if (
-        (/^[a-zA-Z-]+\.css$/.test(fileName) || '.less' === extname) &&
-        (isForceUpdate || !isWatch() || isCssFileChange(filePath))
-    ) {
+
+    else if (
+        (/^[a-zA-Z-]+\.css$/.test(fileName) || extname === '.less')
+        && (isForceUpdate || !isWatch() || isCssFileChange(filePath))
+    )
         await compilerCss(filePath, outputDir);
-    }
 }
 
 async function compilerFiles(source, outputDir) {
@@ -53,11 +52,11 @@ async function compilerFiles(source, outputDir) {
     for (const file of files) {
         const filePath = path.join(source, file);
         const stats = fs.lstatSync(filePath);
-        if (stats.isDirectory(filePath) && !/__tests__/.test(file)) {
+        if (stats.isDirectory(filePath) && !/__tests__/.test(file))
             await compilerFiles(filePath, path.join(outputDir, file));
-        } else if (stats.isFile(filePath)) {
+
+        else if (stats.isFile(filePath))
             await compilerFile(filePath, outputDir);
-        }
     }
 }
 
@@ -71,9 +70,9 @@ async function compilePkgs(pkgs) {
 
 function findChangeFile(filePath) {
     const tsFile = filePath.replace('.css.ts', '.ts');
-    if (fs.existsSync(tsFile)) {
+    if (fs.existsSync(tsFile))
         return tsFile;
-    }
+
     return filePath.replace('.css.ts', '.tsx');
 }
 
@@ -102,7 +101,8 @@ async function buildEsm() {
                         chalk.blue('updated'),
                     );
                 }
-            } catch (err) {
+            }
+            catch (err) {
                 console.error(err);
             }
         });

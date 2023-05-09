@@ -23,8 +23,6 @@ export default defineComponent({
                     usedPackages.push(pkg);
                 }
             }
-            console.log(usedPackages);
-            console.log(schema);
         };
         return () => {
             return (

@@ -65,7 +65,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     /**
      * 【响应式】获取符合搭建协议-节点 schema 结构
      */
-    schema: ComputedRef<Schema> = computed(() => {
+    computedSchema: ComputedRef<Schema> = computed(() => {
         return this.export(IPublicEnumTransformStage.Save);
     });
 
@@ -156,6 +156,13 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         return this.parent.children.get(index - 1);
     }
 
+     /**
+     * 获取当前节点的锁定状态
+     */
+    get isLocked(): boolean {
+        return !!this.getExtraProp('isLocked')?.getValue();
+    }
+
     /**
      * 终端节点，内容一般为 文字 或者 表达式
      */
@@ -192,13 +199,6 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
 
     isSlot(): boolean {
         return this._slotFor != null && this.componentName === 'Slot';
-    }
-
-    /**
-     * 获取当前节点的锁定状态
-     */
-    get isLocked(): boolean {
-        return !!this.getExtraProp('isLocked')?.getValue();
     }
 
     /**

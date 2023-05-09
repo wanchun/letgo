@@ -13,12 +13,13 @@ import type {
 import {
     isNodeSchema,
 } from '@webank/letgo-types';
-import type { Component } from 'vue';
+import { computed } from 'vue';
+import type { Component, ComputedRef } from 'vue';
 import type { INode, INodeSelector, ISimulator } from '../types';
 import { Project } from '../project';
 import { ComponentMeta } from '../component-meta';
 import { insertChildren } from '../node';
-import type { Simulator, ISimulatorProps } from '../simulator';
+import type { ISimulatorProps, Simulator } from '../simulator';
 import { SettingTop } from '../setting';
 import type {
     IDragObject,
@@ -137,9 +138,12 @@ export class Designer {
         return maps;
     }
 
-    get schema(): IPublicTypeProjectSchema {
+    /**
+     * 【响应式】获取 schema 数据
+     */
+    computedSchema: ComputedRef<IPublicTypeProjectSchema> = computed(() => {
         return this.project.getSchema();
-    }
+    });
 
     get dropLocation() {
         return this.dragon.dropLocation;

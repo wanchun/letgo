@@ -1,18 +1,17 @@
-import { ref, watch, computed, WritableComputedRef } from 'vue';
-import { isEqual as isEqualFunc, isArray, isUndefined } from 'lodash-es';
+import type { WritableComputedRef } from 'vue';
+import { computed, ref, watch } from 'vue';
+import { isArray, isEqual as isEqualFunc, isUndefined } from 'lodash-es';
 
-type UseNormalModelOptions = {
-    prop?: string;
-    isEqual?: boolean;
-    deep?: boolean;
-    defaultValue?: any;
-};
+interface UseNormalModelOptions {
+    prop?: string
+    isEqual?: boolean
+    deep?: boolean
+    defaultValue?: any
+}
 
-export const useModel = (
-    props: Record<string, any>,
+export function useModel(props: Record<string, any>,
     emit: any,
-    config: UseNormalModelOptions = {},
-): [WritableComputedRef<any>, (val: any) => void] => {
+    config: UseNormalModelOptions = {}): [WritableComputedRef<any>, (val: any) => void] {
     const {
         prop = 'modelValue',
         deep = false,
@@ -25,11 +24,11 @@ export const useModel = (
     );
     const pureUpdateCurrentValue = (value: any) => {
         if (
-            value === currentValue.value ||
-            (isEqual && isEqualFunc(value, currentValue.value))
-        ) {
+            value === currentValue.value
+            || (isEqual && isEqualFunc(value, currentValue.value))
+        )
             return;
-        }
+
         currentValue.value = value;
     };
     const updateCurrentValue = (value: any) => {
@@ -40,9 +39,9 @@ export const useModel = (
     watch(
         () => props[usingProp],
         (val) => {
-            if (val === currentValue.value) {
+            if (val === currentValue.value)
                 return;
-            }
+
             currentValue.value = val;
         },
         {
@@ -61,13 +60,11 @@ export const useModel = (
         }),
         updateCurrentValue,
     ];
-};
+}
 
-export const useArrayModel = (
-    props: Record<string, any>,
+export function useArrayModel(props: Record<string, any>,
     emit: any,
-    config: UseNormalModelOptions = {},
-): [WritableComputedRef<any>, (val: any) => void] => {
+    config: UseNormalModelOptions = {}): [WritableComputedRef<any>, (val: any) => void] {
     const [computedValue, updateCurrentValue] = useModel(props, emit, {
         ...config,
         defaultValue: [],
@@ -80,13 +77,13 @@ export const useArrayModel = (
         }
         const val = computedValue.value;
         const index = val.indexOf(value);
-        if (index !== -1) {
+        if (index !== -1)
             val.splice(index, 1);
-        } else {
+        else
             val.push(value);
-        }
+
         updateCurrentValue(val);
     };
 
     return [computedValue, updateItem];
-};
+}

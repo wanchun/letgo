@@ -98,9 +98,9 @@ export class Prop implements IPropParent {
     }
 
     /**
-     * 属性值【响应性】
+     * 【响应式】获取属性值
      */
-    ComputedValue: ComputedRef<IPublicTypeCompositeValue | TypeUNSET> = computed(() => {
+    computedValue: ComputedRef<IPublicTypeCompositeValue | TypeUNSET> = computed(() => {
         return this.getValue();
     });
 

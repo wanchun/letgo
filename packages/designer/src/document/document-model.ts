@@ -84,11 +84,11 @@ export class DocumentModel {
     }
 
     /**
-     * 导出 schema 数据
+     * 【响应式】获取 schema 数据
      */
-    get schema(): ComputedRef<IPublicTypeRootSchema> {
-        return this.rootNode?.schema;
-    }
+    computedSchema: ComputedRef<IPublicTypeRootSchema> = computed(() => {
+        return this.rootNode?.computedSchema.value;
+    });
 
     get fileName(): string {
         return (

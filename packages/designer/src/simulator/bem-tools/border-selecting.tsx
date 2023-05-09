@@ -86,13 +86,13 @@ export const Toolbar = defineComponent({
             const SPACE_MINIMUM_WIDTH = 160; // magic number，大致是 toolbar 的宽度
             let style: CSSProperties;
             // 计算 toolbar 的上/下位置
-            if (observed.top > SPACE_HEIGHT) {
+            if (observed.top.value > SPACE_HEIGHT) {
                 style = {
                     top: `${-SPACE_HEIGHT}px`,
                     height: `${BAR_HEIGHT}px`,
                 };
             }
-            else if (observed.bottom + SPACE_HEIGHT < height) {
+            else if (observed.bottom.value + SPACE_HEIGHT < height) {
                 style = {
                     bottom: `${-SPACE_HEIGHT}px`,
                     height: `${BAR_HEIGHT}px`,
@@ -101,23 +101,23 @@ export const Toolbar = defineComponent({
             else {
                 style = {
                     height: `${BAR_HEIGHT}px`,
-                    top: `${Math.max(MARGIN, MARGIN - observed.top)}px`,
+                    top: `${Math.max(MARGIN, MARGIN - observed.top.value)}px`,
                 };
             }
             // 计算 toolbar 的左/右位置
             if (
                 SPACE_MINIMUM_WIDTH
-                > observed.left + observed.width
+                > observed.left.value + observed.width.value
             ) {
                 style.left = `${Math.max(
                     -BORDER,
-                    observed.left - width - BORDER,
+                    observed.left.value - width - BORDER,
                 )}px`;
             }
             else {
                 style.right = `${Math.max(
                     -BORDER,
-                    observed.right - width - BORDER,
+                    observed.right.value - width - BORDER,
                 )}px`;
                 style.justifyContent = 'flex-start';
             }
@@ -170,9 +170,9 @@ export const BorderSelectingInstance = defineComponent({
                 = observed;
 
             const style: CSSProperties = {
-                width: `${offsetWidth}px`,
-                height: `${offsetHeight}px`,
-                transform: `translate3d(${offsetLeft}px, ${offsetTop}px, 0)`,
+                width: `${offsetWidth.value}px`,
+                height: `${offsetHeight.value}px`,
+                transform: `translate3d(${offsetLeft.value}px, ${offsetTop.value}px, 0)`,
             };
 
             return (

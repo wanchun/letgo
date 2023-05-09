@@ -1,7 +1,9 @@
-import { ref, Ref, watch, VNodeTypes } from 'vue';
+import type { Ref, VNodeTypes } from 'vue';
+import { ref, watch } from 'vue';
 import { uniqueId } from '@webank/letgo-utils';
-import { Skeleton } from '../skeleton';
-import { IWidgetBaseConfig, SkeletonEvents } from '../types';
+import type { Skeleton } from '../skeleton';
+import type { IWidgetBaseConfig } from '../types';
+import { SkeletonEvents } from '../types';
 
 export class BaseWidget {
     readonly isWidget = true;
@@ -19,9 +21,9 @@ export class BaseWidget {
     protected _body: VNodeTypes;
 
     get body() {
-        if (this.isReady.value) {
+        if (this.isReady.value)
             return this._body;
-        }
+
         this.isReady.value = true;
         const { content } = this.config;
         this._body = content({
@@ -32,14 +34,14 @@ export class BaseWidget {
     }
 
     protected setVisible(flag: boolean) {
-        if (flag === this._visible.value) {
+        if (flag === this._visible.value)
             return;
-        }
-        if (flag) {
+
+        if (flag)
             this._visible.value = true;
-        } else if (this.isReady.value) {
+
+        else if (this.isReady.value)
             this._visible.value = false;
-        }
     }
 
     get visible(): Ref<boolean> {
@@ -59,7 +61,8 @@ export class BaseWidget {
     }
 
     protected setDisabled(flag: boolean) {
-        if (this._disabled.value === flag) return;
+        if (this._disabled.value === flag)
+            return;
         this._disabled.value = flag;
     }
 

@@ -156,7 +156,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         return this.parent.children.get(index - 1);
     }
 
-     /**
+    /**
      * 获取当前节点的锁定状态
      */
     get isLocked(): boolean {

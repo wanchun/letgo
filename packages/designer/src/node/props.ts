@@ -11,7 +11,7 @@ import type { ShallowRef } from 'vue';
 import { shallowRef, triggerRef } from 'vue';
 import type { INode } from '../types';
 import type { IPropParent } from './prop';
-import { Prop, UNSET } from './prop';
+import { Prop } from './prop';
 
 interface ExtrasObject {
     [key: string]: any
@@ -187,7 +187,7 @@ export class Props implements IPropParent {
 
         let prop = this.itemMap.get(entry);
         if (!prop && createIfNone)
-            prop = this.add(entry, UNSET);
+            prop = this.add(entry, undefined);
 
         if (prop)
             return nest ? prop.get(nest, createIfNone) : prop;
@@ -207,7 +207,7 @@ export class Props implements IPropParent {
         return this.itemMap.has(getConvertedExtraKey(key));
     }
 
-    add(key: string | number, value: IPublicTypeCompositeValue | null | UNSET): Prop {
+    add(key: string | number, value: IPublicTypeCompositeValue | undefined): Prop {
         const prop = new Prop(this, value, key);
         this.items.value.push(prop);
         this.itemMap.set(prop.key, prop);
@@ -215,7 +215,7 @@ export class Props implements IPropParent {
         return prop;
     }
 
-    addExtra(key: string | number, value: IPublicTypeCompositeValue | null | UNSET): Prop {
+    addExtra(key: string | number, value: IPublicTypeCompositeValue | undefined): Prop {
         return this.add(getConvertedExtraKey(String(key)), value);
     }
 

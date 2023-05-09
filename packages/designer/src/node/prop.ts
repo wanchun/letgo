@@ -14,12 +14,10 @@ import {
 import { uniqueId } from '@webank/letgo-utils';
 import type { ComputedRef, ShallowRef } from 'vue';
 import { computed, shallowRef, triggerRef } from 'vue';
-import { isPlainObject } from 'lodash-es';
+import { isNil, isPlainObject } from 'lodash-es';
 import type { INode, ISlotNode } from '../types';
 import type { Props } from './props';
 import { valueToSource } from './value-to-source';
-
-export const UNSET = Symbol.for('unset');
 
 export interface IPropParent {
     delete(prop: Prop): void
@@ -37,8 +35,6 @@ type IValueTypes =
     | 'function'
     | 'slot';
 
-type TypeUNSET = typeof UNSET;
-
 export class Prop implements IPropParent {
     readonly isProp = true;
 
@@ -50,7 +46,7 @@ export class Prop implements IPropParent {
 
     readonly options: any;
 
-    private _value: ShallowRef<any> = shallowRef(UNSET);
+    private _value: ShallowRef<any> = shallowRef();
 
     private _type: ShallowRef<IValueTypes> = shallowRef('unset');
 
@@ -100,13 +96,13 @@ export class Prop implements IPropParent {
     /**
      * 【响应式】获取属性值
      */
-    computedValue: ComputedRef<IPublicTypeCompositeValue | TypeUNSET> = computed(() => {
+    computedValue: ComputedRef<IPublicTypeCompositeValue | undefined> = computed(() => {
         return this.getValue();
     });
 
     constructor(
         public parent: IPropParent,
-        value: IPublicTypeCompositeValue | TypeUNSET = UNSET,
+        value: IPublicTypeCompositeValue | undefined,
         key: string | number,
         spread = false,
         options = {},
@@ -116,7 +112,7 @@ export class Prop implements IPropParent {
         this.key = key;
         this.spread = spread;
         this.options = options;
-        if (value !== UNSET)
+        if (!isNil(value))
             this.setValue(value);
 
         this.setupItems();
@@ -351,9 +347,9 @@ export class Prop implements IPropParent {
      * 设置表达式值
      */
     set code(code: string) {
-        if (isJSExpression(this._value)) {
+        if (isJSExpression(this._value.value)) {
             this.setValue({
-                ...this._value,
+                ...this._value.value,
                 value: code,
             });
             this._code = code;
@@ -373,7 +369,7 @@ export class Prop implements IPropParent {
         this.setValue({
             type: 'JSExpression',
             value: code,
-            mock: this._value,
+            mock: this._value.value,
         });
         this._code = code;
     }
@@ -419,7 +415,7 @@ export class Prop implements IPropParent {
             return nest ? prop.get(nest, createIfNone) : prop;
 
         if (createIfNone) {
-            prop = new Prop(this, UNSET, entry);
+            prop = new Prop(this, undefined, entry);
             this.set(entry, prop, true);
             if (nest)
                 return prop.get(nest, true);
@@ -540,14 +536,14 @@ export class Prop implements IPropParent {
      * 重置
      */
     unset() {
-        this._type.value = 'unset';
+        this._type.value = undefined;
     }
 
     /**
      * 是否为重置状态
      */
     isUnset() {
-        return this._type.value === 'unset';
+        return this._type.value === undefined;
     }
 
     /**

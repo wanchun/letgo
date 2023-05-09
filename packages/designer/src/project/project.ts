@@ -1,6 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
-import type { ShallowRef } from 'vue';
-import { shallowRef, watch } from 'vue';
+import type { ShallowReactive, ShallowRef } from 'vue';
+import { shallowReactive, shallowRef, watch } from 'vue';
 import type {
     IPublicTypeComponentsMap,
     IPublicTypeProjectSchema,
@@ -28,7 +28,7 @@ export class Project {
 
     readonly documentsMap = new Map<string, DocumentModel>();
 
-    readonly documents: DocumentModel[] = [];
+    readonly documents: ShallowReactive<DocumentModel[]> = shallowReactive([]);
 
     currentDocument: ShallowRef<DocumentModel | null> = shallowRef(null);
 

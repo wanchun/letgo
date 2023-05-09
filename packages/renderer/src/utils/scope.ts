@@ -1,16 +1,17 @@
-import { ComponentPublicInstance, isProxy, reactive } from 'vue';
+import type { ComponentPublicInstance } from 'vue';
+import { isProxy, reactive } from 'vue';
 import { isObject } from './object';
-import { MaybeArray } from './array';
+import type { MaybeArray } from './array';
 
 export interface BlockScope {
-    [x: string]: unknown;
+    [x: string]: unknown
 }
 
 export interface RuntimeScope extends BlockScope, ComponentPublicInstance {
-    currentLocale: string;
-    __loopScope?: boolean;
-    __loopRefIndex?: number;
-    __loopRefOffset?: number;
+    currentLocale: string
+    __loopScope?: boolean
+    __loopRefIndex?: number
+    __loopRefOffset?: number
 }
 
 function isRuntimeScope(scope: object): scope is RuntimeScope {
@@ -19,13 +20,16 @@ function isRuntimeScope(scope: object): scope is RuntimeScope {
 
 function isValidScope(scope: unknown): scope is BlockScope | RuntimeScope {
     // 为 null、undefined，或者不是对象
-    if (!scope || !isObject(scope)) return false;
+    if (!scope || !isObject(scope))
+        return false;
 
     // runtime scope
-    if (isRuntimeScope(scope)) return true;
+    if (isRuntimeScope(scope))
+        return true;
 
     // scope 属性不为空
-    if (Object.keys(scope).length > 0) return true;
+    if (Object.keys(scope).length > 0)
+        return true;
     return false;
 }
 
@@ -41,12 +45,12 @@ export function mergeScope(
 ): RuntimeScope | BlockScope {
     const normalizedScope: (RuntimeScope | BlockScope)[] = [];
     scopes.flat().forEach((scope) => {
-        if (isValidScope(scope)) {
+        if (isValidScope(scope))
             normalizedScope.push(scope);
-        }
     });
 
-    if (normalizedScope.length <= 1) return normalizedScope[0];
+    if (normalizedScope.length <= 1)
+        return normalizedScope[0];
 
     const [rootScope, ...resScopes] = normalizedScope;
     return resScopes.reduce((result, scope) => {
@@ -55,7 +59,8 @@ export function mergeScope(
                 const temp = result;
                 result = scope;
                 scope = temp;
-            } else {
+            }
+            else {
                 return scope;
             }
         }

@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { ref, shallowRef } from 'vue';
 
 type ClassFieldDecorator = (
     value: undefined,
@@ -66,6 +66,7 @@ type ClassSetterDecorator = (
     }
 ) => Function | void;
 
+// TODO: 还有问题
 export const useRef: ClassAutoAccessorDecorator = (value, context) => {
     if (context.kind === 'accessor') {
         const valueRef = ref();
@@ -82,6 +83,31 @@ export const useRef: ClassAutoAccessorDecorator = (value, context) => {
             },
 
             init(initialValue) {
+                valueRef.value = initialValue;
+                return initialValue;
+            },
+        };
+    }
+};
+
+// TODO: 还有问题
+export const useShallowRef: ClassAutoAccessorDecorator = (value, context) => {
+    if (context.kind === 'accessor') {
+        const valueRef = shallowRef();
+        return {
+            get() {
+                return valueRef.value;
+            },
+
+            set(val) {
+                if (val !== valueRef.value)
+                    valueRef.value = val;
+
+                return val;
+            },
+
+            init(initialValue) {
+                valueRef.value = initialValue;
                 return initialValue;
             },
         };

@@ -15,10 +15,6 @@ async function compiler(codePath, outputDir) {
         outputDir,
         `${path.basename(codePath, extname)}.js`,
     );
-    const cssFileName = path.join(
-        outputDir,
-        `${path.basename(codePath, extname)}.css`,
-    );
     const bundle = await rollup.rollup({
         input: codePath,
         onwarn(warning, warn) {
@@ -46,7 +42,7 @@ async function compiler(codePath, outputDir) {
         },
         plugins: [
             vanillaExtract.vanillaExtractPlugin({
-                // cwd: path.dirname(codePath),
+                identifiers: 'short',
             }),
             nodeResolve({
                 extensions,
@@ -89,22 +85,14 @@ async function compiler(codePath, outputDir) {
             }),
         ],
     });
-    if (/.less|css$/.test(extname)) {
-        bundle.write({
-            // file: cssFileName,
-            dir: path.dirname(cssFileName),
-            assetFileNames: '[name][extname]',
-            format: 'esm',
-        });
-    }
-    else {
-        bundle.write({
-            // file: outputPath,
-            format: 'esm',
-            dir: path.dirname(outputPath),
-            assetFileNames: '[name][extname]',
-        });
-    }
+    bundle.write({
+        format: 'esm',
+        dir: path.dirname(outputPath),
+        // preserveModules: true,
+        assetFileNames({ name }) {
+            return /.css$/.test(name) ? path.basename(name) : '[name][extname]';
+        },
+    });
     await bundle.close();
 }
 

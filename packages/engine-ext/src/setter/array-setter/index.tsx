@@ -109,7 +109,7 @@ const ArraySetterView = defineComponent({
 
             const value = isNil(props.value) ? props.defaultValue : props.value;
 
-            const valueLength = value && isArray(value) ? value.length : 0;
+            const valueLength = isArray(value) ? value.length : 0;
 
             for (let i = 0; i < valueLength; i++) {
                 const item = field.createField({

@@ -6,11 +6,11 @@ function inlineToExtract() {
             let needInjectCssBundle = null;
             Object.keys(bundle).forEach((name) => {
                 const bundleItem = bundle[name];
-                if (name.indexOf('.css') !== -1) {
+                if (name.includes('.css'))
                     cssFileName = name;
-                } else {
+
+                else
                     needInjectCssBundle = bundleItem;
-                }
             });
 
             if (cssFileName && needInjectCssBundle) {

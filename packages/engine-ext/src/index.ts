@@ -1,10 +1,10 @@
-import { IPublicTypeSetter } from '@webank/letgo-types';
+import type { IPublicTypeSetter } from '@webank/letgo-types';
 import packagesInfo from '../package.json';
 import * as setters from './setter';
 
 const engineExt: {
-    version: string;
-    setters: IPublicTypeSetter[];
+    version: string
+    setters: IPublicTypeSetter[]
 } = {
     version: packagesInfo.version,
     setters: Object.values(setters),

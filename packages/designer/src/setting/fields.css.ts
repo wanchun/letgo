@@ -1,4 +1,5 @@
-import { style, CSSProperties } from '@vanilla-extract/css';
+import type { CSSProperties } from '@vanilla-extract/css';
+import { style } from '@vanilla-extract/css';
 
 export const accordionFieldCls = style({
     display: 'block',

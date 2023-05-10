@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@fesjs/fes-design": "^0.7.27",
-    "@vanilla-extract/css": "^1.9.2",
+    "@vanilla-extract/css": "^1.11.0",
     "@webank/letgo-designer": "workspace:*",
     "@webank/letgo-editor-core": "workspace:*",
     "@webank/letgo-plugin-manager": "workspace:*",

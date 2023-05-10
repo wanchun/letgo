@@ -1,5 +1,5 @@
 import { defineComponent, onMounted } from 'vue';
-import { IPublicTypeSetter } from '@webank/letgo-types';
+import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { isUndefined } from 'lodash-es';
 import { commonProps } from '../../common/setter-props';
 import InputColor from '../../component/input-color';
@@ -23,8 +23,8 @@ const ColorSetterView = defineComponent({
                             ? props.defaultValue
                             : props.value
                     }
-                    onChange={(event: any) => {
-                        props.onChange(event.target.value);
+                    onChange={(event: Event) => {
+                        props.onChange((event.target as HTMLInputElement).value);
                     }}
                 ></InputColor>
             );

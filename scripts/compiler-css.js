@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const path = require('path');
+const path = require('node:path');
 const rollup = require('rollup');
 const postcss = require('rollup-plugin-postcss');
 const postcssImport = require('postcss-import');
@@ -21,7 +20,8 @@ async function compilerCss(entryPath, outputDir) {
             }),
         ],
         onwarn(warning, warn) {
-            if (warning.code === 'FILE_NAME_CONFLICT') return;
+            if (warning.code === 'FILE_NAME_CONFLICT')
+                return;
             warn(warning);
         },
     });

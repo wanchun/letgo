@@ -2,7 +2,7 @@ import type { CSSProperties, PropType } from 'vue';
 import { defineComponent, onMounted } from 'vue';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { useModel } from '@webank/letgo-utils';
-import { NCollapse } from 'naive-ui';
+import { FCollapse } from '@fesjs/fes-design';
 import { commonProps } from '../../common/setter-props';
 import { LayoutView } from './pro/layout';
 import { FontView } from './pro/font';
@@ -47,7 +47,7 @@ const StyleSetterView = defineComponent({
             const { styleModuleList } = props;
             return (
                 <div class={wrapperCls}>
-                    <NCollapse defaultExpandedNames={['layout', 'font']}>
+                    <FCollapse modelValue={['layout', 'font']} arrow="left" embedded={false}>
                         {styleModuleList.includes('layout') && (
                             <LayoutView
                                 onStyleChange={onStyleChange}
@@ -60,7 +60,7 @@ const StyleSetterView = defineComponent({
                                 value={currentValue.value}
                             ></FontView>
                         )}
-                    </NCollapse>
+                    </FCollapse>
                 </div>
             );
         };

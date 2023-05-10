@@ -15,7 +15,7 @@
     "lodash": "^4.17.21",
     "zen-logger": "^1.1.0",
     "@webank/letgo-types": "workspace:*",
-    "@fesjs/fes-design": "^0.7.7"
+    "@fesjs/fes-design": "^0.7.27"
   },
   "keywords": [],
   "author": "",

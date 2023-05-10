@@ -1,7 +1,6 @@
 import type { CSSProperties, PropType } from 'vue';
 import { computed, defineComponent } from 'vue';
-import { NCollapseItem } from 'naive-ui';
-import { FGrid, FGridItem, FInput, FSelect, FSpace } from '@fesjs/fes-design';
+import { FCollapseItem, FGrid, FGridItem, FInput, FSelect, FSpace } from '@fesjs/fes-design';
 import { useModel } from '@webank/letgo-utils';
 import Row from '../../../component/row';
 import { lightCls } from '../index.css';
@@ -159,7 +158,7 @@ export const LayoutView = defineComponent({
 
         return () => {
             return (
-                <NCollapseItem name="layout" title="布局">
+                <FCollapseItem name="layout" title="布局">
                     <Row label="布局模式">
                         <FSelect
                             modelValue={currentValue.value.display}
@@ -485,7 +484,7 @@ export const LayoutView = defineComponent({
                             </FGridItem>
                         </FGrid>
                     </Row>
-                </NCollapseItem>
+                </FCollapseItem>
             );
         };
     },

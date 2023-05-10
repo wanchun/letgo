@@ -4,10 +4,10 @@ const assets: IPublicTypeAssetsJson = {
     packages: [
         {
             package: '@fesjs/fes-design',
-            version: '0.7.26',
+            version: '0.7.27',
             urls: [
-                'https://unpkg.com/@fesjs/fes-design@0.7.26/dist/fes-design.js',
-                'https://unpkg.com/@fesjs/fes-design@0.7.26/dist/fes-design.css',
+                'https://unpkg.com/@fesjs/fes-design@0.7.27/dist/fes-design.js',
+                'https://unpkg.com/@fesjs/fes-design@0.7.27/dist/fes-design.css',
             ],
             library: 'FesDesign',
         },
@@ -377,7 +377,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FCard',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FSpace',
                 destructuring: true,
             },
@@ -544,7 +544,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FSpace',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FSpace',
                 destructuring: true,
             },
@@ -697,7 +697,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FButton',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FButton',
                 destructuring: true,
             },
@@ -899,7 +899,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FForm',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FForm',
                 destructuring: true,
             },
@@ -1083,7 +1083,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FFormItem',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FFormItem',
                 destructuring: true,
             },
@@ -1244,7 +1244,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FInput',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FInput',
                 destructuring: true,
             },
@@ -1419,7 +1419,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FInputNumber',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FInputNumber',
                 destructuring: true,
             },
@@ -1480,7 +1480,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FSelect',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FSelect',
                 destructuring: true,
             },
@@ -1809,7 +1809,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FCheckboxGroup',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FCheckboxGroup',
                 destructuring: true,
             },
@@ -1938,7 +1938,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FCheckbox',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FCheckbox',
                 destructuring: true,
             },
@@ -2027,7 +2027,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FRadioGroup',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FRadioGroup',
                 destructuring: true,
             },
@@ -2290,7 +2290,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FRadio',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FRadio',
                 destructuring: true,
             },
@@ -2372,7 +2372,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FDivider',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FDivider',
                 destructuring: true,
             },
@@ -2414,7 +2414,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FEllipsis',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FEllipsis',
                 destructuring: true,
             },
@@ -2533,7 +2533,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FLayout',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FLayout',
                 destructuring: true,
             },
@@ -2603,7 +2603,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FHeader',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FHeader',
                 destructuring: true,
             },
@@ -2669,7 +2669,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FAside',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FAside',
                 destructuring: true,
             },
@@ -2735,7 +2735,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FMain',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FMain',
                 destructuring: true,
             },
@@ -2781,7 +2781,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FFooter',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FFooter',
                 destructuring: true,
             },
@@ -2847,7 +2847,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FDropdown',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FDropdown',
                 destructuring: true,
             },
@@ -3097,7 +3097,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FSteps',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FSteps',
                 destructuring: true,
             },
@@ -3198,7 +3198,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FStep',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FStep',
                 destructuring: true,
             },
@@ -3312,7 +3312,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FPagination',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FPagination',
                 destructuring: true,
             },
@@ -3466,7 +3466,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FSwitch',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FSwitch',
                 destructuring: true,
             },
@@ -3524,7 +3524,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FTimePicker',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FTimePicker',
                 destructuring: true,
             },
@@ -3618,7 +3618,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FDatePicker',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FDatePicker',
                 destructuring: true,
             },
@@ -3746,7 +3746,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FUpload',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FUpload',
                 destructuring: true,
             },
@@ -3870,7 +3870,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FSelectTree',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FSelectTree',
                 destructuring: true,
             },
@@ -4119,7 +4119,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FSelectCascader',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FSelectCascader',
                 destructuring: true,
             },
@@ -4344,7 +4344,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FCarousel',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FCarousel',
                 destructuring: true,
             },
@@ -4452,7 +4452,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FCarouselItem',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FCarouselItem',
                 destructuring: true,
             },
@@ -4560,7 +4560,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FCollapse',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FCollapse',
                 destructuring: true,
             },
@@ -4616,7 +4616,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FCollapseItem',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FCollapseItem',
                 destructuring: true,
             },
@@ -4721,7 +4721,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FDescriptions',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FDescriptions',
                 destructuring: true,
             },
@@ -4802,7 +4802,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FDescriptionsItem',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FDescriptionsItem',
                 destructuring: true,
             },
@@ -4912,7 +4912,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FImage',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FImage',
                 destructuring: true,
             },
@@ -5010,7 +5010,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FPreviewGroup',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FPreviewGroup',
                 destructuring: true,
             },
@@ -5044,7 +5044,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FTable',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FTable',
                 destructuring: true,
             },
@@ -5340,7 +5340,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FTabs',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FTabs',
                 destructuring: true,
             },
@@ -5498,7 +5498,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FTag',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FTag',
                 destructuring: true,
             },
@@ -5571,7 +5571,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FAlert',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FAlert',
                 destructuring: true,
             },
@@ -5636,7 +5636,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FTooltip',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FTooltip',
                 destructuring: true,
             },
@@ -5786,7 +5786,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FSpin',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FSpin',
                 destructuring: true,
             },
@@ -5842,7 +5842,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FDrawer',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FDrawer',
                 destructuring: true,
             },
@@ -5954,7 +5954,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FModal',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.26',
+                version: '0.7.27',
                 exportName: 'FModal',
                 destructuring: true,
             },

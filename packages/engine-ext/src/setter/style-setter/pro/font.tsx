@@ -1,8 +1,7 @@
 import type { CSSProperties, PropType } from 'vue';
 import { defineComponent } from 'vue';
 import { useModel } from '@webank/letgo-utils';
-import { NCollapseItem } from 'naive-ui';
-import { FInput, FSelect } from '@fesjs/fes-design';
+import { FCollapseItem, FInput, FSelect } from '@fesjs/fes-design';
 import Row from '../../../component/row';
 import InputColor from '../../../component/input-color';
 import { addUnit, clearUnit } from '../utils';
@@ -80,7 +79,7 @@ export const FontView = defineComponent({
 
         return () => {
             return (
-                <NCollapseItem name="font" title="文字">
+                <FCollapseItem name="font" title="文字">
                     <Row label="字体大小">
                         <FInput
                             modelValue={clearUnit(currentValue.value.fontSize)}
@@ -157,7 +156,7 @@ export const FontView = defineComponent({
                             placeholder="透明度"
                         ></FInput>
                     </Row>
-                </NCollapseItem>
+                </FCollapseItem>
             );
         };
     },

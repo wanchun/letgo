@@ -1,11 +1,12 @@
 import type { CSSProperties, PropType } from 'vue';
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent, onMounted, provide } from 'vue';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { useModel } from '@webank/letgo-utils';
 import { FCollapse } from '@fesjs/fes-design';
 import { commonProps } from '../../common/setter-props';
-import { LayoutView } from './pro/layout';
-import { FontView } from './pro/font';
+import { BackgroundView, BorderView, FontView, LayoutView, PositionView } from './pro';
+import { getComputeStyle } from './utils';
+import { styleKey } from './const';
 import { wrapperCls } from './index.css';
 
 type StyleModule = 'background' | 'border' | 'font' | 'layout' | 'position';
@@ -32,6 +33,10 @@ const StyleSetterView = defineComponent({
             props.onMounted?.();
         });
 
+        provide(styleKey, {
+            style: getComputeStyle(props.node),
+        });
+
         const [currentValue, updateCurrentValue] = useModel(props, emit, {
             prop: 'value',
             defaultValue: {},
@@ -52,13 +57,31 @@ const StyleSetterView = defineComponent({
                             <LayoutView
                                 onStyleChange={onStyleChange}
                                 value={currentValue.value}
-                            ></LayoutView>
+                            />
                         )}
                         {styleModuleList.includes('font') && (
                             <FontView
                                 onStyleChange={onStyleChange}
                                 value={currentValue.value}
-                            ></FontView>
+                            />
+                        )}
+                        {styleModuleList.includes('background') && (
+                            <BackgroundView
+                                onStyleChange={onStyleChange}
+                                value={currentValue.value}
+                            />
+                        )}
+                        {styleModuleList.includes('border') && (
+                            <BorderView
+                                onStyleChange={onStyleChange}
+                                value={currentValue.value}
+                            />
+                        )}
+                        {styleModuleList.includes('position') && (
+                            <PositionView
+                                onStyleChange={onStyleChange}
+                                value={currentValue.value}
+                            />
                         )}
                     </FCollapse>
                 </div>

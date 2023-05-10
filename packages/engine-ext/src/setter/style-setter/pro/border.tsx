@@ -61,7 +61,7 @@ const textAlign = [
     },
 ];
 
-export const FontView = defineComponent({
+export const BorderView = defineComponent({
     props: {
         value: {
             type: Object as PropType<CSSProperties>,
@@ -82,10 +82,9 @@ export const FontView = defineComponent({
 
         return () => {
             return (
-                <FCollapseItem name="font" title="文字">
+                <FCollapseItem name="border" title="边框">
                     <Row label="字体大小">
                         <FInputNumber
-                            style={{ width: '100%' }}
                             modelValue={clearUnit(currentValue.value.fontSize)}
                             onChange={(val) => {
                                 onStyleChange({
@@ -100,7 +99,6 @@ export const FontView = defineComponent({
                     </Row>
                     <Row label="字体行高">
                         <FInputNumber
-                            style={{ width: '100%' }}
                             modelValue={clearUnit(
                                 currentValue.value.lineHeight,
                             )}

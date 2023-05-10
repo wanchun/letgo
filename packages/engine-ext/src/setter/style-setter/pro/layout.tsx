@@ -1,10 +1,11 @@
 import type { CSSProperties, PropType } from 'vue';
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, inject } from 'vue';
 import { FCollapseItem, FGrid, FGridItem, FInput, FSelect, FSpace } from '@fesjs/fes-design';
 import { useModel } from '@webank/letgo-utils';
 import Row from '../../../component/row';
 import { lightCls } from '../index.css';
-import { addUnit, clearUnit } from '../utils';
+import { addUnit, clearUnit, getPlaceholderPropertyValue } from '../utils';
+import { styleKey } from '../const';
 
 const display = [
     {
@@ -145,6 +146,8 @@ export const LayoutView = defineComponent({
             defaultValue: {},
         });
 
+        const styleProvide = inject(styleKey);
+
         const onStyleChange = (changedStyle: CSSProperties) => {
             props.onStyleChange?.(changedStyle);
         };
@@ -162,6 +165,8 @@ export const LayoutView = defineComponent({
                     <Row label="布局模式">
                         <FSelect
                             modelValue={currentValue.value.display}
+                            placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'display') ?? '请选择布局模式'}` }
+                            clearable
                             onUpdate:modelValue={(val) => {
                                 onStyleChange({
                                     display: val,
@@ -195,6 +200,8 @@ export const LayoutView = defineComponent({
                                     modelValue={
                                         currentValue.value.flexDirection
                                     }
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'flexDirection') ?? '请选择主轴方向'}` }
+                                    clearable
                                     onUpdate:modelValue={(val) => {
                                         onStyleChange({
                                             flexDirection: val,
@@ -226,6 +233,8 @@ export const LayoutView = defineComponent({
                                     modelValue={
                                         currentValue.value.justifyContent
                                     }
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'justifyContent') ?? '请选择主轴对齐'}` }
+                                    clearable
                                     onUpdate:modelValue={(val) => {
                                         onStyleChange({
                                             justifyContent: val,
@@ -255,6 +264,8 @@ export const LayoutView = defineComponent({
                             <Row label="辅轴对齐">
                                 <FSelect
                                     modelValue={currentValue.value.alignItems}
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'alignItems') ?? '请选择辅轴对齐'}` }
+                                    clearable
                                     onUpdate:modelValue={(val) => {
                                         onStyleChange({
                                             alignItems: val,
@@ -284,6 +295,8 @@ export const LayoutView = defineComponent({
                             <Row label="换行">
                                 <FSelect
                                     modelValue={currentValue.value.flexWrap}
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'flexWrap') ?? '请选择换行模式'}` }
+                                    clearable
                                     onUpdate:modelValue={(val) => {
                                         onStyleChange({
                                             flexWrap: val,
@@ -319,6 +332,7 @@ export const LayoutView = defineComponent({
                                     modelValue={clearUnit(
                                         currentValue.value.marginTop,
                                     )}
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'marginTop') ?? '上间距'}` }
                                     onChange={(val) => {
                                         onStyleChange({
                                             marginTop: addUnit(val),
@@ -327,7 +341,6 @@ export const LayoutView = defineComponent({
                                     v-slots={{
                                         suffix: () => 'px',
                                     }}
-                                    placeholder="上"
                                 ></FInput>
                             </FGridItem>
                             <FGridItem span={6}>
@@ -343,7 +356,7 @@ export const LayoutView = defineComponent({
                                     v-slots={{
                                         suffix: () => 'px',
                                     }}
-                                    placeholder="下"
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'marginBottom') ?? '下间距'}` }
                                 ></FInput>
                             </FGridItem>
                             <FGridItem span={6}>
@@ -359,7 +372,7 @@ export const LayoutView = defineComponent({
                                     v-slots={{
                                         suffix: () => 'px',
                                     }}
-                                    placeholder="左"
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'marginLeft') ?? '左间距'}` }
                                 ></FInput>
                             </FGridItem>
                             <FGridItem span={6}>
@@ -375,7 +388,7 @@ export const LayoutView = defineComponent({
                                     v-slots={{
                                         suffix: () => 'px',
                                     }}
-                                    placeholder="右"
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'marginRight') ?? '右间距'}` }
                                 ></FInput>
                             </FGridItem>
                         </FGrid>
@@ -395,7 +408,7 @@ export const LayoutView = defineComponent({
                                     v-slots={{
                                         suffix: () => 'px',
                                     }}
-                                    placeholder="上"
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'paddingTop') ?? '上间距'}` }
                                 ></FInput>
                             </FGridItem>
                             <FGridItem span={6}>
@@ -411,7 +424,7 @@ export const LayoutView = defineComponent({
                                     v-slots={{
                                         suffix: () => 'px',
                                     }}
-                                    placeholder="下"
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'paddingBottom') ?? '下间距'}` }
                                 ></FInput>
                             </FGridItem>
                             <FGridItem span={6}>
@@ -427,7 +440,7 @@ export const LayoutView = defineComponent({
                                     v-slots={{
                                         suffix: () => 'px',
                                     }}
-                                    placeholder="左"
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'paddingLeft') ?? '左间距'}` }
                                 ></FInput>
                             </FGridItem>
                             <FGridItem span={6}>
@@ -443,7 +456,7 @@ export const LayoutView = defineComponent({
                                     v-slots={{
                                         suffix: () => 'px',
                                     }}
-                                    placeholder="右"
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'paddingRight') ?? '右间距'}` }
                                 ></FInput>
                             </FGridItem>
                         </FGrid>
@@ -463,7 +476,7 @@ export const LayoutView = defineComponent({
                                     v-slots={{
                                         suffix: () => 'px',
                                     }}
-                                    placeholder="宽度"
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'width') ?? '宽度'}` }
                                 ></FInput>
                             </FGridItem>
                             <FGridItem span={12}>
@@ -479,7 +492,7 @@ export const LayoutView = defineComponent({
                                     v-slots={{
                                         suffix: () => 'px',
                                     }}
-                                    placeholder="高度"
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'height') ?? '高度'}` }
                                 ></FInput>
                             </FGridItem>
                         </FGrid>

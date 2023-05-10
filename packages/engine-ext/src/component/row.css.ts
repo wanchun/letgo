@@ -13,6 +13,7 @@ export const labelCls = style({
     wordBreak: 'break-all',
     marginRight: '8px',
     flexShrink: 0,
+    color: 'rgba(0, 0, 0, 0.8)',
 });
 
 export const contentCls = style({

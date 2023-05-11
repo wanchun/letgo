@@ -51,6 +51,8 @@ export function addUnit(val: number | string, unit = 'px') {
 
         return `${val}${unit}`;
     }
+
+    return val;
 }
 
 export function clearUnit(value: string | number | undefined) {

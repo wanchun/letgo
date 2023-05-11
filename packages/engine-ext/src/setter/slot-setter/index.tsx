@@ -3,7 +3,7 @@ import { computed, defineComponent, onMounted } from 'vue';
 import type { IPublicTypeJSSlot, IPublicTypeSetter } from '@webank/letgo-types';
 import { isNil, isUndefined } from 'lodash-es';
 import { FSwitch } from '@fesjs/fes-design';
-import { commonProps } from '../../common/setter-props';
+import { commonProps } from '../../common';
 import { wrapCls } from './index.css';
 
 interface Template {

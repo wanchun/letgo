@@ -1,6 +1,7 @@
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
+import { CloseCircleFilled } from '@fesjs/fes-design/icon';
 import { useModel } from '@webank/letgo-utils';
-import { inputCls, inputColorBoxCls, inputTextCls, inputTextNullCls, inputWrapCls } from './input-color.css';
+import { iconCls, inputCls, inputColorBoxCls, inputTextCls, inputTextNullCls, inputWrapCls } from './input-color.css';
 
 export default defineComponent({
     props: {
@@ -14,12 +15,22 @@ export default defineComponent({
     setup(props, { emit }) {
         const [currentValue, updateCurrentValue] = useModel(props, emit);
 
+        const isHoverRef = ref(false);
+
+        const onClear = () => {
+            currentValue.value = undefined;
+        };
+
         return () => {
             return (
-                <div class={inputWrapCls}>
+                <div
+                    class={inputWrapCls}
+                    onMouseenter={() => { isHoverRef.value = true; }}
+                    onMouseleave={() => { isHoverRef.value = false; }}
+                >
                     <div class={inputColorBoxCls} style={{ backgroundColor: currentValue.value }}>
                     </div>
-                    <div class={[currentValue.value ? inputTextCls : inputTextNullCls]}>{currentValue.value ?? props.placeholder}</div>
+                    <div class={[currentValue.value ? inputTextCls : inputTextNullCls]}>{currentValue.value || props.placeholder}</div>
                     <input
                         class={inputCls}
                         type="color"
@@ -29,6 +40,11 @@ export default defineComponent({
                         }}
                         onChange={(e) => { emit('change', e); }}
                     ></input>
+                    <CloseCircleFilled
+                        v-show={isHoverRef.value}
+                        class={iconCls}
+                        onClick={onClear}
+                    />
                 </div>
             );
         };

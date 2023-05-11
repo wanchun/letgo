@@ -1,8 +1,8 @@
 import { defineComponent, onMounted } from 'vue';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { isUndefined } from 'lodash-es';
-import { commonProps } from '../../common/setter-props';
-import InputColor from '../../component/input-color';
+import { commonProps } from '../../common';
+import { InputColor } from '../../component';
 
 const ColorSetterView = defineComponent({
     name: 'ColorSetterView',

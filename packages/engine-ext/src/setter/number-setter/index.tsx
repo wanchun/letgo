@@ -2,7 +2,7 @@ import { defineComponent, onMounted } from 'vue';
 import { IPublicTypeSetter } from '@webank/letgo-types';
 import { isUndefined } from 'lodash-es';
 import { FInputNumber } from '@fesjs/fes-design';
-import { commonProps } from '../../common/setter-props';
+import { commonProps } from '../../common';
 
 const NumberSetterView = defineComponent({
     name: 'NumberSetterView',

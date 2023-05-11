@@ -1,9 +1,9 @@
 import type { CSSProperties, PropType } from 'vue';
-import { defineComponent, onMounted, provide } from 'vue';
+import { defineComponent, onMounted, provide, ref } from 'vue';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { useModel } from '@webank/letgo-utils';
 import { FCollapse } from '@fesjs/fes-design';
-import { commonProps } from '../../common/setter-props';
+import { commonProps } from '../../common';
 import { BackgroundView, BorderView, FontView, LayoutView, PositionView } from './pro';
 import { getComputeStyle } from './utils';
 import { styleKey } from './const';
@@ -48,11 +48,13 @@ const StyleSetterView = defineComponent({
             props.onChange(styleData);
         };
 
+        const showItems = ref(['layout', 'font']);
+
         return () => {
             const { styleModuleList } = props;
             return (
                 <div class={wrapperCls}>
-                    <FCollapse modelValue={['layout', 'font']} arrow="left" embedded={false}>
+                    <FCollapse v-model={showItems.value} arrow="left" embedded={false}>
                         {styleModuleList.includes('layout') && (
                             <LayoutView
                                 onStyleChange={onStyleChange}

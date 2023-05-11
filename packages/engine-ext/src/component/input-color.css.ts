@@ -28,6 +28,7 @@ export const inputColorBoxCls = style({
 });
 
 export const inputTextCls = style({
+    flex: 1,
     marginLeft: '12px',
     color: 'var(--f-text-color)',
 });
@@ -36,3 +37,10 @@ export const inputTextNullCls = style([inputTextCls, {
     marginLeft: '-20px',
     color: 'var(--f-text-color-caption)',
 }]);
+
+export const iconCls = style({
+    position: 'relative',
+    zIndex: 2,
+    color: '#cfd0d3',
+    cursor: 'pointer',
+});

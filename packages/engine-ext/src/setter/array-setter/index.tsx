@@ -16,7 +16,7 @@ import { createSettingFieldView } from '@webank/letgo-designer';
 import { FButton } from '@fesjs/fes-design';
 import { PlusOutlined } from '@fesjs/fes-design/icon';
 import { Delete } from '@icon-park/vue-next';
-import { commonProps } from '../../common/setter-props';
+import { commonProps } from '../../common';
 import { itemCls, itemContentCls, itemIconCls, wrapperCls } from './index.css';
 
 const ArraySetterView = defineComponent({

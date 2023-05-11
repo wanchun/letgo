@@ -2,7 +2,7 @@ import type { CSSProperties, PropType } from 'vue';
 import { computed, defineComponent, inject } from 'vue';
 import { FCollapseItem, FGrid, FGridItem, FInput, FSelect, FSpace } from '@fesjs/fes-design';
 import { useModel } from '@webank/letgo-utils';
-import Row from '../../../component/row';
+import { Row } from '../../../component';
 import { lightCls } from '../index.css';
 import { addUnit, clearUnit, getPlaceholderPropertyValue } from '../utils';
 import { styleKey } from '../const';

@@ -10,7 +10,7 @@ import {
     FTableColumn,
 } from '@fesjs/fes-design';
 import { Delete, Setting } from '@icon-park/vue-next';
-import { commonProps } from '../../common/setter-props';
+import { commonProps } from '../../common';
 import { lightCls, pointerCls } from './index.css';
 
 const DEFINITION_EVENT_TYPE = {

@@ -2,7 +2,7 @@ import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
 import type { IPublicTypeFieldConfig, IPublicTypeSetter, IPublicTypeSetterType } from '@webank/letgo-types';
 import { createSettingFieldView } from '@webank/letgo-designer';
-import { commonProps } from '../../common/setter-props';
+import { commonProps } from '../../common';
 import { wrapperCls } from './index.css';
 
 const ObjectSetterView = defineComponent({

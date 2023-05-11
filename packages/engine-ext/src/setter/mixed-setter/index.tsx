@@ -16,7 +16,7 @@ import {
 } from '@webank/letgo-designer';
 import { FDropdown } from '@fesjs/fes-design';
 import { Switch } from '@icon-park/vue-next';
-import { commonProps } from '../../common/setter-props';
+import { commonProps } from '../../common';
 import { actionsCls, contentCls, iconCls, wrapperCls } from './index.css';
 
 interface SetterItem {

@@ -3,7 +3,7 @@ import { computed, defineComponent } from 'vue';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { isUndefined } from 'lodash-es';
 import { FRadio, FRadioGroup } from '@fesjs/fes-design';
-import { commonProps } from '../../common/setter-props';
+import { commonProps } from '../../common';
 
 const RadioGroupSetterView = defineComponent({
     name: 'RadioGroupSetterView',

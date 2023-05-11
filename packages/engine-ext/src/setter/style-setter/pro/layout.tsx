@@ -1,10 +1,10 @@
 import type { CSSProperties, PropType } from 'vue';
 import { computed, defineComponent, inject } from 'vue';
-import { FCollapseItem, FGrid, FGridItem, FInput, FSelect, FSpace } from '@fesjs/fes-design';
+import { FCollapseItem, FGrid, FGridItem, FSelect, FSpace } from '@fesjs/fes-design';
 import { useModel } from '@webank/letgo-utils';
-import { Row } from '../../../component';
+import { InputUnit, Row } from '../../../component';
 import { lightCls } from '../index.css';
-import { addUnit, clearUnit, getPlaceholderPropertyValue } from '../utils';
+import { getPlaceholderPropertyValue } from '../../../common';
 import { styleKey } from '../const';
 
 const display = [
@@ -165,7 +165,7 @@ export const LayoutView = defineComponent({
                     <Row label="布局模式">
                         <FSelect
                             modelValue={currentValue.value.display}
-                            placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'display') ?? '请选择布局模式'}` }
+                            placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'display') ?? '请选择布局模式'}`}
                             clearable
                             onUpdate:modelValue={(val) => {
                                 onStyleChange({
@@ -200,7 +200,7 @@ export const LayoutView = defineComponent({
                                     modelValue={
                                         currentValue.value.flexDirection
                                     }
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'flexDirection') ?? '请选择主轴方向'}` }
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'flexDirection') ?? '请选择主轴方向'}`}
                                     clearable
                                     onUpdate:modelValue={(val) => {
                                         onStyleChange({
@@ -233,7 +233,7 @@ export const LayoutView = defineComponent({
                                     modelValue={
                                         currentValue.value.justifyContent
                                     }
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'justifyContent') ?? '请选择主轴对齐'}` }
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'justifyContent') ?? '请选择主轴对齐'}`}
                                     clearable
                                     onUpdate:modelValue={(val) => {
                                         onStyleChange({
@@ -264,7 +264,7 @@ export const LayoutView = defineComponent({
                             <Row label="辅轴对齐">
                                 <FSelect
                                     modelValue={currentValue.value.alignItems}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'alignItems') ?? '请选择辅轴对齐'}` }
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'alignItems') ?? '请选择辅轴对齐'}`}
                                     clearable
                                     onUpdate:modelValue={(val) => {
                                         onStyleChange({
@@ -295,7 +295,7 @@ export const LayoutView = defineComponent({
                             <Row label="换行">
                                 <FSelect
                                     modelValue={currentValue.value.flexWrap}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'flexWrap') ?? '请选择换行模式'}` }
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'flexWrap') ?? '请选择换行模式'}`}
                                     clearable
                                     onUpdate:modelValue={(val) => {
                                         onStyleChange({
@@ -328,172 +328,122 @@ export const LayoutView = defineComponent({
                     <Row label="外间距">
                         <FGrid gutter={[8]}>
                             <FGridItem span={6}>
-                                <FInput
-                                    modelValue={clearUnit(
-                                        currentValue.value.marginTop,
-                                    )}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'marginTop') ?? '上间距'}` }
-                                    onChange={(val) => {
+                                <InputUnit
+                                    modelValue={currentValue.value.marginTop}
+                                    onUpdate:modelValue={(val) => {
                                         onStyleChange({
-                                            marginTop: addUnit(val),
+                                            marginTop: val,
                                         });
                                     }}
-                                    v-slots={{
-                                        suffix: () => 'px',
-                                    }}
-                                ></FInput>
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'marginTop') ?? '上间距'}`}
+                                />
                             </FGridItem>
                             <FGridItem span={6}>
-                                <FInput
-                                    modelValue={clearUnit(
-                                        currentValue.value.marginBottom,
-                                    )}
-                                    onChange={(val) => {
+                                <InputUnit
+                                    modelValue={currentValue.value.marginBottom}
+                                    onUpdate:modelValue={(val) => {
                                         onStyleChange({
-                                            marginBottom: addUnit(val),
+                                            marginBottom: val,
                                         });
                                     }}
-                                    v-slots={{
-                                        suffix: () => 'px',
-                                    }}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'marginBottom') ?? '下间距'}` }
-                                ></FInput>
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'marginBottom') ?? '下间距'}`}
+                                />
                             </FGridItem>
                             <FGridItem span={6}>
-                                <FInput
-                                    modelValue={clearUnit(
-                                        currentValue.value.marginLeft,
-                                    )}
-                                    onChange={(val) => {
+                                <InputUnit
+                                    modelValue={currentValue.value.marginLeft}
+                                    onUpdate:modelValue={(val) => {
                                         onStyleChange({
-                                            marginLeft: addUnit(val),
+                                            marginLeft: val,
                                         });
                                     }}
-                                    v-slots={{
-                                        suffix: () => 'px',
-                                    }}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'marginLeft') ?? '左间距'}` }
-                                ></FInput>
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'marginLeft') ?? '左间距'}`}
+                                />
                             </FGridItem>
                             <FGridItem span={6}>
-                                <FInput
-                                    modelValue={clearUnit(
-                                        currentValue.value.marginRight,
-                                    )}
-                                    onChange={(val) => {
+                                <InputUnit
+                                    modelValue={currentValue.value.marginRight}
+                                    onUpdate:modelValue={(val) => {
                                         onStyleChange({
-                                            marginRight: addUnit(val),
+                                            marginRight: val,
                                         });
                                     }}
-                                    v-slots={{
-                                        suffix: () => 'px',
-                                    }}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'marginRight') ?? '右间距'}` }
-                                ></FInput>
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'marginRight') ?? '右间距'}`}
+                                />
                             </FGridItem>
                         </FGrid>
                     </Row>
                     <Row label="内间距">
                         <FGrid gutter={[8]}>
                             <FGridItem span={6}>
-                                <FInput
-                                    modelValue={clearUnit(
-                                        currentValue.value.paddingTop,
-                                    )}
-                                    onChange={(val) => {
+                                <InputUnit
+                                    modelValue={currentValue.value.paddingTop}
+                                    onUpdate:modelValue={(val) => {
                                         onStyleChange({
-                                            paddingTop: addUnit(val),
+                                            paddingTop: val,
                                         });
                                     }}
-                                    v-slots={{
-                                        suffix: () => 'px',
-                                    }}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'paddingTop') ?? '上间距'}` }
-                                ></FInput>
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'paddingTop') ?? '上间距'}`}
+                                />
                             </FGridItem>
                             <FGridItem span={6}>
-                                <FInput
-                                    modelValue={clearUnit(
-                                        currentValue.value.paddingBottom,
-                                    )}
-                                    onChange={(val) => {
+                                <InputUnit
+                                    modelValue={currentValue.value.paddingBottom}
+                                    onUpdate:modelValue={(val) => {
                                         onStyleChange({
-                                            paddingBottom: addUnit(val),
+                                            paddingBottom: val,
                                         });
                                     }}
-                                    v-slots={{
-                                        suffix: () => 'px',
-                                    }}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'paddingBottom') ?? '下间距'}` }
-                                ></FInput>
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'paddingBottom') ?? '下间距'}`}
+                                />
                             </FGridItem>
                             <FGridItem span={6}>
-                                <FInput
-                                    modelValue={clearUnit(
-                                        currentValue.value.paddingLeft,
-                                    )}
-                                    onChange={(val) => {
+                                <InputUnit
+                                    modelValue={currentValue.value.paddingLeft}
+                                    onUpdate:modelValue={(val) => {
                                         onStyleChange({
-                                            paddingLeft: addUnit(val),
+                                            paddingLeft: val,
                                         });
                                     }}
-                                    v-slots={{
-                                        suffix: () => 'px',
-                                    }}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'paddingLeft') ?? '左间距'}` }
-                                ></FInput>
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'paddingLeft') ?? '左间距'}`}
+                                />
                             </FGridItem>
                             <FGridItem span={6}>
-                                <FInput
-                                    modelValue={clearUnit(
-                                        currentValue.value.paddingRight,
-                                    )}
-                                    onChange={(val) => {
+                                <InputUnit
+                                    modelValue={currentValue.value.paddingRight}
+                                    onUpdate:modelValue={(val) => {
                                         onStyleChange({
-                                            paddingRight: addUnit(val),
+                                            paddingRight: val,
                                         });
                                     }}
-                                    v-slots={{
-                                        suffix: () => 'px',
-                                    }}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'paddingRight') ?? '右间距'}` }
-                                ></FInput>
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'paddingRight') ?? '右间距'}`}
+                                />
                             </FGridItem>
                         </FGrid>
                     </Row>
                     <Row label="宽高">
                         <FGrid gutter={[8]}>
                             <FGridItem span={12}>
-                                <FInput
-                                    modelValue={clearUnit(
-                                        currentValue.value.width,
-                                    )}
-                                    onChange={(val) => {
+                                <InputUnit
+                                    modelValue={currentValue.value.width}
+                                    onUpdate:modelValue={(val) => {
                                         onStyleChange({
-                                            width: addUnit(val),
+                                            width: val,
                                         });
                                     }}
-                                    v-slots={{
-                                        suffix: () => 'px',
-                                    }}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'width') ?? '宽度'}` }
-                                ></FInput>
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'width') ?? '宽度'}`}
+                                />
                             </FGridItem>
                             <FGridItem span={12}>
-                                <FInput
-                                    modelValue={clearUnit(
-                                        currentValue.value.height,
-                                    )}
-                                    onChange={(val) => {
+                                <InputUnit
+                                    modelValue={currentValue.value.height}
+                                    onUpdate:modelValue={(val) => {
                                         onStyleChange({
-                                            height: addUnit(val),
+                                            height: val,
                                         });
                                     }}
-                                    v-slots={{
-                                        suffix: () => 'px',
-                                    }}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'height') ?? '高度'}` }
-                                ></FInput>
+                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'height') ?? '高度'}`}
+                                />
                             </FGridItem>
                         </FGrid>
                     </Row>

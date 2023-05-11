@@ -3,7 +3,7 @@ import { defineComponent, inject } from 'vue';
 import { useModel } from '@webank/letgo-utils';
 import { FCollapseItem, FInputNumber, FSelect } from '@fesjs/fes-design';
 import { InputColor, Row } from '../../../component';
-import { addUnit, clearUnit, getPlaceholderPropertyValue } from '../utils';
+import { addUnit, clearUnit, getPlaceholderPropertyValue } from '../../../common';
 import { styleKey } from '../const';
 
 const fontWeight = [

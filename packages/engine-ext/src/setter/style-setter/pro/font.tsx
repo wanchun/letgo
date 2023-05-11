@@ -1,9 +1,10 @@
 import type { CSSProperties, PropType } from 'vue';
 import { defineComponent, inject } from 'vue';
 import { useModel } from '@webank/letgo-utils';
-import { FCollapseItem, FInputNumber, FSelect } from '@fesjs/fes-design';
-import { InputColor, Row } from '../../../component';
-import { addUnit, clearUnit, getPlaceholderPropertyValue } from '../utils';
+import { FCollapseItem, FInputNumber, FRadioButton, FRadioGroup, FSelect, FTooltip } from '@fesjs/fes-design';
+import { AlignLeft, AlignRight, AlignTextBoth, AlignTextCenter } from '@icon-park/vue-next';
+import { InputColor, InputUnit, Row } from '../../../component';
+import { addUnit, clearUnit, getPlaceholderPropertyValue } from '../../../common';
 import { styleKey } from '../const';
 
 const fontWeight = [
@@ -41,25 +42,6 @@ const fontWeight = [
     },
 ];
 
-const textAlign = [
-    {
-        value: 'left',
-        label: 'left 左对齐',
-    },
-    {
-        value: 'center',
-        label: 'center 居中',
-    },
-    {
-        value: 'right',
-        label: 'right 右对齐',
-    },
-    {
-        value: 'justify',
-        label: 'justify 两端对齐',
-    },
-];
-
 export const FontView = defineComponent({
     props: {
         value: {
@@ -83,41 +65,31 @@ export const FontView = defineComponent({
             return (
                 <FCollapseItem name="font" title="文字">
                     <Row label="字体大小">
-                        <FInputNumber
-                            style={{ width: '100%' }}
-                            modelValue={clearUnit(currentValue.value.fontSize)}
-                            onChange={(val) => {
+                        <InputUnit
+                            modelValue={currentValue.value.fontSize}
+                            onUpdate:modelValue={(val) => {
                                 onStyleChange({
-                                    fontSize: addUnit(val),
+                                    fontSize: val,
                                 });
                             }}
-                            v-slots={{
-                                suffix: () => 'px',
-                            }}
-                            placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'fontSize') ?? '字体大小'}` }
-                        ></FInputNumber>
+                            placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'fontSize') ?? '字体大小'}`}
+                        />
                     </Row>
                     <Row label="字体行高">
-                        <FInputNumber
-                            style={{ width: '100%' }}
-                            modelValue={clearUnit(
-                                currentValue.value.lineHeight,
-                            )}
-                            onChange={(val) => {
+                        <InputUnit
+                            modelValue={currentValue.value.lineHeight}
+                            onUpdate:modelValue={(val) => {
                                 onStyleChange({
-                                    lineHeight: addUnit(val),
+                                    lineHeight: val,
                                 });
                             }}
-                            v-slots={{
-                                suffix: () => 'px',
-                            }}
-                            placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'lineHeight') ?? '输入行高'}` }
-                        ></FInputNumber>
+                            placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'lineHeight') ?? '行高'}`}
+                        />
                     </Row>
                     <Row label="字体粗细">
                         <FSelect
                             modelValue={currentValue.value.fontWeight}
-                            placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'fontWeight') ?? '请选择字体粗细'}` }
+                            placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'fontWeight') ?? '字体粗细'}`}
                             clearable
                             onChange={(val) => {
                                 onStyleChange({
@@ -130,7 +102,7 @@ export const FontView = defineComponent({
                     <Row label="字体颜色">
                         <InputColor
                             modelValue={currentValue.value.color}
-                            placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'color') ?? '请选择字体颜色'}` }
+                            placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'color') ?? '字体颜色'}`}
                             onChange={(event: any) => {
                                 onStyleChange({
                                     color: event.target.value,
@@ -139,23 +111,41 @@ export const FontView = defineComponent({
                         ></InputColor>
                     </Row>
                     <Row label="对齐">
-                        <FSelect
+                        <FRadioGroup
                             modelValue={currentValue.value.textAlign}
-                            placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'textAlign') ?? '请选择文字对齐'}` }
-                            clearable
-                            onChange={(val) => {
+                            onChange={(val: 'left' | 'right' | 'center' | 'justify') => {
                                 onStyleChange({
                                     textAlign: val,
                                 });
                             }}
-                            options={textAlign}
-                        ></FSelect>
+                        >
+                            <FRadioButton value={'left'}>
+                                <FTooltip content="left 左对齐" placement="top">
+                                    <AlignLeft />
+                                </FTooltip>
+                            </FRadioButton>
+                            <FRadioButton value={'center'}>
+                                <FTooltip content="center 居中" placement="top">
+                                    <AlignTextCenter />
+                                </FTooltip>
+                            </FRadioButton>
+                            <FRadioButton value={'right'}>
+                                <FTooltip content="right 右对齐" placement="top">
+                                    <AlignRight />
+                                </FTooltip>
+                            </FRadioButton>
+                            <FRadioButton value={'justify'}>
+                                <FTooltip content="justify 两端对齐" placement="top">
+                                    <AlignTextBoth />
+                                </FTooltip>
+                            </FRadioButton>
+                        </FRadioGroup>
                     </Row>
                     <Row label="透明度">
                         <FInputNumber
                             style={{ width: '100%' }}
                             modelValue={clearUnit(currentValue.value.opacity)}
-                            placeholder={`${Number(getPlaceholderPropertyValue(styleProvide.style, 'opacity')) * 100 ?? '请选择透明度'}` }
+                            placeholder={`${Number(getPlaceholderPropertyValue(styleProvide.style, 'opacity')) * 100 ?? '透明度'}`}
                             onChange={(val) => {
                                 onStyleChange({
                                     opacity: addUnit(val, '%'),

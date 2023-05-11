@@ -1,10 +1,10 @@
 import type { CSSProperties, PropType, Ref } from 'vue';
 import { defineComponent, inject, onMounted, ref, watch } from 'vue';
 import { useModel } from '@webank/letgo-utils';
-import { AlignmentBottomCenter, AlignmentBottomLeft, AlignmentBottomRight, AlignmentTopCenter, AlignmentTopLeft, AlignmentTopRight, AlignmentVerticalCenter, AlignmentVerticalLeft, AlignmentVerticalRight } from '@icon-park/vue-next';
-import { FCollapseItem, FGrid, FGridItem, FInput, FInputNumber, FRadioButton, FRadioGroup } from '@fesjs/fes-design';
-import { InputColor, Row } from '../../../component';
-import { addUnit, clearUnit, getPlaceholderPropertyValue } from '../utils';
+import { AlignmentBottomCenter, AlignmentBottomLeft, AlignmentBottomRight, AlignmentTopCenter, AlignmentTopLeft, AlignmentTopRight, AlignmentVerticalCenter, AlignmentVerticalLeft, AlignmentVerticalRight, Close, DistributeHorizontally, DistributeVertically, GridNine } from '@icon-park/vue-next';
+import { FCollapseItem, FGrid, FGridItem, FInput, FInputNumber, FRadioButton, FRadioGroup, FTooltip } from '@fesjs/fes-design';
+import { InputColor, InputUnit, Row } from '../../../component';
+import { addUnit, clearUnit, getPlaceholderPropertyValue } from '../../../common';
 import { styleKey } from '../const';
 import { backgroundPositionWrapperCls, customPositionWrapperCls, iconWrapperCls } from './background.css';
 
@@ -89,6 +89,11 @@ export const BackgroundView = defineComponent({
 
         const backgroundPositionTopRef: Ref<string> = ref();
 
+        const handleClickPosition = (left: string, top: string) => {
+            backgroundPositionLeftRef.value = left;
+            backgroundPositionTopRef.value = top;
+        };
+
         return () => {
             return (
                 <FCollapseItem name="background" title="背景">
@@ -151,58 +156,87 @@ export const BackgroundView = defineComponent({
                                 </FRadioGroup>
                                 <FGrid v-show={!backgroundSizeRef.value} gutter={[8]} style={{ marginTop: '8px' }}>
                                     <FGridItem span={12}>
-                                        <FInput
+                                        <InputUnit
                                             v-model={backgroundSizeWidthRef.value}
-                                            v-slots={{
-                                                suffix: () => 'px',
-                                            }}
                                             placeholder={defaultBackgroundSizeWidthRef.value ?? '宽度'}
-                                        ></FInput>
+                                        />
                                     </FGridItem>
                                     <FGridItem span={12}>
-                                        <FInput
+                                        <InputUnit
                                             v-model={backgroundSizeHeightRef.value}
-                                            v-slots={{
-                                                suffix: () => 'px',
-                                            }}
-                                            placeholder={defaultBackgroundSizeHeightRef.value ?? '高度'}
-                                        ></FInput>
+                                            placeholder={defaultBackgroundSizeHeightRef.value ?? '宽度'}
+                                        />
                                     </FGridItem>
                                 </FGrid>
                             </Row>
                             <Row label="定位">
                                 <div class={backgroundPositionWrapperCls}>
                                     <div class={iconWrapperCls}>
-                                        <AlignmentTopLeft size={24} />
-                                        <AlignmentTopCenter size={24} />
-                                        <AlignmentTopRight size={24} />
-                                        <AlignmentVerticalLeft size={24} />
-                                        <AlignmentVerticalCenter size={24} />
-                                        <AlignmentVerticalRight size={24} />
-                                        <AlignmentBottomLeft size={24} />
-                                        <AlignmentBottomCenter size={24} />
-                                        <AlignmentBottomRight size={24} />
+                                        <AlignmentTopLeft size={24} onClick={() => handleClickPosition('0px', '0px')} />
+                                        <AlignmentTopCenter size={24} onClick={() => handleClickPosition('50%', '0px')} />
+                                        <AlignmentTopRight size={24} onClick={() => handleClickPosition('100%', '0px')} />
+                                        <AlignmentVerticalLeft size={24} onClick={() => handleClickPosition('0px', '50%')} />
+                                        <AlignmentVerticalCenter size={24} onClick={() => handleClickPosition('50%', '50%')} />
+                                        <AlignmentVerticalRight size={24} onClick={() => handleClickPosition('100%', '50%')} />
+                                        <AlignmentBottomLeft size={24} onClick={() => handleClickPosition('0px', '100%')} />
+                                        <AlignmentBottomCenter size={24} onClick={() => handleClickPosition('50%', '100%')} />
+                                        <AlignmentBottomRight size={24} onClick={() => handleClickPosition('100%', '100%')} />
                                     </div>
                                     <div class={customPositionWrapperCls}>
                                         <Row label="左" labelWidth={20}>
-                                            <FInput
+                                            <InputUnit
                                                 v-model={backgroundPositionLeftRef.value}
-                                                v-slots={{
-                                                    suffix: () => 'px',
-                                                }}
-                                            ></FInput>
+                                            />
                                         </Row>
                                         <Row label="顶" labelWidth={20}>
-                                            <FInput
+                                            <InputUnit
                                                 v-model={backgroundPositionTopRef.value}
-                                                v-slots={{
-                                                    suffix: () => 'px',
-                                                }}
-                                            ></FInput>
+                                            />
                                         </Row>
 
                                     </div>
                                 </div>
+                            </Row>
+                            <Row label="重复显示">
+                                <FRadioGroup v-model={currentValue.value.backgroundRepeat}>
+                                    <FRadioButton value={'repeat'}>
+                                        <FTooltip content="水平和垂直方向重复" placement="top">
+                                            <GridNine />
+                                        </FTooltip>
+                                    </FRadioButton>
+                                    <FRadioButton value={'repeat-x'}>
+                                        <FTooltip content="水平方向重复" placement="top">
+                                            <DistributeHorizontally />
+                                        </FTooltip>
+                                    </FRadioButton>
+                                    <FRadioButton value={'repeat-y'}>
+                                        <FTooltip content="垂直方向重复" placement="top">
+                                            <DistributeVertically />
+                                        </FTooltip>
+                                    </FRadioButton>
+                                    <FRadioButton value={'no-repeat'}>
+                                        <FTooltip content="不重复" placement="top">
+                                            <Close />
+                                        </FTooltip>
+                                    </FRadioButton>
+                                </FRadioGroup>
+                            </Row>
+                            <Row label="透明度">
+                                <FInputNumber
+                                    style={{ width: '100%' }}
+                                    modelValue={clearUnit(currentValue.value.opacity)}
+                                    placeholder={`${Number(getPlaceholderPropertyValue(styleProvide.style, 'opacity')) * 100 ?? '请选择透明度'}`}
+                                    onChange={(val) => {
+                                        onStyleChange({
+                                            opacity: addUnit(val, '%'),
+                                        });
+                                    }}
+                                    max={100}
+                                    min={0}
+                                    v-slots={{
+                                        suffix: () => '%',
+                                    }}
+                                ></FInputNumber>
                             </Row>
                         </>
                     )}

@@ -3,9 +3,8 @@ import { defineComponent, onMounted, provide, ref } from 'vue';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { useModel } from '@webank/letgo-utils';
 import { FCollapse } from '@fesjs/fes-design';
-import { commonProps } from '../../common';
+import { commonProps, getComputeStyle } from '../../common';
 import { BackgroundView, BorderView, FontView, LayoutView, PositionView } from './pro';
-import { getComputeStyle } from './utils';
 import { styleKey } from './const';
 import { wrapperCls } from './index.css';
 

@@ -64,6 +64,15 @@ export function clearUnit(value: string | number | undefined) {
     return isNaN(res) ? undefined : res;
 }
 
+export function clearUnit2(value: string | number | undefined) {
+    if (isNil(value))
+        return;
+    if (isNumber(value))
+        return value;
+    const res = parseFloat(value);
+    return isNaN(res) ? value : res;
+}
+
 /**
  * rgba转16进制
  * @param color

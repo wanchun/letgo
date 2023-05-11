@@ -4,6 +4,9 @@ export const wrapperCls = style({
 
 });
 
+globalStyle(`${wrapperCls} .i-icon`, {
+});
+
 globalStyle(`${wrapperCls} .fes-radio-group`, {
     width: '100%',
 });

@@ -44,7 +44,7 @@ export const BackgroundView = defineComponent({
             props.onStyleChange?.(changedStyle);
         };
 
-        const styleProvide = inject(styleKey);
+        const provideStyle = inject(styleKey);
 
         const backgroundTypeRef: Ref<EnumBackground> = ref();
 
@@ -59,7 +59,7 @@ export const BackgroundView = defineComponent({
         const defaultBackgroundSizeHeightRef: Ref<string> = ref();
 
         onMounted(() => {
-            const defaultBackgroundSize = getPlaceholderPropertyValue(styleProvide.style, 'backgroundSize') as string;
+            const defaultBackgroundSize = getPlaceholderPropertyValue(provideStyle.style, 'backgroundSize') as string;
 
             if (['cover', 'contain'].includes(defaultBackgroundSize)) {
                 backgroundSizeRef.value = defaultBackgroundSize;
@@ -108,7 +108,7 @@ export const BackgroundView = defineComponent({
                             <Row label="背景色">
                                 <InputColor
                                     modelValue={currentValue.value.backgroundColor}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'backgroundColor') ?? '请选择背景颜色'}`}
+                                    placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'backgroundColor') ?? '请选择背景颜色'}`}
                                     onChange={(event: any) => {
                                         onStyleChange({
                                             backgroundColor: event.target.value,
@@ -120,7 +120,7 @@ export const BackgroundView = defineComponent({
                                 <FInputNumber
                                     style={{ width: '100%' }}
                                     modelValue={clearUnit(currentValue.value.opacity)}
-                                    placeholder={`${Number(getPlaceholderPropertyValue(styleProvide.style, 'opacity')) * 100 ?? '请选择透明度'}`}
+                                    placeholder={`${Number(getPlaceholderPropertyValue(provideStyle.style, 'opacity')) * 100 ?? '请选择透明度'}`}
                                     onChange={(val) => {
                                         onStyleChange({
                                             opacity: addUnit(val, '%'),
@@ -140,7 +140,7 @@ export const BackgroundView = defineComponent({
                             <Row label="图片URL">
                                 <FInput
                                     modelValue={getURL(currentValue.value.backgroundImage)}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'backgroundImage') ?? '请输入图片URL'}`}
+                                    placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'backgroundImage') ?? '请输入图片URL'}`}
                                     onChange={(val: any) => {
                                         onStyleChange({
                                             backgroundImage: val ? `url("${val}")` : undefined,
@@ -188,7 +188,7 @@ export const BackgroundView = defineComponent({
                                                 v-model={backgroundPositionLeftRef.value}
                                             />
                                         </Row>
-                                        <Row label="顶" labelWidth={20}>
+                                        <Row label="顶" labelWidth={20} margin={false}>
                                             <InputUnit
                                                 v-model={backgroundPositionTopRef.value}
                                             />
@@ -225,7 +225,7 @@ export const BackgroundView = defineComponent({
                                 <FInputNumber
                                     style={{ width: '100%' }}
                                     modelValue={clearUnit(currentValue.value.opacity)}
-                                    placeholder={`${Number(getPlaceholderPropertyValue(styleProvide.style, 'opacity')) * 100 ?? '请选择透明度'}`}
+                                    placeholder={`${Number(getPlaceholderPropertyValue(provideStyle.style, 'opacity')) * 100 ?? '请选择透明度'}`}
                                     onChange={(val) => {
                                         onStyleChange({
                                             opacity: addUnit(val, '%'),

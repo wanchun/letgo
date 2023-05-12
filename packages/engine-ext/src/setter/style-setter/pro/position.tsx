@@ -1,62 +1,37 @@
 import type { CSSProperties, PropType } from 'vue';
 import { defineComponent, inject } from 'vue';
 import { useModel } from '@webank/letgo-utils';
-import { FCollapseItem, FInputNumber, FSelect } from '@fesjs/fes-design';
-import { InputColor, Row } from '../../../component';
-import { addUnit, clearUnit, getPlaceholderPropertyValue } from '../../../common';
+import { FCollapseItem, FGrid, FGridItem, FInputNumber, FSelect, FSpace } from '@fesjs/fes-design';
+import { getPlaceholderPropertyValue } from '../../../common';
+import { InputUnit, Row } from '../../../component';
 import { styleKey } from '../const';
+import { lightCls } from '../index.css';
 
-const fontWeight = [
+const positionList = [
     {
-        value: 100,
-        label: '100 Thin',
+        value: 'static',
+        label: 'static',
+        description: '默认定位',
     },
     {
-        value: 200,
-        label: '200 Extra Light',
+        value: 'relative',
+        label: 'relative',
+        description: '相对于自己浮动定位',
     },
     {
-        value: 300,
-        label: '300 Light',
+        value: 'absolute',
+        label: 'absolute',
+        description: '相对于父浮动元素定位',
     },
     {
-        value: 400,
-        label: '400 Normal',
+        value: 'fixed',
+        label: 'fixed',
+        description: '相对于屏幕视口定位',
     },
     {
-        value: 500,
-        label: '500 Medium',
-    },
-    {
-        value: 600,
-        label: '600 Semi Bold',
-    },
-    {
-        value: 700,
-        label: '700 Bold',
-    },
-    {
-        value: 800,
-        label: '800 Extra Bold',
-    },
-];
-
-const textAlign = [
-    {
-        value: 'left',
-        label: 'left 左对齐',
-    },
-    {
-        value: 'center',
-        label: 'center 居中',
-    },
-    {
-        value: 'right',
-        label: 'right 右对齐',
-    },
-    {
-        value: 'justify',
-        label: 'justify 两端对齐',
+        value: 'sticky',
+        label: 'sticky',
+        description: '粘性定位',
     },
 ];
 
@@ -73,7 +48,7 @@ export const PositionView = defineComponent({
             defaultValue: {},
         });
 
-        const styleProvide = inject(styleKey);
+        const provideStyle = inject(styleKey);
 
         const onStyleChange = (changedStyle: CSSProperties) => {
             props.onStyleChange?.(changedStyle);
@@ -82,89 +57,108 @@ export const PositionView = defineComponent({
         return () => {
             return (
                 <FCollapseItem name="position" title="定位">
-                    <Row label="字体大小">
-                        <FInputNumber
-                            modelValue={clearUnit(currentValue.value.fontSize)}
-                            onChange={(val) => {
-                                onStyleChange({
-                                    fontSize: addUnit(val),
-                                });
-                            }}
-                            v-slots={{
-                                suffix: () => 'px',
-                            }}
-                            placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'fontSize') ?? '字体大小'}` }
-                        ></FInputNumber>
-                    </Row>
-                    <Row label="字体行高">
-                        <FInputNumber
-                            modelValue={clearUnit(
-                                currentValue.value.lineHeight,
-                            )}
-                            onChange={(val) => {
-                                onStyleChange({
-                                    lineHeight: addUnit(val),
-                                });
-                            }}
-                            v-slots={{
-                                suffix: () => 'px',
-                            }}
-                            placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'lineHeight') ?? '输入行高'}` }
-                        ></FInputNumber>
-                    </Row>
-                    <Row label="字体粗细">
+                    <Row label="布局模式">
                         <FSelect
-                            modelValue={currentValue.value.fontWeight}
-                            placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'fontWeight') ?? '请选择字体粗细'}` }
+                            modelValue={currentValue.value.position}
+                            placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'position') ?? '请选择定位模式'}`}
                             clearable
-                            onChange={(val) => {
+                            onUpdate:modelValue={(val) => {
                                 onStyleChange({
-                                    fontWeight: val,
+                                    position: val,
                                 });
                             }}
-                            options={fontWeight}
-                        ></FSelect>
-                    </Row>
-                    <Row label="字体颜色">
-                        <InputColor
-                            modelValue={currentValue.value.color}
-                            placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'color') ?? '请选择字体颜色'}` }
-                            onChange={(event: any) => {
-                                onStyleChange({
-                                    color: event.target.value,
-                                });
+                            options={positionList}
+                            v-slots={{
+                                option: ({
+                                    value,
+                                    description,
+                                }: {
+                                    value: string
+                                    description: string
+                                }) => {
+                                    return (
+                                        <FSpace>
+                                            <span>{value}</span>
+                                            <span class={lightCls}>
+                                                {description}
+                                            </span>
+                                        </FSpace>
+                                    );
+                                },
                             }}
-                        ></InputColor>
+                        />
                     </Row>
-                    <Row label="对齐">
-                        <FSelect
-                            modelValue={currentValue.value.textAlign}
-                            placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'textAlign') ?? '请选择文字对齐'}` }
-                            clearable
-                            onChange={(val) => {
-                                onStyleChange({
-                                    textAlign: val,
-                                });
-                            }}
-                            options={textAlign}
-                        ></FSelect>
+                    <Row label="偏移距离">
+                        <FGrid gutter={[12, 12]} wrap>
+                            <FGridItem span={12}>
+                                <Row label="上" labelWidth={15} labelAlign="right" margin={false}>
+                                    <InputUnit
+                                        modelValue={currentValue.value.top}
+                                        onChange={(val) => {
+                                            onStyleChange({
+                                                top: val,
+                                            });
+                                        }}
+                                        placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'top') ?? '上'}`}
+                                    />
+                                </Row>
+                            </FGridItem>
+                            <FGridItem span={12}>
+                                <Row label="下" labelWidth={15} labelAlign="right" margin={false}>
+                                    <InputUnit
+                                        modelValue={currentValue.value.bottom}
+                                        onChange={(val) => {
+                                            onStyleChange({
+                                                bottom: val,
+                                            });
+                                        }}
+                                        placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'bottom') ?? '下'}`}
+                                    />
+                                </Row>
+
+                            </FGridItem>
+                            <FGridItem span={12}>
+                                <Row label="左" labelWidth={15} labelAlign="right" margin={false}>
+                                    <InputUnit
+                                        modelValue={currentValue.value.left}
+                                        onChange={(val) => {
+                                            onStyleChange({
+                                                left: val,
+                                            });
+                                        }}
+                                        placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'left') ?? '左'}`}
+                                    />
+                                </Row>
+
+                            </FGridItem>
+                            <FGridItem span={12}>
+                                <Row label="右" labelWidth={15} labelAlign="right" margin={false}>
+                                    <InputUnit
+                                        modelValue={currentValue.value.right}
+                                        onChange={(val) => {
+                                            onStyleChange({
+                                                right: val,
+                                            });
+                                        }}
+                                        placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'right') ?? '右'}`}
+                                    />
+                                </Row>
+
+                            </FGridItem>
+                        </FGrid>
                     </Row>
-                    <Row label="透明度">
+                    <Row label="zIndex">
                         <FInputNumber
                             style={{ width: '100%' }}
-                            modelValue={clearUnit(currentValue.value.opacity)}
-                            placeholder={`${Number(getPlaceholderPropertyValue(styleProvide.style, 'opacity')) * 100 ?? '请选择透明度'}` }
+                            modelValue={currentValue.value.zIndex}
+                            placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'zIndex') ?? 'zIndex'}`}
                             onChange={(val) => {
                                 onStyleChange({
-                                    opacity: addUnit(val, '%'),
+                                    zIndex: val,
                                 });
                             }}
-                            max={100}
                             min={0}
-                            v-slots={{
-                                suffix: () => '%',
-                            }}
-                        ></FInputNumber>
+                        />
                     </Row>
                 </FCollapseItem>
             );

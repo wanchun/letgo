@@ -47,7 +47,7 @@ const StyleSetterView = defineComponent({
             props.onChange(styleData);
         };
 
-        const showItems = ref(['layout', 'font']);
+        const showItems = ref(['layout', 'font', 'background', 'border', 'position']);
 
         return () => {
             const { styleModuleList } = props;

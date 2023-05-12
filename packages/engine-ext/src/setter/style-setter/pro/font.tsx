@@ -55,7 +55,7 @@ export const FontView = defineComponent({
             defaultValue: {},
         });
 
-        const styleProvide = inject(styleKey);
+        const provideStyle = inject(styleKey);
 
         const onStyleChange = (changedStyle: CSSProperties) => {
             props.onStyleChange?.(changedStyle);
@@ -67,29 +67,29 @@ export const FontView = defineComponent({
                     <Row label="字体大小">
                         <InputUnit
                             modelValue={currentValue.value.fontSize}
-                            onUpdate:modelValue={(val) => {
+                            onChange={(val) => {
                                 onStyleChange({
                                     fontSize: val,
                                 });
                             }}
-                            placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'fontSize') ?? '字体大小'}`}
+                            placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'fontSize') ?? '字体大小'}`}
                         />
                     </Row>
                     <Row label="字体行高">
                         <InputUnit
                             modelValue={currentValue.value.lineHeight}
-                            onUpdate:modelValue={(val) => {
+                            onChange={(val) => {
                                 onStyleChange({
                                     lineHeight: val,
                                 });
                             }}
-                            placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'lineHeight') ?? '行高'}`}
+                            placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'lineHeight') ?? '行高'}`}
                         />
                     </Row>
                     <Row label="字体粗细">
                         <FSelect
                             modelValue={currentValue.value.fontWeight}
-                            placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'fontWeight') ?? '字体粗细'}`}
+                            placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'fontWeight') ?? '字体粗细'}`}
                             clearable
                             onChange={(val) => {
                                 onStyleChange({
@@ -102,7 +102,7 @@ export const FontView = defineComponent({
                     <Row label="字体颜色">
                         <InputColor
                             modelValue={currentValue.value.color}
-                            placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'color') ?? '字体颜色'}`}
+                            placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'color') ?? '字体颜色'}`}
                             onChange={(event: any) => {
                                 onStyleChange({
                                     color: event.target.value,
@@ -145,7 +145,7 @@ export const FontView = defineComponent({
                         <FInputNumber
                             style={{ width: '100%' }}
                             modelValue={clearUnit(currentValue.value.opacity)}
-                            placeholder={`${Number(getPlaceholderPropertyValue(styleProvide.style, 'opacity')) * 100 ?? '透明度'}`}
+                            placeholder={`${Number(getPlaceholderPropertyValue(provideStyle.style, 'opacity')) * 100 ?? '透明度'}`}
                             onChange={(val) => {
                                 onStyleChange({
                                     opacity: addUnit(val, '%'),

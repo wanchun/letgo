@@ -146,7 +146,7 @@ export const LayoutView = defineComponent({
             defaultValue: {},
         });
 
-        const styleProvide = inject(styleKey);
+        const provideStyle = inject(styleKey);
 
         const onStyleChange = (changedStyle: CSSProperties) => {
             props.onStyleChange?.(changedStyle);
@@ -165,7 +165,7 @@ export const LayoutView = defineComponent({
                     <Row label="布局模式">
                         <FSelect
                             modelValue={currentValue.value.display}
-                            placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'display') ?? '请选择布局模式'}`}
+                            placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'display') ?? '请选择布局模式'}`}
                             clearable
                             onUpdate:modelValue={(val) => {
                                 onStyleChange({
@@ -200,7 +200,7 @@ export const LayoutView = defineComponent({
                                     modelValue={
                                         currentValue.value.flexDirection
                                     }
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'flexDirection') ?? '请选择主轴方向'}`}
+                                    placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'flexDirection') ?? '请选择主轴方向'}`}
                                     clearable
                                     onUpdate:modelValue={(val) => {
                                         onStyleChange({
@@ -233,7 +233,7 @@ export const LayoutView = defineComponent({
                                     modelValue={
                                         currentValue.value.justifyContent
                                     }
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'justifyContent') ?? '请选择主轴对齐'}`}
+                                    placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'justifyContent') ?? '请选择主轴对齐'}`}
                                     clearable
                                     onUpdate:modelValue={(val) => {
                                         onStyleChange({
@@ -264,7 +264,7 @@ export const LayoutView = defineComponent({
                             <Row label="辅轴对齐">
                                 <FSelect
                                     modelValue={currentValue.value.alignItems}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'alignItems') ?? '请选择辅轴对齐'}`}
+                                    placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'alignItems') ?? '请选择辅轴对齐'}`}
                                     clearable
                                     onUpdate:modelValue={(val) => {
                                         onStyleChange({
@@ -295,7 +295,7 @@ export const LayoutView = defineComponent({
                             <Row label="换行">
                                 <FSelect
                                     modelValue={currentValue.value.flexWrap}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'flexWrap') ?? '请选择换行模式'}`}
+                                    placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'flexWrap') ?? '请选择换行模式'}`}
                                     clearable
                                     onUpdate:modelValue={(val) => {
                                         onStyleChange({
@@ -326,124 +326,152 @@ export const LayoutView = defineComponent({
                         </>
                     )}
                     <Row label="外间距">
-                        <FGrid gutter={[8]}>
-                            <FGridItem span={6}>
-                                <InputUnit
-                                    modelValue={currentValue.value.marginTop}
-                                    onUpdate:modelValue={(val) => {
-                                        onStyleChange({
-                                            marginTop: val,
-                                        });
-                                    }}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'marginTop') ?? '上间距'}`}
-                                />
+                        <FGrid gutter={[12, 12]} wrap>
+                            <FGridItem span={12}>
+                                <Row label="上" labelWidth={15} labelAlign="right" margin={false}>
+                                    <InputUnit
+                                        modelValue={currentValue.value.marginTop}
+                                        onChange={(val) => {
+                                            onStyleChange({
+                                                marginTop: val,
+                                            });
+                                        }}
+                                        placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'marginTop') ?? '上间距'}`}
+                                    />
+                                </Row>
                             </FGridItem>
-                            <FGridItem span={6}>
-                                <InputUnit
-                                    modelValue={currentValue.value.marginBottom}
-                                    onUpdate:modelValue={(val) => {
-                                        onStyleChange({
-                                            marginBottom: val,
-                                        });
-                                    }}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'marginBottom') ?? '下间距'}`}
-                                />
+                            <FGridItem span={12}>
+                                <Row label="下" labelWidth={15} labelAlign="right" margin={false}>
+                                    <InputUnit
+                                        modelValue={currentValue.value.marginBottom}
+                                        onChange={(val) => {
+                                            onStyleChange({
+                                                marginBottom: val,
+                                            });
+                                        }}
+                                        placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'marginBottom') ?? '下间距'}`}
+                                    />
+                                </Row>
+
                             </FGridItem>
-                            <FGridItem span={6}>
-                                <InputUnit
-                                    modelValue={currentValue.value.marginLeft}
-                                    onUpdate:modelValue={(val) => {
-                                        onStyleChange({
-                                            marginLeft: val,
-                                        });
-                                    }}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'marginLeft') ?? '左间距'}`}
-                                />
+                            <FGridItem span={12}>
+                                <Row label="左" labelWidth={15} labelAlign="right" margin={false}>
+                                    <InputUnit
+                                        modelValue={currentValue.value.marginLeft}
+                                        onChange={(val) => {
+                                            onStyleChange({
+                                                marginLeft: val,
+                                            });
+                                        }}
+                                        placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'marginLeft') ?? '左间距'}`}
+                                    />
+                                </Row>
+
                             </FGridItem>
-                            <FGridItem span={6}>
-                                <InputUnit
-                                    modelValue={currentValue.value.marginRight}
-                                    onUpdate:modelValue={(val) => {
-                                        onStyleChange({
-                                            marginRight: val,
-                                        });
-                                    }}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'marginRight') ?? '右间距'}`}
-                                />
+                            <FGridItem span={12}>
+                                <Row label="右" labelWidth={15} labelAlign="right" margin={false}>
+                                    <InputUnit
+                                        modelValue={currentValue.value.marginRight}
+                                        onChange={(val) => {
+                                            onStyleChange({
+                                                marginRight: val,
+                                            });
+                                        }}
+                                        placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'marginRight') ?? '右间距'}`}
+                                    />
+                                </Row>
+
                             </FGridItem>
                         </FGrid>
                     </Row>
                     <Row label="内间距">
-                        <FGrid gutter={[8]}>
-                            <FGridItem span={6}>
-                                <InputUnit
-                                    modelValue={currentValue.value.paddingTop}
-                                    onUpdate:modelValue={(val) => {
-                                        onStyleChange({
-                                            paddingTop: val,
-                                        });
-                                    }}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'paddingTop') ?? '上间距'}`}
-                                />
+                        <FGrid gutter={[12, 12]} wrap>
+                            <FGridItem span={12}>
+                                <Row label="上" labelWidth={15} labelAlign="right" margin={false}>
+                                    <InputUnit
+                                        modelValue={currentValue.value.paddingTop}
+                                        onChange={(val) => {
+                                            onStyleChange({
+                                                paddingTop: val,
+                                            });
+                                        }}
+                                        placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'paddingTop') ?? '上间距'}`}
+                                    />
+                                </Row>
+
                             </FGridItem>
-                            <FGridItem span={6}>
-                                <InputUnit
-                                    modelValue={currentValue.value.paddingBottom}
-                                    onUpdate:modelValue={(val) => {
-                                        onStyleChange({
-                                            paddingBottom: val,
-                                        });
-                                    }}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'paddingBottom') ?? '下间距'}`}
-                                />
+                            <FGridItem span={12}>
+                                <Row label="下" labelWidth={15} labelAlign="right" margin={false}>
+                                    <InputUnit
+                                        modelValue={currentValue.value.paddingBottom}
+                                        onChange={(val) => {
+                                            onStyleChange({
+                                                paddingBottom: val,
+                                            });
+                                        }}
+                                        placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'paddingBottom') ?? '下间距'}`}
+                                    />
+                                </Row>
+
                             </FGridItem>
-                            <FGridItem span={6}>
-                                <InputUnit
-                                    modelValue={currentValue.value.paddingLeft}
-                                    onUpdate:modelValue={(val) => {
-                                        onStyleChange({
-                                            paddingLeft: val,
-                                        });
-                                    }}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'paddingLeft') ?? '左间距'}`}
-                                />
+                            <FGridItem span={12}>
+                                <Row label="左" labelWidth={15} labelAlign="right" margin={false}>
+                                    <InputUnit
+                                        modelValue={currentValue.value.paddingLeft}
+                                        onChange={(val) => {
+                                            onStyleChange({
+                                                paddingLeft: val,
+                                            });
+                                        }}
+                                        placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'paddingLeft') ?? '左间距'}`}
+                                    />
+                                </Row>
+
                             </FGridItem>
-                            <FGridItem span={6}>
-                                <InputUnit
-                                    modelValue={currentValue.value.paddingRight}
-                                    onUpdate:modelValue={(val) => {
-                                        onStyleChange({
-                                            paddingRight: val,
-                                        });
-                                    }}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'paddingRight') ?? '右间距'}`}
-                                />
+                            <FGridItem span={12}>
+                                <Row label="右" labelWidth={15} labelAlign="right" margin={false}>
+                                    <InputUnit
+                                        modelValue={currentValue.value.paddingRight}
+                                        onChange={(val) => {
+                                            onStyleChange({
+                                                paddingRight: val,
+                                            });
+                                        }}
+                                        placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'paddingRight') ?? '右间距'}`}
+                                    />
+                                </Row>
+
                             </FGridItem>
                         </FGrid>
                     </Row>
                     <Row label="宽高">
-                        <FGrid gutter={[8]}>
+                        <FGrid gutter={[12, 12]}>
                             <FGridItem span={12}>
-                                <InputUnit
-                                    modelValue={currentValue.value.width}
-                                    onUpdate:modelValue={(val) => {
-                                        onStyleChange({
-                                            width: val,
-                                        });
-                                    }}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'width') ?? '宽度'}`}
-                                />
+                                <Row label="宽" labelWidth={15} labelAlign="right" margin={false}>
+                                    <InputUnit
+                                        modelValue={currentValue.value.width}
+                                        onChange={(val) => {
+                                            onStyleChange({
+                                                width: val,
+                                            });
+                                        }}
+                                        placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'width') ?? '宽度'}`}
+                                    />
+                                </Row>
                             </FGridItem>
                             <FGridItem span={12}>
-                                <InputUnit
-                                    modelValue={currentValue.value.height}
-                                    onUpdate:modelValue={(val) => {
-                                        onStyleChange({
-                                            height: val,
-                                        });
-                                    }}
-                                    placeholder={`${getPlaceholderPropertyValue(styleProvide.style, 'height') ?? '高度'}`}
-                                />
+                                <Row label="高" labelWidth={15} labelAlign="right" margin={false}>
+                                    <InputUnit
+                                        modelValue={currentValue.value.height}
+                                        onChange={(val) => {
+                                            onStyleChange({
+                                                height: val,
+                                            });
+                                        }}
+                                        placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'height') ?? '高度'}`}
+                                    />
+                                </Row>
+
                             </FGridItem>
                         </FGrid>
                     </Row>

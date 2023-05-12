@@ -1,7 +1,7 @@
 import type { INode } from '@webank/letgo-designer';
 import { isElement, isNaN, isNil, isNumber, isString } from 'lodash-es';
 
-export function getComputeStyle(node: INode): CSSStyleDeclaration | null {
+export function getComputeStyle(node: INode): Record<string, any> | null {
     const simulator = node.document.simulator;
 
     const nodeInst = simulator.getComponentInstances(node)?.[0];
@@ -12,7 +12,13 @@ export function getComputeStyle(node: INode): CSSStyleDeclaration | null {
     const nativeNode = simulator.findDOMNodes(nodeInst)?.[0];
     if (isElement(nativeNode)) {
         try {
-            return window.getComputedStyle(nativeNode as Element, null);
+            const res: Record<string, any> = {};
+            const _res = window.getComputedStyle(nativeNode as Element, null);
+            for (let i = 0; i < _res.length; i++) {
+                const propertyName: string = _res.item(i);
+                res[propertyName] = _res.getPropertyValue(propertyName);
+            }
+            return res;
         }
         catch (e) {
             console.error(e);
@@ -27,8 +33,8 @@ export function getComputeStyle(node: INode): CSSStyleDeclaration | null {
    * @param cssStyle
    * @param property
    */
-export function getPlaceholderPropertyValue(cssStyle: CSSStyleDeclaration, property: string) {
-    const propertyValue = cssStyle.getPropertyValue(toLine(property));
+export function getPlaceholderPropertyValue(cssStyle: Record<string, any>, property: string) {
+    const propertyValue = cssStyle[toLine(property)];
 
     if (propertyValue !== 'auto' && propertyValue) {
         if (property !== 'backgroundColor')

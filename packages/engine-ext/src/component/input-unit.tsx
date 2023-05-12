@@ -47,6 +47,7 @@ export const InputUnit = defineComponent({
 
         const onChangeUnit = (val: string) => {
             unitRef.value = val;
+            emit('change', addUnit(clearUnit(currentValue.value), val));
             updateCurrentValue(addUnit(clearUnit(currentValue.value), val));
         };
 
@@ -56,7 +57,10 @@ export const InputUnit = defineComponent({
                     <FInput
                         style={{ width: '100%' }}
                         modelValue={currentValue.value}
-                        onChange={updateCurrentValue}
+                        onChange={(val) => {
+                            emit('change', val);
+                            updateCurrentValue(val);
+                        }}
                         placeholder={props.placeholder}
                     />
                 );
@@ -68,6 +72,7 @@ export const InputUnit = defineComponent({
                         modelValue={clearUnit(currentValue.value)}
                         placeholder={`${clearUnit2(props.placeholder)}`}
                         onChange={(val) => {
+                            emit('change', addUnit(val, unitRef.value));
                             updateCurrentValue(addUnit(val, unitRef.value));
                         }}
                         max={unitRef.value === '%' ? 100 : undefined}
@@ -75,13 +80,7 @@ export const InputUnit = defineComponent({
                         v-slots={{
                             suffix: () => (
                                 <FDropdown
-                                    options={[{
-                                        value: 'px',
-                                        label: 'px',
-                                    }, {
-                                        value: '%',
-                                        label: '%',
-                                    }]}
+                                    options={props.units.map(item => ({ value: item, label: item }))}
                                     onClick={((val) => { unitRef.value = val; })}
                                 >
                                    <span>{unitRef.value}</span>
@@ -98,19 +97,14 @@ export const InputUnit = defineComponent({
                     modelValue={clearUnit(currentValue.value)}
                     placeholder={`${clearUnit2(props.placeholder)}`}
                     onChange={(val) => {
+                        emit('change', addUnit(val, unitRef.value));
                         updateCurrentValue(addUnit(val, unitRef.value));
                     }}
                     v-slots={{
                         suffix: () => (
                             <FDropdown
                                 trigger="click"
-                                options={[{
-                                    value: 'px',
-                                    label: 'px',
-                                }, {
-                                    value: '%',
-                                    label: '%',
-                                }]}
+                                options={props.units.map(item => ({ value: item, label: item }))}
                                 onClick={onChangeUnit}
                             >
                                <span style={{ cursor: 'pointer' }}>{unitRef.value}</span>

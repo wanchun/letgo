@@ -278,6 +278,12 @@ importers:
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
+      acorn:
+        specifier: ^8.8.2
+        version: 8.8.2
+      astring:
+        specifier: ^1.8.4
+        version: 1.8.4
       codemirror:
         specifier: ^6.0.1
         version: 6.0.1(@lezer/common@1.0.2)
@@ -3458,6 +3464,11 @@ packages:
       es-abstract: 1.21.2
       es-shim-unscopables: 1.0.0
     dev: true
+
+  /astring@1.8.4:
+    resolution: {integrity: sha512-97a+l2LBU3Op3bBQEff79i/E4jMD2ZLFD8rHx9B6mXyB2uQwhJQYfiDqUwtfjF4QA1F2qs//N6Cw8LetMbQjcw==}
+    hasBin: true
+    dev: false
 
   /async-validator@4.2.5:
     resolution: {integrity: sha512-7HhHjtERjqlNbZtqNqy2rckN/SpOOlmDliet+lP7k+eKZEjPk3DgyeU9lIXLdeLz0uBbbVp+9Qdow9wJWgwwfg==}

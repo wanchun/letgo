@@ -4,6 +4,9 @@ import { CODE_INJECTION_KEY } from '../constants';
 import type { CodeItem, CodeStruct, CodeType } from '../interface';
 import { codeTypeEdit } from './code-type';
 
+// TODO
+// state 依赖图谱
+
 function genCodeMap(code: CodeStruct) {
     const codeMap = new Map<string, CodeItem>();
 

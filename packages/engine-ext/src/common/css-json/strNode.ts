@@ -7,12 +7,12 @@ export const strNode = function (
   depth = 0,
 ): string {
     let cssString = '';
-    for (let i = 0; i <= depth; ++i)
+    for (let i = 0; i < depth; ++i)
         cssString += '  ';
 
     cssString += `${name.replace(/&&&\d+&&&/, '')} {\n`;
     cssString += toCSS(value, depth + 1);
-    for (let i = 0; i <= depth; ++i)
+    for (let i = 0; i < depth; ++i)
         cssString += '  ';
 
     cssString += '}\n';

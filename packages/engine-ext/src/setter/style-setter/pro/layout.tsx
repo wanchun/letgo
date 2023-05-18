@@ -167,7 +167,7 @@ export const LayoutView = defineComponent({
                             modelValue={currentValue.value.display}
                             placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'display') ?? '请选择布局模式'}`}
                             clearable
-                            onUpdate:modelValue={(val) => {
+                            onChange={(val) => {
                                 onStyleChange({
                                     display: val,
                                 });
@@ -202,7 +202,7 @@ export const LayoutView = defineComponent({
                                     }
                                     placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'flexDirection') ?? '请选择主轴方向'}`}
                                     clearable
-                                    onUpdate:modelValue={(val) => {
+                                    onChange={(val) => {
                                         onStyleChange({
                                             flexDirection: val,
                                         });
@@ -235,7 +235,7 @@ export const LayoutView = defineComponent({
                                     }
                                     placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'justifyContent') ?? '请选择主轴对齐'}`}
                                     clearable
-                                    onUpdate:modelValue={(val) => {
+                                    onChange={(val) => {
                                         onStyleChange({
                                             justifyContent: val,
                                         });
@@ -266,7 +266,7 @@ export const LayoutView = defineComponent({
                                     modelValue={currentValue.value.alignItems}
                                     placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'alignItems') ?? '请选择辅轴对齐'}`}
                                     clearable
-                                    onUpdate:modelValue={(val) => {
+                                    onChange={(val) => {
                                         onStyleChange({
                                             alignItems: val,
                                         });
@@ -297,7 +297,7 @@ export const LayoutView = defineComponent({
                                     modelValue={currentValue.value.flexWrap}
                                     placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'flexWrap') ?? '请选择换行模式'}`}
                                     clearable
-                                    onUpdate:modelValue={(val) => {
+                                    onChange={(val) => {
                                         onStyleChange({
                                             flexWrap: val,
                                         });

@@ -1,5 +1,7 @@
 import type { INode } from '@webank/letgo-designer';
 import { isElement, isNaN, isNil, isNumber, isString } from 'lodash-es';
+import type { CssAttributes, JSONNode } from './css-json';
+import { toCSS, toJSON } from './css-json';
 
 export function getComputeStyle(node: INode): Record<string, any> | null {
     const simulator = node.document.simulator;
@@ -107,4 +109,49 @@ export function hex(color: string) {
  */
 export function toLine(styleKey: string) {
     return styleKey.replace(/([A-Z])/g, '-$1').toLowerCase();
+}
+
+export function toHump(name: String) {
+    return name.replace(/\-(\w)/g, (all, letter) => {
+        return letter.toUpperCase();
+    });
+}
+
+export function parseToCssCode(styleData: Record<string, any>) {
+    const parseStyleData: CssAttributes = {};
+    for (const styleKey in styleData)
+        parseStyleData[toLine(styleKey)] = styleData[styleKey];
+
+    const cssJson: JSONNode = {
+        children: {
+            '#main': {
+                children: {},
+                attributes: parseStyleData,
+            },
+        },
+        attributes: {},
+    };
+
+    return toCSS(cssJson);
+}
+
+export function parseToStyleData(cssCode: string) {
+    const styleData: Record<string, string | number> = {};
+    try {
+        const cssJson = toJSON(cssCode);
+        const mainKey = Object.keys(cssJson?.children).filter((key) => {
+            return key.includes('#main');
+        })?.[0];
+        if (mainKey) {
+            const cssJsonData = cssJson?.children?.[mainKey]?.attributes;
+            for (const key in cssJsonData)
+                styleData[toHump(key)] = cssJsonData[key];
+        }
+
+        return styleData;
+    }
+    catch (e: unknown) {
+        console.error((e as Error).message);
+        return null;
+    }
 }

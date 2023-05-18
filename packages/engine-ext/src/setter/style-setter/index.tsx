@@ -2,9 +2,10 @@ import type { CSSProperties, PropType } from 'vue';
 import { defineComponent, onMounted, provide, ref } from 'vue';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { useModel } from '@webank/letgo-utils';
+import { isNil } from 'lodash-es';
 import { FCollapse } from '@fesjs/fes-design';
 import { commonProps, getComputeStyle } from '../../common';
-import { BackgroundView, BorderView, FontView, LayoutView, PositionView } from './pro';
+import { BackgroundView, BorderView, CodeView, FontView, LayoutView, PositionView } from './pro';
 import { styleKey } from './const';
 import { wrapperCls } from './index.css';
 
@@ -41,10 +42,20 @@ const StyleSetterView = defineComponent({
             defaultValue: {},
         });
 
-        const onStyleChange = (changedStyle: CSSProperties) => {
-            const styleData = { ...currentValue.value, ...changedStyle };
-            updateCurrentValue(styleData);
-            props.onChange(styleData);
+        const onStyleChange = (changedStyle: Record<string, any>, assign = true) => {
+            if (assign) {
+                // 把属性值中的 ’‘，null 转换成 undefined
+                for (const p in changedStyle)
+                    changedStyle[p] = (isNil(changedStyle[p]) || changedStyle[p] === '') ? undefined : changedStyle[p];
+
+                const styleData = { ...currentValue.value, ...changedStyle };
+                updateCurrentValue(styleData);
+                props.onChange(styleData);
+            }
+            else {
+                updateCurrentValue(changedStyle);
+                props.onChange(changedStyle);
+            }
         };
 
         const showItems = ref(['layout', 'font', 'background', 'border', 'position']);
@@ -53,35 +64,39 @@ const StyleSetterView = defineComponent({
             const { styleModuleList } = props;
             return (
                 <div class={wrapperCls}>
+                    <CodeView
+                        value={currentValue.value}
+                        onStyleChange={onStyleChange}
+                    />
                     <FCollapse v-model={showItems.value} arrow="left" embedded={false}>
                         {styleModuleList.includes('layout') && (
                             <LayoutView
                                 onStyleChange={onStyleChange}
-                                value={currentValue.value}
+                                value={currentValue.value ?? {}}
                             />
                         )}
                         {styleModuleList.includes('font') && (
                             <FontView
                                 onStyleChange={onStyleChange}
-                                value={currentValue.value}
+                                value={currentValue.value ?? {}}
                             />
                         )}
                         {styleModuleList.includes('background') && (
                             <BackgroundView
                                 onStyleChange={onStyleChange}
-                                value={currentValue.value}
+                                value={currentValue.value ?? {}}
                             />
                         )}
                         {styleModuleList.includes('border') && (
                             <BorderView
                                 onStyleChange={onStyleChange}
-                                value={currentValue.value}
+                                value={currentValue.value ?? {}}
                             />
                         )}
                         {styleModuleList.includes('position') && (
                             <PositionView
                                 onStyleChange={onStyleChange}
-                                value={currentValue.value}
+                                value={currentValue.value ?? {}}
                             />
                         )}
                     </FCollapse>

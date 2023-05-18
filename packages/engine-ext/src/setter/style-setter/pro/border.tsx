@@ -133,9 +133,11 @@ export const BorderView = defineComponent({
             if (boxShadowStyleRef.value.color)
                 arr.push(boxShadowStyleRef.value.color);
 
-            onStyleChange({
-                boxShadow: arr.join(' '),
-            });
+            if (arr?.length) {
+                onStyleChange({
+                    boxShadow: arr.join(' '),
+                });
+            }
         }, {
             deep: true,
         });

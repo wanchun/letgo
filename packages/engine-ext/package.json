@@ -23,7 +23,9 @@
     "@vanilla-extract/css": "^1.11.0",
     "@webank/letgo-designer": "workspace:*",
     "@webank/letgo-types": "workspace:*",
-    "@webank/letgo-utils": "workspace:*"
+    "@webank/letgo-utils": "workspace:*",
+    "codemirror": "^6.0.1",
+    "@codemirror/lang-css": "^6.2.0"
   },
   "publishConfig": {
     "access": "public"

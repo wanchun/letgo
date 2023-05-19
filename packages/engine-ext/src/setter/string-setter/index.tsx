@@ -1,5 +1,5 @@
 import { defineComponent, onMounted } from 'vue';
-import { IPublicTypeSetter } from '@webank/letgo-types';
+import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { isUndefined } from 'lodash-es';
 import { FInput } from '@fesjs/fes-design';
 import { commonProps } from '../../common';

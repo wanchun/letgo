@@ -26,6 +26,7 @@ const ColorSetterView = defineComponent({
                     onChange={(event: Event) => {
                         props.onChange((event.target as HTMLInputElement).value);
                     }}
+                    placeholder={props.placeholder || ''}
                 ></InputColor>
             );
         };

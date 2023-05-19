@@ -28,7 +28,9 @@ export const CodeView = defineComponent({
                     modelValue={code.value}
                     onUpdate:modelValue={onStyleChange}
                     basic={true}
+                    tab={true}
                     tabSize={4}
+                    lang={css()}
                     extensions={[css()]}
                 />
             );

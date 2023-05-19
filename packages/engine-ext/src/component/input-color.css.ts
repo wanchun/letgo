@@ -10,6 +10,12 @@ export const inputWrapCls = style({
     lineHeight: '32px',
     width: '100%',
     padding: '0 8px',
+    selectors: {
+        '&:hover': {
+            borderColor: '#5384ff',
+            boxShadow: '0 0 0 2px #dde6ff',
+        },
+    },
 });
 
 export const inputCls = style({

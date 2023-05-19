@@ -49,6 +49,7 @@ import {
 import { indentWithTab } from '@codemirror/commands';
 import type { LanguageSupport } from '@codemirror/language';
 import type { StyleSpec } from 'style-mod';
+import { wrapCls } from './code-mirror.css';
 
 /** CodeMirror Component */
 export default defineComponent({
@@ -684,6 +685,7 @@ export default defineComponent({
             this.$props.tag,
             {
                 ref: 'editor',
+                class: wrapCls,
             },
             this.$slots.default // Hide original content
                 ? h(

@@ -25,7 +25,8 @@
     "@webank/letgo-types": "workspace:*",
     "@webank/letgo-utils": "workspace:*",
     "codemirror": "^6.0.1",
-    "@codemirror/lang-css": "^6.2.0"
+    "@codemirror/lang-css": "^6.2.0",
+    "@codemirror/lang-json": "^6.0.1"
   },
   "publishConfig": {
     "access": "public"

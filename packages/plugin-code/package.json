@@ -38,6 +38,6 @@
   },
   "typings": "./es/index.d.ts",
   "devDependencies": {
-    "@types/lodash": "^4.14.194"
+    "@types/lodash-es": "^4.17.6"
   }
 }

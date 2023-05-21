@@ -97,9 +97,9 @@ export function findDependencyState(code: string, isInclude: (name: string) => b
     return result;
 }
 
-export function attachContext(code: string, isExclude: (name: string) => boolean) {
+export function attachContext(code: string, isInclude: (name: string) => boolean) {
     const ast = transformExpression(code, (identifier) => {
-        if (!isExclude(identifier.name))
+        if (isInclude(identifier.name))
             identifier.name = `_ctx.${identifier.name}`;
     });
     return generate(ast);

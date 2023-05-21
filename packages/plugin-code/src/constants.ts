@@ -8,4 +8,5 @@ export const TEMPORARY_STATE = 'state';
 export const CODE_INJECTION_KEY: InjectionKey<CodeInject>
     = Symbol('code');
 
+export const EXPRESSION_REGEX = /{{(.*?)}}/;
 export const GLOBAL_VARIABLE = ['localStorage'];

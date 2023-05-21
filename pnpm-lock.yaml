@@ -294,9 +294,9 @@ importers:
         specifier: ^3.2.37
         version: 3.2.47
     devDependencies:
-      '@types/lodash':
-        specifier: ^4.14.194
-        version: 4.14.194
+      '@types/lodash-es':
+        specifier: ^4.17.6
+        version: 4.17.6
 
   packages/plugin-code-generator:
     dependencies:

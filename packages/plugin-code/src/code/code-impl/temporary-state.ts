@@ -1,17 +1,16 @@
-import type { Ref } from 'vue';
-import { ref } from 'vue';
 import { isNil } from 'lodash-es';
 import { hasExpression, replaceExpression } from '../../helper';
 import { attachContext } from './transform-expression';
 
 // 解析执行
+// TODO 监听 dependency state 的变更,重新执行代码
 export class TemporaryStateImpl {
     id: string;
-    value: Ref<any>;
+    value: any;
     constructor(id: string, initValue: string) {
         this.id = id;
 
-        this.value = ref(this.executeInput(initValue));
+        this.value = this.executeInput(initValue);
     }
 
     executeInput(text?: string) {
@@ -42,6 +41,6 @@ export class TemporaryStateImpl {
     }
 
     setValue(value: any) {
-        this.value.value = value;
+        this.value = value;
     }
 }

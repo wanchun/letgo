@@ -88,7 +88,7 @@ function transformExpression(code: string, callback: Callback) {
     return content;
 }
 
-export function findDependencyState(code: string, isInclude: (name: string) => boolean) {
+export function findExpressionDependencyCode(code: string, isInclude: (name: string) => boolean) {
     const result: string[] = [];
     transformExpression(code, (identifier) => {
         if (isInclude(identifier.name))

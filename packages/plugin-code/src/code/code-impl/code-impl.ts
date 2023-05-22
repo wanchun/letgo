@@ -4,17 +4,20 @@
 
 import { JAVASCRIPT_COMPUTED, JAVASCRIPT_QUERY, TEMPORARY_STATE } from '../../constants';
 import type { CodeItem } from '../../interface';
+import { extractExpression } from '../../helper';
 import { findExpressionDependencyCode } from './transform-expression';
 import { topologicalSort } from './dag';
 import { TemporaryStateImpl } from './temporary-state';
 
-export function genCodeDependencies(codeMap: Map<string, CodeItem>) {
+export function getCodeInstance(codeMap: Map<string, CodeItem>) {
     const dependencyMap = new Map<string, string[]>();
     for (const [codeId, item] of codeMap) {
-        let dependencies: string[];
+        let dependencies: string[] = [];
         if (item.type === TEMPORARY_STATE) {
-            dependencies = findExpressionDependencyCode(item.type, (name: string) => {
-                return codeMap.has(name);
+            extractExpression(item.initValue).forEach((expression) => {
+                dependencies = dependencies.concat(findExpressionDependencyCode(expression, (name: string) => {
+                    return codeMap.has(name);
+                }));
             });
         }
         else if (item.type === JAVASCRIPT_COMPUTED) {

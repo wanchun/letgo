@@ -22,10 +22,10 @@ export class TemporaryStateImpl {
         if (isNil(text))
             return null;
         if (hasExpression(text)) {
-            // TODO new Function 实现代码解析之行能力
             const codeStr = replaceExpression(text, (_, expression) => {
                 return `\${${attachContext(expression, name => this.deps.includes(name))}}`;
             });
+            console.log(codeStr);
             // eslint-disable-next-line no-new-func
             const fn = new Function('_ctx', `return \`${codeStr}\``);
             return fn(this.ctx);

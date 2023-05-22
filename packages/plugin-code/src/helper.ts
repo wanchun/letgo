@@ -5,7 +5,7 @@ export function hasExpression(doc: string) {
 }
 
 export function extractExpression(doc: string) {
-    const result = new Set();
+    const result = new Set<string>();
     const regex = new RegExp(EXPRESSION_REGEX, 'gs');
     let match;
     // eslint-disable-next-line no-cond-assign

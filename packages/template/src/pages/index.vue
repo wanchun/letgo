@@ -11,7 +11,7 @@ export default defineComponent({
                 vueRuntimeUrl:
                     'https://unpkg.com/vue/dist/vue.runtime.global.js',
                 simulatorUrl: [
-                    'https://lf1-cdn-tos.bytegoofy.com/obj/iconpark/svg_25753_4.6ca55b00036f904b475e4942675f999c.js',
+                    'https://lf1-cdn-tos.bytegoofy.com/obj/iconpark/svg_25753_22.ce2d9ec2f0a0485d535c374cb4d448a5.js',
                     'http://127.0.0.1:8082/index.umd.js',
                     'http://127.0.0.1:8082/style.css',
                 ],

@@ -32,13 +32,13 @@ const assets: IPublicTypeAssetsJson = {
                 },
             ],
             configure: {
-                // props: [
-                //     {
-                //         name: 'test',
-                //         title: '测试',
-                //         setter: 'JsonSetter',
-                //     },
-                // ],
+                props: [
+                    {
+                        name: 'test',
+                        title: '图标',
+                        setter: 'IconSetter',
+                    },
+                ],
                 supports: {
                     style: true,
                 },

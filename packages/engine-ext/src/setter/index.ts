@@ -12,3 +12,4 @@ export * from './object-setter';
 export * from './array-setter';
 export * from './slot-setter';
 export * from './json-setter';
+export * from './icon-setter';

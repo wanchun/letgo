@@ -6,6 +6,7 @@ import { JAVASCRIPT_COMPUTED, JAVASCRIPT_QUERY, TEMPORARY_STATE } from '../../co
 import type { CodeItem } from '../../interface';
 import { findExpressionDependencyCode } from './transform-expression';
 import { topologicalSort } from './dag';
+import { TemporaryStateImpl } from './temporary-state';
 
 export function genCodeDependencies(codeMap: Map<string, CodeItem>) {
     const dependencyMap = new Map<string, string[]>();
@@ -33,5 +34,20 @@ export function genCodeDependencies(codeMap: Map<string, CodeItem>) {
         throw new Error(`There is a cycle in the dependencies: ${cycleDep.join(',')}.`);
     }
 
-    // TODO 初始化
+    const codeInstance: Record<string, TemporaryStateImpl> = {};
+    // 最底层的依赖最先被实例化
+    sortResult.reverse().forEach((codeId) => {
+        const item = codeMap.get(codeId);
+        if (item.type === TEMPORARY_STATE) {
+            codeInstance[codeId] = new TemporaryStateImpl(item, dependencyMap.get(codeId), codeInstance);
+        }
+        else if (item.type === JAVASCRIPT_COMPUTED) {
+            // TODO computed 实例化
+        }
+        else if (item.type === JAVASCRIPT_QUERY) {
+            // TODO  query 实例化
+        }
+    });
+
+    return codeInstance;
 }

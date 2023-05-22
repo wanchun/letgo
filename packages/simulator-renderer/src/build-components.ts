@@ -1,13 +1,15 @@
-import { Component, defineComponent, h } from 'vue';
+import type { Component } from 'vue';
+import { defineComponent, h } from 'vue';
 import { isFunction, isObject } from 'lodash-es';
-import { isESModule } from './utils';
 import type { IPublicTypeComponentSchema, IPublicTypeNpmInfo } from '@webank/letgo-types';
+import { isESModule } from './utils';
 
 export function isVueComponent(val: unknown): val is Component {
-    if (isFunction(val)) return true;
-    if (isObject(val) && ('render' in val || 'setup' in val)) {
+    if (isFunction(val))
         return true;
-    }
+    if (isObject(val) && ('render' in val || 'setup' in val))
+        return true;
+
     return false;
 }
 
@@ -18,9 +20,8 @@ export function isComponentSchema(val: unknown) {
 }
 
 export function accessLibrary(library: string | Record<string, unknown>) {
-    if (typeof library !== 'string') {
+    if (typeof library !== 'string')
         return library;
-    }
 
     return (window as any)[library] || generateHtmlComp(library);
 }
@@ -35,9 +36,9 @@ export function generateHtmlComp(library: string) {
 
 export function getSubComponent(library: any, paths: string[]) {
     const l = paths.length;
-    if (l < 1 || !library) {
+    if (l < 1 || !library)
         return library;
-    }
+
     let i = 0;
     let component: any;
     while (i < l) {
@@ -45,16 +46,18 @@ export function getSubComponent(library: any, paths: string[]) {
         let ex: any;
         try {
             component = library[key];
-        } catch (e) {
+        }
+        catch (e) {
             ex = e;
             component = null;
         }
         if (i === 0 && component == null && key === 'default') {
-            if (ex) {
+            if (ex)
                 return l === 1 ? library : null;
-            }
+
             component = library;
-        } else if (component == null) {
+        }
+        else if (component == null) {
             return null;
         }
         library = component;
@@ -68,18 +71,19 @@ export function findComponent(
     componentName: string,
     npm?: IPublicTypeNpmInfo,
 ) {
-    if (!npm) {
+    if (!npm)
         return accessLibrary(componentName);
-    }
+
     const exportName = npm.exportName || npm.componentName || componentName;
     const libraryName = libraryMap[npm.package] || exportName;
     const library = accessLibrary(libraryName);
-    const paths = npm.exportName && npm.subName ? npm.subName.split('.') : [];
-    if (npm.destructuring) {
+    const paths = (npm.exportName && npm.subName) ? npm.subName.split('.') : [];
+    if (npm.destructuring)
         paths.unshift(exportName);
-    } else if (isESModule(library)) {
+
+    else if (isESModule(library))
         paths.unshift('default');
-    }
+
     return getSubComponent(library, paths);
 }
 
@@ -97,17 +101,18 @@ export function buildComponents(
                     component as IPublicTypeComponentSchema,
                 );
             }
-        } else if (isVueComponent(component)) {
+        }
+        else if (isVueComponent(component)) {
             components[componentName] = component;
-        } else {
+        }
+        else {
             component = findComponent(
                 libraryMap,
                 componentName,
                 component as IPublicTypeNpmInfo,
             );
-            if (component) {
+            if (component)
                 components[componentName] = component;
-            }
         }
     });
     return components;

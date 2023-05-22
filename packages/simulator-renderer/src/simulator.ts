@@ -25,7 +25,7 @@ import type {
     VueSimulatorRenderer,
 } from './interface';
 import { RendererView, SimulatorRendererView } from './simulator-view';
-import { Leaf, Page, Slot } from './built-in-components';
+import { Icon, Leaf, Page, Slot } from './built-in-components';
 import { host } from './host';
 import {
     ComponentRecord,
@@ -39,7 +39,7 @@ import {
 } from './utils';
 import './simulator.css';
 
-const builtinComponents = { Slot, Leaf, Page };
+const builtinComponents = { Slot, Leaf, Page, Icon };
 
 function createDocumentInstance(document: DocumentModel): DocumentInstance {
     /** 记录单个节点的组件实例列表 */

@@ -33,11 +33,6 @@ const assets: IPublicTypeAssetsJson = {
             ],
             configure: {
                 props: [
-                    {
-                        name: 'test',
-                        title: '图标',
-                        setter: 'IconSetter',
-                    },
                 ],
                 supports: {
                     style: true,
@@ -88,6 +83,61 @@ const assets: IPublicTypeAssetsJson = {
                     propType: 'string',
                 },
             ],
+            snippets: [
+                {
+                    title: '图片',
+                    schema: {
+                        componentName: 'img',
+                        props: {
+                            src: '',
+                        },
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '基础元素',
+            priority: 0,
+        },
+        {
+            title: '图标',
+            componentName: 'Icon',
+            configure: {
+                props: [
+                    {
+                        name: 'type',
+                        title: '图标',
+                        setter: 'IconSetter',
+                    },
+                    {
+                        name: 'size',
+                        title: '大小',
+                        setter: 'NumberSetter',
+                    },
+                    {
+                        name: 'color',
+                        title: '颜色',
+                        setter: 'ColorSetter',
+                    },
+                    {
+                        name: 'rotate',
+                        title: '旋转',
+                        setter: 'NumberSetter',
+                    },
+                ],
+            },
+            snippets: [
+                {
+                    title: '图标',
+                    schema: {
+                        componentName: 'Icon',
+                        props: {
+                        },
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '基础元素',
+            priority: 0,
         },
         {
             title: '文本',

@@ -39,7 +39,7 @@ export class ComputedImpl {
             return null;
         if (hasExpression(text)) {
             const codeStr = replaceExpression(text, (_, expression) => {
-                return `\${${attachContext(expression, name => this.deps.includes(name))}}`;
+                return attachContext(expression, name => this.deps.includes(name));
             });
             // eslint-disable-next-line no-new-func
             const fn = new Function('_ctx', codeStr);

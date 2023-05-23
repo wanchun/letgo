@@ -8,21 +8,23 @@ import { findExpressionDependencyCode, transformExpression } from './transform-e
 import { topologicalSort } from './dag';
 import { TemporaryStateImpl } from './temporary-state';
 
+// javascript query 由于过于复杂，不计算依赖关系
 function calcDependencies(item: CodeItem, codeMap: Map<string, CodeItem>) {
     let dependencies: string[] = [];
-    if (item.type === TEMPORARY_STATE) {
-        extractExpression(item.initValue).forEach((expression) => {
+    let inputCode: string;
+    if (item.type === TEMPORARY_STATE)
+        inputCode = item.initValue;
+    else if (item.type === JAVASCRIPT_COMPUTED)
+        inputCode = item.funcBody;
+
+    if (inputCode) {
+        extractExpression(inputCode).forEach((expression) => {
             dependencies = dependencies.concat(findExpressionDependencyCode(expression, (name: string) => {
                 return codeMap.has(name);
             }));
         });
     }
-    else if (item.type === JAVASCRIPT_COMPUTED) {
-        // TODO computed item.funBody 计算依赖关系
-    }
-    else if (item.type === JAVASCRIPT_QUERY) {
-        // TODO  query item.query 计算依赖关系
-    }
+
     return dependencies;
 }
 

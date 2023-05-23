@@ -10,7 +10,7 @@ export interface FailureCondition {
 }
 
 export enum RunCondition {
-    ModelUpdate,
+    MANUAL,
     PageLoads,
 }
 

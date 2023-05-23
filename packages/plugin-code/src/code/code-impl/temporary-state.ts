@@ -10,12 +10,25 @@ export class TemporaryStateImpl {
     deps: string[];
     ctx: Record<string, any>;
     value: any;
+    initValue: string;
     constructor(data: TemporaryState, deps: string[], ctx: Record<string, any>) {
         this.id = data.id;
-        this.deps = deps;
+        this.deps = deps || [];
         this.ctx = ctx;
+        this.initValue = data.initValue;
 
-        this.value = this.executeInput(data.initValue);
+        this.value = this.executeInput(this.initValue);
+    }
+
+    changeContent(content: Record<string, any>) {
+        if (content.initValue) {
+            this.initValue = content.initValue;
+            this.value = this.executeInput(content.initValue);
+        }
+    }
+
+    recalculateValue() {
+        this.value = this.executeInput(this.initValue);
     }
 
     executeInput(text?: string) {
@@ -25,7 +38,6 @@ export class TemporaryStateImpl {
             const codeStr = replaceExpression(text, (_, expression) => {
                 return `\${${attachContext(expression, name => this.deps.includes(name))}}`;
             });
-            console.log(codeStr);
             // eslint-disable-next-line no-new-func
             const fn = new Function('_ctx', `return \`${codeStr}\``);
             return fn(this.ctx);

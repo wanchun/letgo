@@ -3,6 +3,7 @@ import { createSharedComposable } from '@vueuse/core';
 import { CODE_INJECTION_KEY } from '../constants';
 import type { CodeItem, CodeStruct, CodeType } from '../interface';
 import { codeTypeEdit } from './code-type';
+import { useCodeInstance } from './code-impl/code-impl';
 
 function genCodeMap(code: CodeStruct) {
     const codeMap = new Map<string, CodeItem>();
@@ -27,6 +28,12 @@ function useCode() {
     });
 
     const codeMap = genCodeMap(code);
+    const {
+        codeInstances,
+        createCodeInstance,
+        deleteCodeInstance,
+        changeCodeInstance,
+    } = useCodeInstance(codeMap);
 
     const hasCodeId = (id: string) => {
         return codeMap.has(id);
@@ -35,6 +42,7 @@ function useCode() {
     const changeCodeId = (id: string, preId: string) => {
         const item = codeMap.get(preId);
         if (item) {
+            // TODO 所有 deps 依赖了该 code 的都需要变
             item.id = id;
             codeMap.delete(preId);
             codeMap.set(id, item);
@@ -57,6 +65,8 @@ function useCode() {
 
         code.code.push(item);
         codeMap.set(id, code.code[code.code.length - 1]);
+
+        createCodeInstance(code.code[code.code.length - 1]);
     };
 
     const deleteCodeItem = (id: string) => {
@@ -76,11 +86,15 @@ function useCode() {
                 }
             }
         }
+
+        deleteCodeInstance(id);
     };
 
     const changeCodeItemContent = (id: string, content: Record<string, any>) => {
         const item = codeMap.get(id);
         Object.assign(item, content);
+
+        changeCodeInstance(id, content);
     };
 
     const currentCodeItem = ref<CodeItem>();
@@ -93,6 +107,8 @@ function useCode() {
     });
 
     return {
+        codeInstances,
+
         code,
         changeCodeId,
         addCodeItem,

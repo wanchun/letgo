@@ -1,22 +1,22 @@
 import { isNil } from 'lodash-es';
 import { hasExpression, replaceExpression } from '../../helper';
-import type { TemporaryState } from '../../interface';
+import type { JavascriptComputed } from '../../interface';
 import { attachContext } from './transform-expression';
 
-// 解析执行
-export class TemporaryStateImpl {
+// TODO 变量变更监听
+export class ComputedImpl {
     id: string;
     deps: string[];
     ctx: Record<string, any>;
     value: any;
-    initValue: string;
-    constructor(data: TemporaryState, deps: string[], ctx: Record<string, any>) {
+    funcBody: string;
+    constructor(data: JavascriptComputed, deps: string[], ctx: Record<string, any>) {
         this.id = data.id;
         this.deps = deps || [];
         this.ctx = ctx;
-        this.initValue = data.initValue;
+        this.funcBody = data.funcBody;
 
-        this.value = this.executeInput(this.initValue);
+        this.value = this.executeInput(this.funcBody);
     }
 
     changeId(id: string) {
@@ -24,14 +24,14 @@ export class TemporaryStateImpl {
     }
 
     changeContent(content: Record<string, any>) {
-        if (content.initValue) {
-            this.initValue = content.initValue;
-            this.value = this.executeInput(content.initValue);
+        if (content.funcBody) {
+            this.funcBody = content.funcBody;
+            this.value = this.executeInput(content.funcBody);
         }
     }
 
     recalculateValue() {
-        this.value = this.executeInput(this.initValue);
+        this.value = this.executeInput(this.funcBody);
     }
 
     executeInput(text?: string) {
@@ -42,16 +42,13 @@ export class TemporaryStateImpl {
                 return `\${${attachContext(expression, name => this.deps.includes(name))}}`;
             });
             // eslint-disable-next-line no-new-func
-            const fn = new Function('_ctx', `return \`${codeStr}\``);
+            const fn = new Function('_ctx', codeStr);
             return fn(this.ctx);
         }
         else {
-            try {
-                return JSON.parse(text);
-            }
-            catch (_) {
-                return text;
-            }
+            // eslint-disable-next-line no-new-func
+            const fn = new Function(this.funcBody);
+            return fn(this.ctx);
         }
     }
 
@@ -60,9 +57,5 @@ export class TemporaryStateImpl {
             id: this.id,
             value: this.value,
         };
-    }
-
-    setValue(value: any) {
-        this.value = value;
     }
 }

@@ -1,13 +1,10 @@
-/**
- * TODO 计算状初始化顺序
- */
-
 import { FMessage } from '@fesjs/fes-design';
 import { isNil } from 'lodash-es';
+import { generate } from 'astring';
 import { JAVASCRIPT_COMPUTED, JAVASCRIPT_QUERY, TEMPORARY_STATE } from '../../constants';
 import type { CodeItem } from '../../interface';
-import { extractExpression } from '../../helper';
-import { findExpressionDependencyCode } from './transform-expression';
+import { extractExpression, replaceExpression } from '../../helper';
+import { findExpressionDependencyCode, transformExpression } from './transform-expression';
 import { topologicalSort } from './dag';
 import { TemporaryStateImpl } from './temporary-state';
 
@@ -28,6 +25,8 @@ function calcDependencies(item: CodeItem, codeMap: Map<string, CodeItem>) {
     }
     return dependencies;
 }
+
+// TODO 修改 change id
 
 export function useCodeInstance(codeMap: Map<string, CodeItem>) {
     const dependencyMap = new Map<string, string[]>();
@@ -88,6 +87,28 @@ export function useCodeInstance(codeMap: Map<string, CodeItem>) {
         }
     };
 
+    const changeCodeInstanceId = (id: string, preId: string) => {
+        dependencyMap.set(id, dependencyMap.get(id));
+        codeInstances[id] = codeInstances[preId];
+        codeInstances[id].changeId(id);
+        const item = codeMap.get(id);
+
+        for (const [_, deps] of dependencyMap) {
+            if (deps.includes(preId)) {
+                if (item.type === TEMPORARY_STATE) {
+                    replaceExpression(item.initValue, (_, expression) => {
+                        const ast = transformExpression(expression, (identity) => {
+                            if (identity.name === preId)
+                                identity.name = id;
+                        });
+                        return `\${${generate(ast)}`;
+                    });
+                }
+                // TODO 改其他类型
+            }
+        }
+    };
+
     const init = () => {
         try {
             const sortResult = checkCycleDependency();
@@ -110,5 +131,6 @@ export function useCodeInstance(codeMap: Map<string, CodeItem>) {
         createCodeInstance,
         deleteCodeInstance,
         changeCodeInstance,
+        changeCodeInstanceId,
     };
 }

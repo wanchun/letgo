@@ -70,7 +70,7 @@ function walkAst(expression: AstNode, callback: Callback) {
 
 //  * 要判断是不是表达式
 //  * 要判断是不是有多个表达式
-function transformExpression(code: string, callback: Callback) {
+export function transformExpression(code: string, callback: Callback) {
     const ast = parse(code, {
         ecmaVersion: 2022,
     });

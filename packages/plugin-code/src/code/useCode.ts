@@ -33,6 +33,7 @@ function useCode() {
         createCodeInstance,
         deleteCodeInstance,
         changeCodeInstance,
+        changeCodeInstanceId,
     } = useCodeInstance(codeMap);
 
     const hasCodeId = (id: string) => {
@@ -46,6 +47,8 @@ function useCode() {
             item.id = id;
             codeMap.delete(preId);
             codeMap.set(id, item);
+
+            changeCodeInstanceId(id, preId);
         }
     };
     const genCodeId = (type: CodeType) => {

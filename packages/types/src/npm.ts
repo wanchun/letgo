@@ -3,10 +3,6 @@
  */
 export interface IPublicTypeNpmInfo {
     /**
-     * 源码组件名称
-     */
-    componentName?: string
-    /**
      * 源码组件库名
      */
     package: string

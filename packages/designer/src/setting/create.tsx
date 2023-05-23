@@ -1,28 +1,31 @@
 import type { PropType, VNode } from 'vue';
 import { computed, createVNode, defineComponent, h } from 'vue';
-import type { IPublicTypeCustomView } from '@webank/letgo-types';
+import type { IPublicTypeCustomView, IPublicTypeDisplay } from '@webank/letgo-types';
 import { isSetterConfig } from '@webank/letgo-types';
 import { isFunction } from 'lodash-es';
 import type { IFieldProps } from './fields';
-import { FieldView, PlainFieldView } from './fields';
+import { AccordionFieldView, BlockFieldView, InlineFieldView, PlainFieldView, PopupFieldView } from './fields';
 import type { SettingField } from './setting-field';
 import { SetterFactory } from './setter-manager';
 
 export function createFieldContent(
     props: IFieldProps,
     children: any[],
-    type?: 'accordion' | 'inline' | 'block' | 'plain' | 'popup' | 'entry',
+    type?: IPublicTypeDisplay,
 ) {
-    // if (type === 'popup') {
-    //     return createVNode(PopupField, props, children);
-    // }
-    // if (type === 'entry') {
-    //     return createVNode(EntryField, props, children);
-    // }
     if (type === 'plain' || !props.title)
         return h(PlainFieldView, {}, () => children);
 
-    return h(FieldView, { ...props, display: type }, () => children);
+    if (type === 'popup')
+        return h(PopupFieldView, props, () => children);
+
+    if (type === 'block')
+        return h(BlockFieldView, props, () => children);
+
+    if (type === 'accordion')
+        return h(AccordionFieldView, props, () => children);
+
+    return h(InlineFieldView, props, () => children);
 }
 
 export function createSetterContent(
@@ -59,8 +62,9 @@ export const SettingGroupView = defineComponent({
 
         return createFieldContent(
             {
+                meta: field.componentMeta?.npm || field.componentMeta?.componentName || '',
                 title: field.title,
-                collapsed: !field.expanded,
+                expanded: field.expanded.value,
                 onExpandChange: expandState => field.setExpanded(expandState),
             },
             field.items.map((item) => {
@@ -164,10 +168,13 @@ export const SettingFieldView = defineComponent({
 
         return createFieldContent(
             {
+                meta: field.componentMeta?.npm || field.componentMeta?.componentName || '',
                 title: field.title,
+                expanded: field.expanded.value,
                 onExpandChange: expandState => field.setExpanded(expandState),
                 onClear: () => field.clearValue(),
-                ...extraProps,
+                // TODO: 暂时不知道要干嘛
+                // ...extraProps,
             },
             createSetterContent(setterType, {
                 ...setterProps,

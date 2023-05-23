@@ -730,7 +730,8 @@ const assets: IPublicTypeAssetsJson = {
                     {
                         name: 'item-style',
                         title: '节点样式',
-                        setter: 'StringSetter',
+                        display: 'popup',
+                        setter: 'StyleSetter',
                     },
                 ],
             },
@@ -1262,12 +1263,8 @@ const assets: IPublicTypeAssetsJson = {
                             {
                                 name: 'label-style',
                                 title: '标签样式',
-                                setter: {
-                                    componentName: 'MixedSetter',
-                                    props: {
-                                        setters: ['StringSetter', 'JsonSetter'],
-                                    },
-                                },
+                                display: 'popup',
+                                setter: 'StyleSetter',
                             },
                         ],
                     },
@@ -1647,41 +1644,42 @@ const assets: IPublicTypeAssetsJson = {
             configure: {
                 props: [
                     {
+                        name: 'options',
+                        title: '选项',
+                        display: 'block',
+                        setter: {
+                            componentName: 'ArraySetter',
+                            props: {
+                                itemSetter: {
+                                    componentName: 'ObjectSetter',
+                                    props: {
+                                        items: [
+                                            {
+                                                name: 'value',
+                                                title: '选项值',
+                                                setter: [
+                                                    'StringSetter',
+                                                    'NumberSetter',
+                                                ],
+                                            },
+                                            {
+                                                name: 'label',
+                                                title: '选项名',
+                                                setter: 'StringSetter',
+                                            },
+                                        ],
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    {
                         title: '选项配置',
                         type: 'group',
                         extraProps: {
                             display: 'block',
                         },
                         items: [
-                            {
-                                name: 'options',
-                                title: '选项',
-                                setter: {
-                                    componentName: 'ArraySetter',
-                                    props: {
-                                        itemSetter: {
-                                            componentName: 'ObjectSetter',
-                                            props: {
-                                                items: [
-                                                    {
-                                                        name: 'value',
-                                                        title: '选项值',
-                                                        setter: [
-                                                            'StringSetter',
-                                                            'NumberSetter',
-                                                        ],
-                                                    },
-                                                    {
-                                                        name: 'label',
-                                                        title: '选项名',
-                                                        setter: 'StringSetter',
-                                                    },
-                                                ],
-                                            },
-                                        },
-                                    },
-                                },
-                            },
                             {
                                 name: 'valueField',
                                 title: 'value字段',
@@ -2626,6 +2624,12 @@ const assets: IPublicTypeAssetsJson = {
                         setter: 'BoolSetter',
                         defaultValue: false,
                     },
+                    {
+                        name: 'containerStyle',
+                        title: '内容样式',
+                        setter: 'StyleSetter',
+                        display: 'popup',
+                    },
                 ],
                 component: {
                     isContainer: true,
@@ -2996,11 +3000,11 @@ const assets: IPublicTypeAssetsJson = {
                                                 title: '是否禁用',
                                                 setter: 'BoolSetter',
                                             },
-                                            // {
-                                            //     name: 'icon',
-                                            //     title: '图标',
-                                            //     setter: '',
-                                            // },
+                                            {
+                                                name: 'icon',
+                                                title: '图标',
+                                                setter: 'IconSetter',
+                                            },
                                         ],
                                     },
                                 },

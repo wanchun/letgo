@@ -1,6 +1,8 @@
 import type { IPublicTypeSetterType } from './setter-config';
 import type { IPublicTypeSettingTarget } from './setting-target';
 
+export type IPublicTypeDisplay = 'accordion' | 'inline' | 'block' | 'plain' | 'popup';
+
 /**
  * extra props for field
  */
@@ -35,9 +37,9 @@ export interface IPublicTypeFieldExtraProps {
      */
     virtual?: (target: IPublicTypeSettingTarget) => boolean
     /**
-     * default collapsed when display accordion
+     * default expanded when display accordion
      */
-    defaultCollapsed?: boolean
+    defaultExpanded?: boolean
     /**
      * important field
      */
@@ -53,7 +55,7 @@ export interface IPublicTypeFieldExtraProps {
     /**
      * compatiable vision display
      */
-    display?: 'accordion' | 'inline' | 'block' | 'plain' | 'popup' | 'entry'
+    display?: IPublicTypeDisplay
 }
 
 /**

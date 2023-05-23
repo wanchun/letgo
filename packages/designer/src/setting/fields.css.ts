@@ -1,18 +1,23 @@
 import type { CSSProperties } from '@vanilla-extract/css';
 import { style } from '@vanilla-extract/css';
 
-export const accordionFieldCls = style({
+export const blockFieldCls = style({
     display: 'block',
     position: 'relative',
 });
 
-export const blockFieldCls = style([accordionFieldCls, {}]);
+export const accordionFieldCls = style({
+    display: 'block',
+    position: 'relative',
+    margin: '12px',
+    selectors: {
+        [`${blockFieldCls} &`]: {
+            margin: '0',
+        },
+    },
+});
 
 export const plainFieldCls = style({});
-
-export const popupFieldCls = style({});
-
-export const entryFieldCls = style({});
 
 export const inlineFieldCls = style({
     display: 'flex',
@@ -40,6 +45,13 @@ export const inlineFieldCls = style({
     },
 });
 
+export const popupFieldCls = style([inlineFieldCls]);
+
+export const popupContentCls = style({
+    position: 'relative',
+    right: '400px',
+});
+
 const longHeader: CSSProperties = {
     height: '32px',
     fontWeight: 500,
@@ -54,9 +66,13 @@ const longHeader: CSSProperties = {
 export const headerCls = style({
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
     selectors: {
-        [`${accordionFieldCls} > &`]: longHeader,
+        [`${accordionFieldCls} > &`]: {
+            height: '48px',
+            fontWeight: 500,
+            color: '#0f1222',
+            cursor: 'pointer',
+        },
         [`${blockFieldCls} > &`]: longHeader,
         [`${inlineFieldCls} > &`]: {
             display: 'inline-flex',
@@ -73,7 +89,7 @@ export const headerCls = style({
 
 export const bodyCls = style({
     selectors: {
-        [`${accordionFieldCls} > &`]: {
+        [`${blockFieldCls} > &`]: {
             padding: '12px',
         },
         [`${inlineFieldCls} > &`]: {
@@ -83,4 +99,12 @@ export const bodyCls = style({
             alignItems: 'center',
         },
     },
+});
+
+export const iconCls = style({
+    marginRight: '12px',
+});
+
+export const iconShowCls = style({
+    transform: 'rotate(90deg)',
 });

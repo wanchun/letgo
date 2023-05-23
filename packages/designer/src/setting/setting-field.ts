@@ -1,3 +1,5 @@
+import type { Ref } from 'vue';
+import { ref } from 'vue';
 import type { IPublicTypeFieldConfig, IPublicTypeFieldExtraProps, IPublicTypeSetterType } from '@webank/letgo-types';
 import { SettingProp } from './setting-prop';
 import type { ISettingEntry } from './types';
@@ -46,14 +48,14 @@ export class SettingField extends SettingProp implements ISettingEntry {
         return this._setter;
     }
 
-    private _expanded = true;
+    private _expanded: Ref<boolean> = ref(true);
 
-    get expanded(): boolean {
+    get expanded(): Ref<boolean> {
         return this._expanded;
     }
 
     setExpanded(value: boolean) {
-        this._expanded = value;
+        this._expanded.value = value;
     }
 
     constructor(
@@ -74,7 +76,7 @@ export class SettingField extends SettingProp implements ISettingEntry {
             ...extraProps,
         };
         this.isRequired = config.isRequired || (setter as any)?.isRequired;
-        this._expanded = !extraProps?.defaultCollapsed;
+        this._expanded.value = extraProps?.defaultExpanded ?? true;
 
         // initial items
         if (items && items.length > 0)

@@ -39,16 +39,9 @@ export default function (
             if (
                 item.name === '__style__'
                 || item.name === 'style'
-                || item.name === 'containerStyle'
-                || item.name === 'pageStyle'
             ) {
                 propsGroup.splice(l, 1);
                 stylesGroup.push(item);
-                if (
-                    item.extraProps?.defaultCollapsed
-                    && item.name !== 'containerStyle'
-                )
-                    item.extraProps.defaultCollapsed = false;
             }
         }
     }
@@ -118,11 +111,9 @@ export default function (
                                     field.parent.setPropValue(item.name, {
                                         type: 'JSFunction',
                                         // 需要传下入参
-                                        value: `function(){this.${
-                                            item.relatedEventName
-                                        }.apply(this,Array.prototype.slice.call(arguments).concat([${
-                                            item.paramStr ? item.paramStr : ''
-                                        }])) }`,
+                                        value: `function(){this.${item.relatedEventName
+                                            }.apply(this,Array.prototype.slice.call(arguments).concat([${item.paramStr ? item.paramStr : ''
+                                            }])) }`,
                                     });
                                     return item;
                                 });

@@ -74,7 +74,7 @@ export function findComponent(
     if (!npm)
         return accessLibrary(componentName);
 
-    const exportName = npm.exportName || npm.componentName || componentName;
+    const exportName = npm.exportName || componentName;
     const libraryName = libraryMap[npm.package] || exportName;
     const library = accessLibrary(libraryName);
     const paths = (npm.exportName && npm.subName) ? npm.subName.split('.') : [];

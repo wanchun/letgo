@@ -292,6 +292,7 @@ export class ComponentMeta {
     setMetadata(metadata: IPublicTypeComponentMetadata) {
         // 额外转换逻辑
         this._transformedMetadata = this.transformMetadata(metadata);
+
         const { componentName, npm, title, description, configure }
             = this._transformedMetadata;
         this._npm = npm || this._npm;

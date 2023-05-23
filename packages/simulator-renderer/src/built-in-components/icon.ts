@@ -16,7 +16,7 @@ const Icon = defineComponent({
                 {
                     display: 'inline-block',
                     textAlign: 'center',
-                    lineHeigh: 0,
+                    lineHeight: 0,
                 },
                 props.rotate && {
                     transform: `rotate(${props.rotate}deg)`,

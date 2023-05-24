@@ -15,16 +15,17 @@
   },
   "dependencies": {
     "@fesjs/builder-vite": "^3.0.0",
-    "@fesjs/plugin-request": "^3.0.0",
     "@fesjs/fes-design": "^0.7.27",
+    "@fesjs/plugin-request": "^3.0.0",
     "@vueuse/core": "^9.6.0",
-    "lodash-es": "^4.17.21",
-    "vue": "^3.2.47",
-    "core-js": "^3.29.1",
     "@webank/letgo-engine": "workspace:*",
     "@webank/letgo-plugin-code-generator": "workspace:*",
+    "@webank/letgo-plugin-components": "workspace:*",
     "@webank/letgo-plugin-device": "workspace:*",
-    "@webank/letgo-simulator-renderer": "workspace:*"
+    "@webank/letgo-simulator-renderer": "workspace:*",
+    "core-js": "^3.29.1",
+    "lodash-es": "^4.17.21",
+    "vue": "^3.2.47"
   },
   "publishConfig": {
     "access": "public"

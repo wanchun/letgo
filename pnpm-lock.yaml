@@ -504,6 +504,9 @@ importers:
       '@webank/letgo-plugin-code-generator':
         specifier: workspace:*
         version: link:../plugin-code-generator
+      '@webank/letgo-plugin-components':
+        specifier: workspace:*
+        version: link:../plugin-components
       '@webank/letgo-plugin-device':
         specifier: workspace:*
         version: link:../plugin-device

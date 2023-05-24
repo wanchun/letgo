@@ -19,8 +19,6 @@ import {
     contentCls,
     contentIframeCls,
     deviceDefaultCls,
-    deviceIphone6Cls,
-    deviceIphoneXCls,
     deviceMobileCls,
     simulatorCls,
 } from './simulator-view.css';
@@ -77,18 +75,13 @@ export const SimulatorView = defineComponent({
             = (designer.simulator as Simulator) || new Simulator(designer);
 
         const { deviceStyle } = host;
+
         const innerDeviceCls = computed(() => {
             if (host.deviceClassName.value)
                 return host.deviceClassName.value;
 
             if (host.device.value === 'mobile')
                 return deviceMobileCls;
-
-            if (host.device.value === 'iphoneX')
-                return deviceIphoneXCls;
-
-            if (host.device.value === 'iphone6')
-                return deviceIphone6Cls;
 
             return deviceDefaultCls;
         });

@@ -1,17 +1,21 @@
-import { createApp, App } from 'vue';
+import type { App } from 'vue';
+import { createApp } from 'vue';
 import { isPlainObject } from 'lodash-es';
 import { Designer } from '@webank/letgo-designer';
-import { editor, EngineOptions, engineConfig } from '@webank/letgo-editor-core';
+import type { IEngineOptions } from '@webank/letgo-editor-core';
+import { editor, engineConfig } from '@webank/letgo-editor-core';
 import { Skeleton, Workbench } from '@webank/letgo-editor-skeleton';
-import PluginDesignerView from '@webank/letgo-plugin-designer';
-import PluginSettingView from '@webank/letgo-plugin-setting';
+import PluginDesigner from '@webank/letgo-plugin-designer';
+import PluginSetting from '@webank/letgo-plugin-setting';
 import engineExt from '@webank/letgo-engine-ext';
-import {
-    PluginManager,
+import type {
     IPluginContext,
     PluginPreference,
-    Project,
+} from '@webank/letgo-plugin-manager';
+import {
     Material,
+    PluginManager,
+    Project,
 } from '@webank/letgo-plugin-manager';
 
 const plugins = new PluginManager(editor).toProxy();
@@ -53,43 +57,29 @@ export { plugins, project, material };
             setters.register(engineExt.setters);
         },
     });
-    //注册默认的面板
-    plugins.register({
-        name: '___default_panel___',
-        init(ctx: IPluginContext) {
-            ctx.skeleton.add({
-                name: 'designerView',
-                area: 'mainArea',
-                type: 'Widget',
-                content: () => <PluginDesignerView ctx={ctx} />,
-            });
 
-            const setterPanel = ctx.skeleton.add({
-                name: 'setterPanel',
-                area: 'rightArea',
-                type: 'Panel',
-                content: () => <PluginSettingView ctx={ctx} />,
-            });
-            setterPanel.show();
-        },
-    });
+    // 注册默认的面板
+    plugins.register(PluginDesigner);
+    plugins.register(PluginSetting);
 })();
 
 let app: App;
 
 export async function init(
     container?: HTMLElement,
-    options?: EngineOptions,
+    options?: IEngineOptions,
     pluginPreference?: PluginPreference,
 ): Promise<() => void> {
-    if (app) return;
+    if (app)
+        return;
     let engineOptions = null;
     let engineContainer = null;
     if (isPlainObject(container)) {
-        engineOptions = container as EngineOptions;
+        engineOptions = container as IEngineOptions;
         engineContainer = document.createElement('div');
         document.body.appendChild(engineContainer);
-    } else {
+    }
+    else {
         engineOptions = options;
         engineContainer = container;
         if (!container) {
@@ -112,7 +102,6 @@ export async function destroy() {
     app = null;
     const { project } = designer;
     const { documents } = project;
-    if (Array.isArray(documents) && documents.length > 0) {
-        documents.forEach((doc) => project.removeDocument(doc));
-    }
+    if (Array.isArray(documents) && documents.length > 0)
+        documents.forEach(doc => project.removeDocument(doc));
 }

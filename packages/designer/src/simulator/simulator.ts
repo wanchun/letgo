@@ -15,6 +15,7 @@ import * as Vue from 'vue';
 import type {
     IPublicTypeAsset,
     IPublicTypeAssetList,
+    IPublicTypeDevice,
     IPublicTypePackage,
 } from '@webank/letgo-types';
 import {
@@ -70,7 +71,7 @@ export interface IDeviceStyleProps {
 
 export interface ISimulatorProps {
     designMode?: 'live' | 'design' | 'preview' | 'extend' | 'border'
-    device?: 'mobile' | 'iphone' | string
+    device?: IPublicTypeDevice
     deviceStyle?: IDeviceStyleProps
     deviceClassName?: string
     library?: IPublicTypePackage[]
@@ -147,7 +148,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
     }
 
     device: ComputedRef<string> = computed(() => {
-        return this.get('device') || 'default';
+        return this.get('device');
     });
 
     deviceClassName: ComputedRef<string | undefined> = computed(() => {

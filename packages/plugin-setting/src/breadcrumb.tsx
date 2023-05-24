@@ -2,11 +2,10 @@ import type { PropType } from 'vue';
 import type { INode } from '@webank/letgo-designer';
 import { RightOutlined } from '@fesjs/fes-design/icon';
 import { defineComponent } from 'vue';
-
 import {
     navigatorCls,
     navigatorItemCls,
-} from './index.css';
+} from './setting.css';
 
 export default defineComponent({
     name: 'Breadcrumb',

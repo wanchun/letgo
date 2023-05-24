@@ -27,25 +27,25 @@ export const deviceMobileCls = style({
     boxShadow: '0 2px 10px 0 rgba(31, 56, 88, 0.15)',
 });
 
-export const deviceIphoneXCls = style({
-    left: '50%',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '375px',
-    height: '812px',
-    maxHeight: 'calc(100vh - 50px)',
-    backgroundSize: '375px 812px',
-    borderRadius: '44px',
-    boxShadow: 'rgba(0, 0, 0, 0.1) 0 36px 42px',
-});
+// export const deviceIphoneXCls = style({
+//     left: '50%',
+//     top: '50%',
+//     transform: 'translate(-50%, -50%)',
+//     width: '375px',
+//     height: '812px',
+//     maxHeight: 'calc(100vh - 50px)',
+//     backgroundSize: '375px 812px',
+//     borderRadius: '44px',
+//     boxShadow: 'rgba(0, 0, 0, 0.1) 0 36px 42px',
+// });
 
-export const deviceIphone6Cls = style({
-    left: '50%',
-    width: '375px',
-    transform: 'translateX(-50%)',
-    backgroundSize: '375px 772px',
-    top: '8px',
-});
+// export const deviceIphone6Cls = style({
+//     left: '50%',
+//     width: '375px',
+//     transform: 'translateX(-50%)',
+//     backgroundSize: '375px 772px',
+//     top: '8px',
+// });
 
 export const deviceDefaultCls = style({
     top: '16px',
@@ -57,24 +57,24 @@ export const deviceDefaultCls = style({
 });
 
 export const canvasViewportCls = style({
-    selectors: {
-        [`${deviceIphoneXCls} &`]: {
-            width: 'auto',
-            top: '50px',
-            left: '0',
-            right: '0',
-            marginTop: '40px',
-            maxHeight: '688px',
-        },
-        [`${deviceIphone6Cls} &`]: {
-            width: 'auto',
-            top: '114px',
-            left: '25px',
-            right: '25px',
-            maxHeight: '561px',
-            borderRadius: '0 0 2px 2px',
-        },
-    },
+    // selectors: {
+    //     [`${deviceIphoneXCls} &`]: {
+    //         width: 'auto',
+    //         top: '50px',
+    //         left: '0',
+    //         right: '0',
+    //         marginTop: '40px',
+    //         maxHeight: '688px',
+    //     },
+    //     [`${deviceIphone6Cls} &`]: {
+    //         width: 'auto',
+    //         top: '114px',
+    //         left: '25px',
+    //         right: '25px',
+    //         maxHeight: '561px',
+    //         borderRadius: '0 0 2px 2px',
+    //     },
+    // },
     position: 'absolute',
     top: 0,
     bottom: 0,

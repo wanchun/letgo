@@ -1,5 +1,5 @@
 import type { PropType } from 'vue';
-import { defineComponent, onMounted, ref, watch } from 'vue';
+import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import type { IPublicTypeComponentMetadata, IPublicTypeEditor, IPublicTypeProjectSchema } from '@webank/letgo-types';
 import { FSpin } from '@fesjs/fes-design';
 import { SimulatorView } from '../simulator';
@@ -37,8 +37,12 @@ export const ProjectView = defineComponent({
 
         const isReady = ref(false);
 
-        designer.onRendererReady(() => {
+        const off = designer.onRendererReady(() => {
             isReady.value = true;
+        });
+
+        onBeforeUnmount(() => {
+            off?.();
         });
 
         return () => {
@@ -80,16 +84,10 @@ export const DesignerView = defineComponent({
         },
     },
     setup(props) {
-        const { designer, ...designerProps } = props;
+        const { designer: _designer, ...designerProps } = props;
 
-        let _designer: Designer;
-        if (designer) {
-            _designer = designer;
-            _designer.setProps(designerProps);
-        }
-        else {
-            _designer = new Designer(designerProps);
-        }
+        const designer: Designer = _designer ?? new Designer(designerProps);
+        designer.setProps(designerProps);
 
         watch(
             [
@@ -99,7 +97,7 @@ export const DesignerView = defineComponent({
                 () => props.simulatorProps,
             ],
             () => {
-                _designer.setProps({
+                designer.setProps({
                     componentMetadatas: props.componentMetadatas,
                     defaultSchema: props.defaultSchema,
                     editor: props.editor,
@@ -109,17 +107,19 @@ export const DesignerView = defineComponent({
         );
 
         onMounted(() => {
-            if (props.onMount)
-                props.onMount(_designer);
+            props.onMount?.(designer);
+            designer.postEvent('mount', designer);
+        });
 
-            _designer.postEvent('mount', _designer);
+        onBeforeUnmount(() => {
+            designer.purge();
         });
 
         return () => {
             return (
                 <div class={designerCls}>
-                    <DragHostView designer={_designer} />
-                    <ProjectView designer={_designer} />
+                    <DragHostView designer={designer} />
+                    <ProjectView designer={designer} />
                 </div>
             );
         };

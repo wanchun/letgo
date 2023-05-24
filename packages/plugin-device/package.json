@@ -1,0 +1,34 @@
+{
+  "name": "@webank/letgo-plugin-device",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "module": "es/index.js",
+  "typings": "./es/index.d.ts",
+  "files": [
+    "es",
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.37"
+  },
+  "dependencies": {
+    "@vanilla-extract/css": "^1.11.0",
+    "@icon-park/vue-next": "^1.4.2",
+    "@webank/letgo-plugin-manager": "workspace:*",
+    "@webank/letgo-designer": "workspace:*",
+    "@webank/letgo-types": "workspace:*"
+  },
+  "devDependencies": {
+    "vue": "^3.2.37"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

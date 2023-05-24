@@ -38,8 +38,8 @@ importers:
         specifier: ^15.0.1
         version: 15.0.1(rollup@3.7.4)
       '@vanilla-extract/rollup-plugin':
-        specifier: ^1.2.1
-        version: 1.2.1(rollup@3.7.4)
+        specifier: ^1.2.2
+        version: 1.2.2(rollup@3.7.4)
       '@vue/babel-plugin-jsx':
         specifier: ^1.1.1
         version: 1.1.1(@babel/core@7.21.8)
@@ -312,6 +312,28 @@ importers:
         specifier: ^3.2.37
         version: 3.2.47
 
+  packages/plugin-device:
+    dependencies:
+      '@icon-park/vue-next':
+        specifier: ^1.4.2
+        version: 1.4.2(vue@3.2.47)
+      '@vanilla-extract/css':
+        specifier: ^1.11.0
+        version: 1.11.0
+      '@webank/letgo-designer':
+        specifier: workspace:*
+        version: link:../designer
+      '@webank/letgo-plugin-manager':
+        specifier: workspace:*
+        version: link:../plugin-manager
+      '@webank/letgo-types':
+        specifier: workspace:*
+        version: link:../types
+    devDependencies:
+      vue:
+        specifier: ^3.2.37
+        version: 3.2.47
+
   packages/plugin-manager:
     dependencies:
       '@webank/letgo-designer':
@@ -430,6 +452,9 @@ importers:
       '@webank/letgo-plugin-components':
         specifier: workspace:*
         version: link:../plugin-components
+      '@webank/letgo-plugin-device':
+        specifier: workspace:*
+        version: link:../plugin-device
       '@webank/letgo-simulator-renderer':
         specifier: workspace:*
         version: link:../simulator-renderer
@@ -3028,8 +3053,8 @@ packages:
   /@vanilla-extract/private@1.0.3:
     resolution: {integrity: sha512-17kVyLq3ePTKOkveHxXuIJZtGYs+cSoev7BlP+Lf4916qfDhk/HBjvlYDe8egrea7LNPHKwSZJK/bzZC+Q6AwQ==}
 
-  /@vanilla-extract/rollup-plugin@1.2.1(rollup@3.7.4):
-    resolution: {integrity: sha512-CLse5PoYuvAKHGSL6Mc8unjKHsgbdxwpkSdE408d80CjH895B7U/jSQgsO7lURIL9a1OHiOMqg0/9TqEzGlPBQ==}
+  /@vanilla-extract/rollup-plugin@1.2.2(rollup@3.7.4):
+    resolution: {integrity: sha512-cTuErEVzw8hoPfnwJzFyzQ5pnpKyp3/R6BwUS93opqvcrDPJWCH7crLdw+lgY5GDT7hlpNNXQ/RCSMZaXjuIQA==}
     peerDependencies:
       rollup: ^2.0.0 || ^3.0.0
     dependencies:
@@ -3119,7 +3144,7 @@ packages:
   /@vue/compiler-core@3.2.47:
     resolution: {integrity: sha512-p4D7FDnQb7+YJmO2iPEv0SQNeNzcbHdGByJDsT4lynf63AFkOTFN07HsiRSvjGo0QrxR/o3d0hUyNCUnBU2Tig==}
     dependencies:
-      '@babel/parser': 7.21.4
+      '@babel/parser': 7.21.8
       '@vue/shared': 3.2.47
       estree-walker: 2.0.2
       source-map: 0.6.1
@@ -3157,7 +3182,7 @@ packages:
   /@vue/reactivity-transform@3.2.47:
     resolution: {integrity: sha512-m8lGXw8rdnPVVIdIFhf0LeQ/ixyHkH5plYuS83yop5n7ggVJU+z5v0zecwEnX7fa7HNLBhh2qngJJkxpwEEmYA==}
     dependencies:
-      '@babel/parser': 7.21.4
+      '@babel/parser': 7.21.8
       '@vue/compiler-core': 3.2.47
       '@vue/shared': 3.2.47
       estree-walker: 2.0.2

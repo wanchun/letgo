@@ -1,6 +1,7 @@
 import { h } from 'vue';
 import { plugins } from '@webank/letgo-engine';
 import PluginComponents from '@webank/letgo-plugin-components';
+import PluginDevice from '@webank/letgo-plugin-device';
 import CodeGenerator from '@webank/letgo-plugin-code-generator';
 import assets from './assets/assets';
 import Logo from './assets/logo.vue';
@@ -14,13 +15,11 @@ plugins.register({
 
 plugins.register(PluginComponents);
 plugins.register(CodeGenerator);
+plugins.register(PluginDevice);
 
 plugins.register({
     name: 'skeleton',
-    init({ skeleton, editor }) {
-        editor.on('skeleton.widget.show', (...arg) => {
-            console.log('skeleton.widget.show', arg);
-        });
+    init({ skeleton }) {
         skeleton.add({
             name: 'widget',
             area: 'topArea',

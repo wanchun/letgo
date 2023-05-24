@@ -1,30 +1,33 @@
-import { get as lodashGet, isPlainObject } from 'lodash-es';
+import type { CSSProperties } from 'vue';
+import type { IPublicTypeDevice } from '@webank/letgo-types';
+import { isPlainObject, get as lodashGet } from 'lodash-es';
 
-export interface EngineOptions {
-    vueRuntimeUrl?: string;
+export interface IEngineOptions {
+    vueRuntimeUrl?: string
     /**
      * 设置 simulator 相关的 url
      */
-    simulatorUrl?: string[];
-    /**
-     * 设备类型，默认值：'default'
-     */
-    device?: 'default' | 'mobile' | string;
+    simulatorUrl?: string[]
     /**
      *
      * 设计模式，live 模式将会实时展示变量值，默认值：'design'
      */
-    designMode?: 'design' | 'live';
+    designMode?: 'design' | 'live'
+    /**
+     * 设备类型，默认值：'default'
+     */
+    device?: IPublicTypeDevice
     /**
      * 指定初始化的 deviceClassName，挂载到画布的顶层节点上
      */
-    deviceClassName?: string;
+    deviceClassName?: string
     /**
      * 设备类型映射器，处理设计器与渲染器中 device 的映射
      */
-    deviceMapper?: {
-        transform: (originalDevice: string) => string;
-    };
+    deviceStyle?: {
+        canvas?: CSSProperties
+        viewport?: CSSProperties
+    }
 }
 
 export class EngineConfig {
@@ -33,8 +36,8 @@ export class EngineConfig {
     private waits = new Map<
         string,
         Array<{
-            once?: boolean;
-            resolve: (data: any) => void;
+            once?: boolean
+            resolve: (data: any) => void
         }>
     >();
 
@@ -84,13 +87,13 @@ export class EngineConfig {
     }
 
     /**
-     * if engineOptions.strictPluginMode === true, only accept propertied predefined in EngineOptions.
+     * if engineOptions.strictPluginMode === true, only accept propertied predefined in IEngineOptions.
      *
-     * @param {EngineOptions} engineOptions
+     * @param {IEngineOptions} engineOptions
      * @memberof EngineConfig
      */
-    setEngineOptions(engineOptions: EngineOptions) {
-        const defaultOptions: EngineOptions = {
+    setEngineOptions(engineOptions: IEngineOptions) {
+        const defaultOptions: IEngineOptions = {
             device: 'default',
             designMode: 'design',
         };
@@ -109,9 +112,9 @@ export class EngineConfig {
      */
     onceGot(key: string): Promise<any> {
         const val = this.config[key];
-        if (val !== undefined) {
+        if (val !== undefined)
             return Promise.resolve(val);
-        }
+
         return new Promise((resolve) => {
             this.setWait(key, resolve, true);
         });
@@ -127,8 +130,9 @@ export class EngineConfig {
         const val = this.config?.[key];
         if (val !== undefined) {
             fn(val);
-            return () => void 0;
-        } else {
+            return () => undefined;
+        }
+        else {
             this.setWait(key, fn);
             return () => {
                 this.delWait(key, fn);
@@ -138,47 +142,44 @@ export class EngineConfig {
 
     private notifyGot(key: string) {
         let waits = this.waits.get(key);
-        if (!waits) {
+        if (!waits)
             return;
-        }
+
         waits = waits.slice().reverse();
         let i = waits.length;
         while (i--) {
             waits[i].resolve(this.get(key));
-            if (waits[i].once) {
+            if (waits[i].once)
                 waits.splice(i, 1);
-            }
         }
-        if (waits.length > 0) {
+        if (waits.length > 0)
             this.waits.set(key, waits);
-        } else {
+
+        else
             this.waits.delete(key);
-        }
     }
 
     private setWait(key: string, resolve: (data: any) => void, once?: boolean) {
         const waits = this.waits.get(key);
-        if (waits) {
+        if (waits)
             waits.push({ resolve, once });
-        } else {
+
+        else
             this.waits.set(key, [{ resolve, once }]);
-        }
     }
 
     private delWait(key: string, fn: any) {
         const waits = this.waits.get(key);
-        if (!waits) {
+        if (!waits)
             return;
-        }
+
         let i = waits.length;
         while (i--) {
-            if (waits[i].resolve === fn) {
+            if (waits[i].resolve === fn)
                 waits.splice(i, 1);
-            }
         }
-        if (waits.length < 1) {
+        if (waits.length < 1)
             this.waits.delete(key);
-        }
     }
 }
 

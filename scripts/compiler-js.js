@@ -41,9 +41,7 @@ async function compiler(codePath, outputDir) {
             return true;
         },
         plugins: [
-            vanillaExtract.vanillaExtractPlugin({
-                identifiers: 'short',
-            }),
+            vanillaExtract.vanillaExtractPlugin({}),
             nodeResolve({
                 extensions,
             }),

@@ -58,6 +58,10 @@ export class JavascriptQueryImpl {
         this.id = id;
     }
 
+    changeContent(content: Partial<JavascriptQuery>) {
+        Object.assign(this, content);
+    }
+
     trigger() {
         if (this.query) {
             try {

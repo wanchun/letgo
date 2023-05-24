@@ -9,6 +9,7 @@ import { findExpressionDependencyCode, transformExpression } from './transform-e
 import { topologicalSort } from './dag';
 import { TemporaryStateImpl } from './temporary-state';
 import { ComputedImpl } from './computed';
+import { JavascriptQueryImpl } from './javascript-query';
 
 // javascript query 由于过于复杂，不计算依赖关系
 function calcDependencies(item: CodeItem, codeMap: Map<string, CodeItem>) {
@@ -37,7 +38,7 @@ export function useCodeInstance(codeMap: Map<string, CodeItem>) {
     for (const [codeId, item] of codeMap)
         dependencyMap.set(codeId, calcDependencies(item, codeMap));
 
-    const codeInstances: Record<string, TemporaryStateImpl | ComputedImpl> = reactive({});
+    const codeInstances: Record<string, TemporaryStateImpl | ComputedImpl | JavascriptQueryImpl> = reactive({});
 
     const checkCycleDependency = () => {
         const sortResult = topologicalSort(dependencyMap);
@@ -62,35 +63,33 @@ export function useCodeInstance(codeMap: Map<string, CodeItem>) {
         }
         else if (item.type === JAVASCRIPT_QUERY) {
             // TODO  query 实例化
+            codeInstances[item.id] = new JavascriptQueryImpl(item, codeInstances);
         }
     };
 
     const deleteCodeInstance = (id: string) => {
-        // TODO 如果该 id 被其他地方以来到，需要提示用户手动修改
+        // TODO 如果该 id 被其他地方依赖，需要提示用户手动修改
         dependencyMap.delete(id);
         delete codeInstances[id];
     };
 
-    const isChangeCode = (item: CodeItem, content: Record<string, any>) => {
-        if ((item.type === TEMPORARY_STATE && !isNil(content.initValue)) || (item.type === JAVASCRIPT_COMPUTED && !isNil(content.funcBody)) || (item.type === JAVASCRIPT_QUERY && !isNil(content.query)))
-            return true;
-
-        return false;
-    };
-
     const changeCodeInstance = (id: string, content: Record<string, any>) => {
         const item = codeMap.get(id);
-        if (isChangeCode(item, content)) {
+        const currentInstance = codeInstances[id];
+
+        if ((currentInstance instanceof TemporaryStateImpl && !isNil(content.initValue)) || (currentInstance instanceof ComputedImpl && !isNil(content.funcBody))) {
             const deps = calcDependencies(item, codeMap);
             dependencyMap.set(id, deps);
-            codeInstances[id].changeDeps(deps);
+            currentInstance.changeDeps(deps);
         }
 
         codeInstances[id].changeContent(content);
 
-        for (const [key, deps] of dependencyMap) {
-            if (deps.includes(id))
-                codeInstances[key].recalculateValue();
+        if (currentInstance instanceof TemporaryStateImpl && !isNil(content.initValue)) {
+            for (const [key, deps] of dependencyMap) {
+                if (deps.includes(id) && codeInstances[key] instanceof TemporaryStateImpl)
+                    (codeInstances[key] as TemporaryStateImpl).recalculateValue();
+            }
         }
     };
 

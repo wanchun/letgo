@@ -22,6 +22,7 @@ export const DeviceView = defineComponent({
         });
 
         onBeforeUnmount(() => {
+            simulatorRef.value = null;
             off?.();
         });
 

@@ -94,3 +94,8 @@ body.engine-document {
 #app {
     height: 100vh;
 }
+
+*, :after, :before {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}

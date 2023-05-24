@@ -1,4 +1,5 @@
 import { FMessage } from '@fesjs/fes-design';
+import { reactive } from 'vue';
 import { isNil } from 'lodash-es';
 import { generate } from 'astring';
 import { JAVASCRIPT_COMPUTED, JAVASCRIPT_QUERY, TEMPORARY_STATE } from '../../constants';
@@ -7,6 +8,7 @@ import { extractExpression, replaceExpression } from '../../helper';
 import { findExpressionDependencyCode, transformExpression } from './transform-expression';
 import { topologicalSort } from './dag';
 import { TemporaryStateImpl } from './temporary-state';
+import { ComputedImpl } from './computed';
 
 // javascript query 由于过于复杂，不计算依赖关系
 function calcDependencies(item: CodeItem, codeMap: Map<string, CodeItem>) {
@@ -35,7 +37,7 @@ export function useCodeInstance(codeMap: Map<string, CodeItem>) {
     for (const [codeId, item] of codeMap)
         dependencyMap.set(codeId, calcDependencies(item, codeMap));
 
-    const codeInstances: Record<string, TemporaryStateImpl> = {};
+    const codeInstances: Record<string, TemporaryStateImpl | ComputedImpl> = reactive({});
 
     const checkCycleDependency = () => {
         const sortResult = topologicalSort(dependencyMap);
@@ -56,7 +58,7 @@ export function useCodeInstance(codeMap: Map<string, CodeItem>) {
             codeInstances[item.id] = new TemporaryStateImpl(item, dependencyMap.get(item.id), codeInstances);
         }
         else if (item.type === JAVASCRIPT_COMPUTED) {
-            // TODO computed 实例化
+            codeInstances[item.id] = new ComputedImpl(item, dependencyMap.get(item.id), codeInstances);
         }
         else if (item.type === JAVASCRIPT_QUERY) {
             // TODO  query 实例化
@@ -70,7 +72,7 @@ export function useCodeInstance(codeMap: Map<string, CodeItem>) {
     };
 
     const isChangeCode = (item: CodeItem, content: Record<string, any>) => {
-        if ((item.type === TEMPORARY_STATE && !isNil(content.initValue)) || (item.type === JAVASCRIPT_COMPUTED && !isNil(content.funBody)) || (item.type === JAVASCRIPT_QUERY && !isNil(content.query)))
+        if ((item.type === TEMPORARY_STATE && !isNil(content.initValue)) || (item.type === JAVASCRIPT_COMPUTED && !isNil(content.funcBody)) || (item.type === JAVASCRIPT_QUERY && !isNil(content.query)))
             return true;
 
         return false;
@@ -78,8 +80,11 @@ export function useCodeInstance(codeMap: Map<string, CodeItem>) {
 
     const changeCodeInstance = (id: string, content: Record<string, any>) => {
         const item = codeMap.get(id);
-        if (isChangeCode(item, content))
-            dependencyMap.set(id, calcDependencies(item, codeMap));
+        if (isChangeCode(item, content)) {
+            const deps = calcDependencies(item, codeMap);
+            dependencyMap.set(id, deps);
+            codeInstances[id].changeDeps(deps);
+        }
 
         codeInstances[id].changeContent(content);
 

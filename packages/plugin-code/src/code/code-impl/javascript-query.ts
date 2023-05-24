@@ -1,9 +1,12 @@
+import { JAVASCRIPT_QUERY } from '../../constants';
+import { markComputed, markReactive } from '../../helper';
 import type { FailureCondition, JavascriptQuery } from '../../interface';
 import { RunCondition } from '../../interface';
 
 // 解析执行
 export class JavascriptQueryImpl {
     id: string;
+    type = JAVASCRIPT_QUERY;
     ctx: Record<string, any>;
     data: any = null;
     error: string = null;
@@ -16,21 +19,39 @@ export class JavascriptQueryImpl {
     runCondition: RunCondition;
     queryFailureCondition: FailureCondition[];
     constructor(data: JavascriptQuery, ctx: Record<string, any>) {
-        this.id = data.id;
+        markReactive(this, {
+            id: data.id,
+            query: data.query,
+            enableTransformer: data.enableTransformer || false,
+            transformer: data.transformer,
+            showSuccessToaster: data.showSuccessToaster || false,
+            successMessage: data.successMessage || '',
+            queryTimeout: data.queryTimeout || 10000,
+            runCondition: data.runCondition || RunCondition.MANUAL,
+            queryFailureCondition: data.queryFailureCondition || [],
+
+            data: null,
+            error: null,
+        });
+        markComputed(this, ['view']);
         this.ctx = ctx;
+    }
 
-        this.query = data.query;
-        this.enableTransformer = data.enableTransformer || false;
-        this.transformer = data.transformer;
+    get view() {
+        return {
+            id: this.id,
+            query: this.query,
+            enableTransformer: this.enableTransformer,
+            transformer: this.transformer,
+            showSuccessToaster: this.showSuccessToaster,
+            successMessage: this.successMessage,
+            queryTimeout: this.queryTimeout,
+            runCondition: this.runCondition,
+            queryFailureCondition: this.queryFailureCondition,
 
-        this.showSuccessToaster = data.showSuccessToaster || false;
-        this.successMessage = data.successMessage || '';
-
-        this.queryTimeout = data.queryTimeout || 10000;
-
-        this.runCondition = data.runCondition || RunCondition.MANUAL;
-
-        this.queryFailureCondition = data.queryFailureCondition || [];
+            data: this.data,
+            error: this.error,
+        };
     }
 
     changeId(id: string) {

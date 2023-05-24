@@ -1,6 +1,7 @@
 import { defineComponent } from 'vue';
-import FillArrow from '../fill-arrow';
+import FillArrow from './fill-arrow';
 import LabelTip from './label-tip';
+import { expandIconCls } from './expand-label.css';
 
 export default defineComponent({
     props: {
@@ -10,7 +11,7 @@ export default defineComponent({
     setup(props) {
         return () => {
             return <span>
-            <FillArrow style={'color: #bfbfbf'} />
+            <FillArrow class={expandIconCls} />
             <span style="font-weight: 600">{props.label}</span>
             <LabelTip value={props.value} />
         </span>;

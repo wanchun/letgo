@@ -8,6 +8,7 @@ import {
 import type { Designer } from '@webank/letgo-designer';
 import FadeInExpandTransition from '../fade-in-expand-transition';
 import Tree from '../tree/tree';
+import useCode from '../code/useCode';
 import StateHeader from './state-header';
 
 import { categoryCls, stateWrapCls } from './state.css';
@@ -41,6 +42,15 @@ export default defineComponent({
             return props.designer.project.config;
         });
 
+        const { codeInstances } = useCode();
+        const codeState = computed(() => {
+            const result: Record<string, any> = {};
+            Object.keys(codeInstances).forEach((key) => {
+                result[key] = codeInstances[key].view;
+            });
+            return result;
+        });
+
         return () => {
             return (
                 <div class={stateWrapCls}>
@@ -56,7 +66,7 @@ export default defineComponent({
                         <StateHeader title="Components" isActive={activeItem.components} clickHeader={toggleComponentsExpend} />
                         <FadeInExpandTransition>
                             <div v-show={activeItem.components}>
-                                <Tree value={{}} />
+                                <Tree value={codeState.value} />
                             </div>
                         </FadeInExpandTransition>
                     </div>

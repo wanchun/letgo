@@ -2,7 +2,7 @@ import { isArray, isPlainObject } from 'lodash-es';
 import type { PropType } from 'vue';
 import { defineComponent, ref } from 'vue';
 import FadeInExpandTransition from '../fade-in-expand-transition';
-import FillArrow from '../fill-arrow';
+import FillArrow from './fill-arrow';
 import LeafNode from './leaf-node';
 import LabelTip from './label-tip';
 import { iconActiveCls, labelIconCls } from './tree-node.css';

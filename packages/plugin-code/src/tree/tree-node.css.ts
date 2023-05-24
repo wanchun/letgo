@@ -9,6 +9,9 @@ export const labelIconCls = style({
     fontSize: '12px',
     color: '#bfbfbf',
     transition: 'all 0.3s',
+    cursor: 'pointer',
+    display: 'inline-block',
+    lineHeight: 0,
 });
 
 export const iconActiveCls = style({

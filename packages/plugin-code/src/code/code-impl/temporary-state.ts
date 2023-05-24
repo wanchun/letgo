@@ -1,11 +1,13 @@
 import { isNil } from 'lodash-es';
 import { hasExpression, markComputed, markReactive, replaceExpression } from '../../helper';
 import type { TemporaryState } from '../../interface';
+import { TEMPORARY_STATE } from '../../constants';
 import { attachContext } from './transform-expression';
 
 // 解析执行
 export class TemporaryStateImpl {
     id: string;
+    type = TEMPORARY_STATE;
     deps: string[];
     ctx: Record<string, any>;
     value: any;
@@ -21,6 +23,10 @@ export class TemporaryStateImpl {
         this.initValue = data.initValue;
 
         this.value = this.executeInput(this.initValue);
+    }
+
+    changeDeps(deps: string[]) {
+        this.deps = deps;
     }
 
     get view() {

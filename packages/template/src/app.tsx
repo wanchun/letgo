@@ -1,6 +1,7 @@
 import { h } from 'vue';
 import { plugins } from '@webank/letgo-engine';
 import PluginComponents from '@webank/letgo-plugin-components';
+import PluginComponentTree from '@webank/letgo-plugin-component-tree';
 import PluginDevice from '@webank/letgo-plugin-device';
 import CodeGenerator from '@webank/letgo-plugin-code-generator';
 import assets from './assets/assets';
@@ -14,6 +15,7 @@ plugins.register({
 });
 
 plugins.register(PluginComponents);
+plugins.register(PluginComponentTree);
 plugins.register(CodeGenerator);
 plugins.register(PluginDevice);
 

@@ -37,9 +37,7 @@ export default defineComponent({
                 return index1 === index2 ? 0 : index1 > index2 ? 1 : -1;
             })
             .forEach((item) => {
-                const content = (
-                    <div key={`left-area-${item.name}`}>{item.content}</div>
-                );
+                const content = item.content;
                 if (item.align === 'bottom')
                     bottom.push(content);
 

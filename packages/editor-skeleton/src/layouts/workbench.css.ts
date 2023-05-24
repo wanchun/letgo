@@ -1,4 +1,4 @@
-import { style, globalStyle } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 import { themeVars } from '../theme.css';
 
 const horizontal = style({
@@ -80,6 +80,7 @@ export const leftAreaTopCls = style({
     paddingTop: '12px',
     flexDirection: 'column',
     alignItems: 'center',
+    gap: '12px',
 });
 
 export const leftAreaBottomCls = style({
@@ -87,6 +88,7 @@ export const leftAreaBottomCls = style({
     paddingBottom: '12px',
     flexDirection: 'column',
     alignItems: 'center',
+    gap: '12px',
 });
 
 export const leftFloatAreaCls = style({
@@ -115,7 +117,7 @@ export const leftFloatAreaHeaderCls = style({
 export const headerIconsCls = style({});
 
 export const headerIconCls = style({
-    marginRight: '8px',
+    'marginRight': '8px',
     ':last-child': {
         marginRight: 0,
     },

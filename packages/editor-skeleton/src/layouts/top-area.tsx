@@ -40,9 +40,7 @@ export default defineComponent({
                     return index1 === index2 ? 0 : index1 > index2 ? 1 : -1;
                 })
                 .forEach((item) => {
-                    const content = (
-                        <div key={`top-area-${item.name}`}>{item.content}</div>
-                    );
+                    const content = item.content;
                     if (item.align === 'center')
                         center.push(content);
 

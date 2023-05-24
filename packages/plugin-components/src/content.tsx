@@ -1,14 +1,11 @@
 import { defineComponent } from 'vue';
-import { AppstoreOutlined } from '@fesjs/fes-design/icon';
+import { Components } from '@icon-park/vue-next';
 import { iconCls } from './content.css';
 
 export default defineComponent({
-    components: {
-        AppstoreOutlined,
-    },
     setup() {
         return () => {
-            return <AppstoreOutlined class={iconCls} />;
+            return <Components theme="outline" strokeWidth={2} class={iconCls} />;
         };
     },
 });

@@ -24,6 +24,7 @@
     "@webank/letgo-engine": "workspace:*",
     "@webank/letgo-types": "workspace:*",
     "@webank/letgo-plugin-components": "workspace:*",
+    "@webank/letgo-plugin-component-tree": "workspace:*",
     "@webank/letgo-plugin-code-generator": "workspace:*",
     "@webank/letgo-plugin-device": "workspace:*",
     "@webank/letgo-simulator-renderer": "workspace:*"

@@ -4,7 +4,6 @@ import type { IPublicTypeJSSlot, IPublicTypeSetter } from '@webank/letgo-types';
 import { isNil, isUndefined } from 'lodash-es';
 import { FSwitch } from '@fesjs/fes-design';
 import { commonProps } from '../../common';
-import { wrapCls } from './index.css';
 
 interface Template {
     // 模板标签
@@ -71,7 +70,7 @@ const SlotSetterView = defineComponent({
 
         return () => {
             return (
-                <div class={wrapCls}>
+                <div>
                     <FSwitch
                         modelValue={
                             isUndefined(props.value)

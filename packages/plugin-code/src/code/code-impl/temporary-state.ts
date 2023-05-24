@@ -1,5 +1,5 @@
 import { isNil } from 'lodash-es';
-import { hasExpression, replaceExpression } from '../../helper';
+import { hasExpression, markComputed, markReactive, replaceExpression } from '../../helper';
 import type { TemporaryState } from '../../interface';
 import { attachContext } from './transform-expression';
 
@@ -11,12 +11,23 @@ export class TemporaryStateImpl {
     value: any;
     initValue: string;
     constructor(data: TemporaryState, deps: string[], ctx: Record<string, any>) {
-        this.id = data.id;
+        markReactive(this, {
+            id: data.id,
+            value: null,
+        });
+        markComputed(this, ['view']);
         this.deps = deps || [];
         this.ctx = ctx;
         this.initValue = data.initValue;
 
         this.value = this.executeInput(this.initValue);
+    }
+
+    get view() {
+        return {
+            id: this.id,
+            value: this.value,
+        };
     }
 
     changeId(id: string) {
@@ -53,13 +64,6 @@ export class TemporaryStateImpl {
                 return text;
             }
         }
-    }
-
-    getState() {
-        return {
-            id: this.id,
-            value: this.value,
-        };
     }
 
     setValue(value: any) {

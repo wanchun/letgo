@@ -19,7 +19,8 @@
     "build:sr": "cross-env NODE_ENV=production node scripts/build-sr.js",
     "build": "cross-env NODE_ENV=production npm-run-all -s build:esm build:sr",
     "clear": "node scripts/clear.js",
-    "tpl": "cd packages/template & npm run dev"
+    "tpl": "cd packages/template & npm run dev",
+    "test": "vitest"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.38.5",
@@ -52,6 +53,7 @@
     "rollup-plugin-postcss": "^4.0.2",
     "ts-morph": "^16.0.0",
     "typescript": "^5.0.4",
-    "vite": "^4.3.1"
+    "vite": "^4.3.1",
+    "vitest": "^0.31.1"
   }
 }

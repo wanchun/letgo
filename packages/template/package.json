@@ -1,7 +1,11 @@
 {
   "name": "template",
   "version": "1.0.0",
+  "private": true,
   "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
   "scripts": {
     "dev": "fes dev",
     "build": "fes build",
@@ -9,11 +13,7 @@
     "analyze": "ANALYZE=1 fes build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "@fesjs/fes": "^3.0.0",
     "@fesjs/builder-vite": "^3.0.0",
     "@fesjs/plugin-request": "^3.0.0",
     "@fesjs/fes-design": "^0.7.27",
@@ -22,14 +22,11 @@
     "vue": "^3.2.47",
     "core-js": "^3.29.1",
     "@webank/letgo-engine": "workspace:*",
-    "@webank/letgo-types": "workspace:*",
-    "@webank/letgo-plugin-components": "workspace:*",
     "@webank/letgo-plugin-code-generator": "workspace:*",
     "@webank/letgo-plugin-device": "workspace:*",
     "@webank/letgo-simulator-renderer": "workspace:*"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "private": true
+  }
 }

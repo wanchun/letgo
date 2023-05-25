@@ -64,7 +64,7 @@ export const SettingGroupView = defineComponent({
             {
                 meta: field.componentMeta?.npm || field.componentMeta?.componentName || '',
                 title: field.title,
-                expanded: field.expanded.value,
+                expanded: field.expanded,
                 onExpandChange: expandState => field.setExpanded(expandState),
             },
             field.items.map((item) => {
@@ -170,7 +170,7 @@ export const SettingFieldView = defineComponent({
             {
                 meta: field.componentMeta?.npm || field.componentMeta?.componentName || '',
                 title: field.title,
-                expanded: field.expanded.value,
+                expanded: field.expanded,
                 onExpandChange: expandState => field.setExpanded(expandState),
                 onClear: () => field.clearValue(),
                 // TODO: 暂时不知道要干嘛

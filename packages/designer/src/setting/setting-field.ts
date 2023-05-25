@@ -1,6 +1,5 @@
-import type { Ref } from 'vue';
-import { ref } from 'vue';
 import type { IPublicTypeFieldConfig, IPublicTypeFieldExtraProps, IPublicTypeSetterType } from '@webank/letgo-types';
+import { markComputed, markReactive } from '@webank/letgo-utils';
 import { SettingProp } from './setting-prop';
 import type { ISettingEntry } from './types';
 
@@ -48,14 +47,14 @@ export class SettingField extends SettingProp implements ISettingEntry {
         return this._setter;
     }
 
-    private _expanded: Ref<boolean> = ref(true);
+    private _expanded: boolean;
 
-    get expanded(): Ref<boolean> {
+    get expanded(): boolean {
         return this._expanded;
     }
 
     setExpanded(value: boolean) {
-        this._expanded.value = value;
+        this._expanded = value;
     }
 
     constructor(
@@ -67,6 +66,10 @@ export class SettingField extends SettingProp implements ISettingEntry {
         ) => void,
     ) {
         super(parent, config.name, config.type);
+        markReactive(this, {
+            _expanded: true,
+        });
+        markComputed(this, ['expanded']);
         const { title, items, setter, extraProps, ...rest } = config;
         this._config = config;
         this._title = title;
@@ -76,7 +79,7 @@ export class SettingField extends SettingProp implements ISettingEntry {
             ...extraProps,
         };
         this.isRequired = config.isRequired || (setter as any)?.isRequired;
-        this._expanded.value = extraProps?.defaultExpanded ?? true;
+        this._expanded = extraProps?.defaultExpanded ?? true;
 
         // initial items
         if (items && items.length > 0)

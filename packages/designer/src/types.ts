@@ -85,6 +85,8 @@ export interface ISimulator<P = object> extends ISensor {
 
     setProps(props: P): void
 
+    onEvent(eventName: string, callback: (...args: any[]) => void): void
+
     /**
      * 设置拖拽态
      */
@@ -114,6 +116,9 @@ export interface ISimulator<P = object> extends ISensor {
         from: IComponentInstance,
         specId?: string,
     ): INodeInstance | null
+
+    getComponentInstancesExpose(instance: IComponentInstance): Record<string, any>
+
     /**
      * 获取节点实例
      */

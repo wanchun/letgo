@@ -229,6 +229,20 @@ function createSimulatorRenderer() {
             return getClosestNodeInstance(ins, specId);
     };
 
+    simulator.getNodeInstanceExpose = (ins) => {
+        if (isComponentRecord(ins)) {
+            const { cid, did } = ins;
+            const documentInstance = documentInstanceMap.get(did);
+            const instance
+                = documentInstance?.getComponentInstance(cid) ?? null;
+            return Object.keys(instance).reduce((acc, key) => {
+                acc[key] = instance[key as keyof typeof instance];
+                return acc;
+            }, {} as Record<string, any>);
+        }
+        return {};
+    };
+
     simulator.findDOMNodes = (instance: ComponentRecord) => {
         if (instance) {
             const { did, cid } = instance;
@@ -301,10 +315,10 @@ function createSimulatorRenderer() {
         };
 
         // sync device
-        device.value = host.device.value;
+        device.value = host.device;
 
         // sync designMode
-        designMode.value = host.designMode.value;
+        designMode.value = host.designMode;
     };
 
     syncHostProps();

@@ -6,6 +6,7 @@ export interface ISimulatorRenderer {
     readonly isSimulatorRenderer: true
     createComponent(schema: IPublicTypeNodeSchema): Component | null
     getComponent(componentName: string): Component
+    getNodeInstanceExpose(instance: IComponentInstance): Record<string, any>
     getClosestNodeInstance(
         from: IComponentInstance,
         nodeId?: string,

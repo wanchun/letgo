@@ -29,7 +29,7 @@ export default defineComponent({
         const { area } = props;
         const top: VNode[] = [];
         const bottom: VNode[] = [];
-        area.items.value
+        area.items
             .slice()
             .sort((a, b) => {
                 const index1 = a.config?.index || 0;

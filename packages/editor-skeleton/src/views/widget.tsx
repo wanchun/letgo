@@ -16,17 +16,17 @@ export default defineComponent({
     setup(props) {
         return () => {
             const { widget } = props;
-            if (!widget.visible.value)
+            if (!widget.visible)
                 return null;
 
-            if (widget.disabled.value) {
+            if (widget.disabled) {
                 return (
                     <div class={[widgetCls, disabledCls]}>{widget.body}</div>
                 );
             }
             if (props.onClick) {
                 return (
-                    <div class={widgetCls} onClick={props.onClick}>
+                    <div class={widgetCls} onClick={() => props.onClick()}>
                         {widget.body}
                     </div>
                 );

@@ -19,7 +19,7 @@ export default defineComponent({
             const { area } = props;
             return (
                 <div class={mainAreaCls}>
-                    {area.items.value.map(item => item.content)}
+                    {area.items.map(item => item.content)}
                 </div>
             );
         };

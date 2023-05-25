@@ -1,20 +1,22 @@
-import { Editor } from '@webank/letgo-editor-core';
-import {
+import type { Editor } from '@webank/letgo-editor-core';
+import type {
+    IModalConfig,
+    IPanelConfig,
     IWidget,
     IWidgetConfig,
-    isWidgetConfig,
-    IPanelConfig,
-    IWidgetPanelConfig,
     IWidgetModalConfig,
-    IModalConfig,
-    isWidgetModalConfig,
-    isModalConfig,
+    IWidgetPanelConfig,
     SkeletonEvents,
+} from './types';
+import {
+    isModalConfig,
     isPanelConfig,
+    isWidgetConfig,
+    isWidgetModalConfig,
     isWidgetPanelConfig,
 } from './types';
 import { Area } from './area';
-import { Panel, Widget, Modal, WidgetModal, WidgetPanel } from './widget';
+import { Modal, Panel, Widget, WidgetModal, WidgetPanel } from './widget';
 
 export type CreateWidgetParam =
     | IWidgetConfig
@@ -26,14 +28,14 @@ export type CreateWidgetParam =
 export type ReturnTypeOfCreateWidget<T> = T extends IWidgetModalConfig
     ? WidgetModal
     : T extends IPanelConfig
-    ? Panel
-    : T extends IWidgetPanelConfig
-    ? WidgetPanel
-    : T extends IModalConfig
-    ? Modal
-    : T extends IWidgetConfig
-    ? Widget
-    : never;
+        ? Panel
+        : T extends IWidgetPanelConfig
+            ? WidgetPanel
+            : T extends IModalConfig
+                ? Modal
+                : T extends IWidgetConfig
+                    ? Widget
+                    : never;
 
 export class Skeleton {
     readonly leftArea: Area<
@@ -95,20 +97,24 @@ export class Skeleton {
 
     createWidget<T = CreateWidgetParam>(config: T) {
         let widget;
-        if (isModalConfig(config)) {
+        if (isModalConfig(config))
             widget = new Modal(this, config);
-        } else if (isWidgetModalConfig(config)) {
+
+        else if (isWidgetModalConfig(config))
             widget = new WidgetModal(this, config);
-        } else if (isPanelConfig(config)) {
+
+        else if (isPanelConfig(config))
             widget = new Panel(this, config);
-        } else if (isWidgetPanelConfig(config)) {
+
+        else if (isWidgetPanelConfig(config))
             widget = new WidgetPanel(this, config);
-        } else if (isWidgetConfig(config)) {
+
+        else if (isWidgetConfig(config))
             widget = new Widget(this, config);
-        }
-        if (widget) {
+
+        if (widget)
             this.widgets.push(widget);
-        }
+
         return widget as ReturnTypeOfCreateWidget<T>;
     }
 

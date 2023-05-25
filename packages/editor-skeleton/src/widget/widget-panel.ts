@@ -1,8 +1,9 @@
-import { h, VNode } from 'vue';
-import { Skeleton } from '../skeleton';
-import { IWidget, IWidgetPanelConfig } from '../types';
+import type { VNode } from 'vue';
+import { h } from 'vue';
+import type { Skeleton } from '../skeleton';
+import type { IWidget, IWidgetPanelConfig } from '../types';
 import WidgetView from '../views/widget';
-import { Panel } from './panel';
+import type { Panel } from './panel';
 import { BaseWidget } from './baseWidget';
 
 export class WidgetPanel extends BaseWidget implements IWidget {
@@ -44,9 +45,9 @@ export class WidgetPanel extends BaseWidget implements IWidget {
         this.align = props.align;
         this.title = props.title || name;
         this.onClick = props.onClick;
-        if (props.onInit) {
+        if (props.onInit)
             props.onInit.call(this, this);
-        }
+
         this._panel = this.skeleton.add({
             type: 'Panel',
             name: panelName ?? `${this.name}Panel`,

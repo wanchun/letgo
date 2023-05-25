@@ -1,6 +1,6 @@
-import type { Ref, VNodeTypes } from 'vue';
-import { ref, watch } from 'vue';
-import { uniqueId } from '@webank/letgo-utils';
+import type { VNodeTypes } from 'vue';
+import { watch } from 'vue';
+import { markComputed, markReactive, uniqueId } from '@webank/letgo-utils';
 import type { Skeleton } from '../skeleton';
 import type { IWidgetBaseConfig } from '../types';
 import { SkeletonEvents } from '../types';
@@ -12,19 +12,19 @@ export class BaseWidget {
 
     readonly name: string;
 
-    protected isReady = ref(false);
+    protected isReady: boolean; // = ref(false);
 
-    protected _visible = ref(true);
+    protected _visible: boolean; // = ref(true);
 
-    protected _disabled = ref(false);
+    protected _disabled: boolean; // = ref(false);
 
     protected _body: VNodeTypes;
 
     get body() {
-        if (this.isReady.value)
+        if (this.isReady)
             return this._body;
 
-        this.isReady.value = true;
+        this.isReady = true;
         const { content } = this.config;
         this._body = content({
             config: this.config,
@@ -34,17 +34,17 @@ export class BaseWidget {
     }
 
     protected setVisible(flag: boolean) {
-        if (flag === this._visible.value)
+        if (flag === this._visible)
             return;
 
         if (flag)
-            this._visible.value = true;
+            this._visible = true;
 
-        else if (this.isReady.value)
-            this._visible.value = false;
+        else if (this.isReady)
+            this._visible = false;
     }
 
-    get visible(): Ref<boolean> {
+    get visible() {
         return this._visible;
     }
 
@@ -61,9 +61,9 @@ export class BaseWidget {
     }
 
     protected setDisabled(flag: boolean) {
-        if (this._disabled.value === flag)
+        if (this._disabled === flag)
             return;
-        this._disabled.value = flag;
+        this._disabled = flag;
     }
 
     disable() {
@@ -74,7 +74,7 @@ export class BaseWidget {
         this.setDisabled(false);
     }
 
-    get disabled(): Ref<boolean> {
+    get disabled() {
         return this._disabled;
     }
 
@@ -83,9 +83,15 @@ export class BaseWidget {
         readonly config: IWidgetBaseConfig,
         visible = true,
     ) {
-        this._visible.value = visible;
+        markReactive(this, {
+            isReady: false,
+            _disabled: false,
+            _visible: visible,
+        });
+        markComputed(this, ['disabled', 'visible']);
+
         this.name = config.name;
-        watch(this.visible, (visible) => {
+        watch(() => this.visible, (visible) => {
             this.skeleton.postEvent(
                 visible
                     ? SkeletonEvents.WIDGET_SHOW
@@ -94,7 +100,7 @@ export class BaseWidget {
                 this,
             );
         });
-        watch(this.disabled, (disabled) => {
+        watch(() => this.disabled, (disabled) => {
             this.skeleton.postEvent(
                 disabled
                     ? SkeletonEvents.WIDGET_DISABLE

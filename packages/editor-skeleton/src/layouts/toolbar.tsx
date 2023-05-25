@@ -32,7 +32,7 @@ export default defineComponent({
             const left: VNode[] = [];
             const center: VNode[] = [];
             const right: VNode[] = [];
-            const itemsValue = area.items.value;
+            const itemsValue = area.items;
             if (!itemsValue.length)
                 return null;
 

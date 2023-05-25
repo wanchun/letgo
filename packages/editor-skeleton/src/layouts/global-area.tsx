@@ -14,7 +14,7 @@ export default defineComponent({
     setup(props) {
         return () => {
             const { area } = props;
-            return <div>{area.items.value.map(item => item.content)}</div>;
+            return <div>{area.items.map(item => item.content)}</div>;
         };
     },
 });

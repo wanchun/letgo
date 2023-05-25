@@ -34,12 +34,12 @@ export default defineComponent({
         const isFixedRef = ref(true);
         const style: Ref<CSSProperties> = computed(() => {
             const { current, items } = area;
-            if (!items.value.length || !current.value) {
+            if (!items.length || !current) {
                 return {
                     display: 'none',
                 };
             }
-            const currentProps = current.value?.props || {};
+            const currentProps = current?.props || {};
             if (isFixedRef.value) {
                 return {
                     width: `${currentProps.width}px`,
@@ -81,7 +81,7 @@ export default defineComponent({
         return () => {
             const { area } = props;
             const { current, items } = area;
-            const currentProps = current.value?.props || {};
+            const currentProps = current?.props || {};
             return (
                 <div class={leftFloatAreaCls} style={style.value}>
                     <div class={leftFloatAreaHeaderCls}>
@@ -98,7 +98,7 @@ export default defineComponent({
                         </div>
                     </div>
                     <div class={leftFloatAreaBodyCls}>
-                        {items.value.map(item => item.content)}
+                        {items.map(item => item.content)}
                     </div>
                 </div>
             );

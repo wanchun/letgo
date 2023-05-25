@@ -33,7 +33,7 @@ export default defineComponent({
 
             return (
                 <div
-                    v-show={widget.visible.value}
+                    v-show={widget.visible}
                     class={panelCls}
                     style={style}
                 >

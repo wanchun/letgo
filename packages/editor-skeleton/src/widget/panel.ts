@@ -1,7 +1,8 @@
-import { h, VNode } from 'vue';
-import { Skeleton } from '../skeleton';
-import { Area } from '../area';
-import { IWidget, IPanelConfig, IPanelProps } from '../types';
+import type { VNode } from 'vue';
+import { h } from 'vue';
+import type { Skeleton } from '../skeleton';
+import type { Area } from '../area';
+import type { IPanelConfig, IPanelProps, IWidget } from '../types';
 import PanelView from '../views/panel';
 import { BaseWidget } from './baseWidget';
 
@@ -13,12 +14,12 @@ export class Panel extends BaseWidget implements IWidget {
     parent: Area<any, any>;
 
     setParent(parent: Area<any, any>) {
-        if (parent === this.parent) {
+        if (parent === this.parent)
             return;
-        }
-        if (this.parent) {
+
+        if (this.parent)
             this.parent.remove(this);
-        }
+
         this.parent = parent;
     }
 
@@ -31,14 +32,15 @@ export class Panel extends BaseWidget implements IWidget {
     }
 
     protected setVisible(flag: boolean) {
-        if (flag === this._visible.value) {
+        if (flag === this._visible)
             return;
-        }
+
         if (flag) {
-            this._visible.value = true;
+            this._visible = true;
             this.parent?.active(this);
-        } else if (this.isReady.value) {
-            this._visible.value = false;
+        }
+        else if (this.isReady) {
+            this._visible = false;
             this.parent?.unActive(this);
         }
     }

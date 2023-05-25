@@ -1,6 +1,7 @@
-import { h, VNode } from 'vue';
-import { Skeleton } from '../skeleton';
-import { IWidget, IWidgetConfig } from '../types';
+import type { VNode } from 'vue';
+import { h } from 'vue';
+import type { Skeleton } from '../skeleton';
+import type { IWidget, IWidgetConfig } from '../types';
 import WidgetView from '../views/widget';
 import { BaseWidget } from './baseWidget';
 
@@ -17,8 +18,8 @@ export class Widget extends BaseWidget implements IWidget {
             key: this.id,
             onClick: this.onClick
                 ? () => {
-                      this.onClick(this);
-                  }
+                        this.onClick(this);
+                    }
                 : undefined,
         });
     }
@@ -29,8 +30,7 @@ export class Widget extends BaseWidget implements IWidget {
         this.align = props.align;
         this.title = props.title || name;
         this.onClick = props.onClick;
-        if (props.onInit) {
+        if (props.onInit)
             props.onInit.call(this, this);
-        }
     }
 }

@@ -32,7 +32,7 @@ export default defineComponent({
             const left: VNode[] = [];
             const center: VNode[] = [];
             const right: VNode[] = [];
-            area.items.value
+            area.items
                 .slice()
                 .sort((a, b) => {
                     const index1 = a.config?.index || 0;

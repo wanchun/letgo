@@ -1,8 +1,9 @@
-import { h, VNode } from 'vue';
-import { Skeleton } from '../skeleton';
-import { IWidget, IWidgetModalConfig } from '../types';
+import type { VNode } from 'vue';
+import { h } from 'vue';
+import type { Skeleton } from '../skeleton';
+import type { IWidget, IWidgetModalConfig } from '../types';
 import WidgetView from '../views/widget';
-import { Modal } from './modal';
+import type { Modal } from './modal';
 import { BaseWidget } from './baseWidget';
 
 export class WidgetModal extends BaseWidget implements IWidget {
@@ -40,9 +41,9 @@ export class WidgetModal extends BaseWidget implements IWidget {
         this.align = props.align;
         this.title = props.title || name;
         this.onClick = props.onClick;
-        if (props.onInit) {
+        if (props.onInit)
             props.onInit.call(this, this);
-        }
+
         this._modal = this.skeleton.add({
             type: 'Modal',
             name: modalName ?? `${this.name}Modal`,

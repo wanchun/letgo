@@ -13,7 +13,7 @@ export default defineComponent({
     setup(props) {
         return () => {
             const { widget } = props;
-            if (!widget.visible.value)
+            if (!widget.visible)
                 return null;
 
             return (

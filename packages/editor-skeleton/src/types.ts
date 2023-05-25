@@ -1,7 +1,7 @@
-import { VNode, Ref, VNodeTypes } from 'vue';
-import { Editor } from '@webank/letgo-editor-core';
-import { Skeleton } from './skeleton';
-import { Modal, Panel } from './widget';
+import type { VNode, VNodeTypes } from 'vue';
+import type { Editor } from '@webank/letgo-editor-core';
+import type { Skeleton } from './skeleton';
+import type { Modal, Panel } from './widget';
 
 /**
  * 所有可能的停靠位置
@@ -25,29 +25,29 @@ export type IWidgetConfigArea =
     | 'globalArea';
 
 export interface IContentArgument {
-    config: IWidgetBaseConfig;
-    editor: Editor;
+    config: IWidgetBaseConfig
+    editor: Editor
 }
 
 export interface IWidgetBaseConfig {
-    type: string;
-    name: string;
-    area: IWidgetConfigArea;
-    props?: Record<string, any>;
-    content: (arg: IContentArgument) => VNode | string;
-    [extra: string]: any;
+    type: string
+    name: string
+    area: IWidgetConfigArea
+    props?: Record<string, any>
+    content: (arg: IContentArgument) => VNode | string
+    [extra: string]: any
 }
 
 export interface IWidgetProps {
-    align?: 'left' | 'right' | 'bottom' | 'center' | 'top';
-    title?: string;
-    onInit?: (widget: IWidget) => any;
-    onClick?: (widget: IWidget) => any;
+    align?: 'left' | 'right' | 'bottom' | 'center' | 'top'
+    title?: string
+    onInit?: (widget: IWidget) => any
+    onClick?: (widget: IWidget) => any
 }
 
 export interface IWidgetConfig extends IWidgetBaseConfig {
-    type: 'Widget';
-    props?: IWidgetProps;
+    type: 'Widget'
+    props?: IWidgetProps
 }
 
 export function isWidgetConfig(obj: any): obj is IWidgetConfig {
@@ -55,27 +55,27 @@ export function isWidgetConfig(obj: any): obj is IWidgetConfig {
 }
 
 export interface IModalProps {
-    title?: string;
-    closable?: boolean;
-    mask?: boolean;
-    maskClosable?: boolean;
-    footer?: boolean;
-    okText?: string;
-    cancelText?: string;
-    width?: string | number;
-    top?: string | number;
-    verticalCenter?: boolean;
-    center?: boolean;
-    fullScreen?: boolean;
-    contentClass?: string;
-    getContainer?: () => HTMLElement;
-    onOk?: (widget: IWidget) => any;
-    onCancel?: (widget: IWidget) => any;
+    title?: string
+    closable?: boolean
+    mask?: boolean
+    maskClosable?: boolean
+    footer?: boolean
+    okText?: string
+    cancelText?: string
+    width?: string | number
+    top?: string | number
+    verticalCenter?: boolean
+    center?: boolean
+    fullScreen?: boolean
+    contentClass?: string
+    getContainer?: () => HTMLElement
+    onOk?: (widget: IWidget) => any
+    onCancel?: (widget: IWidget) => any
 }
 
 export interface IModalConfig extends IWidgetBaseConfig {
-    type: 'Modal';
-    props?: IModalProps;
+    type: 'Modal'
+    props?: IModalProps
 }
 
 export function isModalConfig(obj: any): obj is IModalConfig {
@@ -83,11 +83,11 @@ export function isModalConfig(obj: any): obj is IModalConfig {
 }
 
 export interface IWidgetModalConfig extends IWidgetBaseConfig {
-    type: 'WidgetModal';
-    props?: IWidgetProps;
-    modalName?: string;
-    modalContent: (arg: IContentArgument) => VNode | string;
-    modalProps?: IModalProps;
+    type: 'WidgetModal'
+    props?: IWidgetProps
+    modalName?: string
+    modalContent: (arg: IContentArgument) => VNode | string
+    modalProps?: IModalProps
 }
 
 export function isWidgetModalConfig(obj: any): obj is IWidgetModalConfig {
@@ -95,17 +95,17 @@ export function isWidgetModalConfig(obj: any): obj is IWidgetModalConfig {
 }
 
 export interface IPanelProps {
-    title?: string;
-    description?: string;
-    width?: number; // panel.props
-    height?: number; // panel.props
-    maxWidth?: number; // panel.props
-    maxHeight?: number; // panel.props
+    title?: string
+    description?: string
+    width?: number // panel.props
+    height?: number // panel.props
+    maxWidth?: number // panel.props
+    maxHeight?: number // panel.props
 }
 
 export interface IPanelConfig extends IWidgetBaseConfig {
-    type: 'Panel';
-    props?: IPanelProps;
+    type: 'Panel'
+    props?: IPanelProps
 }
 
 export function isPanelConfig(obj: any): obj is IPanelConfig {
@@ -113,13 +113,13 @@ export function isPanelConfig(obj: any): obj is IPanelConfig {
 }
 
 export interface IWidgetPanelConfig extends IWidgetBaseConfig {
-    type: 'WidgetPanel';
-    props?: IWidgetProps;
-    panelName?: string;
-    panelContent: () => VNode | string;
+    type: 'WidgetPanel'
+    props?: IWidgetProps
+    panelName?: string
+    panelContent: () => VNode | string
     panelProps?: IPanelProps & {
-        area?: IWidgetConfigArea;
-    };
+        area?: IWidgetConfigArea
+    }
 }
 
 export function isWidgetPanelConfig(obj: any): obj is IWidgetPanelConfig {
@@ -127,20 +127,20 @@ export function isWidgetPanelConfig(obj: any): obj is IWidgetPanelConfig {
 }
 
 export interface IWidget {
-    readonly name: string;
-    readonly content: VNodeTypes;
-    readonly isWidget: true;
-    readonly visible: Ref<boolean>;
-    readonly disabled?: Ref<boolean>;
-    readonly body: VNodeTypes;
-    readonly skeleton: Skeleton;
-    readonly config: IWidgetBaseConfig;
+    readonly name: string
+    readonly content: VNodeTypes
+    readonly isWidget: true
+    readonly visible: boolean
+    readonly disabled?: boolean
+    readonly body: VNodeTypes
+    readonly skeleton: Skeleton
+    readonly config: IWidgetBaseConfig
 
-    show(): void;
-    hide(): void;
-    toggle(): void;
-    enable?(): void;
-    disable?(): void;
+    show(): void
+    hide(): void
+    toggle(): void
+    enable?(): void
+    disable?(): void
 }
 
 export function isWidget(obj: any): obj is IWidget {

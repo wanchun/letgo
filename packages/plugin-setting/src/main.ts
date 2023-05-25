@@ -1,8 +1,7 @@
 import { EventEmitter } from 'eventemitter3';
 import type { Editor } from '@webank/letgo-editor-core';
 import type { Designer, INode, Selection, SettingTop } from '@webank/letgo-designer';
-import type { ShallowRef } from 'vue';
-import { shallowRef } from 'vue';
+import { markComputed, markReactive } from '@webank/letgo-utils';
 
 function generateSessionId(nodes: INode[]) {
     return nodes
@@ -16,9 +15,9 @@ export class SettingsMain {
 
     private _sessionId = '';
 
-    private _settings: ShallowRef<SettingTop> = shallowRef();
+    private _settings: SettingTop;
 
-    private _currentNode: ShallowRef<INode> = shallowRef();
+    private _currentNode: INode;
 
     get length(): number | undefined {
         return this.settings?.nodes.length;
@@ -29,16 +28,21 @@ export class SettingsMain {
     }
 
     get settings() {
-        return this._settings.value;
+        return this._settings;
     }
 
     get currentNode() {
-        return this._currentNode.value;
+        return this._currentNode;
     }
 
     private disposeListener: () => void;
 
     constructor(readonly editor: Editor, readonly designer: Designer) {
+        markReactive(this, {
+            _settings: undefined,
+            _currentNode: undefined,
+        });
+        markComputed(this, ['settings', 'currentNode', 'componentMeta', 'length']);
         this.init();
     }
 
@@ -68,19 +72,19 @@ export class SettingsMain {
 
         this._sessionId = sessionId;
         if (nodes.length < 1) {
-            this._settings.value = undefined;
+            this._settings = undefined;
             return;
         }
 
-        this._currentNode.value = nodes[0];
+        this._currentNode = nodes[0];
 
         // 当节点只有一个时，复用 node 上挂载的 settingEntry，不会产生平行的两个实例，这样在整个系统中对
         // 某个节点操作的 SettingTopEntry 只有一个实例，后续的 getProp() 也会拿到相同的 SettingField 实例
         if (nodes.length === 1)
-            this._settings.value = nodes[0].settingEntry;
+            this._settings = nodes[0].settingEntry;
 
         else
-            this._settings.value = this.designer.createSettingEntry(nodes);
+            this._settings = this.designer.createSettingEntry(nodes);
     }
 
     purge() {

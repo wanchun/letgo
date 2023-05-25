@@ -12,11 +12,11 @@ export class BaseWidget {
 
     readonly name: string;
 
-    protected isReady: boolean; // = ref(false);
+    protected isReady: boolean;
 
-    protected _visible: boolean; // = ref(true);
+    protected _visible: boolean;
 
-    protected _disabled: boolean; // = ref(false);
+    protected _disabled: boolean;
 
     protected _body: VNodeTypes;
 

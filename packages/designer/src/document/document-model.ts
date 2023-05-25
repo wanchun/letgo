@@ -12,7 +12,6 @@ import {
     isJSExpression,
     isNodeSchema,
 } from '@webank/letgo-types';
-import { computed } from 'vue';
 import { camelCase } from 'lodash-es';
 import type { INode, IRootNode, ISimulator } from '../types';
 import type {
@@ -86,7 +85,7 @@ export class DocumentModel {
      * 【响应式】获取 schema 数据
      */
     get computedSchema() {
-        return this.rootNode?.computedSchema.value;
+        return this.rootNode?.computedSchema;
     }
 
     get fileName(): string {
@@ -101,9 +100,7 @@ export class DocumentModel {
     }
 
     get isActive() {
-        return computed(() => {
-            return this.project.currentDocument === this;
-        });
+        return this.project.currentDocument === this;
     }
 
     get root() {
@@ -121,7 +118,7 @@ export class DocumentModel {
     }
 
     constructor(project: Project, schema?: IPublicTypeRootSchema) {
-        markComputed(this, ['computedSchema']);
+        markComputed(this, ['computedSchema', 'isActive']);
         this.project = project;
         this.designer = this.project?.designer;
 

@@ -301,7 +301,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
         const doc = this.contentDocument;
         doc.addEventListener('mousedown', (downEvent: MouseEvent) => {
             document.dispatchEvent(new Event('mousedown'));
-            const documentModel = project.currentDocument.value;
+            const documentModel = project.currentDocument;
             if (!documentModel)
                 return;
 
@@ -410,7 +410,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
             if (dragon.dragging)
                 e.stopPropagation();
         };
-        const leave = () => detecting.leave(this.project.currentDocument.value);
+        const leave = () => detecting.leave(this.project.currentDocument);
 
         doc.addEventListener('mouseover', hover, true);
         doc.addEventListener('mouseleave', leave, false);
@@ -489,7 +489,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
         this.sensing = true;
         this.scroller.scrolling(e);
 
-        const document = this.project.currentDocument.value;
+        const document = this.project.currentDocument;
         if (!document)
             return null;
 
@@ -658,7 +658,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
             return null;
         }
 
-        const document = this.project.currentDocument.value;
+        const document = this.project.currentDocument;
         const { focusNode } = document;
         let container: INode;
         let nodeInstance: INodeInstance<IComponentInstance> | undefined;
@@ -758,7 +758,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
      */
     handleAccept({ container }: IDropContainer, e: ILocateEvent): boolean {
         const { dragObject } = e;
-        const document = this.project.currentDocument.value;
+        const document = this.project.currentDocument;
         const focusNode = document.focusNode;
         if (isRootNode(container) || container.contains(focusNode))
             return document.checkDropTarget(focusNode, dragObject as any);

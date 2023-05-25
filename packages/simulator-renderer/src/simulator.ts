@@ -255,7 +255,7 @@ function createSimulatorRenderer() {
     };
 
     simulator.getCurrentDocument = () => {
-        const crr = host.project.currentDocument.value;
+        const crr = host.project.currentDocument;
         const docs = documentInstances.value;
         return docs.find(doc => doc.id === crr.id);
     };

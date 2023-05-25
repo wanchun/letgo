@@ -250,7 +250,7 @@ export const BorderSelectingView = defineComponent({
 
         const selecting = computed(() => {
             const dragging = host.designer.dragon.dragging;
-            const doc = host.project.currentDocument.value;
+            const doc = host.project.currentDocument;
             if (!doc)
                 return null;
 

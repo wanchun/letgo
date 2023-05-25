@@ -12,8 +12,7 @@ import {
     isJSExpression,
 } from '@webank/letgo-types';
 import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
-import type { ComputedRef } from 'vue';
-import { computed } from 'vue';
+import { markComputed } from '@webank/letgo-utils';
 import type { ComponentMeta } from '../component-meta';
 import type { DocumentModel } from '../document';
 import type { IBaseNode, INode, IRootNode } from '../types';
@@ -65,9 +64,9 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     /**
      * 【响应式】获取符合搭建协议-节点 schema 结构
      */
-    computedSchema: ComputedRef<Schema> = computed(() => {
+    get computedSchema() {
         return this.export(IPublicEnumTransformStage.Save);
-    });
+    }
 
     /**
      * 属性抽象
@@ -209,6 +208,8 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     }
 
     constructor(readonly document: DocumentModel, nodeSchema: Schema) {
+        markComputed(this, ['computedSchema']);
+
         const { componentName, id, children, props, ...extras } = nodeSchema;
         this.id = document.nextId(id, componentName);
         this.ref = this.id;

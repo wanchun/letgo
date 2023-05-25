@@ -66,7 +66,7 @@ export const BorderDetectingView = defineComponent({
         const { host } = props;
 
         const currentNodeRef = computed(() => {
-            const doc = host.project.currentDocument.value;
+            const doc = host.project.currentDocument;
             if (!doc)
                 return null;
 

@@ -1,5 +1,5 @@
 import { EventEmitter } from 'eventemitter3';
-import { uniqueId } from '@webank/letgo-utils';
+import { markComputed, uniqueId } from '@webank/letgo-utils';
 import type {
     IPublicTypeComponentsMap,
     IPublicTypeNodeData,
@@ -12,7 +12,6 @@ import {
     isJSExpression,
     isNodeSchema,
 } from '@webank/letgo-types';
-import type { ComputedRef } from 'vue';
 import { computed } from 'vue';
 import { camelCase } from 'lodash-es';
 import type { INode, IRootNode, ISimulator } from '../types';
@@ -86,9 +85,9 @@ export class DocumentModel {
     /**
      * 【响应式】获取 schema 数据
      */
-    computedSchema: ComputedRef<IPublicTypeRootSchema> = computed(() => {
+    get computedSchema() {
         return this.rootNode?.computedSchema.value;
-    });
+    }
 
     get fileName(): string {
         return (
@@ -103,7 +102,7 @@ export class DocumentModel {
 
     get isActive() {
         return computed(() => {
-            return this.project.currentDocument.value === this;
+            return this.project.currentDocument === this;
         });
     }
 
@@ -122,6 +121,7 @@ export class DocumentModel {
     }
 
     constructor(project: Project, schema?: IPublicTypeRootSchema) {
+        markComputed(this, ['computedSchema']);
         this.project = project;
         this.designer = this.project?.designer;
 

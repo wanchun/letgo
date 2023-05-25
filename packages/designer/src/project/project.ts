@@ -1,6 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
-import type { ShallowReactive, ShallowRef } from 'vue';
-import { shallowReactive, shallowRef, watch } from 'vue';
+import type { ShallowReactive } from 'vue';
+import { shallowReactive, watch } from 'vue';
 import type {
     IPublicTypeComponentsMap,
     IPublicTypeProjectSchema,
@@ -11,6 +11,7 @@ import {
     isLowCodeComponentType,
     isProCodeComponentType,
 } from '@webank/letgo-types';
+import { markReactive } from '@webank/letgo-utils';
 import { isDocumentModel } from '../types';
 import type { Designer } from '../designer';
 import { DocumentModel } from '../document';
@@ -28,9 +29,9 @@ export class Project {
 
     readonly documentsMap = new Map<string, DocumentModel>();
 
-    readonly documents: ShallowReactive<DocumentModel[]> = shallowReactive([]);
+    readonly documents: ShallowReactive< DocumentModel[]> = shallowReactive([]);
 
-    currentDocument: ShallowRef<DocumentModel | null> = shallowRef(null);
+    currentDocument: DocumentModel | null;
 
     get config(): any {
         // TODO: parse layout Component
@@ -42,7 +43,10 @@ export class Project {
     }
 
     constructor(readonly designer: Designer, schema?: IPublicTypeProjectSchema) {
-        watch(this.currentDocument, () => {
+        markReactive(this, {
+            currentDocument: null,
+        });
+        watch(() => this.currentDocument, () => {
             this.emitter.emit('current-document.change', this.currentDocument);
         });
         this.load(schema);
@@ -138,7 +142,7 @@ export class Project {
                 item => item.fileName === doc || item.id === doc,
             );
             if (got) {
-                this.currentDocument.value = got;
+                this.currentDocument = got;
                 return got;
             }
 
@@ -147,17 +151,17 @@ export class Project {
             );
             if (data) {
                 doc = this.createDocument(data);
-                this.currentDocument.value = got;
+                this.currentDocument = got;
                 return got;
             }
             return null;
         }
         if (isDocumentModel(doc)) {
-            this.currentDocument.value = doc;
+            this.currentDocument = doc;
             return doc;
         }
         doc = this.createDocument(doc);
-        this.currentDocument.value = doc;
+        this.currentDocument = doc;
         return doc;
     }
 

@@ -57,7 +57,7 @@ export class SettingsMain {
                 setupSelection,
             );
         };
-        setupSelection(this.designer.getCurrentSelection());
+        setupSelection(this.designer.currentSelection);
     }
 
     private setup(nodes: INode[]) {

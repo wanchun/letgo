@@ -13,8 +13,8 @@ import type {
 import {
     isNodeSchema,
 } from '@webank/letgo-types';
-import { computed } from 'vue';
-import type { Component, ComputedRef } from 'vue';
+import type { Component } from 'vue';
+import { markComputed } from '@webank/letgo-utils';
 import type { INode, INodeSelector, ISimulator } from '../types';
 import { Project } from '../project';
 import { ComponentMeta } from '../component-meta';
@@ -88,16 +88,16 @@ export class Designer {
         return this._componentMetaMap;
     }
 
-    getCurrentDocument() {
-        return this.project.currentDocument.value;
+    get currentDocument() {
+        return this.project.currentDocument;
     }
 
     // get currentHistory() {
     //     return this.currentDocument?.history;
     // }
 
-    getCurrentSelection() {
-        return this.getCurrentDocument()?.selection;
+    get currentSelection() {
+        return this.currentDocument?.selection;
     }
 
     /**
@@ -141,22 +141,23 @@ export class Designer {
     /**
      * 【响应式】获取 schema 数据
      */
-    computedSchema: ComputedRef<IPublicTypeProjectSchema> = computed(() => {
+    get computedSchema() {
         return this.project.getSchema();
-    });
+    }
 
     get dropLocation() {
         return this.dragon.dropLocation;
     }
 
     constructor(props: IDesignerProps) {
+        markComputed(this, ['computedSchema']);
         this.editor = props.editor;
         this.project = new Project(this, props.defaultSchema);
 
         this.dragon.onDragstart((e) => {
             this.detecting.enable = false;
             const { dragObject } = e;
-            const currentSelection = this.getCurrentSelection();
+            const currentSelection = this.currentSelection;
             if (isDragNodeObject(dragObject)) {
                 if (dragObject.nodes.length === 1) {
                     if (dragObject.nodes[0].parent)
@@ -237,9 +238,9 @@ export class Designer {
         this.project.onCurrentDocumentChange(() => {
             this.postEvent(
                 'current-document.change',
-                this.getCurrentDocument(),
+                this.currentDocument,
             );
-            this.postEvent('selection.change', this.getCurrentSelection());
+            this.postEvent('selection.change', this.currentSelection);
             this.setupSelection();
         });
 
@@ -253,7 +254,7 @@ export class Designer {
             selectionDispose();
             selectionDispose = undefined;
         }
-        const currentSelection = this.getCurrentSelection();
+        const currentSelection = this.currentSelection;
         this.postEvent('selection.change', currentSelection);
         if (currentSelection) {
             selectionDispose = currentSelection.onSelectionChange(() => {

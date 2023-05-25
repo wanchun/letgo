@@ -1,6 +1,5 @@
-import type { ShallowRef } from 'vue';
-import { shallowRef } from 'vue';
 import { EventEmitter } from 'eventemitter3';
+import { markComputed, markReactive } from '@webank/letgo-utils';
 import type { DocumentModel } from '../document';
 import type { INode } from '../types';
 
@@ -16,12 +15,12 @@ export class Detecting {
     set enable(flag: boolean) {
         this._enable = flag;
         if (!flag)
-            this._current.value = null;
+            this._current = null;
     }
 
     xRayMode = false;
 
-    private _current: ShallowRef<INode | null> = shallowRef(null);
+    private _current: INode | null;
 
     private emitter = new EventEmitter();
 
@@ -29,23 +28,30 @@ export class Detecting {
         return this._current;
     }
 
+    constructor() {
+        markReactive(this, {
+            _current: null,
+        });
+        markComputed(this, ['current']);
+    }
+
     capture(node: INode | null) {
-        if (this._current.value !== node) {
-            this._current.value = node;
+        if (this._current !== node) {
+            this._current = node;
             this.emitter.emit(DETECTING_CHANGE_EVENT, this.current);
         }
     }
 
     release(node: INode | null) {
-        if (this._current.value === node) {
-            this._current.value = null;
+        if (this._current === node) {
+            this._current = null;
             this.emitter.emit(DETECTING_CHANGE_EVENT, this.current);
         }
     }
 
     leave(document: DocumentModel | undefined) {
-        if (this.current.value && this.current.value.document === document)
-            this._current.value = null;
+        if (this.current && this.current.document === document)
+            this._current = null;
     }
 
     onDetectingChange(fn: (node: INode) => void) {

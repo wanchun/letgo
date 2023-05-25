@@ -74,13 +74,13 @@ export const BorderDetectingView = defineComponent({
             const { current } = host.designer.detecting;
 
             if (
-                !current.value
-                || current.value.document !== doc
-                || selection.has(current.value.id)
+                !current
+                || current.document !== doc
+                || selection.has(current.id)
             )
                 return null;
 
-            return current.value;
+            return current;
         });
 
         return () => {

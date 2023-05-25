@@ -77,10 +77,10 @@ export const SimulatorView = defineComponent({
         const { deviceStyle } = host;
 
         const innerDeviceCls = computed(() => {
-            if (host.deviceClassName.value)
-                return host.deviceClassName.value;
+            if (host.deviceClassName)
+                return host.deviceClassName;
 
-            if (host.device.value === 'mobile')
+            if (host.device === 'mobile')
                 return deviceMobileCls;
 
             return deviceDefaultCls;

@@ -1,12 +1,10 @@
 import { EventEmitter } from 'eventemitter3';
 import type {
     CSSProperties,
-    ComputedRef,
     ShallowReactive,
     ShallowRef,
 } from 'vue';
 import {
-    computed,
     shallowReactive,
     shallowRef,
     triggerRef,
@@ -27,6 +25,7 @@ import {
     assetItem,
     hasOwnProperty,
     isElement,
+    markComputed,
 } from '@webank/letgo-utils';
 import { engineConfig } from '@webank/letgo-editor-core';
 import type {
@@ -147,23 +146,24 @@ export class Simulator implements ISimulator<ISimulatorProps> {
         return this.designer.componentsMap;
     }
 
-    device: ComputedRef<string> = computed(() => {
+    get device(): string {
         return this.get('device');
-    });
+    }
 
-    deviceClassName: ComputedRef<string | undefined> = computed(() => {
+    get deviceClassName(): string {
         return this.get('deviceClassName');
-    });
+    }
 
-    deviceStyle: ComputedRef<IDeviceStyleProps | undefined> = computed(() => {
+    get deviceStyle(): IDeviceStyleProps {
         return this.get('deviceStyle');
-    });
+    }
 
-    designMode: ComputedRef<string> = computed(() => {
+    get designMode(): string {
         return this.get('designMode');
-    });
+    }
 
     constructor(designer: Designer) {
+        markComputed(this, ['device', 'deviceClassName', 'deviceStyle', 'designMode']);
         this.designer = designer;
         this.project = designer.project;
         this.scroller = new Scroller(this.viewport);

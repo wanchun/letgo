@@ -1,5 +1,4 @@
-import { computed, ref } from 'vue';
-import { uniqueId } from '@webank/letgo-utils';
+import { markComputed, markReactive, uniqueId } from '@webank/letgo-utils';
 import type { INode, INodeSelector, IViewport } from '../types';
 
 export class OffsetObserver {
@@ -13,91 +12,91 @@ export class OffsetObserver {
 
     private lastOffsetWidth?: number;
 
-    hasOffset = ref(false);
+    hasOffset: boolean;
 
-    private _height = ref(0);
+    private _height: number;
 
-    private _width = ref(0);
+    private _width: number;
 
-    private _left = ref(0);
+    private _left: number;
 
-    private _top = ref(0);
+    private _top: number;
 
-    private _right = ref(0);
+    private _right: number;
 
-    private _bottom = ref(0);
+    private _bottom: number;
 
-    height = computed(() => {
+    get height() {
         return this.isRoot
             ? this.viewport.height
-            : this._height.value * this.scale;
-    });
+            : this._height * this.scale;
+    }
 
-    width = computed(() => {
+    get width() {
         return this.isRoot
             ? this.viewport.width
-            : this._width.value * this.scale;
-    });
+            : this._width * this.scale;
+    }
 
-    top = computed(() => {
-        return this.isRoot ? 0 : this._top.value * this.scale;
-    });
+    get top() {
+        return this.isRoot ? 0 : this._top * this.scale;
+    }
 
-    left = computed(() => {
-        return this.isRoot ? 0 : this._left.value * this.scale;
-    });
+    get left() {
+        return this.isRoot ? 0 : this._left * this.scale;
+    }
 
-    bottom = computed(() => {
+    get bottom() {
         return this.isRoot
             ? this.viewport.height
-            : this._bottom.value * this.scale;
-    });
+            : this._bottom * this.scale;
+    }
 
-    right = computed(() => {
+    get right() {
         return this.isRoot
             ? this.viewport.width
-            : this._right.value * this.scale;
-    });
+            : this._right * this.scale;
+    }
 
-    offsetLeft = computed(() => {
+    get offsetLeft() {
         if (this.isRoot)
             return this.viewport.scrollX * this.scale;
 
         if (!this.viewport.scrolling || this.lastOffsetLeft == null) {
             this.lastOffsetLeft
-                = this.left.value + this.viewport.scrollX * this.scale;
+                = this.left + this.viewport.scrollX * this.scale;
         }
         return this.lastOffsetLeft;
-    });
+    }
 
-    offsetTop = computed(() => {
+    get offsetTop() {
         if (this.isRoot)
             return this.viewport.scrollY * this.scale;
 
         if (!this.viewport.scrolling || this.lastOffsetTop == null) {
             this.lastOffsetTop
-                = this.top.value + this.viewport.scrollY * this.scale;
+                = this.top + this.viewport.scrollY * this.scale;
         }
         return this.lastOffsetTop;
-    });
+    }
 
-    offsetHeight = computed(() => {
+    get offsetHeight() {
         if (!this.viewport.scrolling || this.lastOffsetHeight == null) {
             this.lastOffsetHeight = this.isRoot
                 ? this.viewport.height
-                : this.height.value;
+                : this.height;
         }
         return this.lastOffsetHeight;
-    });
+    }
 
-    offsetWidth = computed(() => {
+    get offsetWidth() {
         if (!this.viewport.scrolling || this.lastOffsetWidth == null) {
             this.lastOffsetWidth = this.isRoot
                 ? this.viewport.width
-                : this.width.value;
+                : this.width;
         }
         return this.lastOffsetWidth;
-    });
+    }
 
     get scale() {
         return this.viewport.scale;
@@ -114,6 +113,18 @@ export class OffsetObserver {
     readonly compute: () => void;
 
     constructor(readonly nodeInstance: INodeSelector) {
+        markReactive(this, {
+            hasOffset: false,
+            _height: 0,
+            _width: 0,
+            _left: 0,
+            _top: 0,
+            _right: 0,
+            _bottom: 0,
+        });
+
+        markComputed(this, ['height', 'width', 'top', 'left', 'bottom', 'right', 'offsetLeft', 'offsetTop', 'offsetHeight', 'offsetWidth', 'scale']);
+
         const { node, instance } = nodeInstance;
         this.node = node;
         const doc = node.document;
@@ -122,7 +133,7 @@ export class OffsetObserver {
         this.isRoot = node.contains(focusNode);
         this.viewport = host.viewport;
         if (this.isRoot) {
-            this.hasOffset.value = true;
+            this.hasOffset = true;
             return;
         }
         if (!instance)
@@ -139,16 +150,16 @@ export class OffsetObserver {
             );
 
             if (!rect) {
-                this.hasOffset.value = false;
+                this.hasOffset = false;
             }
-            else if (!this.viewport.scrolling || !this.hasOffset.value) {
-                this._height.value = rect.height;
-                this._width.value = rect.width;
-                this._left.value = rect.left;
-                this._top.value = rect.top;
-                this._right.value = rect.right;
-                this._bottom.value = rect.bottom;
-                this.hasOffset.value = true;
+            else if (!this.viewport.scrolling || !this.hasOffset) {
+                this._height = rect.height;
+                this._width = rect.width;
+                this._left = rect.left;
+                this._top = rect.top;
+                this._right = rect.right;
+                this._bottom = rect.bottom;
+                this.hasOffset = true;
             }
             this.pid = (window as any).requestIdleCallback(compute);
             pid = this.pid;

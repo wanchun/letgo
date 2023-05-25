@@ -1,115 +1,32 @@
-import { ref, shallowRef } from 'vue';
+import { computed, shallowReactive } from 'vue';
 
-type ClassFieldDecorator = (
-    value: undefined,
-    context: {
-        kind: 'field'
-        name: string | symbol
-        static: boolean
-        private: boolean
-        access: { get: () => unknown; set: (value: unknown) => void }
-    }
-) => (initialValue: unknown) => unknown | void;
-
-type ClassAutoAccessorDecorator = (
-    value: {
-        get: () => unknown
-        set: (value: unknown) => void
-    },
-    context: {
-        kind: 'accessor'
-        name: string | symbol
-        access: { get(): unknown; set(value: unknown): void }
-        static: boolean
-        private: boolean
-        addInitializer(initializer: () => void): void
-    }
-) => {
-    get?: () => unknown
-    set?: (value: unknown) => void
-    init?: (initialValue: unknown) => unknown
-} | void;
-
-type ClassDecorator = (
-    value: Function,
-    context: {
-        kind: 'method'
-        name: string | symbol
-        static: boolean
-        private: boolean
-        access: { get: () => unknown }
-        addInitializer(initializer: () => void): void
-    }
-) => Function | void;
-
-type ClassGetterDecorator = (
-    value: Function,
-    context: {
-        kind: 'getter'
-        name: string | symbol
-        static: boolean
-        private: boolean
-        access: { get: () => unknown }
-        addInitializer(initializer: () => void): void
-    }
-) => Function | void;
-
-type ClassSetterDecorator = (
-    value: Function,
-    context: {
-        kind: 'setter'
-        name: string | symbol
-        static: boolean
-        private: boolean
-        access: { set: (value: unknown) => void }
-        addInitializer(initializer: () => void): void
-    }
-) => Function | void;
-
-// TODO: 还有问题
-export const useRef: ClassAutoAccessorDecorator = (value, context) => {
-    if (context.kind === 'accessor') {
-        const valueRef = ref();
-        return {
+export function markReactive(target: Record<string, any>, properties: Record<string, any>) {
+    const state = shallowReactive(properties);
+    Object.keys(properties).forEach((key) => {
+        Object.defineProperty(target, key, {
             get() {
-                return valueRef.value;
+                return state[key];
             },
-
-            set(val) {
-                if (val !== valueRef.value)
-                    valueRef.value = val;
-
-                return val;
+            set(value) {
+                state[key] = value;
             },
+        });
+    });
+    return target;
+}
 
-            init(initialValue) {
-                valueRef.value = initialValue;
-                return initialValue;
-            },
-        };
-    }
-};
-
-// TODO: 还有问题
-export const useShallowRef: ClassAutoAccessorDecorator = (value, context) => {
-    if (context.kind === 'accessor') {
-        const valueRef = shallowRef();
-        return {
-            get() {
-                return valueRef.value;
-            },
-
-            set(val) {
-                if (val !== valueRef.value)
-                    valueRef.value = val;
-
-                return val;
-            },
-
-            init(initialValue) {
-                valueRef.value = initialValue;
-                return initialValue;
-            },
-        };
-    }
-};
+export function markComputed(target: Record<string, any>, properties: string[]) {
+    const prototype = Object.getPrototypeOf(target);
+    properties.forEach((key) => {
+        const descriptor = Object.getOwnPropertyDescriptor(prototype, key);
+        if (descriptor?.get) {
+            const tmp = computed(descriptor.get.bind(target));
+            Object.defineProperty(target, key, {
+                get() {
+                    return tmp.value;
+                },
+            });
+        }
+    });
+    return target;
+}

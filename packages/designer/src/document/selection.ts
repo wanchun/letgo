@@ -1,5 +1,5 @@
 import { EventEmitter } from 'eventemitter3';
-import { reactive } from 'vue';
+import { shallowReactive } from 'vue';
 import { EnumPositionNO, comparePosition } from '../node/node';
 import type { INode } from '../types';
 import type { DocumentModel } from './document-model';
@@ -7,7 +7,7 @@ import type { DocumentModel } from './document-model';
 export class Selection {
     private emitter = new EventEmitter();
 
-    private _selected: string[] = reactive([]);
+    private _selected: string[] = shallowReactive([]);
 
     constructor(readonly doc: DocumentModel) {}
     /**

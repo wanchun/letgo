@@ -1,4 +1,4 @@
-import { isArray, isPlainObject } from 'lodash-es';
+import { isArray, isFunction, isPlainObject } from 'lodash-es';
 import type { PropType } from 'vue';
 import { defineComponent, ref } from 'vue';
 import FadeInExpandTransition from '../fade-in-expand-transition';
@@ -43,19 +43,22 @@ const TreeNode = defineComponent({
                 </>;
             }
 
-            else if (isPlainObject(props.value) && Object.keys(props.value).length) {
-                return <>
-                    {renderLabel()}
-                    <FadeInExpandTransition>
-                        <div v-show={expended.value}>
-                            {
-                                Object.keys(props.value).map((key) => {
-                                    return <TreeNode label={key} level={props.level + 1} value={props.value[key]} />;
-                                })
-                            }
-                        </div>
-                    </FadeInExpandTransition>
-                </>;
+            else if (isPlainObject(props.value)) {
+                const keys = Object.keys(props.value).filter(key => !isFunction(props.value[key]));
+                if (keys.length > 0) {
+                    return <>
+                        {renderLabel()}
+                        <FadeInExpandTransition>
+                            <div v-show={expended.value}>
+                                {
+                                    Object.keys(props.value).map((key) => {
+                                        return <TreeNode label={key} level={props.level + 1} value={props.value[key]} />;
+                                    })
+                                }
+                            </div>
+                        </FadeInExpandTransition>
+                    </>;
+                }
             }
 
             return <LeafNode label={props.label} level={props.level} value={props.value} />;

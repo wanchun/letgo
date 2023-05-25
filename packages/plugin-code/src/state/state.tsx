@@ -60,7 +60,7 @@ export default defineComponent({
                 id: string
                 instances: IComponentInstance[]
             }) => {
-                const currentDocument = props.designer.getCurrentDocument();
+                const currentDocument = props.designer.currentDocument;
                 const node = currentDocument.getNode(options.id);
                 if (node) {
                     if (node.id === 'root')

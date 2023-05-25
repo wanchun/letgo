@@ -6,7 +6,7 @@ import {
     ref,
 } from 'vue';
 
-import type { Designer, IComponentInstance } from '@webank/letgo-designer';
+import type { Designer, INode } from '@webank/letgo-designer';
 import FadeInExpandTransition from '../fade-in-expand-transition';
 import Tree from '../tree/tree';
 import useCode from '../code/useCode';
@@ -52,35 +52,61 @@ export default defineComponent({
             return result;
         });
 
-        const componentInstances = ref<Record<string, any>>({});
-        const nodeIdToRef: Record<string, string> = {};
-        props.designer.onSimulatorReady(() => {
-            props.designer.simulator.onEvent('componentInstanceChange', (options: {
-                docId: string
-                id: string
-                instances: IComponentInstance[]
-            }) => {
-                const currentDocument = props.designer.currentDocument;
-                const node = currentDocument.getNode(options.id);
-                if (node) {
-                    if (node.id === 'root')
-                        return;
-                    const refName = node.ref;
-                    // TODO 暂不支持多个实例
-                    if (!options.instances || options.instances.length === 0 || options.instances.length > 1) {
-                        delete componentInstances.value[refName];
-                    }
-                    else {
-                        nodeIdToRef[options.id] = node.ref;
-                        componentInstances.value[refName] = props.designer.simulator.getComponentInstancesExpose(options.instances[0]);
-                    }
-                }
-                else {
-                    const refName = nodeIdToRef[options.id];
-                    if (refName)
-                        delete componentInstances.value[refName];
-                }
+        const componentsState = ref<Record<string, any>>({});
+        function onNodeAdd(node: INode) {
+            componentsState.value[node.ref] = node.propsData;
+            node.onPropChange(() => {
+                componentsState.value[node.ref] = node.propsData;
             });
+            node.onChildrenChange(onNodeChange);
+        }
+        function onNodeDelete(node: INode) {
+            delete componentsState.value[node.ref];
+        }
+        function onNodeChange(param: { type: string; node: INode }) {
+            if (param.type === 'insert')
+                onNodeAdd(param.node);
+
+            else if (param.type === 'delete')
+                onNodeDelete(param.node);
+        }
+        props.designer.onSimulatorReady(() => {
+            const currentDocument = props.designer.currentDocument;
+            const rootNode = currentDocument.root;
+            // rootNode.onChildrenChange(onNodeChange);
+            // props.designer.simulator.onEvent('componentInstanceChange', (options: {
+            //     docId: string
+            //     id: string
+            //     instances: IComponentInstance[]
+            // }) => {
+            //     const currentDocument = props.designer.currentDocument;
+            //     const node = currentDocument.getNode(options.id);
+            //     if (node) {
+            //         if (node.id === 'root')
+            //             return;
+            //         const refName = node.ref;
+            //         // TODO 暂不支持多个实例
+            //         if (!options.instances || options.instances.length === 0) {
+            //             delete componentInstances.value[refName];
+            //         }
+            //         else if (options.instances.length > 1) {
+            //             console.warn('[letgo]: component instances 暂不支持多个实例');
+            //             delete componentInstances.value[refName];
+            //         }
+            //         else {
+            //             nodeIdToRef[options.id] = node.ref;
+            //             componentInstances.value[refName] = props.designer.simulator.getComponentInstancesExpose(options.instances[0]);
+            //             node.onPropChange(() => {
+            //                 componentInstances.value[refName] = props.designer.simulator.getComponentInstancesExpose(options.instances[0]);
+            //             });
+            //         }
+            //     }
+            //     else {
+            //         const refName = nodeIdToRef[options.id];
+            //         if (refName)
+            //             delete componentInstances.value[refName];
+            //     }
+            // });
         });
 
         return () => {
@@ -98,7 +124,7 @@ export default defineComponent({
                         <StateHeader title="Components" isActive={activeItem.components} clickHeader={toggleComponentsExpend} />
                         <FadeInExpandTransition>
                             <div v-show={activeItem.components}>
-                                <Tree value={componentInstances.value} />
+                                <Tree value={componentsState.value} />
                             </div>
                         </FadeInExpandTransition>
                     </div>

@@ -10,7 +10,6 @@ export interface ISimulatorRenderer {
         from: IComponentInstance,
         nodeId?: string,
     ): INodeInstance<IComponentInstance> | null
-    getNodeInstanceExpose(instance: IComponentInstance): Record<string, any>
     findDOMNodes(
         instance: IComponentInstance,
     ): Array<Element | Text> | null

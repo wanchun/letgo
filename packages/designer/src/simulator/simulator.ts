@@ -425,10 +425,6 @@ export class Simulator implements ISimulator<ISimulatorProps> {
         );
     }
 
-    onEvent(eventName: string, callback: (...args: any[]) => void) {
-        this.emitter.on(eventName, callback);
-    }
-
     postEvent(eventName: string, ...data: any[]) {
         this.emitter.emit(eventName, ...data);
     }
@@ -798,12 +794,6 @@ export class Simulator implements ISimulator<ISimulatorProps> {
         else
             instancesMap[docId].set(id, instances.slice());
 
-        // 通知 component 实例变更（增、删、改）
-        this.postEvent('componentInstanceChange', {
-            docId,
-            id,
-            instances: instances ? instances.slice() : null,
-        });
         triggerRef(this.instancesMapRef);
     }
 
@@ -828,10 +818,6 @@ export class Simulator implements ISimulator<ISimulatorProps> {
                     ?.instance === context.instance
             );
         });
-    }
-
-    getComponentInstancesExpose(instance: IComponentInstance) {
-        return this.renderer?.getNodeInstanceExpose(instance) || null;
     }
 
     /**

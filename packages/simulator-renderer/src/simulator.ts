@@ -184,6 +184,11 @@ function createSimulatorRenderer() {
     }) as VueSimulatorRenderer;
 
     simulator.app = markRaw(createApp(SimulatorRendererView, { simulator }));
+    simulator.app.config.warnHandler = (msg: string) => {
+        // 忽略这个警告，生产不会遍历 component instance 的 keys
+        if (!msg.includes('enumerating keys'))
+            console.warn(msg);
+    };
 
     simulator.router = markRaw(
         createRouter({
@@ -224,6 +229,19 @@ function createSimulatorRenderer() {
             return getClosestNodeInstance(ins, specId);
     };
 
+    simulator.getNodeInstanceExpose = (ins) => {
+        if (isComponentRecord(ins)) {
+            const { cid, did } = ins;
+            const documentInstance = documentInstanceMap.get(did);
+            const instance
+                = documentInstance?.getComponentInstance(cid) ?? null;
+            return Object.keys(instance).reduce((acc, key) => {
+                acc[key] = instance[key as keyof typeof instance];
+                return acc;
+            }, {} as Record<string, any>);
+        }
+        return {};
+    };
     simulator.findDOMNodes = (instance: ComponentRecord) => {
         if (instance) {
             const { did, cid } = instance;

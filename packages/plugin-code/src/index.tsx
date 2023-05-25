@@ -1,6 +1,7 @@
 import type { IPluginConfig } from '@webank/letgo-plugin-manager';
-import Content from './content';
+import { Code } from '@icon-park/vue-next';
 import Panel from './panel';
+import { iconCls } from './icon.css';
 
 export default {
     name: 'PluginCodePanel',
@@ -9,9 +10,9 @@ export default {
             name: 'CodePanel',
             area: 'leftArea',
             type: 'WidgetPanel',
-            content: () => <Content />,
+            content: () => <Code theme="outline" size={20} strokeWidth={2} class={iconCls} />,
             props: {
-                align: 'bottom',
+                align: 'top',
             },
             panelContent: () => <Panel editor={editor} designer={designer} />,
             panelProps: {

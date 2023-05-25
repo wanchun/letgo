@@ -59,12 +59,13 @@ export class Project {
                                 isProCodeComponentType(eItem)
                                 && isProCodeComponentType(item)
                                 && eItem.package === item.package
-                                && eItem.componentName === item.componentName
+                                && eItem.exportName === item.exportName
                             )
                                 return true;
 
                             else if (
                                 isLowCodeComponentType(eItem)
+                                && isLowCodeComponentType(item)
                                 && eItem.componentName === item.componentName
                             )
                                 return true;

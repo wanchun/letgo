@@ -8,6 +8,7 @@ export const iconCls = style({
     lineHeight: 0,
 });
 
+
 export const svgCls = style({
     display: 'inline-block',
     width: '1em',

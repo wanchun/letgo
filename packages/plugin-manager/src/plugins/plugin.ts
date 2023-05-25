@@ -1,12 +1,13 @@
 import { EventEmitter } from 'eventemitter3';
-import { getLogger, Logger } from '@webank/letgo-utils';
+import type { Logger } from '@webank/letgo-utils';
+import { getLogger } from '@webank/letgo-utils';
 import { invariant } from '../utils';
-import {
+import type {
     IPlugin,
     IPluginConfig,
-    IPluginManager,
     IPluginConfigMeta,
     IPluginContext,
+    IPluginManager,
 } from './plugin-types';
 
 export class Plugin implements IPlugin {
@@ -58,13 +59,13 @@ export class Plugin implements IPlugin {
     }
 
     get dep() {
-        if (typeof this.meta.dependencies === 'string') {
+        if (typeof this.meta.dependencies === 'string')
             return [this.meta.dependencies];
-        }
+
         // compat legacy way to declare dependencies
-        if (typeof this.config.dep === 'string') {
+        if (typeof this.config.dep === 'string')
             return [this.config.dep];
-        }
+
         return this.meta.dependencies || this.config.dep || [];
     }
 
@@ -92,14 +93,16 @@ export class Plugin implements IPlugin {
     }
 
     async init(forceInit?: boolean) {
-        if (this._inited && !forceInit) return;
+        if (this._inited && !forceInit)
+            return;
         this.logger.log('method init called');
         await this.config.init?.call(undefined, this._ctx, this._options);
         this._inited = true;
     }
 
     async destroy() {
-        if (!this._inited) return;
+        if (!this._inited)
+            return;
         this.logger.log('method destroy called');
         await this.config?.destroy?.call(undefined);
         this._inited = false;
@@ -114,9 +117,9 @@ export class Plugin implements IPlugin {
         const exports = this.config.exports?.();
         return new Proxy(this, {
             get(target, prop, receiver) {
-                if ({}.hasOwnProperty.call(exports, prop)) {
+                if ({}.hasOwnProperty.call(exports, prop))
                     return exports?.[prop as string];
-                }
+
                 return Reflect.get(target, prop, receiver);
             },
         });

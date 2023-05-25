@@ -1,13 +1,15 @@
-import { Logger, getLogger } from '@webank/letgo-utils';
-import { EngineConfig, Editor, engineConfig } from '@webank/letgo-editor-core';
-import { Designer } from '@webank/letgo-designer';
-import { Skeleton, Hotkey, Setters, Project, Material } from '../shell';
-import {
+import type { Logger } from '@webank/letgo-utils';
+import { getLogger } from '@webank/letgo-utils';
+import type { Editor, EngineConfig } from '@webank/letgo-editor-core';
+import { engineConfig } from '@webank/letgo-editor-core';
+import type { Designer } from '@webank/letgo-designer';
+import { Hotkey, Material, Project, Setters, Skeleton } from '../shell';
+import type {
     IPluginContext,
-    IPluginManager,
-    IPluginPreferenceManager,
     IPluginContextOptions,
+    IPluginManager,
     IPluginPreferenceDeclaration,
+    IPluginPreferenceManager,
     PreferenceValueType,
 } from './plugin-types';
 import { isValidPreferenceKey } from './plugin-utils';
@@ -48,9 +50,8 @@ export default class PluginContext implements IPluginContext {
         const enhancePluginContextHook = engineConfig.get(
             'enhancePluginContextHook',
         );
-        if (enhancePluginContextHook) {
+        if (enhancePluginContextHook)
             enhancePluginContextHook(this);
-        }
     }
 
     setPreference(
@@ -61,17 +62,17 @@ export default class PluginContext implements IPluginContext {
             key: string,
             defaultValue?: PreferenceValueType,
         ): PreferenceValueType | undefined => {
-            if (!isValidPreferenceKey(key, preferenceDeclaration)) {
+            if (!isValidPreferenceKey(key, preferenceDeclaration))
                 return undefined;
-            }
-            const pluginPreference =
-                this.plugins.getPluginPreference(pluginName) || {};
+
+            const pluginPreference
+                = this.plugins.getPluginPreference(pluginName) || {};
             if (
-                pluginPreference[key] === undefined ||
-                pluginPreference[key] === null
-            ) {
+                pluginPreference[key] === undefined
+                || pluginPreference[key] === null
+            )
                 return defaultValue;
-            }
+
             return pluginPreference[key];
         };
 

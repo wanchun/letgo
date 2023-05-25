@@ -27,7 +27,7 @@ export const DeviceView = defineComponent({
         });
 
         const isActive = (device: IPublicTypeDevice) => {
-            return simulatorRef.value?.device.value === device;
+            return simulatorRef.value?.device === device;
         };
 
         const onChange = (device: IPublicTypeDevice) => {

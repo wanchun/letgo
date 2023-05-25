@@ -307,7 +307,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
 
             const { selection } = documentModel;
             let isMulti = false;
-            if (this.designMode.value === 'design')
+            if (this.designMode === 'design')
                 isMulti = downEvent.metaKey || downEvent.ctrlKey;
 
             else if (!downEvent.metaKey)
@@ -390,7 +390,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
         const doc = this.contentDocument;
         const { detecting, dragon } = this.designer;
         const hover = (e: MouseEvent) => {
-            if (!detecting.enable || this.designMode.value !== 'design')
+            if (!detecting.enable || this.designMode !== 'design')
                 return;
 
             const nodeInst = this.getNodeInstanceFromElement(

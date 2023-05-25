@@ -102,8 +102,9 @@ export class NodeChildren {
         if (i < 0)
             return;
 
-        // TODO: 可能不触发响应
-        this.children.splice(i, 1);
+        const children = [...this.children];
+        children.splice(i, 1);
+        this.children = children;
         this.emitter.emit('change', {
             type: 'unlink',
             node,
@@ -142,7 +143,9 @@ export class NodeChildren {
         // purge 为 true 时，已在 internalSetParent 中删除了子节点
         if (i > -1 && !purge) {
             // TODO: 可能不触发响应
-            this.children.splice(i, 1);
+            const children = [...this.children];
+            children.splice(i, 1);
+            this.children = children;
         }
     }
 
@@ -150,7 +153,7 @@ export class NodeChildren {
      * 插入一个节点
      */
     insertChild(node: INode, at?: number | null): void {
-        const { children } = this;
+        const children = [...this.children];
         let index = (at == null || at === -1) ? children.length : at;
 
         const i = children.indexOf(node);
@@ -175,7 +178,7 @@ export class NodeChildren {
             children.splice(index, 0, node);
         }
 
-        // TODO: 可能不触发响应
+        this.children = children;
 
         this.emitter.emit('change', {
             type: 'insert',

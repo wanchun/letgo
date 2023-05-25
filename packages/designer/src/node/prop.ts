@@ -11,9 +11,7 @@ import {
     isJSSlot,
     isSlotSchema,
 } from '@webank/letgo-types';
-import { uniqueId } from '@webank/letgo-utils';
-import type { ComputedRef, ShallowRef } from 'vue';
-import { computed, shallowRef, triggerRef } from 'vue';
+import { markComputed, markReactive, uniqueId } from '@webank/letgo-utils';
 import { isNil, isPlainObject } from 'lodash-es';
 import type { INode, ISlotNode } from '../types';
 import type { Props } from './props';
@@ -46,11 +44,11 @@ export class Prop implements IPropParent {
 
     readonly options: any;
 
-    private _value: ShallowRef<any> = shallowRef();
+    private _value: any;
 
-    private _type: ShallowRef<IValueTypes> = shallowRef('unset');
+    private _type: IValueTypes;
 
-    private _items: ShallowRef<Prop[] | null> = shallowRef(null);
+    private _items: Prop[] | null;
 
     private purged = false;
 
@@ -68,7 +66,7 @@ export class Prop implements IPropParent {
      * 属性类型
      */
     get type(): IValueTypes {
-        return this._type.value;
+        return this._type;
     }
 
     get value() {
@@ -76,7 +74,7 @@ export class Prop implements IPropParent {
     }
 
     get items(): Prop[] | null {
-        return this._items.value;
+        return this._items;
     }
 
     get maps(): Map<string | number, Prop> | null {
@@ -93,13 +91,6 @@ export class Prop implements IPropParent {
         return this.items?.length || 0;
     }
 
-    /**
-     * 【响应式】获取属性值
-     */
-    computedValue: ComputedRef<IPublicTypeCompositeValue | undefined> = computed(() => {
-        return this.getValue();
-    });
-
     constructor(
         public parent: IPropParent,
         value: IPublicTypeCompositeValue | undefined,
@@ -107,6 +98,13 @@ export class Prop implements IPropParent {
         spread = false,
         options = {},
     ) {
+        markReactive(this, {
+            _value: undefined,
+            _type: 'unset',
+            _items: null,
+
+        });
+        markComputed(this, ['type', 'value', 'items', 'size']);
         this.owner = parent.owner;
         this.props = parent.props;
         this.key = key;
@@ -120,8 +118,8 @@ export class Prop implements IPropParent {
 
     setupItems() {
         let items: Prop[] | null = null;
-        const data = this._value.value;
-        const type = this._type.value;
+        const data = this._value;
+        const type = this._type;
         if (type === 'list') {
             data.forEach((item: any, idx: number) => {
                 items = items || [];
@@ -144,17 +142,17 @@ export class Prop implements IPropParent {
             items = null;
             this._maps = null;
         }
-        this._items.value = items;
+        this._items = items;
     }
 
     export(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Save): IPublicTypeCompositeValue {
-        const type = this._type.value;
+        const type = this._type;
 
         if (type === 'unset')
             return undefined;
 
         if (type === 'literal' || type === 'expression')
-            return this._value.value;
+            return this._value;
 
         if (type === 'slot') {
             const schema = this._slotNode?.export(stage);
@@ -176,8 +174,8 @@ export class Prop implements IPropParent {
             };
         }
         if (type === 'map') {
-            if (!this._items.value)
-                return this._value.value;
+            if (!this._items)
+                return this._value;
 
             let maps: any;
             this.items.forEach((prop, key) => {
@@ -192,10 +190,10 @@ export class Prop implements IPropParent {
             return maps;
         }
         if (type === 'list') {
-            if (!this._items.value)
-                return this._value.value;
+            if (!this._items)
+                return this._value;
 
-            const values = this._items.value.map((prop) => {
+            const values = this._items.map((prop) => {
                 return prop.export(stage);
             });
             if (values.every(val => val === undefined))
@@ -204,7 +202,7 @@ export class Prop implements IPropParent {
             return values;
         }
 
-        return this._value.value;
+        return this._value;
     }
 
     private _slotNode?: ISlotNode;
@@ -214,7 +212,7 @@ export class Prop implements IPropParent {
     }
 
     setAsSlot(data: IPublicTypeJSSlot) {
-        this._type.value = 'slot';
+        this._type = 'slot';
         let slotSchema: IPublicTypeSlotSchema;
         // 当 data.value 的结构为 { componentName: 'Slot' } 时，直接当成 slotSchema 使用
         if (
@@ -251,43 +249,43 @@ export class Prop implements IPropParent {
 
     getAsString(): string {
         if (this.type === 'literal')
-            return this._value.value ? String(this._value.value) : '';
+            return this._value ? String(this._value) : '';
 
         return '';
     }
 
     setValue(val: IPublicTypeCompositeValue) {
-        if (val === this._value.value)
+        if (val === this._value)
             return;
         const editor = this.owner.document?.designer.editor;
-        const oldValue = this._value.value;
-        this._value.value = val;
+        const oldValue = this._value;
+        this._value = val;
         this._code = null;
         const t = typeof val;
         if (val == null) {
-            this._type.value = 'literal';
+            this._type = 'literal';
         }
         else if (t === 'string' || t === 'number' || t === 'boolean') {
-            this._type.value = 'literal';
+            this._type = 'literal';
         }
         else if (Array.isArray(val)) {
-            this._type.value = 'list';
+            this._type = 'list';
         }
         else if (isPlainObject(val)) {
             if (isJSSlot(val))
                 this.setAsSlot(val);
 
             else if (isJSExpression(val))
-                this._type.value = 'expression';
+                this._type = 'expression';
 
             else if (isJSFunction(val))
-                this._type.value = 'function';
+                this._type = 'function';
 
-            else this._type.value = 'map';
+            else this._type = 'map';
         }
         else {
-            this._type.value = 'expression';
-            this._value.value = {
+            this._type = 'expression';
+            this._value = {
                 type: 'JSExpression',
                 value: valueToSource(val),
             };
@@ -297,12 +295,12 @@ export class Prop implements IPropParent {
 
         this.setupItems();
 
-        if (oldValue !== this._value.value) {
+        if (oldValue !== this._value) {
             const propsInfo = {
                 key: this.key,
                 prop: this,
                 oldValue,
-                newValue: this._value.value,
+                newValue: this._value,
             };
 
             editor?.emit(GlobalEvent.Node.Prop.InnerChange, {
@@ -315,13 +313,13 @@ export class Prop implements IPropParent {
     }
 
     private dispose() {
-        const items = this._items.value;
+        const items = this._items;
         if (items)
             items.forEach(prop => prop.purge());
 
-        this._items.value = null;
+        this._items = null;
         this._maps = null;
-        if (this._type.value !== 'slot' && this._slotNode) {
+        if (this._type !== 'slot' && this._slotNode) {
             this._slotNode.remove();
             this._slotNode = undefined;
         }
@@ -346,9 +344,9 @@ export class Prop implements IPropParent {
      * 设置表达式值
      */
     set code(code: string) {
-        if (isJSExpression(this._value.value)) {
+        if (isJSExpression(this._value)) {
             this.setValue({
-                ...this._value.value,
+                ...this._value,
                 value: code,
             });
             this._code = code;
@@ -368,7 +366,7 @@ export class Prop implements IPropParent {
         this.setValue({
             type: 'JSExpression',
             value: code,
-            mock: this._value.value,
+            mock: this._value,
         });
         this._code = code;
     }
@@ -378,7 +376,7 @@ export class Prop implements IPropParent {
      * @param createIfNone 当没有的时候，是否创建一个
      */
     get(path: string | number, createIfNone = true): Prop | null {
-        const type = this._type.value;
+        const type = this._type;
         if (
             type !== 'map'
             && type !== 'list'
@@ -430,7 +428,7 @@ export class Prop implements IPropParent {
      * @param force 强制
      */
     set(key: string | number, value: IPublicTypeCompositeValue | Prop, force = false) {
-        const type = this._type.value;
+        const type = this._type;
         if (type !== 'map' && type !== 'list' && type !== 'unset' && !force)
             return null;
 
@@ -444,13 +442,13 @@ export class Prop implements IPropParent {
             }
         }
         const prop = isProp(value) ? value : new Prop(this, value, key);
-        const items = this._items.value || [];
+        const items = [...(this._items || [])];
         if (this.type === 'list') {
             if (!isValidArrayIndex(key))
                 return null;
 
             items[key] = prop;
-            this._items.value = items;
+            this._items = items;
         }
         else if (this.type === 'map') {
             const maps = this._maps || new Map<string, Prop>();
@@ -466,7 +464,7 @@ export class Prop implements IPropParent {
             else {
                 // push
                 items.push(prop);
-                this._items.value = items;
+                this._items = items;
 
                 maps?.set(key, prop);
             }
@@ -475,8 +473,6 @@ export class Prop implements IPropParent {
         /* istanbul ignore next */ else {
             return null;
         }
-
-        triggerRef(this._items);
 
         return prop;
     }
@@ -507,11 +503,12 @@ export class Prop implements IPropParent {
      */
     delete(prop: Prop): void {
         /* istanbul ignore else */
-        if (this._items.value) {
-            const i = this._items.value.indexOf(prop);
+        if (this._items) {
+            const items = [...this._items];
+            const i = items.indexOf(prop);
             if (i > -1) {
-                this._items.value.splice(i, 1);
-                triggerRef(this._items);
+                items.splice(i, 1);
+                this._items = items;
                 prop.purge();
             }
             if (this._maps && prop.key)
@@ -535,14 +532,14 @@ export class Prop implements IPropParent {
      * 重置
      */
     unset() {
-        this._type.value = undefined;
+        this._type = undefined;
     }
 
     /**
      * 是否为重置状态
      */
     isUnset() {
-        return this._type.value === undefined;
+        return this._type === undefined;
     }
 
     /**
@@ -560,10 +557,10 @@ export class Prop implements IPropParent {
             return;
 
         this.purged = true;
-        if (this._items.value)
-            this._items.value.forEach(item => item.purge());
+        if (this._items)
+            this._items.forEach(item => item.purge());
 
-        this._items.value = null;
+        this._items = null;
         this._maps = null;
         if (this._slotNode && this._slotNode.slotFor === this) {
             this._slotNode.remove();

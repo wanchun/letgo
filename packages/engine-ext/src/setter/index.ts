@@ -14,3 +14,4 @@ export * from './slot-setter';
 export * from './json-setter';
 export * from './icon-setter';
 export * from './date-setter';
+export * from './variable-setter';

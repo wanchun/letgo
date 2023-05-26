@@ -12,7 +12,7 @@ import {
     isJSExpression,
 } from '@webank/letgo-types';
 import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
-import { markComputed } from '@webank/letgo-utils';
+import { markComputed, markReactive } from '@webank/letgo-utils';
 import type { ComponentMeta } from '../component-meta';
 import type { DocumentModel } from '../document';
 import type { IBaseNode, INode, IRootNode } from '../types';
@@ -31,6 +31,18 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     private emitter = new EventEmitter();
 
     /**
+     * 节点 ref
+     */
+    ref: string;
+
+    /**
+      * 属性抽象
+      */
+    props: Props;
+
+    isRGLContainer: false;
+
+    /**
      * 是节点实例
      */
     readonly isNode = true;
@@ -39,11 +51,6 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
      * 节点 id
      */
     readonly id: string;
-
-    /**
-     * 节点 ref
-     */
-    ref: string;
 
     /**
      * 节点组件类型
@@ -61,19 +68,20 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
 
     private _parent: INode | null = null;
 
+    private _slots: INode[] = [];
+
+    private _slotFor?: Prop | null = null;
+
+    private purged = false;
+
+    private _settingEntry: SettingTop;
+
     /**
      * 【响应式】获取符合搭建协议-节点 schema 结构
      */
     get computedSchema() {
         return this.export(IPublicEnumTransformStage.Save);
     }
-
-    /**
-     * 属性抽象
-     */
-    props: Props;
-
-    isRGLContainer: false;
 
     /**
      * 父级节点
@@ -162,53 +170,36 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         return !!this.getExtraProp('isLocked')?.getValue();
     }
 
-    /**
-     * 终端节点，内容一般为 文字 或者 表达式
-     */
-    isLeaf() {
-        return this.componentName === 'Leaf';
+    get settingEntry(): SettingTop {
+        if (this._settingEntry)
+            return this._settingEntry;
+        this._settingEntry = this.document.designer.createSettingEntry([this as INode]);
+        return this._settingEntry;
     }
 
     /**
-     * 是否一个父亲类节点
+     * 关联属性
      */
-    isParental() {
-        return !this.isLeaf();
+    get slotFor() {
+        return this._slotFor;
     }
 
-    isContainer(): boolean {
-        return this.isParental() && this.componentMeta.isContainer;
-    }
-
-    isModal(): boolean {
-        return this.componentMeta.isModal;
-    }
-
-    isRoot(): boolean {
-        return this.document.rootNode === (this as any);
-    }
-
-    isPage(): boolean {
-        return this.isRoot() && this.componentName === 'Page';
-    }
-
-    isComponent(): boolean {
-        return this.isRoot() && this.componentName === 'Component';
-    }
-
-    isSlot(): boolean {
-        return this._slotFor != null && this.componentName === 'Slot';
+    get slots() {
+        return this._slots;
     }
 
     /**
-     * 锁住当前节点
+     * 是否已销毁
      */
-    setLock(flag = true) {
-        this.getExtraProp('isLocked').setValue(flag);
+    get isPurged() {
+        return this.purged;
     }
 
     constructor(readonly document: DocumentModel, nodeSchema: Schema) {
-        markComputed(this, ['computedSchema']);
+        markReactive(this, {
+            _slots: [],
+        });
+        markComputed(this, ['computedSchema', 'slots']);
 
         const { componentName, id, children, props, ...extras } = nodeSchema;
         this.id = document.nextId(id, componentName);
@@ -509,44 +500,22 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         };
     }
 
-    private _settingEntry: SettingTop;
-
-    get settingEntry(): SettingTop {
-        if (this._settingEntry)
-            return this._settingEntry;
-        this._settingEntry = this.document.designer.createSettingEntry([this as INode]);
-        return this._settingEntry;
-    }
-
-    private _slotFor?: Prop | null = null;
-
-    /**
-     * 关联属性
-     */
-    get slotFor() {
-        return this._slotFor;
-    }
-
     internalSetSlotFor(slotFor: Prop | null | undefined) {
         this._slotFor = slotFor;
     }
-
-    private _slots: INode[] = [];
 
     hasSlots() {
         return this._slots.length > 0;
     }
 
-    get slots() {
-        return this._slots;
-    }
-
     unlinkSlot(slotNode: INode) {
-        const i = this._slots.indexOf(slotNode);
+        const slots = this._slots.slice(0);
+        const i = slots.indexOf(slotNode);
         if (i < 0)
             return false;
 
-        this._slots.splice(i, 1);
+        slots.splice(i, 1);
+        this._slots = slots;
     }
 
     addSlot(slotNode: INode) {
@@ -556,16 +525,54 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
             removeSlot(this as INode, slotName);
 
         slotNode.setParent(this as INode);
-        this._slots.push(slotNode);
+        const slots = this._slots.slice(0);
+        slots.push(slotNode);
+        this._slots = slots;
     }
 
-    private purged = false;
+    /**
+     * 终端节点，内容一般为 文字 或者 表达式
+     */
+    isLeaf() {
+        return this.componentName === 'Leaf';
+    }
 
     /**
-     * 是否已销毁
+     * 是否一个父亲类节点
      */
-    get isPurged() {
-        return this.purged;
+    isParental() {
+        return !this.isLeaf();
+    }
+
+    isContainer(): boolean {
+        return this.isParental() && this.componentMeta.isContainer;
+    }
+
+    isModal(): boolean {
+        return this.componentMeta.isModal;
+    }
+
+    isRoot(): boolean {
+        return this.document.root === (this as any);
+    }
+
+    isPage(): boolean {
+        return this.isRoot() && this.componentName === 'Page';
+    }
+
+    isComponent(): boolean {
+        return this.isRoot() && this.componentName === 'Component';
+    }
+
+    isSlot(): boolean {
+        return this._slotFor != null && this.componentName === 'Slot';
+    }
+
+    /**
+     * 锁住当前节点
+     */
+    setLock(flag = true) {
+        this.getExtraProp('isLocked').setValue(flag);
     }
 
     purge() {

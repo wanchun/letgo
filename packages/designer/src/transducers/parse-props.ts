@@ -7,19 +7,21 @@ import type {
     IPublicTypeOneOfType,
     IPublicTypeProp,
     IPublicTypePropConfig,
-    IPublicTypeSetterType,
+    IPublicTypeSetterConfig,
     IPublicTypeTransformedComponentMetadata,
 } from '@webank/letgo-types';
 import { isArray } from 'lodash-es';
 
 function propConfigToFieldConfig(propConfig: IPublicTypePropConfig): IPublicTypeFieldConfig {
+    const setter = propTypeToSetter(propConfig.propType);
+
     return {
         ...propConfig,
-        setter: propTypeToSetter(propConfig.propType),
+        setter,
     };
 }
 
-function propTypeToSetter(propType: IPublicTypeProp): IPublicTypeSetterType {
+function propTypeToSetter(propType: IPublicTypeProp): IPublicTypeSetterConfig {
     let typeName: string;
     let isRequired: boolean | undefined = false;
     if (typeof propType === 'string') {

@@ -51,7 +51,7 @@ export interface IPublicTypeSetterConfig {
 }
 
 // if *string* passed must be a registered IPublicTypeSetter Name, future support blockSchema
-export type IPublicTypeSetterType = IPublicTypeSetterConfig | IPublicTypeSetterConfig[] | string | string[];
+export type IPublicTypeSetterType = IPublicTypeSetterConfig | string | Array<string | IPublicTypeSetterConfig>;
 
 export function isSetterConfig(obj: any): obj is IPublicTypeSetterConfig {
     return obj && typeof obj === 'object' && 'componentName' in obj;

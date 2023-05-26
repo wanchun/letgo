@@ -63,7 +63,7 @@ export class DocumentModel {
     /**
      * 根节点 类型有：Page/Component
      */
-    rootNode: IRootNode | null;
+    private rootNode: IRootNode | null;
 
     /**
      * 文档编号

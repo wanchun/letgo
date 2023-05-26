@@ -28,6 +28,10 @@ export interface IEngineOptions {
         canvas?: CSSProperties
         viewport?: CSSProperties
     }
+    /**
+     * 设置所有属性支持变量配置，默认值：true
+     */
+    supportVariableGlobally?: boolean
 }
 
 export class EngineConfig {
@@ -96,6 +100,7 @@ export class EngineConfig {
         const defaultOptions: IEngineOptions = {
             device: 'default',
             designMode: 'design',
+            supportVariableGlobally: true,
         };
         if (!engineOptions || !isPlainObject(engineOptions)) {
             this.setConfig(defaultOptions);

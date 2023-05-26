@@ -14,6 +14,15 @@ export class NodeChildren {
 
     private emitter = new EventEmitter();
 
+    private purged = false;
+
+    /**
+     * 是否销毁
+     */
+    get isPurged() {
+        return this.purged;
+    }
+
     /**
      * 元素个数
      */
@@ -97,12 +106,15 @@ export class NodeChildren {
             : null;
     }
 
+    /**
+     * 把子节点从当前节点移出，但不删除
+     */
     unlinkChild(node: INode) {
         const i = this.children.indexOf(node);
         if (i < 0)
             return;
 
-        const children = [...this.children];
+        const children = this.children.slice();
         children.splice(i, 1);
         this.children = children;
         this.emitter.emit('change', {
@@ -111,19 +123,12 @@ export class NodeChildren {
         });
     }
 
-    onChange(fn: (info?: IOnChangeOptions) => void): () => void {
-        this.emitter.on('change', fn);
-        return () => {
-            this.emitter.off('change', fn);
-        };
-    }
-
     /**
-     * 删除一个节点
+     * 删除一个子节点
      */
     deleteChild(node: INode, purge = false) {
         // 需要在从 children 中删除 node 前记录下 index，internalSetParent 中会执行删除(unlink)操作
-        const i = this.children.indexOf(node);
+        const i = this.indexOf(node);
         if (purge) {
             node.setParent(null);
             try {
@@ -133,27 +138,29 @@ export class NodeChildren {
                 console.error(err);
             }
         }
+
         const { document } = node;
         document.unlinkNode(node);
         document.selection.remove(node.id);
+
+        // purge 为 true 时，已在 internalSetParent 中删除了子节点
+        if (i > -1 && !purge) {
+            const children = this.children.slice();
+            children.splice(i, 1);
+            this.children = children;
+        }
+
         this.emitter.emit('change', {
             type: 'delete',
             node,
         });
-        // purge 为 true 时，已在 internalSetParent 中删除了子节点
-        if (i > -1 && !purge) {
-            // TODO: 可能不触发响应
-            const children = [...this.children];
-            children.splice(i, 1);
-            this.children = children;
-        }
     }
 
     /**
-     * 插入一个节点
+     * 插入一个子节点
      */
     insertChild(node: INode, at?: number | null): void {
-        const children = [...this.children];
+        const children = this.children.slice();
         let index = (at == null || at === -1) ? children.length : at;
 
         const i = children.indexOf(node);
@@ -186,11 +193,12 @@ export class NodeChildren {
         });
     }
 
+    /**
+     * 是否没有子节点
+     */
     isEmpty() {
         return this.size < 1;
     }
-
-    private purged = false;
 
     /**
      * 回收销毁
@@ -203,5 +211,12 @@ export class NodeChildren {
         this.children.forEach((child) => {
             child.purge();
         });
+    }
+
+    onChange(fn: (info?: IOnChangeOptions) => void): () => void {
+        this.emitter.on('change', fn);
+        return () => {
+            this.emitter.off('change', fn);
+        };
     }
 }

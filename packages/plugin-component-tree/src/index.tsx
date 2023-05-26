@@ -1,13 +1,14 @@
 import type { IPluginConfig } from '@webank/letgo-plugin-manager';
 import { TreeList } from '@icon-park/vue-next';
-import type {
-    PropType,
-} from 'vue';
+import type { PropType } from 'vue';
 import {
+    computed,
+
     defineComponent,
 } from 'vue';
 import type { Designer } from '@webank/letgo-designer';
 import type { Editor } from '@webank/letgo-editor-core';
+import { FTree } from '@fesjs/fes-design';
 import { iconCls } from './index.css';
 
 const ComponentTreeView = defineComponent({
@@ -20,8 +21,13 @@ const ComponentTreeView = defineComponent({
         },
     },
     setup(props) {
+        const data = computed(() => {
+            const currentRootNode = props.designer.currentDocument?.root;
+            console.log('currentRootNode:', currentRootNode);
+            return [];
+        });
         return () => {
-            return '组件树';
+            return <FTree data={data.value}/>;
         };
     },
 });

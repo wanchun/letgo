@@ -3,6 +3,8 @@ import type {
     IPublicTypeSettingTarget,
     IPublicTypeTransformedComponentMetadata,
 } from '@webank/letgo-types';
+import { engineConfig } from '@webank/letgo-editor-core';
+import { isArray } from 'lodash-es';
 
 export default function (
     metadata: IPublicTypeTransformedComponentMetadata,
@@ -36,10 +38,7 @@ export default function (
         let l = propsGroup.length;
         while (l-- > 0) {
             const item = propsGroup[l];
-            if (
-                item.name === '__style__'
-                || item.name === 'style'
-            ) {
+            if (item.name === 'style') {
                 propsGroup.splice(l, 1);
                 stylesGroup.push(item);
             }
@@ -227,6 +226,36 @@ export default function (
             name: '#advanced',
             title: '高级',
             items: advancedGroup,
+        });
+    }
+
+    // 给属性增加变量设置器
+    const supportVariableGlobally = engineConfig.get('supportVariableGlobally');
+    function addVariableSetter(field: IPublicTypeFieldConfig) {
+        if (field.items) {
+            field.items.forEach((fieldConfig) => {
+                addVariableSetter(fieldConfig);
+            });
+        }
+        else if (field.setter) {
+            if (supportVariableGlobally) {
+                const setter = field.setter;
+                if (isArray(setter)) {
+                    if (!setter.includes('VariableSetter'))
+                        setter.push('VariableSetter');
+                }
+                else if (setter) {
+                    if (setter !== 'VariableSetter')
+                        field.setter = [setter, 'VariableSetter'];
+                }
+            }
+        }
+    }
+
+    // 属性默认有这个
+    if (propsGroup) {
+        propsGroup.forEach((fieldConfig) => {
+            addVariableSetter(fieldConfig);
         });
     }
 

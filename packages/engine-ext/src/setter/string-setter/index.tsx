@@ -1,5 +1,6 @@
 import { defineComponent, onMounted } from 'vue';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
+import type { SettingField } from '@webank/letgo-designer';
 import { isUndefined } from 'lodash-es';
 import { FInput } from '@fesjs/fes-design';
 import { commonProps } from '../../common';
@@ -37,7 +38,7 @@ export const StringSetter: IPublicTypeSetter = {
     title: '字符串设置器',
     Component: StringSetterView,
     condition: (field) => {
-        const v = field.getValue();
+        const v = field.getValue() ?? (field as SettingField).getDefaultValue();
         return typeof v === 'string';
     },
 };

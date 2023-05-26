@@ -1,4 +1,4 @@
-import { IPublicTypeSetter } from '@webank/letgo-types';
+import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { SetterFactory } from '@webank/letgo-designer';
 
 export class Setters {

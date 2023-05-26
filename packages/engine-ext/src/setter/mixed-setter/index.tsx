@@ -48,9 +48,9 @@ function normalizeSetters(setters?: Array<IPublicTypeSetterType>): SetterItem[] 
         };
         if (isSetterConfig(setter)) {
             if (typeof setter.componentName === 'string') {
-                const info = SetterFactory.getSetter(setter.componentName);
-                config.name = info?.type || generateName('CustomSetter');
-                config.title = setter.title || info?.title;
+                const setterInfo = SetterFactory.getSetter(setter.componentName);
+                config.name = setterInfo?.type || generateName('CustomSetter');
+                config.title = setter.title || setterInfo?.title;
             }
             else {
                 config.name = generateName('CustomSetter');
@@ -62,13 +62,13 @@ function normalizeSetters(setters?: Array<IPublicTypeSetterType>): SetterItem[] 
             config.defaultValue = setter.defaultValue;
         }
         if (typeof setter === 'string') {
-            const info = SetterFactory.getSetter(config.setter);
+            const setterInfo = SetterFactory.getSetter(config.setter);
             config.name = setter;
             if (!config.title)
-                config.title = info?.title || config.setter;
+                config.title = setterInfo?.title || config.setter;
 
             if (!config.condition)
-                config.condition = info?.condition;
+                config.condition = setterInfo?.condition;
         }
         if (!config.title)
             config.title = config.name;

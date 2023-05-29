@@ -10,24 +10,37 @@ import { markReactive } from '@webank/letgo-utils';
 import type { Designer } from '../designer';
 import type { IComponentInstance } from '../types';
 import type { Project } from '../project';
+import type { CodeImplType } from '../code';
 
 export class State {
     private designer: Designer;
     private config: IPublicTypeAppConfig;
     private nodeIdToRef = new Map<string, string>();
     componentsInstance: Record<string, any>;
+    codesInstance: Record<string, CodeImplType>;
     constructor(project: Project) {
         markReactive(this, {
+            codesInstance: {},
             componentsInstance: {},
         });
         this.designer = project.designer;
         this.config = project.config;
 
         this.initComponentInstanceListen();
+
+        this.initCodesInstanceListen();
     }
 
     get globalState() {
         return this.config;
+    }
+
+    initCodesInstanceListen() {
+        this.designer.onSimulatorReady(() => {
+            this.designer.simulator.onUpdateCodesInstance((codesInstance) => {
+                this.codesInstance = { ...codesInstance };
+            });
+        });
     }
 
     initComponentInstanceListen() {
@@ -55,8 +68,10 @@ export class State {
                     else {
                         this.nodeIdToRef.set(options.id, node.ref);
                         this.componentsInstance[refName] = this.designer.simulator.getComponentInstancesExpose(options.instances[0]);
-                        node.onPropChange((param) => {
-                            this.componentsInstance[refName][param.key] = param.newValue;
+                        node.onPropChange(() => {
+                            setTimeout(() => {
+                                Object.assign(this.componentsInstance[refName], this.designer.simulator.getComponentInstancesExpose(options.instances[0]));
+                            });
                         });
                     }
                 }

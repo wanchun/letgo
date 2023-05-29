@@ -4,5 +4,6 @@ import type { IPublicTypeComponentInstance, IPublicTypeNodeSchema } from '@weban
 
 export const BASE_COMP_CONTEXT: InjectionKey<{
     getNode(id: string): INode | null
+    executeCtx: Record<string, any>
     onCompGetCtx(schema: IPublicTypeNodeSchema, val: IPublicTypeComponentInstance): void
 }> = Symbol('__appContext');

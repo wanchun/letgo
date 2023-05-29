@@ -14,7 +14,7 @@ export default defineComponent({
         return () => {
             return <div class={treeCls}>
                 {
-                    Object.keys(props.value).map((key) => {
+                    props.value && Object.keys(props.value).map((key) => {
                         return <TreeNode label={key} level={0} value={props.value[key]} />;
                     })
                 }

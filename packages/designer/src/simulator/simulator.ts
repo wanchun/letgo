@@ -783,6 +783,14 @@ export class Simulator implements ISimulator<ISimulatorProps> {
         [docId: string]: Map<string, IComponentInstance[]>
     }> = shallowRef({});
 
+    onUpdateCodesInstance(func: (codesInstance: Record<string, any>) => void) {
+        this.emitter.on('updateCodesInstance', func);
+    }
+
+    updateCodesInstance(codesInstance: Record<string, any>) {
+        this.emitter.emit('updateCodesInstance', codesInstance);
+    }
+
     /**
      * @see ISimulator
      */
@@ -802,7 +810,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
         else
             instancesMap[docId].set(id, instances.slice());
 
-        // 通知 component 实例变更（增、删、改）
+        // 通知 component 实例变更（增、删）
         this.postEvent('componentInstanceChange', {
             docId,
             id,

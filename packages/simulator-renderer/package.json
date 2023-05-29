@@ -19,11 +19,16 @@
     "@webank/letgo-renderer": "workspace:*",
     "@webank/letgo-types": "workspace:*",
     "@webank/letgo-utils": "workspace:*",
+    "acorn": "^8.8.2",
+    "astring": "^1.8.4",
     "lodash-es": "^4.17.21",
     "vue-router": "^4.1.5"
   },
   "publishConfig": {
     "access": "public"
   },
-  "typings": "./es/index.d.ts"
+  "typings": "./es/index.d.ts",
+  "devDependencies": {
+    "vue": "^3.3.4"
+  }
 }

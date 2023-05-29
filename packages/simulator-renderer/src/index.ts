@@ -3,9 +3,8 @@ import { warn } from './utils';
 
 const win = window as any;
 
-if (typeof win !== 'undefined') {
+if (typeof win !== 'undefined')
     win.LETGO_SimulatorRenderer = simulator;
-}
 
 win.addEventListener('load', () => {
     if (!win.__VUE_HMR_RUNTIME__) {
@@ -24,10 +23,6 @@ win.addEventListener('beforeunload', () => {
 export default simulator;
 export * from '@webank/letgo-renderer';
 export {
-    useLeaf,
-    useRenderer,
-    useRootScope,
-    useRendererContext,
     config as vueRendererConfig,
     default as VueRenderer,
 } from '@webank/letgo-renderer';

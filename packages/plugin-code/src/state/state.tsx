@@ -3,10 +3,9 @@ import {
     computed,
     defineComponent,
     reactive,
-    ref,
 } from 'vue';
 
-import type { Designer, IComponentInstance } from '@webank/letgo-designer';
+import type { Designer } from '@webank/letgo-designer';
 import FadeInExpandTransition from '../fade-in-expand-transition';
 import Tree from '../tree/tree';
 import StateHeader from './state-header';
@@ -41,57 +40,22 @@ export default defineComponent({
         const globalState = computed(() => {
             return props.designer.project.config;
         });
-
-        // const { codeInstances } = useCode();
-        // const codeState = computed(() => {
-        //     const result: Record<string, any> = {};
-        //     Object.keys(codeInstances).forEach((key) => {
-        //         result[key] = codeInstances[key].view;
-        //     });
-        //     return result;
-        // });
-
-        const codeState = ref({});
-
-        const componentInstances = ref<Record<string, any>>({});
-        const nodeIdToRef: Record<string, string> = {};
-        props.designer.onSimulatorReady(() => {
-            props.designer.simulator.onEvent('componentInstanceChange', (options: {
-                docId: string
-                id: string
-                instances: IComponentInstance[]
-            }) => {
-                const currentDocument = props.designer.currentDocument;
-                const node = currentDocument.getNode(options.id);
-                if (node) {
-                    if (node.id === 'root')
-                        return;
-                    const refName = node.ref;
-                    // TODO 暂不支持多个实例
-                    if (!options.instances || options.instances.length === 0 || options.instances.length > 1) {
-                        delete componentInstances.value[refName];
-                    }
-                    else if (options.instances.length > 1) {
-                        // TODO 暂不支持多个实例
-                        console.warn('暂不支持多个实例');
-                        delete componentInstances.value[refName];
-                    }
-                    else {
-                        nodeIdToRef[options.id] = node.ref;
-                        componentInstances.value[refName] = props.designer.simulator.getComponentInstancesExpose(options.instances[0]);
-                        node.onPropChange((param) => {
-                            componentInstances.value[refName][param.key] = param.newValue;
-                        });
-                    }
-                }
-                else {
-                    const refName = nodeIdToRef[options.id];
-                    if (refName)
-                        delete componentInstances.value[refName];
-                }
-            });
+        const currentDocument = computed(() => {
+            return props.designer.currentDocument;
+        });
+        const currentState = computed(() => {
+            return currentDocument.value?.state;
         });
 
+        const codesState = computed(() => {
+            const result: Record<string, any> = {};
+            if (currentState.value?.codesInstance) {
+                Object.keys(currentState.value.codesInstance).forEach((key) => {
+                    result[key] = currentState.value.codesInstance[key].view;
+                });
+            }
+            return result;
+        });
         return () => {
             return (
                 <div class={stateWrapCls}>
@@ -99,7 +63,7 @@ export default defineComponent({
                         <StateHeader title="Code" isActive={activeItem.code} clickHeader={toggleCodeExpend} />
                         <FadeInExpandTransition>
                             <div v-show={activeItem.code}>
-                                <Tree value={codeState.value} />
+                                <Tree value={codesState.value} />
                             </div>
                         </FadeInExpandTransition>
                     </div>
@@ -107,7 +71,7 @@ export default defineComponent({
                         <StateHeader title="Components" isActive={activeItem.components} clickHeader={toggleComponentsExpend} />
                         <FadeInExpandTransition>
                             <div v-show={activeItem.components}>
-                                <Tree value={componentInstances.value} />
+                                <Tree value={currentState.value?.componentsInstance} />
                             </div>
                         </FadeInExpandTransition>
                     </div>

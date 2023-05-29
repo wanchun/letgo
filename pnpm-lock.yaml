@@ -516,12 +516,22 @@ importers:
       '@webank/letgo-utils':
         specifier: workspace:*
         version: link:../utils
+      acorn:
+        specifier: ^8.8.2
+        version: 8.8.2
+      astring:
+        specifier: ^1.8.4
+        version: 1.8.4
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
       vue-router:
         specifier: ^4.1.5
         version: 4.1.5(vue@3.3.4)
+    devDependencies:
+      vue:
+        specifier: ^3.3.4
+        version: 3.3.4
 
   packages/template:
     dependencies:
@@ -4026,7 +4036,7 @@ packages:
     resolution: {integrity: sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==}
 
   /cookie-signature@1.0.6:
-    resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
+    resolution: {integrity: sha1-4wOogrNCzD7oylE6eZmXNNqzriw=, tarball: https://registry.npmmirror.com/cookie-signature/download/cookie-signature-1.0.6.tgz}
     dev: false
 
   /cookie@0.5.0:
@@ -5172,7 +5182,7 @@ packages:
     dev: false
 
   /forwarded@0.2.0:
-    resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
+    resolution: {integrity: sha1-ImmTZCiq1MFcfr6XeahL8LKoGBE=, tarball: https://registry.npmmirror.com/forwarded/download/forwarded-0.2.0.tgz}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -6070,7 +6080,7 @@ packages:
       '@babel/runtime': 7.21.5
 
   /media-typer@0.3.0:
-    resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
+    resolution: {integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=, tarball: https://registry.npmmirror.com/media-typer/download/media-typer-0.3.0.tgz}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -7460,7 +7470,7 @@ packages:
     dev: false
 
   /setprototypeof@1.2.0:
-    resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==}
+    resolution: {integrity: sha1-ZsmiSnP5/CjL5msJ/tPTPcrxtCQ=, tarball: https://registry.npmmirror.com/setprototypeof/download/setprototypeof-1.2.0.tgz}
     dev: false
 
   /shallow-clone@3.0.1:
@@ -7766,7 +7776,7 @@ packages:
       is-number: 7.0.0
 
   /toidentifier@1.0.1:
-    resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==}
+    resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==, tarball: https://registry.npmmirror.com/toidentifier/download/toidentifier-1.0.1.tgz}
     engines: {node: '>=0.6'}
     dev: false
 
@@ -7931,7 +7941,7 @@ packages:
     dev: true
 
   /utils-merge@1.0.1:
-    resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
+    resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=, tarball: https://registry.npmmirror.com/utils-merge/download/utils-merge-1.0.1.tgz}
     engines: {node: '>= 0.4.0'}
     dev: false
 

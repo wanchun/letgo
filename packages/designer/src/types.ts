@@ -100,6 +100,8 @@ export interface ISimulator<P = object> extends ISensor {
      */
     clearState(): void
 
+    onUpdateCodesInstance(func: (codesInstance: Record<string, any>) => void): void
+
     /**
      * 缓存节点id的实例
      */

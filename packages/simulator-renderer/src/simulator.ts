@@ -5,6 +5,7 @@ import { cursor, isElement, setNativeSelection } from '@webank/letgo-utils';
 import type {
     Component,
     Ref,
+
 } from 'vue';
 import {
     computed,
@@ -13,6 +14,7 @@ import {
     onUnmounted,
     reactive,
     ref,
+    shallowReactive,
     shallowRef,
 } from 'vue';
 import { config } from '@webank/letgo-renderer';
@@ -45,7 +47,7 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
     /** 记录单个节点的组件实例列表 */
     const instancesMap = new Map<string, IPublicTypeComponentInstance[]>();
     /** 记录 vue 组件实例和组件 uid 的映射关系 */
-    const vueInstanceMap = new Map<number, IPublicTypeComponentInstance>();
+    const vueInstanceMap = shallowReactive(new Map<number, IPublicTypeComponentInstance>());
 
     const timestamp = ref(Date.now());
 
@@ -150,6 +152,7 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
         schema: computed(() => document.export(IPublicEnumTransformStage.Render)),
         document: computed(() => document),
         instancesMap: computed(() => instancesMap),
+        vueInstanceMap,
         getNode,
         mountInstance,
         unmountInstance,

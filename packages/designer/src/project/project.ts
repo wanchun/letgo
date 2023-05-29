@@ -2,8 +2,10 @@ import { EventEmitter } from 'eventemitter3';
 import type { ShallowReactive } from 'vue';
 import { shallowReactive, watch } from 'vue';
 import type {
+    IPublicTypeAppConfig,
     IPublicTypeComponentsMap,
     IPublicTypeProjectSchema,
+
     IPublicTypeRootSchema,
 } from '@webank/letgo-types';
 import {
@@ -25,7 +27,7 @@ export class Project {
         componentsTree: [],
     };
 
-    private _config: any = {};
+    private _config: IPublicTypeAppConfig = {};
 
     readonly documentsMap = new Map<string, DocumentModel>();
 
@@ -33,12 +35,12 @@ export class Project {
 
     currentDocument: DocumentModel | null;
 
-    get config(): any {
+    get config(): IPublicTypeAppConfig {
         // TODO: parse layout Component
         return this._config;
     }
 
-    set config(value: any) {
+    set config(value: IPublicTypeAppConfig) {
         this._config = value;
     }
 

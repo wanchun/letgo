@@ -179,7 +179,7 @@ export interface IPublicTypeProjectSchema {
     /**
      * 当前应用配置信息
      */
-    config?: IPublicTypeAppConfig | Record<string, any>
+    config?: IPublicTypeAppConfig
     /**
      * 当前应用元数据信息
      */

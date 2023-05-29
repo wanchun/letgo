@@ -51,7 +51,7 @@ export default defineComponent({
                         </FScrollbar>
                     </div>
                     <div class={rightPanelCls}>
-                        <CodeEdit />
+                        <CodeEdit designer={props.designer} />
                     </div>
                 </div>
             );

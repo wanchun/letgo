@@ -59,7 +59,7 @@ const NodeSelectorView = defineComponent({
                 const editor = node.document.project.designer.editor;
                 const npm = node?.componentMeta?.npm;
                 const selected
-                    = [npm?.package, npm?.componentName]
+                    = [npm?.package, npm?.exportName]
                         .filter(item => !!item)
                         .join('-')
                     || node?.componentMeta?.componentName

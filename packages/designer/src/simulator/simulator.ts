@@ -427,6 +427,9 @@ export class Simulator implements ISimulator<ISimulatorProps> {
 
     onEvent(eventName: string, callback: (...args: any[]) => void) {
         this.emitter.on(eventName, callback);
+        return () => {
+            this.emitter.off(eventName, callback);
+        };
     }
 
     postEvent(eventName: string, ...data: any[]) {
@@ -788,6 +791,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
         id: string,
         instances: IComponentInstance[] | null,
     ) {
+        console.log('setInstance:', id);
         const instancesMap = this.instancesMapRef.value;
         if (!hasOwnProperty(instancesMap, docId))
             instancesMap[docId] = new Map();
@@ -819,6 +823,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
         node: INode,
         context?: INodeInstance,
     ): IComponentInstance[] | null {
+        console.log('getComponentInstances:', node.id);
         const docId = node.document.id;
 
         const instances

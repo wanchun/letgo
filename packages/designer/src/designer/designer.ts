@@ -173,14 +173,14 @@ export class Designer {
             if (this.props?.onDragstart)
                 this.props.onDragstart(e);
 
-            this.postEvent('dragstart', e);
+            this.editor.emit('designer.dragstart', e);
         });
 
         this.dragon.onDrag((e) => {
             if (this.props?.onDrag)
                 this.props.onDrag(e);
 
-            this.postEvent('drag', e);
+            this.editor.emit('designer.drag', e);
         });
 
         this.dragon.onDragend((e) => {
@@ -228,37 +228,35 @@ export class Designer {
                 this.props.onDragend(e, loc);
 
             this.detecting.enable = true;
-            this.postEvent('dragend', e, loc);
+            this.editor.emit('designer.dragend', e, loc);
         });
 
+        // TODO: 清理
         this.dragon.onDropLocationChange((loc) => {
-            this.postEvent('dropLocation.change', loc);
+            this.editor.emit('designer.dropLocation.change', loc);
         });
 
+        // TODO: 清理
         this.project.onCurrentDocumentChange(() => {
-            this.postEvent(
-                'current-document.change',
+            this.editor.emit(
+                'designer.currentDocument.change',
                 this.currentDocument,
             );
-            this.postEvent('selection.change', this.currentSelection);
             this.setupSelection();
         });
 
-        this.postEvent('init', this);
+        // TODO: 整理 designer 生命周期事件
+        this.editor.emit('designer.init', this);
         this.setupSelection();
     }
 
     setupSelection = () => {
-        let selectionDispose: undefined | (() => void);
-        if (selectionDispose) {
-            selectionDispose();
-            selectionDispose = undefined;
-        }
         const currentSelection = this.currentSelection;
-        this.postEvent('selection.change', currentSelection);
+        this.editor.emit('designer.selection.change', currentSelection);
         if (currentSelection) {
-            selectionDispose = currentSelection.onSelectionChange(() => {
-                this.postEvent('selection.change', currentSelection);
+            // TODO: 清理
+            currentSelection.onSelectionChange(() => {
+                this.editor.emit('designer.selection.change', currentSelection);
             });
         }
     };
@@ -335,10 +333,6 @@ export class Designer {
         this._lostComponentMetaMap.set(componentName, meta);
 
         return meta;
-    }
-
-    postEvent(event: string, ...args: unknown[]) {
-        this.editor.emit(`designer.${event}`, ...args);
     }
 
     getGlobalComponentActions(): IPublicTypeComponentAction[] {

@@ -27,8 +27,6 @@ export default defineComponent({
 
         const main = new SettingsMain(editor, designer);
 
-        console.log('SettingsMain:', main);
-
         onBeforeUnmount(() => {
             main?.purge();
         });

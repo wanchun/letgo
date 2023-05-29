@@ -43,25 +43,27 @@ export class SettingsMain {
             _currentNode: undefined,
         });
         markComputed(this, ['settings', 'currentNode', 'componentMeta', 'length']);
-        this.init();
+
+        this.setupSelection(this.designer.currentSelection);
+        // 监听选中变化
+        const setupSelection = this.setupSelection.bind(this);
+        this.editor.on('designer.selection.change', (selection) => {
+            // TODO: selectionChange和node render时机问题，这里应该有更合理的方式
+            setTimeout(() => {
+                setupSelection(selection);
+            }, 0);
+        });
+        this.disposeListener = () => {
+            this.editor.off('designer.selection.change', setupSelection);
+        };
     }
 
-    private async init() {
-        const setupSelection = (selection?: Selection) => {
-            if (selection)
-                this.setup(selection.getNodes());
+    private setupSelection(selection?: Selection) {
+        if (selection)
+            this.setup(selection.getNodes());
 
-            else
-                this.setup([]);
-        };
-        this.editor.on('designer.selection.change', setupSelection);
-        this.disposeListener = () => {
-            this.editor.removeListener(
-                'designer.selection.change',
-                setupSelection,
-            );
-        };
-        setupSelection(this.designer.currentSelection);
+        else
+            this.setup([]);
     }
 
     private setup(nodes: INode[]) {

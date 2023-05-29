@@ -30,6 +30,7 @@ export class State {
     }
 
     initComponentInstanceListen() {
+        // TODO: 清理
         this.designer.onSimulatorReady(() => {
             this.designer.simulator.onEvent('componentInstanceChange', (options: {
                 docId: string

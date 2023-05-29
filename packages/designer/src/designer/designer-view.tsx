@@ -108,7 +108,7 @@ export const DesignerView = defineComponent({
 
         onMounted(() => {
             props.onMount?.(designer);
-            designer.postEvent('mount', designer);
+            designer.editor.emit('designer.mount', designer);
         });
 
         onBeforeUnmount(() => {

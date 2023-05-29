@@ -6,3 +6,7 @@ export const iconCls = style({
     color: 'inherit',
     lineHeight: 0,
 });
+
+export const nodeIconCls = style([iconCls, {
+    fontSize: '16px',
+}]);

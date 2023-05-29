@@ -7,6 +7,7 @@ import type {
 import type { IPublicTypeComponentsMap } from './npm';
 import type { IPublicTypeUtilsMap } from './utils';
 import type { IPublicTypeAppConfig } from './app-config';
+import type { CodeStruct } from './code';
 
 export interface IPublicTypeDirective {
     name: string
@@ -97,7 +98,7 @@ export interface IPublicTypeContainerSchema extends IPublicTypeNodeSchema {
     /**
      * 代码
      */
-    code: string
+    code: CodeStruct
     /**
      * 样式文件
      */

@@ -25,6 +25,7 @@ import {
 import type { Project } from '../project';
 import { Node, insertChild, insertChildren, isNode } from '../node';
 import type { ComponentMeta } from '../component-meta';
+import { Code } from '../code/code';
 import { Selection } from './selection';
 
 const componentUseTimes: Record<string, number> = {};
@@ -41,6 +42,8 @@ export class DocumentModel {
     readonly project: Project;
 
     readonly designer: Designer;
+
+    readonly code: Code;
 
     // /**
     //  * 操作记录控制
@@ -130,6 +133,8 @@ export class DocumentModel {
                 code: '',
             },
         );
+
+        this.code = new Code(schema.code);
 
         this.isMounted = true;
     }

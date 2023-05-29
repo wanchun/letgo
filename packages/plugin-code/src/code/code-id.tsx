@@ -1,6 +1,5 @@
 import type { PropType } from 'vue';
-import { defineComponent, inject, nextTick, ref } from 'vue';
-import { CODE_INJECTION_KEY } from '../constants';
+import { defineComponent, nextTick, ref } from 'vue';
 import { codeIdCls, editIconCls, idContentCls, inputCls } from './code-id.css';
 
 import EditIcon from './edit-icon';
@@ -13,8 +12,10 @@ export default defineComponent({
     setup(props) {
         const inputRefEl = ref<HTMLElement>();
         const editing = ref(false);
-
-        const { hasCodeId } = inject(CODE_INJECTION_KEY);
+        const hasCodeId = (id: string) => {
+            // TODO hasCodeId 重复性检测
+            return false;
+        };
 
         const goEdit = () => {
             editing.value = true;

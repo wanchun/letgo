@@ -9,7 +9,6 @@ import {
 import type { Designer, IComponentInstance } from '@webank/letgo-designer';
 import FadeInExpandTransition from '../fade-in-expand-transition';
 import Tree from '../tree/tree';
-import useCode from '../code/useCode';
 import StateHeader from './state-header';
 
 import { categoryCls, stateWrapCls } from './state.css';
@@ -43,14 +42,16 @@ export default defineComponent({
             return props.designer.project.config;
         });
 
-        const { codeInstances } = useCode();
-        const codeState = computed(() => {
-            const result: Record<string, any> = {};
-            Object.keys(codeInstances).forEach((key) => {
-                result[key] = codeInstances[key].view;
-            });
-            return result;
-        });
+        // const { codeInstances } = useCode();
+        // const codeState = computed(() => {
+        //     const result: Record<string, any> = {};
+        //     Object.keys(codeInstances).forEach((key) => {
+        //         result[key] = codeInstances[key].view;
+        //     });
+        //     return result;
+        // });
+
+        const codeState = ref({});
 
         const componentInstances = ref<Record<string, any>>({});
         const nodeIdToRef: Record<string, string> = {};

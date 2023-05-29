@@ -67,6 +67,7 @@ const ComponentTreeView = defineComponent({
                 data={data.value}
                 selectedKeys={selectedIds.value}
                 onSelect={onSelectNode}
+                defaultExpandAll
             />;
         };
     },

@@ -81,11 +81,11 @@ export default defineComponent({
 
         const onCommonAction = (value: string, item: CodeItem) => {
             if (value === 'delete')
-                code.value.deleteCodeItem(item.id);
+                code.value?.deleteCodeItem(item.id);
         };
 
         const renderFolders = () => {
-            return code.value.directories.map((item) => {
+            return code.value?.directories.map((item) => {
                 return <li class={codeItemCls}>
                         <FolderIcon />
                         <span class={codeItemIdCls}>{item.name}</span>
@@ -101,10 +101,10 @@ export default defineComponent({
                 return h(iconMap[item.type]);
         };
         const renderCode = () => {
-            return code.value.code.map((item) => {
+            return code.value?.code.map((item) => {
                 return <li onClick={() => changeCurrentCodeItem(item)} class={[codeItemCls, currentCodeItem.value?.id === item.id ? codeItemActiveCls : '']}>
                     {renderCodeIcon(item)}
-                    <CodeId id={item.id} onChange={code.value.changeCodeId} />
+                    <CodeId id={item.id} onChange={code.value?.changeCodeId} />
                     <FDropdown onClick={value => onCommonAction(value, item)} appendToContainer={false} trigger="click" placement="bottom-end" options={commonOptions}>
                         <MoreIcon />
                     </FDropdown>
@@ -115,7 +115,7 @@ export default defineComponent({
         return () => {
             return <div class={codeCls}>
                 <div class={codeHeaderCls}>
-                    <FDropdown trigger="click" onClick={code.value.addCodeItem} placement="bottom-start" options={options}>
+                    <FDropdown trigger="click" onClick={code.value?.addCodeItem} placement="bottom-start" options={options}>
                         <PlusOutlined class={headerIconCls} />
                     </FDropdown>
                 </div>

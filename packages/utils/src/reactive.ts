@@ -1,7 +1,7 @@
-import { computed, shallowReactive } from 'vue';
+import { computed, reactive } from 'vue';
 
 export function markReactive(target: Record<string, any>, properties: Record<string, any>) {
-    const state = shallowReactive(properties);
+    const state = reactive(properties);
     Object.keys(properties).forEach((key) => {
         Object.defineProperty(target, key, {
             get() {

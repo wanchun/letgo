@@ -5,7 +5,11 @@ import { codeBaseEdit } from './code-base';
 export class Code {
     codeStruct: CodeStruct;
     codeMap: Map<string, CodeItem>;
-    constructor(codeStruct: CodeStruct) {
+    constructor(codeStruct?: CodeStruct) {
+        codeStruct = codeStruct || {
+            directories: [],
+            code: [],
+        };
         markReactive(this, {
             codeStruct,
         });
@@ -38,11 +42,11 @@ export class Code {
         return codeMap;
     }
 
-    hasCodeId(id: string) {
+    hasCodeId = (id: string) => {
         return this.codeMap.has(id);
-    }
+    };
 
-    changeCodeId(id: string, preId: string) {
+    changeCodeId = (id: string, preId: string) => {
         const item = this.codeMap.get(preId);
         if (item) {
             // TODO 所有 deps 依赖了该 code 的都需要变
@@ -50,9 +54,9 @@ export class Code {
             this.codeMap.delete(preId);
             this.codeMap.set(id, item);
         }
-    }
+    };
 
-    genCodeId(type: CodeType) {
+    genCodeId = (type: CodeType) => {
         const reg = new RegExp(`^${type}(\\d+)$`);
         let idSuffix = 0;
         for (const key of this.codeMap.keys()) {
@@ -61,17 +65,17 @@ export class Code {
                 idSuffix = Number(matchResult[1]);
         }
         return `${type}${idSuffix + 1}`;
-    }
+    };
 
-    addCodeItem(type: CodeType) {
+    addCodeItem = (type: CodeType) => {
         const id = this.genCodeId(type);
         const item = codeBaseEdit[type].addCode(id);
 
         this.codeStruct.code.push(item);
         this.codeMap.set(id, this.codeStruct.code[this.codeStruct.code.length - 1]);
-    }
+    };
 
-    deleteCodeItem(id: string) {
+    deleteCodeItem = (id: string) => {
         const index = this.codeStruct.code.findIndex(item => item.id === id);
         if (index !== -1) {
             this.codeMap.delete(id);
@@ -88,10 +92,10 @@ export class Code {
                 }
             }
         }
-    }
+    };
 
-    changeCodeItemContent(id: string, content: Record<string, any>) {
+    changeCodeItemContent = (id: string, content: Record<string, any>) => {
         const item = this.codeMap.get(id);
         Object.assign(item, content);
-    }
+    };
 }

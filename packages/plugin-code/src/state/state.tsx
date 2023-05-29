@@ -71,6 +71,11 @@ export default defineComponent({
                     if (!options.instances || options.instances.length === 0 || options.instances.length > 1) {
                         delete componentInstances.value[refName];
                     }
+                    else if (options.instances.length > 1) {
+                        // TODO 暂不支持多个实例
+                        console.warn('暂不支持多个实例');
+                        delete componentInstances.value[refName];
+                    }
                     else {
                         nodeIdToRef[options.id] = node.ref;
                         componentInstances.value[refName] = props.designer.simulator.getComponentInstancesExpose(options.instances[0]);

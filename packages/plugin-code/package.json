@@ -29,6 +29,7 @@
     "@webank/letgo-editor-core": "workspace:*",
     "@webank/letgo-plugin-manager": "workspace:*",
     "@webank/letgo-types": "workspace:*",
+    "@webank/letgo-utils": "workspace:*",
     "acorn": "^8.8.2",
     "astring": "^1.8.4",
     "codemirror": "^6.0.1",

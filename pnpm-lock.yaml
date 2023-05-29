@@ -284,6 +284,9 @@ importers:
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
+      '@webank/letgo-utils':
+        specifier: workspace:*
+        version: link:../utils
       acorn:
         specifier: ^8.8.2
         version: 8.8.2

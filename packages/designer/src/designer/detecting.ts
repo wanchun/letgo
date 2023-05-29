@@ -1,5 +1,5 @@
 import { EventEmitter } from 'eventemitter3';
-import { markComputed, markReactive } from '@webank/letgo-utils';
+import { markComputed, markShallowReactive } from '@webank/letgo-utils';
 import type { DocumentModel } from '../document';
 import type { INode } from '../types';
 
@@ -29,7 +29,7 @@ export class Detecting {
     }
 
     constructor() {
-        markReactive(this, {
+        markShallowReactive(this, {
             _current: null,
         });
         markComputed(this, ['current']);

@@ -1,5 +1,6 @@
 import { isNil } from 'lodash-es';
-import { hasExpression, markComputed, markReactive, replaceExpression } from '../../helper';
+import { markComputed, markShallowReactive } from '@webank/letgo-utils';
+import { hasExpression, replaceExpression } from '../../helper';
 import type { TemporaryState } from '../../interface';
 import { TEMPORARY_STATE } from '../../constants';
 import { attachContext } from './transform-expression';
@@ -13,7 +14,7 @@ export class TemporaryStateImpl {
     value: any;
     initValue: string;
     constructor(data: TemporaryState, deps: string[], ctx: Record<string, any>) {
-        markReactive(this, {
+        markShallowReactive(this, {
             id: data.id,
             value: null,
         });

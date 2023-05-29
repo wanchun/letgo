@@ -1,7 +1,7 @@
 import { EventEmitter } from 'eventemitter3';
 import type { IPublicTypeNodeData } from '@webank/letgo-types';
 import { IPublicEnumTransformStage, isNodeSchema } from '@webank/letgo-types';
-import { markComputed, markReactive, shallowEqual } from '@webank/letgo-utils';
+import { markComputed, markShallowReactive, shallowEqual } from '@webank/letgo-utils';
 import type { INode } from '../types';
 
 interface IOnChangeOptions {
@@ -31,7 +31,7 @@ export class NodeChildren {
     }
 
     constructor(readonly owner: INode, data?: IPublicTypeNodeData | IPublicTypeNodeData[]) {
-        markReactive(this, {
+        markShallowReactive(this, {
             children: [],
         });
         markComputed(this, ['size']);
@@ -211,6 +211,13 @@ export class NodeChildren {
         this.children.forEach((child) => {
             child.purge();
         });
+    }
+
+    /**
+     * 获取子节点
+     */
+    getNodes() {
+        return this.children;
     }
 
     onChange(fn: (info?: IOnChangeOptions) => void): () => void {

@@ -1,7 +1,8 @@
 import { isNil } from 'lodash-es';
 import type { WatchStopHandle } from 'vue';
 import { watch } from 'vue';
-import { hasExpression, markComputed, markReactive, replaceExpression } from '../../helper';
+import { markComputed, markShallowReactive } from '@webank/letgo-utils';
+import { hasExpression, replaceExpression } from '../../helper';
 import type { JavascriptComputed } from '../../interface';
 import { JAVASCRIPT_COMPUTED, JAVASCRIPT_QUERY } from '../../constants';
 import { attachContext } from './transform-expression';
@@ -15,7 +16,7 @@ export class ComputedImpl {
     funcBody: string;
     unwatch: WatchStopHandle;
     constructor(data: JavascriptComputed, deps: string[], ctx: Record<string, any>) {
-        markReactive(this, {
+        markShallowReactive(this, {
             id: data.id,
             value: null,
         });

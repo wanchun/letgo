@@ -1,6 +1,6 @@
 import type { VNodeTypes } from 'vue';
 import { watch } from 'vue';
-import { markComputed, markReactive, uniqueId } from '@webank/letgo-utils';
+import { markComputed, markShallowReactive, uniqueId } from '@webank/letgo-utils';
 import type { Skeleton } from '../skeleton';
 import type { IWidgetBaseConfig } from '../types';
 import { SkeletonEvents } from '../types';
@@ -83,7 +83,7 @@ export class BaseWidget {
         readonly config: IWidgetBaseConfig,
         visible = true,
     ) {
-        markReactive(this, {
+        markShallowReactive(this, {
             isReady: false,
             _disabled: false,
             _visible: visible,

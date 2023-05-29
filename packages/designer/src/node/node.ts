@@ -12,7 +12,7 @@ import {
     isJSExpression,
 } from '@webank/letgo-types';
 import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
-import { markComputed, markReactive } from '@webank/letgo-utils';
+import { markComputed, markShallowReactive } from '@webank/letgo-utils';
 import type { ComponentMeta } from '../component-meta';
 import type { DocumentModel } from '../document';
 import type { IBaseNode, INode, IRootNode } from '../types';
@@ -196,7 +196,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     }
 
     constructor(readonly document: DocumentModel, nodeSchema: Schema) {
-        markReactive(this, {
+        markShallowReactive(this, {
             _slots: [],
         });
         markComputed(this, ['computedSchema', 'slots']);

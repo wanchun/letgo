@@ -1,4 +1,4 @@
-import { markComputed, markReactive, uniqueId } from '@webank/letgo-utils';
+import { markComputed, markShallowReactive, uniqueId } from '@webank/letgo-utils';
 import type { INode, INodeSelector, IViewport } from '../types';
 
 export class OffsetObserver {
@@ -113,7 +113,7 @@ export class OffsetObserver {
     readonly compute: () => void;
 
     constructor(readonly nodeInstance: INodeSelector) {
-        markReactive(this, {
+        markShallowReactive(this, {
             hasOffset: false,
             _height: 0,
             _width: 0,

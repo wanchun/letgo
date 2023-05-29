@@ -3,13 +3,13 @@ import { TreeList } from '@icon-park/vue-next';
 import type { PropType } from 'vue';
 import {
     computed,
-
     defineComponent,
 } from 'vue';
 import type { Designer } from '@webank/letgo-designer';
 import type { Editor } from '@webank/letgo-editor-core';
 import { FTree } from '@fesjs/fes-design';
 import { iconCls } from './index.css';
+import { transformNode } from './utils';
 
 const ComponentTreeView = defineComponent({
     props: {
@@ -24,7 +24,10 @@ const ComponentTreeView = defineComponent({
         const data = computed(() => {
             const currentRootNode = props.designer.currentDocument?.root;
             console.log('currentRootNode:', currentRootNode);
-            return [];
+            if (!currentRootNode)
+                return [];
+
+            return [transformNode(currentRootNode)];
         });
         return () => {
             return <FTree data={data.value}/>;

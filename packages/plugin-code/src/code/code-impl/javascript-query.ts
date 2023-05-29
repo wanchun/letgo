@@ -1,5 +1,5 @@
+import { markComputed, markShallowReactive } from '@webank/letgo-utils';
 import { JAVASCRIPT_QUERY } from '../../constants';
-import { markComputed, markReactive } from '../../helper';
 import type { FailureCondition, JavascriptQuery } from '../../interface';
 import { RunCondition } from '../../interface';
 
@@ -19,7 +19,7 @@ export class JavascriptQueryImpl {
     runCondition: RunCondition;
     queryFailureCondition: FailureCondition[];
     constructor(data: JavascriptQuery, ctx: Record<string, any>) {
-        markReactive(this, {
+        markShallowReactive(this, {
             id: data.id,
             query: data.query,
             enableTransformer: data.enableTransformer || false,

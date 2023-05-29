@@ -1,7 +1,7 @@
 import { EventEmitter } from 'eventemitter3';
 import type { Editor } from '@webank/letgo-editor-core';
 import type { Designer, INode, Selection, SettingTop } from '@webank/letgo-designer';
-import { markComputed, markReactive } from '@webank/letgo-utils';
+import { markComputed, markShallowReactive } from '@webank/letgo-utils';
 
 function generateSessionId(nodes: INode[]) {
     return nodes
@@ -38,7 +38,7 @@ export class SettingsMain {
     private disposeListener: () => void;
 
     constructor(readonly editor: Editor, readonly designer: Designer) {
-        markReactive(this, {
+        markShallowReactive(this, {
             _settings: undefined,
             _currentNode: undefined,
         });

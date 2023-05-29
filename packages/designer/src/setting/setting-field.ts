@@ -1,5 +1,5 @@
 import type { IPublicTypeFieldConfig, IPublicTypeFieldExtraProps, IPublicTypeSetterType } from '@webank/letgo-types';
-import { markComputed, markReactive } from '@webank/letgo-utils';
+import { markComputed, markShallowReactive } from '@webank/letgo-utils';
 import { SettingProp } from './setting-prop';
 import type { ISettingEntry } from './types';
 
@@ -66,7 +66,7 @@ export class SettingField extends SettingProp implements ISettingEntry {
         ) => void,
     ) {
         super(parent, config.name, config.type);
-        markReactive(this, {
+        markShallowReactive(this, {
             _expanded: true,
         });
         markComputed(this, ['expanded']);

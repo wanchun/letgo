@@ -13,7 +13,7 @@ import {
     isLowCodeComponentType,
     isProCodeComponentType,
 } from '@webank/letgo-types';
-import { markReactive } from '@webank/letgo-utils';
+import { markShallowReactive } from '@webank/letgo-utils';
 import { isDocumentModel } from '../types';
 import type { Designer } from '../designer';
 import { DocumentModel } from '../document';
@@ -45,7 +45,7 @@ export class Project {
     }
 
     constructor(readonly designer: Designer, schema?: IPublicTypeProjectSchema) {
-        markReactive(this, {
+        markShallowReactive(this, {
             currentDocument: null,
         });
         watch(() => this.currentDocument, () => {

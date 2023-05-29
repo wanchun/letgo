@@ -1,12 +1,12 @@
 import { CodeType } from '@webank/letgo-types';
-import type { CodeItem, JavascriptComputed, JavascriptQuery, TemporaryState } from '@webank/letgo-types';
+import type { CodeItem, IJavascriptComputed, IJavascriptQuery, ITemporaryState } from '@webank/letgo-types';
 
 export interface CodeBaseEdit {
     addCode(id: string): CodeItem
 }
 
 class TemporaryStateEdit implements CodeBaseEdit {
-    addCode(id: string): TemporaryState {
+    addCode(id: string): ITemporaryState {
         return {
             id,
             type: CodeType.TEMPORARY_STATE,
@@ -16,7 +16,7 @@ class TemporaryStateEdit implements CodeBaseEdit {
 }
 
 class JavascriptComputedEdit implements CodeBaseEdit {
-    addCode(id: string): JavascriptComputed {
+    addCode(id: string): IJavascriptComputed {
         return {
             id,
             type: CodeType.JAVASCRIPT_COMPUTED,
@@ -26,7 +26,7 @@ class JavascriptComputedEdit implements CodeBaseEdit {
 }
 
 class JavascriptQueryEdit implements CodeBaseEdit {
-    addCode(id: string): JavascriptQuery {
+    addCode(id: string): IJavascriptQuery {
         return {
             id,
             type: CodeType.JAVASCRIPT_QUERY,

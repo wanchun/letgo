@@ -8,7 +8,7 @@ export enum ResourceType {
     RESTQuery,
 }
 
-export interface FailureCondition {
+export interface IFailureCondition {
     condition: string
     message: string
 }
@@ -18,11 +18,11 @@ export enum RunCondition {
     PageLoads,
 }
 
-export interface QueryResource {
+export interface IQueryResource {
     id: string
     enableTransformer: boolean
     query: string
-    queryFailureCondition: FailureCondition[]
+    queryFailureCondition: IFailureCondition[]
     showSuccessToaster: boolean
     successMessage: string
     runCondition?: RunCondition
@@ -30,23 +30,23 @@ export interface QueryResource {
     queryTimeout?: number
     transformer: string
 }
-export interface JavascriptQuery extends QueryResource {
+export interface IJavascriptQuery extends IQueryResource {
     type: CodeType.JAVASCRIPT_QUERY
 }
 
-export interface JavascriptComputed {
+export interface IJavascriptComputed {
     id: string
     type: CodeType.JAVASCRIPT_COMPUTED
     funcBody: string
 }
 
-export interface TemporaryState {
+export interface ITemporaryState {
     id: string
     type: CodeType.TEMPORARY_STATE
     initValue: string
 }
 
-export type CodeItem = TemporaryState | JavascriptComputed | JavascriptQuery;
+export type CodeItem = ITemporaryState | IJavascriptComputed | IJavascriptQuery;
 
 export interface CodeDirectory {
     name: string

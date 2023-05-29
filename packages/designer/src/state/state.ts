@@ -3,6 +3,7 @@
  * 全局状态
  * code 实例
  * component 实例
+ * TODO utils key 校验
  */
 import type { IPublicTypeAppConfig } from '@webank/letgo-types';
 import { markReactive } from '@webank/letgo-utils';

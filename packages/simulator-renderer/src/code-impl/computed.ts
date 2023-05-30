@@ -5,8 +5,7 @@ import { markComputed, markShallowReactive } from '@webank/letgo-utils';
 import type { IJavascriptComputed } from '@webank/letgo-types';
 import { CodeType } from '@webank/letgo-types';
 import type { IJavascriptComputedImpl } from '@webank/letgo-designer';
-import { hasExpression, replaceExpression } from './helper';
-import { attachContext } from './transform-expression';
+import { attachContext, hasExpression, replaceExpression } from '@webank/letgo-renderer';
 
 export class ComputedImpl implements IJavascriptComputedImpl {
     id: string;

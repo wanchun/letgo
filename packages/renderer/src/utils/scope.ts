@@ -1,6 +1,6 @@
 import type { ComponentPublicInstance } from 'vue';
 import { isProxy, reactive } from 'vue';
-import { isObject } from './object';
+import { isPlainObject } from 'lodash-es';
 import type { MaybeArray } from './array';
 
 export interface BlockScope {
@@ -20,7 +20,7 @@ function isRuntimeScope(scope: object): scope is RuntimeScope {
 
 function isValidScope(scope: unknown): scope is BlockScope | RuntimeScope {
     // 为 null、undefined，或者不是对象
-    if (!scope || !isObject(scope))
+    if (!scope || !isPlainObject(scope))
         return false;
 
     // runtime scope

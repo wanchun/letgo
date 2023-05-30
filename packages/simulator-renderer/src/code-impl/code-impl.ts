@@ -1,12 +1,10 @@
 import { FMessage } from '@fesjs/fes-design';
 import { reactive } from 'vue';
 import { isNil } from 'lodash-es';
-import { generate } from 'astring';
 import type { CodeItem } from '@webank/letgo-types';
 import { CodeType } from '@webank/letgo-types';
 import type { CodeImplType } from '@webank/letgo-designer';
-import { extractExpression, replaceExpression } from './helper';
-import { findExpressionDependencyCode, transformExpression } from './transform-expression';
+import { extractExpression, findExpressionDependencyCode } from '@webank/letgo-renderer';
 import { topologicalSort } from './dag';
 import { TemporaryStateImpl } from './temporary-state';
 import { ComputedImpl } from './computed';
@@ -98,20 +96,20 @@ export function useCodesInstance(codeMap: Map<string, CodeItem>) {
         codesInstance[id].changeId(id);
         const item = codeMap.get(id);
 
-        for (const [_, deps] of dependencyMap) {
-            if (deps.includes(preId)) {
-                if (item.type === CodeType.TEMPORARY_STATE) {
-                    replaceExpression(item.initValue, (_, expression) => {
-                        const ast = transformExpression(expression, (identity) => {
-                            if (identity.name === preId)
-                                identity.name = id;
-                        });
-                        return `\${${generate(ast)}`;
-                    });
-                }
-                // TODO 改其他类型
-            }
-        }
+        // for (const [_, deps] of dependencyMap) {
+        //     if (deps.includes(preId)) {
+        //         if (item.type === CodeType.TEMPORARY_STATE) {
+        //             replaceExpression(item.initValue, (_, expression) => {
+        //                 const ast = transformExpression(expression, (identity) => {
+        //                     if (identity.name === preId)
+        //                         identity.name = id;
+        //                 });
+        //                 return `\${${generate(ast)}`;
+        //             });
+        //         }
+        //         // TODO 改其他类型
+        //     }
+        // }
     };
 
     const initCodesInstance = (ctx: Record<string, any>) => {

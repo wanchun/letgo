@@ -11,14 +11,6 @@ import {
     createTextVNode,
     getCurrentInstance,
     h,
-    isRef,
-    onBeforeMount,
-    onBeforeUnmount,
-    onBeforeUpdate,
-    onErrorCaptured,
-    onMounted,
-    onUnmounted,
-    onUpdated,
     provide,
     reactive,
     ref,
@@ -39,50 +31,23 @@ import {
     isJSSlot,
     isNodeSchema,
 } from '@webank/letgo-types';
-import { camelCase, isArray, isFunction, isNil, isString } from 'lodash-es';
+import { camelCase, isArray, isFunction, isNil, isPlainObject, isString } from 'lodash-es';
 import { contextFactory, useRendererContext } from '../context';
 import type { BlockScope, MaybeArray, RuntimeScope } from '../utils';
 import {
     ensureArray,
-    isObject,
     mergeScope,
-    parseExpression,
-    parseSchema,
     parseSlotScope,
 } from '../utils';
+import { executeFunc, parseExpression, parseSchema } from '../parse';
 import type { LeafProps, PropSchemaMap, RendererProps, SlotSchemaMap } from './base';
 import { Live } from './live';
-
-const LIFT_CYCLES_MAP = {
-    beforeMount: onBeforeMount,
-    mounted: onMounted,
-    beforeUpdate: onBeforeUpdate,
-    updated: onUpdated,
-    beforeUnmount: onBeforeUnmount,
-    unmounted: onUnmounted,
-    errorCaptured: onErrorCaptured,
-};
-
-export function isLifecycleKey(
-    key: string,
-): key is keyof typeof LIFT_CYCLES_MAP {
-    return key in LIFT_CYCLES_MAP;
-}
 
 export function isNodeData(val: unknown): val is IPublicTypeNodeData | IPublicTypeNodeData[] {
     if (Array.isArray(val))
         return val.every(item => isNodeData(item));
 
     return isDOMText(val) || isNodeSchema(val) || isJSExpression(val);
-}
-
-export function isVueComponent(val: unknown): val is Component {
-    if (isFunction(val))
-        return true;
-    if (isObject(val) && ('render' in val || 'setup' in val))
-        return true;
-
-    return false;
 }
 
 /**
@@ -196,9 +161,11 @@ export function buildSchema(props: LeafProps) {
  * @param prop - 属性对象，仅在 design 模式下有值
  */
 function buildProp(schema: unknown, scope: RuntimeScope): any {
-    if (isJSExpression(schema) || isJSFunction(schema)) {
-        // 处理表达式和函数
+    if (isJSExpression(schema)) {
         return parseExpression(schema, scope);
+    }
+    else if (isJSFunction(schema)) {
+        return executeFunc(schema, scope);
     }
     else if (isArray(schema)) {
         // 属性值为 array，递归处理属性的每一项
@@ -206,13 +173,13 @@ function buildProp(schema: unknown, scope: RuntimeScope): any {
             buildProp(item, scope),
         );
     }
-    else if (schema && isObject(schema)) {
+    else if (schema && isPlainObject(schema)) {
         // 属性值为 object，递归处理属性的每一项
         const res: Record<string, unknown> = {};
         Object.keys(schema).forEach((key) => {
             if (key.startsWith('__'))
                 return;
-            const val = schema[key];
+            const val = schema[key as keyof typeof schema];
             res[key] = buildProp(val, scope);
         });
         return res;
@@ -570,8 +537,6 @@ export function useLeaf(props: LeafProps) {
 }
 
 export function useRenderer(props: RendererProps) {
-    const { scope } = useRootScope(props);
-
     const contextKey = contextFactory();
 
     const componentsRef = computed(() => props.__components);
@@ -595,7 +560,7 @@ export function useRenderer(props: RendererProps) {
         } as any);
     };
 
-    return { scope, componentsRef, renderComp };
+    return { componentsRef, renderComp };
 }
 
 export function useRootScope(rendererProps: RendererProps) {
@@ -605,8 +570,6 @@ export function useRootScope(rendererProps: RendererProps) {
 
     // 将全局属性配置应用到 scope 中
     const instance = getCurrentInstance()!;
-    const scope = instance.proxy! as RuntimeScope;
-    const data = (instance.data = reactive({} as Record<string, unknown>));
 
     // 处理 props
     const props = parseSchema(propsSchema) ?? {};
@@ -630,22 +593,4 @@ export function useRootScope(rendererProps: RendererProps) {
     else if (style) {
         style.parentElement?.removeChild(style);
     }
-
-    /**
-     * 添加属性到作用域，若属性为 ref，则添加到 data 中，否则添加到 ctx 中
-     *
-     * @param source - 作用域属性来源
-     */
-    const addToScope = (source: BlockScope) => {
-        Object.keys(source).forEach((key) => {
-            const val = source[key];
-            const target = isRef(val) ? data : scope;
-            Reflect.set(target, key, val);
-        });
-    };
-
-    return {
-        scope,
-        addToScope,
-    };
 }

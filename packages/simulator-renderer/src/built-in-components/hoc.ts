@@ -21,7 +21,6 @@ import {
 import type { IPublicTypeComponentInstance } from '@webank/letgo-types';
 import {
     IPublicEnumTransformStage,
-    isJSExpression,
     isJSSlot,
 } from '@webank/letgo-types';
 import type { ISlotNode } from '@webank/letgo-designer';
@@ -30,7 +29,6 @@ import type {
     SlotSchemaMap,
 } from '@webank/letgo-renderer';
 import { BASE_COMP_CONTEXT } from '../constants';
-import { executeInput } from '../code-impl/transform-expression';
 
 /**
  * 装饰默认插槽，当插槽为空时，渲染插槽占位符，便于拖拽
@@ -143,9 +141,6 @@ export const Hoc = defineComponent({
                                 );
                                 compSlots.default = schema;
                             }
-                            else if (isJSExpression(newValue)) {
-                                compSlots.default = ensureArray(executeInput(newValue.value, executeCtx));
-                            }
                             else if (!isNil(newValue)) {
                                 compSlots.default = ensureArray(newValue);
                             }
@@ -158,9 +153,6 @@ export const Hoc = defineComponent({
                                 IPublicEnumTransformStage.Render,
                             );
                             compSlots[key] = schema;
-                        }
-                        else if (isJSExpression(newValue)) {
-                            compProps[key] = executeInput(newValue.value, executeCtx);
                         }
                         else if (isNil(newValue) && isJSSlot(oldValue)) {
                             // 具名插槽移除

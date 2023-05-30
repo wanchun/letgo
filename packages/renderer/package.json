@@ -2,16 +2,21 @@
   "name": "@webank/letgo-renderer",
   "version": "1.0.0",
   "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "module": "es/index.js",
   "files": [
     "es",
     "lib",
     "src"
   ],
-  "module": "es/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "peerDependencies": {
+    "vue": "^3.3.4"
+  },
   "dependencies": {
     "@webank/letgo-designer": "workspace:*",
     "@webank/letgo-types": "workspace:*",
@@ -19,16 +24,11 @@
     "astring": "^1.8.4",
     "lodash-es": "^4.17.21"
   },
-  "author": "",
-  "license": "ISC",
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.6"
-  },
-  "peerDependencies": {
-    "vue": "^3.3.4"
   },
   "typings": "./es/index.d.ts"
 }

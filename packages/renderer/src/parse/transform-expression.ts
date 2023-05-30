@@ -1,7 +1,28 @@
 import { parse } from 'acorn';
 import { generate } from 'astring';
 import { isNil, isUndefined } from 'lodash-es';
-import { hasExpression, replaceExpression } from './helper';
+
+const EXPRESSION_REGEX = /{{(.*?)}}/;
+
+export function hasExpression(doc: string) {
+    return EXPRESSION_REGEX.test(doc);
+}
+
+export function extractExpression(doc: string) {
+    const result = new Set<string>();
+    const regex = new RegExp(EXPRESSION_REGEX, 'gs');
+    let match;
+    // eslint-disable-next-line no-cond-assign
+    while ((match = regex.exec(doc)) !== null)
+        result.add(match[1].trim());
+
+    return Array.from(result).filter(Boolean);
+}
+
+export function replaceExpression(doc: string, callback: (pattern: string, expression: string) => string) {
+    const regex = new RegExp(EXPRESSION_REGEX, 'gs');
+    return doc.replace(regex, callback);
+}
 
 interface Identifier {
     type: 'Identifier'
@@ -107,7 +128,7 @@ export function attachContext(code: string, isInclude: (name: string) => boolean
     return generate(ast);
 }
 
-export function executeInput(text: string | null, ctx: Record<string, any>) {
+export function executeExpression(text: string | null, ctx: Record<string, any>) {
     if (isNil(text))
         return null;
     if (hasExpression(text)) {

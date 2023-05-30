@@ -522,12 +522,6 @@ importers:
       '@webank/letgo-utils':
         specifier: workspace:*
         version: link:../utils
-      acorn:
-        specifier: ^8.8.2
-        version: 8.8.2
-      astring:
-        specifier: ^1.8.4
-        version: 1.8.4
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21

@@ -2,24 +2,24 @@
   "name": "@webank/letgo-utils",
   "version": "1.0.0",
   "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "module": "es/index.js",
   "files": [
     "es",
     "lib",
     "src"
   ],
-  "module": "es/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "lodash": "^4.17.21",
-    "zen-logger": "^1.1.0",
+    "@fesjs/fes-design": "^0.7.27",
     "@webank/letgo-types": "workspace:*",
-    "@fesjs/fes-design": "^0.7.27"
+    "lodash-es": "^4.17.21",
+    "zen-logger": "^1.1.0"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "publishConfig": {
     "access": "public"
   },

@@ -63,6 +63,7 @@ export function parseExpression(
         if (inSameDomain() && (window.parent as any).__newFunc)
             return (window.parent as any).__newFunc(tarStr)(self);
 
+        // eslint-disable-next-line no-new-func
         return new Function('$scope', `with($scope || {}) { ${tarStr} }`)(
             scope,
         );

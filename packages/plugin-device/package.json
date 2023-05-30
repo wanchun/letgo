@@ -16,7 +16,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "peerDependencies": {
-    "vue": "^3.2.37"
+    "vue": "^3.3.4"
   },
   "dependencies": {
     "@vanilla-extract/css": "^1.11.0",
@@ -26,7 +26,7 @@
     "@webank/letgo-types": "workspace:*"
   },
   "devDependencies": {
-    "vue": "^3.2.37"
+    "vue": "^3.3.4"
   },
   "publishConfig": {
     "access": "public"

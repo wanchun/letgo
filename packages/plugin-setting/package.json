@@ -16,7 +16,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "peerDependencies": {
-    "vue": "^3.2.37"
+    "vue": "^3.3.4"
   },
   "dependencies": {
     "@fesjs/fes-design": "^0.7.27",
@@ -29,7 +29,7 @@
     "eventemitter3": "^4.0.0"
   },
   "devDependencies": {
-    "vue": "^3.2.37"
+    "vue": "^3.3.4"
   },
   "publishConfig": {
     "access": "public"

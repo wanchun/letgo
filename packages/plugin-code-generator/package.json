@@ -21,7 +21,7 @@
     "lodash-es": "^4.17.21"
   },
   "peerDependencies": {
-    "vue": "^3.2.37"
+    "vue": "^3.3.4"
   },
   "keywords": [],
   "author": "",

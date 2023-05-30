@@ -150,7 +150,7 @@ importers:
     dependencies:
       '@fesjs/fes-design':
         specifier: ^0.7.27
-        version: 0.7.27(vue@3.2.47)
+        version: 0.7.27(vue@3.3.4)
       '@vanilla-extract/css':
         specifier: ^1.11.0
         version: 1.11.0
@@ -164,8 +164,8 @@ importers:
         specifier: workspace:*
         version: link:../utils
       vue:
-        specifier: ^3.2.37
-        version: 3.2.47
+        specifier: ^3.3.4
+        version: 3.3.4
 
   packages/engine:
     dependencies:
@@ -209,8 +209,8 @@ importers:
         specifier: ^7.3.5
         version: 7.3.5
       vue:
-        specifier: ^3.2.37
-        version: 3.2.47
+        specifier: ^3.3.4
+        version: 3.3.4
     devDependencies:
       '@types/semver':
         specifier: 7.3.9
@@ -226,10 +226,10 @@ importers:
         version: 6.0.1
       '@fesjs/fes-design':
         specifier: ^0.7.27
-        version: 0.7.27(vue@3.2.47)
+        version: 0.7.27(vue@3.3.4)
       '@icon-park/vue-next':
         specifier: ^1.4.2
-        version: 1.4.2(vue@3.2.47)
+        version: 1.4.2(vue@3.3.4)
       '@vanilla-extract/css':
         specifier: ^1.11.0
         version: 1.11.0
@@ -246,8 +246,8 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1(@lezer/common@1.0.2)
       vue:
-        specifier: ^3.2.37
-        version: 3.2.47
+        specifier: ^3.3.4
+        version: 3.3.4
 
   packages/plugin-code:
     dependencies:
@@ -311,7 +311,7 @@ importers:
     dependencies:
       '@fesjs/fes-design':
         specifier: ^0.7.27
-        version: 0.7.27(vue@3.2.47)
+        version: 0.7.27(vue@3.3.4)
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
@@ -331,17 +331,17 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       vue:
-        specifier: ^3.2.37
-        version: 3.2.47
+        specifier: ^3.3.4
+        version: 3.3.4
 
   packages/plugin-component-tree:
     dependencies:
       '@fesjs/fes-design':
         specifier: ^0.7.27
-        version: 0.7.27(vue@3.2.47)
+        version: 0.7.27(vue@3.3.4)
       '@icon-park/vue-next':
         specifier: ^1.4.2
-        version: 1.4.2(vue@3.2.47)
+        version: 1.4.2(vue@3.3.4)
       '@vanilla-extract/css':
         specifier: ^1.11.0
         version: 1.11.0
@@ -358,17 +358,17 @@ importers:
         specifier: workspace:*
         version: link:../types
       vue:
-        specifier: ^3.2.37
-        version: 3.2.47
+        specifier: ^3.3.4
+        version: 3.3.4
 
   packages/plugin-components:
     dependencies:
       '@fesjs/fes-design':
         specifier: ^0.7.27
-        version: 0.7.27(vue@3.2.47)
+        version: 0.7.27(vue@3.3.4)
       '@icon-park/vue-next':
         specifier: ^1.4.2
-        version: 1.4.2(vue@3.2.47)
+        version: 1.4.2(vue@3.3.4)
       '@vanilla-extract/css':
         specifier: ^1.11.0
         version: 1.11.0
@@ -385,14 +385,14 @@ importers:
         specifier: workspace:*
         version: link:../types
       vue:
-        specifier: ^3.2.37
-        version: 3.2.47
+        specifier: ^3.3.4
+        version: 3.3.4
 
   packages/plugin-designer:
     dependencies:
       '@fesjs/fes-design':
         specifier: ^0.7.27
-        version: 0.7.27(vue@3.2.47)
+        version: 0.7.27(vue@3.3.4)
       '@vanilla-extract/css':
         specifier: ^1.11.0
         version: 1.11.0
@@ -403,14 +403,14 @@ importers:
         specifier: workspace:*
         version: link:../plugin-manager
       vue:
-        specifier: ^3.2.37
-        version: 3.2.47
+        specifier: ^3.3.4
+        version: 3.3.4
 
   packages/plugin-device:
     dependencies:
       '@icon-park/vue-next':
         specifier: ^1.4.2
-        version: 1.4.2(vue@3.2.47)
+        version: 1.4.2(vue@3.3.4)
       '@vanilla-extract/css':
         specifier: ^1.11.0
         version: 1.11.0
@@ -425,8 +425,8 @@ importers:
         version: link:../types
     devDependencies:
       vue:
-        specifier: ^3.2.37
-        version: 3.2.47
+        specifier: ^3.3.4
+        version: 3.3.4
 
   packages/plugin-manager:
     dependencies:
@@ -456,7 +456,7 @@ importers:
     dependencies:
       '@fesjs/fes-design':
         specifier: ^0.7.27
-        version: 0.7.27(vue@3.2.47)
+        version: 0.7.27(vue@3.3.4)
       '@vanilla-extract/css':
         specifier: ^1.11.0
         version: 1.11.0
@@ -480,8 +480,8 @@ importers:
         version: 4.0.0
     devDependencies:
       vue:
-        specifier: ^3.2.37
-        version: 3.2.47
+        specifier: ^3.3.4
+        version: 3.3.4
 
   packages/renderer:
     dependencies:
@@ -501,8 +501,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       vue:
-        specifier: ^3.2.37
-        version: 3.2.47
+        specifier: ^3.3.4
+        version: 3.3.4
     devDependencies:
       '@types/lodash-es':
         specifier: ^4.17.6
@@ -2625,15 +2625,6 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
-  /@icon-park/vue-next@1.4.2(vue@3.2.47):
-    resolution: {integrity: sha512-+QklF255wkfBOabY+xw6FAI0Bwln/RhdwCunNy/9sKdKuChtaU67QZqU67KGAvZUTeeBgsL+yaHHxqfQeGZXEQ==}
-    engines: {node: '>= 8.0.0', npm: '>= 5.0.0'}
-    peerDependencies:
-      vue: 3.x
-    dependencies:
-      vue: 3.2.47
-    dev: false
-
   /@icon-park/vue-next@1.4.2(vue@3.3.4):
     resolution: {integrity: sha512-+QklF255wkfBOabY+xw6FAI0Bwln/RhdwCunNy/9sKdKuChtaU67QZqU67KGAvZUTeeBgsL+yaHHxqfQeGZXEQ==}
     engines: {node: '>= 8.0.0', npm: '>= 5.0.0'}
@@ -3254,6 +3245,7 @@ packages:
       '@vue/shared': 3.2.47
       estree-walker: 2.0.2
       source-map: 0.6.1
+    dev: false
 
   /@vue/compiler-core@3.3.4:
     resolution: {integrity: sha512-cquyDNvZ6jTbf/+x+AgM2Arrp6G4Dzbb0R64jiG804HRMfRiFXWI6kqUVqZ6ZR0bQhIoQjB4+2bhNtVwndW15g==}
@@ -3268,6 +3260,7 @@ packages:
     dependencies:
       '@vue/compiler-core': 3.2.47
       '@vue/shared': 3.2.47
+    dev: false
 
   /@vue/compiler-dom@3.3.4:
     resolution: {integrity: sha512-wyM+OjOVpuUukIq6p5+nwHYtj9cFroz9cwkfmP9O1nzH68BenTTv0u7/ndggT8cIQlnBeOo6sUT/gvHcIkLA5w==}
@@ -3288,6 +3281,7 @@ packages:
       magic-string: 0.25.9
       postcss: 8.4.23
       source-map: 0.6.1
+    dev: false
 
   /@vue/compiler-sfc@3.3.4:
     resolution: {integrity: sha512-6y/d8uw+5TkCuzBkgLS0v3lSM3hJDntFEiUORM11pQ/hKvkhSKZrXW6i69UyXlJQisJxuUEJKAWEqWbWsLeNKQ==}
@@ -3308,6 +3302,7 @@ packages:
     dependencies:
       '@vue/compiler-dom': 3.2.47
       '@vue/shared': 3.2.47
+    dev: false
 
   /@vue/compiler-ssr@3.3.4:
     resolution: {integrity: sha512-m0v6oKpup2nMSehwA6Uuu+j+wEwcy7QmwMkVNVfrV9P2qE5KshC6RwOCq8fjGS/Eak/uNb8AaWekfiXxbBB6gQ==}
@@ -3327,6 +3322,7 @@ packages:
       '@vue/shared': 3.2.47
       estree-walker: 2.0.2
       magic-string: 0.25.9
+    dev: false
 
   /@vue/reactivity-transform@3.3.4:
     resolution: {integrity: sha512-MXgwjako4nu5WFLAjpBnCj/ieqcjE2aJBINUNQzkZQfzIZA4xn+0fV1tIYBJvvva3N3OvKGofRLvQIwEQPpaXw==}
@@ -3341,6 +3337,7 @@ packages:
     resolution: {integrity: sha512-7khqQ/75oyyg+N/e+iwV6lpy1f5wq759NdlS1fpAhFXa8VeAIKGgk2E/C4VF59lx5b+Ezs5fpp/5WsRYXQiKxQ==}
     dependencies:
       '@vue/shared': 3.2.47
+    dev: false
 
   /@vue/reactivity@3.3.4:
     resolution: {integrity: sha512-kLTDLwd0B1jG08NBF3R5rqULtv/f8x3rOFByTDz4J53ttIQEDmALqKqXY0J+XQeN0aV2FBxY8nJDf88yvOPAqQ==}
@@ -3352,6 +3349,7 @@ packages:
     dependencies:
       '@vue/reactivity': 3.2.47
       '@vue/shared': 3.2.47
+    dev: false
 
   /@vue/runtime-core@3.3.4:
     resolution: {integrity: sha512-R+bqxMN6pWO7zGI4OMlmvePOdP2c93GsHFM/siJI7O2nxFRzj55pLwkpCedEY+bTMgp5miZ8CxfIZo3S+gFqvA==}
@@ -3365,6 +3363,7 @@ packages:
       '@vue/runtime-core': 3.2.47
       '@vue/shared': 3.2.47
       csstype: 2.6.21
+    dev: false
 
   /@vue/runtime-dom@3.3.4:
     resolution: {integrity: sha512-Aj5bTJ3u5sFsUckRghsNjVTtxZQ1OyMWCr5dZRAPijF/0Vy4xEoRCwLyHXcj4D0UFbJ4lbx3gPTgg06K/GnPnQ==}
@@ -3381,6 +3380,7 @@ packages:
       '@vue/compiler-ssr': 3.2.47
       '@vue/shared': 3.2.47
       vue: 3.2.47
+    dev: false
 
   /@vue/server-renderer@3.3.4(vue@3.3.4):
     resolution: {integrity: sha512-Q6jDDzR23ViIb67v+vM1Dqntu+HUexQcsWKhhQa4ARVzxOY2HbC7QRW/ggkDBd5BU+uM1sV6XOAP0b216o34JQ==}
@@ -3393,6 +3393,7 @@ packages:
 
   /@vue/shared@3.2.47:
     resolution: {integrity: sha512-BHGyyGN3Q97EZx0taMQ+OLNuZcW3d37ZEVmEAyeoA9ERdGvm9Irc/0Fua8SNyOtV1w6BS4q25wbMzJujO9HIfQ==}
+    dev: false
 
   /@vue/shared@3.3.4:
     resolution: {integrity: sha512-7OjdcV8vQ74eiz1TZLzZP4JwqM5fA94K6yntPS5Z25r9HDuGNzaGdgvwKYq6S+MxwF0TFRwe50fIR/MYnakdkQ==}
@@ -4214,6 +4215,7 @@ packages:
 
   /csstype@2.6.21:
     resolution: {integrity: sha512-Z1PhmomIfypOpoMjRQB70jfvy/wxT50qW08YXO5lMIJkrdq4yOTR+AW7FqutScmB9NkLwxo+jU+kZLbofZZq/w==}
+    dev: false
 
   /csstype@3.1.2:
     resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}
@@ -8232,6 +8234,7 @@ packages:
       '@vue/runtime-dom': 3.2.47
       '@vue/server-renderer': 3.2.47(vue@3.2.47)
       '@vue/shared': 3.2.47
+    dev: false
 
   /vue@3.3.4:
     resolution: {integrity: sha512-VTyEYn3yvIeY1Py0WaYGZsXnz3y5UnGi62GjVEqvEGPl6nxbOrCXbVOTQWBEJUqAyTUk2uJ5JLVnYJ6ZzGbrSw==}

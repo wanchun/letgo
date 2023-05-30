@@ -4,7 +4,6 @@ import type {
     ComputedRef,
     Ref,
     Slot,
-    Slots,
     VNode,
 } from 'vue';
 import {
@@ -499,7 +498,7 @@ export function buildSlots(render: (
     comp?: Component,
 ) => VNode | null,
 slots: SlotSchemaMap,
-blockScope?: BlockScope | null): Slots {
+blockScope?: BlockScope | null): Record<string, Slot> {
     return Object.keys(slots).reduce((prev, next) => {
         const slotSchema = slots[next];
         if (!slotSchema)

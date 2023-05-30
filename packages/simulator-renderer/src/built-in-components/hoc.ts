@@ -37,7 +37,7 @@ import { executeInput } from '../code-impl/transform-expression';
  *
  * @param slot - 插槽渲染函数
  */
-function decorateDefaultSlot(slot: Slot): Slot {
+function decorateDefaultSlot(slot?: Slot): Slot {
     return (...args: unknown[]) => {
         const vNodes = slot?.(...args) ?? [];
         if (!vNodes.length) {

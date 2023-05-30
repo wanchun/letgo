@@ -31,6 +31,7 @@ import type {
     IPublicTypeJSFunction,
     IPublicTypeNodeData,
     IPublicTypeNodeSchema,
+    IPublicTypeRootSchema,
 } from '@webank/letgo-types';
 import {
     isDOMText,
@@ -572,12 +573,6 @@ export function useLeaf(props: LeafProps) {
 export function useRenderer(props: RendererProps) {
     const { scope } = useRootScope(props);
 
-    const leafProps: LeafProps = reactive({
-        comp: null,
-        scope,
-        schema: computed(() => props.__schema),
-    });
-
     const contextKey = contextFactory();
 
     const componentsRef = computed(() => props.__components);
@@ -589,7 +584,19 @@ export function useRenderer(props: RendererProps) {
         }),
     );
 
-    return { scope, componentsRef, ...useLeaf(leafProps) };
+    const renderComp = (
+        nodeSchema: IPublicTypeRootSchema,
+        comp: Component,
+    ): VNode => {
+        return h(componentsRef.value.__BASE_COMP || Live, {
+            key: nodeSchema.id,
+            comp,
+            scope: null,
+            schema: nodeSchema,
+        } as any);
+    };
+
+    return { scope, componentsRef, renderComp };
 }
 
 export function useRootScope(rendererProps: RendererProps) {

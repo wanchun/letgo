@@ -56,16 +56,14 @@ export function useCodesInstance(codeMap: Map<string, CodeItem>) {
         if (!dependencyMap.has(item.id))
             dependencyMap.set(item.id, calcDependencies(item, codeMap));
 
-        if (item.type === CodeType.TEMPORARY_STATE) {
+        if (item.type === CodeType.TEMPORARY_STATE)
             codesInstance[item.id] = new TemporaryStateImpl(item, dependencyMap.get(item.id), ctx);
-        }
-        else if (item.type === CodeType.JAVASCRIPT_COMPUTED) {
+
+        else if (item.type === CodeType.JAVASCRIPT_COMPUTED)
             codesInstance[item.id] = new ComputedImpl(item, dependencyMap.get(item.id), ctx);
-        }
-        else if (item.type === CodeType.JAVASCRIPT_QUERY) {
-            // TODO  query 实例化
+
+        else if (item.type === CodeType.JAVASCRIPT_QUERY)
             codesInstance[item.id] = new JavascriptQueryImpl(item, ctx);
-        }
     };
 
     const deleteCodeInstance = (id: string) => {

@@ -1,9 +1,10 @@
-import { inject, Component, InjectionKey, getCurrentInstance } from 'vue';
+import type { Component, InjectionKey } from 'vue';
+import { getCurrentInstance, inject } from 'vue';
 
 export type DesignMode = 'live' | 'design';
 
 export interface RendererContext {
-    readonly components: Record<string, Component>;
+    readonly components: Record<string, Component>
 }
 
 export function contextFactory(): InjectionKey<RendererContext> {

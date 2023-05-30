@@ -1,5 +1,5 @@
 import { defineComponent, h } from 'vue';
-import { useRenderer, rendererProps } from '../core';
+import { rendererProps, useRenderer } from '../core';
 
 const Page = defineComponent((props, { slots }) => {
     return () => h('div', { class: 'letgo-page', ...props }, slots);
@@ -13,7 +13,7 @@ export const PageRenderer = defineComponent({
         return () => {
             const { __schema: schema } = props;
             const { value: components } = componentsRef;
-            return renderComp(schema, null, components.Page || Page);
+            return renderComp(schema, components.Page || Page);
         };
     },
 });

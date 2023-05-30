@@ -1,7 +1,28 @@
 import { parse } from 'acorn';
 import { generate } from 'astring';
-import { isNil, isUndefined } from 'lodash-es';
-import { hasExpression, replaceExpression } from './helper';
+import { isNil } from 'lodash-es';
+
+const EXPRESSION_REGEX = /{{(.*?)}}/;
+
+export function hasExpression(doc: string) {
+    return EXPRESSION_REGEX.test(doc);
+}
+
+export function extractExpression(doc: string) {
+    const result = new Set<string>();
+    const regex = new RegExp(EXPRESSION_REGEX, 'gs');
+    let match;
+    // eslint-disable-next-line no-cond-assign
+    while ((match = regex.exec(doc)) !== null)
+        result.add(match[1].trim());
+
+    return Array.from(result).filter(Boolean);
+}
+
+export function replaceExpression(doc: string, callback: (pattern: string, expression: string) => string) {
+    const regex = new RegExp(EXPRESSION_REGEX, 'gs');
+    return doc.replace(regex, callback);
+}
 
 interface Identifier {
     type: 'Identifier'
@@ -110,9 +131,11 @@ export function attachContext(code: string, isInclude: (name: string) => boolean
 export function executeInput(text: string | null, ctx: Record<string, any>) {
     if (isNil(text))
         return null;
+    console.log(hasExpression(text));
     if (hasExpression(text)) {
+        const keys = Object.keys(text);
         const codeStr = replaceExpression(text, (_, expression) => {
-            return `\${${attachContext(expression, name => !isUndefined(ctx[name]))}}`;
+            return `\${${attachContext(expression, name => keys.includes(name))}}`;
         });
         // eslint-disable-next-line no-new-func
         const fn = new Function('_ctx', `return \`${codeStr}\``);

@@ -146,4 +146,8 @@ export class Code {
         Object.assign(item, content);
         this.emitCodeItemChange(id, content);
     };
+
+    purge() {
+        this.emitter.removeAllListeners();
+    }
 }

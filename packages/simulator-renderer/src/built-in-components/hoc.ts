@@ -21,6 +21,7 @@ import {
 import type { IPublicTypeComponentInstance } from '@webank/letgo-types';
 import {
     IPublicEnumTransformStage,
+    isJSExpression,
     isJSSlot,
 } from '@webank/letgo-types';
 import type { ISlotNode } from '@webank/letgo-designer';
@@ -29,6 +30,7 @@ import type {
     SlotSchemaMap,
 } from '@webank/letgo-renderer';
 import { BASE_COMP_CONTEXT } from '../constants';
+import { executeInput } from '../code-impl/transform-expression';
 
 /**
  * 装饰默认插槽，当插槽为空时，渲染插槽占位符，便于拖拽
@@ -53,7 +55,7 @@ export const Hoc = defineComponent({
     name: 'Hoc',
     props: leafProps,
     setup(props) {
-        const { getNode, onCompGetCtx } = inject(BASE_COMP_CONTEXT);
+        const { getNode, onCompGetCtx, executeCtx } = inject(BASE_COMP_CONTEXT);
         const node = props.schema.id ? getNode(props.schema.id) : null;
 
         const { renderComp } = useLeaf(props);
@@ -68,10 +70,7 @@ export const Hoc = defineComponent({
             slots: SlotSchemaMap,
             blockScope?: BlockScope | null,
         ) => {
-            const result = buildSlots(renderComp, slots, blockScope) as Record<
-                string,
-                Slot
-            >;
+            const result = buildSlots(renderComp, slots, blockScope);
             if (node?.isContainer())
                 result.default = decorateDefaultSlot(result.default);
 
@@ -144,11 +143,13 @@ export const Hoc = defineComponent({
                                 );
                                 compSlots.default = schema;
                             }
-                            if (!isNil(newValue))
+                            else if (isJSExpression(newValue)) {
+                                compSlots.default = ensureArray(executeInput(newValue.value, executeCtx));
+                            }
+                            else if (!isNil(newValue)) {
                                 compSlots.default = ensureArray(newValue);
-
-                            else
-                                delete compSlots.default;
+                            }
+                            else { delete compSlots.default; }
                         }
                         else if (isJSSlot(newValue)) {
                             // 具名插槽更新
@@ -157,6 +158,9 @@ export const Hoc = defineComponent({
                                 IPublicEnumTransformStage.Render,
                             );
                             compSlots[key] = schema;
+                        }
+                        else if (isJSExpression(newValue)) {
+                            compProps[key] = executeInput(newValue.value, executeCtx);
                         }
                         else if (isNil(newValue) && isJSSlot(oldValue)) {
                             // 具名插槽移除

@@ -342,6 +342,7 @@ export class DocumentModel {
         this.rootNode = null;
         this.nodes.clear();
         this._nodesMap.clear();
+        this.code.purge();
     }
 
     checkDropTarget(

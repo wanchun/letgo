@@ -582,6 +582,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         this.purged = true;
         this.props.purge();
         this.settingEntry?.purge();
+        this.emitter.removeAllListeners();
     }
 }
 

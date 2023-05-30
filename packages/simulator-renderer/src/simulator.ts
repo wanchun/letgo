@@ -238,7 +238,7 @@ function createSimulatorRenderer() {
             const documentInstance = documentInstanceMap.get(did);
             const instance
                 = documentInstance?.getComponentInstance(cid) ?? null;
-            return Object.keys(instance).reduce((acc, key) => {
+            return instance && Object.keys(instance).reduce((acc, key) => {
                 acc[key] = instance[key as keyof typeof instance];
                 return acc;
             }, {} as Record<string, any>);

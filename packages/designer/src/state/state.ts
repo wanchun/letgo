@@ -67,12 +67,18 @@ export class State {
                     }
                     else {
                         this.nodeIdToRef.set(options.id, node.ref);
-                        this.componentsInstance[refName] = this.designer.simulator.getComponentInstancesExpose(options.instances[0]);
-                        node.onPropChange(() => {
-                            setTimeout(() => {
-                                Object.assign(this.componentsInstance[refName], this.designer.simulator.getComponentInstancesExpose(options.instances[0]));
+                        const instance = this.designer.simulator.getComponentInstancesExpose(options.instances[0]);
+                        if (instance) {
+                            this.componentsInstance[refName] = instance;
+                            node.onPropChange(() => {
+                                setTimeout(() => {
+                                    Object.assign(this.componentsInstance[refName], this.designer.simulator.getComponentInstancesExpose(options.instances[0]));
+                                });
                             });
-                        });
+                        }
+                        else {
+                            delete this.componentsInstance[refName];
+                        }
                     }
                 }
                 else {

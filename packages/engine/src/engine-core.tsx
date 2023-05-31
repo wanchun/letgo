@@ -4,45 +4,40 @@ import { isPlainObject } from 'lodash-es';
 import { Designer } from '@webank/letgo-designer';
 import type { IEngineOptions } from '@webank/letgo-editor-core';
 import { editor, engineConfig } from '@webank/letgo-editor-core';
-import { Skeleton, Workbench } from '@webank/letgo-editor-skeleton';
+import { Skeleton, WorkbenchView } from '@webank/letgo-editor-skeleton';
 import PluginDesigner from '@webank/letgo-plugin-designer';
 import PluginSetting from '@webank/letgo-plugin-setting';
 import engineExt from '@webank/letgo-engine-ext';
 import PluginCodeView from '@webank/letgo-plugin-code';
 import type {
-    IPluginContext,
     PluginPreference,
 } from '@webank/letgo-plugin-manager';
 import {
-    Material,
+    PluginContext,
     PluginManager,
-    Project,
 } from '@webank/letgo-plugin-manager';
 
-const plugins = new PluginManager(editor).toProxy();
-editor.set('plugins' as any, plugins);
+const innerDesigner = new Designer({ editor });
 
-const designer = new Designer({ editor });
-editor.set('designer' as any, designer);
+const innerSkeleton = new Skeleton(editor, innerDesigner);
 
-const skeleton = new Skeleton(editor);
-editor.set('skeleton' as any, skeleton);
+const innerPlugins = new PluginManager(innerDesigner, innerSkeleton).toProxy();
 
 export const version = '1.0.0';
 engineConfig.set('ENGINE_VERSION', 1);
 
-const { project: innerProject } = designer;
-const project = new Project(innerProject);
-const material = new Material(editor, designer);
+const { designer, plugins, skeleton, material, project, hotkey, setters } = new PluginContext(innerPlugins, {
+    pluginName: 'CommonPlugin',
+});
 
-export { plugins, project, material };
+export { editor, designer, plugins, skeleton, material, project, hotkey, setters };
 
 // 注册一批内置插件
 (async function registerPlugins() {
     // 处理 editor.set('assets')，将组件元数据创建好
-    plugins.register({
+    innerPlugins.register({
         name: '___component_meta_parser___',
-        init(ctx: IPluginContext) {
+        init(ctx) {
             const { editor, designer } = ctx;
             editor.onGot('assets', (assets: any) => {
                 const { components = [] } = assets;
@@ -51,17 +46,17 @@ export { plugins, project, material };
         },
     });
     // 注册默认的 setters
-    plugins.register({
+    innerPlugins.register({
         name: '___setter_registry___',
-        init(ctx: IPluginContext) {
+        init(ctx) {
             const { setters } = ctx;
             setters.register(engineExt.setters);
         },
     });
-    plugins.register(PluginCodeView);
+    innerPlugins.register(PluginCodeView);
     // 注册默认的面板
-    plugins.register(PluginDesigner);
-    plugins.register(PluginSetting);
+    innerPlugins.register(PluginDesigner);
+    innerPlugins.register(PluginSetting);
 })();
 
 let app: App;
@@ -92,8 +87,8 @@ export async function init(
     engineConfig.setEngineOptions(engineOptions);
     await plugins.init(pluginPreference);
 
-    app = createApp(Workbench, {
-        skeleton,
+    app = createApp(WorkbenchView, {
+        skeleton: innerSkeleton,
     });
     app.mount(engineContainer);
 }

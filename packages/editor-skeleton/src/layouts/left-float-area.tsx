@@ -9,7 +9,6 @@ import {
     onUnmounted,
     ref,
 } from 'vue';
-import type { Designer } from '@webank/letgo-designer';
 import { CloseOutlined, PasswordOutlined } from '@fesjs/fes-design/icon';
 import type { Area } from '../area';
 import type { IPanelConfig } from '../types';
@@ -66,7 +65,7 @@ export default defineComponent({
             area.unActiveAll();
         };
 
-        const designer: Designer = area.skeleton.editor.get('designer');
+        const designer = area.skeleton.designer;
 
         const clear = designer.dragon.onDragstart(() => {
             if (isFixedRef.value)

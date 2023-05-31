@@ -1,4 +1,5 @@
 import type { Editor } from '@webank/letgo-editor-core';
+import type { Designer } from '@webank/letgo-designer';
 import type {
     IBaseWidget,
     IEnumSkeletonEvent,
@@ -43,7 +44,7 @@ export class Skeleton {
 
     readonly widgets: IBaseWidget[] = [];
 
-    constructor(readonly editor: Editor) {
+    constructor(readonly editor: Editor, readonly designer: Designer) {
         this.leftArea = new Area(this, 'leftArea', (config) => {
             return this.createWidget(config);
         });

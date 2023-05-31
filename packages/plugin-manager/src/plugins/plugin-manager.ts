@@ -1,7 +1,9 @@
 import type { Editor } from '@webank/letgo-editor-core';
-import { engineConfig } from '@webank/letgo-editor-core';
+import { editor, engineConfig } from '@webank/letgo-editor-core';
 import { getLogger } from '@webank/letgo-utils';
 import semverSatisfies from 'semver/functions/satisfies';
+import type { Designer } from '@webank/letgo-designer';
+import type { Skeleton } from '@webank/letgo-editor-skeleton';
 import { invariant } from '../utils';
 import type {
     IPlugin,
@@ -17,13 +19,15 @@ import {
     isPluginRegisterOptions,
 } from './plugin-types';
 import { Plugin } from './plugin';
-import PluginContext from './plugin-context';
+import { PluginContext } from './plugin-context';
 import sequencify from './sequencify';
 
 const logger = getLogger({ level: 'warn', bizName: 'engine:pluginManager' });
 
 export class PluginManager implements IPluginManager {
-    editor: Editor;
+    readonly editor: Editor;
+    readonly designer: Designer;
+    readonly skeleton: Skeleton;
 
     private plugins: IPlugin[] = [];
 
@@ -31,8 +35,10 @@ export class PluginManager implements IPluginManager {
 
     private pluginPreference?: PluginPreference = new Map();
 
-    constructor(editor: Editor) {
+    constructor(designer: Designer, skeleton: Skeleton) {
         this.editor = editor;
+        this.designer = designer;
+        this.skeleton = skeleton;
     }
 
     private _getPluginContext(options: IPluginContextOptions) {

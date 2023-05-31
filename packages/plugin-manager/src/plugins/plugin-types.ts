@@ -1,6 +1,7 @@
 import type { Logger } from '@webank/letgo-utils';
 import type { Editor, EngineConfig } from '@webank/letgo-editor-core';
 import type { Designer } from '@webank/letgo-designer';
+import type { Skeleton as InnerSkeleton } from '@webank/letgo-editor-skeleton';
 import type { IPublicTypeCompositeObject } from '@webank/letgo-types';
 import type { Hotkey, Material, Project, Setters, Skeleton } from '../shell';
 
@@ -100,6 +101,8 @@ export type IPlugin = IPluginCore & IPluginExportsAccessor;
 
 export interface IPluginManagerCore {
     editor: Editor
+    designer: Designer
+    skeleton: InnerSkeleton
     register(
         pluginConfig: IPluginConfig,
         pluginOptions?: any,

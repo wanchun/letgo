@@ -14,7 +14,7 @@ import type {
 } from './plugin-types';
 import { isValidPreferenceKey } from './plugin-utils';
 
-export default class PluginContext implements IPluginContext {
+export class PluginContext implements IPluginContext {
     editor: Editor;
     designer: Designer;
     skeleton: Skeleton;
@@ -29,9 +29,9 @@ export default class PluginContext implements IPluginContext {
 
     constructor(plugins: IPluginManager, options: IPluginContextOptions) {
         const editor = plugins.editor;
+        const designer = plugins.designer;
+        const skeleton = plugins.skeleton;
         const { pluginName = 'anonymous' } = options;
-        const designer = editor.get('designer');
-        const skeleton = editor.get('skeleton');
         const project = designer?.project;
         this.editor = editor;
         this.designer = designer;

@@ -5,17 +5,17 @@ import { Designer } from '@webank/letgo-designer';
 import type { IEngineOptions } from '@webank/letgo-editor-core';
 import { editor, engineConfig } from '@webank/letgo-editor-core';
 import { Skeleton, WorkbenchView } from '@webank/letgo-editor-skeleton';
-import PluginDesigner from '@webank/letgo-plugin-designer';
-import PluginSetting from '@webank/letgo-plugin-setting';
 import engineExt from '@webank/letgo-engine-ext';
-import PluginCodeView from '@webank/letgo-plugin-code';
 import type {
-    PluginPreference,
+    IPluginPreference,
 } from '@webank/letgo-engine-plugin';
 import {
     PluginContext,
     PluginManager,
 } from '@webank/letgo-engine-plugin';
+import PluginDesigner from '@webank/letgo-plugin-designer';
+import PluginSetting from '@webank/letgo-plugin-setting';
+import PluginCodeView from '@webank/letgo-plugin-code';
 
 const innerDesigner = new Designer({ editor });
 
@@ -27,11 +27,11 @@ export const version = 'ENGINE_VERSION_PLACEHOLDER';
 
 engineConfig.set('ENGINE_VERSION', version);
 
-const { designer, plugins, skeleton, material, project, hotkey, setters } = new PluginContext(innerPlugins, {
+const { config, designer, plugins, skeleton, material, project, hotkey, setters } = new PluginContext(innerPlugins, {
     pluginName: 'CommonPlugin',
 });
 
-export { editor, designer, plugins, skeleton, material, project, hotkey, setters };
+export { editor, config, designer, plugins, skeleton, material, project, hotkey, setters };
 
 // 注册一批内置插件
 (async function registerPlugins() {
@@ -65,7 +65,7 @@ let app: App;
 export async function init(
     container?: HTMLElement,
     options?: IEngineOptions,
-    pluginPreference?: PluginPreference,
+    pluginPreference?: IPluginPreference,
 ): Promise<() => void> {
     if (app)
         return;

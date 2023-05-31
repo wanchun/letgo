@@ -5,7 +5,7 @@ import type { Skeleton as InnerSkeleton } from '@webank/letgo-editor-skeleton';
 import type { IPublicTypeCompositeObject } from '@webank/letgo-types';
 import type { Hotkey, Material, Project, Setters, Skeleton } from '../shell';
 
-export type PreferenceValueType = string | number | boolean;
+export type IPreferenceValueType = string | number | boolean;
 
 export interface IPluginPreferenceDeclarationProperty {
     // shape like 'name' or 'group.name' or 'group.subGroup.name'
@@ -16,7 +16,7 @@ export interface IPluginPreferenceDeclarationProperty {
     type: string
     // default value
     // NOTE! this is only used in configuration UI, won`t affect runtime
-    default?: PreferenceValueType
+    default?: IPreferenceValueType
     // only works when type === 'string', default value false
     useMultipleLineTextInput?: boolean
     // enum values, only works when type === 'string'
@@ -33,7 +33,7 @@ export interface IPluginPreferenceDeclaration {
     properties: IPluginPreferenceDeclarationProperty[]
 }
 
-export type PluginPreference = Map<string, Record<string, PreferenceValueType>>;
+export type IPluginPreference = Map<string, Record<string, IPreferenceValueType>>;
 
 export interface IPluginConfigMetaEngineConfig {
     version?: string
@@ -50,8 +50,8 @@ export interface IPluginPreferenceManager {
 
     getPreferenceValue: (
         key: string,
-        defaultValue?: PreferenceValueType,
-    ) => PreferenceValueType | undefined
+        defaultValue?: IPreferenceValueType,
+    ) => IPreferenceValueType | undefined
 }
 
 export interface IPluginContext {
@@ -109,7 +109,7 @@ export interface IPluginManagerCore {
         registerOptions?: IPublicTypeCompositeObject,
     ): Promise<void>
     init(
-        pluginPreference?: Map<string, Record<string, PreferenceValueType>>,
+        pluginPreference?: Map<string, Record<string, IPreferenceValueType>>,
     ): Promise<void>
     get(pluginName: string): IPlugin | undefined
     getAll(): IPlugin[]

@@ -186,6 +186,10 @@ export class EngineConfig {
         if (waits.length < 1)
             this.waits.delete(key);
     }
+
+    purge(): void {
+        this.config = {};
+    }
 }
 
 export const engineConfig = new EngineConfig();

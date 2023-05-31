@@ -10,10 +10,10 @@ import type {
     IPluginConfig,
     IPluginContextOptions,
     IPluginManager,
+    IPluginPreference,
     IPluginPreferenceDeclaration,
     IPluginRegisterOptions,
-    PluginPreference,
-    PreferenceValueType,
+    IPreferenceValueType,
 } from './plugin-types';
 import {
     isPluginRegisterOptions,
@@ -33,7 +33,7 @@ export class PluginManager implements IPluginManager {
 
     private pluginsMap: Map<string, IPlugin> = new Map();
 
-    private pluginPreference?: PluginPreference = new Map();
+    private pluginPreference?: IPluginPreference = new Map();
 
     constructor(designer: Designer, skeleton: Skeleton) {
         this.editor = editor;
@@ -156,7 +156,7 @@ export class PluginManager implements IPluginManager {
         return this.pluginsMap.delete(pluginName);
     }
 
-    async init(pluginPreference?: PluginPreference) {
+    async init(pluginPreference?: IPluginPreference) {
         const pluginNames: string[] = [];
         const pluginObj: { [name: string]: IPlugin } = {};
         this.pluginPreference = pluginPreference;
@@ -196,7 +196,7 @@ export class PluginManager implements IPluginManager {
 
     getPluginPreference(
         pluginName: string,
-    ): Record<string, PreferenceValueType> | null | undefined {
+    ): Record<string, IPreferenceValueType> | null | undefined {
         if (!this.pluginPreference)
             return null;
 

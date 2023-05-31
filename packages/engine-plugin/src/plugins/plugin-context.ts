@@ -10,7 +10,7 @@ import type {
     IPluginManager,
     IPluginPreferenceDeclaration,
     IPluginPreferenceManager,
-    PreferenceValueType,
+    IPreferenceValueType,
 } from './plugin-types';
 import { isValidPreferenceKey } from './plugin-utils';
 
@@ -60,8 +60,8 @@ export class PluginContext implements IPluginContext {
     ): void {
         const getPreferenceValue = (
             key: string,
-            defaultValue?: PreferenceValueType,
-        ): PreferenceValueType | undefined => {
+            defaultValue?: IPreferenceValueType,
+        ): IPreferenceValueType | undefined => {
             if (!isValidPreferenceKey(key, preferenceDeclaration))
                 return undefined;
 

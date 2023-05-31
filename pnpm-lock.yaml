@@ -160,9 +160,6 @@ importers:
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
-      '@webank/letgo-editor-core':
-        specifier: workspace:*
-        version: link:../editor-core
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types

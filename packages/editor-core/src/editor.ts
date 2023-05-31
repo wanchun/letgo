@@ -150,7 +150,7 @@ export class Editor extends EventEmitter implements IPublicEditor {
             this.waits.delete(key);
     }
 
-    destroy(): void {
+    purge(): void {
         this.context.clear();
     }
 }

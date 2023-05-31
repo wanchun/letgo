@@ -10,7 +10,7 @@ export default {
             type: 'Widget',
             name: 'PluginComponentsWidget',
             render: () => <Content />,
-        }).concat(
+        }).link(
             skeleton.add({
                 type: 'Panel',
                 area: 'leftFloatArea',

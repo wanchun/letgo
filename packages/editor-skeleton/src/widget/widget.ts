@@ -57,7 +57,7 @@ export class Widget extends BaseWidget implements IWidget {
         this.onInit?.(this);
     }
 
-    concat(widget: Modal | Panel) {
+    link(widget: Modal | Panel) {
         if (isModal(widget))
             this._modal = widget;
 

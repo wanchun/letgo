@@ -11,7 +11,7 @@ export default {
             name: 'CodeWidget',
             type: 'Widget',
             render: () => <Code theme="outline" size={20} strokeWidth={2} class={iconCls} />,
-        }).concat(
+        }).link(
             skeleton.add({
                 type: 'Panel',
                 name: 'CodePanel',

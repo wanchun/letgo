@@ -81,7 +81,7 @@ export default {
             type: 'Widget',
             name: 'PluginComponentTreeWidget',
             render: () => <TreeList theme="outline" strokeWidth={2} class={iconCls} />,
-        }).concat(
+        }).link(
             skeleton.add({
                 type: 'Panel',
                 area: 'leftFloatArea',

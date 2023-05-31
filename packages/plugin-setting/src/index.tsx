@@ -8,7 +8,7 @@ export default {
             name: 'setterPanel',
             area: 'rightArea',
             type: 'Panel',
-            content: () => <PluginSettingView ctx={ctx} />,
+            render: () => <PluginSettingView ctx={ctx} />,
         });
         setterPanel.show();
     },

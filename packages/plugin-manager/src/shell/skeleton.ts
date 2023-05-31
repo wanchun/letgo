@@ -1,8 +1,7 @@
-import {
+import type {
+    IAreaPosition,
+    IUnionConfig,
     Skeleton as InnerSkeleton,
-    IWidgetBaseConfig,
-    IWidgetConfigArea,
-    CreateWidgetParam,
     ReturnTypeOfCreateWidget,
 } from '@webank/letgo-editor-skeleton';
 import { skeletonSymbol } from './symbols';
@@ -20,7 +19,7 @@ export class Skeleton {
      * @param extraConfig
      * @returns
      */
-    add<T extends CreateWidgetParam>(
+    add<T extends IUnionConfig>(
         config: T,
         extraConfig?: Record<string, any>,
     ) {
@@ -35,15 +34,16 @@ export class Skeleton {
      * @param config
      * @returns
      */
-    remove(config: IWidgetBaseConfig) {
+    remove(config: IUnionConfig) {
         const { area, name } = config;
         const skeleton = this[skeletonSymbol];
-        if (!normalizeArea(area)) return;
+        if (!normalizeArea(area))
+            return;
         skeleton[normalizeArea(area)].remove(name);
     }
 }
 
-function normalizeArea(area: IWidgetConfigArea | undefined) {
+function normalizeArea(area: IAreaPosition | undefined) {
     switch (area) {
         case 'leftArea':
         case 'left':

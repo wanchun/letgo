@@ -1,62 +1,37 @@
 import type { Editor } from '@webank/letgo-editor-core';
 import type {
+    IBaseWidget,
+    IEnumSkeletonEvent,
     IModalConfig,
     IPanelConfig,
-    IWidget,
+    IUnionConfig,
     IWidgetConfig,
-    IWidgetModalConfig,
-    IWidgetPanelConfig,
-    SkeletonEvents,
 } from './types';
 import {
     isModalConfig,
     isPanelConfig,
     isWidgetConfig,
-    isWidgetModalConfig,
-    isWidgetPanelConfig,
 } from './types';
 import { Area } from './area';
-import { Modal, Panel, Widget, WidgetModal, WidgetPanel } from './widget';
+import { Modal, Panel, Widget } from './widget';
 
-export type CreateWidgetParam =
-    | IWidgetConfig
-    | IWidgetModalConfig
-    | IPanelConfig
-    | IWidgetPanelConfig
-    | IModalConfig;
-
-export type ReturnTypeOfCreateWidget<T> = T extends IWidgetModalConfig
-    ? WidgetModal
-    : T extends IPanelConfig
+export type ReturnTypeOfCreateWidget<T> =
+    T extends IPanelConfig
         ? Panel
-        : T extends IWidgetPanelConfig
-            ? WidgetPanel
-            : T extends IModalConfig
-                ? Modal
-                : T extends IWidgetConfig
-                    ? Widget
-                    : never;
+        : T extends IModalConfig
+            ? Modal
+            : T extends IWidgetConfig
+                ? Widget
+                : never;
 
 export class Skeleton {
-    readonly leftArea: Area<
-        IWidgetConfig | IWidgetPanelConfig | IWidgetModalConfig,
-        Widget | WidgetModal | WidgetPanel
-    >;
+    readonly leftArea: Area<IWidgetConfig, Widget>;
 
-    readonly topArea: Area<
-        IWidgetConfig | IWidgetPanelConfig | IWidgetModalConfig,
-        Widget | WidgetModal | WidgetPanel
-    >;
+    readonly topArea: Area<IWidgetConfig, Widget>;
 
-    readonly toolbar: Area<
-        IWidgetConfig | IWidgetPanelConfig | IWidgetModalConfig,
-        Widget | WidgetModal | WidgetPanel
-    >;
+    readonly toolbar: Area<IWidgetConfig, Widget>;
 
-    readonly bottomArea: Area<
-        IWidgetConfig | IWidgetPanelConfig | IWidgetModalConfig,
-        Widget | WidgetModal | WidgetPanel
-    >;
+    readonly bottomArea: Area<IWidgetConfig, Widget>;
 
     readonly globalArea: Area<IModalConfig, Modal>;
 
@@ -66,7 +41,7 @@ export class Skeleton {
 
     readonly mainArea: Area<IWidgetConfig | IPanelConfig, Widget | Panel>;
 
-    readonly widgets: IWidget[] = [];
+    readonly widgets: IBaseWidget[] = [];
 
     constructor(readonly editor: Editor) {
         this.leftArea = new Area(this, 'leftArea', (config) => {
@@ -95,19 +70,13 @@ export class Skeleton {
         });
     }
 
-    createWidget<T = CreateWidgetParam>(config: T) {
+    createWidget<T = IUnionConfig>(config: T) {
         let widget;
         if (isModalConfig(config))
             widget = new Modal(this, config);
 
-        else if (isWidgetModalConfig(config))
-            widget = new WidgetModal(this, config);
-
         else if (isPanelConfig(config))
             widget = new Panel(this, config);
-
-        else if (isWidgetPanelConfig(config))
-            widget = new WidgetPanel(this, config);
 
         else if (isWidgetConfig(config))
             widget = new Widget(this, config);
@@ -118,7 +87,7 @@ export class Skeleton {
         return widget as ReturnTypeOfCreateWidget<T>;
     }
 
-    add(config: CreateWidgetParam, extraConfig?: Record<string, any>) {
+    add(config: IUnionConfig, extraConfig?: Record<string, any>) {
         const parsedConfig = {
             ...config,
             ...extraConfig,
@@ -127,20 +96,10 @@ export class Skeleton {
         switch (area) {
             case 'leftArea':
             case 'left':
-                return this.leftArea.add(
-                    parsedConfig as
-                        | IWidgetConfig
-                        | IWidgetPanelConfig
-                        | IWidgetModalConfig,
-                );
+                return this.leftArea.add(parsedConfig as IWidgetConfig);
             case 'topArea':
             case 'top':
-                return this.topArea.add(
-                    parsedConfig as
-                        | IWidgetConfig
-                        | IWidgetPanelConfig
-                        | IWidgetModalConfig,
-                );
+                return this.topArea.add(parsedConfig as IWidgetConfig);
             case 'global':
             case 'globalArea':
                 return this.globalArea.add(parsedConfig as IModalConfig);
@@ -148,20 +107,10 @@ export class Skeleton {
             case 'rightArea':
                 return this.rightArea.add(parsedConfig as IPanelConfig);
             case 'toolbar':
-                return this.toolbar.add(
-                    parsedConfig as
-                        | IWidgetConfig
-                        | IWidgetPanelConfig
-                        | IWidgetModalConfig,
-                );
+                return this.toolbar.add(parsedConfig as IWidgetConfig);
             case 'bottom':
             case 'bottomArea':
-                return this.bottomArea.add(
-                    parsedConfig as
-                        | IWidgetConfig
-                        | IWidgetPanelConfig
-                        | IWidgetModalConfig,
-                );
+                return this.bottomArea.add(parsedConfig as IWidgetConfig);
             case 'leftFloatArea':
                 return this.leftFloatArea.add(parsedConfig as IPanelConfig);
             case 'main':
@@ -175,7 +124,7 @@ export class Skeleton {
         }
     }
 
-    postEvent(event: SkeletonEvents, ...args: any[]) {
+    postEvent(event: IEnumSkeletonEvent, ...args: any[]) {
         this.editor.emit(event, ...args);
     }
 }

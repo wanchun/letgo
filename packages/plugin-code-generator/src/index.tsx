@@ -1,4 +1,4 @@
-import { IPluginConfig } from '@webank/letgo-plugin-manager';
+import type { IPluginConfig } from '@webank/letgo-plugin-manager';
 import ExportBtn from './exportBtn';
 
 export default {
@@ -8,7 +8,7 @@ export default {
             name: 'exportCodeButton',
             area: 'topArea',
             type: 'Widget',
-            content: () => <ExportBtn />,
+            render: () => <ExportBtn />,
             props: {
                 align: 'right',
             },

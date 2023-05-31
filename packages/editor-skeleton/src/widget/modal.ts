@@ -1,16 +1,16 @@
-import type { VNode } from 'vue';
+import type { VNodeChild } from 'vue';
 import { h } from 'vue';
-import type { Skeleton } from '../skeleton';
-import type { IModalConfig, IModalProps, IWidget } from '../types';
 import ModalView from '../views/modal';
-import { BaseWidget } from './baseWidget';
+import type { IModal, IModalConfig, IModalProps } from '../types';
+import type { Skeleton } from '../skeleton';
+import { BaseWidget } from './base';
 
-export class Modal extends BaseWidget implements IWidget {
+export class Modal extends BaseWidget implements IModal {
     readonly isModal = true;
 
     readonly props: IModalProps;
 
-    get content(): VNode {
+    get content(): VNodeChild {
         return h(ModalView, {
             widget: this,
             key: this.id,

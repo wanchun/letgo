@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue';
-import type { IPublicTypeComponentMetadata, IPublicTypeEditor, IPublicTypeProjectSchema } from '@webank/letgo-types';
+import type { IPublicEditor, IPublicTypeComponentMetadata, IPublicTypeProjectSchema } from '@webank/letgo-types';
 import { FSpin } from '@fesjs/fes-design';
 import { SimulatorView } from '../simulator';
 import type { Project } from '../project';
@@ -75,7 +75,7 @@ export const DesignerView = defineComponent({
             type: Object as PropType<IPublicTypeProjectSchema>,
         },
         editor: {
-            type: Object as PropType<IPublicTypeEditor>,
+            type: Object as PropType<IPublicEditor>,
         },
         simulatorProps: {
             type: [Object, Function] as PropType<

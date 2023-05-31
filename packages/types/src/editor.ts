@@ -15,7 +15,7 @@ export type IPublicTypeEditorGetResult<T, ClsType> = T extends undefined
         : any
     : T;
 
-export interface IPublicTypeEditor extends EventEmitter {
+export interface IPublicEditor extends EventEmitter {
     get: <T = undefined, KeyOrType = any>(
         keyOrType: KeyOrType,
         opt?: IPublicTypeEditorGetOptions,

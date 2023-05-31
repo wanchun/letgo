@@ -1,5 +1,5 @@
 import { EventEmitter } from 'eventemitter3';
-import type { IPublicTypeEditor } from '@webank/letgo-types';
+import type { IPublicEditor } from '@webank/letgo-types';
 import type { ComponentMeta } from '../component-meta';
 import type { Designer } from '../designer';
 import type { INode } from '../types';
@@ -72,7 +72,7 @@ export class SettingTop implements ISettingEntry {
 
     disposeFunctions: any[] = [];
 
-    constructor(readonly editor: IPublicTypeEditor, readonly nodes: INode[]) {
+    constructor(readonly editor: IPublicEditor, readonly nodes: INode[]) {
         if (!Array.isArray(nodes) || nodes.length < 1)
             throw new ReferenceError('nodes should not be empty');
 

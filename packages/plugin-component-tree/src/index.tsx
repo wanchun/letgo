@@ -77,18 +77,21 @@ export default {
     name: 'PluginComponentTree',
     init({ skeleton, editor, designer }) {
         skeleton.add({
-            name: 'PluginComponentTreePanel',
             area: 'leftArea',
-            type: 'WidgetPanel',
-            content: () => <TreeList theme="outline" strokeWidth={2} class={iconCls} />,
-            props: {
-                align: 'top',
-            },
-            panelContent: () => <ComponentTreeView editor={editor} designer={designer} />,
-            panelProps: {
-                width: 300,
-                title: '组件树',
-            },
-        });
+            type: 'Widget',
+            name: 'PluginComponentTreeWidget',
+            render: () => <TreeList theme="outline" strokeWidth={2} class={iconCls} />,
+        }).concat(
+            skeleton.add({
+                type: 'Panel',
+                area: 'leftFloatArea',
+                name: 'PluginComponentTreePanel',
+                render: () => <ComponentTreeView editor={editor} designer={designer} />,
+                props: {
+                    width: 300,
+                    title: '组件树',
+                },
+            }),
+        );
     },
 } as IPluginConfig;

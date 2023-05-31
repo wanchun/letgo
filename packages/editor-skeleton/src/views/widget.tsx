@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
-import { defineComponent } from 'vue';
+import { computed, defineComponent } from 'vue';
 import type { IWidget } from '../types';
-import { disabledCls, widgetCls } from './widget.css';
+import { activeCls, disabledCls, widgetCls } from './widget.css';
 
 export default defineComponent({
     name: 'Widget',
@@ -14,6 +14,13 @@ export default defineComponent({
         },
     },
     setup(props) {
+        const isActive = computed(() => {
+            if (!props.widget.modal && !props.widget.panel)
+                return false;
+
+            return props.widget.modal?.visible || props.widget.panel?.visible;
+        });
+
         return () => {
             const { widget } = props;
             if (!widget.visible)
@@ -26,7 +33,7 @@ export default defineComponent({
             }
             if (props.onClick) {
                 return (
-                    <div class={widgetCls} onClick={() => props.onClick()}>
+                    <div class={[widgetCls, isActive.value && activeCls]} onClick={() => props.onClick()}>
                         {widget.body}
                     </div>
                 );

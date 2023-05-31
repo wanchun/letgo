@@ -6,18 +6,21 @@ export default {
     name: 'PluginComponents',
     init({ skeleton, editor, designer }) {
         skeleton.add({
-            name: 'PluginComponentsPanel',
             area: 'leftArea',
-            type: 'WidgetPanel',
-            content: () => <Content />,
-            props: {
-                align: 'top',
-            },
-            panelContent: () => <Panel editor={editor} designer={designer} />,
-            panelProps: {
-                width: 300,
-                title: '组件库',
-            },
-        });
+            type: 'Widget',
+            name: 'PluginComponentsWidget',
+            render: () => <Content />,
+        }).concat(
+            skeleton.add({
+                type: 'Panel',
+                area: 'leftFloatArea',
+                name: 'PluginComponentsPanel',
+                render: () => <Panel editor={editor} designer={designer} />,
+                props: {
+                    width: 300,
+                    title: '组件库',
+                },
+            }),
+        );
     },
 } as IPluginConfig;

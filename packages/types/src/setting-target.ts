@@ -1,4 +1,4 @@
-import type { IPublicTypeEditor } from './editor';
+import type { IPublicEditor } from './editor';
 
 export interface IPublicTypeSettingTarget {
     /**
@@ -19,7 +19,7 @@ export interface IPublicTypeSettingTarget {
     /**
      * 编辑器引用
      */
-    readonly editor: IPublicTypeEditor
+    readonly editor: IPublicEditor
 
     /**
      * 访问路径

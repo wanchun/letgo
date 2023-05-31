@@ -7,18 +7,21 @@ export default {
     name: 'PluginCodePanel',
     init({ skeleton, editor, designer }) {
         skeleton.add({
-            name: 'CodePanel',
             area: 'leftArea',
-            type: 'WidgetPanel',
-            content: () => <Code theme="outline" size={20} strokeWidth={2} class={iconCls} />,
-            props: {
-                align: 'top',
-            },
-            panelContent: () => <Panel editor={editor} designer={designer} />,
-            panelProps: {
-                width: 720,
-                title: 'code',
-            },
-        });
+            name: 'CodeWidget',
+            type: 'Widget',
+            render: () => <Code theme="outline" size={20} strokeWidth={2} class={iconCls} />,
+        }).concat(
+            skeleton.add({
+                type: 'Panel',
+                name: 'CodePanel',
+                area: 'leftFloatArea',
+                render: () => <Panel editor={editor} designer={designer} />,
+                props: {
+                    width: 720,
+                    title: 'code',
+                },
+            }),
+        );
     },
 } as IPluginConfig;

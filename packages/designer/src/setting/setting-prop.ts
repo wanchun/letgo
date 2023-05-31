@@ -1,5 +1,5 @@
 import { EventEmitter } from 'eventemitter3';
-import type { IPublicTypeEditor } from '@webank/letgo-types';
+import type { IPublicEditor } from '@webank/letgo-types';
 import { GlobalEvent, isJSExpression } from '@webank/letgo-types';
 import { uniqueId } from '@webank/letgo-utils';
 import type { ComponentMeta } from '../component-meta';
@@ -9,7 +9,7 @@ import type { ISetValueOptions, ISettingEntry } from './types';
 
 export class SettingProp implements ISettingEntry {
     // === static properties ===
-    readonly editor: IPublicTypeEditor;
+    readonly editor: IPublicEditor;
 
     readonly isSameComponent: boolean;
 

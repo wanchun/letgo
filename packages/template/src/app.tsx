@@ -26,7 +26,7 @@ plugins.register({
             name: 'widget',
             area: 'topArea',
             type: 'Widget',
-            content: () => h(Logo),
+            render: () => h(Logo),
             props: {
                 align: 'left',
             },

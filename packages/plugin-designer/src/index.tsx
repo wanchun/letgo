@@ -5,10 +5,10 @@ export default {
     name: 'PluginDesigner',
     init(ctx) {
         ctx.skeleton.add({
-            name: 'pluginDesignerPanel',
+            name: 'pluginDesignerWidget',
             area: 'mainArea',
             type: 'Widget',
-            content: () => <PluginDesignerView ctx={ctx} />,
+            render: () => <PluginDesignerView ctx={ctx} />,
         });
     },
 } as IPluginConfig;

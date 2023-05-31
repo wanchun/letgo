@@ -6,3 +6,7 @@ export const disabledCls = style({
     pointerEvents: 'none',
     opacity: 0.4,
 });
+
+export const activeCls = style({
+    color: '#5384ff',
+});

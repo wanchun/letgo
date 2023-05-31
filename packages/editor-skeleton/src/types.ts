@@ -1,12 +1,19 @@
-import type { VNode, VNodeTypes } from 'vue';
-import type { Editor } from '@webank/letgo-editor-core';
+import type { VNodeChild } from 'vue';
+import type { IPublicEditor } from '@webank/letgo-types';
+import type { Area } from './area';
 import type { Skeleton } from './skeleton';
-import type { Modal, Panel } from './widget';
+
+export enum IEnumSkeletonEvent {
+    WIDGET_SHOW = 'skeleton.widget.show',
+    WIDGET_HIDE = 'skeleton.widget.hide',
+    WIDGET_DISABLE = 'skeleton.widget.disable',
+    WIDGET_ENABLE = 'skeleton.widget.enable',
+}
 
 /**
  * 所有可能的停靠位置
  */
-export type IWidgetConfigArea =
+export type IAreaPosition =
     | 'leftArea'
     | 'left'
     | 'rightArea'
@@ -24,34 +31,16 @@ export type IWidgetConfigArea =
     | 'global'
     | 'globalArea';
 
-export interface IContentArgument {
-    config: IWidgetBaseConfig
-    editor: Editor
-}
-
-export interface IWidgetBaseConfig {
-    type: string
-    name: string
-    area: IWidgetConfigArea
-    props?: Record<string, any>
-    content: (arg: IContentArgument) => VNode | string
-    [extra: string]: any
+export interface IRenderOption {
+    config: IBaseConfig
+    editor: IPublicEditor
 }
 
 export interface IWidgetProps {
-    align?: 'left' | 'right' | 'bottom' | 'center' | 'top'
     title?: string
+    align?: 'left' | 'right' | 'bottom' | 'center' | 'top'
     onInit?: (widget: IWidget) => any
     onClick?: (widget: IWidget) => any
-}
-
-export interface IWidgetConfig extends IWidgetBaseConfig {
-    type: 'Widget'
-    props?: IWidgetProps
-}
-
-export function isWidgetConfig(obj: any): obj is IWidgetConfig {
-    return obj && obj.type === 'Widget';
 }
 
 export interface IModalProps {
@@ -69,72 +58,82 @@ export interface IModalProps {
     fullScreen?: boolean
     contentClass?: string
     getContainer?: () => HTMLElement
-    onOk?: (widget: IWidget) => any
-    onCancel?: (widget: IWidget) => any
+    onOk?: (widget: IModal) => any
+    onCancel?: (widget: IModal) => any
 }
 
-export interface IModalConfig extends IWidgetBaseConfig {
+export interface IPanelProps {
+    title?: string
+    description?: string
+    width?: number
+    height?: number
+    maxWidth?: number
+    maxHeight?: number
+}
+
+export interface IBaseConfig {
+    type: string
+    name: string
+    area: IAreaPosition
+    props?: Record<string, any>
+    render: (option: IRenderOption) => VNodeChild
+    [extra: string]: any
+}
+
+export interface IWidgetConfig extends IBaseConfig {
+    type: 'Widget'
+    props?: IWidgetProps
+}
+
+export interface IModalConfig extends IBaseConfig {
     type: 'Modal'
     props?: IModalProps
+}
+
+export interface IPanelConfig extends IBaseConfig {
+    type: 'Panel'
+    props?: IPanelProps
+}
+
+export type IUnionConfig = IWidgetConfig | IModalConfig | IPanelConfig;
+
+export function isWidgetConfig(obj: any): obj is IWidgetConfig {
+    return obj && obj.type === 'Widget';
 }
 
 export function isModalConfig(obj: any): obj is IModalConfig {
     return obj && obj.type === 'Modal';
 }
 
-export interface IWidgetModalConfig extends IWidgetBaseConfig {
-    type: 'WidgetModal'
-    props?: IWidgetProps
-    modalName?: string
-    modalContent: (arg: IContentArgument) => VNode | string
-    modalProps?: IModalProps
-}
-
-export function isWidgetModalConfig(obj: any): obj is IWidgetModalConfig {
-    return obj && obj.type === 'WidgetModal';
-}
-
-export interface IPanelProps {
-    title?: string
-    description?: string
-    width?: number // panel.props
-    height?: number // panel.props
-    maxWidth?: number // panel.props
-    maxHeight?: number // panel.props
-}
-
-export interface IPanelConfig extends IWidgetBaseConfig {
-    type: 'Panel'
-    props?: IPanelProps
-}
-
 export function isPanelConfig(obj: any): obj is IPanelConfig {
     return obj && obj.type === 'Panel';
 }
 
-export interface IWidgetPanelConfig extends IWidgetBaseConfig {
-    type: 'WidgetPanel'
-    props?: IWidgetProps
-    panelName?: string
-    panelContent: () => VNode | string
-    panelProps?: IPanelProps & {
-        area?: IWidgetConfigArea
-    }
-}
-
-export function isWidgetPanelConfig(obj: any): obj is IWidgetPanelConfig {
-    return obj && obj.type === 'WidgetPanel';
-}
-
-export interface IWidget {
+export interface IBaseWidget {
+    /**
+     * 名称
+     */
     readonly name: string
-    readonly content: VNodeTypes
-    readonly isWidget: true
+    /**
+     * 是否可见
+     */
     readonly visible: boolean
-    readonly disabled?: boolean
-    readonly body: VNodeTypes
+    /**
+     * 是否禁用
+     */
+    readonly disabled: boolean
+    /**
+     * skeleton
+     */
     readonly skeleton: Skeleton
-    readonly config: IWidgetBaseConfig
+    /**
+     * 配置
+     */
+    readonly config: IBaseConfig
+    /**
+     * 用户自定义render函数执行结果
+     */
+    readonly body: VNodeChild
 
     show(): void
     hide(): void
@@ -143,21 +142,58 @@ export interface IWidget {
     disable?(): void
 }
 
+export interface IWidget extends IBaseWidget {
+    /**
+     * 对应组件
+     */
+    readonly content: VNodeChild
+    readonly isWidget: true
+
+    readonly align?: string
+    readonly title: string
+    readonly onClick?: (widget: IWidget) => void
+    readonly onInit?: (widget: IWidget) => void
+    readonly modal?: IModal
+    readonly panel?: IPanel
+}
+
+export interface IModal extends IBaseWidget {
+    /**
+     * 对应组件
+     */
+    readonly content: VNodeChild
+    readonly isModal: true
+    readonly props: IModalProps
+}
+
+export interface IPanel extends IBaseWidget {
+    /**
+     * 对应组件
+     */
+    readonly content: VNodeChild
+    readonly isPanel: true
+    readonly props: IPanelProps
+
+    parent: Area<any, any>
+    setParent: (parent: Area<any, any>) => void
+}
+
+export interface IWidgetModel extends IWidget {
+    readonly modal: IModal
+}
+
+export interface IWidgetPanel extends IWidget {
+    readonly panel: IPanel
+}
+
 export function isWidget(obj: any): obj is IWidget {
     return obj && obj.isWidget;
 }
 
-export function isModal(obj: any): obj is Modal {
+export function isModal(obj: any): obj is IModal {
     return obj && obj.isModal;
 }
 
-export function isPanel(obj: any): obj is Panel {
+export function isPanel(obj: any): obj is IPanel {
     return obj && obj.isPanel;
-}
-
-export enum SkeletonEvents {
-    WIDGET_SHOW = 'skeleton.widget.show',
-    WIDGET_HIDE = 'skeleton.widget.hide',
-    WIDGET_DISABLE = 'skeleton.widget.disable',
-    WIDGET_ENABLE = 'skeleton.widget.enable',
 }

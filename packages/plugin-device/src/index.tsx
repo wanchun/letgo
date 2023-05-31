@@ -12,7 +12,7 @@ export default {
                 description: '切换画布尺寸',
                 align: 'center',
             },
-            content: () => <DeviceView designer={ctx.designer} />,
+            render: () => <DeviceView designer={ctx.designer} />,
         });
     },
 } as IPluginConfig;

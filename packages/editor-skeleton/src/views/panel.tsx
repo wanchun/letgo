@@ -1,14 +1,14 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
 import { isNil } from 'lodash-es';
-import type { IWidget } from '../types';
+import type { IPanel } from '../types';
 import { panelCls } from './panel.css';
 
 export default defineComponent({
     name: 'Panel',
     props: {
         widget: {
-            type: Object as PropType<IWidget>,
+            type: Object as PropType<IPanel>,
         },
         width: Number,
         height: Number,

@@ -1,13 +1,11 @@
-import type { VNodeTypes } from 'vue';
+import type { VNodeChild } from 'vue';
 import { watch } from 'vue';
 import { markComputed, markShallowReactive, uniqueId } from '@webank/letgo-utils';
 import type { Skeleton } from '../skeleton';
-import type { IWidgetBaseConfig } from '../types';
-import { SkeletonEvents } from '../types';
+import type { IBaseConfig, IBaseWidget } from '../types';
+import { IEnumSkeletonEvent } from '../types';
 
-export class BaseWidget {
-    readonly isWidget = true;
-
+export class BaseWidget implements IBaseWidget {
     readonly id = uniqueId('widget');
 
     readonly name: string;
@@ -18,18 +16,17 @@ export class BaseWidget {
 
     protected _disabled: boolean;
 
-    protected _body: VNodeTypes;
+    protected _body: VNodeChild;
 
     get body() {
         if (this.isReady)
             return this._body;
-
-        this.isReady = true;
-        const { content } = this.config;
-        this._body = content({
+        const { render } = this.config;
+        this._body = render({
             config: this.config,
             editor: this.skeleton.editor,
         });
+        this.isReady = true;
         return this._body;
     }
 
@@ -80,7 +77,7 @@ export class BaseWidget {
 
     constructor(
         readonly skeleton: Skeleton,
-        readonly config: IWidgetBaseConfig,
+        readonly config: IBaseConfig,
         visible = true,
     ) {
         markShallowReactive(this, {
@@ -88,23 +85,26 @@ export class BaseWidget {
             _disabled: false,
             _visible: visible,
         });
+
         markComputed(this, ['disabled', 'visible']);
 
         this.name = config.name;
+
         watch(() => this.visible, (visible) => {
             this.skeleton.postEvent(
                 visible
-                    ? SkeletonEvents.WIDGET_SHOW
-                    : SkeletonEvents.WIDGET_HIDE,
+                    ? IEnumSkeletonEvent.WIDGET_SHOW
+                    : IEnumSkeletonEvent.WIDGET_HIDE,
                 this.name,
                 this,
             );
         });
+
         watch(() => this.disabled, (disabled) => {
             this.skeleton.postEvent(
                 disabled
-                    ? SkeletonEvents.WIDGET_DISABLE
-                    : SkeletonEvents.WIDGET_ENABLE,
+                    ? IEnumSkeletonEvent.WIDGET_DISABLE
+                    : IEnumSkeletonEvent.WIDGET_ENABLE,
                 this.name,
                 this,
             );

@@ -1,15 +1,15 @@
 import EventEmitter from 'eventemitter3';
 import type {
+    IPublicEditor,
     IPublicTypeAssetsJson,
     IPublicTypeComponentDescription,
-    IPublicTypeEditor,
     IPublicTypeEditorGetResult,
     IPublicTypeEditorValueKey,
     IPublicTypeRemoteComponentDescription,
 } from '@webank/letgo-types';
 import { AssetLoader } from '@webank/letgo-utils';
 
-export class Editor extends EventEmitter implements IPublicTypeEditor {
+export class Editor extends EventEmitter implements IPublicEditor {
     private context = new Map<IPublicTypeEditorValueKey, any>();
 
     async setAssets(assets: IPublicTypeAssetsJson) {

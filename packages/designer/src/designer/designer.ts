@@ -1,11 +1,11 @@
 import { EventEmitter } from 'eventemitter3';
 import type {
+    IPublicEditor,
     IPublicEnumTransformStage,
     IPublicTypeComponentAction,
     IPublicTypeComponentMetadata,
     IPublicTypeComponentSchema,
     IPublicTypeCompositeObject,
-    IPublicTypeEditor,
     IPublicTypeNpmInfo,
     IPublicTypeProjectSchema,
     IPublicTypePropsList,
@@ -37,7 +37,7 @@ import type { OffsetObserver } from './offset-observer';
 import { createOffsetObserver } from './offset-observer';
 
 interface IDesignerProps {
-    editor: IPublicTypeEditor
+    editor: IPublicEditor
     defaultSchema?: IPublicTypeProjectSchema
     simulatorProps?: ISimulatorProps | ((designer: Designer) => ISimulatorProps)
     simulatorComponent?: Component
@@ -64,7 +64,7 @@ type IPropsReducer = (
 export class Designer {
     private emitter = new EventEmitter();
 
-    readonly editor: IPublicTypeEditor;
+    readonly editor: IPublicEditor;
 
     readonly project: Project;
 

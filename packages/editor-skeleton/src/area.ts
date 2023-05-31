@@ -1,9 +1,9 @@
 import { markComputed, markShallowReactive } from '@webank/letgo-utils';
-import type { IWidget, IWidgetBaseConfig } from './types';
+import type { IBaseConfig, IBaseWidget } from './types';
 import { isPanel } from './types';
 import type { Skeleton } from './skeleton';
 
-export class Area<C extends IWidgetBaseConfig, T extends IWidget = IWidget> {
+export class Area<C extends IBaseConfig, T extends IBaseWidget = IBaseWidget> {
     private _items: T[];
 
     private _itemMaps: { [name: string]: T } = {};
@@ -30,6 +30,7 @@ export class Area<C extends IWidgetBaseConfig, T extends IWidget = IWidget> {
             _current: null,
         });
         markComputed(this, ['items', 'current']);
+
         this.skeleton = skeleton;
         this.name = name;
         this.handle = handle;

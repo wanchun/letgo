@@ -56,7 +56,7 @@ export const Hoc = defineComponent({
         const { getNode, onCompGetCtx, executeCtx } = inject(BASE_COMP_CONTEXT);
         const node = props.schema.id ? getNode(props.schema.id) : null;
 
-        const { renderComp } = useLeaf(props);
+        const { renderComp } = useLeaf(props, executeCtx);
 
         const { show, condition } = buildShow(props.scope, props.schema);
         const { loop, updateLoop, updateLoopArg, buildLoopScope } = buildLoop(
@@ -68,7 +68,7 @@ export const Hoc = defineComponent({
             slots: SlotSchemaMap,
             blockScope?: BlockScope | null,
         ) => {
-            const result = buildSlots(renderComp, slots, blockScope);
+            const result = buildSlots(renderComp, slots, { ...executeCtx, ...blockScope });
             if (node?.isContainer())
                 result.default = decorateDefaultSlot(result.default);
 
@@ -187,6 +187,7 @@ export const Hoc = defineComponent({
             getRef,
             buildLoopScope,
             innerBuildSlots,
+            executeCtx,
         };
     },
     render() {
@@ -200,6 +201,7 @@ export const Hoc = defineComponent({
             buildLoopScope,
             innerBuildSlots,
             scope,
+            executeCtx,
         } = this;
 
         if (!show)
@@ -208,7 +210,13 @@ export const Hoc = defineComponent({
             return h('div', 'component not found');
 
         if (!loop) {
-            const props = buildProps(scope, compProps, null, { ref: getRef });
+            const props = buildProps({
+                context: executeCtx,
+                scope,
+                propsSchema: compProps,
+                blockScope: null,
+                extraProps: { ref: getRef },
+            });
             const slots = innerBuildSlots(compSlots);
             return h(comp, props, slots);
         }
@@ -222,8 +230,14 @@ export const Hoc = defineComponent({
             Fragment,
             loop.map((item, index, arr) => {
                 const blockScope = buildLoopScope(item, index, arr.length);
-                const props = buildProps(scope, compProps, blockScope, {
-                    ref: getRef,
+                const props = buildProps({
+                    context: executeCtx,
+                    scope,
+                    propsSchema: compProps,
+                    blockScope,
+                    extraProps: {
+                        ref: getRef,
+                    },
                 });
                 const slots = innerBuildSlots(compSlots, blockScope);
                 return h(comp, props, slots);

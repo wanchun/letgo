@@ -15,7 +15,7 @@ export const Live = defineComponent({
     name: 'Live',
     props: leafProps,
     setup(props) {
-        const { renderComp } = useLeaf(props);
+        const { renderComp } = useLeaf(props, {});
 
         const { show } = buildShow(props.scope, props.schema);
         const { loop, loopArgs } = buildLoop(props.scope, props.schema);
@@ -55,7 +55,11 @@ export const Live = defineComponent({
         if (!loop) {
             return h(
                 comp,
-                buildProps(scope, compProps),
+                buildProps({
+                    context: {},
+                    scope,
+                    propsSchema: compProps,
+                }),
                 innerBuildSlots(compSlots),
             );
         }
@@ -74,7 +78,12 @@ export const Live = defineComponent({
                 };
                 return h(
                     comp,
-                    buildProps(scope, compProps, blockScope),
+                    buildProps({
+                        context: {},
+                        scope,
+                        propsSchema: compProps,
+                        blockScope,
+                    }),
                     innerBuildSlots(compSlots, blockScope),
                 );
             }),

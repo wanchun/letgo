@@ -59,6 +59,7 @@ export function isNodeData(val: unknown): val is IPublicTypeNodeData | IPublicTy
  */
 function render({
     props,
+    context,
     schema,
     components,
     base,
@@ -66,6 +67,7 @@ function render({
     comp,
 }: {
     props: LeafProps
+    context: Record<string, unknown>
     schema: IPublicTypeNodeData
     base: Component
     components: Record<string, Component>
@@ -79,7 +81,10 @@ function render({
         return createTextVNode(schema);
     }
     else if (isJSExpression(schema)) {
-        const result = parseExpression(schema, mergedScope);
+        const result = parseExpression(schema, {
+            ...context,
+            ...mergedScope,
+        });
         return createTextVNode(toDisplayString(result));
     }
 
@@ -162,6 +167,7 @@ export function buildSchema(props: LeafProps) {
  */
 function buildProp(schema: unknown, scope: RuntimeScope): any {
     if (isJSExpression(schema)) {
+        console.log(scope);
         return parseExpression(schema, scope);
     }
     else if (isJSFunction(schema)) {
@@ -325,11 +331,19 @@ function processProp(
  * @param blockScope - 当前块级作用域
  * @param extraProps - 运行时附加属性
  */
-export function buildProps(
-    scope: RuntimeScope,
-    propsSchema: Record<string, unknown>,
-    blockScope?: BlockScope | null,
-    extraProps?: Record<string, unknown>): any {
+export function buildProps({
+    context,
+    scope,
+    propsSchema,
+    blockScope,
+    extraProps,
+}: {
+    context: Record<string, unknown>
+    scope: RuntimeScope
+    propsSchema: Record<string, unknown>
+    blockScope?: BlockScope | null
+    extraProps?: Record<string, unknown>
+}): any {
     // 属性预处理
     const processed: Record<string, unknown> = {};
     Object.keys(propsSchema).forEach((propKey) => {
@@ -339,12 +353,14 @@ export function buildProps(
     // 将属性 schema 转化成真实的属性值
     const parsedProps: Record<string, unknown> = {};
     const mergedScope = blockScope ? mergeScope(scope, blockScope) : scope;
+
+    const currentContext = { ...mergedScope, ...context };
     Object.keys(processed).forEach((propName) => {
         const schema = processed[propName];
         parsedProps[propName]
             = propName === 'ref'
-                ? buildRefProp(schema, mergedScope, blockScope)
-                : buildProp(schema, mergedScope);
+                ? buildRefProp(schema, currentContext, blockScope)
+                : buildProp(schema, currentContext);
     });
 
     // 应用运行时附加的属性值
@@ -507,7 +523,7 @@ blockScope?: BlockScope | null): Record<string, Slot> {
     }, {} as Record<string, Slot>);
 }
 
-export function useLeaf(props: LeafProps) {
+export function useLeaf(props: LeafProps, context: Record<string, unknown>) {
     const { components } = useRendererContext();
 
     /**
@@ -523,6 +539,7 @@ export function useLeaf(props: LeafProps) {
     ): VNode | null => {
         return render({
             props,
+            context,
             schema: nodeSchema,
             components,
             base: components.__BASE_COMP || Live,

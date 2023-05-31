@@ -5,7 +5,9 @@ const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const vanillaExtract = require('@vanilla-extract/rollup-plugin');
 const renameExtensions
     = require('@betit/rollup-plugin-rename-extensions').default;
-
+const replace = require('@rollup/plugin-replace').default;
+const enginePkg = require('../packages/engine/package.json');
+const engineExtPkg = require('../packages/engine-ext/package.json');
 const injectcss = require('./injectcss');
 const { extensions } = require('./build-shard');
 
@@ -41,6 +43,10 @@ async function compiler(codePath, outputDir) {
             return true;
         },
         plugins: [
+            replace({
+                ENGINE_VERSION_PLACEHOLDER: enginePkg.version,
+                ENGINE_EXT_VERSION_PLACEHOLDER: engineExtPkg.version,
+            }),
             vanillaExtract.vanillaExtractPlugin({}),
             nodeResolve({
                 extensions,

@@ -23,8 +23,9 @@ const innerSkeleton = new Skeleton(editor, innerDesigner);
 
 const innerPlugins = new PluginManager(innerDesigner, innerSkeleton).toProxy();
 
-export const version = '1.0.0';
-engineConfig.set('ENGINE_VERSION', 1);
+export const version = 'ENGINE_VERSION_PLACEHOLDER';
+
+engineConfig.set('ENGINE_VERSION', version);
 
 const { designer, plugins, skeleton, material, project, hotkey, setters } = new PluginContext(innerPlugins, {
     pluginName: 'CommonPlugin',

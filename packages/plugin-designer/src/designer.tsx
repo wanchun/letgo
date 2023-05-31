@@ -10,7 +10,7 @@ import {
 } from 'vue';
 import type { Designer } from '@webank/letgo-designer';
 import { DesignerView } from '@webank/letgo-designer';
-import type { IPluginContext } from '@webank/letgo-plugin-manager';
+import type { IPluginContext } from '@webank/letgo-engine-plugin';
 import { designerPluginCls } from './designer.css';
 
 export default defineComponent({

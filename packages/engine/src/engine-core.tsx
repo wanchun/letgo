@@ -11,11 +11,11 @@ import engineExt from '@webank/letgo-engine-ext';
 import PluginCodeView from '@webank/letgo-plugin-code';
 import type {
     PluginPreference,
-} from '@webank/letgo-plugin-manager';
+} from '@webank/letgo-engine-plugin';
 import {
     PluginContext,
     PluginManager,
-} from '@webank/letgo-plugin-manager';
+} from '@webank/letgo-engine-plugin';
 
 const innerDesigner = new Designer({ editor });
 

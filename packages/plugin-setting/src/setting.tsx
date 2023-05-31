@@ -5,7 +5,7 @@ import type { SettingField } from '@webank/letgo-designer';
 import {
     createSettingFieldView,
 } from '@webank/letgo-designer';
-import type { IPluginContext } from '@webank/letgo-plugin-manager';
+import type { IPluginContext } from '@webank/letgo-engine-plugin';
 import { SettingsMain } from './main';
 import Breadcrumb from './breadcrumb';
 import {

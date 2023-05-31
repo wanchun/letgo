@@ -1,4 +1,4 @@
-import type { IPluginConfig } from '@webank/letgo-plugin-manager';
+import type { IPluginConfig } from '@webank/letgo-engine-plugin';
 import { FigmaComponent, Page, Plug, TreeList } from '@icon-park/vue-next';
 import type { PropType, VNodeChild } from 'vue';
 import {

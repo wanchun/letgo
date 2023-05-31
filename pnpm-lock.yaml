@@ -187,15 +187,15 @@ importers:
       '@webank/letgo-engine-ext':
         specifier: workspace:*
         version: link:../engine-ext
+      '@webank/letgo-engine-plugin':
+        specifier: workspace:*
+        version: link:../engine-plugin
       '@webank/letgo-plugin-code':
         specifier: workspace:*
         version: link:../plugin-code
       '@webank/letgo-plugin-designer':
         specifier: workspace:*
         version: link:../plugin-designer
-      '@webank/letgo-plugin-manager':
-        specifier: workspace:*
-        version: link:../plugin-manager
       '@webank/letgo-plugin-setting':
         specifier: workspace:*
         version: link:../plugin-setting
@@ -255,6 +255,30 @@ importers:
         specifier: ^3.3.4
         version: 3.3.4
 
+  packages/engine-plugin:
+    dependencies:
+      '@webank/letgo-designer':
+        specifier: workspace:*
+        version: link:../designer
+      '@webank/letgo-editor-core':
+        specifier: workspace:*
+        version: link:../editor-core
+      '@webank/letgo-editor-skeleton':
+        specifier: workspace:*
+        version: link:../editor-skeleton
+      '@webank/letgo-types':
+        specifier: workspace:*
+        version: link:../types
+      '@webank/letgo-utils':
+        specifier: workspace:*
+        version: link:../utils
+      lodash-es:
+        specifier: ^4.17.21
+        version: 4.17.21
+      semver:
+        specifier: ^7.3.5
+        version: 7.3.5
+
   packages/plugin-code:
     dependencies:
       '@codemirror/lang-javascript':
@@ -284,9 +308,9 @@ importers:
       '@webank/letgo-editor-core':
         specifier: workspace:*
         version: link:../editor-core
-      '@webank/letgo-plugin-manager':
+      '@webank/letgo-engine-plugin':
         specifier: workspace:*
-        version: link:../plugin-manager
+        version: link:../engine-plugin
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
@@ -324,9 +348,9 @@ importers:
       '@webank/letgo-engine':
         specifier: workspace:*
         version: link:../engine
-      '@webank/letgo-plugin-manager':
+      '@webank/letgo-engine-plugin':
         specifier: workspace:*
-        version: link:../plugin-manager
+        version: link:../engine-plugin
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
@@ -357,9 +381,9 @@ importers:
       '@webank/letgo-editor-core':
         specifier: workspace:*
         version: link:../editor-core
-      '@webank/letgo-plugin-manager':
+      '@webank/letgo-engine-plugin':
         specifier: workspace:*
-        version: link:../plugin-manager
+        version: link:../engine-plugin
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
@@ -384,9 +408,9 @@ importers:
       '@webank/letgo-editor-core':
         specifier: workspace:*
         version: link:../editor-core
-      '@webank/letgo-plugin-manager':
+      '@webank/letgo-engine-plugin':
         specifier: workspace:*
-        version: link:../plugin-manager
+        version: link:../engine-plugin
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
@@ -405,9 +429,9 @@ importers:
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
-      '@webank/letgo-plugin-manager':
+      '@webank/letgo-engine-plugin':
         specifier: workspace:*
-        version: link:../plugin-manager
+        version: link:../engine-plugin
       vue:
         specifier: ^3.3.4
         version: 3.3.4
@@ -423,9 +447,9 @@ importers:
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
-      '@webank/letgo-plugin-manager':
+      '@webank/letgo-engine-plugin':
         specifier: workspace:*
-        version: link:../plugin-manager
+        version: link:../engine-plugin
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
@@ -433,30 +457,6 @@ importers:
       vue:
         specifier: ^3.3.4
         version: 3.3.4
-
-  packages/plugin-manager:
-    dependencies:
-      '@webank/letgo-designer':
-        specifier: workspace:*
-        version: link:../designer
-      '@webank/letgo-editor-core':
-        specifier: workspace:*
-        version: link:../editor-core
-      '@webank/letgo-editor-skeleton':
-        specifier: workspace:*
-        version: link:../editor-skeleton
-      '@webank/letgo-types':
-        specifier: workspace:*
-        version: link:../types
-      '@webank/letgo-utils':
-        specifier: workspace:*
-        version: link:../utils
-      lodash-es:
-        specifier: ^4.17.21
-        version: 4.17.21
-      semver:
-        specifier: ^7.3.5
-        version: 7.3.5
 
   packages/plugin-setting:
     dependencies:
@@ -472,9 +472,9 @@ importers:
       '@webank/letgo-editor-core':
         specifier: workspace:*
         version: link:../editor-core
-      '@webank/letgo-plugin-manager':
+      '@webank/letgo-engine-plugin':
         specifier: workspace:*
-        version: link:../plugin-manager
+        version: link:../engine-plugin
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
@@ -2579,7 +2579,7 @@ packages:
       portfinder: 1.0.32
       resolve: 1.22.2
       rimraf: 4.4.1
-      semver: 7.3.5
+      semver: 7.5.0
       yargs-parser: 21.1.1
     transitivePeerDependencies:
       - supports-color
@@ -4844,7 +4844,7 @@ packages:
       natural-compare: 1.4.0
       nth-check: 2.1.1
       postcss-selector-parser: 6.0.12
-      semver: 7.3.5
+      semver: 7.5.0
       vue-eslint-parser: 9.2.1(eslint@8.39.0)
       xml-name-validator: 4.0.0
     transitivePeerDependencies:
@@ -5886,7 +5886,7 @@ packages:
       acorn: 8.8.2
       eslint-visitor-keys: 3.4.1
       espree: 9.5.2
-      semver: 7.3.5
+      semver: 7.5.0
     dev: true
 
   /jsonc-parser@3.2.0:
@@ -7441,6 +7441,7 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
+    dev: false
 
   /semver@7.5.0:
     resolution: {integrity: sha512-+XC0AD/R7Q2mPSRuy2Id0+CGTZ98+8f+KvwirxOKIEyid+XSx6HbC63p+O4IndTHuX5Z+JxQ0TghCkO5Cg/2HA==}
@@ -7448,7 +7449,6 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
-    dev: true
 
   /send@0.18.0:
     resolution: {integrity: sha512-qqWzuOjSFOuqPjFe4NOsMLafToQQwBSOEpS+FwEt3A2V3vKubTquT3vmLTQpFgMXp8AlFWFuP1qKaJZOtPpVXg==}

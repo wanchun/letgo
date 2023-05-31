@@ -1,4 +1,4 @@
-import type { IPluginConfig } from '@webank/letgo-plugin-manager';
+import type { IPluginConfig } from '@webank/letgo-engine-plugin';
 import ExportBtn from './exportBtn';
 
 export default {

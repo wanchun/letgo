@@ -1,4 +1,4 @@
-import type { IPluginConfig } from '@webank/letgo-plugin-manager';
+import type { IPluginConfig } from '@webank/letgo-engine-plugin';
 import { Code } from '@icon-park/vue-next';
 import Panel from './panel';
 import { iconCls } from './icon.css';

@@ -27,7 +27,7 @@
     "@vueuse/core": "^10.1.2",
     "@webank/letgo-designer": "workspace:*",
     "@webank/letgo-editor-core": "workspace:*",
-    "@webank/letgo-plugin-manager": "workspace:*",
+    "@webank/letgo-engine-plugin": "workspace:*",
     "@webank/letgo-types": "workspace:*",
     "@webank/letgo-utils": "workspace:*",
     "acorn": "^8.8.2",

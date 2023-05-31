@@ -12,7 +12,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@webank/letgo-plugin-manager": "workspace:*",
+    "@webank/letgo-engine-plugin": "workspace:*",
     "@webank/letgo-designer": "workspace:*",
     "@webank/letgo-types": "workspace:*",
     "@webank/letgo-engine": "workspace:*",

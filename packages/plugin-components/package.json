@@ -23,7 +23,7 @@
     "@icon-park/vue-next": "^1.4.2",
     "@webank/letgo-designer": "workspace:*",
     "@webank/letgo-editor-core": "workspace:*",
-    "@webank/letgo-plugin-manager": "workspace:*",
+    "@webank/letgo-engine-plugin": "workspace:*",
     "@webank/letgo-types": "workspace:*"
   },
   "publishConfig": {

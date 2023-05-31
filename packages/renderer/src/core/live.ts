@@ -15,6 +15,7 @@ export const Live = defineComponent({
     name: 'Live',
     props: leafProps,
     setup(props) {
+        // TODO  context 运行时的接入
         const { renderComp } = useLeaf(props, {});
 
         const { show } = buildShow(props.scope, props.schema);

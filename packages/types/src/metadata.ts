@@ -4,6 +4,7 @@ import type { IPublicTypeNpmInfo } from './npm';
 import type { IPublicTypeComponentSchema, IPublicTypeNodeSchema } from './schema';
 import type { IPublicTypeIcon } from './icon';
 import type { IPublicTypeFieldConfig } from './field-config';
+import type { IPublicTypeCompositeValue } from './value-type';
 
 /**
  * 可用片段
@@ -194,6 +195,16 @@ export type IPublicTypeConfigureSupportEvent =
         description?: string
     };
 
+export interface IPublicTypeConfigureSupportMethodParam {
+    name: string
+    value: IPublicTypeCompositeValue
+}
+
+export type IPublicTypeConfigureSupportMethod = string | {
+    name: string
+    params: IPublicTypeConfigureSupportMethodParam[]
+};
+
 /**
  * 通用扩展面板支持性配置
  */
@@ -202,7 +213,7 @@ export interface IPublicTypeConfigureSupport {
      * 支持事件列表
      */
     events?: IPublicTypeConfigureSupportEvent[]
-    methods?: string[] // TODO 具体类型后续补充
+    methods?: IPublicTypeConfigureSupportMethod[]
     /**
      * 支持 className 设置
      */

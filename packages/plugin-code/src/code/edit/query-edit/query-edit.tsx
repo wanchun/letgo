@@ -2,15 +2,15 @@ import type { PropType } from 'vue';
 import { computed, defineComponent, ref, watch } from 'vue';
 import { FButton } from '@fesjs/fes-design';
 import { cloneDeep, isEqual } from 'lodash-es';
-import type { JavascriptQuery } from '../../../interface';
+import type { IJavascriptQuery } from '@webank/letgo-types';
 import { contentCls, headerCls } from './query-edit.css';
 import LeftActions from './left-actions';
 import General from './general';
 
 export default defineComponent({
     props: {
-        codeItem: Object as PropType<JavascriptQuery>,
-        changeContent: Function as PropType<(id: string, content: Partial<JavascriptQuery>) => void>,
+        codeItem: Object as PropType<IJavascriptQuery>,
+        changeContent: Function as PropType<(id: string, content: Partial<IJavascriptQuery>) => void>,
     },
     setup(props) {
         const tmpCodeItem = ref(cloneDeep(props.codeItem));
@@ -19,7 +19,7 @@ export default defineComponent({
                 ...tmpCodeItem.value,
             });
         };
-        const changeCodeItem = (data: Partial<JavascriptQuery>) => {
+        const changeCodeItem = (data: Partial<IJavascriptQuery>) => {
             Object.assign(tmpCodeItem.value, data);
         };
         watch(props.codeItem, () => {

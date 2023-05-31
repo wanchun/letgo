@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
 import { FInput } from '@fesjs/fes-design';
-import type { TemporaryState } from '../../interface';
+import type { ITemporaryState } from '@webank/letgo-types';
 import { contentCls, headerCls, inputItemCls, inputLabelCls } from './state-edit.css';
 
 /**
@@ -11,8 +11,8 @@ import { contentCls, headerCls, inputItemCls, inputLabelCls } from './state-edit
  */
 export default defineComponent({
     props: {
-        codeItem: Object as PropType<TemporaryState>,
-        changeContent: Function as PropType<(id: string, content: Partial<TemporaryState>) => void>,
+        codeItem: Object as PropType<ITemporaryState>,
+        changeContent: Function as PropType<(id: string, content: Partial<ITemporaryState>) => void>,
     },
     setup(props) {
         const changeInitValue = (value: string) => {

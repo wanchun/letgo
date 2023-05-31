@@ -3,9 +3,9 @@ import type { PropType } from 'vue';
 import { FDropdown } from '@fesjs/fes-design';
 import { PlusOutlined } from '@fesjs/fes-design/icon';
 import type { Designer } from '@webank/letgo-designer';
+import type { CodeItem } from '@webank/letgo-types';
 import { JAVASCRIPT_COMPUTED, JAVASCRIPT_QUERY, TEMPORARY_STATE } from '../constants';
 
-import type { CodeItem } from '../interface';
 import { codeCls, codeHeaderCls, codeItemActiveCls, codeItemCls, codeItemIdCls, codeWrapCls, headerIconCls } from './code.css';
 
 import CodeId from './code-id';

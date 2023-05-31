@@ -14,7 +14,8 @@ import { host } from '../host';
 
 export function useContext(codesInstance: Record<string, CodeImplType>, vueInstanceMap: Record<string | number, IPublicTypeComponentInstance>) {
     // TODO globalState 响应式
-    const executeCtx = reactive(host.project.config);
+    const globalState = reactive({ ...host.project.config });
+    const executeCtx = { ...globalState };
 
     watch(codesInstance, () => {
         Object.assign(executeCtx, codesInstance);

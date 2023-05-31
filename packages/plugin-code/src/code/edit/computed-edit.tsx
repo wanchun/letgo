@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { defineComponent, ref } from 'vue';
 import { FButton } from '@fesjs/fes-design';
-import type { JavascriptComputed } from '../../interface';
+import type { IJavascriptComputed } from '@webank/letgo-types';
 import CodeEditor from '../../code-editor';
 import { contentCls, headerCls } from './computed-edit.css';
 
@@ -12,8 +12,8 @@ import { contentCls, headerCls } from './computed-edit.css';
  */
 export default defineComponent({
     props: {
-        codeItem: Object as PropType<JavascriptComputed>,
-        changeContent: Function as PropType<(id: string, content: Partial<JavascriptComputed>) => void>,
+        codeItem: Object as PropType<IJavascriptComputed>,
+        changeContent: Function as PropType<(id: string, content: Partial<IJavascriptComputed>) => void>,
     },
     setup(props) {
         const tmpFuncBody = ref(props.codeItem.funcBody);

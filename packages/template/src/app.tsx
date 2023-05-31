@@ -1,11 +1,10 @@
-import { h } from 'vue';
 import { plugins } from '@webank/letgo-engine';
 import PluginComponents from '@webank/letgo-plugin-components';
 import PluginComponentTree from '@webank/letgo-plugin-component-tree';
 import PluginDevice from '@webank/letgo-plugin-device';
 import CodeGenerator from '@webank/letgo-plugin-code-generator';
 import assets from './assets/assets';
-import Logo from './assets/logo.vue';
+import Logo from './components/logo.vue';
 
 plugins.register({
     name: 'editor-init',
@@ -26,7 +25,7 @@ plugins.register({
             name: 'widget',
             area: 'topArea',
             type: 'Widget',
-            render: () => h(Logo),
+            render: () => <Logo />,
             props: {
                 align: 'left',
             },

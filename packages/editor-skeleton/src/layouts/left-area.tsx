@@ -1,12 +1,10 @@
-import type { PropType, VNode } from 'vue';
+import type { PropType, VNodeChild } from 'vue';
 import { defineComponent } from 'vue';
 import type { Area } from '../area';
 import type {
     IWidgetConfig,
-    IWidgetModalConfig,
-    IWidgetPanelConfig,
 } from '../types';
-import type { Widget, WidgetModal, WidgetPanel } from '../widget';
+import type { Widget } from '../widget';
 import {
     leftAreaBottomCls,
     leftAreaCls,
@@ -19,16 +17,16 @@ export default defineComponent({
         area: {
             type: Object as PropType<
                 Area<
-                    IWidgetConfig | IWidgetPanelConfig | IWidgetModalConfig,
-                    Widget | WidgetModal | WidgetPanel
+                    IWidgetConfig,
+                    Widget
                 >
             >,
         },
     },
     setup(props) {
         const { area } = props;
-        const top: VNode[] = [];
-        const bottom: VNode[] = [];
+        const top: VNodeChild[] = [];
+        const bottom: VNodeChild[] = [];
         area.items
             .slice()
             .sort((a, b) => {

@@ -1,12 +1,10 @@
-import type { PropType, VNode } from 'vue';
+import type { PropType, VNodeChild } from 'vue';
 import { defineComponent } from 'vue';
 import type { Area } from '../area';
 import type {
     IWidgetConfig,
-    IWidgetModalConfig,
-    IWidgetPanelConfig,
 } from '../types';
-import type { Widget, WidgetModal, WidgetPanel } from '../widget';
+import type { Widget } from '../widget';
 import {
     toolbarCenterCls,
     toolbarCls,
@@ -20,8 +18,8 @@ export default defineComponent({
         area: {
             type: Object as PropType<
                 Area<
-                    IWidgetConfig | IWidgetPanelConfig | IWidgetModalConfig,
-                    Widget | WidgetModal | WidgetPanel
+                    IWidgetConfig,
+                    Widget
                 >
             >,
         },
@@ -29,9 +27,9 @@ export default defineComponent({
     setup(props) {
         return () => {
             const { area } = props;
-            const left: VNode[] = [];
-            const center: VNode[] = [];
-            const right: VNode[] = [];
+            const left: VNodeChild[] = [];
+            const center: VNodeChild[] = [];
+            const right: VNodeChild[] = [];
             const itemsValue = area.items;
             if (!itemsValue.length)
                 return null;

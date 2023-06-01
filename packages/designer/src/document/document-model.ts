@@ -310,9 +310,19 @@ export class DocumentModel {
     }
 
     /**
+     * 内部方法，请勿调用
+     */
+    internalRemoveAndPurgeNode(node: INode, useMutator = false) {
+        if (!this.nodes.has(node))
+            return;
+
+        node.remove(useMutator);
+    }
+
+    /**
      * 移除一个节点
      */
-    removeNode(idOrNode: string | INode) {
+    deleteNode(idOrNode: string | INode) {
         let id: string;
         let node: INode | null;
         if (typeof idOrNode === 'string') {
@@ -326,13 +336,14 @@ export class DocumentModel {
         if (!node)
             return;
 
-        if (!this.nodes.has(node))
-            return;
-
-        node.remove(true);
+        this.internalRemoveAndPurgeNode(node, true);
     }
 
-    unlinkNode(node: INode) {
+    /**
+     * 从 doc 中移出，但是 node 还在
+     * @param node
+     */
+    removeNode(node: INode) {
         this.nodes.delete(node);
         this._nodesMap.delete(node.id);
     }

@@ -18,8 +18,6 @@ export class Detecting {
             this._current = null;
     }
 
-    xRayMode = false;
-
     private _current: INode | null;
 
     private emitter = new EventEmitter();

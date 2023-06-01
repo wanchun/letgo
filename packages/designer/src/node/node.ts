@@ -283,6 +283,14 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         this.getProp(path, true).setValue(value);
     }
 
+    getExtraPropValue(path: string): any {
+        return this.getExtraProp(path, false)?.value;
+    }
+
+    setExtraPropValue(path: string, value: any) {
+        this.getExtraProp(path, true).setValue(value);
+    }
+
     setRef(ref: string) {
         if (this.document.findNode((node: INode) => node.ref === ref))
             throw new Error(`已有名为 ${ref} 的节点`);
@@ -406,7 +414,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         // 解除老的父子关系，但不需要真的删除节点
         if (this._parent) {
             if (this.isSlot())
-                this._parent.unlinkSlot(this as INode);
+                this._parent.removeSlot(this as INode);
 
             else
                 this._parent.children.unlinkChild(this as INode);
@@ -428,7 +436,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     remove(purge = true) {
         if (this._parent) {
             if (this.isSlot())
-                this._parent.unlinkSlot(this as INode);
+                this._parent.removeSlot(this as INode);
 
             else
                 this._parent.children?.deleteChild(this as INode, purge);
@@ -450,6 +458,13 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         return () => {
             this.emitter.off('visibleChange', wrappedFunc);
         };
+    }
+
+    /**
+     * 选择当前节点
+     */
+    select() {
+        this.document.selection.select(this.id);
     }
 
     /**
@@ -508,7 +523,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         return this._slots.length > 0;
     }
 
-    unlinkSlot(slotNode: INode) {
+    removeSlot(slotNode: INode) {
         const slots = this._slots.slice(0);
         const i = slots.indexOf(slotNode);
         if (i < 0)
@@ -571,7 +586,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     /**
      * 锁住当前节点
      */
-    setLock(flag = true) {
+    lock(flag = true) {
         this.getExtraProp('isLocked').setValue(flag);
     }
 

@@ -140,7 +140,7 @@ export class NodeChildren {
         }
 
         const { document } = node;
-        document.unlinkNode(node);
+        document.removeNode(node);
         document.selection.remove(node.id);
 
         // purge 为 true 时，已在 internalSetParent 中删除了子节点

@@ -1,24 +1,27 @@
 import { defineComponent, h } from 'vue';
+import type { IPublicTypeComponentMetadata } from '@webank/letgo-types';
 
 const Page = defineComponent((props, { slots }) => {
     return () => h('div', { class: 'letgo-page', ...props }, slots);
 });
 
-Object.assign(Page, {
-    displayName: 'Page',
-    componentMetadata: {
-        componentName: 'Page',
-        configure: {
-            supports: {
-                style: true,
-                className: true,
-            },
-            component: {
-                isContainer: true,
-                disableBehaviors: '*',
-            },
+const componentMetadata: IPublicTypeComponentMetadata = {
+    title: '页面',
+    componentName: 'Page',
+    configure: {
+        supports: {
+            style: true,
+            class: true,
+        },
+        component: {
+            isContainer: true,
+            disableBehaviors: '*',
         },
     },
+};
+
+Object.assign(Page, {
+    componentMetadata,
 });
 
 export default Page;

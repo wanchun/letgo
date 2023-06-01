@@ -151,8 +151,8 @@ export class DocumentModel {
         return this.designer.getComponentMeta(
             componentName,
             () =>
-                // this.simulator?.generateComponentMetadata(componentName) ||
-                null,
+                this.simulator?.generateComponentMetadata(componentName)
+                || null,
         );
     }
 
@@ -217,7 +217,7 @@ export class DocumentModel {
      * 从项目中移除
      */
     remove() {
-        this.designer.postEvent('document.remove', { id: this.id });
+        this.designer.editor.emit('document.remove', { id: this.id });
         this.purge();
         this.project.removeDocument(this);
     }

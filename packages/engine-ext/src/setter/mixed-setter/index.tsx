@@ -153,7 +153,7 @@ const MixedSetterView = defineComponent({
             currentSetter?: SetterItem,
             extraProps?: object,
         ) => {
-            const { field, ...restProps } = props;
+            const { field, setters, onSetterChange, ...restProps } = props;
             if (!currentSetter) {
                 if (restProps.value == null)
                     return <span>NullValue</span>;

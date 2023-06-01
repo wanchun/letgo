@@ -1,6 +1,7 @@
 import type { CSSProperties, ComputedRef } from 'vue';
 import { computed, defineComponent, h } from 'vue';
 import { isNil } from 'lodash-es';
+import type { IPublicTypeComponentMetadata } from '@webank/letgo-types';
 
 const Icon = defineComponent({
     name: 'Icon',
@@ -51,36 +52,37 @@ const Icon = defineComponent({
     },
 });
 
-Object.assign(Icon, {
-    displayName: 'Icon',
-    componentMetadata: {
-        componentName: 'Icon',
-        configure: {
-            props: [
-                {
-                    name: 'type',
-                    title: '图标',
-                    setter: 'IconSetter',
-                },
-                {
-                    name: 'size',
-                    title: '大小',
-                    setter: 'NumberSetter',
-                },
-                {
-                    name: 'color',
-                    title: '颜色',
-                    setter: 'ColorSetter',
-                },
-                {
-                    name: 'rotate',
-                    title: '旋转',
-                    setter: 'NumberSetter',
-                },
-            ],
-            supports: false,
-        },
+const componentMetadata: IPublicTypeComponentMetadata = {
+    title: '图标',
+    componentName: 'Icon',
+    configure: {
+        props: [
+            {
+                name: 'type',
+                title: '图标',
+                setter: 'IconSetter',
+            },
+            {
+                name: 'size',
+                title: '大小',
+                setter: 'NumberSetter',
+            },
+            {
+                name: 'color',
+                title: '颜色',
+                setter: 'ColorSetter',
+            },
+            {
+                name: 'rotate',
+                title: '旋转',
+                setter: 'NumberSetter',
+            },
+        ],
     },
+};
+
+Object.assign(Icon, {
+    componentMetadata,
 });
 
 export default Icon;

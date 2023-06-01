@@ -1,9 +1,11 @@
 import type { IPluginConfig } from '@webank/letgo-engine-plugin';
 import { FigmaComponent, Page, Plug, TreeList } from '@icon-park/vue-next';
-import type { PropType, VNodeChild } from 'vue';
+import type { PropType, Ref, VNodeChild } from 'vue';
 import {
     computed,
     defineComponent,
+    onBeforeUnmount,
+    ref,
 } from 'vue';
 import type { Designer, INode } from '@webank/letgo-designer';
 import type { Editor } from '@webank/letgo-editor-core';
@@ -47,7 +49,19 @@ const ComponentTreeView = defineComponent({
         },
     },
     setup(props) {
+        const isSimulatorReady: Ref<boolean> = ref(false);
+
+        const clear = props.designer.onRendererReady(() => {
+            isSimulatorReady.value = true;
+        });
+
+        onBeforeUnmount(clear);
+
         const data = computed(() => {
+            // 必须等 RendererReady，才能正确拿到Page的schema
+            if (!isSimulatorReady.value)
+                return [];
+
             const currentRootNode = props.designer.currentDocument?.root;
             if (!currentRootNode)
                 return [];

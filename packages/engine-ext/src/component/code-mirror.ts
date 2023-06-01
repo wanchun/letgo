@@ -481,7 +481,6 @@ export default defineComponent({
                         return;
                     }
 
-                    // console.log(view.state.doc.toString(), tr);
                     // state.toString() is not defined, so use toJSON and toText function to convert string.
                     context.emit('update:modelValue', (tr.state.doc as any).toString());
                     // Emit EditorState

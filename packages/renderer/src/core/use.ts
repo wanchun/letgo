@@ -167,7 +167,6 @@ export function buildSchema(props: LeafProps) {
  */
 function buildProp(schema: unknown, scope: RuntimeScope): any {
     if (isJSExpression(schema)) {
-        console.log(scope);
         return parseExpression(schema, scope);
     }
     else if (isJSFunction(schema)) {

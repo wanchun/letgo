@@ -1,10 +1,12 @@
 import type {
+    IPublicTypeComponentMetadata,
     IPublicTypeComponentRecord,
     IPublicTypeComponentSchema,
     IPublicTypeNodeSchema,
     IPublicTypePageSchema,
     IPublicTypeSlotSchema,
 } from '@webank/letgo-types';
+import type { Component } from 'vue';
 import type { Node, NodeChildren } from './node';
 import type { DocumentModel } from './document';
 import type { DropLocation, ILocateEvent, ScrollTarget } from './designer';
@@ -149,6 +151,14 @@ export interface ISimulator<P = object> extends ISensor {
         instance: IComponentInstance,
         selector?: string,
     ): DOMRect | null
+    /**
+     * 生成组件schema
+     */
+    generateComponentMetadata(componentName: string): IPublicTypeComponentMetadata
+    /**
+     * 查找组件
+     */
+    getComponent(componentName: string): Component | null
 }
 
 export function isSimulator(obj: any): obj is ISimulator {

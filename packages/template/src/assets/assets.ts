@@ -20,60 +20,6 @@ const assets: IPublicTypeAssetsJson = {
     ],
     components: [
         {
-            title: '页面',
-            componentName: 'Page',
-            props: [
-                {
-                    name: 'style',
-                    propType: 'object',
-                    defaultValue: {
-                        padding: 12,
-                    },
-                },
-            ],
-            configure: {
-                props: [
-                ],
-                supports: {
-                    style: true,
-                },
-                component: {
-                    isContainer: true,
-                    disableBehaviors: '*',
-                },
-            },
-        },
-        {
-            title: '插槽',
-            componentName: 'Slot',
-            props: [
-                {
-                    name: 'slotName',
-                    title: '插槽名',
-                    propType: 'string',
-                },
-                {
-                    name: 'slotTitle',
-                    title: '插槽描述',
-                    propType: 'string',
-                },
-                {
-                    name: 'slotParams',
-                    title: '插槽参数',
-                    propType: {
-                        type: 'arrayOf',
-                        value: 'string',
-                    },
-                },
-            ],
-            configure: {
-                component: {
-                    isContainer: true,
-                    disableBehaviors: '*',
-                },
-            },
-        },
-        {
             title: '图片',
             componentName: 'img',
             props: [
@@ -99,32 +45,8 @@ const assets: IPublicTypeAssetsJson = {
             priority: 0,
         },
         {
-            title: '图标',
-            componentName: 'Icon',
-            configure: {
-                props: [
-                    {
-                        name: 'type',
-                        title: '图标',
-                        setter: 'IconSetter',
-                    },
-                    {
-                        name: 'size',
-                        title: '大小',
-                        setter: 'NumberSetter',
-                    },
-                    {
-                        name: 'color',
-                        title: '颜色',
-                        setter: 'ColorSetter',
-                    },
-                    {
-                        name: 'rotate',
-                        title: '旋转',
-                        setter: 'NumberSetter',
-                    },
-                ],
-            },
+            componentName: '',
+            title: '',
             snippets: [
                 {
                     title: '图标',

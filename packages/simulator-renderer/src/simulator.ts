@@ -316,6 +316,8 @@ function createSimulatorRenderer() {
             ),
         };
 
+        console.log('components:', components.value);
+
         // sync device
         device.value = host.device;
 

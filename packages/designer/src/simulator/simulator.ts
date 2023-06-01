@@ -1,6 +1,7 @@
 import { EventEmitter } from 'eventemitter3';
 import type {
     CSSProperties,
+    Component,
     ShallowReactive,
     ShallowRef,
 } from 'vue';
@@ -13,6 +14,7 @@ import * as Vue from 'vue';
 import type {
     IPublicTypeAsset,
     IPublicTypeAssetList,
+    IPublicTypeComponentMetadata,
     IPublicTypeDevice,
     IPublicTypePackage,
 } from '@webank/letgo-types';
@@ -57,7 +59,7 @@ import {
     isRowContainer,
     isShaken,
 } from '../designer';
-import { getClosestClickableNode, getClosestNode } from '../utils';
+import { getClosestClickableNode, getClosestNode, parseMetadata } from '../utils';
 import { contains, isRootNode } from '../node';
 import { Viewport } from './viewport';
 import type { ISimulatorRenderer } from './renderer';
@@ -799,7 +801,6 @@ export class Simulator implements ISimulator<ISimulatorProps> {
         id: string,
         instances: IComponentInstance[] | null,
     ) {
-        console.log('setInstance:', id);
         const instancesMap = this.instancesMapRef.value;
         if (!hasOwnProperty(instancesMap, docId))
             instancesMap[docId] = new Map();
@@ -831,7 +832,6 @@ export class Simulator implements ISimulator<ISimulatorProps> {
         node: INode,
         context?: INodeInstance,
     ): IComponentInstance[] | null {
-        console.log('getComponentInstances:', node.id);
         const docId = node.document.id;
 
         const instances
@@ -867,6 +867,32 @@ export class Simulator implements ISimulator<ISimulatorProps> {
     deActiveSensor(): void {
         this.sensing = false;
         this.scroller.cancel();
+    }
+
+    /**
+   * @see ISimulator
+   */
+    generateComponentMetadata(componentName: string): IPublicTypeComponentMetadata {
+        const component = this.getComponent(componentName);
+
+        if (!component) {
+            return {
+                title: componentName,
+                componentName,
+            };
+        }
+
+        return {
+            componentName,
+            ...parseMetadata(component),
+        };
+    }
+
+    /**
+   * @see ISimulator
+   */
+    getComponent(componentName: string): Component | null {
+        return this.renderer?.getComponent(componentName) || null;
     }
 
     /**

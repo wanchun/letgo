@@ -1,4 +1,5 @@
 import { defineComponent } from 'vue';
+import type { IPublicTypeComponentMetadata } from '@webank/letgo-types';
 
 const Leaf = defineComponent({
     name: 'Leaf',
@@ -7,20 +8,22 @@ const Leaf = defineComponent({
     },
 });
 
-Object.assign(Leaf, {
-    displayName: 'Leaf',
-    componentMetadata: {
-        componentName: 'Leaf',
-        configure: {
-            props: [
-                {
-                    name: 'children',
-                    setter: 'StringSetter',
-                },
-            ],
-            supports: false,
-        },
+const componentMetadata: IPublicTypeComponentMetadata = {
+    title: '叶子节点',
+    componentName: 'Leaf',
+    configure: {
+        props: [
+            {
+                name: 'children',
+                title: '内容',
+                setter: 'StringSetter',
+            },
+        ],
     },
+};
+
+Object.assign(Leaf, {
+    componentMetadata,
 });
 
 export default Leaf;

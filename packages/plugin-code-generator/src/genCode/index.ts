@@ -78,5 +78,4 @@ export function schemaToCode(schema: IPublicTypeProjectSchema) {
             rootSchema,
         );
     });
-    console.log(rootComponents);
 }

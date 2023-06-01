@@ -5,7 +5,7 @@ import type { IComponentInstance, INodeInstance } from '../types';
 export interface ISimulatorRenderer {
     readonly isSimulatorRenderer: true
     createComponent(schema: IPublicTypeNodeSchema): Component | null
-    getComponent(componentName: string): Component
+    getComponent(componentName: string): Component | null
     getNodeInstanceExpose(instance: IComponentInstance): Record<string, any>
     getClosestNodeInstance(
         from: IComponentInstance,

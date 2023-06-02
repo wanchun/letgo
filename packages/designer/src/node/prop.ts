@@ -34,16 +34,6 @@ type IValueTypes =
     | 'slot';
 
 export class Prop implements IPropParent {
-    readonly isProp = true;
-
-    readonly id = uniqueId('prop$');
-
-    readonly owner: INode;
-
-    readonly props: Props;
-
-    readonly options: any;
-
     private _value: any;
 
     private _type: IValueTypes;
@@ -54,9 +44,25 @@ export class Prop implements IPropParent {
 
     private _maps: Map<string | number, Prop> | null = null;
 
+    private _slotNode?: ISlotNode;
+
+    readonly isProp = true;
+
+    readonly id = uniqueId('prop$');
+
+    readonly owner: INode;
+
+    readonly props: Props;
+
+    readonly options: any;
+
     key: string | number;
 
     spread: boolean;
+
+    get slotNode() {
+        return this._slotNode;
+    }
 
     get path(): string[] {
         return (this.parent.path || []).concat(this.key as string);
@@ -203,12 +209,6 @@ export class Prop implements IPropParent {
         }
 
         return this._value;
-    }
-
-    private _slotNode?: ISlotNode;
-
-    get slotNode() {
-        return this._slotNode;
     }
 
     setAsSlot(data: IPublicTypeJSSlot) {

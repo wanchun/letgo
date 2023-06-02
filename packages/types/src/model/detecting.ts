@@ -1,5 +1,4 @@
-import type { IPublicTypeDisposable } from '../type';
-import type { IPublicModelNode } from './node';
+import type { IPublicModelNode, IPublicTypeDisposable } from '..';
 
 export interface IPublicModelDetecting<Node = IPublicModelNode> {
 

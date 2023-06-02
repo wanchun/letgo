@@ -1,8 +1,9 @@
 import type {
-    IPublicEnumTransformStage, IPublicTypeNodeData,
-    IPublicTypeNodeSchema, IPublicTypeRootSchema,
+    IPublicEnumTransformStage, IPublicModelNode,
+    IPublicModelProject, IPublicModelSelection,
+    IPublicTypeNodeData, IPublicTypeNodeSchema,
+    IPublicTypeRootSchema,
 } from '../';
-import type { IPublicModelNode, IPublicModelProject, IPublicModelSelection } from '.';
 
 export interface IPublicModelDocumentModel<
   Selection = IPublicModelSelection,

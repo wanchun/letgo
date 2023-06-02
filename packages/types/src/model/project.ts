@@ -1,8 +1,8 @@
 import type {
-    IPublicEnumTransformStage, IPublicTypeAppConfig,
-    IPublicTypeProjectSchema, IPublicTypeRootSchema,
+    IPublicEnumTransformStage, IPublicModelDocumentModel,
+    IPublicTypeAppConfig, IPublicTypeProjectSchema,
+    IPublicTypeRootSchema,
 } from '..';
-import type { IPublicModelDocumentModel } from '.';
 
 export interface IBaseProject<
   DocumentModel,

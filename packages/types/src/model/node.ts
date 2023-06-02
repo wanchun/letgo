@@ -1,7 +1,8 @@
 import type {
-    IPublicEnumTransformStage, IPublicTypeCompositeValue,
-    IPublicTypeNodeSchema, IPublicTypePropsList,
-    IPublicTypePropsMap,
+    IPublicEnumTransformStage, IPublicModelNodeChildren,
+    IPublicModelProp,
+    IPublicTypeCompositeValue, IPublicTypeNodeSchema,
+    IPublicTypePropsList, IPublicTypePropsMap,
 } from '../';
 
 export interface IBaseModelNode<
@@ -9,7 +10,6 @@ export interface IBaseModelNode<
     NodeChildren = IPublicModelNodeChildren,
     ComponentMeta = IPublicModelComponentMeta,
     SettingTopEntry = IPublicModelSettingTopEntry,
-    Props = IPublicModelProps,
     Prop = IPublicModelProp,
 > {
     /**

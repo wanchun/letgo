@@ -46,6 +46,8 @@ export class Props implements IPropParent {
 
     private purged = false;
 
+    private _type: 'map' | 'list' = 'map';
+
     readonly owner: INode;
 
     readonly path: string[] = [];
@@ -54,7 +56,9 @@ export class Props implements IPropParent {
         return this;
     }
 
-    type: 'map' | 'list' = 'map';
+    get type() {
+        return this._type;
+    }
 
     constructor(
         owner: INode,
@@ -63,13 +67,13 @@ export class Props implements IPropParent {
     ) {
         this.owner = owner;
         if (Array.isArray(value)) {
-            this.type = 'list';
+            this._type = 'list';
             value.forEach((item) => {
                 this.add(item.name, item.value);
             });
         }
         else if (value != null) {
-            this.type = 'map';
+            this._type = 'map';
             Object.keys(value).forEach((key) => {
                 this.add(key, value[key]);
             });
@@ -86,19 +90,19 @@ export class Props implements IPropParent {
         this.itemMap.clear();
         this.items.value = [];
         if (Array.isArray(value)) {
-            this.type = 'list';
+            this._type = 'list';
             value.forEach((item) => {
                 this.add(item.name, item.value);
             });
         }
         else if (value != null) {
-            this.type = 'map';
+            this._type = 'map';
             Object.keys(value).forEach((key) => {
                 this.add(key, value[key]);
             });
         }
         else {
-            this.type = 'map';
+            this._type = 'map';
         }
 
         if (extras) {
@@ -117,7 +121,7 @@ export class Props implements IPropParent {
 
         let props: any = {};
         const extras: any = {};
-        if (this.type === 'list') {
+        if (this._type === 'list') {
             props = [];
             this.items.value.forEach((item) => {
                 const value = item.export(stage);

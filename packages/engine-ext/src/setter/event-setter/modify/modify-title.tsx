@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue';
 import { CloseOutlined } from '@fesjs/fes-design/icon';
-import { iconCls, titleWrapCls } from './modifyTitle.css';
+import { iconCls, titleWrapCls } from './modify-title.css';
 
 export default defineComponent({
     props: {

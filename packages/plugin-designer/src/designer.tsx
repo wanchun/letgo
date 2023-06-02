@@ -32,7 +32,7 @@ export default defineComponent({
         const onDesignerMount = (designer: Designer): void => {
             editor.emit('designer.ready', designer);
             editor.onGot('schema', (schema) => {
-                designer.project.open(schema);
+                designer.project.openDocument(schema);
             });
         };
 

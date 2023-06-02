@@ -20,11 +20,12 @@ export function load(url: string) {
     function onload(e: any) {
         node.onload = null;
         node.onerror = null;
-        if (e.type === 'load') {
+        if (e.type === 'load')
             i.resolve();
-        } else {
+
+        else
             i.reject();
-        }
+
         // document.head.removeChild(node);
         // node = null;
     }
@@ -49,7 +50,8 @@ export function newFunction(args: string, code: string) {
     try {
         // eslint-disable-next-line no-new-func
         return new Function(args, code);
-    } catch (e) {
+    }
+    catch (e) {
         console.warn('Caught error, Cant init func');
         return null;
     }

@@ -46,7 +46,7 @@ export class NodeChildren {
 
     export(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Save): IPublicTypeNodeData[] {
         return this.children.map((node) => {
-            const data = node.export(stage);
+            const data = node.exportSchema(stage);
             if (node.isLeaf() && IPublicEnumTransformStage.Save === stage)
                 return data.children as IPublicTypeNodeData;
 
@@ -72,7 +72,7 @@ export class NodeChildren {
                 && child.componentName === item.componentName
             ) {
                 node = child;
-                node.import(item);
+                node.importSchema(item);
             }
             else {
                 node = this.owner.document.createNode(item);

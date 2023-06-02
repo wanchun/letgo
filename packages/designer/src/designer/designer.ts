@@ -138,13 +138,6 @@ export class Designer {
         return maps;
     }
 
-    /**
-     * 【响应式】获取 schema 数据
-     */
-    get computedSchema() {
-        return this.project.getSchema();
-    }
-
     get dropLocation() {
         return this.dragon.dropLocation;
     }
@@ -260,10 +253,6 @@ export class Designer {
             });
         }
     };
-
-    setSchema(schema?: IPublicTypeProjectSchema) {
-        this.project.load(schema);
-    }
 
     setProps(nextProps: IDesignerProps) {
         const props = this.props ? { ...this.props, ...nextProps } : nextProps;

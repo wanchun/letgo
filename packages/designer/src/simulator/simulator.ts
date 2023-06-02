@@ -909,7 +909,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
             return null;
 
         const { docId } = nodeInstance;
-        const doc = this.project.findDocument(docId);
+        const doc = this.project.getDocumentById(docId);
         const node = doc.getNode(nodeInstance.nodeId);
         return {
             ...nodeInstance,

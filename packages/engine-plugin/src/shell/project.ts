@@ -21,13 +21,13 @@ export class Project {
      * @returns
      */
     openDocument(doc?: string | IPublicTypeRootSchema | undefined) {
-        const documentModel = this[projectSymbol].open(doc);
+        const documentModel = this[projectSymbol].openDocument(doc);
         if (!documentModel)
             return null;
         return documentModel;
     }
 
-    getSchema(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Save): IPublicTypeProjectSchema {
-        return this[projectSymbol].getSchema(stage);
+    exportSchema(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Save): IPublicTypeProjectSchema {
+        return this[projectSymbol].exportSchema(stage);
     }
 }

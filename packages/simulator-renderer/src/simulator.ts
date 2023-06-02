@@ -148,7 +148,7 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
             return fileName.startsWith('/') ? fileName : `/${fileName}`;
         }),
         key: computed(() => `${document.id}:${timestamp.value}`),
-        schema: computed(() => document.export(IPublicEnumTransformStage.Render)),
+        schema: computed(() => document.exportSchema(IPublicEnumTransformStage.Render)),
         document: computed(() => document),
         instancesMap: computed(() => instancesMap),
         vueInstanceMap,

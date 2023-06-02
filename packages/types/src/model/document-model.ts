@@ -2,12 +2,12 @@ import type {
     IPublicEnumTransformStage, IPublicTypeNodeData,
     IPublicTypeNodeSchema, IPublicTypeRootSchema,
 } from '../';
-import type { IPublicModelNode } from './node';
+import type { IPublicModelNode, IPublicModelProject, IPublicModelSelection } from '.';
 
 export interface IPublicModelDocumentModel<
   Selection = IPublicModelSelection,
   Node = IPublicModelNode,
-  Project = IPublicApiProject,
+  Project = IPublicModelProject,
 > {
 
     /**
@@ -51,7 +51,7 @@ export interface IPublicModelDocumentModel<
      * import schema data
      * @param schema
      */
-    import(schema: IPublicTypeRootSchema): void
+    importSchema(schema: IPublicTypeRootSchema): void
 
     /**
      * 导出 schema
@@ -59,7 +59,7 @@ export interface IPublicModelDocumentModel<
      * @param stage
      * @returns
      */
-    export(stage: IPublicEnumTransformStage): any
+    exportSchema(stage: IPublicEnumTransformStage): any
 
     /**
      * 插入节点

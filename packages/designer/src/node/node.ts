@@ -80,7 +80,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
      * 【响应式】获取符合搭建协议-节点 schema 结构
      */
     get computedSchema() {
-        return this.export(IPublicEnumTransformStage.Save);
+        return this.exportSchema(IPublicEnumTransformStage.Save);
     }
 
     /**
@@ -347,7 +347,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     /**
      * 导出 schema
      */
-    export(
+    exportSchema(
         stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Save,
         options: any = {},
     ): Schema {
@@ -393,7 +393,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     /**
      * 导入 schema
      */
-    import(data: Schema) {
+    importSchema(data: Schema) {
         const { children, props, ...extras } = data;
         if (this.isParental()) {
             this.props.import(props, extras);

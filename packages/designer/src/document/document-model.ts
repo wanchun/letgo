@@ -142,8 +142,18 @@ export class DocumentModel {
         this.isMounted = true;
     }
 
-    export(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Serialize) {
-        const currentSchema = this.rootNode?.export(stage);
+    importSchema(schema: IPublicTypeRootSchema) {
+        // TODO: 暂时用饱和式删除，原因是 Slot 节点并不是树节点，无法正常递归删除
+        this.nodes.forEach((node) => {
+            if (node.isRoot())
+                return;
+            this.deleteNode(node);
+        });
+        this.rootNode?.importSchema(schema as any);
+    }
+
+    exportSchema(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Serialize) {
+        const currentSchema = this.rootNode?.exportSchema(stage);
         return currentSchema;
     }
 
@@ -246,7 +256,7 @@ export class DocumentModel {
         if (schema.id) {
             node = this.getNode(schema.id);
             if (node && node.componentName === schema.componentName)
-                node.import(schema);
+                node.importSchema(schema);
 
             else if (node)
                 node = null;
@@ -269,6 +279,9 @@ export class DocumentModel {
         return this._nodesMap.get(id) || null;
     }
 
+    /**
+     * 通过 isMatch 函数匹配 Node
+     */
     findNode(isMatch: (node: INode) => Boolean): INode | null {
         for (const node of this.nodes) {
             if (isMatch(node))
@@ -337,6 +350,7 @@ export class DocumentModel {
             return;
 
         this.internalRemoveAndPurgeNode(node, true);
+        this.removeNode(node);
     }
 
     /**

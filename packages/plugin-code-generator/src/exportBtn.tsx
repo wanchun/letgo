@@ -7,7 +7,7 @@ export default defineComponent({
     setup() {
         const genCode = () => {
             const packages = material.getAssets().packages;
-            const schema = project.getSchema(IPublicEnumTransformStage.Save);
+            const schema = project.exportSchema(IPublicEnumTransformStage.Save);
             const usedPackages = [];
             for (const component of schema.componentsMap) {
                 if (isProCodeComponentType(component)) {

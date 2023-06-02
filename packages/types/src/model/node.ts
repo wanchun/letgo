@@ -5,7 +5,6 @@ import type {
 } from '../';
 
 export interface IBaseModelNode<
-    Document = IPublicModelDocumentModel,
     Node = IPublicModelNode,
     NodeChildren = IPublicModelNodeChildren,
     ComponentMeta = IPublicModelComponentMeta,
@@ -171,7 +170,7 @@ export interface IBaseModelNode<
      * import node schema
      * @param data
      */
-    import(data: IPublicTypeNodeSchema): void
+    importSchema(data: IPublicTypeNodeSchema): void
 
     /**
      * 导出节点数据
@@ -179,7 +178,7 @@ export interface IBaseModelNode<
      * @param stage
      * @param options
      */
-    export(stage: IPublicEnumTransformStage, options?: any): IPublicTypeNodeSchema
+    exportSchema(stage: IPublicEnumTransformStage, options?: any): IPublicTypeNodeSchema
 
     /**
      * 选中当前节点实例
@@ -210,4 +209,4 @@ export interface IBaseModelNode<
 
 }
 
-export interface IPublicModelNode extends IBaseModelNode<IPublicModelDocumentModel, IPublicModelNode> {}
+export interface IPublicModelNode extends IBaseModelNode<IPublicModelNode> {}

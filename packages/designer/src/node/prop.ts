@@ -155,7 +155,7 @@ export class Prop implements IPropParent {
             return this._value;
 
         if (type === 'slot') {
-            const schema = this._slotNode?.export(stage);
+            const schema = this._slotNode?.exportSchema(stage);
             if (stage === IPublicEnumTransformStage.Render) {
                 return {
                     type: 'JSSlot',
@@ -233,7 +233,7 @@ export class Prop implements IPropParent {
         }
 
         if (this._slotNode) {
-            this._slotNode.import(slotSchema);
+            this._slotNode.importSchema(slotSchema);
         }
         else {
             const { owner } = this.props;
@@ -335,7 +335,7 @@ export class Prop implements IPropParent {
             return this.value.value;
 
         if (this.type === 'slot')
-            return JSON.stringify(this._slotNode.export(IPublicEnumTransformStage.Save));
+            return JSON.stringify(this._slotNode.exportSchema(IPublicEnumTransformStage.Save));
 
         return this._code != null ? this._code : JSON.stringify(this.value);
     }

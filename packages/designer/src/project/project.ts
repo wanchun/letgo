@@ -1,11 +1,10 @@
 import { EventEmitter } from 'eventemitter3';
 import type { ShallowReactive } from 'vue';
-import { shallowReactive, watch } from 'vue';
+import { shallowReactive } from 'vue';
 import type {
     IPublicTypeAppConfig,
     IPublicTypeComponentsMap,
     IPublicTypeProjectSchema,
-
     IPublicTypeRootSchema,
 } from '@webank/letgo-types';
 import {
@@ -13,7 +12,7 @@ import {
     isLowCodeComponentType,
     isProCodeComponentType,
 } from '@webank/letgo-types';
-import { markShallowReactive } from '@webank/letgo-utils';
+import { markComputed, markShallowReactive } from '@webank/letgo-utils';
 import { isDocumentModel } from '../types';
 import type { Designer } from '../designer';
 import { DocumentModel } from '../document';
@@ -33,7 +32,18 @@ export class Project {
 
     readonly documents: ShallowReactive< DocumentModel[]> = shallowReactive([]);
 
-    currentDocument: DocumentModel | null;
+    private _currentDocument: DocumentModel | null;
+
+    get currentDocument(): DocumentModel | null {
+        return this._currentDocument;
+    }
+
+    /**
+     * 【响应式】获取 schema 数据
+     */
+    get computedSchema() {
+        return this.exportSchema();
+    }
 
     get config(): IPublicTypeAppConfig {
         // TODO: parse layout Component
@@ -46,12 +56,11 @@ export class Project {
 
     constructor(readonly designer: Designer, schema?: IPublicTypeProjectSchema) {
         markShallowReactive(this, {
-            currentDocument: null,
+            _currentDocument: null,
         });
-        watch(() => this.currentDocument, () => {
-            this.emitter.emit('current-document.change', this.currentDocument);
-        });
-        this.load(schema);
+        markComputed(this, ['currentDocument']);
+
+        this.importSchema(schema);
     }
 
     private getComponentsMap(): IPublicTypeComponentsMap {
@@ -89,20 +98,9 @@ export class Project {
         );
     }
 
-    /**
-     * 获取项目整体 schema
-     */
-    getSchema(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Save): IPublicTypeProjectSchema {
-        return {
-            ...this.data,
-            componentsMap: this.getComponentsMap(),
-            componentsTree: this.documents.map(doc => doc.export(stage)),
-        };
-    }
-
-    load(schema?: IPublicTypeProjectSchema, autoOpen?: boolean | string) {
-        this.unload();
-        // load new document
+    importSchema(schema?: IPublicTypeProjectSchema, autoOpen?: boolean | string) {
+        this.purge();
+        // importSchema new document
         this.data = {
             version: '1.0.0',
             componentsMap: [],
@@ -114,37 +112,35 @@ export class Project {
         if (autoOpen) {
             if (autoOpen === true) {
                 // auto open first document or open a blank page
-                // this.open(this.data.componentsTree[0]);
+                // this.openDocument(this.data.componentsTree[0]);
                 const documentInstances = this.data.componentsTree.map(data =>
                     this.createDocument(data),
                 );
-                this.open(documentInstances[0]);
+                this.openDocument(documentInstances[0]);
             }
             else {
                 // auto open should be string of fileName
-                this.open(autoOpen);
+                this.openDocument(autoOpen);
             }
         }
     }
 
-    /**
-     * 卸载当前项目数据
-     */
-    unload() {
-        if (this.documents.length < 1)
-            return;
-
-        for (let i = this.documents.length - 1; i >= 0; i--)
-            this.documents[i].remove();
+    exportSchema(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Save): IPublicTypeProjectSchema {
+        return {
+            ...this.data,
+            componentsMap: this.getComponentsMap(),
+            componentsTree: this.documents.map(doc => doc.exportSchema(stage)),
+        };
     }
 
-    open(doc?: string | DocumentModel | IPublicTypeRootSchema): DocumentModel | null {
+    openDocument(doc?: string | DocumentModel | IPublicTypeRootSchema): DocumentModel | null {
         if (typeof doc === 'string') {
             const got = this.documents.find(
                 item => item.fileName === doc || item.id === doc,
             );
             if (got) {
-                this.currentDocument = got;
+                this._currentDocument = got;
+                this.emitter.emit('current-document.change', this._currentDocument);
                 return got;
             }
 
@@ -153,17 +149,20 @@ export class Project {
             );
             if (data) {
                 doc = this.createDocument(data);
-                this.currentDocument = got;
+                this._currentDocument = got;
+                this.emitter.emit('current-document.change', this._currentDocument);
                 return got;
             }
             return null;
         }
         if (isDocumentModel(doc)) {
-            this.currentDocument = doc;
+            this._currentDocument = doc;
+            this.emitter.emit('current-document.change', this._currentDocument);
             return doc;
         }
         doc = this.createDocument(doc);
-        this.currentDocument = doc;
+        this._currentDocument = doc;
+        this.emitter.emit('current-document.change', this._currentDocument);
         return doc;
     }
 
@@ -186,8 +185,11 @@ export class Project {
         this.documentsMap.delete(doc.id);
     }
 
-    findDocument(id: string): DocumentModel | null {
-        // 此处不能使用 this.documentsMap.get(id)，因为在乐高 rollback 场景，document.id 会被改成其他值
+    getDocumentByFileName(name: string): DocumentModel | null {
+        return this.documents.find(doc => doc.fileName === name) || null;
+    }
+
+    getDocumentById(id: string): DocumentModel | null {
         return this.documents.find(doc => doc.id === id) || null;
     }
 
@@ -240,5 +242,13 @@ export class Project {
         return () => {
             this.emitter.off('current-document.change', fn);
         };
+    }
+
+    purge() {
+        if (this.documents.length < 1)
+            return;
+
+        for (let i = this.documents.length - 1; i >= 0; i--)
+            this.documents[i].remove();
     }
 }

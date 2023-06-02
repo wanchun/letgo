@@ -88,7 +88,7 @@ export const Hoc = defineComponent({
                 const prop = node?.getProp(key);
                 if (prop && prop.slotNode) {
                     // design 模式，从 prop 对象到处 schema
-                    const slotSchema = prop.slotNode.export(
+                    const slotSchema = prop.slotNode.exportSchema(
                         IPublicEnumTransformStage.Render,
                     );
                     result.slots[slotSchema?.props?.slotName || key] = slotSchema;
@@ -107,7 +107,7 @@ export const Hoc = defineComponent({
             );
             disposeFunctions.push(
                 node.onChildrenChange(() => {
-                    const schema = node.export(IPublicEnumTransformStage.Render);
+                    const schema = node.exportSchema(IPublicEnumTransformStage.Render);
                     compSlots.default = ensureArray(schema.children);
                 }),
             );
@@ -136,7 +136,7 @@ export const Hoc = defineComponent({
                             // 默认插槽更新
                             if (isJSSlot(newValue)) {
                                 const slotNode: ISlotNode = prop.slotNode;
-                                const schema = slotNode.export(
+                                const schema = slotNode.exportSchema(
                                     IPublicEnumTransformStage.Render,
                                 );
                                 compSlots.default = schema;
@@ -149,7 +149,7 @@ export const Hoc = defineComponent({
                         else if (isJSSlot(newValue)) {
                             // 具名插槽更新
                             const slotNode: ISlotNode = prop.slotNode;
-                            const schema = slotNode.export(
+                            const schema = slotNode.exportSchema(
                                 IPublicEnumTransformStage.Render,
                             );
                             compSlots[key] = schema;

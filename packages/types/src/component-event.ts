@@ -8,6 +8,7 @@ export enum ComponentEventAction {
 }
 
 export interface IComponentEventBase {
+    id: string
     name: string
     onlyRunWhen?: string
     debounce?: number

@@ -1,7 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
 export const blockCls = style({
-    width: '320px',
     fontSize: '12px',
 });
 

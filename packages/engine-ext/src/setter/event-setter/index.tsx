@@ -1,24 +1,16 @@
 import type { PropType, Ref } from 'vue';
 import { defineComponent, onMounted, ref, watch } from 'vue';
-import type { IPublicTypeSetter } from '@webank/letgo-types';
+import type { IPublicTypeComponentEvent, IPublicTypeSetter } from '@webank/letgo-types';
 import {
-    FSpace,
-    FTable,
-    FTableColumn,
-    FTooltip,
+    FButton,
 } from '@fesjs/fes-design';
-import { PlusCircleOutlined } from '@fesjs/fes-design/icon';
-import { Delete, Setting } from '@icon-park/vue-next';
+import { uniqueId } from '@webank/letgo-utils';
+import { ComponentEventAction } from '@webank/letgo-types/es/component-event';
+import { DeleteOutlined, PlusOutlined } from '@fesjs/fes-design/icon';
 import { commonProps } from '../../common';
-import { plusIconCls, pointerCls } from './index.css';
 import ModifyBlock from './modify/modify-block';
 import type { EventOptionList } from './interface';
-
-// const DEFINITION_EVENT_TYPE = {
-//     EVENTS: 'events',
-//     NATIVE_EVENTS: 'nativeEvents',
-//     LIFE_CYCLE_EVENT: 'lifeCycleEvent',
-// };
+import { activeEventCls, callExpressionCls, deleteIconCls, headerCls, selectedEventCls, selectedEventListCls } from './index.css';
 
 type EventList = Array<{ name: string; description?: string }>;
 
@@ -26,6 +18,10 @@ interface EventDefinition {
     type: 'events' | 'nativeEvents' | 'lifeCycleEvent'
     title: string
     list: EventList
+}
+
+function genEventId() {
+    return uniqueId('event_');
 }
 
 function transformList(list: EventList): EventOptionList {
@@ -50,7 +46,7 @@ const EventSetterView = defineComponent({
     setup(props) {
         const eventData: Ref<EventOptionList> = ref([]);
 
-        const selectedEventData = ref([]);
+        const selectedEventData = ref<IPublicTypeComponentEvent[]>([]);
 
         watch(
             () => props.definition,
@@ -67,84 +63,73 @@ const EventSetterView = defineComponent({
             },
         );
 
-        const handleDelete = (row: any) => {
-            const { name, target } = row;
-            const index = target.choose.indexOf(name);
-            if (index !== -1)
-                target.choose.splice(index, 1);
-        };
-
         onMounted(() => {
             props.onMounted?.();
         });
 
-        const addEvent = () => {
+        const getInitComponentEvent = (): IPublicTypeComponentEvent => {
+            return {
+                id: genEventId(),
+                name: eventData.value[0].value,
+                debounce: null,
+                action: ComponentEventAction.CONTROL_QUERY,
+                callId: null,
+                method: null,
+            };
+        };
 
+        const currentEditEvent = ref<IPublicTypeComponentEvent>(getInitComponentEvent());
+        const onEdit = (data: IPublicTypeComponentEvent) => {
+            currentEditEvent.value = { ...data };
+        };
+        const addEvent = () => {
+            currentEditEvent.value = getInitComponentEvent();
+            selectedEventData.value.push(currentEditEvent.value);
+        };
+
+        const onChange = (changedEvent: IPublicTypeComponentEvent) => {
+            const index = selectedEventData.value.findIndex(item => item.id === changedEvent.id);
+            if (index === -1)
+                selectedEventData.value.push(changedEvent);
+
+            else
+                selectedEventData.value.splice(index, 1, changedEvent);
+        };
+
+        const deleteComponentEvent = (event: IPublicTypeComponentEvent) => {
+            const index = selectedEventData.value.findIndex(item => item.id === event.id);
+            selectedEventData.value.splice(index, 1);
+            if (currentEditEvent.value.id === event.id)
+                currentEditEvent.value = getInitComponentEvent();
+        };
+
+        const getMethodCall = (item: IPublicTypeComponentEvent) => {
+            if (item.callId && item.method)
+                return `${item.callId}.${item.method}()`;
+
+            return '';
         };
 
         return () => {
             return (
                 <>
-                    <FTable data={selectedEventData.value} bordered>
-                        <FTableColumn
-                            prop="name"
-                            width={80}
-                            v-slots={{
-                                header: () => {
-                                    return <span>
-                                        <FTooltip
-                                            trigger="click"
-                                            mode="popover"
-                                            placement="left-start"
-                                            v-slots={{
-                                                content: () => {
-                                                    return <ModifyBlock events={eventData.value}></ModifyBlock>;
-                                                },
-                                            }}
-                                        >
-                                                 事件<PlusCircleOutlined class={plusIconCls} />
+                    <div class={headerCls}>
+                        <h3 style="margin: 0">已绑定事件</h3>
+                        <FButton type="link" onClick={addEvent} size="small">新增<PlusOutlined /></FButton>
+                    </div>
+                    <ul class={selectedEventListCls}>
+                        {selectedEventData.value.map(item => (
+                            <li class={[selectedEventCls, item.id === currentEditEvent.value.id && activeEventCls]} onClick={() => onEdit(item)} key={item.id}>
+                                {item.name}
+                                <span class={callExpressionCls}>
+                                    {getMethodCall(item)}
+                                </span>
 
-                                        </FTooltip>
-                                    </span>;
-                                },
-                                default: ({ row }: { row: any }) => {
-                                    return (
-                                        <FSpace justify="space-between">
-                                            <Setting
-                                                class={pointerCls}
-                                            ></Setting>
-                                            <Delete
-                                                onClick={() => {
-                                                    handleDelete(row);
-                                                }}
-                                                class={pointerCls}
-                                            ></Delete>
-                                        </FSpace>
-                                    );
-                                },
-                            }}
-                        ></FTableColumn>
-                         <FTableColumn
-                            label="操作"
-                            v-slots={{
-                                default: ({ row }: { row: any }) => {
-                                    return (
-                                        <FSpace justify="space-between">
-                                            <Setting
-                                                class={pointerCls}
-                                            ></Setting>
-                                            <Delete
-                                                onClick={() => {
-                                                    handleDelete(row);
-                                                }}
-                                                class={pointerCls}
-                                            ></Delete>
-                                        </FSpace>
-                                    );
-                                },
-                            }}
-                        ></FTableColumn>
-                    </FTable>
+                                <DeleteOutlined class={deleteIconCls} onClick={() => deleteComponentEvent(item)} />
+                            </li>
+                        ))}
+                    </ul>
+                    <ModifyBlock onChange={onChange} documentModel={props.node.document} editEvent={currentEditEvent.value} events={eventData.value} />
                 </>
             );
         };

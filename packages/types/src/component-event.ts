@@ -8,6 +8,7 @@ export enum ComponentEventAction {
 }
 
 export interface IComponentEventBase {
+    id: string
     name: string
     onlyRunWhen?: string
     debounce?: number
@@ -15,18 +16,21 @@ export interface IComponentEventBase {
 
 export interface IControlQueryAction extends IComponentEventBase {
     action: ComponentEventAction.CONTROL_QUERY
-    queryId: string
+    callId: string
     method: string
 }
 
 export interface IControlComponentAction extends IComponentEventBase {
     action: ComponentEventAction.CONTROL_COMPONENT
+    callId: string
     method: string
     [key: string]: unknown
 }
 
 export interface IGoToUrlAction extends IComponentEventBase {
     action: ComponentEventAction.GO_TO_URL
+    callId: 'utils'
+    method: 'openUrl'
     url: string
     isOpenNewTab?: boolean
 }
@@ -38,6 +42,8 @@ export interface IUrlParam {
 
 export interface IGoToPageAction extends IComponentEventBase {
     action: ComponentEventAction.GO_TO_PAGE
+    callId: 'utils'
+    method: 'openPage'
     pageId: string
     queryParams: IUrlParam[]
     hashParams: IUrlParam[]
@@ -46,13 +52,14 @@ export interface IGoToPageAction extends IComponentEventBase {
 
 export interface ISetTemporaryStateAction extends IComponentEventBase {
     action: ComponentEventAction.SET_TEMPORARY_STATE
-    temporaryStateId: string
+    callId: string
     method: string
     value: string
     path?: string
 }
 
 export interface ISetLocalStorageAction extends IComponentEventBase {
+    callId: 'localStorage'
     action: ComponentEventAction.SET_LOCAL_STORAGE
     method: string
     key: string

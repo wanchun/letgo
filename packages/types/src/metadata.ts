@@ -195,14 +195,14 @@ export type IPublicTypeConfigureSupportEvent =
         description?: string
     };
 
-export interface IPublicTypeConfigureSupportMethodParam {
+export interface IPublicTypeComponentMetaMethodParam {
     name: string
     value: IPublicTypeCompositeValue
 }
 
 export type IPublicTypeConfigureSupportMethod = string | {
     name: string
-    params: IPublicTypeConfigureSupportMethodParam[]
+    params: IPublicTypeComponentMetaMethodParam[]
 };
 
 /**

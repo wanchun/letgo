@@ -5,7 +5,6 @@ export enum ComponentEventAction {
     GO_TO_PAGE = 'goToPage',
     SET_TEMPORARY_STATE = 'setTemporaryState',
     SET_LOCAL_STORAGE = 'setLocalStorage',
-    EXPORT_DATA = 'exportData',
 }
 
 export interface IComponentEventBase {

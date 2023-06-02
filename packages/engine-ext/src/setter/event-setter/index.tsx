@@ -2,16 +2,16 @@ import type { PropType, Ref } from 'vue';
 import { defineComponent, onMounted, ref, watch } from 'vue';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
 import {
-    FForm,
-    FFormItem,
-    FSelect,
     FSpace,
     FTable,
     FTableColumn,
+    FTooltip,
 } from '@fesjs/fes-design';
+import { PlusCircleOutlined } from '@fesjs/fes-design/icon';
 import { Delete, Setting } from '@icon-park/vue-next';
 import { commonProps } from '../../common';
-import { lightCls, pointerCls } from './index.css';
+import { plusIconCls, pointerCls } from './index.css';
+import ModifyBlock from './modify/modify-block';
 
 const DEFINITION_EVENT_TYPE = {
     EVENTS: 'events',
@@ -138,49 +138,39 @@ const EventSetterView = defineComponent({
             props.onMounted?.();
         });
 
+        const addEvent = () => {
+
+        };
+
         return () => {
             return (
                 <>
-                    <FForm labelPosition={'top'}>
-                        {eventData.value.map((item) => {
-                            return (
-                                <FFormItem label={item.label}>
-                                    <FSelect
-                                        multiple
-                                        v-model={item.choose}
-                                        options={item.list}
-                                        v-slots={{
-                                            option: ({
-                                                value,
-                                                description,
-                                            }: {
-                                                value: string
-                                                description: string
-                                            }) => {
-                                                return (
-                                                    <FSpace justify="space-between">
-                                                        <span>{value}</span>
-                                                        <span class={lightCls}>
-                                                            {description}
-                                                        </span>
-                                                    </FSpace>
-                                                );
-                                            },
-                                        }}
-                                    ></FSelect>
-                                </FFormItem>
-                            );
-                        })}
-                    </FForm>
                     <FTable data={selectedEventData.value} bordered>
                         <FTableColumn
                             prop="name"
-                            label="已有事件"
+                            label="事件"
                         ></FTableColumn>
                         <FTableColumn
-                            label="操作"
+                            label=""
                             width={80}
                             v-slots={{
+                                header: () => {
+                                    return <span>
+                                        <FTooltip
+                                            trigger="click"
+                                            mode="popover"
+                                            placement="left-start"
+                                            v-slots={{
+                                                content: () => {
+                                                    return <ModifyBlock></ModifyBlock>;
+                                                },
+                                            }}
+                                        >
+                                                 <PlusCircleOutlined class={plusIconCls} />
+
+                                        </FTooltip>
+                                    </span>;
+                                },
                                 default: ({ row }: { row: any }) => {
                                     return (
                                         <FSpace justify="space-between">

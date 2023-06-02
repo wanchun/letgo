@@ -3,5 +3,5 @@
     "compilerOptions": {
         "outDir": "es"
     },
-    "include": ["model.d.ts", "src"]
+    "include": ["src"]
 }

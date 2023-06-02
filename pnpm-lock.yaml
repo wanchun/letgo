@@ -248,6 +248,7 @@ importers:
       codemirror:
         specifier: ^6.0.1
         version: 6.0.1(@lezer/common@1.0.2)
+    devDependencies:
       vue:
         specifier: ^3.3.4
         version: 3.3.4
@@ -288,8 +289,8 @@ importers:
         specifier: ^6.11.0
         version: 6.11.0
       '@fesjs/fes-design':
-        specifier: ^0.7.25
-        version: 0.7.25(vue@3.3.4)
+        specifier: ^0.7.27
+        version: 0.7.27(vue@3.3.4)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.4)
@@ -2436,27 +2437,6 @@ packages:
       - supports-color
     dev: false
 
-  /@fesjs/fes-design@0.7.25(vue@3.3.4):
-    resolution: {integrity: sha512-ZsIngpUPxNUv+LCGFWpfwIWLkJfqtBqCvgoMA2qlvi7eFFCo2JjYCCDc28p4G0tooj/ctB774CbL4G4glzeiuQ==}
-    peerDependencies:
-      vue: ^3.2.24
-    dependencies:
-      '@babel/runtime': 7.21.5
-      '@floating-ui/dom': 0.4.5
-      '@juggle/resize-observer': 3.4.0
-      '@types/lodash-es': 4.17.6
-      '@vue/shared': 3.2.47
-      '@vueuse/core': 9.6.0(vue@3.3.4)
-      async-validator: 4.2.5
-      csstype: 3.1.2
-      date-fns: 2.30.0
-      lodash-es: 4.17.21
-      stickybits: 3.7.11
-      vue: 3.3.4
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-    dev: false
-
   /@fesjs/fes-design@0.7.27(vue@3.2.47):
     resolution: {integrity: sha512-vupfeiqmhs0FEaCFvlaPhZqXuw4YmV+V2QtV6kegcYCFAiy/rbON4QK1xb9fXcNgW2k1MP0YhAiKxjnQjUqFkw==}
     peerDependencies:
@@ -4054,7 +4034,7 @@ packages:
     resolution: {integrity: sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==}
 
   /cookie-signature@1.0.6:
-    resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
+    resolution: {integrity: sha1-4wOogrNCzD7oylE6eZmXNNqzriw=, tarball: https://registry.npmmirror.com/cookie-signature/download/cookie-signature-1.0.6.tgz}
     dev: false
 
   /cookie@0.5.0:
@@ -5201,7 +5181,7 @@ packages:
     dev: false
 
   /forwarded@0.2.0:
-    resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
+    resolution: {integrity: sha1-ImmTZCiq1MFcfr6XeahL8LKoGBE=, tarball: https://registry.npmmirror.com/forwarded/download/forwarded-0.2.0.tgz}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -6098,7 +6078,7 @@ packages:
       '@babel/runtime': 7.21.5
 
   /media-typer@0.3.0:
-    resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
+    resolution: {integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=, tarball: https://registry.npmmirror.com/media-typer/download/media-typer-0.3.0.tgz}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -7488,7 +7468,7 @@ packages:
     dev: false
 
   /setprototypeof@1.2.0:
-    resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==}
+    resolution: {integrity: sha1-ZsmiSnP5/CjL5msJ/tPTPcrxtCQ=, tarball: https://registry.npmmirror.com/setprototypeof/download/setprototypeof-1.2.0.tgz}
     dev: false
 
   /shallow-clone@3.0.1:
@@ -7794,7 +7774,7 @@ packages:
       is-number: 7.0.0
 
   /toidentifier@1.0.1:
-    resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==}
+    resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==, tarball: https://registry.npmmirror.com/toidentifier/download/toidentifier-1.0.1.tgz}
     engines: {node: '>=0.6'}
     dev: false
 
@@ -7959,7 +7939,7 @@ packages:
     dev: true
 
   /utils-merge@1.0.1:
-    resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
+    resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=, tarball: https://registry.npmmirror.com/utils-merge/download/utils-merge-1.0.1.tgz}
     engines: {node: '>= 0.4.0'}
     dev: false
 

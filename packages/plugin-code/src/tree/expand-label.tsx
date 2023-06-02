@@ -4,6 +4,7 @@ import LabelTip from './label-tip';
 import { expandIconCls } from './expand-label.css';
 
 export default defineComponent({
+    name: 'ExpandLabel',
     props: {
         label: [String, Number],
         value: [Object, Array],

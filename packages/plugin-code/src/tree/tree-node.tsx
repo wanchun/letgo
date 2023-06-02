@@ -8,6 +8,7 @@ import LabelTip from './label-tip';
 import { iconActiveCls, labelIconCls } from './tree-node.css';
 
 const TreeNode = defineComponent({
+    name: 'TreeNode',
     props: {
         value: {
             type: [Array, Object, String, Number, Boolean] as PropType<any>,
@@ -51,7 +52,7 @@ const TreeNode = defineComponent({
                         <FadeInExpandTransition>
                             <div v-show={expended.value}>
                                 {
-                                    Object.keys(props.value).map((key) => {
+                                    keys.map((key) => {
                                         return <TreeNode label={key} level={props.level + 1} value={props.value[key]} />;
                                     })
                                 }

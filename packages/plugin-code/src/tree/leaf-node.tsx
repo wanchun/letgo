@@ -7,6 +7,7 @@ import LabelTip from './label-tip';
 type CommonType = string | number | null | boolean;
 
 export default defineComponent({
+    name: 'LeafNode',
     props: {
         label: [String, Number],
         value: [Object, Array, String, Number, Boolean],

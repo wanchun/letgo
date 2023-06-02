@@ -18,3 +18,4 @@ export * from './device';
 export * from './code';
 export * from './model';
 export * from './type';
+export * from './enum';

@@ -114,7 +114,7 @@ const EventSetterView = defineComponent({
             return (
                 <>
                     <div class={headerCls}>
-                        <h3 style="margin: 0">已绑定事件</h3>
+                        <h3 style="margin: 0; font-size: 14px;">已绑定事件</h3>
                         <FButton type="link" onClick={addEvent} size="small">新增<PlusOutlined /></FButton>
                     </div>
                     <ul class={selectedEventListCls}>

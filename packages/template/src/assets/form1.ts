@@ -11,7 +11,6 @@ export const schema: IPublicTypeRootSchema = {
     },
     fileName: '/',
     css: 'body {\n  font-size: 12px;\n}\n\n.button {\n  width: 100px;\n  color: #ff00ff\n}',
-    code: '',
     children: [
         {
             componentName: 'FSpace',

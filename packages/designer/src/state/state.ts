@@ -69,6 +69,7 @@ export class State {
                         this.nodeIdToRef.set(options.id, node.ref);
                         const instance = this.designer.simulator.getComponentInstancesExpose(options.instances[0]);
                         if (instance) {
+                            instance._componentName = node.componentName;
                             this.componentsInstance[refName] = instance;
                             node.onPropChange(() => {
                                 setTimeout(() => {

@@ -926,6 +926,7 @@ const assets: IPublicTypeAssetsJson = {
                 supports: {
                     style: true,
                     events: ['onSubmit'],
+                    methods: ['validate', 'clearValidate'],
                 },
                 component: {
                     isContainer: true,
@@ -1024,6 +1025,7 @@ const assets: IPublicTypeAssetsJson = {
                                 componentName: 'FFormItem',
                                 props: {
                                     label: '用户名',
+                                    rules: [{ required: true, message: '必填' }],
                                 },
                                 children: [
                                     {

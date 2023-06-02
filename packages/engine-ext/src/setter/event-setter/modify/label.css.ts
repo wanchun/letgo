@@ -7,7 +7,7 @@ export const labelWrapCls = style({
 });
 
 export const labelTextCls = style({
-    flex: '0 0 120px',
+    flex: '0 0 100px',
     color: '#555',
     marginRight: '8px',
 });

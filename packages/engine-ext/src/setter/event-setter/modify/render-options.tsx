@@ -1,7 +1,7 @@
 import type { IControlComponentAction, IControlQueryAction, IGoToPageAction, IGoToUrlAction, IPublicTypeComponentEvent, ISetLocalStorageAction, ISetTemporaryStateAction } from '@webank/letgo-types';
 import { ComponentEventAction } from '@webank/letgo-types';
 import type { PropType } from 'vue';
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import { FInput, FOption, FSelect } from '@fesjs/fes-design';
 import type { DocumentModel } from '@webank/letgo-designer';
 import Label from './label';
@@ -43,12 +43,31 @@ export default defineComponent({
                 };
             });
         });
-
+        const componentMethods = ref<{ label: string; value: string }[]>([]);
+        const selectComponent = (value: string) => {
+            const componentName = props.documentModel.state.componentsInstance[value]._componentName;
+            const metadata = props.documentModel.getComponentMeta(componentName).getMetadata();
+            componentMethods.value = (metadata.configure?.supports?.methods || []).map((item) => {
+                if (typeof item === 'string') {
+                    return {
+                        label: item,
+                        value: item,
+                    };
+                }
+                return {
+                    label: item.name,
+                    value: item.name,
+                };
+            });
+        };
         // TODO 参数配置
         const renderComponentMethod = (data: IControlComponentAction) => {
             return <>
-                <Label label="Query">
-                    <FSelect v-model={data.callId} options={componentInstanceOptions.value} />
+                <Label label="Component">
+                    <FSelect onChange={selectComponent} v-model={data.callId} options={componentInstanceOptions.value} />
+                </Label>
+                <Label label="Method">
+                    <FSelect v-model={data.method} options={componentMethods.value} />
                 </Label>
             </>;
         };

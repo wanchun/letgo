@@ -6,11 +6,11 @@ export default defineComponent({
     props: {
         label: String,
     },
-    setup(props) {
+    setup(props, { slots }) {
         return () => {
             return <div class={labelWrapCls}>
                 <label class={labelCls}>{props.label}</label>
-                <slot></slot>
+                {slots.default?.()}
             </div>;
         };
     },

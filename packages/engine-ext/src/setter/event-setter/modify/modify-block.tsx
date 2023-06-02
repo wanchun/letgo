@@ -2,10 +2,12 @@ import type { PropType } from 'vue';
 import { computed, defineComponent, ref } from 'vue';
 import { FInput, FInputNumber, FOption, FSelect } from '@fesjs/fes-design';
 import { ComponentEventAction } from '@webank/letgo-types/es/component-event';
+import type { EventOptionList } from '../interface';
 import Label from './label';
 import Separator from './separator';
 import RenderOptions from './render-options';
 import ModifyTitle from './modify-title';
+import { blockCls } from './modify-block.css';
 
 const actions = [{
     value: ComponentEventAction.CONTROL_QUERY,
@@ -29,15 +31,13 @@ const actions = [{
 
 export default defineComponent({
     props: {
-        events: Array as PropType<string[]>,
+        events: Array as PropType<EventOptionList>,
     },
     setup(props) {
         const renderEvent = () => {
             if (props.events.length > 1) {
                 return <Label label="Event">
-                    <FSelect>
-                        {props.events.map(eventName => <FOption value={eventName}>{eventName}</FOption>)}
-                    </FSelect>
+                    <FSelect options={props.events} />
                 </Label>;
             }
             return null;
@@ -57,8 +57,8 @@ export default defineComponent({
         });
 
         return () => {
-            return <div>
-                <ModifyTitle />
+            return <div class={blockCls}>
+                <ModifyTitle title="编辑" />
                 {renderEvent()}
                 {renderAction()}
                 <Separator text={firstSeparatorText.value} />

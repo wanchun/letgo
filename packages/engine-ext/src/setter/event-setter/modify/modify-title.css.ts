@@ -5,7 +5,7 @@ export const titleWrapCls = style({
     justifyContent: 'space-between',
     alignItems: 'center',
     height: '34px',
-    borderBottom: '1px solid #ebebeb',
+    fontSize: '14px',
 });
 
 export const iconCls = style({

@@ -10,7 +10,7 @@ import { DeleteOutlined, PlusOutlined } from '@fesjs/fes-design/icon';
 import { commonProps } from '../../common';
 import ModifyBlock from './modify/modify-block';
 import type { EventOptionList } from './interface';
-import { activeEventCls, deleteIconCls, headerCls, selectedEventCls, selectedEventListCls } from './index.css';
+import { activeEventCls, callExpressionCls, deleteIconCls, headerCls, selectedEventCls, selectedEventListCls } from './index.css';
 
 type EventList = Array<{ name: string; description?: string }>;
 
@@ -73,7 +73,7 @@ const EventSetterView = defineComponent({
                 name: eventData.value[0].value,
                 debounce: null,
                 action: ComponentEventAction.CONTROL_QUERY,
-                queryId: null,
+                callId: null,
                 method: null,
             };
         };
@@ -103,6 +103,13 @@ const EventSetterView = defineComponent({
                 currentEditEvent.value = getInitComponentEvent();
         };
 
+        const getMethodCall = (item: IPublicTypeComponentEvent) => {
+            if (item.callId && item.method)
+                return `${item.callId}.${item.method}()`;
+
+            return '';
+        };
+
         return () => {
             return (
                 <>
@@ -113,14 +120,16 @@ const EventSetterView = defineComponent({
                     <ul class={selectedEventListCls}>
                         {selectedEventData.value.map(item => (
                             <li class={[selectedEventCls, item.id === currentEditEvent.value.id && activeEventCls]} onClick={() => onEdit(item)} key={item.id}>
-                                <span>
                                 {item.name}
+                                <span class={callExpressionCls}>
+                                    {getMethodCall(item)}
                                 </span>
+
                                 <DeleteOutlined class={deleteIconCls} onClick={() => deleteComponentEvent(item)} />
                             </li>
                         ))}
                     </ul>
-                    <ModifyBlock onChange={onChange} editEvent={currentEditEvent.value} events={eventData.value} />
+                    <ModifyBlock onChange={onChange} documentModel={props.node.document} editEvent={currentEditEvent.value} events={eventData.value} />
                 </>
             );
         };

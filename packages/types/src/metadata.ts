@@ -213,6 +213,9 @@ export interface IPublicTypeConfigureSupport {
      * 支持事件列表
      */
     events?: IPublicTypeConfigureSupportEvent[]
+    /**
+     * 支持外部调用的方法
+     */
     methods?: IPublicTypeConfigureSupportMethod[]
     /**
      * 支持 className 设置

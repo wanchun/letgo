@@ -1,7 +1,8 @@
 import { EventEmitter } from 'eventemitter3';
 import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
 import { markComputed, markReactive } from '@webank/letgo-utils';
-import type { CodeItem, CodeStruct, CodeType } from '@webank/letgo-types';
+import { CodeType } from '@webank/letgo-types';
+import type { CodeItem, CodeStruct } from '@webank/letgo-types';
 import { codeBaseEdit } from './code-base';
 
 export class Code {
@@ -16,13 +17,21 @@ export class Code {
         markReactive(this, {
             codeStruct,
         });
-        markComputed(this, ['directories', 'code']);
+        markComputed(this, ['directories', 'code', 'queries', 'temporaryStates']);
 
         this.codeMap = this.genCodeMap(codeStruct);
     }
 
     get directories() {
         return this.codeStruct.directories;
+    }
+
+    get queries() {
+        return this.code.filter(item => item.type === CodeType.JAVASCRIPT_QUERY);
+    }
+
+    get temporaryStates() {
+        return this.code.filter(item => item.type === CodeType.TEMPORARY_STATE);
     }
 
     get code() {

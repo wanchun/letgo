@@ -54,3 +54,7 @@ export const deleteIconCls = style({
     color: '#bfbfbf',
     cursor: 'pointer',
 });
+
+export const callExpressionCls = style({
+    color: '#8c8c8c',
+});

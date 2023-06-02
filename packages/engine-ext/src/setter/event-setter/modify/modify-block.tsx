@@ -3,6 +3,7 @@ import { computed, defineComponent, ref, watch } from 'vue';
 import { FButton, FInput, FInputNumber, FOption, FSelect, FSpace } from '@fesjs/fes-design';
 import type { IPublicTypeComponentEvent } from '@webank/letgo-types/es/component-event';
 import { ComponentEventAction } from '@webank/letgo-types/es/component-event';
+import type { DocumentModel } from '@webank/letgo-designer';
 import type { EventOptionList } from '../interface';
 import Label from './label';
 import Separator from './separator';
@@ -31,28 +32,33 @@ const actions = [{
 
 const initOptions: any = {
     [ComponentEventAction.CONTROL_QUERY]: {
-        queryId: null,
-        method: null,
+        callId: null,
+        method: 'trigger',
     },
     [ComponentEventAction.CONTROL_COMPONENT]: {
         method: null,
     },
     [ComponentEventAction.GO_TO_URL]: {
+        callId: 'utils',
+        method: 'openUrl',
         url: '',
         isOpenNewTab: false,
     },
     [ComponentEventAction.GO_TO_PAGE]: {
+        callId: 'utils',
+        method: 'openPage',
         pageId: '',
         queryParams: [],
         hashParams: [],
         isOpenNewTab: false,
     },
     [ComponentEventAction.SET_TEMPORARY_STATE]: {
-        temporaryStateId: null,
+        callId: null,
         method: null,
         value: null,
     },
     [ComponentEventAction.SET_TEMPORARY_STATE]: {
+        callId: 'localStorage',
         method: 'setValue',
         key: null,
         value: null,
@@ -61,6 +67,7 @@ const initOptions: any = {
 
 export default defineComponent({
     props: {
+        documentModel: Object as PropType<DocumentModel>,
         editEvent: Object as PropType<IPublicTypeComponentEvent>,
         events: Array as PropType<EventOptionList>,
         onChange: Function as PropType<(data: IPublicTypeComponentEvent) => void>,
@@ -113,7 +120,7 @@ export default defineComponent({
                 {renderEvent()}
                 {renderAction()}
                 <Separator text={firstSeparatorText.value} />
-                <RenderOptions action={innerEditEvent.value.action} />
+                <RenderOptions documentModel={props.documentModel} componentEvent={innerEditEvent.value} />
                 <Separator text="高级" />
                 <Label label="执行条件">
                     <FInput v-model={innerEditEvent.value.onlyRunWhen} />

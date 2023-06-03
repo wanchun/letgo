@@ -34,19 +34,21 @@ function transformList(list: EventList): EventOptionList {
     });
 }
 
+interface EventData { eventList: EventOptionList; componentEvents: IPublicTypeComponentEvent[] }
+
 const EventSetterView = defineComponent({
     name: 'EventSetterView',
     props: {
         ...commonProps,
-        value: Array as PropType<any>,
-        defaultValue: Array as PropType<any>,
-        onChange: Function as PropType<({ eventList, componentEvents }: { eventList: EventOptionList; componentEvents: IPublicTypeComponentEvent[] }) => void>,
+        value: Object as PropType<EventData>,
+        defaultValue: Object as PropType<EventData>,
+        onChange: Function as PropType<({ eventList, componentEvents }: EventData) => void>,
         definition: Array as PropType<Array<EventDefinition>>,
     },
     setup(props) {
         const eventData: Ref<EventOptionList> = ref([]);
 
-        const selectedEventData = ref<IPublicTypeComponentEvent[]>([]);
+        const selectedEventData = ref<IPublicTypeComponentEvent[]>(props.value?.componentEvents || []);
 
         watch(
             () => props.definition,
@@ -55,13 +57,17 @@ const EventSetterView = defineComponent({
                 props.definition.forEach((item) => {
                     events = events.concat(transformList(item.list || []));
                 });
-                selectedEventData.value = [];
+                selectedEventData.value = props.value?.componentEvents || [];
                 eventData.value = events;
             },
             {
                 immediate: true,
             },
         );
+
+        watch(() => props.value, () => {
+            selectedEventData.value = props.value?.componentEvents || [];
+        });
 
         onMounted(() => {
             props.onMounted?.();

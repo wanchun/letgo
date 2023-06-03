@@ -46,7 +46,7 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
     /** 记录单个节点的组件实例列表 */
     const instancesMap = new Map<string, IPublicTypeComponentInstance[]>();
     /** 记录 vue 组件实例和组件 uid 的映射关系 */
-    const vueInstanceMap = reactive<Record<number, IPublicTypeComponentInstance>>({});
+    const vueInstanceMap = reactive(new Map<number, IPublicTypeComponentInstance>());
 
     const timestamp = ref(Date.now());
 
@@ -68,7 +68,7 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
     };
 
     const getComponentInstance = (id: number) => {
-        return vueInstanceMap[id];
+        return vueInstanceMap.get(id);
     };
 
     const unmountInstance = (id: string, instance: IPublicTypeComponentInstance) => {
@@ -77,7 +77,7 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
             const i = instances.indexOf(instance);
             if (i > -1) {
                 const [instance] = instances.splice(i, 1);
-                delete vueInstanceMap[instance.$.uid];
+                vueInstanceMap.delete(instance.$.uid);
                 setHostInstance(document.id, id, instances);
             }
         }
@@ -132,7 +132,7 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
         else {
             instances = [instance];
         }
-        vueInstanceMap[instance.$.uid] = instance;
+        vueInstanceMap.set(instance.$.uid, instance);
         instancesMap.set(id, instances);
         setHostInstance(docId, id, instances);
     };

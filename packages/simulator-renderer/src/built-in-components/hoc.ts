@@ -180,6 +180,7 @@ export const Hoc = defineComponent({
         };
 
         return {
+            refId: node.ref, // 临时解决 ID 问题
             show,
             loop,
             compSlots,

@@ -7,6 +7,7 @@
  */
 import type { IPublicTypeAppConfig } from '@webank/letgo-types';
 import { markReactive } from '@webank/letgo-utils';
+import { debounce } from 'lodash-es';
 import type { Designer } from '../designer';
 import type { IComponentInstance } from '../types';
 import type { Project } from '../project';
@@ -72,9 +73,9 @@ export class State {
                             instance._componentName = node.componentName;
                             this.componentsInstance[refName] = instance;
                             node.onPropChange(() => {
-                                setTimeout(() => {
+                                debounce(() => setTimeout(() => {
                                     Object.assign(this.componentsInstance[refName], this.designer.simulator.getComponentInstancesExpose(options.instances[0]));
-                                });
+                                }), 100);
                             });
                         }
                         else {

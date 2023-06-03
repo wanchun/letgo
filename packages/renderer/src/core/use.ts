@@ -39,7 +39,7 @@ import {
     mergeScope,
     parseSlotScope,
 } from '../utils';
-import { executeFunc, parseExpression, parseSchema } from '../parse';
+import { funcSchemaToFunc, parseExpression, parseSchema } from '../parse';
 import type { LeafProps, PropSchemaMap, RendererProps, SlotSchemaMap } from './base';
 import { Live } from './live';
 
@@ -170,7 +170,7 @@ function buildProp(schema: unknown, scope: RuntimeScope): any {
         return parseExpression(schema, scope);
     }
     else if (isJSFunction(schema)) {
-        return executeFunc(schema, scope);
+        return funcSchemaToFunc(schema, scope);
     }
     else if (isArray(schema)) {
         // 属性值为 array，递归处理属性的每一项

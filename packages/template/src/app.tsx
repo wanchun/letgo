@@ -1,8 +1,10 @@
+import { defineRuntimeConfig } from '@fesjs/fes';
 import { plugins } from '@webank/letgo-engine';
 import PluginComponents from '@webank/letgo-plugin-components';
 import PluginComponentTree from '@webank/letgo-plugin-component-tree';
 import PluginDevice from '@webank/letgo-plugin-device';
 import CodeGenerator from '@webank/letgo-plugin-code-generator';
+import type { App } from 'vue';
 import assets from './assets/assets';
 import Logo from './components/logo.vue';
 
@@ -30,5 +32,14 @@ plugins.register({
                 align: 'left',
             },
         });
+    },
+});
+export default defineRuntimeConfig({
+    onAppCreated({ app }: { app: App }) {
+        app.config.warnHandler = (msg: string) => {
+            // 忽略这个警告，生产不会遍历 component instance 的 keys
+            if (!msg.includes('enumerating keys'))
+                console.warn(msg);
+        };
     },
 });

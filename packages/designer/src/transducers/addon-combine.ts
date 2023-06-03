@@ -118,6 +118,7 @@ export default function (
                                 componentEvents.forEach((item: IPublicTypeComponentEvent) => {
                                     if (item.callId && item.method) {
                                         let expression: string;
+                                        const params: string[] = [];
                                         if (item.action === ComponentEventAction.CONTROL_QUERY) {
                                             expression = `${item.callId}.${item.method}()`;
                                         }
@@ -126,7 +127,8 @@ export default function (
                                             expression = `${item.callId}.${item.method}()`;
                                         }
                                         else if (item.action === ComponentEventAction.GO_TO_URL) {
-                                            expression = `${item.callId}.${item.method}('${item.url}')`;
+                                            params.push(item.url);
+                                            expression = `${item.callId}.${item.method}.apply(${item.callId}, Array.prototype.slice.call(arguments))')`;
                                         }
                                         else if (item.action === ComponentEventAction.GO_TO_PAGE) {
                                             // TODO 支持参数
@@ -134,20 +136,24 @@ export default function (
                                         }
                                         else if (item.action === ComponentEventAction.SET_TEMPORARY_STATE) {
                                             // TODO 支持其他方法
-                                            expression = `${item.callId}.${item.method}('${item.value}')`;
+                                            params.push(item.value);
+                                            expression = `${item.callId}.${item.method}.apply(${item.callId}, Array.prototype.slice.call(arguments))`;
                                         }
                                         else if (item.action === ComponentEventAction.SET_LOCAL_STORAGE) {
                                             // TODO 支持其他方法
-                                            if (item.method === 'setValue')
-                                                expression = `${item.callId}.${item.method}('${item.value}', '${item.value}')`;
-
-                                            else
+                                            if (item.method === 'setValue') {
+                                                params.push(item.key, item.value);
+                                                expression = `${item.callId}.${item.method}.apply(null, Array.prototype.slice.call(arguments))`;
+                                            }
+                                            else {
                                                 expression = `${item.callId}.${item.method}()`;
+                                            }
                                         }
                                         result[item.name] = (result[item.name] || []).concat({
                                             type: 'JSFunction',
                                             // 需要传下入参
                                             value: `function(){${expression}}`,
+                                            params,
                                         });
                                     }
                                 });

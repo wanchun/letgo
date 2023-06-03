@@ -1,9 +1,9 @@
 import { isNil } from 'lodash-es';
-import { markComputed, markShallowReactive } from '@webank/letgo-utils';
+import { hasExpression, markComputed, markShallowReactive } from '@webank/letgo-utils';
 import type { ITemporaryState } from '@webank/letgo-types';
 import { CodeType } from '@webank/letgo-types';
 import type { ITemporaryStateImpl } from '@webank/letgo-designer';
-import { attachContext, hasExpression, replaceExpression } from '@webank/letgo-renderer';
+import { attachContext, replaceExpression } from '@webank/letgo-renderer';
 
 // 解析执行
 export class TemporaryStateImpl implements ITemporaryStateImpl {
@@ -74,6 +74,7 @@ export class TemporaryStateImpl implements ITemporaryStateImpl {
     }
 
     setValue(value: any) {
+        console.log('setValue', value);
         this.value = value;
     }
 }

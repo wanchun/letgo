@@ -54,10 +54,10 @@ const initOptions: any = {
     },
     [ComponentEventAction.SET_TEMPORARY_STATE]: {
         callId: null,
-        method: null,
+        method: 'setValue',
         value: null,
     },
-    [ComponentEventAction.SET_TEMPORARY_STATE]: {
+    [ComponentEventAction.SET_LOCAL_STORAGE]: {
         callId: 'localStorage',
         method: 'setValue',
         key: null,
@@ -95,6 +95,7 @@ export default defineComponent({
                 onlyRunWhen: innerEditEvent.value.onlyRunWhen,
                 debounce: innerEditEvent.value.debounce,
                 action: innerEditEvent.value.action,
+                callId: innerEditEvent.value.callId,
                 ...initOptions[innerEditEvent.value.action],
             };
         };

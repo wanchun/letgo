@@ -55,21 +55,21 @@ export class TemporaryStateImpl implements ITemporaryStateImpl {
     executeInput(text?: string) {
         if (isNil(text))
             return null;
-        if (hasExpression(text)) {
-            const codeStr = replaceExpression(text, (_, expression) => {
-                return `\${${attachContext(expression, name => this.deps.includes(name))}}`;
-            });
-            // eslint-disable-next-line no-new-func
-            const fn = new Function('_ctx', `return \`${codeStr}\``);
-            return fn(this.ctx);
+        let result = text;
+        try {
+            if (hasExpression(text)) {
+                result = replaceExpression(text, (_, expression) => {
+                    const exp = attachContext(expression, name => this.deps.includes(name));
+                    // eslint-disable-next-line no-new-func
+                    const fn = new Function('_ctx', `return ${exp}`);
+                    return fn(this.ctx);
+                });
+            }
+            result = JSON.parse(result);
+            return result;
         }
-        else {
-            try {
-                return JSON.parse(text);
-            }
-            catch (_) {
-                return text;
-            }
+        catch (_) {
+            return result;
         }
     }
 

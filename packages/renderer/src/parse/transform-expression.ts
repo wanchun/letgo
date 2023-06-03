@@ -131,20 +131,20 @@ export function attachContext(code: string, isInclude: (name: string) => boolean
 export function executeExpression(text: string | null, ctx: Record<string, any>) {
     if (isNil(text))
         return null;
-    if (hasExpression(text)) {
-        const codeStr = replaceExpression(text, (_, expression) => {
-            return `\${${attachContext(expression, name => !isUndefined(ctx[name]))}}`;
-        });
-        // eslint-disable-next-line no-new-func
-        const fn = new Function('_ctx', `return \`${codeStr}\``);
-        return fn(ctx);
+    let result = text;
+    try {
+        if (hasExpression(text)) {
+            result = replaceExpression(text, (_, expression) => {
+                const exp = attachContext(expression, name => !isUndefined(ctx[name]));
+                // eslint-disable-next-line no-new-func
+                const fn = new Function('_ctx', `return ${exp}`);
+                return fn(ctx);
+            });
+        }
+        result = JSON.parse(text);
+        return result;
     }
-    else {
-        try {
-            return JSON.parse(text);
-        }
-        catch (_) {
-            return text;
-        }
+    catch (_) {
+        return result;
     }
 }

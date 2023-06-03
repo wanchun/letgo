@@ -66,6 +66,7 @@ const initOptions: any = {
 };
 
 export default defineComponent({
+    name: 'ModifyBlock',
     props: {
         documentModel: Object as PropType<DocumentModel>,
         editEvent: Object as PropType<IPublicTypeComponentEvent>,

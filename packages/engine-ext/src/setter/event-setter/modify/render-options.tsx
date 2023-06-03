@@ -7,6 +7,7 @@ import type { DocumentModel } from '@webank/letgo-designer';
 import Label from './label';
 
 export default defineComponent({
+    name: 'RenderOptions',
     props: {
         documentModel: Object as PropType<DocumentModel>,
         componentEvent: Object as PropType<IPublicTypeComponentEvent>,

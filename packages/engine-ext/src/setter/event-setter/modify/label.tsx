@@ -2,6 +2,7 @@ import { defineComponent } from 'vue';
 import { labelTextCls, labelWrapCls } from './label.css';
 
 export default defineComponent({
+    name: 'ModifyLabel',
     props: {
         label: String,
     },

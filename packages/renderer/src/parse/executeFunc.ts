@@ -6,9 +6,7 @@ export function executeFunc(schema: IPublicTypeJSFunction, ctx: Record<string, u
         const fn = new Function('_ctx', `
     let result;
     with(_ctx) {
-        result = (() => {
-            ${schema.value}
-        })();
+        result = (${schema.value})();
     }
     return result;
 `);

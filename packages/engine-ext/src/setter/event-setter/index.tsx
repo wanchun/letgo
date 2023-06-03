@@ -40,7 +40,7 @@ const EventSetterView = defineComponent({
         ...commonProps,
         value: Array as PropType<any>,
         defaultValue: Array as PropType<any>,
-        onChange: Function as PropType<(eventList: any[]) => void>,
+        onChange: Function as PropType<({ eventList, componentEvents }: { eventList: EventOptionList; componentEvents: IPublicTypeComponentEvent[] }) => void>,
         definition: Array as PropType<Array<EventDefinition>>,
     },
     setup(props) {
@@ -82,18 +82,26 @@ const EventSetterView = defineComponent({
         const onEdit = (data: IPublicTypeComponentEvent) => {
             currentEditEvent.value = { ...data };
         };
+        const emitChangeEventData = () => {
+            props.onChange({
+                eventList: eventData.value,
+                componentEvents: selectedEventData.value,
+            });
+        };
         const addEvent = () => {
             currentEditEvent.value = getInitComponentEvent();
             selectedEventData.value.push(currentEditEvent.value);
+            emitChangeEventData();
         };
 
-        const onChange = (changedEvent: IPublicTypeComponentEvent) => {
+        const changeComponentEvent = (changedEvent: IPublicTypeComponentEvent) => {
             const index = selectedEventData.value.findIndex(item => item.id === changedEvent.id);
             if (index === -1)
                 selectedEventData.value.push(changedEvent);
 
             else
                 selectedEventData.value.splice(index, 1, changedEvent);
+            emitChangeEventData();
         };
 
         const deleteComponentEvent = (event: IPublicTypeComponentEvent) => {
@@ -101,6 +109,7 @@ const EventSetterView = defineComponent({
             selectedEventData.value.splice(index, 1);
             if (currentEditEvent.value.id === event.id)
                 currentEditEvent.value = getInitComponentEvent();
+            emitChangeEventData();
         };
 
         const getMethodCall = (item: IPublicTypeComponentEvent) => {
@@ -129,7 +138,7 @@ const EventSetterView = defineComponent({
                             </li>
                         ))}
                     </ul>
-                    <ModifyBlock onChange={onChange} documentModel={props.node.document} editEvent={currentEditEvent.value} events={eventData.value} />
+                    <ModifyBlock onChange={changeComponentEvent} documentModel={props.node.document} editEvent={currentEditEvent.value} events={eventData.value} />
                 </>
             );
         };

@@ -1,7 +1,13 @@
 import type {
+    IPublicTypeComponentEvent,
     IPublicTypeFieldConfig,
+    IPublicTypeJSFunction,
     IPublicTypeSettingTarget,
+
     IPublicTypeTransformedComponentMetadata,
+} from '@webank/letgo-types';
+import {
+    ComponentEventAction,
 } from '@webank/letgo-types';
 import { engineConfig } from '@webank/letgo-editor-core';
 import { isArray } from 'lodash-es';
@@ -96,25 +102,57 @@ export default function (
                             return val;
                         },
                         setValue(field: IPublicTypeSettingTarget, eventData) {
-                            const { eventDataList, eventList } = eventData;
+                            const { componentEvents, eventList } = eventData;
 
                             if (Array.isArray(eventList)) {
                                 eventList.map((item) => {
-                                    field.parent.clearPropValue(item.name);
+                                    field.parent.clearPropValue(item.value);
                                     return item;
                                 });
                             }
 
-                            if (Array.isArray(eventDataList)) {
-                                eventDataList.map((item) => {
-                                    field.parent.setPropValue(item.name, {
-                                        type: 'JSFunction',
-                                        // 需要传下入参
-                                        value: `function(){this.${item.relatedEventName
-                                            }.apply(this,Array.prototype.slice.call(arguments).concat([${item.paramStr ? item.paramStr : ''
-                                            }])) }`,
-                                    });
-                                    return item;
+                            if (Array.isArray(componentEvents)) {
+                                const result: {
+                                    [key: string]: IPublicTypeJSFunction[]
+                                } = {};
+                                componentEvents.forEach((item: IPublicTypeComponentEvent) => {
+                                    if (item.callId && item.method) {
+                                        let expression: string;
+                                        if (item.action === ComponentEventAction.CONTROL_QUERY) {
+                                            expression = `${item.callId}.${item.method}()`;
+                                        }
+                                        else if (item.action === ComponentEventAction.CONTROL_COMPONENT) {
+                                            // TODO 支持参数
+                                            expression = `${item.callId}.${item.method}()`;
+                                        }
+                                        else if (item.action === ComponentEventAction.GO_TO_URL) {
+                                            expression = `${item.callId}.${item.method}('${item.url}')`;
+                                        }
+                                        else if (item.action === ComponentEventAction.GO_TO_PAGE) {
+                                            // TODO 支持参数
+                                            expression = `${item.callId}.${item.method}('${item.pageId}')`;
+                                        }
+                                        else if (item.action === ComponentEventAction.SET_TEMPORARY_STATE) {
+                                            // TODO 支持其他方法
+                                            expression = `${item.callId}.${item.method}('${item.value}')`;
+                                        }
+                                        else if (item.action === ComponentEventAction.SET_LOCAL_STORAGE) {
+                                            // TODO 支持其他方法
+                                            if (item.method === 'setValue')
+                                                expression = `${item.callId}.${item.method}('${item.value}', '${item.value}')`;
+
+                                            else
+                                                expression = `${item.callId}.${item.method}()`;
+                                        }
+                                        result[item.name] = (result[item.name] || []).concat({
+                                            type: 'JSFunction',
+                                            // 需要传下入参
+                                            value: `function(){${expression}}`,
+                                        });
+                                    }
+                                });
+                                Object.keys(result).forEach((name) => {
+                                    field.parent.setPropValue(name, result[name]);
                                 });
                             }
                         },

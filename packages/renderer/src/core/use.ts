@@ -11,8 +11,6 @@ import {
     createTextVNode,
     getCurrentInstance,
     h,
-    provide,
-    reactive,
     ref,
     toDisplayString,
     toRaw,
@@ -32,7 +30,7 @@ import {
     isNodeSchema,
 } from '@webank/letgo-types';
 import { camelCase, isArray, isFunction, isNil, isPlainObject, isString } from 'lodash-es';
-import { contextFactory, useRendererContext } from '../context';
+import { provideRenderContext, useRendererContext } from '../context';
 import type { BlockScope, MaybeArray, RuntimeScope } from '../utils';
 import {
     ensureArray,
@@ -540,8 +538,8 @@ export function useLeaf(props: LeafProps, context: Record<string, unknown>) {
             props,
             context,
             schema: nodeSchema,
-            components,
-            base: components.__BASE_COMP || Live,
+            components: components.value,
+            base: components.value.__BASE_COMP || Live,
             blockScope,
             comp,
         });
@@ -553,22 +551,13 @@ export function useLeaf(props: LeafProps, context: Record<string, unknown>) {
 }
 
 export function useRenderer(props: RendererProps) {
-    const contextKey = contextFactory();
-
-    const componentsRef = computed(() => props.__components);
-
-    provide(
-        contextKey,
-        reactive({
-            components: componentsRef,
-        }),
-    );
+    provideRenderContext(props);
 
     const renderComp = (
         nodeSchema: IPublicTypeRootSchema,
         comp: Component,
     ): VNode => {
-        return h(componentsRef.value.__BASE_COMP || Live, {
+        return h(props.__components.__BASE_COMP || Live, {
             key: nodeSchema.id,
             comp,
             scope: null,
@@ -576,7 +565,7 @@ export function useRenderer(props: RendererProps) {
         } as any);
     };
 
-    return { componentsRef, renderComp };
+    return { renderComp };
 }
 
 export function useRootScope(rendererProps: RendererProps) {

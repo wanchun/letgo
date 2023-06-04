@@ -1,5 +1,6 @@
 import { Fragment, defineComponent, h } from 'vue';
 import type { BlockScope } from '../utils';
+import { useRendererContext } from '../context';
 import {
     buildLoop,
     buildProps,
@@ -15,8 +16,8 @@ export const Live = defineComponent({
     name: 'Live',
     props: leafProps,
     setup(props) {
-        // TODO  context 运行时的接入
-        const { renderComp } = useLeaf(props, {});
+        const { executeCtx } = useRendererContext();
+        const { renderComp } = useLeaf(props, executeCtx);
 
         const { show } = buildShow(props.scope, props.schema);
         const { loop, loopArgs } = buildLoop(props.scope, props.schema);
@@ -35,6 +36,7 @@ export const Live = defineComponent({
             compProps,
             compSlots,
             innerBuildSlots,
+            executeCtx,
         };
     },
     render() {
@@ -47,6 +49,7 @@ export const Live = defineComponent({
             compSlots,
             innerBuildSlots,
             scope,
+            executeCtx,
         } = this;
 
         if (!show)
@@ -57,7 +60,7 @@ export const Live = defineComponent({
             return h(
                 comp,
                 buildProps({
-                    context: {},
+                    context: executeCtx,
                     scope,
                     propsSchema: compProps,
                 }),
@@ -80,7 +83,7 @@ export const Live = defineComponent({
                 return h(
                     comp,
                     buildProps({
-                        context: {},
+                        context: executeCtx,
                         scope,
                         propsSchema: compProps,
                         blockScope,

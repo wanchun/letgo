@@ -29,7 +29,8 @@
     "access": "public"
   },
   "devDependencies": {
-    "@types/lodash-es": "^4.17.6"
+    "@types/lodash-es": "^4.17.6",
+    "vue": "^3.3.4"
   },
   "typings": "./es/index.d.ts"
 }

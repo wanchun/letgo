@@ -3,7 +3,7 @@ import { hasExpression, markComputed, markShallowReactive } from '@webank/letgo-
 import type { ITemporaryState } from '@webank/letgo-types';
 import { CodeType } from '@webank/letgo-types';
 import type { ITemporaryStateImpl } from '@webank/letgo-designer';
-import { attachContext, replaceExpression } from '@webank/letgo-renderer';
+import { attachContext, replaceExpression } from '../parse';
 
 // 解析执行
 export class TemporaryStateImpl implements ITemporaryStateImpl {

@@ -1,7 +1,7 @@
-import type { RendererComponent } from './core';
+import type { Component } from 'vue';
 import { RENDERER_COMPS } from './renderers';
 
-export type RendererModules = Record<string, RendererComponent>;
+export type RendererModules = Record<string, Component>;
 
 export class Config {
     private renderers: RendererModules = { ...RENDERER_COMPS };

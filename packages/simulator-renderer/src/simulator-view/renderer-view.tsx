@@ -5,7 +5,7 @@ import type { CodeItem, IPublicTypeComponentInstance, IPublicTypeNodeSchema } fr
 import type { DocumentInstance, VueSimulatorRenderer } from '../interface';
 import { BASE_COMP_CONTEXT } from '../constants';
 import { Hoc } from '../built-in-components/hoc';
-import { useCodesInstance } from '../code-impl/code-impl';
+import { useCodesInstance } from '../context/code-impl';
 import { useContext } from '../context/context';
 import { host } from '../host';
 

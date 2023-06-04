@@ -1,12 +1,13 @@
 import type { Component, PropType } from 'vue';
 import { computed, defineComponent, h } from 'vue';
-import type { IPublicTypeRootSchema } from '@webank/letgo-types';
+import type { IPublicTypeAppConfig, IPublicTypeRootSchema } from '@webank/letgo-types';
 import config from './config';
 import { RENDERER_COMPS } from './renderers';
 
 interface RendererProps {
     schema: IPublicTypeRootSchema
     components: Record<string, Component>
+    config?: IPublicTypeAppConfig
     device?: string
 }
 
@@ -19,6 +20,9 @@ const Renderer = defineComponent({
         components: {
             type: Object as PropType<Record<string, Component>>,
             required: true,
+        },
+        config: {
+            type: Object as PropType<IPublicTypeAppConfig>,
         },
         /** 设备信息 */
         device: {
@@ -50,6 +54,7 @@ const Renderer = defineComponent({
                     key: schema.id,
                     __schema: schema,
                     __components: components,
+                    __config: props.config,
                 } as any)
                 : null;
         };

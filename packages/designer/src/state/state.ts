@@ -68,14 +68,15 @@ export class State {
                     }
                     else {
                         this.nodeIdToRef.set(options.id, node.ref);
-                        const instance = this.designer.simulator.getComponentInstancesExpose(options.instances[0]);
+                        const instance = JSON.parse(JSON.stringify(this.designer.simulator.getComponentInstancesExpose(options.instances[0])));
                         if (instance) {
                             instance._componentName = node.componentName;
                             this.componentsInstance[refName] = instance;
+                            const listen = debounce(() => setTimeout(() => {
+                                Object.assign(this.componentsInstance[refName], JSON.parse(JSON.stringify(this.designer.simulator.getComponentInstancesExpose(options.instances[0]))));
+                            }, 50), 100);
                             node.onPropChange(() => {
-                                debounce(() => setTimeout(() => {
-                                    Object.assign(this.componentsInstance[refName], this.designer.simulator.getComponentInstancesExpose(options.instances[0]));
-                                }), 100);
+                                listen();
                             });
                         }
                         else {

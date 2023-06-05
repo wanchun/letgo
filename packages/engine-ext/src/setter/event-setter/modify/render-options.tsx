@@ -1,5 +1,5 @@
-import type { IControlComponentAction, IControlQueryAction, IGoToPageAction, IGoToUrlAction, IPublicTypeComponentEvent, ISetLocalStorageAction, ISetTemporaryStateAction } from '@webank/letgo-types';
-import { ComponentEventAction } from '@webank/letgo-types';
+import type { IControlComponentAction, IControlQueryAction, IGoToPageAction, IGoToUrlAction, IPublicTypeEventHandler, ISetLocalStorageAction, ISetTemporaryStateAction } from '@webank/letgo-types';
+import { EventHandlerAction } from '@webank/letgo-types';
 import type { PropType } from 'vue';
 import { computed, defineComponent, ref } from 'vue';
 import { FInput, FOption, FSelect } from '@fesjs/fes-design';
@@ -10,7 +10,7 @@ export default defineComponent({
     name: 'RenderOptions',
     props: {
         documentModel: Object as PropType<DocumentModel>,
-        componentEvent: Object as PropType<IPublicTypeComponentEvent>,
+        componentEvent: Object as PropType<IPublicTypeEventHandler>,
     },
     setup(props) {
         const queryOptions = computed(() => {
@@ -121,22 +121,22 @@ export default defineComponent({
             </>;
         };
         return () => {
-            if (props.componentEvent.action === ComponentEventAction.CONTROL_QUERY)
+            if (props.componentEvent.action === EventHandlerAction.CONTROL_QUERY)
                 return renderQuery(props.componentEvent);
 
-            if (props.componentEvent.action === ComponentEventAction.CONTROL_COMPONENT)
+            if (props.componentEvent.action === EventHandlerAction.CONTROL_COMPONENT)
                 return renderComponentMethod(props.componentEvent);
 
-            if (props.componentEvent.action === ComponentEventAction.GO_TO_URL)
+            if (props.componentEvent.action === EventHandlerAction.GO_TO_URL)
                 return renderGoToURL(props.componentEvent);
 
-            if (props.componentEvent.action === ComponentEventAction.GO_TO_PAGE)
+            if (props.componentEvent.action === EventHandlerAction.GO_TO_PAGE)
                 return renderGoToPage(props.componentEvent);
 
-            if (props.componentEvent.action === ComponentEventAction.SET_TEMPORARY_STATE)
+            if (props.componentEvent.action === EventHandlerAction.SET_TEMPORARY_STATE)
                 return renderSetTemporaryState(props.componentEvent);
 
-            if (props.componentEvent.action === ComponentEventAction.SET_LOCAL_STORAGE)
+            if (props.componentEvent.action === EventHandlerAction.SET_LOCAL_STORAGE)
                 return renderSetLocalStorage(props.componentEvent);
         };
     },

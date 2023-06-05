@@ -1,11 +1,11 @@
 import type { PropType, Ref } from 'vue';
 import { defineComponent, onMounted, ref, watch } from 'vue';
-import type { IPublicTypeComponentEvent, IPublicTypeSetter } from '@webank/letgo-types';
+import type { IPublicTypeEventHandler, IPublicTypeSetter } from '@webank/letgo-types';
 import {
     FButton,
 } from '@fesjs/fes-design';
 import { uniqueId } from '@webank/letgo-utils';
-import { ComponentEventAction } from '@webank/letgo-types/es/component-event';
+import { EventHandlerAction } from '@webank/letgo-types';
 import { DeleteOutlined, PlusOutlined } from '@fesjs/fes-design/icon';
 import { commonProps } from '../../common';
 import ModifyBlock from './modify/modify-block';
@@ -34,7 +34,7 @@ function transformList(list: EventList): EventOptionList {
     });
 }
 
-interface EventData { eventList: EventOptionList; componentEvents: IPublicTypeComponentEvent[] }
+interface EventData { eventList: EventOptionList; componentEvents: IPublicTypeEventHandler[] }
 
 const EventSetterView = defineComponent({
     name: 'EventSetterView',
@@ -48,7 +48,7 @@ const EventSetterView = defineComponent({
     setup(props) {
         const eventData: Ref<EventOptionList> = ref([]);
 
-        const selectedEventData = ref<IPublicTypeComponentEvent[]>(props.value?.componentEvents || []);
+        const selectedEventData = ref<IPublicTypeEventHandler[]>(props.value?.componentEvents || []);
 
         watch(
             () => props.definition,
@@ -73,20 +73,20 @@ const EventSetterView = defineComponent({
             props.onMounted?.();
         });
 
-        const getInitComponentEvent = (): IPublicTypeComponentEvent => {
+        const getInitComponentEvent = (): IPublicTypeEventHandler => {
             return {
                 id: genEventId(),
                 name: eventData.value[0].value,
                 waitType: 'debounce',
                 waitMs: null,
-                action: ComponentEventAction.CONTROL_QUERY,
+                action: EventHandlerAction.CONTROL_QUERY,
                 callId: null,
                 method: null,
             };
         };
 
-        const currentEditEvent = ref<IPublicTypeComponentEvent>(getInitComponentEvent());
-        const onEdit = (data: IPublicTypeComponentEvent) => {
+        const currentEditEvent = ref<IPublicTypeEventHandler>(getInitComponentEvent());
+        const onEdit = (data: IPublicTypeEventHandler) => {
             currentEditEvent.value = { ...data };
         };
         const emitChangeEventData = () => {
@@ -101,7 +101,7 @@ const EventSetterView = defineComponent({
             emitChangeEventData();
         };
 
-        const changeComponentEvent = (changedEvent: IPublicTypeComponentEvent) => {
+        const changeComponentEvent = (changedEvent: IPublicTypeEventHandler) => {
             const index = selectedEventData.value.findIndex(item => item.id === changedEvent.id);
             if (index === -1)
                 selectedEventData.value.push(changedEvent);
@@ -111,7 +111,7 @@ const EventSetterView = defineComponent({
             emitChangeEventData();
         };
 
-        const deleteComponentEvent = (event: IPublicTypeComponentEvent) => {
+        const deleteComponentEvent = (event: IPublicTypeEventHandler) => {
             const index = selectedEventData.value.findIndex(item => item.id === event.id);
             selectedEventData.value.splice(index, 1);
             if (currentEditEvent.value.id === event.id)
@@ -119,7 +119,7 @@ const EventSetterView = defineComponent({
             emitChangeEventData();
         };
 
-        const getMethodCall = (item: IPublicTypeComponentEvent) => {
+        const getMethodCall = (item: IPublicTypeEventHandler) => {
             if (item.callId && item.method)
                 return `${item.callId}.${item.method}()`;
 

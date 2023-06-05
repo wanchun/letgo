@@ -1,8 +1,8 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, ref, watch } from 'vue';
 import { FButton, FInput, FInputNumber, FOption, FSelect, FSpace } from '@fesjs/fes-design';
-import type { IPublicTypeComponentEvent } from '@webank/letgo-types/es/component-event';
-import { ComponentEventAction } from '@webank/letgo-types/es/component-event';
+import type { IPublicTypeEventHandler } from '@webank/letgo-types';
+import { EventHandlerAction } from '@webank/letgo-types';
 import type { DocumentModel } from '@webank/letgo-designer';
 import type { EventOptionList } from '../interface';
 import Label from './label';
@@ -11,40 +11,40 @@ import RenderOptions from './render-options';
 import { blockCls } from './modify-block.css';
 
 const actions = [{
-    value: ComponentEventAction.CONTROL_QUERY,
+    value: EventHandlerAction.CONTROL_QUERY,
     label: '控制查询',
 }, {
-    value: ComponentEventAction.CONTROL_COMPONENT,
+    value: EventHandlerAction.CONTROL_COMPONENT,
     label: '控制组件',
 }, {
-    value: ComponentEventAction.GO_TO_URL,
+    value: EventHandlerAction.GO_TO_URL,
     label: '应用跳转',
 }, {
-    value: ComponentEventAction.GO_TO_PAGE,
+    value: EventHandlerAction.GO_TO_PAGE,
     label: '页面跳转',
 }, {
-    value: ComponentEventAction.SET_TEMPORARY_STATE,
+    value: EventHandlerAction.SET_TEMPORARY_STATE,
     label: '设置临时状态',
 }, {
-    value: ComponentEventAction.SET_LOCAL_STORAGE,
+    value: EventHandlerAction.SET_LOCAL_STORAGE,
     label: '设置本地存储',
 }];
 
 const initOptions: any = {
-    [ComponentEventAction.CONTROL_QUERY]: {
+    [EventHandlerAction.CONTROL_QUERY]: {
         callId: null,
         method: 'trigger',
     },
-    [ComponentEventAction.CONTROL_COMPONENT]: {
+    [EventHandlerAction.CONTROL_COMPONENT]: {
         method: null,
     },
-    [ComponentEventAction.GO_TO_URL]: {
+    [EventHandlerAction.GO_TO_URL]: {
         callId: 'utils',
         method: 'openUrl',
         url: '',
         isOpenNewTab: false,
     },
-    [ComponentEventAction.GO_TO_PAGE]: {
+    [EventHandlerAction.GO_TO_PAGE]: {
         callId: 'utils',
         method: 'openPage',
         pageId: '',
@@ -52,12 +52,12 @@ const initOptions: any = {
         hashParams: [],
         isOpenNewTab: false,
     },
-    [ComponentEventAction.SET_TEMPORARY_STATE]: {
+    [EventHandlerAction.SET_TEMPORARY_STATE]: {
         callId: null,
         method: 'setValue',
         value: null,
     },
-    [ComponentEventAction.SET_LOCAL_STORAGE]: {
+    [EventHandlerAction.SET_LOCAL_STORAGE]: {
         callId: 'localStorage',
         method: 'setValue',
         key: null,
@@ -69,9 +69,9 @@ export default defineComponent({
     name: 'ModifyBlock',
     props: {
         documentModel: Object as PropType<DocumentModel>,
-        editEvent: Object as PropType<IPublicTypeComponentEvent>,
+        editEvent: Object as PropType<IPublicTypeEventHandler>,
         events: Array as PropType<EventOptionList>,
-        onChange: Function as PropType<(data: IPublicTypeComponentEvent) => void>,
+        onChange: Function as PropType<(data: IPublicTypeEventHandler) => void>,
     },
     setup(props) {
         const innerEditEvent = ref({ ...props.editEvent });

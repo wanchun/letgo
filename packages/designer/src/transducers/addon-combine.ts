@@ -1,5 +1,5 @@
 import type {
-    IPublicTypeComponentEvent,
+    IPublicTypeEventHandler,
     IPublicTypeFieldConfig,
     IPublicTypeJSFunction,
     IPublicTypeSettingTarget,
@@ -7,7 +7,7 @@ import type {
     IPublicTypeTransformedComponentMetadata,
 } from '@webank/letgo-types';
 import {
-    ComponentEventAction,
+    EventHandlerAction,
 } from '@webank/letgo-types';
 import { engineConfig } from '@webank/letgo-editor-core';
 import { isArray } from 'lodash-es';
@@ -115,31 +115,31 @@ export default function (
                                 const result: {
                                     [key: string]: IPublicTypeJSFunction[]
                                 } = {};
-                                componentEvents.forEach((item: IPublicTypeComponentEvent) => {
+                                componentEvents.forEach((item: IPublicTypeEventHandler) => {
                                     if (item.callId && item.method) {
                                         let expression: string;
                                         const params: string[] = [];
-                                        if (item.action === ComponentEventAction.CONTROL_QUERY) {
+                                        if (item.action === EventHandlerAction.CONTROL_QUERY) {
                                             expression = `${item.callId}.${item.method}()`;
                                         }
-                                        else if (item.action === ComponentEventAction.CONTROL_COMPONENT) {
+                                        else if (item.action === EventHandlerAction.CONTROL_COMPONENT) {
                                             // TODO 支持参数
                                             expression = `${item.callId}.${item.method}()`;
                                         }
-                                        else if (item.action === ComponentEventAction.GO_TO_URL) {
+                                        else if (item.action === EventHandlerAction.GO_TO_URL) {
                                             params.push(item.url);
                                             expression = `${item.callId}.${item.method}.apply(${item.callId}, Array.prototype.slice.call(arguments))')`;
                                         }
-                                        else if (item.action === ComponentEventAction.GO_TO_PAGE) {
+                                        else if (item.action === EventHandlerAction.GO_TO_PAGE) {
                                             // TODO 支持参数
                                             expression = `${item.callId}.${item.method}('${item.pageId}')`;
                                         }
-                                        else if (item.action === ComponentEventAction.SET_TEMPORARY_STATE) {
+                                        else if (item.action === EventHandlerAction.SET_TEMPORARY_STATE) {
                                             // TODO 支持其他方法
                                             params.push(item.value);
                                             expression = `${item.callId}.${item.method}.apply(${item.callId}, Array.prototype.slice.call(arguments))`;
                                         }
-                                        else if (item.action === ComponentEventAction.SET_LOCAL_STORAGE) {
+                                        else if (item.action === EventHandlerAction.SET_LOCAL_STORAGE) {
                                             // TODO 支持其他方法
                                             if (item.method === 'setValue') {
                                                 params.push(item.key, item.value);

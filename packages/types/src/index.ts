@@ -19,4 +19,4 @@ export * from './code';
 export * from './model';
 export * from './type';
 export * from './enum';
-export * from './component-event';
+export * from './event-handler';

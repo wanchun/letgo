@@ -77,7 +77,8 @@ const EventSetterView = defineComponent({
             return {
                 id: genEventId(),
                 name: eventData.value[0].value,
-                debounce: null,
+                waitType: 'debounce',
+                waitMs: null,
                 action: ComponentEventAction.CONTROL_QUERY,
                 callId: null,
                 method: null,

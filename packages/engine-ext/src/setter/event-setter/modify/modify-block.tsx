@@ -93,7 +93,7 @@ export default defineComponent({
                 id: innerEditEvent.value.id,
                 name: innerEditEvent.value.name,
                 onlyRunWhen: innerEditEvent.value.onlyRunWhen,
-                debounce: innerEditEvent.value.debounce,
+                waitMs: innerEditEvent.value.waitMs,
                 action: innerEditEvent.value.action,
                 callId: innerEditEvent.value.callId,
                 ...initOptions[innerEditEvent.value.action],
@@ -128,7 +128,7 @@ export default defineComponent({
                     <FInput v-model={innerEditEvent.value.onlyRunWhen} />
                 </Label>
                 <Label label="Debounce">
-                    <FInputNumber v-model={innerEditEvent.value.debounce} />
+                    <FInputNumber v-model={innerEditEvent.value.waitMs} />
                 </Label>
                 <FSpace>
                     <FButton type="primary" size="small" onClick={onSave}>

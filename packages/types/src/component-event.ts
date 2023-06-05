@@ -11,7 +11,8 @@ export interface IComponentEventBase {
     id: string
     name: string
     onlyRunWhen?: string
-    debounce?: number
+    waitMs?: number
+    waitType: string
 }
 
 export interface IControlQueryAction extends IComponentEventBase {

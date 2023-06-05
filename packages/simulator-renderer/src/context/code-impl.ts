@@ -80,7 +80,6 @@ export function useCodesInstance(codeMap: Map<string, CodeItem>) {
         //                 return `\${${generate(ast)}`;
         //             });
         //         }
-        //         // TODO 改其他类型
         //     }
         // }
     };

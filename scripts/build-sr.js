@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const path = require('path');
+const path = require('node:path');
 const { build } = require('vite');
 const vueJsx = require('@vitejs/plugin-vue-jsx');
 const { getResourcePath, getLibOutputPath, isWatch } = require('./build-shard');
@@ -12,10 +11,10 @@ async function compiler(source, outDir, name) {
         },
         build: {
             minify: false,
-            outDir: outDir,
+            outDir,
             lib: {
                 entry: path.join(source, 'index.ts'),
-                name: name,
+                name,
                 formats: ['umd'],
                 // the proper extensions will be added
                 fileName: 'index',

@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const chokidar = require('chokidar');
 const { getNeedCompilePkg, getResourcePath } = require('./build-shard');
 
 let watcher;
 
-function watch(callback) {
+function watch(callback, removeCallback) {
     if (!watcher) {
         const pkgs = getNeedCompilePkg();
 
@@ -14,6 +13,8 @@ function watch(callback) {
         });
     }
     watcher.on('add', callback).on('change', callback);
+    if (removeCallback)
+        watcher.on('unlink', removeCallback);
 }
 
 module.exports = {

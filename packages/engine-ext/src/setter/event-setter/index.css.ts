@@ -19,3 +19,7 @@ export const headerCls = style({
     alignItems: 'center',
     marginBottom: '8px',
 });
+
+export const eventListCls = style({
+    borderBottom: '1px solid #ebebeb',
+});

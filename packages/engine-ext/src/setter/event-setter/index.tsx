@@ -4,13 +4,13 @@ import type { IPublicTypeEventHandler, IPublicTypeSetter } from '@webank/letgo-t
 import {
     FButton,
 } from '@fesjs/fes-design';
-import { uniqueId } from '@webank/letgo-common';
+import { genEventId } from '@webank/letgo-common';
 import { EventHandlerAction } from '@webank/letgo-types';
 import { EventHandlerList, EventHandlerModify } from '@webank/letgo-components';
 import { PlusOutlined } from '@fesjs/fes-design/icon';
 import { commonProps } from '../../common';
 import type { EventOptionList } from './interface';
-import { headerCls } from './index.css';
+import { eventListCls, headerCls } from './index.css';
 
 type EventList = Array<{ name: string; description?: string }>;
 
@@ -18,10 +18,6 @@ interface EventDefinition {
     type: 'events' | 'nativeEvents' | 'lifeCycleEvent'
     title: string
     list: EventList
-}
-
-function genEventId() {
-    return uniqueId('event_');
 }
 
 function transformList(list: EventList): EventOptionList {
@@ -126,7 +122,7 @@ const EventSetterView = defineComponent({
                         <h3 style="margin: 0; font-size: 14px;">已绑定事件</h3>
                         <FButton type="link" onClick={addEvent} size="small">新增<PlusOutlined /></FButton>
                     </div>
-                    <EventHandlerList eventHandlers={selectedEventData.value} currentEventHandler={currentEditEvent.value} onDelete={deleteComponentEvent} onEdit={onEdit} />
+                    <EventHandlerList class={eventListCls} style="margin-bottom: 8px; padding-bottom: 8px;" eventHandlers={selectedEventData.value} currentEventHandler={currentEditEvent.value} onDelete={deleteComponentEvent} onEdit={onEdit} />
                     <EventHandlerModify onChange={changeComponentEvent} documentModel={props.node.document} editEvent={currentEditEvent.value} events={eventData.value} />
                 </>
             );

@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
 export const eventHandlersCls = style({
+    marginTop: '12px',
     paddingTop: '12px',
     borderTop: '1px solid #ebebeb',
 });
@@ -11,17 +12,15 @@ export const titleCls = style({
     fontSize: '12px',
 });
 
-export const eventListTitle = style({
-    color: '#8c8c8c',
-    fontSize: '12px',
+export const eventListCls = style({
+    minHeight: '24px',
 });
 
-export const plusIconCls = style({
-    'color': '#8c8c8c',
-    'fontSize': '14px',
-    'marginLeft': '12px',
-    'cursor': 'pointer',
-    ':hover': {
-        color: '#222',
-    },
+export const contentCls = style({
+    border: '1px solid #ebebeb',
+    borderRadius: '4px',
+});
+
+export const failureCls = style({
+    marginTop: '12px',
 });

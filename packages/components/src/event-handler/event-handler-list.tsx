@@ -7,10 +7,17 @@ import { activeEventCls, callExpressionCls, deleteIconCls, selectedEventCls, sel
 export default defineComponent({
     name: 'EventHandlerList',
     props: {
-        eventHandlers: Array as PropType<IPublicTypeEventHandler[]>,
+        eventHandlers: {
+            type: Array as PropType<IPublicTypeEventHandler[]>,
+            default: () => [] as IPublicTypeEventHandler[],
+        },
         currentEventHandler: Object as PropType<IPublicTypeEventHandler>,
         onEdit: Function as PropType<(item: IPublicTypeEventHandler) => void>,
         onDelete: Function as PropType<(item: IPublicTypeEventHandler) => void>,
+        visibleName: {
+            type: Boolean,
+            default: true,
+        },
     },
     setup(props) {
         const getMethodCall = (item: IPublicTypeEventHandler) => {
@@ -19,16 +26,20 @@ export default defineComponent({
 
             return '';
         };
+        const deleteItem = (event: Event, item: IPublicTypeEventHandler) => {
+            event.stopPropagation();
+            props.onDelete(item);
+        };
         return () => {
             return <ul class={selectedEventListCls}>
                 {props.eventHandlers.map(item => (
-                    <li class={[selectedEventCls, item.id === props.currentEventHandler.id && activeEventCls]} onClick={() => props.onEdit(item)} key={item.id}>
-                        {item.name}
+                    <li class={[selectedEventCls, item.id === props.currentEventHandler?.id && activeEventCls]} onClick={() => props.onEdit(item)} key={item.id}>
+                        {props.visibleName && item.name}
                         <span class={callExpressionCls}>
                             {getMethodCall(item)}
                         </span>
 
-                        <DeleteOutlined class={deleteIconCls} onClick={() => props.onDelete(item)} />
+                        <DeleteOutlined class={deleteIconCls} onClick={(event: Event) => deleteItem(event, item)} />
                     </li>
                 ))}
             </ul>;

@@ -64,12 +64,17 @@ const initOptions: any = {
     },
 };
 
+interface Option { label: string; value: string }
+
 export default defineComponent({
     name: 'EventHandlerModify',
     props: {
         documentModel: Object as PropType<DocumentModel>,
         editEvent: Object as PropType<IPublicTypeEventHandler>,
-        events: Array as PropType<{ label: string; value: string }[]>,
+        events: {
+            type: Array as PropType<Option[]>,
+            default: () => [] as Option[],
+        },
         onChange: Function as PropType<(data: IPublicTypeEventHandler) => void>,
     },
     setup(props) {
@@ -81,9 +86,11 @@ export default defineComponent({
             };
         });
         const renderEvent = () => {
-            return <Label label="Event">
+            return props.events.length
+                ? <Label label="Event">
                 <FSelect v-model={innerEditEvent.value.name} options={props.events} />
-            </Label>;
+            </Label>
+                : null;
         };
 
         const currentAction = ref();
@@ -100,7 +107,7 @@ export default defineComponent({
         };
         const renderAction = () => {
             return <Label label="Action">
-                    <FSelect v-model={innerEditEvent.value.action} onChange={changeAction} >
+                    <FSelect appendToContainer={false} v-model={innerEditEvent.value.action} onChange={changeAction} >
                         {actions.map(action => <FOption value={action.value}>{action.label}</FOption>)}
                     </FSelect>
                 </Label>;
@@ -129,7 +136,7 @@ export default defineComponent({
                 <Label label="Debounce">
                     <FInputNumber v-model={innerEditEvent.value.waitMs} />
                 </Label>
-                <FSpace align="end">
+                <FSpace justify="end">
                     <FButton type="primary" size="small" onClick={onSave}>
                         保存
                     </FButton>

@@ -24,10 +24,10 @@ export default defineComponent({
         const renderQuery = (data: IControlQueryAction) => {
             return <>
                 <Label label="Query">
-                    <FSelect v-model={data.callId} options={queryOptions.value} />
+                    <FSelect v-model={data.callId} appendToContainer={false} options={queryOptions.value} />
                 </Label>
                 <Label label="Method">
-                    <FSelect v-model={data.method}>
+                    <FSelect v-model={data.method} appendToContainer={false}>
                         <FOption value="trigger">Trigger</FOption>
                         <FOption value="reset">Reset</FOption>
                         <FOption value="clearCache">Clear Cache</FOption>
@@ -65,10 +65,10 @@ export default defineComponent({
         const renderComponentMethod = (data: IControlComponentAction) => {
             return <>
                 <Label label="Component">
-                    <FSelect onChange={selectComponent} v-model={data.callId} options={componentInstanceOptions.value} />
+                    <FSelect appendToContainer={false} onChange={selectComponent} v-model={data.callId} options={componentInstanceOptions.value} />
                 </Label>
                 <Label label="Method">
-                    <FSelect v-model={data.method} options={componentMethods.value} />
+                    <FSelect appendToContainer={false} v-model={data.method} options={componentMethods.value} />
                 </Label>
             </>;
         };
@@ -80,7 +80,7 @@ export default defineComponent({
         };
         const renderGoToPage = (data: IGoToPageAction) => {
             return <Label label="page">
-                    <FSelect v-model={data.pageId}>
+                    <FSelect appendToContainer={false} v-model={data.pageId}>
                         <FOption value="1">TODO 暂未实现</FOption>
                     </FSelect>
                 </Label>;
@@ -97,7 +97,7 @@ export default defineComponent({
         const renderSetTemporaryState = (data: ISetTemporaryStateAction) => {
             return <>
                 <Label label="State">
-                    <FSelect v-model={data.callId} options={stateOptions.value} />
+                    <FSelect appendToContainer={false} v-model={data.callId} options={stateOptions.value} />
                 </Label>
                 <Label label="value">
                     <FInput v-model={data.value} />
@@ -107,7 +107,7 @@ export default defineComponent({
         const renderSetLocalStorage = (data: ISetLocalStorageAction) => {
             return <>
                 <Label label="Method">
-                    <FSelect v-model={data.method}>
+                    <FSelect appendToContainer={false} v-model={data.method}>
                         <FOption value="setValue">set Value</FOption>
                         <FOption value="clear">Clear</FOption>
                     </FSelect>

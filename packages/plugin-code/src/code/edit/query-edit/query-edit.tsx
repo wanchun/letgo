@@ -3,12 +3,14 @@ import { computed, defineComponent, ref, watch } from 'vue';
 import { FButton } from '@fesjs/fes-design';
 import { cloneDeep, isEqual } from 'lodash-es';
 import type { IJavascriptQuery } from '@webank/letgo-types';
+import type { DocumentModel } from '@webank/letgo-designer';
 import { contentCls, headerCls } from './query-edit.css';
 import LeftActions from './left-actions';
 import General from './general';
 
 export default defineComponent({
     props: {
+        documentModel: Object as PropType<DocumentModel>,
         codeItem: Object as PropType<IJavascriptQuery>,
         changeContent: Function as PropType<(id: string, content: Partial<IJavascriptQuery>) => void>,
     },
@@ -40,7 +42,7 @@ export default defineComponent({
                     </div>
                 </div>
                 <div class={contentCls}>
-                    <General codeItem={props.codeItem} changeCodeItem={changeCodeItem} />
+                    <General documentModel={props.documentModel} codeItem={tmpCodeItem.value} changeCodeItem={changeCodeItem} />
                 </div>
             </div>;
         };

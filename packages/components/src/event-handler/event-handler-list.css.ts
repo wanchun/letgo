@@ -2,10 +2,9 @@ import { style } from '@vanilla-extract/css';
 
 export const selectedEventListCls = style({
     listStyleType: 'none',
-    padding: '0 0 8px 0',
-    margin: '0 0 8px 0',
+    margin: 0,
+    padding: 0,
     fontSize: '12px',
-    borderBottom: '1px solid #ebebeb',
 });
 
 export const selectedEventCls = style({
@@ -19,6 +18,9 @@ export const selectedEventCls = style({
     'cursor': 'pointer',
     ':hover': {
         backgroundColor: '#f0f0f0',
+    },
+    ':last-child': {
+        marginBottom: 0,
     },
 });
 

@@ -1,4 +1,4 @@
-import { isElement } from '@webank/letgo-utils';
+import { isElement } from '@webank/letgo-common';
 import type { IScrollable } from '../types';
 
 export class ScrollTarget {

@@ -1,5 +1,5 @@
 import { isNil } from 'lodash-es';
-import { hasExpression, markComputed, markShallowReactive } from '@webank/letgo-utils';
+import { hasExpression, markComputed, markShallowReactive } from '@webank/letgo-common';
 import type { ITemporaryState } from '@webank/letgo-types';
 import { CodeType } from '@webank/letgo-types';
 import type { ITemporaryStateImpl } from '@webank/letgo-designer';

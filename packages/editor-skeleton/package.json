@@ -22,7 +22,7 @@
     "@vanilla-extract/css": "^1.11.0",
     "@webank/letgo-designer": "workspace:*",
     "@webank/letgo-types": "workspace:*",
-    "@webank/letgo-utils": "workspace:*"
+    "@webank/letgo-common": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

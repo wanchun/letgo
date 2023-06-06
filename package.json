@@ -25,8 +25,8 @@
   "devDependencies": {
     "@antfu/eslint-config": "^0.38.5",
     "@babel/core": "^7.21.8",
-    "@babel/plugin-transform-runtime": "^7.21.4",
     "@babel/plugin-proposal-decorators": "^7.21.0",
+    "@babel/plugin-transform-runtime": "^7.21.4",
     "@babel/preset-env": "^7.21.5",
     "@babel/preset-typescript": "^7.21.5",
     "@betit/rollup-plugin-rename-extensions": "^0.1.0",

@@ -1,6 +1,6 @@
 import type { Editor } from '@webank/letgo-editor-core';
 import { editor, engineConfig } from '@webank/letgo-editor-core';
-import { getLogger } from '@webank/letgo-utils';
+import { getLogger } from '@webank/letgo-common';
 import semverSatisfies from 'semver/functions/satisfies';
 import type { Designer } from '@webank/letgo-designer';
 import type { Skeleton } from '@webank/letgo-editor-skeleton';

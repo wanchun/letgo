@@ -4,7 +4,7 @@ import type { IPublicTypeEventHandler, IPublicTypeSetter } from '@webank/letgo-t
 import {
     FButton,
 } from '@fesjs/fes-design';
-import { uniqueId } from '@webank/letgo-utils';
+import { uniqueId } from '@webank/letgo-common';
 import { EventHandlerAction } from '@webank/letgo-types';
 import { DeleteOutlined, PlusOutlined } from '@fesjs/fes-design/icon';
 import { commonProps } from '../../common';

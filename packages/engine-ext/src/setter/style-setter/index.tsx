@@ -1,7 +1,7 @@
 import type { CSSProperties, PropType } from 'vue';
 import { defineComponent, onMounted, provide, ref } from 'vue';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
-import { useModel } from '@webank/letgo-utils';
+import { useModel } from '@webank/letgo-common';
 import { isNil } from 'lodash-es';
 import { FCollapse } from '@fesjs/fes-design';
 import { commonProps, getComputeStyle } from '../../common';

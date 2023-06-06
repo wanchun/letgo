@@ -12,7 +12,7 @@ import {
     isJSExpression,
 } from '@webank/letgo-types';
 import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
-import { markComputed, markShallowReactive } from '@webank/letgo-utils';
+import { markComputed, markShallowReactive } from '@webank/letgo-common';
 import type { ComponentMeta } from '../component-meta';
 import type { DocumentModel } from '../document';
 import type { IBaseNode, INode, IRootNode } from '../types';

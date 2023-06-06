@@ -6,7 +6,7 @@
  * TODO utils key 校验
  */
 import type { IPublicTypeAppConfig } from '@webank/letgo-types';
-import { markReactive } from '@webank/letgo-utils';
+import { markReactive } from '@webank/letgo-common';
 import { debounce } from 'lodash-es';
 import type { Designer } from '../designer';
 import type { IComponentInstance } from '../types';

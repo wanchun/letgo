@@ -1,5 +1,5 @@
 import { EventEmitter } from 'eventemitter3';
-import { markComputed, uniqueId } from '@webank/letgo-utils';
+import { markComputed, uniqueId } from '@webank/letgo-common';
 import type {
     IPublicTypeComponentsMap,
     IPublicTypeNodeData,

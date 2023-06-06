@@ -1,5 +1,5 @@
 import type { IPublicTypeFieldConfig, IPublicTypeFieldExtraProps, IPublicTypeSetterType } from '@webank/letgo-types';
-import { markComputed, markShallowReactive } from '@webank/letgo-utils';
+import { markComputed, markShallowReactive } from '@webank/letgo-common';
 import { SettingProp } from './setting-prop';
 import type { ISettingEntry } from './types';
 

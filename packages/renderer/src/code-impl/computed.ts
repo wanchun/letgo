@@ -1,7 +1,7 @@
 import { isNil } from 'lodash-es';
 import type { WatchStopHandle } from 'vue';
 import { watch } from 'vue';
-import { hasExpression, markComputed, markShallowReactive } from '@webank/letgo-utils';
+import { hasExpression, markComputed, markShallowReactive } from '@webank/letgo-common';
 import type { IJavascriptComputed } from '@webank/letgo-types';
 import { CodeType } from '@webank/letgo-types';
 import type { IJavascriptComputedImpl } from '@webank/letgo-designer';

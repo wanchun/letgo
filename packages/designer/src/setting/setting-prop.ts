@@ -1,7 +1,7 @@
 import { EventEmitter } from 'eventemitter3';
 import type { IPublicEditor } from '@webank/letgo-types';
 import { GlobalEvent, isJSExpression } from '@webank/letgo-types';
-import { uniqueId } from '@webank/letgo-utils';
+import { uniqueId } from '@webank/letgo-common';
 import type { ComponentMeta } from '../component-meta';
 import type { Designer } from '../designer';
 import type { INode } from '../types';

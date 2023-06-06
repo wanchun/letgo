@@ -1,4 +1,4 @@
-import { markComputed, markShallowReactive, uniqueId } from '@webank/letgo-utils';
+import { markComputed, markShallowReactive, uniqueId } from '@webank/letgo-common';
 import type { INode, INodeSelector, IViewport } from '../types';
 
 export class OffsetObserver {

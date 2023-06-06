@@ -1,7 +1,7 @@
 import { parse } from 'acorn';
 import { generate } from 'astring';
 import { isNil, isUndefined } from 'lodash-es';
-import { EXPRESSION_REGEX, hasExpression } from '@webank/letgo-utils';
+import { EXPRESSION_REGEX, hasExpression } from '@webank/letgo-common';
 
 export function extractExpression(doc: string) {
     const result = new Set<string>();

@@ -20,7 +20,7 @@
   "dependencies": {
     "@webank/letgo-designer": "workspace:*",
     "@webank/letgo-types": "workspace:*",
-    "@webank/letgo-utils": "workspace:*",
+    "@webank/letgo-common": "workspace:*",
     "acorn": "^8.8.2",
     "astring": "^1.8.4",
     "lodash-es": "^4.17.21"

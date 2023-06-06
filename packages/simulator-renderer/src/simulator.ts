@@ -1,7 +1,7 @@
 import type { DocumentModel } from '@webank/letgo-designer';
 import type { IPublicTypeComponentInstance } from '@webank/letgo-types';
 import { IPublicEnumTransformStage } from '@webank/letgo-types';
-import { cursor, isElement, setNativeSelection } from '@webank/letgo-utils';
+import { cursor, isElement, setNativeSelection } from '@webank/letgo-common';
 import type {
     Component,
     Ref,

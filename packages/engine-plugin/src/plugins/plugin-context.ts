@@ -1,5 +1,5 @@
-import type { Logger } from '@webank/letgo-utils';
-import { getLogger } from '@webank/letgo-utils';
+import type { Logger } from '@webank/letgo-common';
+import { getLogger } from '@webank/letgo-common';
 import type { Editor, EngineConfig } from '@webank/letgo-editor-core';
 import { engineConfig } from '@webank/letgo-editor-core';
 import type { Designer } from '@webank/letgo-designer';

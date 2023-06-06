@@ -28,7 +28,7 @@ import {
     hasOwnProperty,
     isElement,
     markComputed,
-} from '@webank/letgo-utils';
+} from '@webank/letgo-common';
 import { engineConfig } from '@webank/letgo-editor-core';
 import type {
     IComponentInstance,

@@ -4,7 +4,7 @@ import {
     isAssetBundle,
     isAssetItem,
     isCSSUrl,
-} from '@webank/letgo-utils';
+} from '@webank/letgo-common';
 import type { IPublicTypeAssetList } from '@webank/letgo-types';
 import {
     AssetLevels,

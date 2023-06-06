@@ -1,7 +1,7 @@
 import { EventEmitter } from 'eventemitter3';
 import type { Editor } from '@webank/letgo-editor-core';
 import type { Designer, INode, Selection, SettingTop } from '@webank/letgo-designer';
-import { markComputed, markShallowReactive } from '@webank/letgo-utils';
+import { markComputed, markShallowReactive } from '@webank/letgo-common';
 
 function generateSessionId(nodes: INode[]) {
     return nodes

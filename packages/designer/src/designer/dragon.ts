@@ -1,6 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
 import type { IPublicTypeNodeSchema } from '@webank/letgo-types';
-import { cursor } from '@webank/letgo-utils';
+import { cursor } from '@webank/letgo-common';
 import type { DocumentModel } from '../document';
 import type { INode, ISensor, ISimulator } from '../types';
 import { isSimulator } from '../types';

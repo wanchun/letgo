@@ -104,6 +104,21 @@ importers:
         specifier: ^0.31.1
         version: 0.31.1
 
+  packages/common:
+    dependencies:
+      '@fesjs/fes-design':
+        specifier: ^0.7.27
+        version: 0.7.27(vue@3.3.4)
+      '@webank/letgo-types':
+        specifier: workspace:*
+        version: link:../types
+      lodash-es:
+        specifier: ^4.17.21
+        version: 4.17.21
+      zen-logger:
+        specifier: ^1.1.0
+        version: 1.1.0
+
   packages/designer:
     dependencies:
       '@fesjs/fes-design':
@@ -115,15 +130,15 @@ importers:
       '@vanilla-extract/css':
         specifier: ^1.11.0
         version: 1.11.0
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
       '@webank/letgo-editor-core':
         specifier: workspace:*
         version: link:../editor-core
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
-      '@webank/letgo-utils':
-        specifier: workspace:*
-        version: link:../utils
       eventemitter3:
         specifier: ^4.0.0
         version: 4.0.0
@@ -133,12 +148,12 @@ importers:
 
   packages/editor-core:
     dependencies:
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
-      '@webank/letgo-utils':
-        specifier: workspace:*
-        version: link:../utils
       eventemitter3:
         specifier: ^4.0.0
         version: 4.0.0
@@ -157,21 +172,24 @@ importers:
       '@vanilla-extract/css':
         specifier: ^1.11.0
         version: 1.11.0
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
-      '@webank/letgo-utils':
-        specifier: workspace:*
-        version: link:../utils
       vue:
         specifier: ^3.3.4
         version: 3.3.4
 
   packages/engine:
     dependencies:
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
@@ -199,9 +217,6 @@ importers:
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
-      '@webank/letgo-utils':
-        specifier: workspace:*
-        version: link:../utils
       eventemitter3:
         specifier: ^4.0.0
         version: 4.0.0
@@ -236,15 +251,15 @@ importers:
       '@vanilla-extract/css':
         specifier: ^1.11.0
         version: 1.11.0
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
-      '@webank/letgo-utils':
-        specifier: workspace:*
-        version: link:../utils
       codemirror:
         specifier: ^6.0.1
         version: 6.0.1(@lezer/common@1.0.2)
@@ -255,6 +270,9 @@ importers:
 
   packages/engine-plugin:
     dependencies:
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
@@ -267,9 +285,6 @@ importers:
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
-      '@webank/letgo-utils':
-        specifier: workspace:*
-        version: link:../utils
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -300,6 +315,9 @@ importers:
       '@vueuse/core':
         specifier: ^10.1.2
         version: 10.1.2(vue@3.3.4)
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
@@ -312,9 +330,6 @@ importers:
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
-      '@webank/letgo-utils':
-        specifier: workspace:*
-        version: link:../utils
       acorn:
         specifier: ^8.8.2
         version: 8.8.2
@@ -340,6 +355,9 @@ importers:
       '@fesjs/fes-design':
         specifier: ^0.7.27
         version: 0.7.27(vue@3.3.4)
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
@@ -352,9 +370,6 @@ importers:
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
-      '@webank/letgo-utils':
-        specifier: workspace:*
-        version: link:../utils
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -464,6 +479,9 @@ importers:
       '@vanilla-extract/css':
         specifier: ^1.11.0
         version: 1.11.0
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
@@ -476,9 +494,6 @@ importers:
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
-      '@webank/letgo-utils':
-        specifier: workspace:*
-        version: link:../utils
       eventemitter3:
         specifier: ^4.0.0
         version: 4.0.0
@@ -489,15 +504,15 @@ importers:
 
   packages/renderer:
     dependencies:
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
-      '@webank/letgo-utils':
-        specifier: workspace:*
-        version: link:../utils
       acorn:
         specifier: ^8.8.2
         version: 8.8.2
@@ -517,6 +532,9 @@ importers:
 
   packages/simulator-renderer:
     dependencies:
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
@@ -526,9 +544,6 @@ importers:
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
-      '@webank/letgo-utils':
-        specifier: workspace:*
-        version: link:../utils
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -596,21 +611,6 @@ importers:
       strict-event-emitter-types:
         specifier: ^2.0.0
         version: 2.0.0
-
-  packages/utils:
-    dependencies:
-      '@fesjs/fes-design':
-        specifier: ^0.7.27
-        version: 0.7.27(vue@3.3.4)
-      '@webank/letgo-types':
-        specifier: workspace:*
-        version: link:../types
-      lodash-es:
-        specifier: ^4.17.21
-        version: 4.17.21
-      zen-logger:
-        specifier: ^1.1.0
-        version: 1.1.0
 
 packages:
 

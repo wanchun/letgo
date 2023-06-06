@@ -7,7 +7,7 @@ import type {
     IPublicTypeEditorValueKey,
     IPublicTypeRemoteComponentDescription,
 } from '@webank/letgo-types';
-import { AssetLoader } from '@webank/letgo-utils';
+import { AssetLoader } from '@webank/letgo-common';
 
 export class Editor extends EventEmitter implements IPublicEditor {
     private context = new Map<IPublicTypeEditorValueKey, any>();

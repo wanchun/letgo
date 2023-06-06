@@ -4,7 +4,6 @@ import { FButton, FInput, FInputNumber, FOption, FSelect, FSpace } from '@fesjs/
 import type { IPublicTypeEventHandler } from '@webank/letgo-types';
 import { EventHandlerAction } from '@webank/letgo-types';
 import type { DocumentModel } from '@webank/letgo-designer';
-import type { EventOptionList } from '../interface';
 import Label from './label';
 import Separator from './separator';
 import RenderOptions from './render-options';
@@ -66,11 +65,11 @@ const initOptions: any = {
 };
 
 export default defineComponent({
-    name: 'ModifyBlock',
+    name: 'EventHandlerModify',
     props: {
         documentModel: Object as PropType<DocumentModel>,
         editEvent: Object as PropType<IPublicTypeEventHandler>,
-        events: Array as PropType<EventOptionList>,
+        events: Array as PropType<{ label: string; value: string }[]>,
         onChange: Function as PropType<(data: IPublicTypeEventHandler) => void>,
     },
     setup(props) {
@@ -130,7 +129,7 @@ export default defineComponent({
                 <Label label="Debounce">
                     <FInputNumber v-model={innerEditEvent.value.waitMs} />
                 </Label>
-                <FSpace>
+                <FSpace align="end">
                     <FButton type="primary" size="small" onClick={onSave}>
                         保存
                     </FButton>

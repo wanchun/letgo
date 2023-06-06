@@ -109,6 +109,9 @@ importers:
       '@fesjs/fes-design':
         specifier: ^0.7.27
         version: 0.7.27(vue@3.3.4)
+      '@webank/letgo-designer':
+        specifier: workspace:*
+        version: link:../designer
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
@@ -118,6 +121,25 @@ importers:
       zen-logger:
         specifier: ^1.1.0
         version: 1.1.0
+
+  packages/components:
+    dependencies:
+      '@fesjs/fes-design':
+        specifier: ^0.7.27
+        version: 0.7.27(vue@3.3.4)
+      '@webank/letgo-designer':
+        specifier: workspace:*
+        version: link:../designer
+      '@webank/letgo-types':
+        specifier: workspace:*
+        version: link:../types
+      lodash-es:
+        specifier: ^4.17.21
+        version: 4.17.21
+    devDependencies:
+      vue:
+        specifier: ^3.3.4
+        version: 3.3.4
 
   packages/designer:
     dependencies:
@@ -254,6 +276,9 @@ importers:
       '@webank/letgo-common':
         specifier: workspace:*
         version: link:../common
+      '@webank/letgo-components':
+        specifier: workspace:*
+        version: link:../components
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer

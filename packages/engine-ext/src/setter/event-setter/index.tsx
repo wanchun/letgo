@@ -6,11 +6,11 @@ import {
 } from '@fesjs/fes-design';
 import { uniqueId } from '@webank/letgo-common';
 import { EventHandlerAction } from '@webank/letgo-types';
-import { DeleteOutlined, PlusOutlined } from '@fesjs/fes-design/icon';
+import { EventHandlerList, EventHandlerModify } from '@webank/letgo-components';
+import { PlusOutlined } from '@fesjs/fes-design/icon';
 import { commonProps } from '../../common';
-import ModifyBlock from './modify/modify-block';
 import type { EventOptionList } from './interface';
-import { activeEventCls, callExpressionCls, deleteIconCls, headerCls, selectedEventCls, selectedEventListCls } from './index.css';
+import { headerCls } from './index.css';
 
 type EventList = Array<{ name: string; description?: string }>;
 
@@ -119,13 +119,6 @@ const EventSetterView = defineComponent({
             emitChangeEventData();
         };
 
-        const getMethodCall = (item: IPublicTypeEventHandler) => {
-            if (item.callId && item.method)
-                return `${item.callId}.${item.method}()`;
-
-            return '';
-        };
-
         return () => {
             return (
                 <>
@@ -133,19 +126,8 @@ const EventSetterView = defineComponent({
                         <h3 style="margin: 0; font-size: 14px;">已绑定事件</h3>
                         <FButton type="link" onClick={addEvent} size="small">新增<PlusOutlined /></FButton>
                     </div>
-                    <ul class={selectedEventListCls}>
-                        {selectedEventData.value.map(item => (
-                            <li class={[selectedEventCls, item.id === currentEditEvent.value.id && activeEventCls]} onClick={() => onEdit(item)} key={item.id}>
-                                {item.name}
-                                <span class={callExpressionCls}>
-                                    {getMethodCall(item)}
-                                </span>
-
-                                <DeleteOutlined class={deleteIconCls} onClick={() => deleteComponentEvent(item)} />
-                            </li>
-                        ))}
-                    </ul>
-                    <ModifyBlock onChange={changeComponentEvent} documentModel={props.node.document} editEvent={currentEditEvent.value} events={eventData.value} />
+                    <EventHandlerList eventHandlers={selectedEventData.value} currentEventHandler={currentEditEvent.value} onDelete={deleteComponentEvent} onEdit={onEdit} />
+                    <EventHandlerModify onChange={changeComponentEvent} documentModel={props.node.document} editEvent={currentEditEvent.value} events={eventData.value} />
                 </>
             );
         };

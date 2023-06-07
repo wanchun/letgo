@@ -198,7 +198,7 @@ export default function (
                     },
                 ],
                 extraProps: {
-                    display: 'accordion',
+                    display: 'block',
                 },
             });
         }

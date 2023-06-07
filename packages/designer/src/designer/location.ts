@@ -1,5 +1,4 @@
 import type { DocumentModel } from '../document';
-import type { Node as IComponentNode } from '../node';
 import type { INode } from '../types';
 import type { ILocateEvent } from './dragon';
 
@@ -24,7 +23,7 @@ export interface ILocationChildrenDetail {
     valid?: boolean
     edge?: DOMRect
     near?: {
-        node: IComponentNode
+        node: INode
         pos: 'before' | 'after' | 'replace'
         rect?: IRect
         align?: 'V' | 'H'
@@ -54,7 +53,7 @@ export type IRects = DOMRect[] & {
 };
 
 export type IRect = DOMRect & {
-    elements: Array<Element | Text>
+    elements?: Array<Element | Text>
     computed?: boolean
 };
 

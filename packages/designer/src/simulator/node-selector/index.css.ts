@@ -29,18 +29,17 @@ export const nodeCls = style({
     },
     'selectors': {
         '&:not(:first-child)': {
-            marginTop: '4px',
+            marginTop: '2px',
         },
     },
 });
 
 export const nodeContentCls = style({
-    padding: '1px 6px',
+    padding: '0px 6px',
     background: '#78869a',
-    display: 'inlineFlex',
     borderRadius: '3px',
-    alignItems: 'center',
     height: '20px',
+    lineHeight: '20px',
     color: '#fff',
     cursor: 'pointer',
     overflow: 'visible',

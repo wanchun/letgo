@@ -1,6 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
 import type { IPublicTypeNodeSchema } from '@webank/letgo-types';
-import { cursor } from '@webank/letgo-common';
+import { cursor, markComputed, markShallowReactive } from '@webank/letgo-common';
 import type { DocumentModel } from '../document';
 import type { INode, ISensor, ISimulator } from '../types';
 import { isSimulator } from '../types';
@@ -158,7 +158,7 @@ export class Dragon {
 
     private _dragging = false;
 
-    private _canDrop = false;
+    private _dropLocation?: DropLocation;
 
     get activeSensor(): ISensor | undefined {
         return this._activeSensor;
@@ -168,7 +168,18 @@ export class Dragon {
         return this._dragging;
     }
 
-    constructor(readonly designer: Designer) {}
+    get dropLocation() {
+        return this._dropLocation;
+    }
+
+    constructor(readonly designer: Designer) {
+        markShallowReactive(this, {
+            _dragging: false,
+            _activeSensor: undefined,
+            _dropLocation: undefined,
+        });
+        markComputed(this, ['activeSensor', 'dragging', 'dropLocation']);
+    }
 
     /**
      * Quick listen a shell(container element) drag behavior
@@ -318,6 +329,9 @@ export class Dragon {
                 e.sensor = sensor;
                 sensor.fixEvent(e);
             }
+            else {
+                this.clearLocation();
+            }
             this._activeSensor = sensor;
             return sensor;
         };
@@ -415,6 +429,8 @@ export class Dragon {
                 }
             }
 
+            this.clearLocation();
+
             handleEvents((doc) => {
                 if (isFromDragAPI) {
                     doc.removeEventListener('dragover', move, true);
@@ -472,12 +488,6 @@ export class Dragon {
             this.sensors.splice(i, 1);
     }
 
-    private _dropLocation?: DropLocation;
-
-    get dropLocation() {
-        return this._dropLocation;
-    }
-
     /**
      * 创建插入位置，考虑放到 dragon 中
      */
@@ -486,6 +496,11 @@ export class Dragon {
         this._dropLocation = loc;
         this.emitter.emit('dropLocation.change', loc);
         return loc;
+    }
+
+    clearLocation() {
+        this._dropLocation = undefined;
+        this.emitter.emit('dropLocation.change', this._dropLocation);
     }
 
     onDropLocationChange(func: (loc: DropLocation) => any) {

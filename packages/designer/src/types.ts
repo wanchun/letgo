@@ -159,6 +159,8 @@ export interface ISimulator<P = object> extends ISensor {
      * 查找组件
      */
     getComponent(componentName: string): Component | null
+
+    computeRect(node: INode): DOMRect | null
 }
 
 export function isSimulator(obj: any): obj is ISimulator {

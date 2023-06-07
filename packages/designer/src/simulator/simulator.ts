@@ -849,6 +849,17 @@ export class Simulator implements ISimulator<ISimulatorProps> {
     }
 
     /**
+   * @see ISimulator
+   */
+    computeRect(node: INode): IRect | null {
+        const instances = this.getComponentInstances(node);
+        if (!instances)
+            return null;
+
+        return this.computeComponentInstanceRect(instances[0], node.componentMeta.rootSelector);
+    }
+
+    /**
      * @see ISimulator
      */
     isEnter(e: ILocateEvent): boolean {

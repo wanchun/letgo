@@ -199,7 +199,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         markShallowReactive(this, {
             _slots: [],
         });
-        markComputed(this, ['computedSchema', 'slots']);
+        markComputed(this, ['computedSchema', 'slots', 'isLocked']);
 
         const { componentName, id, children, props, ...extras } = nodeSchema;
         this.id = document.nextId(id, componentName);
@@ -242,16 +242,13 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     }
 
     private initBuiltinProps() {
-        if (this.props.hasExtra('hidden'))
-            this.props.addExtra('hidden', false);
-
-        if (this.props.hasExtra('isLocked'))
+        if (!this.props.hasExtra('isLocked'))
             this.props.addExtra('isLocked', false);
 
-        if (this.props.hasExtra('condition'))
+        if (!this.props.hasExtra('condition'))
             this.props.addExtra('condition', true);
 
-        if (this.props.hasExtra('loop'))
+        if (!this.props.hasExtra('loop'))
             this.props.addExtra('loop', undefined);
     }
 
@@ -688,7 +685,7 @@ export function insertChild(
 ): INode {
     let node: INode;
     if (isNode(thing) && copy)
-        thing = thing.export(IPublicEnumTransformStage.Clone);
+        thing = thing.exportSchema(IPublicEnumTransformStage.Clone);
 
     if (isNode(thing))
         node = thing;

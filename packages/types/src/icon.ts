@@ -1,3 +1,3 @@
-import type { Slot } from 'vue';
+import type { Slot, VNodeChild } from 'vue';
 
-export type IPublicTypeIcon = string | Slot;
+export type IPublicTypeIcon = string | Slot | (() => VNodeChild);

@@ -260,7 +260,7 @@ export class Dragon {
                 // event from simulator sandbox
                 let srcSim: ISimulator | undefined;
                 const lastSim
-                    = lastSensor && isSimulator(lastSensor) ? lastSensor : null;
+                    = (lastSensor && isSimulator(lastSensor)) ? lastSensor : null;
                 // check source simulator
                 if (lastSim && lastSim.contentDocument === sourceDocument) {
                     srcSim = lastSim;
@@ -295,7 +295,7 @@ export class Dragon {
             // this.sensors will change on dragstart
             const sensors: ISensor[] = [...this.sensors, designer.simulator];
             let sensor
-                = e.sensor && e.sensor.isEnter(e)
+                = (e.sensor && e.sensor.isEnter(e))
                     ? e.sensor
                     : sensors.find(s => s.sensorAvailable && s.isEnter(e));
             if (!sensor) {

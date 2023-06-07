@@ -49,6 +49,7 @@ export function createAction(content: IPublicTypeComponentActionContent,
                     .join('-')
                 || node?.componentMeta?.componentName
                 || '';
+
             editor?.emit('designer.border.action', {
                 name: key,
                 selected,

@@ -107,7 +107,7 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
     {
         name: 'remove',
         content: {
-            icon: () => [h(Delete, { size: 14 })],
+            icon: () => h(Delete, { size: 14 }),
             title: '删除',
             action(node: INode) {
                 node.remove();
@@ -118,7 +118,7 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
     {
         name: 'hide',
         content: {
-            icon: () => [h(FileHidingOne, { size: 14 })],
+            icon: () => h(FileHidingOne, { size: 14 }),
             title: '隐藏',
             action(node: INode) {
                 node.setVisible(false);
@@ -132,7 +132,7 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
     {
         name: 'copy',
         content: {
-            icon: () => [h(Copy, { size: 14 })],
+            icon: () => h(Copy, { size: 14 }),
             title: '复制',
             action(node: INode) {
                 const { document: doc, parent, index } = node;
@@ -153,10 +153,10 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
     {
         name: 'lock',
         content: {
-            icon: () => [h(Lock, { size: 14 })],
+            icon: () => h(Lock, { size: 14 }),
             title: '锁定',
             action(node: INode) {
-                node.props.getExtraProp('isLock').setValue(true);
+                node.setExtraPropValue('isLocked', true);
             },
         },
         condition: (node: INode) => {
@@ -167,10 +167,10 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
     {
         name: 'unlock',
         content: {
-            icon: () => [h(Unlock, { size: 14 })],
+            icon: () => h(Unlock, { size: 14 }),
             title: '解锁',
             action(node: INode) {
-                node.props.getExtraProp('isLock').setValue(false);
+                node.setExtraPropValue('isLocked', false);
             },
         },
         condition: (node: INode) => {

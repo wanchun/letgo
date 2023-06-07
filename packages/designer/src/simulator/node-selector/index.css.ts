@@ -13,9 +13,8 @@ export const wrapperCls = style({
 export const triggerCls = style({
     background: 'rgba(0, 108, 255, 1)',
     padding: '0 6px',
-    display: 'flex',
-    alignItems: 'center',
     height: '20px',
+    lineHeight: '20px',
     cursor: 'pointer',
     color: '#fff',
     borderRadius: '3px',
@@ -23,12 +22,12 @@ export const triggerCls = style({
 });
 
 export const nodeCls = style({
-    height: '20px',
-    fontSize: '12px',
+    'height': '20px',
+    'fontSize': '12px',
     ':hover': {
         opacity: 0.8,
     },
-    selectors: {
+    'selectors': {
         '&:not(:first-child)': {
             marginTop: '4px',
         },

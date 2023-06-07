@@ -5,8 +5,9 @@ import { cloneDeep, isEqual } from 'lodash-es';
 import type { IJavascriptQuery } from '@webank/letgo-types';
 import type { DocumentModel } from '@webank/letgo-designer';
 import { contentCls, headerCls } from './query-edit.css';
-import LeftActions from './left-actions';
+import LeftTabs from './left-tabs';
 import General from './general';
+import ResponseEdit from './response';
 
 export default defineComponent({
     props: {
@@ -32,17 +33,32 @@ export default defineComponent({
             return !isEqual(tmpCodeItem.value, props.codeItem);
         });
 
+        const currentTab = ref('general');
+        const changeTab = (tab: string) => {
+            currentTab.value = tab;
+        };
+
+        const renderContent = () => {
+            if (currentTab.value === 'general')
+                return <General documentModel={props.documentModel} codeItem={tmpCodeItem.value} changeCodeItem={changeCodeItem} />;
+
+            else if (currentTab.value === 'response')
+                return <ResponseEdit />;
+
+            return <div>TODO</div>;
+        };
+
         return () => {
             return <div>
                 <div class={headerCls}>
-                    <LeftActions />
+                    <LeftTabs tab={currentTab.value} changeTab={changeTab} />
                     <span>{props.codeItem.id}</span>
                     <div>
                         <FButton type="primary" size="small" disabled={!isChange.value} onClick={onSave}>保存</FButton>
                     </div>
                 </div>
                 <div class={contentCls}>
-                    <General documentModel={props.documentModel} codeItem={tmpCodeItem.value} changeCodeItem={changeCodeItem} />
+                    {renderContent()}
                 </div>
             </div>;
         };

@@ -1,11 +1,11 @@
 import { style } from '@vanilla-extract/css';
 
-export const leftActionsCls = style({
+export const leftTabsCls = style({
     display: 'flex',
 
 });
 
-export const actionCls = style({
+export const tabCls = style({
     outline: 'none',
     border: 0,
     color: '#777',
@@ -19,7 +19,7 @@ export const actionCls = style({
     cursor: 'pointer',
 });
 
-export const activeActionCls = style({
+export const activeTabCls = style({
     color: '#222',
     backgroundColor: '#f6f6f6',
 });

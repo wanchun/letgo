@@ -1,6 +1,7 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
+        "jsx": "preserve",
         "target": "es2015",
         "declarationDir": "./lib"
     },

@@ -70,11 +70,14 @@ async function compilePkgs(pkgs) {
 }
 
 function findChangeFile(filePath) {
-    const tsFile = filePath.replace('.css.ts', '.ts');
+    let tsFile = filePath.replace('.css.ts', '.ts');
     if (fs.existsSync(tsFile))
         return tsFile;
 
-    return filePath.replace('.css.ts', '.tsx');
+    tsFile = filePath.replace('.css.ts', '.tsx');
+    if (fs.existsSync(tsFile))
+        return tsFile;
+    return null;
 }
 
 async function buildEsm() {
@@ -91,6 +94,8 @@ async function buildEsm() {
                     isForceUpdate = true;
                     filePath = findChangeFile(filePath);
                 }
+                if (!filePath)
+                    return;
                 await compilerFile(
                     filePath,
                     getOutputDirFromFilePath(filePath),

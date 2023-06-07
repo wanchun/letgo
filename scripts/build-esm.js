@@ -1,6 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const chalk = require('chalk');
+const fse = require('fs-extra');
 const {
     getEsOutputPath,
     getResourcePath,
@@ -83,6 +84,7 @@ async function buildEsm() {
     if (isWatch()) {
         watch(async (filePath) => {
             try {
+                console.log('add update', filePath);
                 let isForceUpdate = false;
                 const rawFilePath = filePath;
                 if (filePath.endsWith('.css.ts')) {
@@ -105,6 +107,9 @@ async function buildEsm() {
             catch (err) {
                 console.error(err);
             }
+        }, (filePath) => {
+            const dir = getOutputDirFromFilePath(filePath);
+            fse.removeSync(`${dir}/${path.basename(filePath).replace(/\.tsx?/, '.js')}`);
         });
     }
 }

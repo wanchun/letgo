@@ -8,27 +8,13 @@
  *  global state
  */
 import type { CodeImplType } from '@webank/letgo-designer';
-import type { IPublicTypeComponentInstance } from '@webank/letgo-types';
-import { reactive, watch } from 'vue';
+import { reactive } from 'vue';
 import { host } from '../host';
 
-export function useContext(codesInstance: Record<string, CodeImplType>, vueInstanceMap: Record<string | number, IPublicTypeComponentInstance>) {
+export function useContext(codesInstance: Record<string, CodeImplType>) {
     // TODO globalState 响应式
     const globalState = reactive({ ...host.project.config });
-    const executeCtx = { ...globalState };
-
-    watch(codesInstance, () => {
-        Object.assign(executeCtx, codesInstance);
-    }, {
-        immediate: true,
-        deep: true,
-    });
-    watch(vueInstanceMap, () => {
-        Object.assign(executeCtx, vueInstanceMap);
-    }, {
-        immediate: true,
-        deep: true,
-    });
+    const executeCtx = Object.assign({ ...globalState }, codesInstance);
 
     return {
         executeCtx,

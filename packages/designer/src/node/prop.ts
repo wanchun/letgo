@@ -11,7 +11,7 @@ import {
     isJSSlot,
     isSlotSchema,
 } from '@webank/letgo-types';
-import { markComputed, markShallowReactive, uniqueId } from '@webank/letgo-utils';
+import { markComputed, markShallowReactive, uniqueId } from '@webank/letgo-common';
 import { isNil, isPlainObject } from 'lodash-es';
 import type { INode, ISlotNode } from '../types';
 import type { Props } from './props';

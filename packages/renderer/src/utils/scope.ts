@@ -2,6 +2,7 @@ import type { ComponentPublicInstance } from 'vue';
 import { isProxy, reactive } from 'vue';
 import { isPlainObject } from 'lodash-es';
 import type { MaybeArray } from './array';
+import { ensureArray } from './array';
 
 export interface BlockScope {
     [x: string]: unknown
@@ -14,7 +15,7 @@ export interface RuntimeScope extends BlockScope, ComponentPublicInstance {
     __loopRefOffset?: number
 }
 
-function isRuntimeScope(scope: object): scope is RuntimeScope {
+function isRuntimeScope(scope: any): scope is RuntimeScope {
     return '$' in scope;
 }
 
@@ -69,4 +70,12 @@ export function mergeScope(
         result = Object.create(result, descriptors);
         return isProxy(scope) ? reactive(result) : result;
     }, rootScope);
+}
+
+export function parseSlotScope(args: unknown[], params: string[]): BlockScope {
+    const slotParams: BlockScope = {};
+    ensureArray(params).forEach((item, idx) => {
+        slotParams[item] = args[idx];
+    });
+    return slotParams;
 }

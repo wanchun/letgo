@@ -14,7 +14,7 @@ import {
     isNodeSchema,
 } from '@webank/letgo-types';
 import type { Component } from 'vue';
-import { markComputed } from '@webank/letgo-utils';
+import { markComputed } from '@webank/letgo-common';
 import type { INode, INodeSelector, ISimulator } from '../types';
 import { Project } from '../project';
 import { ComponentMeta } from '../component-meta';

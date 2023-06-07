@@ -1,12 +1,13 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const path = require('path');
-const fs = require('fs');
+const path = require('node:path');
+const fs = require('node:fs');
 const chalk = require('chalk');
 const glob = require('fast-glob');
 const { Project } = require('ts-morph');
+const fse = require('fs-extra');
 const {
     isWatch,
     isFileChange,
+    getOutputDirFromFilePath,
     getNeedCompileTypePkg,
 } = require('./build-shard');
 const { watch } = require('./watch');
@@ -77,9 +78,8 @@ async function genPkgType(pkg) {
 
     // 随后将解析完的文件写道打包路径
     for (const [filePath, sourceFile] of Object.entries(sourceFiles)) {
-        if (isTypeChange(filePath)) {
+        if (isTypeChange(filePath))
             await genType(sourceFile);
-        }
     }
 
     return {
@@ -91,31 +91,35 @@ async function genPkgType(pkg) {
 async function buildTypes() {
     const pkgs = getNeedCompileTypePkg();
     const projects = {};
-    for (const pkg of pkgs) {
+    for (const pkg of pkgs)
         projects[pkg] = await genPkgType(pkg);
-    }
+
     console.log(chalk.green('build types successfully ^-^'));
 
     if (isWatch()) {
         watch(async (filePath) => {
-            const wFilePath = 'packages' + filePath.split('packages')[1];
+            const wFilePath = `packages${filePath.split('packages')[1]}`;
             const pkg = winPath(filePath).split('packages/')[1].split('/')[0];
             const project = projects[pkg];
             let sourceFile = project.sourceFiles[wFilePath];
             if (sourceFile) {
                 await sourceFile.refreshFromFileSystem();
-            } else if (
-                wFilePath.endsWith('.ts') ||
-                wFilePath.endsWith('.tsx')
+            }
+            else if (
+                wFilePath.endsWith('.ts')
+                || wFilePath.endsWith('.tsx')
             ) {
                 sourceFile = project.project.addSourceFileAtPath(wFilePath);
                 project.sourceFiles[wFilePath] = sourceFile;
             }
             try {
-                if (sourceFile) {
+                if (sourceFile)
                     await genType(sourceFile);
-                }
-            } catch (e) {}
+            }
+            catch (e) {}
+        }, (filePath) => {
+            const dir = getOutputDirFromFilePath(filePath);
+            fse.removeSync(`${dir}/${path.basename(filePath).replace(/\.tsx?/, '.d.ts')}`);
         });
     }
 }

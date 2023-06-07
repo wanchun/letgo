@@ -1,6 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
 import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
-import { markComputed, markReactive } from '@webank/letgo-utils';
+import { markComputed, markReactive } from '@webank/letgo-common';
 import { CodeType } from '@webank/letgo-types';
 import type { CodeItem, CodeStruct } from '@webank/letgo-types';
 import { codeBaseEdit } from './code-base';

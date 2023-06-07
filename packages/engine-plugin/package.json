@@ -2,27 +2,27 @@
   "name": "@webank/letgo-engine-plugin",
   "version": "1.0.0",
   "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "module": "es/index.js",
   "files": [
     "es",
     "lib",
     "src"
   ],
-  "module": "es/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@webank/letgo-common": "workspace:*",
     "@webank/letgo-designer": "workspace:*",
     "@webank/letgo-editor-core": "workspace:*",
     "@webank/letgo-editor-skeleton": "workspace:*",
     "@webank/letgo-types": "workspace:*",
-    "@webank/letgo-utils": "workspace:*",
     "lodash-es": "^4.17.21",
     "semver": "^7.3.5"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "typings": "./es/index.d.ts",
   "publishConfig": {
     "access": "public"

@@ -1,11 +1,11 @@
-import { computed, defineComponent, h, provide, watch } from 'vue';
+import { computed, defineComponent, h, onUnmounted, provide, watch } from 'vue';
 import type { PropType } from 'vue';
 import LowCodeRenderer from '@webank/letgo-renderer';
 import type { CodeItem, IPublicTypeComponentInstance, IPublicTypeNodeSchema } from '@webank/letgo-types';
 import type { DocumentInstance, VueSimulatorRenderer } from '../interface';
 import { BASE_COMP_CONTEXT } from '../constants';
 import { Hoc } from '../built-in-components/hoc';
-import { useCodesInstance } from '../code-impl/code-impl';
+import { useCodesInstance } from '../context/code-impl';
 import { useContext } from '../context/context';
 import { host } from '../host';
 
@@ -34,12 +34,18 @@ export default defineComponent({
             changeCodeInstanceId,
         } = useCodesInstance(code.value.codeMap);
 
-        const { executeCtx } = useContext(codesInstance, props.documentInstance.vueInstanceMap);
+        const { executeCtx } = useContext(codesInstance);
 
         initCodesInstance(executeCtx);
 
-        code.value.onCodeItemAdd((item: CodeItem) => createCodeInstance(item, executeCtx));
-        code.value.onCodeItemDelete(deleteCodeInstance);
+        code.value.onCodeItemAdd((item: CodeItem) => {
+            createCodeInstance(item, executeCtx);
+            executeCtx[item.id] = codesInstance[item.id];
+        });
+        code.value.onCodeItemDelete((id: string) => {
+            deleteCodeInstance(id);
+            delete executeCtx[id];
+        });
         code.value.onCodeItemChanged(changeCodeInstance);
         code.value.onCodeIdChanged(changeCodeInstanceId);
 
@@ -53,8 +59,15 @@ export default defineComponent({
             getNode: (id: string) => props.documentInstance.getNode(id),
             executeCtx,
             onCompGetCtx: (schema: IPublicTypeNodeSchema, ref: IPublicTypeComponentInstance) => {
-                if (ref)
+                if (ref) {
+                    if (schema.ref)
+                        executeCtx[schema.ref] = ref;
+                    onUnmounted(() => {
+                        delete executeCtx[schema.ref];
+                    }, ref.$);
+
                     props.documentInstance.mountInstance(schema.id!, ref);
+                }
             },
         });
     },

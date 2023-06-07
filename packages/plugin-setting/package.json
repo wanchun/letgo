@@ -25,7 +25,7 @@
     "@webank/letgo-editor-core": "workspace:*",
     "@webank/letgo-engine-plugin": "workspace:*",
     "@webank/letgo-types": "workspace:*",
-    "@webank/letgo-utils": "workspace:*",
+    "@webank/letgo-common": "workspace:*",
     "eventemitter3": "^4.0.0"
   },
   "devDependencies": {

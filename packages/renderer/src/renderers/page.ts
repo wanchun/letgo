@@ -9,11 +9,10 @@ export const PageRenderer = defineComponent({
     props: rendererProps,
     __renderer__: true,
     setup(props) {
-        const { renderComp, componentsRef } = useRenderer(props);
+        const { renderComp } = useRenderer(props);
         return () => {
             const { __schema: schema } = props;
-            const { value: components } = componentsRef;
-            return renderComp(schema, components.Page || Page);
+            return renderComp(schema, props.__components.Page || Page);
         };
     },
 });

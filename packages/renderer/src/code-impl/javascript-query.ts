@@ -1,4 +1,4 @@
-import { markComputed, markShallowReactive } from '@webank/letgo-utils';
+import { markComputed, markShallowReactive } from '@webank/letgo-common';
 import type { IFailureCondition, IJavascriptQuery } from '@webank/letgo-types';
 import type { IJavascriptQueryImpl } from '@webank/letgo-designer';
 import { CodeType, RunCondition } from '@webank/letgo-types';

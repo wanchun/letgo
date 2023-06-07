@@ -1,5 +1,5 @@
 {
-  "name": "@webank/letgo-utils",
+  "name": "@webank/letgo-components",
   "version": "1.0.0",
   "description": "",
   "author": "",
@@ -14,14 +14,20 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "peerDependencies": {
+    "vue": "^3.3.4"
+  },
   "dependencies": {
     "@fesjs/fes-design": "^0.7.27",
+    "@webank/letgo-designer": "workspace:*",
     "@webank/letgo-types": "workspace:*",
-    "lodash-es": "^4.17.21",
-    "zen-logger": "^1.1.0"
+    "lodash-es": "^4.17.21"
   },
   "publishConfig": {
     "access": "public"
   },
-  "typings": "./es/index.d.ts"
+  "typings": "./es/index.d.ts",
+  "devDependencies": {
+    "vue": "^3.3.4"
+  }
 }

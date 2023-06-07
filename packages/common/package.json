@@ -1,0 +1,28 @@
+{
+  "name": "@webank/letgo-common",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "module": "es/index.js",
+  "files": [
+    "es",
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@fesjs/fes-design": "^0.7.27",
+    "@webank/letgo-designer": "workspace:*",
+    "@webank/letgo-types": "workspace:*",
+    "lodash-es": "^4.17.21",
+    "zen-logger": "^1.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "typings": "./es/index.d.ts"
+}

@@ -25,6 +25,7 @@ export interface IPublicTypeJSExpression {
  */
 export interface IPublicTypeJSFunction {
     type: 'JSFunction'
+    params?: string[]
     /**
      * 函数定义，或直接函数表达式
      */

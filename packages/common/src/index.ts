@@ -13,3 +13,5 @@ export * from './is-es-module';
 export * from './create-icon';
 export * from './useModel';
 export * from './reactive';
+export * from './expression';
+export * from './event-id';

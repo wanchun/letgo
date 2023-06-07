@@ -6,7 +6,8 @@
  * TODO utils key 校验
  */
 import type { IPublicTypeAppConfig } from '@webank/letgo-types';
-import { markReactive } from '@webank/letgo-utils';
+import { markReactive } from '@webank/letgo-common';
+import { debounce } from 'lodash-es';
 import type { Designer } from '../designer';
 import type { IComponentInstance } from '../types';
 import type { Project } from '../project';
@@ -67,13 +68,15 @@ export class State {
                     }
                     else {
                         this.nodeIdToRef.set(options.id, node.ref);
-                        const instance = this.designer.simulator.getComponentInstancesExpose(options.instances[0]);
+                        const instance = JSON.parse(JSON.stringify(this.designer.simulator.getComponentInstancesExpose(options.instances[0])));
                         if (instance) {
+                            instance._componentName = node.componentName;
                             this.componentsInstance[refName] = instance;
+                            const listen = debounce(() => setTimeout(() => {
+                                Object.assign(this.componentsInstance[refName], JSON.parse(JSON.stringify(this.designer.simulator.getComponentInstancesExpose(options.instances[0]))));
+                            }, 50), 100);
                             node.onPropChange(() => {
-                                setTimeout(() => {
-                                    Object.assign(this.componentsInstance[refName], this.designer.simulator.getComponentInstancesExpose(options.instances[0]));
-                                });
+                                listen();
                             });
                         }
                         else {

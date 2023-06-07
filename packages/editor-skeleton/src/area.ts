@@ -1,4 +1,4 @@
-import { markComputed, markShallowReactive } from '@webank/letgo-utils';
+import { markComputed, markShallowReactive } from '@webank/letgo-common';
 import type { IBaseConfig, IBaseWidget } from './types';
 import { isPanel } from './types';
 import type { Skeleton } from './skeleton';

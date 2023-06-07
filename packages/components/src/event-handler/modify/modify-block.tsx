@@ -1,50 +1,49 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, ref, watch } from 'vue';
 import { FButton, FInput, FInputNumber, FOption, FSelect, FSpace } from '@fesjs/fes-design';
-import type { IPublicTypeComponentEvent } from '@webank/letgo-types/es/component-event';
-import { ComponentEventAction } from '@webank/letgo-types/es/component-event';
+import type { IPublicTypeEventHandler } from '@webank/letgo-types';
+import { EventHandlerAction } from '@webank/letgo-types';
 import type { DocumentModel } from '@webank/letgo-designer';
-import type { EventOptionList } from '../interface';
 import Label from './label';
 import Separator from './separator';
 import RenderOptions from './render-options';
 import { blockCls } from './modify-block.css';
 
 const actions = [{
-    value: ComponentEventAction.CONTROL_QUERY,
+    value: EventHandlerAction.CONTROL_QUERY,
     label: '控制查询',
 }, {
-    value: ComponentEventAction.CONTROL_COMPONENT,
+    value: EventHandlerAction.CONTROL_COMPONENT,
     label: '控制组件',
 }, {
-    value: ComponentEventAction.GO_TO_URL,
+    value: EventHandlerAction.GO_TO_URL,
     label: '应用跳转',
 }, {
-    value: ComponentEventAction.GO_TO_PAGE,
+    value: EventHandlerAction.GO_TO_PAGE,
     label: '页面跳转',
 }, {
-    value: ComponentEventAction.SET_TEMPORARY_STATE,
+    value: EventHandlerAction.SET_TEMPORARY_STATE,
     label: '设置临时状态',
 }, {
-    value: ComponentEventAction.SET_LOCAL_STORAGE,
+    value: EventHandlerAction.SET_LOCAL_STORAGE,
     label: '设置本地存储',
 }];
 
 const initOptions: any = {
-    [ComponentEventAction.CONTROL_QUERY]: {
+    [EventHandlerAction.CONTROL_QUERY]: {
         callId: null,
         method: 'trigger',
     },
-    [ComponentEventAction.CONTROL_COMPONENT]: {
+    [EventHandlerAction.CONTROL_COMPONENT]: {
         method: null,
     },
-    [ComponentEventAction.GO_TO_URL]: {
+    [EventHandlerAction.GO_TO_URL]: {
         callId: 'utils',
         method: 'openUrl',
         url: '',
         isOpenNewTab: false,
     },
-    [ComponentEventAction.GO_TO_PAGE]: {
+    [EventHandlerAction.GO_TO_PAGE]: {
         callId: 'utils',
         method: 'openPage',
         pageId: '',
@@ -52,12 +51,12 @@ const initOptions: any = {
         hashParams: [],
         isOpenNewTab: false,
     },
-    [ComponentEventAction.SET_TEMPORARY_STATE]: {
+    [EventHandlerAction.SET_TEMPORARY_STATE]: {
         callId: null,
-        method: null,
+        method: 'setValue',
         value: null,
     },
-    [ComponentEventAction.SET_TEMPORARY_STATE]: {
+    [EventHandlerAction.SET_LOCAL_STORAGE]: {
         callId: 'localStorage',
         method: 'setValue',
         key: null,
@@ -65,12 +64,18 @@ const initOptions: any = {
     },
 };
 
+interface Option { label: string; value: string }
+
 export default defineComponent({
+    name: 'EventHandlerModify',
     props: {
         documentModel: Object as PropType<DocumentModel>,
-        editEvent: Object as PropType<IPublicTypeComponentEvent>,
-        events: Array as PropType<EventOptionList>,
-        onChange: Function as PropType<(data: IPublicTypeComponentEvent) => void>,
+        editEvent: Object as PropType<IPublicTypeEventHandler>,
+        events: {
+            type: Array as PropType<Option[]>,
+            default: () => [] as Option[],
+        },
+        onChange: Function as PropType<(data: IPublicTypeEventHandler) => void>,
     },
     setup(props) {
         const innerEditEvent = ref({ ...props.editEvent });
@@ -81,9 +86,11 @@ export default defineComponent({
             };
         });
         const renderEvent = () => {
-            return <Label label="Event">
+            return props.events.length
+                ? <Label label="Event">
                 <FSelect v-model={innerEditEvent.value.name} options={props.events} />
-            </Label>;
+            </Label>
+                : null;
         };
 
         const currentAction = ref();
@@ -92,14 +99,15 @@ export default defineComponent({
                 id: innerEditEvent.value.id,
                 name: innerEditEvent.value.name,
                 onlyRunWhen: innerEditEvent.value.onlyRunWhen,
-                debounce: innerEditEvent.value.debounce,
+                waitMs: innerEditEvent.value.waitMs,
                 action: innerEditEvent.value.action,
+                callId: innerEditEvent.value.callId,
                 ...initOptions[innerEditEvent.value.action],
             };
         };
         const renderAction = () => {
             return <Label label="Action">
-                    <FSelect v-model={innerEditEvent.value.action} onChange={changeAction} >
+                    <FSelect appendToContainer={false} v-model={innerEditEvent.value.action} onChange={changeAction} >
                         {actions.map(action => <FOption value={action.value}>{action.label}</FOption>)}
                     </FSelect>
                 </Label>;
@@ -126,9 +134,9 @@ export default defineComponent({
                     <FInput v-model={innerEditEvent.value.onlyRunWhen} />
                 </Label>
                 <Label label="Debounce">
-                    <FInputNumber v-model={innerEditEvent.value.debounce} />
+                    <FInputNumber v-model={innerEditEvent.value.waitMs} />
                 </Label>
-                <FSpace>
+                <FSpace justify="end">
                     <FButton type="primary" size="small" onClick={onSave}>
                         保存
                     </FButton>

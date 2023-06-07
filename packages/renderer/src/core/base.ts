@@ -1,5 +1,6 @@
 import type { Component, PropType, VNodeProps } from 'vue';
 import type {
+    IPublicTypeAppConfig,
     IPublicTypeNodeData,
     IPublicTypeNodeSchema,
     IPublicTypeRootSchema,
@@ -16,22 +17,20 @@ export const rendererProps = {
         type: Object as PropType<Record<string, Component>>,
         required: true,
     },
+    __config: {
+        type: Object as PropType<IPublicTypeAppConfig>,
+    },
 } as const;
 
 export interface RendererProps {
     __schema: IPublicTypeRootSchema
     __components: Record<string, Component>
+    __config: IPublicTypeAppConfig
 }
 
 export const baseRendererPropKeys = Object.keys(
     rendererProps,
 ) as (keyof RendererProps)[];
-
-export interface RendererComponent {
-    new (...args: any[]): {
-        $props: VNodeProps & RendererProps
-    }
-}
 
 export const leafProps = {
     comp: {

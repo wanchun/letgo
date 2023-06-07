@@ -1,9 +1,9 @@
 import { isNil } from 'lodash-es';
-import { markComputed, markShallowReactive } from '@webank/letgo-utils';
+import { hasExpression, markComputed, markShallowReactive } from '@webank/letgo-common';
 import type { ITemporaryState } from '@webank/letgo-types';
 import { CodeType } from '@webank/letgo-types';
 import type { ITemporaryStateImpl } from '@webank/letgo-designer';
-import { attachContext, hasExpression, replaceExpression } from '@webank/letgo-renderer';
+import { attachContext, replaceExpression } from '../parse';
 
 // 解析执行
 export class TemporaryStateImpl implements ITemporaryStateImpl {
@@ -55,25 +55,26 @@ export class TemporaryStateImpl implements ITemporaryStateImpl {
     executeInput(text?: string) {
         if (isNil(text))
             return null;
-        if (hasExpression(text)) {
-            const codeStr = replaceExpression(text, (_, expression) => {
-                return `\${${attachContext(expression, name => this.deps.includes(name))}}`;
-            });
-            // eslint-disable-next-line no-new-func
-            const fn = new Function('_ctx', `return \`${codeStr}\``);
-            return fn(this.ctx);
+        let result = text;
+        try {
+            if (hasExpression(text)) {
+                result = replaceExpression(text, (_, expression) => {
+                    const exp = attachContext(expression, name => this.deps.includes(name));
+                    // eslint-disable-next-line no-new-func
+                    const fn = new Function('_ctx', `return ${exp}`);
+                    return fn(this.ctx);
+                });
+            }
+            result = JSON.parse(result);
+            return result;
         }
-        else {
-            try {
-                return JSON.parse(text);
-            }
-            catch (_) {
-                return text;
-            }
+        catch (_) {
+            return result;
         }
     }
 
     setValue(value: any) {
+        console.log('setValue', value);
         this.value = value;
     }
 }

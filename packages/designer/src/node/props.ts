@@ -1,4 +1,4 @@
-import { uniqueId } from '@webank/letgo-utils';
+import { uniqueId } from '@webank/letgo-common';
 import type {
     IPublicTypeCompositeValue,
     IPublicTypePropsList,

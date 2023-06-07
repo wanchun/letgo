@@ -1,9 +1,3 @@
-import type { InjectionKey } from 'vue';
-import type { INode } from '@webank/letgo-designer';
-import type { IPublicTypeComponentInstance, IPublicTypeNodeSchema } from '@webank/letgo-types';
+import { contextFactory } from '@webank/letgo-renderer';
 
-export const BASE_COMP_CONTEXT: InjectionKey<{
-    getNode(id: string): INode | null
-    executeCtx: Record<string, any>
-    onCompGetCtx(schema: IPublicTypeNodeSchema, val: IPublicTypeComponentInstance): void
-}> = Symbol('__appContext');
+export const BASE_COMP_CONTEXT = contextFactory();

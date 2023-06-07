@@ -4,39 +4,12 @@ import { isNil } from 'lodash-es';
 import type { CodeItem } from '@webank/letgo-types';
 import { CodeType } from '@webank/letgo-types';
 import type { CodeImplType } from '@webank/letgo-designer';
-import { extractExpression, findExpressionDependencyCode } from '@webank/letgo-renderer';
-import { topologicalSort } from './dag';
-import { TemporaryStateImpl } from './temporary-state';
-import { ComputedImpl } from './computed';
-import { JavascriptQueryImpl } from './javascript-query';
-
-// javascript query 由于过于复杂，不计算依赖关系
-function calcDependencies(item: CodeItem, codeMap: Map<string, CodeItem>) {
-    let dependencies: string[] = [];
-    let inputCode: string;
-    if (item.type === CodeType.TEMPORARY_STATE)
-        inputCode = item.initValue;
-    else if (item.type === CodeType.JAVASCRIPT_COMPUTED)
-        inputCode = item.funcBody;
-
-    if (inputCode) {
-        extractExpression(inputCode).forEach((expression) => {
-            dependencies = dependencies.concat(findExpressionDependencyCode(expression, (name: string) => {
-                return codeMap.has(name);
-            }));
-        });
-    }
-
-    return dependencies;
-}
+import { ComputedImpl, JavascriptQueryImpl, TemporaryStateImpl, calcDependencies, topologicalSort } from '@webank/letgo-renderer';
 
 // TODO 修改 change id
 
 export function useCodesInstance(codeMap: Map<string, CodeItem>) {
     const dependencyMap = new Map<string, string[]>();
-    for (const [codeId, item] of codeMap)
-        dependencyMap.set(codeId, calcDependencies(item, codeMap));
-
     const codesInstance: Record<string, CodeImplType> = reactive({});
 
     const checkCycleDependency = () => {
@@ -107,13 +80,16 @@ export function useCodesInstance(codeMap: Map<string, CodeItem>) {
         //                 return `\${${generate(ast)}`;
         //             });
         //         }
-        //         // TODO 改其他类型
         //     }
         // }
     };
 
     const initCodesInstance = (ctx: Record<string, any>) => {
         try {
+            dependencyMap.clear();
+            for (const [codeId, item] of codeMap)
+                dependencyMap.set(codeId, calcDependencies(item, codeMap));
+
             const sortResult = checkCycleDependency();
             // 最底层的依赖最先被实例化
             sortResult.reverse().forEach((codeId) => {

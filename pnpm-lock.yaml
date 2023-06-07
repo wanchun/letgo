@@ -104,6 +104,43 @@ importers:
         specifier: ^0.31.1
         version: 0.31.1
 
+  packages/common:
+    dependencies:
+      '@fesjs/fes-design':
+        specifier: ^0.7.27
+        version: 0.7.27(vue@3.3.4)
+      '@webank/letgo-designer':
+        specifier: workspace:*
+        version: link:../designer
+      '@webank/letgo-types':
+        specifier: workspace:*
+        version: link:../types
+      lodash-es:
+        specifier: ^4.17.21
+        version: 4.17.21
+      zen-logger:
+        specifier: ^1.1.0
+        version: 1.1.0
+
+  packages/components:
+    dependencies:
+      '@fesjs/fes-design':
+        specifier: ^0.7.27
+        version: 0.7.27(vue@3.3.4)
+      '@webank/letgo-designer':
+        specifier: workspace:*
+        version: link:../designer
+      '@webank/letgo-types':
+        specifier: workspace:*
+        version: link:../types
+      lodash-es:
+        specifier: ^4.17.21
+        version: 4.17.21
+    devDependencies:
+      vue:
+        specifier: ^3.3.4
+        version: 3.3.4
+
   packages/designer:
     dependencies:
       '@fesjs/fes-design':
@@ -115,15 +152,15 @@ importers:
       '@vanilla-extract/css':
         specifier: ^1.11.0
         version: 1.11.0
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
       '@webank/letgo-editor-core':
         specifier: workspace:*
         version: link:../editor-core
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
-      '@webank/letgo-utils':
-        specifier: workspace:*
-        version: link:../utils
       eventemitter3:
         specifier: ^4.0.0
         version: 4.0.0
@@ -133,12 +170,12 @@ importers:
 
   packages/editor-core:
     dependencies:
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
-      '@webank/letgo-utils':
-        specifier: workspace:*
-        version: link:../utils
       eventemitter3:
         specifier: ^4.0.0
         version: 4.0.0
@@ -157,21 +194,24 @@ importers:
       '@vanilla-extract/css':
         specifier: ^1.11.0
         version: 1.11.0
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
-      '@webank/letgo-utils':
-        specifier: workspace:*
-        version: link:../utils
       vue:
         specifier: ^3.3.4
         version: 3.3.4
 
   packages/engine:
     dependencies:
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
@@ -199,9 +239,6 @@ importers:
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
-      '@webank/letgo-utils':
-        specifier: workspace:*
-        version: link:../utils
       eventemitter3:
         specifier: ^4.0.0
         version: 4.0.0
@@ -236,15 +273,18 @@ importers:
       '@vanilla-extract/css':
         specifier: ^1.11.0
         version: 1.11.0
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
+      '@webank/letgo-components':
+        specifier: workspace:*
+        version: link:../components
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
-      '@webank/letgo-utils':
-        specifier: workspace:*
-        version: link:../utils
       codemirror:
         specifier: ^6.0.1
         version: 6.0.1(@lezer/common@1.0.2)
@@ -255,6 +295,9 @@ importers:
 
   packages/engine-plugin:
     dependencies:
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
@@ -267,9 +310,6 @@ importers:
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
-      '@webank/letgo-utils':
-        specifier: workspace:*
-        version: link:../utils
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -300,6 +340,12 @@ importers:
       '@vueuse/core':
         specifier: ^10.1.2
         version: 10.1.2(vue@3.3.4)
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
+      '@webank/letgo-components':
+        specifier: workspace:*
+        version: link:../components
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
@@ -312,9 +358,6 @@ importers:
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
-      '@webank/letgo-utils':
-        specifier: workspace:*
-        version: link:../utils
       acorn:
         specifier: ^8.8.2
         version: 8.8.2
@@ -340,6 +383,9 @@ importers:
       '@fesjs/fes-design':
         specifier: ^0.7.27
         version: 0.7.27(vue@3.3.4)
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
@@ -352,9 +398,6 @@ importers:
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
-      '@webank/letgo-utils':
-        specifier: workspace:*
-        version: link:../utils
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -464,6 +507,9 @@ importers:
       '@vanilla-extract/css':
         specifier: ^1.11.0
         version: 1.11.0
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
@@ -476,9 +522,6 @@ importers:
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
-      '@webank/letgo-utils':
-        specifier: workspace:*
-        version: link:../utils
       eventemitter3:
         specifier: ^4.0.0
         version: 4.0.0
@@ -489,6 +532,9 @@ importers:
 
   packages/renderer:
     dependencies:
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
@@ -504,16 +550,19 @@ importers:
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
-      vue:
-        specifier: ^3.3.4
-        version: 3.3.4
     devDependencies:
       '@types/lodash-es':
         specifier: ^4.17.6
         version: 4.17.6
+      vue:
+        specifier: ^3.3.4
+        version: 3.3.4
 
   packages/simulator-renderer:
     dependencies:
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
@@ -523,9 +572,6 @@ importers:
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
-      '@webank/letgo-utils':
-        specifier: workspace:*
-        version: link:../utils
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -541,13 +587,16 @@ importers:
     dependencies:
       '@fesjs/builder-vite':
         specifier: ^3.0.0
-        version: 3.0.0(@fesjs/fes@3.0.0)(core-js@3.29.1)(postcss@8.4.23)(rollup@3.7.4)(vue@3.2.47)
+        version: 3.0.0(@fesjs/fes@3.1.1)(core-js@3.29.1)(postcss@8.4.23)(rollup@3.7.4)(vue@3.2.47)
+      '@fesjs/fes':
+        specifier: ^3.1.1
+        version: 3.1.1(vue@3.2.47)
       '@fesjs/fes-design':
         specifier: ^0.7.27
         version: 0.7.27(vue@3.2.47)
       '@fesjs/plugin-request':
         specifier: ^3.0.0
-        version: 3.0.0(@fesjs/fes@3.0.0)(vue@3.2.47)
+        version: 3.0.0(@fesjs/fes@3.1.1)(vue@3.2.47)
       '@vueuse/core':
         specifier: ^9.6.0
         version: 9.6.0(vue@3.2.47)
@@ -590,21 +639,6 @@ importers:
       strict-event-emitter-types:
         specifier: ^2.0.0
         version: 2.0.0
-
-  packages/utils:
-    dependencies:
-      '@fesjs/fes-design':
-        specifier: ^0.7.27
-        version: 0.7.27(vue@3.3.4)
-      '@webank/letgo-types':
-        specifier: workspace:*
-        version: link:../types
-      lodash-es:
-        specifier: ^4.17.21
-        version: 4.17.21
-      zen-logger:
-        specifier: ^1.1.0
-        version: 1.1.0
 
 packages:
 
@@ -2387,14 +2421,14 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@fesjs/builder-vite@3.0.0(@fesjs/fes@3.0.0)(core-js@3.29.1)(postcss@8.4.23)(rollup@3.7.4)(vue@3.2.47):
+  /@fesjs/builder-vite@3.0.0(@fesjs/fes@3.1.1)(core-js@3.29.1)(postcss@8.4.23)(rollup@3.7.4)(vue@3.2.47):
     resolution: {integrity: sha512-hYs8pz37zq1smvvHNdRDQprQy5mD8rOUH19tU9jo8MHc4emvGUS3bXAYg/OryaVZ1AeECzL69DOJrJlXoWPdcw==}
     peerDependencies:
       '@fesjs/fes': ^3.0.0
       core-js: ^3.29.1
     dependencies:
       '@babel/core': 7.21.8
-      '@fesjs/fes': 3.0.0(vue@3.2.47)
+      '@fesjs/fes': 3.1.1(vue@3.2.47)
       '@fesjs/utils': 3.0.0
       '@vitejs/plugin-basic-ssl': 1.0.1(vite@4.3.1)
       '@vitejs/plugin-legacy': 3.0.2(terser@5.17.1)(vite@4.3.1)
@@ -2479,8 +2513,8 @@ packages:
       - '@vue/composition-api'
     dev: false
 
-  /@fesjs/fes@3.0.0(vue@3.2.47):
-    resolution: {integrity: sha512-Rmd/Twg0s8Bg71OhXPJSN89ohl214anZ1sxM+7e/xG/hGhYzbwIELLVZp5yFhahW8tGh6yn9T9UjA0J9KXvVyA==}
+  /@fesjs/fes@3.1.1(vue@3.2.47):
+    resolution: {integrity: sha512-JgJOHZNFJYPDH3hnvivE0yL9FfFjqSyMgDkDw0WRALQLIQE5dIUgmytYeHwjhXm6Q5yECLcSwHoECBfFzcxEhQ==}
     engines: {node: ^10.12.0 || ^12.0.0 || >= 14.0.0}
     hasBin: true
     dependencies:
@@ -2496,13 +2530,13 @@ packages:
       - vue
     dev: false
 
-  /@fesjs/plugin-request@3.0.0(@fesjs/fes@3.0.0)(vue@3.2.47):
+  /@fesjs/plugin-request@3.0.0(@fesjs/fes@3.1.1)(vue@3.2.47):
     resolution: {integrity: sha512-xlTAaGW6xsaZ3NFdvmUm3a8X3nxwpbtFUm85D2IrKJT8Ie/reGpC2CIQ808hODVdyVJxbSounu5sRx5KZELKNQ==}
     peerDependencies:
       '@fesjs/fes': ^3.0.0
       vue: ^3.2.47
     dependencies:
-      '@fesjs/fes': 3.0.0(vue@3.2.47)
+      '@fesjs/fes': 3.1.1(vue@3.2.47)
       '@fesjs/utils': 3.0.0
       axios: 1.4.0
       vue: 3.2.47
@@ -4034,7 +4068,7 @@ packages:
     resolution: {integrity: sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==}
 
   /cookie-signature@1.0.6:
-    resolution: {integrity: sha1-4wOogrNCzD7oylE6eZmXNNqzriw=, tarball: https://registry.npmmirror.com/cookie-signature/download/cookie-signature-1.0.6.tgz}
+    resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
     dev: false
 
   /cookie@0.5.0:
@@ -5181,7 +5215,7 @@ packages:
     dev: false
 
   /forwarded@0.2.0:
-    resolution: {integrity: sha1-ImmTZCiq1MFcfr6XeahL8LKoGBE=, tarball: https://registry.npmmirror.com/forwarded/download/forwarded-0.2.0.tgz}
+    resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -6078,7 +6112,7 @@ packages:
       '@babel/runtime': 7.21.5
 
   /media-typer@0.3.0:
-    resolution: {integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=, tarball: https://registry.npmmirror.com/media-typer/download/media-typer-0.3.0.tgz}
+    resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -7468,7 +7502,7 @@ packages:
     dev: false
 
   /setprototypeof@1.2.0:
-    resolution: {integrity: sha1-ZsmiSnP5/CjL5msJ/tPTPcrxtCQ=, tarball: https://registry.npmmirror.com/setprototypeof/download/setprototypeof-1.2.0.tgz}
+    resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==}
     dev: false
 
   /shallow-clone@3.0.1:
@@ -7774,7 +7808,7 @@ packages:
       is-number: 7.0.0
 
   /toidentifier@1.0.1:
-    resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==, tarball: https://registry.npmmirror.com/toidentifier/download/toidentifier-1.0.1.tgz}
+    resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==}
     engines: {node: '>=0.6'}
     dev: false
 
@@ -7939,7 +7973,7 @@ packages:
     dev: true
 
   /utils-merge@1.0.1:
-    resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=, tarball: https://registry.npmmirror.com/utils-merge/download/utils-merge-1.0.1.tgz}
+    resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
     dev: false
 

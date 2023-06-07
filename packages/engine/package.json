@@ -18,6 +18,7 @@
     "vue": "^3.3.4"
   },
   "dependencies": {
+    "@webank/letgo-common": "workspace:*",
     "@webank/letgo-designer": "workspace:*",
     "@webank/letgo-editor-core": "workspace:*",
     "@webank/letgo-editor-skeleton": "workspace:*",
@@ -27,7 +28,6 @@
     "@webank/letgo-plugin-designer": "workspace:*",
     "@webank/letgo-plugin-setting": "workspace:*",
     "@webank/letgo-types": "workspace:*",
-    "@webank/letgo-utils": "workspace:*",
     "eventemitter3": "^4.0.0",
     "lodash-es": "^4.17.21",
     "semver": "^7.3.5"

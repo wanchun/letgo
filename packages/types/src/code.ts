@@ -1,3 +1,5 @@
+import type { IPublicTypeEventHandler } from './event-handler';
+
 export enum CodeType {
     JAVASCRIPT_QUERY = 'query',
     JAVASCRIPT_COMPUTED = 'computed',
@@ -29,6 +31,8 @@ export interface IQueryResource {
     enableCaching?: boolean
     queryTimeout?: number
     transformer: string
+    successEvent?: IPublicTypeEventHandler[]
+    failureEvent?: IPublicTypeEventHandler[]
 }
 export interface IJavascriptQuery extends IQueryResource {
     type: CodeType.JAVASCRIPT_QUERY

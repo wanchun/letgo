@@ -20,6 +20,7 @@
   "dependencies": {
     "@webank/letgo-designer": "workspace:*",
     "@webank/letgo-types": "workspace:*",
+    "@webank/letgo-common": "workspace:*",
     "acorn": "^8.8.2",
     "astring": "^1.8.4",
     "lodash-es": "^4.17.21"
@@ -28,7 +29,8 @@
     "access": "public"
   },
   "devDependencies": {
-    "@types/lodash-es": "^4.17.6"
+    "@types/lodash-es": "^4.17.6",
+    "vue": "^3.3.4"
   },
   "typings": "./es/index.d.ts"
 }

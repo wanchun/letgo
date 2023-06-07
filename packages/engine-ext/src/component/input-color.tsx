@@ -1,6 +1,6 @@
 import { defineComponent, ref } from 'vue';
 import { CloseCircleFilled } from '@fesjs/fes-design/icon';
-import { useModel } from '@webank/letgo-utils';
+import { useModel } from '@webank/letgo-common';
 import { iconCls, inputCls, inputColorBoxCls, inputTextCls, inputTextNullCls, inputWrapCls } from './input-color.css';
 
 export default defineComponent({

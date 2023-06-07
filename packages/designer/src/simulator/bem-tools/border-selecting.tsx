@@ -13,7 +13,7 @@ import type { IPublicTypeComponentActionContent } from '@webank/letgo-types';
 import {
     isActionContentObject,
 } from '@webank/letgo-types';
-import { createIcon } from '@webank/letgo-utils';
+import { createIcon } from '@webank/letgo-common';
 import type { Simulator } from '../simulator';
 import NodeSelectorView from '../node-selector';
 import type { INode } from '../../types';

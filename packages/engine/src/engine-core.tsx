@@ -17,6 +17,8 @@ import PluginDesigner from '@webank/letgo-plugin-designer';
 import PluginSetting from '@webank/letgo-plugin-setting';
 import PluginCodeView from '@webank/letgo-plugin-code';
 
+export type { IPluginConfig } from '@webank/letgo-engine-plugin';
+
 const innerDesigner = new Designer({ editor });
 
 const innerSkeleton = new Skeleton(editor, innerDesigner);

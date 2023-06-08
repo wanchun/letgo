@@ -6,8 +6,8 @@ import type {
     IPublicTypeAssetsJson,
 } from '@webank/letgo-types';
 import {
-    IPublicEnumAssetLevel,
     AssetLevels,
+    IPublicEnumAssetLevel,
     IPublicEnumAssetType,
 } from '@webank/letgo-types';
 import { isCSSUrl } from './is-css-url';
@@ -228,7 +228,7 @@ function parseAsset(
         lv = IPublicEnumAssetLevel.App;
 
     asset.level = lv;
-    if (asset.type === IPublicEnumAssetType.CSSUrl || asset.type == IPublicEnumAssetType.CSSText)
+    if (asset.type === IPublicEnumAssetType.CSSUrl || asset.type === IPublicEnumAssetType.CSSText)
         styles[lv].push(asset);
 
     else

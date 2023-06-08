@@ -24,8 +24,9 @@
     "@webank/letgo-plugin-component-tree": "workspace:*",
     "@webank/letgo-plugin-components": "workspace:*",
     "@webank/letgo-plugin-device": "workspace:*",
-    "@webank/letgo-simulator-renderer": "workspace:*",
+    "@webank/letgo-renderer": "workspace:*",
     "@webank/letgo-types": "workspace:*",
+    "@webank/letgo-common": "workspace:*",
     "core-js": "^3.29.1",
     "lodash-es": "^4.17.21",
     "vue": "^3.2.47"

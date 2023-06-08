@@ -5,6 +5,7 @@ const horizontal = style({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    gap: '12px',
 });
 
 const horizontalLeft = style([horizontal]);

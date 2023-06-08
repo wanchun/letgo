@@ -600,6 +600,9 @@ importers:
       '@vueuse/core':
         specifier: ^9.6.0
         version: 9.6.0(vue@3.2.47)
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
       '@webank/letgo-engine':
         specifier: workspace:*
         version: link:../engine
@@ -615,9 +618,9 @@ importers:
       '@webank/letgo-plugin-device':
         specifier: workspace:*
         version: link:../plugin-device
-      '@webank/letgo-simulator-renderer':
+      '@webank/letgo-renderer':
         specifier: workspace:*
-        version: link:../simulator-renderer
+        version: link:../renderer
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types

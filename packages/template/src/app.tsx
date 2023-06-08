@@ -7,7 +7,8 @@ import PluginDevice from '@webank/letgo-plugin-device';
 import CodeGenerator from '@webank/letgo-plugin-code-generator';
 import type { App } from 'vue';
 import assets from './assets/assets';
-import Logo from './components/logo.vue';
+import PluginLogo from './plugins/plugin-logo';
+import PluginPreview from './plugins/plugin-preview-sample';
 
 plugins.register({
     name: 'editor-init',
@@ -20,21 +21,9 @@ plugins.register(PluginComponents);
 plugins.register(PluginComponentTree);
 plugins.register(CodeGenerator);
 plugins.register(PluginDevice);
+plugins.register(PluginLogo);
+plugins.register(PluginPreview);
 
-plugins.register({
-    name: 'skeleton',
-    init({ skeleton }) {
-        skeleton.add({
-            name: 'widget',
-            area: 'topArea',
-            type: 'Widget',
-            render: () => <Logo />,
-            props: {
-                align: 'left',
-            },
-        });
-    },
-});
 export default defineRuntimeConfig({
     onAppCreated({ app }: { app: App }) {
         app.config.warnHandler = (msg: string) => {

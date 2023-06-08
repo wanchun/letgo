@@ -1,5 +1,5 @@
 import type { IPluginConfig } from '@webank/letgo-engine-plugin';
-import { FigmaComponent, Page, Plug, TreeList } from '@icon-park/vue-next';
+import { FigmaComponent, Page, Plug, SettingTwo, TreeList } from '@icon-park/vue-next';
 import type { PropType, Ref, VNodeChild } from 'vue';
 import {
     computed,
@@ -34,6 +34,13 @@ export function transformNode(node: INode, isSlot = false): Option {
             return <Plug class={nodeIconCls} theme="outline" strokeWidth={2} />;
 
         return <FigmaComponent class={nodeIconCls} theme="outline" strokeWidth={2} />;
+    };
+    option.suffix = () => {
+        return (
+            <>
+                <SettingTwo theme="outline" size="16" fill="#333" strokeWidth={2} />
+            </>
+        );
     };
 
     return option;

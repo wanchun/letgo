@@ -1,7 +1,7 @@
 import type { DocumentModel } from '@webank/letgo-designer';
 import type { IPublicTypeComponentInstance } from '@webank/letgo-types';
 import { IPublicEnumTransformStage } from '@webank/letgo-types';
-import { cursor, isElement, setNativeSelection } from '@webank/letgo-common';
+import { buildComponents, cursor, getSubComponent, isElement, setNativeSelection } from '@webank/letgo-common';
 import type {
     Component,
     Ref,
@@ -18,7 +18,6 @@ import {
 } from 'vue';
 import { config } from '@webank/letgo-renderer';
 import { createMemoryHistory, createRouter } from 'vue-router';
-import { buildComponents, getSubComponent } from './build-components';
 import type {
     DocumentInstance,
     MixedComponent,

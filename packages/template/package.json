@@ -16,7 +16,7 @@
   "dependencies": {
     "@fesjs/builder-vite": "^3.0.0",
     "@fesjs/fes": "^3.1.1",
-    "@fesjs/fes-design": "^0.7.27",
+    "@fesjs/fes-design": "^0.7.31",
     "@fesjs/plugin-request": "^3.0.0",
     "@vueuse/core": "^9.6.0",
     "@webank/letgo-common": "workspace:*",

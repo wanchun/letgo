@@ -17,7 +17,7 @@
     "@webank/letgo-types": "workspace:*",
     "@webank/letgo-engine": "workspace:*",
     "@webank/letgo-common": "workspace:*",
-    "@fesjs/fes-design": "^0.7.27",
+    "@fesjs/fes-design": "^0.7.31",
     "lodash-es": "^4.17.21"
   },
   "peerDependencies": {

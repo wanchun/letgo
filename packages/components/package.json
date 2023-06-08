@@ -18,7 +18,7 @@
     "vue": "^3.3.4"
   },
   "dependencies": {
-    "@fesjs/fes-design": "^0.7.27",
+    "@fesjs/fes-design": "^0.7.31",
     "@webank/letgo-designer": "workspace:*",
     "@webank/letgo-types": "workspace:*",
     "lodash-es": "^4.17.21"

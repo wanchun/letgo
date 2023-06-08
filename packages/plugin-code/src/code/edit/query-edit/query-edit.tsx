@@ -8,6 +8,7 @@ import { contentCls, headerCls } from './query-edit.css';
 import LeftTabs from './left-tabs';
 import General from './general';
 import ResponseEdit from './response';
+import Advance from './advance';
 
 export default defineComponent({
     props: {
@@ -45,7 +46,7 @@ export default defineComponent({
             else if (currentTab.value === 'response')
                 return <ResponseEdit />;
 
-            return <div>TODO</div>;
+            return <Advance />;
         };
 
         return () => {

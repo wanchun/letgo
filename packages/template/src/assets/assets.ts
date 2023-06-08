@@ -935,17 +935,12 @@ const assets: IPublicTypeAssetsJson = {
                     {
                         name: 'model',
                         title: '表项值对象',
-                        setter: 'ExpressionSetter',
+                        setter: 'VariableSetter',
                     },
                     {
                         name: 'rules',
-                        title: '表项值对象',
-                        setter: {
-                            componentName: 'MixedSetter',
-                            props: {
-                                setters: ['ExpressionSetter', 'JsonSetter'],
-                            },
-                        },
+                        title: '规则对象',
+                        setter: 'JsonSetter',
                     },
                     {
                         name: 'disabled',
@@ -1202,15 +1197,7 @@ const assets: IPublicTypeAssetsJson = {
                             {
                                 name: 'rule',
                                 title: '校验规则',
-                                setter: {
-                                    componentName: 'MixedSetter',
-                                    props: {
-                                        setters: [
-                                            'ExpressionSetter',
-                                            'JsonSetter',
-                                        ],
-                                    },
-                                },
+                                setter: 'JsonSetter',
                             },
                         ],
                     },

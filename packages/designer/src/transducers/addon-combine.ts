@@ -288,9 +288,14 @@ export default function (
                     if (!setter.includes('VariableSetter'))
                         setter.push('VariableSetter');
                 }
-                else if (setter) {
+                else if (typeof setter === 'string') {
                     if (setter !== 'VariableSetter')
                         field.setter = [setter, 'VariableSetter'];
+                }
+                else if (setter) {
+                    const setters = (setter.props as any)?.setters;
+                    if (setter.componentName === 'MixedSetter' && !setters?.includes('VariableSetter'))
+                        setters?.push('VariableSetter');
                 }
             }
         }

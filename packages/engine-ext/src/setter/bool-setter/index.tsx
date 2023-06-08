@@ -32,6 +32,6 @@ const BoolSetterView = defineComponent({
 
 export const BoolSetter: IPublicTypeSetter = {
     type: 'BoolSetter',
-    title: '布尔类型设置器',
+    title: '布尔设置器',
     Component: BoolSetterView,
 };

@@ -189,6 +189,7 @@ const MixedSetterView = defineComponent({
                     onClick={(val: string) => {
                         currentSetterName.value = val;
                     }}
+                    appendToContainer={false}
                 >
                     <Switch
                         class={iconCls}

@@ -11,6 +11,7 @@ export enum ResourceType {
 }
 
 export interface IFailureCondition {
+    id: string
     condition: string
     message: string
 }
@@ -25,6 +26,7 @@ export interface IQueryResource {
     enableTransformer: boolean
     query: string
     queryFailureCondition: IFailureCondition[]
+    showFailureToaster: boolean
     showSuccessToaster: boolean
     successMessage: string
     runCondition?: RunCondition

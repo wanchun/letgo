@@ -22,7 +22,7 @@ export default {
                 render: () => <SchemaView designer={designer} />,
                 props: {
                     width: 800,
-                    title: '页面描述',
+                    title: 'Schema',
                 },
             }),
         );

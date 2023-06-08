@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 
 export const iconCls = style({
     cursor: 'pointer',
@@ -7,6 +7,22 @@ export const iconCls = style({
     lineHeight: 0,
 });
 
+export const wrapperCls = style({
+    height: '100%',
+});
+
 export const codeCls = style({
-    minHeight: '100%',
+    height: 'calc(100% - 36px)',
+    overflow: 'auto',
+});
+
+export const actionCls = style({
+    padding: '6px 0',
+    textAlign: 'right',
+});
+
+globalStyle(`${codeCls} .cm-editor`, {
+    border: '1px solid #cfd0d3',
+    borderRadius: 0,
+    height: '100%',
 });

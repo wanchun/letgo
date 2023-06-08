@@ -18,6 +18,7 @@ export default defineComponent({
     setup(props) {
         return () => {
             const { widget, width, height, maxWidth, maxHeight } = props;
+
             const style = [];
             if (!isNil(width))
                 style.push({ width: `${width}px` });

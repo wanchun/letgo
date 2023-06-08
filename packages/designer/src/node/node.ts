@@ -349,12 +349,13 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         options: any = {},
     ): Schema {
         const baseSchema: any = {
-            ref: this.ref,
             componentName: this.componentName,
         };
 
-        if (stage !== IPublicEnumTransformStage.Clone)
+        if (stage !== IPublicEnumTransformStage.Clone) {
             baseSchema.id = this.id;
+            baseSchema.ref = this.ref;
+        }
 
         if (stage === IPublicEnumTransformStage.Render)
             baseSchema.docId = this.document.id;

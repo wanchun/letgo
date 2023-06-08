@@ -26,6 +26,7 @@ export const addBtnCls = style({
     display: 'flex',
     alignItems: 'center',
     height: '32px',
+    minWidth: '120px',
     paddingLeft: '12px',
     color: '#5384ff',
     fontSize: '12px',

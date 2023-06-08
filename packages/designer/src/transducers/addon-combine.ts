@@ -1,16 +1,13 @@
 import type {
-    IPublicTypeEventHandler,
     IPublicTypeFieldConfig,
-    IPublicTypeJSFunction,
     IPublicTypeSettingTarget,
 
     IPublicTypeTransformedComponentMetadata,
 } from '@webank/letgo-types';
-import {
-    EventHandlerAction,
-} from '@webank/letgo-types';
+
 import { engineConfig } from '@webank/letgo-editor-core';
 import { isArray } from 'lodash-es';
+import { eventHandlersToJsExpression } from '@webank/letgo-common';
 
 export default function (
     metadata: IPublicTypeTransformedComponentMetadata,
@@ -112,51 +109,7 @@ export default function (
                             }
 
                             if (Array.isArray(componentEvents)) {
-                                const result: {
-                                    [key: string]: IPublicTypeJSFunction[]
-                                } = {};
-                                componentEvents.forEach((item: IPublicTypeEventHandler) => {
-                                    if (item.callId && item.method) {
-                                        let expression: string;
-                                        const params: string[] = [];
-                                        if (item.action === EventHandlerAction.CONTROL_QUERY) {
-                                            expression = `${item.callId}.${item.method}()`;
-                                        }
-                                        else if (item.action === EventHandlerAction.CONTROL_COMPONENT) {
-                                            // TODO 支持参数
-                                            expression = `${item.callId}.${item.method}()`;
-                                        }
-                                        else if (item.action === EventHandlerAction.GO_TO_URL) {
-                                            params.push(item.url);
-                                            expression = `${item.callId}.${item.method}.apply(${item.callId}, Array.prototype.slice.call(arguments))')`;
-                                        }
-                                        else if (item.action === EventHandlerAction.GO_TO_PAGE) {
-                                            // TODO 支持参数
-                                            expression = `${item.callId}.${item.method}('${item.pageId}')`;
-                                        }
-                                        else if (item.action === EventHandlerAction.SET_TEMPORARY_STATE) {
-                                            // TODO 支持其他方法
-                                            params.push(item.value);
-                                            expression = `${item.callId}.${item.method}.apply(${item.callId}, Array.prototype.slice.call(arguments))`;
-                                        }
-                                        else if (item.action === EventHandlerAction.SET_LOCAL_STORAGE) {
-                                            // TODO 支持其他方法
-                                            if (item.method === 'setValue') {
-                                                params.push(item.key, item.value);
-                                                expression = `${item.callId}.${item.method}.apply(null, Array.prototype.slice.call(arguments))`;
-                                            }
-                                            else {
-                                                expression = `${item.callId}.${item.method}()`;
-                                            }
-                                        }
-                                        result[item.name] = (result[item.name] || []).concat({
-                                            type: 'JSFunction',
-                                            // 需要传下入参
-                                            value: `function(){${expression}}`,
-                                            params,
-                                        });
-                                    }
-                                });
+                                const result = eventHandlersToJsExpression(componentEvents);
                                 Object.keys(result).forEach((name) => {
                                     field.parent.setPropValue(name, result[name]);
                                 });

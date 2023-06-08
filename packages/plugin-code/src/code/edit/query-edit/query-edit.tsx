@@ -26,7 +26,7 @@ export default defineComponent({
         const changeCodeItem = (data: Partial<IJavascriptQuery>) => {
             Object.assign(tmpCodeItem.value, data);
         };
-        watch(props.codeItem, () => {
+        watch(() => props.codeItem, () => {
             tmpCodeItem.value = cloneDeep(props.codeItem);
         });
 

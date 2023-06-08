@@ -107,8 +107,8 @@ importers:
   packages/common:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.7.27
-        version: 0.7.27(vue@3.3.4)
+        specifier: ^0.7.31
+        version: 0.7.31(vue@3.3.4)
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
@@ -125,8 +125,8 @@ importers:
   packages/components:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.7.27
-        version: 0.7.27(vue@3.3.4)
+        specifier: ^0.7.31
+        version: 0.7.31(vue@3.3.4)
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer
@@ -147,8 +147,8 @@ importers:
   packages/designer:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.7.27
-        version: 0.7.27(vue@3.3.4)
+        specifier: ^0.7.31
+        version: 0.7.31(vue@3.3.4)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.4)
@@ -192,8 +192,8 @@ importers:
   packages/editor-skeleton:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.7.27
-        version: 0.7.27(vue@3.3.4)
+        specifier: ^0.7.31
+        version: 0.7.31(vue@3.3.4)
       '@vanilla-extract/css':
         specifier: ^1.11.0
         version: 1.11.0
@@ -268,8 +268,8 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
       '@fesjs/fes-design':
-        specifier: ^0.7.27
-        version: 0.7.27(vue@3.3.4)
+        specifier: ^0.7.31
+        version: 0.7.31(vue@3.3.4)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.4)
@@ -329,8 +329,8 @@ importers:
         specifier: ^6.11.0
         version: 6.11.0
       '@fesjs/fes-design':
-        specifier: ^0.7.27
-        version: 0.7.27(vue@3.3.4)
+        specifier: ^0.7.31
+        version: 0.7.31(vue@3.3.4)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.4)
@@ -381,8 +381,8 @@ importers:
   packages/plugin-code-generator:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.7.27
-        version: 0.7.27(vue@3.3.4)
+        specifier: ^0.7.31
+        version: 0.7.31(vue@3.3.4)
       '@webank/letgo-common':
         specifier: workspace:*
         version: link:../common
@@ -408,8 +408,8 @@ importers:
   packages/plugin-component-tree:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.7.27
-        version: 0.7.27(vue@3.3.4)
+        specifier: ^0.7.31
+        version: 0.7.31(vue@3.3.4)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.4)
@@ -435,8 +435,8 @@ importers:
   packages/plugin-components:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.7.27
-        version: 0.7.27(vue@3.3.4)
+        specifier: ^0.7.31
+        version: 0.7.31(vue@3.3.4)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.4)
@@ -462,8 +462,8 @@ importers:
   packages/plugin-designer:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.7.27
-        version: 0.7.27(vue@3.3.4)
+        specifier: ^0.7.31
+        version: 0.7.31(vue@3.3.4)
       '@vanilla-extract/css':
         specifier: ^1.11.0
         version: 1.11.0
@@ -532,8 +532,8 @@ importers:
   packages/plugin-setting:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.7.27
-        version: 0.7.27(vue@3.3.4)
+        specifier: ^0.7.31
+        version: 0.7.31(vue@3.3.4)
       '@vanilla-extract/css':
         specifier: ^1.11.0
         version: 1.11.0
@@ -622,8 +622,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1(vue@3.2.47)
       '@fesjs/fes-design':
-        specifier: ^0.7.27
-        version: 0.7.27(vue@3.2.47)
+        specifier: ^0.7.31
+        version: 0.7.31(vue@3.2.47)
       '@fesjs/plugin-request':
         specifier: ^3.0.0
         version: 3.0.0(@fesjs/fes@3.1.1)(vue@3.2.47)
@@ -2507,8 +2507,29 @@ packages:
       - supports-color
     dev: false
 
-  /@fesjs/fes-design@0.7.27(vue@3.2.47):
+  /@fesjs/fes-design@0.7.27(vue@3.3.4):
     resolution: {integrity: sha512-vupfeiqmhs0FEaCFvlaPhZqXuw4YmV+V2QtV6kegcYCFAiy/rbON4QK1xb9fXcNgW2k1MP0YhAiKxjnQjUqFkw==}
+    peerDependencies:
+      vue: ^3.2.24
+    dependencies:
+      '@babel/runtime': 7.21.5
+      '@floating-ui/dom': 0.4.5
+      '@juggle/resize-observer': 3.4.0
+      '@types/lodash-es': 4.17.6
+      '@vue/shared': 3.3.4
+      '@vueuse/core': 9.6.0(vue@3.3.4)
+      async-validator: 4.2.5
+      csstype: 3.1.2
+      date-fns: 2.30.0
+      lodash-es: 4.17.21
+      stickybits: 3.7.11
+      vue: 3.3.4
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+    dev: false
+
+  /@fesjs/fes-design@0.7.31(vue@3.2.47):
+    resolution: {integrity: sha512-5RJ927jizDDfECW1DgZ7TUIQLRfnX5BRGEuf4iF8/tkQWHKS7acTplEdKMB4vPZinJRgfsYlmqbo8ooedsBOIw==}
     peerDependencies:
       vue: ^3.2.24
     dependencies:
@@ -2528,8 +2549,8 @@ packages:
       - '@vue/composition-api'
     dev: false
 
-  /@fesjs/fes-design@0.7.27(vue@3.3.4):
-    resolution: {integrity: sha512-vupfeiqmhs0FEaCFvlaPhZqXuw4YmV+V2QtV6kegcYCFAiy/rbON4QK1xb9fXcNgW2k1MP0YhAiKxjnQjUqFkw==}
+  /@fesjs/fes-design@0.7.31(vue@3.3.4):
+    resolution: {integrity: sha512-5RJ927jizDDfECW1DgZ7TUIQLRfnX5BRGEuf4iF8/tkQWHKS7acTplEdKMB4vPZinJRgfsYlmqbo8ooedsBOIw==}
     peerDependencies:
       vue: ^3.2.24
     dependencies:

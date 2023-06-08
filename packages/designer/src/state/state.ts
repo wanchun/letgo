@@ -44,6 +44,10 @@ export class State {
         });
     }
 
+    getInstance(instances: IComponentInstance[]) {
+        return JSON.parse(JSON.stringify(this.designer.simulator.getComponentInstancesExpose(instances[0])));
+    }
+
     initComponentInstanceListen() {
         // TODO: 清理
         this.designer.onSimulatorReady(() => {
@@ -54,33 +58,47 @@ export class State {
             }) => {
                 const currentDocument = this.designer.currentDocument;
                 const node = currentDocument.getNode(options.id);
+
                 if (node) {
                     if (node.id === 'root')
                         return;
                     const refName = node.ref;
-                    if (!options.instances || options.instances.length === 0 || options.instances.length > 1) {
+                    let offEvent: () => void;
+                    const clearInstance = () => {
+                        if (offEvent)
+                            offEvent();
+
                         delete this.componentsInstance[refName];
+                    };
+                    if (!options.instances || options.instances.length === 0 || options.instances.length > 1) {
+                        clearInstance();
                     }
                     else if (options.instances.length > 1) {
                         // TODO 暂不支持多个实例
                         console.warn('暂不支持多个实例');
-                        delete this.componentsInstance[refName];
+                        clearInstance();
                     }
                     else {
                         this.nodeIdToRef.set(options.id, node.ref);
-                        const instance = JSON.parse(JSON.stringify(this.designer.simulator.getComponentInstancesExpose(options.instances[0])));
+                        const instance = this.getInstance(options.instances);
                         if (instance) {
                             instance._componentName = node.componentName;
                             this.componentsInstance[refName] = instance;
                             const listen = debounce(() => setTimeout(() => {
-                                Object.assign(this.componentsInstance[refName], JSON.parse(JSON.stringify(this.designer.simulator.getComponentInstancesExpose(options.instances[0]))));
+                                const currentInstance = this.getInstance(options.instances);
+                                if (this.componentsInstance[refName] && currentInstance)
+                                    Object.assign(this.componentsInstance[refName], currentInstance);
                             }, 50), 100);
-                            node.onPropChange(() => {
-                                listen();
+                            offEvent = node.onPropChange(() => {
+                                if (!this.componentsInstance[refName])
+                                    offEvent();
+
+                                else
+                                    listen();
                             });
                         }
                         else {
-                            delete this.componentsInstance[refName];
+                            clearInstance();
                         }
                     }
                 }

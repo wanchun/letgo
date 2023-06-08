@@ -44,9 +44,9 @@ export default defineComponent({
                 return <General documentModel={props.documentModel} codeItem={tmpCodeItem.value} changeCodeItem={changeCodeItem} />;
 
             else if (currentTab.value === 'response')
-                return <ResponseEdit />;
+                return <ResponseEdit codeItem={tmpCodeItem.value} changeCodeItem={changeCodeItem} />;
 
-            return <Advance />;
+            return <Advance codeItem={tmpCodeItem.value} />;
         };
 
         return () => {

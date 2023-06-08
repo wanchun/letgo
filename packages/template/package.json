@@ -19,6 +19,7 @@
     "@fesjs/fes-design": "^0.7.27",
     "@fesjs/plugin-request": "^3.0.0",
     "@vueuse/core": "^9.6.0",
+    "@webank/letgo-common": "workspace:*",
     "@webank/letgo-engine": "workspace:*",
     "@webank/letgo-plugin-code-generator": "workspace:*",
     "@webank/letgo-plugin-component-tree": "workspace:*",
@@ -26,7 +27,6 @@
     "@webank/letgo-plugin-device": "workspace:*",
     "@webank/letgo-renderer": "workspace:*",
     "@webank/letgo-types": "workspace:*",
-    "@webank/letgo-common": "workspace:*",
     "core-js": "^3.29.1",
     "lodash-es": "^4.17.21",
     "vue": "^3.2.47"

@@ -132,7 +132,6 @@ export class DocumentModel {
                 componentName: 'Page',
                 id: 'root',
                 fileName: '',
-                code: '',
             },
         );
 
@@ -154,6 +153,7 @@ export class DocumentModel {
 
     exportSchema(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Serialize) {
         const currentSchema = this.rootNode?.exportSchema(stage);
+        currentSchema.code = this.code.codeStruct;
         return currentSchema;
     }
 

@@ -1,5 +1,5 @@
 import type { IPluginConfig } from '@webank/letgo-engine-plugin';
-import { FigmaComponent, Page, Plug, SettingTwo, TreeList } from '@icon-park/vue-next';
+import { FigmaComponent, Page, Plug, TreeList } from '@icon-park/vue-next';
 import type { PropType, Ref, VNodeChild } from 'vue';
 import {
     computed,
@@ -11,6 +11,7 @@ import type { Designer, INode } from '@webank/letgo-designer';
 import type { Editor } from '@webank/letgo-editor-core';
 import { FTree } from '@fesjs/fes-design';
 import { iconCls, nodeIconCls } from './index.css';
+import { SuffixView } from './suffix';
 
 interface Option {
     value: string
@@ -36,11 +37,7 @@ export function transformNode(node: INode, isSlot = false): Option {
         return <FigmaComponent class={nodeIconCls} theme="outline" strokeWidth={2} />;
     };
     option.suffix = () => {
-        return (
-            <>
-                <SettingTwo theme="outline" size="16" fill="#333" strokeWidth={2} />
-            </>
-        );
+        return <SuffixView></SuffixView>;
     };
 
     return option;

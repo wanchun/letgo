@@ -2,8 +2,8 @@ import { computed, defineComponent, onMounted } from 'vue';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { json } from '@codemirror/lang-json';
 import { isUndefined } from 'lodash-es';
+import { CodeMirror } from '@webank/letgo-components';
 import { commonProps } from '../../common';
-import { CodeMirror } from '../../component';
 
 const JsonSetterView = defineComponent({
     name: 'JsonSetterView',

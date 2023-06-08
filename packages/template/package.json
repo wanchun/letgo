@@ -24,6 +24,7 @@
     "@webank/letgo-plugin-component-tree": "workspace:*",
     "@webank/letgo-plugin-components": "workspace:*",
     "@webank/letgo-plugin-device": "workspace:*",
+    "@webank/letgo-plugin-schema": "workspace:*",
     "@webank/letgo-renderer": "workspace:*",
     "@webank/letgo-types": "workspace:*",
     "@webank/letgo-common": "workspace:*",

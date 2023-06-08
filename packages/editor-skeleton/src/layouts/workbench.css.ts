@@ -68,6 +68,8 @@ export const workbenchBodyCls = style({
 });
 
 export const leftAreaCls = style({
+    display: 'flex',
+    flexDirection: 'column',
     height: '100%',
     width: '48px',
     backgroundColor: '#fff',

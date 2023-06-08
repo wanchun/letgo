@@ -18,8 +18,6 @@
     "vue": "^3.3.4"
   },
   "dependencies": {
-    "@codemirror/lang-css": "^6.2.0",
-    "@codemirror/lang-json": "^6.0.1",
     "@fesjs/fes-design": "^0.7.27",
     "@icon-park/vue-next": "^1.4.2",
     "@vanilla-extract/css": "^1.11.0",
@@ -27,7 +25,8 @@
     "@webank/letgo-components": "workspace:*",
     "@webank/letgo-designer": "workspace:*",
     "@webank/letgo-types": "workspace:*",
-    "codemirror": "^6.0.1"
+    "@codemirror/lang-css": "^6.2.0",
+    "@codemirror/lang-json": "^6.0.1"
   },
   "publishConfig": {
     "access": "public"

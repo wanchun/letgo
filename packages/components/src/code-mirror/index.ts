@@ -49,10 +49,10 @@ import {
 import { indentWithTab } from '@codemirror/commands';
 import type { LanguageSupport } from '@codemirror/language';
 import type { StyleSpec } from 'style-mod';
-import { wrapCls } from './code-mirror.css';
+import { wrapCls } from './index.css';
 
 /** CodeMirror Component */
-export default defineComponent({
+export const CodeMirror = defineComponent({
     /** Component Name */
     name: 'CodeMirror',
     /** Model Definition */

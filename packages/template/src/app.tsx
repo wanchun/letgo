@@ -4,7 +4,8 @@ import { plugins } from '@webank/letgo-engine';
 import PluginComponents from '@webank/letgo-plugin-components';
 import PluginComponentTree from '@webank/letgo-plugin-component-tree';
 import PluginDevice from '@webank/letgo-plugin-device';
-import CodeGenerator from '@webank/letgo-plugin-code-generator';
+import PluginSchema from '@webank/letgo-plugin-schema';
+import PluginCodeGenerator from '@webank/letgo-plugin-code-generator';
 import type { App } from 'vue';
 import assets from './assets/assets';
 import PluginLogo from './plugins/plugin-logo';
@@ -19,8 +20,9 @@ plugins.register({
 
 plugins.register(PluginComponents);
 plugins.register(PluginComponentTree);
-plugins.register(CodeGenerator);
+plugins.register(PluginCodeGenerator);
 plugins.register(PluginDevice);
+plugins.register(PluginSchema);
 plugins.register(PluginLogo);
 plugins.register(PluginPreview);
 

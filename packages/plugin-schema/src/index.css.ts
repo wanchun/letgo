@@ -7,10 +7,6 @@ export const iconCls = style({
     lineHeight: 0,
 });
 
-export const nodeIconCls = style([iconCls, {
-    fontSize: '16px',
-}]);
-
-export const suffixWrapperCls = style({
-    marginRight: '12px',
+export const codeCls = style({
+    minHeight: '100%',
 });

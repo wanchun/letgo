@@ -133,6 +133,9 @@ importers:
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
+      codemirror:
+        specifier: ^6.0.1
+        version: 6.0.1(@lezer/common@1.0.2)
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -285,9 +288,6 @@ importers:
       '@webank/letgo-types':
         specifier: workspace:*
         version: link:../types
-      codemirror:
-        specifier: ^6.0.1
-        version: 6.0.1(@lezer/common@1.0.2)
     devDependencies:
       vue:
         specifier: ^3.3.4
@@ -499,6 +499,36 @@ importers:
         specifier: ^3.3.4
         version: 3.3.4
 
+  packages/plugin-schema:
+    dependencies:
+      '@codemirror/lang-json':
+        specifier: ^6.0.1
+        version: 6.0.1
+      '@fesjs/fes-design':
+        specifier: ^0.7.27
+        version: 0.7.27(vue@3.3.4)
+      '@icon-park/vue-next':
+        specifier: ^1.4.2
+        version: 1.4.2(vue@3.3.4)
+      '@vanilla-extract/css':
+        specifier: ^1.11.0
+        version: 1.11.0
+      '@webank/letgo-components':
+        specifier: workspace:*
+        version: link:../components
+      '@webank/letgo-designer':
+        specifier: workspace:*
+        version: link:../designer
+      '@webank/letgo-engine-plugin':
+        specifier: workspace:*
+        version: link:../engine-plugin
+      '@webank/letgo-types':
+        specifier: workspace:*
+        version: link:../types
+      vue:
+        specifier: ^3.3.4
+        version: 3.3.4
+
   packages/plugin-setting:
     dependencies:
       '@fesjs/fes-design':
@@ -618,6 +648,9 @@ importers:
       '@webank/letgo-plugin-device':
         specifier: workspace:*
         version: link:../plugin-device
+      '@webank/letgo-plugin-schema':
+        specifier: workspace:*
+        version: link:../plugin-schema
       '@webank/letgo-renderer':
         specifier: workspace:*
         version: link:../renderer

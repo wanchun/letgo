@@ -52,10 +52,6 @@ export interface IPublicTypeNodeSchema {
      */
     condition?: IPublicTypeCompositeValue
     /**
-     * 显示条件
-     */
-    visible?: IPublicTypeCompositeValue
-    /**
      * 循环数据
      */
     loop?: IPublicTypeCompositeValue
@@ -67,6 +63,10 @@ export interface IPublicTypeNodeSchema {
      * 子节点
      */
     children?: IPublicTypeNodeData | IPublicTypeNodeData[]
+    /**
+   * 是否锁定
+   */
+    isLocked?: boolean
 }
 
 export type IPublicTypePropsMap = IPublicTypeCompositeObject;

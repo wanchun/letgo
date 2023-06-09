@@ -275,18 +275,15 @@ function processProp(
         const valueProp = camelCase(matched[1] ?? 'modelValue');
         const eventProp = `onUpdate:${valueProp}`;
 
-        // 若值为表达式，则自定注册 onUpdate 事件，实现双向绑定
-        if (isJSExpression(val)) {
-            const updateEventFn: IPublicTypeJSFunction = {
-                type: 'JSFunction',
-                value: `function ($event) {${val.value} = $event}`,
-            };
-            target[eventProp]
-                = eventProp in target
-                    ? ensureArray(target[eventProp]).concat(updateEventFn)
-                    : updateEventFn;
-        }
-        target[valueProp] = val;
+        const updateEventFn: IPublicTypeJSFunction = {
+            type: 'JSFunction',
+            value: `function ($event) {executeCtx.${val} = $event}`,
+        };
+        target[eventProp]
+            = eventProp in target
+                ? ensureArray(target[eventProp]).concat(updateEventFn)
+                : updateEventFn;
+        target[valueProp] = `executeCtx.${val}`;
     }
     else if (key.startsWith('v-') && isJSExpression(val)) {
         // TODO: 指令绑定逻辑

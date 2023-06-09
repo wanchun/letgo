@@ -4,7 +4,7 @@ import { genEventId } from '@webank/letgo-common';
 import { EventHandlerList } from '@webank/letgo-components';
 import type { DocumentModel } from '@webank/letgo-designer';
 import type { IJavascriptQuery, IPublicTypeEventHandler } from '@webank/letgo-types';
-import { EventHandlerAction } from '@webank/letgo-types';
+import { InnerEventHandlerAction } from '@webank/letgo-types';
 import { contentCls, eventHandlersCls, eventListCls, failureCls, titleCls } from './event-handlers.css';
 import EventHeader from './event-header';
 
@@ -49,8 +49,8 @@ export default defineComponent({
                 name,
                 waitType: 'debounce',
                 waitMs: null,
-                action: EventHandlerAction.CONTROL_QUERY,
-                callId: null,
+                action: InnerEventHandlerAction.CONTROL_QUERY,
+                namespace: null,
                 method: null,
             };
         };

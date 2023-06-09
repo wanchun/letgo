@@ -1,5 +1,5 @@
-import type { IControlComponentAction, IControlQueryAction, IGoToPageAction, IGoToUrlAction, IPublicTypeEventHandler, ISetLocalStorageAction, ISetTemporaryStateAction } from '@webank/letgo-types';
-import { EventHandlerAction } from '@webank/letgo-types';
+import type { IControlComponentAction, IControlQueryAction, IPublicTypeEventHandler, ISetLocalStorageAction, ISetTemporaryStateAction } from '@webank/letgo-types';
+import { InnerEventHandlerAction } from '@webank/letgo-types';
 import type { PropType } from 'vue';
 import { computed, defineComponent, ref } from 'vue';
 import { FInput, FOption, FSelect } from '@fesjs/fes-design';
@@ -24,7 +24,7 @@ export default defineComponent({
         const renderQuery = (data: IControlQueryAction) => {
             return <>
                 <Label label="Query">
-                    <FSelect v-model={data.callId} appendToContainer={false} options={queryOptions.value} />
+                    <FSelect v-model={data.namespace} appendToContainer={false} options={queryOptions.value} />
                 </Label>
                 <Label label="Method">
                     <FSelect v-model={data.method} appendToContainer={false}>
@@ -65,25 +65,12 @@ export default defineComponent({
         const renderComponentMethod = (data: IControlComponentAction) => {
             return <>
                 <Label label="Component">
-                    <FSelect appendToContainer={false} onChange={selectComponent} v-model={data.callId} options={componentInstanceOptions.value} />
+                    <FSelect appendToContainer={false} onChange={selectComponent} v-model={data.namespace} options={componentInstanceOptions.value} />
                 </Label>
                 <Label label="Method">
                     <FSelect appendToContainer={false} v-model={data.method} options={componentMethods.value} />
                 </Label>
             </>;
-        };
-
-        const renderGoToURL = (data: IGoToUrlAction) => {
-            return <Label label="URL">
-                    <FInput v-model={data.url} />
-                </Label>;
-        };
-        const renderGoToPage = (data: IGoToPageAction) => {
-            return <Label label="page">
-                    <FSelect appendToContainer={false} v-model={data.pageId}>
-                        <FOption value="1">TODO 暂未实现</FOption>
-                    </FSelect>
-                </Label>;
         };
 
         const stateOptions = computed(() => {
@@ -97,10 +84,10 @@ export default defineComponent({
         const renderSetTemporaryState = (data: ISetTemporaryStateAction) => {
             return <>
                 <Label label="State">
-                    <FSelect appendToContainer={false} v-model={data.callId} options={stateOptions.value} />
+                    <FSelect appendToContainer={false} v-model={data.namespace} options={stateOptions.value} />
                 </Label>
                 <Label label="value">
-                    <FInput v-model={data.value} />
+                    <FInput v-model={data.params.value} />
                 </Label>
             </>;
         };
@@ -113,31 +100,25 @@ export default defineComponent({
                     </FSelect>
                 </Label>
                 <Label label="key">
-                    <FInput v-model={data.key} />
+                    <FInput v-model={data.params.key} />
                 </Label>
                 <Label label="value">
-                    <FInput v-model={data.value} />
+                    <FInput v-model={data.params.value} />
                 </Label>
             </>;
         };
         return () => {
-            if (props.componentEvent.action === EventHandlerAction.CONTROL_QUERY)
-                return renderQuery(props.componentEvent);
+            if (props.componentEvent.action === InnerEventHandlerAction.CONTROL_QUERY)
+                return renderQuery(props.componentEvent as IControlQueryAction);
 
-            if (props.componentEvent.action === EventHandlerAction.CONTROL_COMPONENT)
-                return renderComponentMethod(props.componentEvent);
+            if (props.componentEvent.action === InnerEventHandlerAction.CONTROL_COMPONENT)
+                return renderComponentMethod(props.componentEvent as IControlComponentAction);
 
-            if (props.componentEvent.action === EventHandlerAction.GO_TO_URL)
-                return renderGoToURL(props.componentEvent);
+            if (props.componentEvent.action === InnerEventHandlerAction.SET_TEMPORARY_STATE)
+                return renderSetTemporaryState(props.componentEvent as ISetTemporaryStateAction);
 
-            if (props.componentEvent.action === EventHandlerAction.GO_TO_PAGE)
-                return renderGoToPage(props.componentEvent);
-
-            if (props.componentEvent.action === EventHandlerAction.SET_TEMPORARY_STATE)
-                return renderSetTemporaryState(props.componentEvent);
-
-            if (props.componentEvent.action === EventHandlerAction.SET_LOCAL_STORAGE)
-                return renderSetLocalStorage(props.componentEvent);
+            if (props.componentEvent.action === InnerEventHandlerAction.SET_LOCAL_STORAGE)
+                return renderSetLocalStorage(props.componentEvent as ISetLocalStorageAction);
         };
     },
 });

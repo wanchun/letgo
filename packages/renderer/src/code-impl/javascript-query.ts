@@ -17,6 +17,7 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
     queryTimeout: number;
     query: string;
     enableCaching: boolean;
+    cacheDuration: number;
     enableTransformer: boolean;
     transformer: string;
     runCondition: RunCondition;
@@ -25,17 +26,19 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
     failureEventInstances: (() => void)[];
     successEvent: IPublicTypeEventHandler[];
     queryFailureCondition: IFailureCondition[];
+    cacheTime: number;
     constructor(data: IJavascriptQuery, ctx: Record<string, any>) {
         markShallowReactive(this, {
             id: data.id,
             query: data.query,
             enableCaching: false,
+            cacheDuration: null,
             enableTransformer: data.enableTransformer || false,
             transformer: data.transformer,
             showFailureToaster: data.showFailureToaster || false,
             showSuccessToaster: data.showSuccessToaster || false,
             successMessage: data.successMessage || '',
-            queryTimeout: data.queryTimeout || 10000,
+            queryTimeout: data.queryTimeout,
             runCondition: data.runCondition || RunCondition.MANUAL,
             queryFailureCondition: data.queryFailureCondition || [],
             successEvent: data.successEvent,
@@ -67,6 +70,7 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
             id: this.id,
             query: this.query,
             enableCaching: this.enableCaching,
+            cacheDuration: this.cacheDuration,
             enableTransformer: this.enableTransformer,
             transformer: this.transformer,
             showFailureToaster: this.showFailureToaster,
@@ -97,7 +101,22 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
         Object.assign(this, content);
     }
 
-    trigger() {
+    timeoutPromise(timeout: number) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                // eslint-disable-next-line prefer-promise-reject-errors
+                reject({
+                    type: 'TIMEOUT',
+                    msg: '请求超时',
+                });
+            }, timeout);
+        });
+    }
+
+    async trigger() {
+        if (this.enableCaching && this.cacheTime && (Date.now() - this.cacheTime) < this.cacheDuration * 1000)
+            return;
+
         if (this.query) {
             try {
                 // eslint-disable-next-line no-new-func
@@ -110,7 +129,12 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
             }
             return result;
         `);
-                this.data = fn(this.ctx);
+                if (this.queryTimeout)
+                    this.data = await Promise.race([this.timeoutPromise(this.queryTimeout), fn(this.ctx)]);
+                else
+                    this.data = await fn(this.ctx);
+
+                this.cacheTime = Date.now();
                 this.successEventInstances.forEach((eventHandler) => {
                     eventHandler();
                 });
@@ -125,7 +149,12 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
         }
     }
 
+    clearCache() {
+        this.cacheTime = null;
+    }
+
     reset() {
+        this.clearCache();
         this.data = null;
         this.error = null;
     }

@@ -4,12 +4,23 @@ import type { IJavascriptQuery } from '@webank/letgo-types';
 import { FCheckbox, FInputNumber } from '@fesjs/fes-design';
 import Category from './category';
 import ContentItem from './content-item';
+import { cacheDurationCls } from './advance.css';
 
 export default defineComponent({
     props: {
         codeItem: Object as PropType<IJavascriptQuery>,
     },
     setup(props) {
+        const renderCacheDuration = () => {
+            if (props.codeItem.enableCaching) {
+                return <div class={cacheDurationCls}>
+                    <label>缓存时间(单位:秒):</label>
+                    <FInputNumber v-model={props.codeItem.cacheDuration} />
+                </div>;
+            }
+            return null;
+        };
+
         return () => {
             return <>
                 <Category title="其他配置" v-slots={{
@@ -22,7 +33,10 @@ export default defineComponent({
                             }} />
                             <ContentItem label="缓存" v-slots={{
                                 content: () => {
-                                    return <FCheckbox v-model={props.codeItem.enableCaching}>缓存请求结果</FCheckbox>;
+                                    return <div>
+                                        <FCheckbox v-model={props.codeItem.enableCaching}>缓存请求结果</FCheckbox>
+                                        {renderCacheDuration()}
+                                    </div>;
                                 },
                             }} />
                         </>;

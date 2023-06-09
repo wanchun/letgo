@@ -48,13 +48,7 @@ export default defineComponent({
         });
 
         const codesState = computed(() => {
-            const result: Record<string, any> = {};
-            if (currentState.value?.codesInstance) {
-                Object.keys(currentState.value.codesInstance).forEach((key) => {
-                    result[key] = currentState.value.codesInstance[key].view;
-                });
-            }
-            return result;
+            return currentState.value?.codesInstance;
         });
         return () => {
             return (

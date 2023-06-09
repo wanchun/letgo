@@ -1,70 +1,68 @@
-export enum EventHandlerAction {
+export enum InnerEventHandlerAction {
     CONTROL_QUERY = 'controlQuery',
     CONTROL_COMPONENT = 'controlComponent',
-    GO_TO_URL = 'goToUrl',
-    GO_TO_PAGE = 'goToPage',
     SET_TEMPORARY_STATE = 'setTemporaryState',
-    SET_LOCAL_STORAGE = 'setLocalStorage',
+    SET_LOCAL_STORAGE = 'localStorage',
 }
 
-export interface IEventHandlerBase {
+export interface IPublicTypeEventHandler {
     id: string
+    action: string
     name: string
+    namespace: string
+    method: string
     onlyRunWhen?: string
     waitMs?: number
     waitType: string
+    params?: {
+        [key: string]: unknown
+    }
 }
 
-export interface IControlQueryAction extends IEventHandlerBase {
-    action: EventHandlerAction.CONTROL_QUERY
-    callId: string
+export interface IEventHandlerMetaParam {
+    field: string
+    type: string
+    children?: IEventHandlerMetaParam[]
+}
+
+export interface IEventHandlerMeta {
+    action: {
+        value: string
+        label: string
+    }
+    namespace: string
+    method: string
+    params: IEventHandlerMetaParam[]
+}
+
+export interface IControlQueryAction extends IPublicTypeEventHandler {
+    action: InnerEventHandlerAction.CONTROL_QUERY
+    namespace: string
     method: string
 }
 
-export interface IControlComponentAction extends IEventHandlerBase {
-    action: EventHandlerAction.CONTROL_COMPONENT
-    callId: string
+export interface IControlComponentAction extends IPublicTypeEventHandler {
+    action: InnerEventHandlerAction.CONTROL_COMPONENT
+    namespace: string
     method: string
-    [key: string]: unknown
 }
 
-export interface IGoToUrlAction extends IEventHandlerBase {
-    action: EventHandlerAction.GO_TO_URL
-    callId: 'utils'
-    method: 'openUrl'
-    url: string
-    isOpenNewTab?: boolean
-}
-
-export interface IUrlParam {
-    key: string
-    value: string
-}
-
-export interface IGoToPageAction extends IEventHandlerBase {
-    action: EventHandlerAction.GO_TO_PAGE
-    callId: 'utils'
-    method: 'openPage'
-    pageId: string
-    queryParams: IUrlParam[]
-    hashParams: IUrlParam[]
-    isOpenNewTab?: boolean
-}
-
-export interface ISetTemporaryStateAction extends IEventHandlerBase {
-    action: EventHandlerAction.SET_TEMPORARY_STATE
-    callId: string
+export interface ISetTemporaryStateAction extends IPublicTypeEventHandler {
+    action: InnerEventHandlerAction.SET_TEMPORARY_STATE
+    namespace: string
     method: string
-    value: string
-    path?: string
+    params: {
+        value: string
+        path?: string
+    }
 }
 
-export interface ISetLocalStorageAction extends IEventHandlerBase {
-    callId: 'localStorage'
-    action: EventHandlerAction.SET_LOCAL_STORAGE
+export interface ISetLocalStorageAction extends IPublicTypeEventHandler {
+    namespace: InnerEventHandlerAction.SET_LOCAL_STORAGE
+    action: InnerEventHandlerAction.SET_LOCAL_STORAGE
     method: string
-    key: string
-    value: string
+    params: {
+        key: string
+        value: string
+    }
 }
-
-export type IPublicTypeEventHandler = IControlQueryAction | IControlComponentAction | IGoToUrlAction | IGoToPageAction | ISetTemporaryStateAction | ISetLocalStorageAction;

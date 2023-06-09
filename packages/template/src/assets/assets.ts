@@ -891,7 +891,11 @@ const assets: IPublicTypeAssetsJson = {
                     propType: 'bool',
                 },
                 {
-                    name: 'inline',
+                    name: 'layout',
+                    propType: 'string',
+                },
+                {
+                    name: 'showMessage',
                     propType: 'bool',
                 },
                 {
@@ -950,9 +954,24 @@ const assets: IPublicTypeAssetsJson = {
                         setter: 'BoolSetter',
                     },
                     {
-                        name: 'inline',
-                        title: '行内表单',
-                        setter: 'BoolSetter',
+                        name: 'layout',
+                        title: '布局',
+                        setter: {
+                            componentName: 'RadioGroupSetter',
+                            props: {
+                                options: [
+                                    {
+                                        title: '垂直',
+                                        value: 'horizontal',
+                                    },
+                                    {
+                                        title: '行内表单',
+                                        value: 'inline',
+                                    },
+                                ],
+                            },
+                        },
+                        defaultValue: 'horizontal',
                     },
                     {
                         name: 'label-width',
@@ -963,7 +982,6 @@ const assets: IPublicTypeAssetsJson = {
                                 setters: ['StringSetter', 'NumberSetter'],
                             },
                         },
-                        defaultValue: 'auto',
                     },
                     {
                         name: 'label-align',
@@ -1004,6 +1022,12 @@ const assets: IPublicTypeAssetsJson = {
                             },
                         },
                         defaultValue: 'left',
+                    },
+                    {
+                        name: 'showMessage',
+                        title: '显示校验信息',
+                        setter: 'BoolSetter',
+                        defaultValue: true,
                     },
                 ],
             },

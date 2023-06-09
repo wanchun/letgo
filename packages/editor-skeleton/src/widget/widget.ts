@@ -29,8 +29,8 @@ export class Widget extends BaseWidget implements IWidget {
             key: this.id,
             onClick: (this.onClick || this._modal || this._panel)
                 ? () => {
-                        this._modal?.show();
-                        this._panel?.show();
+                        this._modal?.toggle();
+                        this._panel?.toggle();
                         this.onClick?.(this);
                     }
                 : undefined,

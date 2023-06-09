@@ -247,8 +247,13 @@ export default function (
                 }
                 else if (setter) {
                     const setters = (setter.props as any)?.setters;
-                    if (setter.componentName === 'MixedSetter' && !setters?.includes('VariableSetter'))
-                        setters?.push('VariableSetter');
+                    if (setter.componentName === 'MixedSetter') {
+                        if (!setters?.includes('VariableSetter'))
+                            setters?.push('VariableSetter');
+                    }
+                    else {
+                        field.setter = [setter, 'VariableSetter'];
+                    }
                 }
             }
         }

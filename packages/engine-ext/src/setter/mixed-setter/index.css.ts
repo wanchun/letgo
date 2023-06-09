@@ -14,9 +14,12 @@ export const contentCls = style({
 });
 
 export const actionsCls = style({
+    display: 'flex',
+    alignItems: 'center',
     marginLeft: '8px',
 });
 
 export const iconCls = style({
     cursor: 'pointer',
+    lineHeight: 0,
 });

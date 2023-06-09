@@ -83,6 +83,7 @@ export const headerCls = style({
             marginRight: '8px',
             wordBreak: 'break-all',
             whiteSpace: 'normal',
+            height: '32px',
         },
     },
 });

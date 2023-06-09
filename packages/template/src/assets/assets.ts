@@ -6,15 +6,17 @@ const assets: IPublicTypeAssetsJson = {
             package: '@fesjs/fes-design',
             version: '0.7.27',
             urls: [
-                'https://unpkg.com/@fesjs/fes-design@0.7.27/dist/fes-design.js',
-                'https://unpkg.com/@fesjs/fes-design@0.7.27/dist/fes-design.css',
+                'https://registry.npmmirror.com/@fesjs/fes-design/0.7.31/files/dist/fes-design.js',
+                'https://registry.npmmirror.com/@fesjs/fes-design/0.7.31/files/dist/fes-design.css',
             ],
             library: 'FesDesign',
         },
         {
             package: 'naive-ui',
             version: '2.32.0',
-            urls: ['https://unpkg.com/naive-ui@2.32.0/dist/index.prod.js'],
+            urls: [
+                'https://registry.npmmirror.com/naive-ui/2.32.0/files/dist/index.prod.js',
+            ],
             library: 'naive',
         },
     ],

@@ -17,7 +17,7 @@ import {
 import { FDropdown } from '@fesjs/fes-design';
 import { CodeBrackets, Transform } from '@icon-park/vue-next';
 import { commonProps } from '../../common';
-import { actionsCls, contentCls, iconCls, wrapperCls } from './index.css';
+import { actionsCls, contentCls, iconCls, isActive, wrapperCls } from './index.css';
 
 interface SetterItem {
     name: string
@@ -173,12 +173,21 @@ const MixedSetterView = defineComponent({
                 };
             });
             if (options.length === 2 && options.some(item => item.value === 'ExpressionSetter')) {
+                const otherName = options.filter(item => item.value !== 'ExpressionSetter')[0].value;
+                const onClick = () => {
+                    if (currentSetterName.value !== 'ExpressionSetter')
+                        currentSetterName.value = 'ExpressionSetter';
+
+                    else
+                        currentSetterName.value = otherName;
+                };
                 return (
                     <CodeBrackets
-                        class={[iconCls, currentSetter.value.name === 'ExpressionSetter']}
+                        onClick={onClick}
+                        class={[iconCls, currentSetterName.value === 'ExpressionSetter' && isActive] }
                         theme="outline"
                         size="14"
-                        fill="#333" />
+                    />
                 );
             }
             return (
@@ -192,7 +201,6 @@ const MixedSetterView = defineComponent({
                         class={iconCls}
                         theme="outline"
                         size="14"
-                        fill="#333"
                         strokeWidth={2}
                     />
                 </FDropdown>

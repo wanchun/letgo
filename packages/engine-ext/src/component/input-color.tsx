@@ -1,51 +1,32 @@
-import { defineComponent, ref } from 'vue';
-import { CloseCircleFilled } from '@fesjs/fes-design/icon';
+import { defineComponent } from 'vue';
+import { NColorPicker } from 'naive-ui';
 import { useModel } from '@webank/letgo-common';
-import { iconCls, inputCls, inputColorBoxCls, inputTextCls, inputTextNullCls, inputWrapCls } from './input-color.css';
+import { inputWrapCls } from './input-color.css';
 
 export default defineComponent({
     props: {
-        placeholder: {
-            type: String,
-            default: '请选择颜色',
-        },
+        defaultValue: String,
         modelValue: String,
     },
     emits: ['update:modelValue', 'change'],
     setup(props, { emit }) {
         const [currentValue, updateCurrentValue] = useModel(props, emit);
 
-        const isHoverRef = ref(false);
-
-        const onClear = () => {
-            currentValue.value = undefined;
+        const onChange = (val: string) => {
+            updateCurrentValue(val || undefined);
+            emit('change', val || undefined);
         };
 
         return () => {
             return (
-                <div
+                <NColorPicker
                     class={inputWrapCls}
-                    onMouseenter={() => { isHoverRef.value = true; }}
-                    onMouseleave={() => { isHoverRef.value = false; }}
+                    actions={['clear']}
+                    defaultValue={props.defaultValue}
+                    value={currentValue.value}
+                    onUpdate:value={onChange}
                 >
-                    <div class={inputColorBoxCls} style={{ backgroundColor: currentValue.value }}>
-                    </div>
-                    <div class={[currentValue.value ? inputTextCls : inputTextNullCls]}>{currentValue.value || props.placeholder}</div>
-                    <input
-                        class={inputCls}
-                        type="color"
-                        value={currentValue.value}
-                        onInput={(event: any) => {
-                            updateCurrentValue(event.target.value);
-                        }}
-                        onChange={(e) => { emit('change', e); }}
-                    ></input>
-                    <CloseCircleFilled
-                        v-show={isHoverRef.value}
-                        class={iconCls}
-                        onClick={onClear}
-                    />
-                </div>
+                </NColorPicker>
             );
         };
     },

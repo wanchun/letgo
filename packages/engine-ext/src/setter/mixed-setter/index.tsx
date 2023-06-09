@@ -75,17 +75,6 @@ function normalizeSetters(setters?: Array<IPublicTypeSetterType>): SetterItem[] 
 
         return config;
     });
-    // TODO: 暂时不知道要干嘛
-    // const hasComplexSetter = formattedSetters.filter(item =>
-    //     ['ArraySetter', 'ObjectSetter'].includes(item.setter),
-    // ).length;
-    // return formattedSetters.map((item) => {
-    //     if (item.setter === 'VariableSetter' && hasComplexSetter) {
-    //         item.setter = 'ExpressionSetter';
-    //         item.name = 'ExpressionSetter';
-    //     }
-    //     return item;
-    // });
     return formattedSetters;
 }
 

@@ -108,10 +108,10 @@ export const BackgroundView = defineComponent({
                             <Row label="背景色">
                                 <InputColor
                                     modelValue={currentValue.value.backgroundColor}
-                                    placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'backgroundColor') ?? '请选择背景颜色'}`}
-                                    onChange={(event: any) => {
+                                    defaultValue={getPlaceholderPropertyValue(provideStyle.style, 'backgroundColor')}
+                                    onChange={(val: string) => {
                                         onStyleChange({
-                                            backgroundColor: event.target.value,
+                                            backgroundColor: val,
                                         });
                                     }}
                                 ></InputColor>

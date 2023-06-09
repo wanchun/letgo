@@ -102,10 +102,10 @@ export const FontView = defineComponent({
                     <Row label="字体颜色">
                         <InputColor
                             modelValue={currentValue.value.color}
-                            placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'color') ?? '字体颜色'}`}
-                            onChange={(event: any) => {
+                            defaultValue={getPlaceholderPropertyValue(provideStyle.style, 'color') }
+                            onChange={(val: string) => {
                                 onStyleChange({
-                                    color: event.target.value,
+                                    color: val,
                                 });
                             }}
                         ></InputColor>

@@ -30,7 +30,7 @@
     "@webank/letgo-types": "workspace:*",
     "core-js": "^3.29.1",
     "lodash-es": "^4.17.21",
-    "vue": "^3.2.47"
+    "vue": "^3.3.4"
   },
   "publishConfig": {
     "access": "public"

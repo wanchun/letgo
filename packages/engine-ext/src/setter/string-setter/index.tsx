@@ -35,7 +35,7 @@ const StringSetterView = defineComponent({
 
 export const StringSetter: IPublicTypeSetter = {
     type: 'StringSetter',
-    title: '字符串设置器',
+    title: '字符设置器',
     Component: StringSetterView,
     condition: (field) => {
         const v = field.getValue() ?? (field as SettingField).getDefaultValue();

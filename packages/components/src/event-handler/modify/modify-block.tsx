@@ -16,12 +16,6 @@ const actions = [{
     value: EventHandlerAction.CONTROL_COMPONENT,
     label: '控制组件',
 }, {
-    value: EventHandlerAction.GO_TO_URL,
-    label: '应用跳转',
-}, {
-    value: EventHandlerAction.GO_TO_PAGE,
-    label: '页面跳转',
-}, {
     value: EventHandlerAction.SET_TEMPORARY_STATE,
     label: '设置临时状态',
 }, {

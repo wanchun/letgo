@@ -31,6 +31,7 @@ export interface IQueryResource {
     successMessage: string
     runCondition?: RunCondition
     enableCaching?: boolean
+    cacheDuration?: number
     queryTimeout?: number
     transformer: string
     successEvent?: IPublicTypeEventHandler[]

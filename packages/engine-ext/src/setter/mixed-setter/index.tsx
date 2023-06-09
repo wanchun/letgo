@@ -15,7 +15,7 @@ import {
     createSetterContent,
 } from '@webank/letgo-designer';
 import { FDropdown } from '@fesjs/fes-design';
-import { Switch } from '@icon-park/vue-next';
+import { CodeBrackets, Transform } from '@icon-park/vue-next';
 import { commonProps } from '../../common';
 import { actionsCls, contentCls, iconCls, wrapperCls } from './index.css';
 
@@ -172,6 +172,15 @@ const MixedSetterView = defineComponent({
                     label: setter.title,
                 };
             });
+            if (options.length === 2 && options.some(item => item.value === 'ExpressionSetter')) {
+                return (
+                    <CodeBrackets
+                        class={[iconCls, currentSetter.value.name === 'ExpressionSetter']}
+                        theme="outline"
+                        size="14"
+                        fill="#333" />
+                );
+            }
             return (
                 <FDropdown
                     options={options}
@@ -179,7 +188,7 @@ const MixedSetterView = defineComponent({
                         currentSetterName.value = val;
                     }}
                 >
-                    <Switch
+                    <Transform
                         class={iconCls}
                         theme="outline"
                         size="14"

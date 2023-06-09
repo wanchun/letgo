@@ -23,3 +23,7 @@ export const iconCls = style({
     cursor: 'pointer',
     lineHeight: 0,
 });
+
+export const isActive = style({
+    color: '#5384ff',
+});

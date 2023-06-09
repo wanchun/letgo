@@ -154,14 +154,14 @@ export const SettingFieldView = defineComponent({
                 // VariableSetter 不单独使用
                 if (
                     Array.isArray(setterProps.setters)
-                    && !setterProps.setters.includes('VariableSetter')
+                    && !setterProps.setters.includes('ExpressionSetter')
                 )
-                    setterProps.setters.push('VariableSetter');
+                    setterProps.setters.push('ExpressionSetter');
             }
             else {
                 setterType = 'MixedSetter';
                 setterProps = {
-                    setters: [setter, 'VariableSetter'],
+                    setters: [setter, 'ExpressionSetter'],
                 };
             }
         }

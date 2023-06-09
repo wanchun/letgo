@@ -49,8 +49,14 @@ export default defineComponent({
         code.value.onCodeItemChanged(changeCodeInstance);
         code.value.onCodeIdChanged(changeCodeInstanceId);
 
-        watch(codesInstance, () => {
-            host.updateCodesInstance(codesInstance);
+        const viewState = computed(() => {
+            return Object.keys(codesInstance).reduce((acc, cur) => {
+                acc[cur] = codesInstance[cur].view;
+                return acc;
+            }, {} as { [key: string]: any });
+        });
+        watch(viewState, () => {
+            host.updateCodesInstance(viewState.value);
         }, {
             deep: true,
         });

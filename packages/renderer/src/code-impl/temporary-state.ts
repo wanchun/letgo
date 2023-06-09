@@ -1,5 +1,5 @@
 import { isNil } from 'lodash-es';
-import { hasExpression, markComputed, markShallowReactive } from '@webank/letgo-common';
+import { hasExpression, markComputed, markReactive } from '@webank/letgo-common';
 import type { ITemporaryState } from '@webank/letgo-types';
 import { CodeType } from '@webank/letgo-types';
 import type { ITemporaryStateImpl } from '@webank/letgo-designer';
@@ -14,7 +14,7 @@ export class TemporaryStateImpl implements ITemporaryStateImpl {
     value: any;
     initValue: string;
     constructor(data: ITemporaryState, deps: string[], ctx: Record<string, any>) {
-        markShallowReactive(this, {
+        markReactive(this, {
             id: data.id,
             value: null,
         });
@@ -74,7 +74,7 @@ export class TemporaryStateImpl implements ITemporaryStateImpl {
     }
 
     setValue(value: any) {
-        console.log('setValue', value);
+        console.log(this.id, value);
         this.value = value;
     }
 }

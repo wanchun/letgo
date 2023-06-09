@@ -21,8 +21,8 @@ export default defineComponent({
     },
     setup(props) {
         const getMethodCall = (item: IPublicTypeEventHandler) => {
-            if (item.callId && item.method)
-                return `${item.callId}.${item.method}()`;
+            if (item.namespace && item.method)
+                return `${item.namespace}.${item.method}()`;
 
             return '';
         };

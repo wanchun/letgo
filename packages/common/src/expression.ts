@@ -1,6 +1,6 @@
 import type { IPublicTypeEventHandler, IPublicTypeJSFunction } from '@webank/letgo-types';
 import {
-    EventHandlerAction,
+    InnerEventHandlerAction,
 } from '@webank/letgo-types';
 
 export const EXPRESSION_REGEX = /{{(.*?)}}/;
@@ -11,36 +11,31 @@ export function hasExpression(doc: string) {
 
 export function eventHandlerToJsExpression(item: IPublicTypeEventHandler): IPublicTypeJSFunction {
     let expression: string;
-    const params: string[] = [];
-    if (item.action === EventHandlerAction.CONTROL_QUERY) {
-        expression = `${item.callId}.${item.method}()`;
+    const params: any[] = [];
+    if (item.action === InnerEventHandlerAction.CONTROL_QUERY) {
+        expression = `${item.namespace}.${item.method}.apply(${item.namespace}, Array.prototype.slice.call(arguments))`;
     }
-    else if (item.action === EventHandlerAction.CONTROL_COMPONENT) {
+    else if (item.action === InnerEventHandlerAction.CONTROL_COMPONENT) {
         // TODO 支持参数
-        expression = `${item.callId}.${item.method}()`;
+        expression = `${item.namespace}.${item.method}()`;
     }
-    else if (item.action === EventHandlerAction.GO_TO_URL) {
-        params.push(item.url);
-        expression = `${item.callId}.${item.method}.apply(${item.callId}, Array.prototype.slice.call(arguments))')`;
-    }
-    else if (item.action === EventHandlerAction.GO_TO_PAGE) {
-        // TODO 支持参数
-        expression = `${item.callId}.${item.method}('${item.pageId}')`;
-    }
-    else if (item.action === EventHandlerAction.SET_TEMPORARY_STATE) {
+    else if (item.action === InnerEventHandlerAction.SET_TEMPORARY_STATE) {
         // TODO 支持其他方法
-        params.push(item.value);
-        expression = `${item.callId}.${item.method}.apply(${item.callId}, Array.prototype.slice.call(arguments))`;
+        params.push(item.params.value);
+        expression = `${item.namespace}.${item.method}.apply(${item.namespace}, Array.prototype.slice.call(arguments))`;
     }
-    else if (item.action === EventHandlerAction.SET_LOCAL_STORAGE) {
+    else if (item.action === InnerEventHandlerAction.SET_LOCAL_STORAGE) {
         // TODO 支持其他方法
         if (item.method === 'setValue') {
-            params.push(item.key, item.value);
-            expression = `${item.callId}.${item.method}.apply(null, Array.prototype.slice.call(arguments))`;
+            params.push(item.params.key, item.params.value);
+            expression = `${item.namespace}.${item.method}.apply(null, Array.prototype.slice.call(arguments))`;
         }
         else {
-            expression = `${item.callId}.${item.method}()`;
+            expression = `${item.namespace}.${item.method}()`;
         }
+    }
+    else {
+        // TODO 支持用户自定义方法
     }
 
     return {
@@ -56,7 +51,7 @@ export function eventHandlersToJsExpression(handlers: IPublicTypeEventHandler[])
         [key: string]: IPublicTypeJSFunction[]
     } = {};
     handlers.forEach((item: IPublicTypeEventHandler) => {
-        if (item.callId && item.method) {
+        if (item.namespace && item.method) {
             const jsExpression = eventHandlerToJsExpression(item);
             result[item.name] = (result[item.name] || []).concat(jsExpression);
         }

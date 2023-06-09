@@ -5,7 +5,7 @@ import {
     FButton,
 } from '@fesjs/fes-design';
 import { genEventId } from '@webank/letgo-common';
-import { EventHandlerAction } from '@webank/letgo-types';
+import { InnerEventHandlerAction } from '@webank/letgo-types';
 import { EventHandlerList, EventHandlerModify } from '@webank/letgo-components';
 import { PlusOutlined } from '@fesjs/fes-design/icon';
 import { commonProps } from '../../common';
@@ -75,8 +75,8 @@ const EventSetterView = defineComponent({
                 name: eventData.value[0].value,
                 waitType: 'debounce',
                 waitMs: null,
-                action: EventHandlerAction.CONTROL_QUERY,
-                callId: null,
+                action: InnerEventHandlerAction.CONTROL_QUERY,
+                namespace: null,
                 method: null,
             };
         };

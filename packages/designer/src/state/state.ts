@@ -11,14 +11,13 @@ import { debounce } from 'lodash-es';
 import type { Designer } from '../designer';
 import type { IComponentInstance } from '../types';
 import type { Project } from '../project';
-import type { CodeImplType } from '../code';
 
 export class State {
     private designer: Designer;
     private config: IPublicTypeAppConfig;
     private nodeIdToRef = new Map<string, string>();
     componentsInstance: Record<string, any>;
-    codesInstance: Record<string, CodeImplType>;
+    codesInstance: Record<string, any>;
     constructor(project: Project) {
         markReactive(this, {
             codesInstance: {},

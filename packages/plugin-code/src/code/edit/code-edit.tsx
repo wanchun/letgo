@@ -28,7 +28,7 @@ export default defineComponent({
         return () => {
             if (currentCodeItem.value) {
                 if (currentCodeItem.value.type === CodeType.TEMPORARY_STATE)
-                    return <StateEdit codeItem={currentCodeItem.value} changeContent={code.value?.changeCodeItemContent} />;
+                    return <StateEdit documentModel={props.designer.currentDocument} codeItem={currentCodeItem.value} changeContent={code.value?.changeCodeItemContent} />;
                 if (currentCodeItem.value.type === CodeType.JAVASCRIPT_COMPUTED)
                     return <ComputedEdit codeItem={currentCodeItem.value} changeContent={code.value?.changeCodeItemContent} />;
                 if (currentCodeItem.value.type === CodeType.JAVASCRIPT_QUERY)

@@ -16,3 +16,4 @@ export * from './reactive';
 export * from './expression';
 export * from './event-id';
 export * from './build-components';
+export * from './get-var-type';

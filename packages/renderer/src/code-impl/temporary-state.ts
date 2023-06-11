@@ -74,7 +74,6 @@ export class TemporaryStateImpl implements ITemporaryStateImpl {
     }
 
     setValue(value: any) {
-        console.log(this.id, value);
         this.value = value;
     }
 }

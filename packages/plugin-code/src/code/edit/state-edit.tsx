@@ -1,6 +1,7 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
-import { FInput } from '@fesjs/fes-design';
+import { ExpressionEditor } from '@webank/letgo-components';
+import type { DocumentModel } from '@webank/letgo-designer';
 import type { ITemporaryState } from '@webank/letgo-types';
 import { contentCls, headerCls, inputItemCls, inputLabelCls } from './state-edit.css';
 
@@ -11,6 +12,7 @@ import { contentCls, headerCls, inputItemCls, inputLabelCls } from './state-edit
  */
 export default defineComponent({
     props: {
+        documentModel: Object as PropType<DocumentModel>,
         codeItem: Object as PropType<ITemporaryState>,
         changeContent: Function as PropType<(id: string, content: Partial<ITemporaryState>) => void>,
     },
@@ -29,7 +31,7 @@ export default defineComponent({
                 <div class={contentCls}>
                     <div class={inputItemCls}>
                         <label class={inputLabelCls}>初始值</label>
-                        <FInput modelValue={props.codeItem.initValue} onChange={changeInitValue} placeholder="null" />
+                        <ExpressionEditor documentModel={props.documentModel} doc={props.codeItem.initValue} onChangeDoc={changeInitValue} />
                     </div>
                 </div>
             </div>;

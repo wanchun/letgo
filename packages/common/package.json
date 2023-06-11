@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "@fesjs/fes-design": "^0.7.31",
-    "@webank/letgo-designer": "workspace:*",
     "@webank/letgo-types": "workspace:*",
     "lodash-es": "^4.17.21",
     "zen-logger": "^1.1.0"

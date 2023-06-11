@@ -48,7 +48,10 @@ export default defineComponent({
         });
 
         const codesState = computed(() => {
-            return currentState.value?.codesInstance;
+            const codesInstance = currentState.value?.codesInstance || {};
+            return Object.keys(codesInstance).map((key) => {
+                return codesInstance[key].view;
+            });
         });
         return () => {
             return (

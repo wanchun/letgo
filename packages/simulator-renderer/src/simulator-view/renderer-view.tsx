@@ -56,7 +56,7 @@ export default defineComponent({
             }, {} as { [key: string]: any });
         });
         watch(viewState, () => {
-            host.updateCodesInstance(viewState.value);
+            host.updateCodesInstance(codesInstance);
         }, {
             deep: true,
         });

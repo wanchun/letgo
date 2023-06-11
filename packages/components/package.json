@@ -18,11 +18,17 @@
     "vue": "^3.3.4"
   },
   "dependencies": {
+    "@codemirror/autocomplete": "^6.7.1",
+    "@codemirror/lang-javascript": "^6.1.7",
+    "@codemirror/language": "^6.7.0",
+    "@codemirror/state": "^6.2.0",
+    "@codemirror/view": "^6.11.0",
     "@fesjs/fes-design": "^0.7.31",
     "@webank/letgo-designer": "workspace:*",
+    "@webank/letgo-common": "workspace:*",
     "@webank/letgo-types": "workspace:*",
-    "lodash-es": "^4.17.21",
-    "codemirror": "^6.0.1"
+    "codemirror": "^6.0.1",
+    "lodash-es": "^4.17.21"
   },
   "publishConfig": {
     "access": "public"

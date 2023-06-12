@@ -24,8 +24,8 @@
     "@codemirror/state": "^6.2.0",
     "@codemirror/view": "^6.11.0",
     "@fesjs/fes-design": "^0.7.31",
-    "@webank/letgo-designer": "workspace:*",
     "@webank/letgo-common": "workspace:*",
+    "@webank/letgo-designer": "workspace:*",
     "@webank/letgo-types": "workspace:*",
     "codemirror": "^6.0.1",
     "lodash-es": "^4.17.21"

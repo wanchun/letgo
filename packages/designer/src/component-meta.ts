@@ -13,10 +13,10 @@ import { isRegExp } from 'lodash-es';
 import { Copy, Delete, FileHidingOne, Lock, Unlock } from '@icon-park/vue-next';
 import type { Designer } from './designer';
 import { Node, isNode } from './node';
-import parseNestingRule from './transducers/nesting-rule';
 import addonCombine from './transducers/addon-combine';
 import parseJSFunc from './transducers/parse-func';
 import parseProps from './transducers/parse-props';
+import parseDefault from './transducers/parse-default';
 import type { INode } from './types';
 
 export function ensureAList(list?: string | string[]): string[] | null {
@@ -426,4 +426,4 @@ registerMetadataTransducer(parseProps, 5, 'parse-props');
 
 registerMetadataTransducer(addonCombine, 10, 'combine-props');
 
-registerMetadataTransducer(parseNestingRule, 100, 'component-defaults');
+registerMetadataTransducer(parseDefault, 100, 'parse-nesting-rule');

@@ -8,30 +8,24 @@ export default function componentDefaults(
     if (!component.nestingRule) {
         let m;
         // uri match xx.Group set subcontrolling: true, childWhiteList
-        // eslint-disable-next-line no-cond-assign
-        if ((m = /^(.+)\.Group$/.exec(componentName))) {
+        if ((/^(.+)\Group$/.test(componentName))) {
+            m = /^(.+)\Group$/.exec(componentName);
             // component.subControlling = true;
             component.nestingRule = {
                 childWhitelist: [`${m[1]}`],
             };
         }
-        else if ((m = /^(.+)\.Node$/.exec(componentName))) {
-            // uri match xx.Node set selfControlled: false, parentWhiteList
-            // component.selfControlled = false;
-            component.nestingRule = {
-                parentWhitelist: [`${m[1]}`, componentName],
-            };
-        }
-        else if ((m = /^(.+)\.(Item|Node|Option)$/.exec(componentName))) {
+        else if ((/^(.+)(Item|Node|Option)$/.test(componentName))) {
+            m = /^(.+)(Item|Node|Option)$/.exec(componentName);
             // uri match .Item .Node .Option set parentWhiteList
             component.nestingRule = {
                 parentWhitelist: [`${m[1]}`],
             };
         }
     }
-    // if (component.isModal == null && /Dialog/.test(componentName)) {
-    //   component.isModal = true;
-    // }
+    if (component.isModal === null && /(Modal|Drawer)/.test(componentName))
+        component.isModal = true;
+
     return {
         ...metadata,
         configure: {

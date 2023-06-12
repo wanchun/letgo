@@ -187,16 +187,17 @@ function propTypeToSetter(propType: IPublicTypeProp): IPublicTypeSetterConfig {
 
 const EVENT_RE = /^on|after|before[A-Z][\w]*$/;
 
-export default function (
+export default function parseProps(
     metadata: IPublicTypeTransformedComponentMetadata,
 ): IPublicTypeTransformedComponentMetadata {
-    const { configure = {} } = metadata;
+    const { configure = {}, props } = metadata;
 
     // 如果已配置 configure.props，则不转换
     if (isArray(configure.props))
         return metadata;
 
-    if (!metadata.props) {
+    // 如果没有props，则不需要转换
+    if (!props) {
         return {
             ...metadata,
             configure: {
@@ -207,13 +208,14 @@ export default function (
     }
 
     const { component = {}, supports = {} } = configure;
-    const supportedEvents: IPublicTypeConfigureSupportEvent[] | null = supports.events
-        ? null
-        : [];
-    const props: IPublicTypeFieldConfig[] = [];
 
-    metadata.props.forEach((prop) => {
+    const supportedEvents: IPublicTypeConfigureSupportEvent[] | null = supports.events ? null : [];
+
+    const needConfiguredProps: IPublicTypeFieldConfig[] = [];
+
+    props.forEach((prop) => {
         const { name, propType, description } = prop;
+
         if (
             name === 'children'
             && (component.isContainer
@@ -223,7 +225,7 @@ export default function (
         ) {
             if (component.isContainer !== false) {
                 component.isContainer = true;
-                props.push(propConfigToFieldConfig(prop));
+                needConfiguredProps.push(propConfigToFieldConfig(prop));
                 return;
             }
         }
@@ -256,14 +258,23 @@ export default function (
             return;
         }
 
-        props.push(propConfigToFieldConfig(prop));
+        // 双向绑定的默认使用 'VariableSetter'
+        if (name.startsWith('v-model')) {
+            needConfiguredProps.push({
+                ...prop,
+                setter: 'VariableSetter',
+            });
+            return;
+        }
+
+        needConfiguredProps.push(propConfigToFieldConfig(prop));
     });
 
     return {
         ...metadata,
         configure: {
             ...configure,
-            props,
+            props: needConfiguredProps,
             supports,
             component,
         },

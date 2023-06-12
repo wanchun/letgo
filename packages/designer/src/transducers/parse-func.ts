@@ -28,17 +28,18 @@ function transformStringToFunction(str: string) {
       try {
         return (${str}).apply(self, arguments);
       } catch(e) {
-        console.log('call function which parsed by lowcode failed: ', e);
+        console.log('call function which parsed by letgo failed: ', e);
         return e.message;
       }
     };
   `;
     try {
+        // eslint-disable-next-line no-new-func
         fn = new Function(fnBody)();
     }
     catch (e) {
         console.error(str);
-        console.error(e.message);
+        console.error((e as Error).message);
     }
     return fn;
 }

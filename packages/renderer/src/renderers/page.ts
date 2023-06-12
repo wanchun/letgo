@@ -1,9 +1,6 @@
-import { defineComponent, h } from 'vue';
+import { defineComponent } from 'vue';
 import { rendererProps, useRenderer } from '../core';
-
-const Page = defineComponent((props, { slots }) => {
-    return () => h('div', { class: 'letgo-page', ...props }, slots);
-});
+import { Page } from '../built-in-components';
 
 export const PageRenderer = defineComponent({
     props: rendererProps,

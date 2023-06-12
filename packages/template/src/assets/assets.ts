@@ -381,6 +381,7 @@ const assets: IPublicTypeAssetsJson = {
             configure: {
                 supports: {
                     style: true,
+                    events: ['onClick'],
                 },
                 component: {
                     isContainer: true,
@@ -517,10 +518,6 @@ const assets: IPublicTypeAssetsJson = {
                     propType: 'string',
                 },
                 {
-                    name: 'wrap-item',
-                    propType: 'bool',
-                },
-                {
                     name: 'justify',
                     propType: 'string',
                 },
@@ -539,8 +536,16 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'vertical',
                     propType: 'bool',
                 },
+                {
+                    name: 'wrap',
+                    propType: 'bool',
+                },
             ],
             configure: {
+                supports: {
+                    style: true,
+                    events: ['onClick'],
+                },
                 component: {
                     isContainer: true,
                 },
@@ -614,27 +619,56 @@ const assets: IPublicTypeAssetsJson = {
                         defaultValue: 'start',
                     },
                     {
-                        name: 'wrap-item',
-                        title: '是否包裹元素',
-                        setter: 'BoolSetter',
+                        name: 'size',
+                        title: '间距大小',
+                        setter: [
+                            {
+                                componentName: 'SelectSetter',
+                                props: {
+                                    options: [
+                                        {
+                                            label: 'xsmall',
+                                            value: 'xsmall',
+                                        },
+                                        {
+                                            label: 'small',
+                                            value: 'small',
+                                        },
+                                        {
+                                            label: 'middle',
+                                            value: 'middle',
+                                        },
+                                        {
+                                            label: 'large',
+                                            value: 'large',
+                                        },
+                                    ],
+                                },
+                            },
+                            'NumberSetter',
+                        ],
+                        defaultValue: 'small',
                     },
                     {
                         name: 'inline',
                         title: '是否为行内元素',
                         setter: 'BoolSetter',
+                        defaultValue: false,
                     },
                     {
                         name: 'vertical',
                         title: '是否垂直布局',
                         setter: 'BoolSetter',
+                        defaultValue: false,
                     },
                     {
                         name: 'wrap',
                         title: '是否超出换行',
                         setter: 'BoolSetter',
+                        defaultValue: true,
                     },
                     {
-                        name: 'item-style',
+                        name: 'itemStyle',
                         title: '节点样式',
                         display: 'popup',
                         setter: 'StyleSetter',
@@ -717,11 +751,13 @@ const assets: IPublicTypeAssetsJson = {
                                 name: 'disabled',
                                 title: '是否禁用',
                                 setter: 'BoolSetter',
+                                defaultValue: false,
                             },
                             {
                                 name: 'loading',
                                 title: '显示加载状态',
                                 setter: 'BoolSetter',
+                                defaultValue: false,
                             },
                             {
                                 name: 'throttle',
@@ -801,7 +837,6 @@ const assets: IPublicTypeAssetsJson = {
                                         ],
                                     },
                                 },
-                                defaultValue: 'default',
                             },
                             {
                                 name: 'size',
@@ -831,6 +866,17 @@ const assets: IPublicTypeAssetsJson = {
                                 name: 'long',
                                 title: '长按钮',
                                 setter: 'BoolSetter',
+                                defaultValue: false,
+                            },
+                            {
+                                name: 'icon',
+                                title: '图标',
+                                setter: {
+                                    componentName: 'IconSetter',
+                                    props: {
+                                        type: 'node',
+                                    },
+                                },
                             },
                         ],
                     },

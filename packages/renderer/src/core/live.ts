@@ -54,8 +54,10 @@ export const Live = defineComponent({
 
         if (!show)
             return null;
+
         if (!comp)
             return h('div', 'component not found');
+
         if (!loop) {
             return h(
                 comp,

@@ -1,7 +1,8 @@
 import type { Component, PropType } from 'vue';
 import { computed, defineComponent, onMounted, ref } from 'vue';
-import { isUndefined } from 'lodash-es';
-import type { IPublicTypeSetter } from '@webank/letgo-types';
+import { isArray, isUndefined } from 'lodash-es';
+import { isJSSlot } from '@webank/letgo-types';
+import type { IPublicTypeJSSlot, IPublicTypeSetter } from '@webank/letgo-types';
 import { FGrid, FGridItem, FTooltip } from '@fesjs/fes-design';
 import { CloseCircleFilled } from '@fesjs/fes-design/icon';
 import { commonProps } from '../../common';
@@ -47,14 +48,14 @@ const IconSetterView = defineComponent({
     name: 'IconSetterView',
     props: {
         ...commonProps,
-        value: String,
-        defaultValue: String,
+        value: [String, Object] as PropType<string | IPublicTypeJSSlot>,
+        defaultValue: [String, Object] as PropType<string | IPublicTypeJSSlot>,
         type: {
             type: String,
             default: 'string',
         },
         onChange: {
-            type: Function as PropType<(icon: string | object) => void>,
+            type: Function as PropType<(icon: string | IPublicTypeJSSlot) => void>,
         },
         icons: {
             type: Array as PropType<string[]>,
@@ -75,9 +76,21 @@ const IconSetterView = defineComponent({
         const isHoverRef = ref(false);
 
         const iconName = computed(() => {
-            return isUndefined(props.value)
+            const val = isUndefined(props.value)
                 ? props.defaultValue
                 : props.value;
+
+            if (isJSSlot(val)) {
+                let firstNodeData: any;
+                if (isArray(val.value) && val.value.length)
+                    firstNodeData = val.value[0];
+                else
+                    firstNodeData = val.value;
+
+                return firstNodeData?.props?.type;
+            }
+
+            return val;
         });
 
         const handleChange = (icon: string) => {
@@ -86,9 +99,12 @@ const IconSetterView = defineComponent({
             }
             else if (props.type === 'node') {
                 props.onChange({
-                    componentName: 'Icon',
-                    props: {
-                        type: icon,
+                    type: 'JSSlot',
+                    value: {
+                        componentName: 'Icon',
+                        props: {
+                            type: icon,
+                        },
                     },
                 });
             }

@@ -1,7 +1,7 @@
 import { EventEmitter } from 'eventemitter3';
 import type { IPublicTypeNodeData } from '@webank/letgo-types';
 import { IPublicEnumTransformStage, isNodeSchema } from '@webank/letgo-types';
-import { markComputed, markShallowReactive, shallowEqual } from '@webank/letgo-common';
+import { markComputed, markShallowReactive } from '@webank/letgo-common';
 import type { INode } from '../types';
 
 interface IOnChangeOptions {
@@ -82,8 +82,7 @@ export class NodeChildren {
 
         this.children = children;
         this.initParent();
-        if (!shallowEqual(children, originChildren))
-            this.emitter.emit('change');
+        this.emitter.emit('change');
     }
 
     initParent() {

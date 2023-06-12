@@ -89,7 +89,7 @@ function render({
     // 若不传入 comp，则根据节点的 componentName 推断
     if (!comp) {
         const { componentName } = schema;
-        comp = components[componentName];
+        comp = components[componentName] || components[`${componentName}Renderer`];
     }
 
     if (!comp)

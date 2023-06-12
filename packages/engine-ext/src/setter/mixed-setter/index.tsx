@@ -115,18 +115,15 @@ const MixedSetterView = defineComponent({
         },
     },
     setup(props) {
-        const currentSetterName: Ref<string> = ref();
         const setters = computed(() => {
             return normalizeSetters(props.setters);
         });
-        const currentSetter = computed(() => {
+
+        const getDefaultSetterName = () => {
             const { field } = props;
             let firstMatched: SetterItem | undefined;
             let firstDefault: SetterItem | undefined;
             for (const setter of setters.value) {
-                if (setter.name === currentSetterName.value)
-                    return setter;
-
                 if (!setter.condition) {
                     if (!firstDefault)
                         firstDefault = setter;
@@ -136,7 +133,15 @@ const MixedSetterView = defineComponent({
                 if (!firstMatched && setter.condition(field))
                     firstMatched = setter;
             }
-            return firstMatched || firstDefault || setters.value[0];
+            return (firstMatched || firstDefault || setters.value[0]).name;
+        };
+
+        const currentSetterName: Ref<string> = ref(getDefaultSetterName());
+
+        const currentSetter = computed(() => {
+            return setters.value.find((setter) => {
+                return setter.name === currentSetterName.value;
+            });
         });
 
         const renderCurrentSetter = (

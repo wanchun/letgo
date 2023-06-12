@@ -8,7 +8,6 @@
     "type": "git",
     "url": "git@git.weoa.com:mumblefe/letgo.git"
   },
-  "type": "module",
   "keywords": [],
   "main": "index.js",
   "scripts": {

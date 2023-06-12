@@ -80,6 +80,7 @@ const ComponentTreeView = defineComponent({
         const onSelectNode = ({ node }: { node: { value: string } }) => {
             props.designer.currentSelection.select(node.value);
         };
+
         return () => {
             return <FTree
                 data={data.value}

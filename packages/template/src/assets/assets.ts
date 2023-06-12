@@ -927,21 +927,21 @@ const assets: IPublicTypeAssetsJson = {
                     propType: 'bool',
                 },
                 {
-                    name: 'label-width',
+                    name: 'labelWidth',
                     propType: {
                         type: 'oneOfType',
                         value: ['string', 'number'],
                     },
                 },
                 {
-                    name: 'label-align',
+                    name: 'labelAlign',
                     propType: {
                         type: 'oneOf',
                         value: ['left', 'right'],
                     },
                 },
                 {
-                    name: 'label-placement',
+                    name: 'labelPlacement',
                     propType: {
                         type: 'oneOf',
                         value: ['left', 'top'],
@@ -964,6 +964,9 @@ const assets: IPublicTypeAssetsJson = {
                 },
                 component: {
                     isContainer: true,
+                    nestingRule: {
+                        childWhitelist: ['FFormItem'],
+                    },
                 },
                 props: [
                     {
@@ -980,6 +983,7 @@ const assets: IPublicTypeAssetsJson = {
                         name: 'disabled',
                         title: '是否禁用',
                         setter: 'BoolSetter',
+                        defaultValue: false,
                     },
                     {
                         name: 'layout',
@@ -1002,49 +1006,28 @@ const assets: IPublicTypeAssetsJson = {
                         defaultValue: 'horizontal',
                     },
                     {
-                        name: 'label-width',
+                        name: 'labelWidth',
                         title: '标签宽度',
-                        setter: {
-                            componentName: 'MixedSetter',
-                            props: {
-                                setters: ['StringSetter', 'NumberSetter'],
-                            },
-                        },
+                        setter: ['StringSetter', 'NumberSetter'],
                     },
                     {
-                        name: 'label-align',
-                        title: '标签文本对齐方式',
-                        setter: {
-                            componentName: 'RadioGroupSetter',
-                            props: {
-                                options: [
-                                    {
-                                        title: 'left',
-                                        value: 'left',
-                                    },
-                                    {
-                                        title: 'right',
-                                        value: 'right',
-                                    },
-                                ],
-                            },
-                        },
-                        defaultValue: 'left',
-                    },
-                    {
-                        name: 'label-placement',
+                        name: 'labelPosition',
                         title: '标签位置',
                         setter: {
                             componentName: 'RadioGroupSetter',
                             props: {
                                 options: [
                                     {
-                                        title: 'left',
+                                        label: '左侧',
                                         value: 'left',
                                     },
                                     {
-                                        title: 'top',
+                                        label: '上侧',
                                         value: 'top',
+                                    },
+                                    {
+                                        label: '右侧',
+                                        value: 'right',
                                     },
                                 ],
                             },
@@ -1057,6 +1040,34 @@ const assets: IPublicTypeAssetsJson = {
                         setter: 'BoolSetter',
                         defaultValue: true,
                     },
+                    {
+                        display: 'block',
+                        title: '行内表单',
+                        type: 'group',
+                        items: [
+                            {
+                                name: 'inlineItemWidth',
+                                title: '列宽度',
+                                setter: 'NumberSetter',
+                            },
+                            {
+                                name: 'inlineItemGap',
+                                title: '列间距',
+                                setter: 'NumberSetter',
+                                defaultValue: 11,
+                            },
+                            {
+                                name: 'span',
+                                title: '每列格数',
+                                setter: 'NumberSetter',
+                                defaultValue: 6,
+                            },
+                        ],
+                        condition: (target) => {
+                            const val = target.top.getPropValue('layout');
+                            return val === 'inline';
+                        },
+                    },
                 ],
             },
             snippets: [
@@ -1067,7 +1078,7 @@ const assets: IPublicTypeAssetsJson = {
                     schema: {
                         componentName: 'FForm',
                         props: {
-                            'label-width': 80,
+                            labelWidth: 80,
                         },
                         children: [
                             {
@@ -1124,35 +1135,37 @@ const assets: IPublicTypeAssetsJson = {
                     propType: 'string',
                 },
                 {
-                    name: 'label-align',
+                    name: 'prop',
                     propType: 'string',
                 },
                 {
-                    name: 'label-width',
+                    name: 'rules',
+                    propType: 'array',
+                },
+                {
+                    name: 'labelWidth',
                     propType: {
                         type: 'oneOfType',
                         value: ['string', 'number'],
                     },
                 },
                 {
-                    name: 'label-placement',
-                    propType: 'string',
+                    name: 'showMessage',
+                    propType: 'bool',
                 },
                 {
-                    name: 'prop',
-                    propType: 'string',
-                },
-                {
-                    name: 'rule',
-                    propType: 'array',
+                    name: 'span',
+                    propType: 'number',
                 },
             ],
             configure: {
                 component: {
                     isContainer: true,
+                    nestingRule: {
+                        parentWhitelist: 'FForm',
+                    },
                 },
                 supports: {
-                    loop: true,
                     style: true,
                 },
                 props: [
@@ -1174,33 +1187,7 @@ const assets: IPublicTypeAssetsJson = {
                                 setter: 'StringSetter',
                             },
                             {
-                                name: 'show-label',
-                                title: '显示标签',
-                                setter: 'BoolSetter',
-                                defaultValue: true,
-                            },
-                            {
-                                name: 'label-align',
-                                title: '文本对齐方式',
-                                setter: {
-                                    componentName: 'RadioGroupSetter',
-                                    props: {
-                                        options: [
-                                            {
-                                                title: 'left',
-                                                value: 'left',
-                                            },
-                                            {
-                                                title: 'right',
-                                                value: 'right',
-                                            },
-                                        ],
-                                    },
-                                },
-                                defaultValue: 'left',
-                            },
-                            {
-                                name: 'label-width',
+                                name: 'labelWidth',
                                 title: '标签宽度',
                                 setter: {
                                     componentName: 'MixedSetter',
@@ -1213,32 +1200,6 @@ const assets: IPublicTypeAssetsJson = {
                                 },
                                 defaultValue: 'auto',
                             },
-                            {
-                                name: 'label-placement',
-                                title: '标签位置',
-                                setter: {
-                                    componentName: 'RadioGroupSetter',
-                                    props: {
-                                        options: [
-                                            {
-                                                title: 'left',
-                                                value: 'left',
-                                            },
-                                            {
-                                                title: 'top',
-                                                value: 'top',
-                                            },
-                                        ],
-                                    },
-                                },
-                                defaultValue: 'left',
-                            },
-                            {
-                                name: 'label-style',
-                                title: '标签样式',
-                                display: 'popup',
-                                setter: 'StyleSetter',
-                            },
                         ],
                     },
                     {
@@ -1249,14 +1210,49 @@ const assets: IPublicTypeAssetsJson = {
                         },
                         items: [
                             {
-                                name: 'rule',
+                                name: 'rules',
                                 title: '校验规则',
                                 setter: 'JsonSetter',
+                            },
+                            {
+                                name: 'showMessage',
+                                title: '是否显示错误信息',
+                                setter: 'BoolSetter',
+                                defaultValue: true,
+                            },
+                        ],
+                    },
+                    {
+                        type: 'group',
+                        title: '其他',
+                        display: 'block',
+                        items: [
+                            {
+                                name: 'span',
+                                title: '占据格数',
+                                setter: 'NumberSetter',
+                                defaultValue: 6,
                             },
                         ],
                     },
                 ],
             },
+            snippets: [
+                {
+                    screenshot:
+                        'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/form.png',
+                    title: '表单项',
+                    schema: {
+                        componentName: 'FFormItem',
+                        props: {
+                            label: 'label',
+                        },
+                        children: [],
+                    },
+                },
+            ],
+            group: '精选组件',
+            priority: 0,
         },
         {
             title: '文本输入',
@@ -1269,7 +1265,7 @@ const assets: IPublicTypeAssetsJson = {
             },
             props: [
                 {
-                    name: 'modelValue',
+                    name: 'v-model',
                     propType: 'string',
                 },
                 {
@@ -1289,10 +1285,6 @@ const assets: IPublicTypeAssetsJson = {
                     propType: 'string',
                 },
                 {
-                    name: 'v-model',
-                    propType: 'string',
-                },
-                {
                     name: 'showPassword',
                     propType: 'bool',
                 },
@@ -1304,9 +1296,9 @@ const assets: IPublicTypeAssetsJson = {
             configure: {
                 props: [
                     {
-                        name: 'modelValue',
+                        name: 'v-model',
                         title: '输入值',
-                        setter: 'StringSetter',
+                        setter: 'VariableSetter',
                     },
                     {
                         name: 'maxlength',
@@ -1367,27 +1359,54 @@ const assets: IPublicTypeAssetsJson = {
                             const val = target.top.getPropValue('type');
                             return val === 'textarea';
                         },
+                        defaultValue: false,
                     },
                     {
                         name: 'disabled',
                         title: '是否禁用',
                         setter: 'BoolSetter',
+                        defaultValue: false,
                     },
                     {
                         name: 'clearable',
                         title: '是否可清空',
                         setter: 'BoolSetter',
+                        defaultValue: false,
                     },
                     {
                         name: 'showPassword',
                         title: '是否显示密码图标',
                         setter: 'BoolSetter',
+                        defaultValue: false,
                     },
                     {
-                        name: 'prefix',
-                        title: '前缀',
-                        setter: 'SlotSetter',
+                        type: 'group',
+                        title: '自定义前缀后缀',
+                        display: 'block',
+                        items: [
+                            {
+                                name: 'prefix',
+                                title: '前缀',
+                                setter: 'SlotSetter',
+                            },
+                            {
+                                name: 'suffix',
+                                title: '后缀',
+                                setter: 'SlotSetter',
+                            },
+                            {
+                                name: 'prepend',
+                                title: '前置内容',
+                                setter: 'SlotSetter',
+                            },
+                            {
+                                name: 'append',
+                                title: '后置内容',
+                                setter: 'SlotSetter',
+                            },
+                        ],
                     },
+
                 ],
                 supports: {
                     events: [

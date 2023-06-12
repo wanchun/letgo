@@ -93,20 +93,22 @@ const IconSetterView = defineComponent({
             return val;
         });
 
-        const handleChange = (icon: string) => {
+        const handleChange = (icon?: string) => {
             if (props.type === 'string') {
                 props.onChange(icon);
             }
             else if (props.type === 'node') {
-                props.onChange({
-                    type: 'JSSlot',
-                    value: {
-                        componentName: 'Icon',
-                        props: {
-                            type: icon,
-                        },
-                    },
-                });
+                props.onChange(icon
+                    ? {
+                            type: 'JSSlot',
+                            value: {
+                                componentName: 'Icon',
+                                props: {
+                                    type: icon,
+                                },
+                            },
+                        }
+                    : undefined);
             }
         };
 
@@ -144,7 +146,7 @@ const IconSetterView = defineComponent({
                         <CloseCircleFilled
                             v-show={isHoverRef.value}
                             class={iconCls}
-                            onClick={() => handleChange('')}
+                            onClick={() => handleChange()}
                         />
                     </div>
                 </FTooltip>

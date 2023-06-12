@@ -42,6 +42,7 @@ const SelectSetterView = defineComponent({
                     options={options.value}
                     filterable={props.filterable}
                     onChange={(val: any) => props.onChange(val)}
+                    clearable
                     style={{ width: '100%' }}
                 />
             );

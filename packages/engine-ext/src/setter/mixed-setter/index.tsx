@@ -51,14 +51,15 @@ function normalizeSetters(setters?: Array<IPublicTypeSetterType>): SetterItem[] 
                 const setterInfo = SetterFactory.getSetter(setter.componentName);
                 config.name = setterInfo?.type || generateName('CustomSetter');
                 config.title = setter.title || setterInfo?.title;
+                config.condition = setter.condition || setterInfo?.condition;
             }
             else {
                 config.name = generateName('CustomSetter');
                 config.title = setter.title;
+                config.condition = setter.condition;
             }
             config.setter = setter.componentName;
             config.props = setter.props;
-            config.condition = setter.condition;
             config.defaultValue = setter.defaultValue;
         }
         if (typeof setter === 'string') {

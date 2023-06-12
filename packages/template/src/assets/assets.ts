@@ -22,31 +22,6 @@ const assets: IPublicTypeAssetsJson = {
     ],
     components: [
         {
-            title: '图片',
-            componentName: 'img',
-            props: [
-                {
-                    name: 'src',
-                    title: '地址',
-                    propType: 'string',
-                },
-            ],
-            snippets: [
-                {
-                    title: '图片',
-                    schema: {
-                        componentName: 'img',
-                        props: {
-                            src: '',
-                        },
-                    },
-                },
-            ],
-            group: '原子组件',
-            category: '基础元素',
-            priority: 0,
-        },
-        {
             componentName: '',
             title: '',
             snippets: [
@@ -59,6 +34,11 @@ const assets: IPublicTypeAssetsJson = {
                     },
                 },
             ],
+            configure: {
+                supports: {
+                    style: true,
+                },
+            },
             group: '原子组件',
             category: '基础元素',
             priority: 0,
@@ -109,6 +89,7 @@ const assets: IPublicTypeAssetsJson = {
             configure: {
                 supports: {
                     style: true,
+                    events: ['onClick', 'onError'],
                 },
                 props: [
                     {
@@ -359,7 +340,7 @@ const assets: IPublicTypeAssetsJson = {
             npm: {
                 package: '@fesjs/fes-design',
                 version: '0.7.27',
-                exportName: 'FSpace',
+                exportName: 'FCard',
                 destructuring: true,
             },
             props: [
@@ -471,9 +452,10 @@ const assets: IPublicTypeAssetsJson = {
                                 },
                             },
                             {
+                                display: 'popup',
                                 name: 'bodyStyle',
                                 title: '内容样式',
-                                setter: 'ObjectSetter',
+                                setter: 'StyleSetter',
                             },
                         ],
                     },
@@ -486,7 +468,7 @@ const assets: IPublicTypeAssetsJson = {
                         items: [
                             {
                                 name: 'header',
-                                title: '标题内容',
+                                title: '标题',
                                 setter: [
                                     {
                                         componentName: 'StringSetter',

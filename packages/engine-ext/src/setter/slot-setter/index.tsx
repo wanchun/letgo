@@ -1,6 +1,8 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
+import { isJSSlot } from '@webank/letgo-types';
 import type { IPublicTypeJSSlot, IPublicTypeSetter } from '@webank/letgo-types';
+import type { SettingField } from '@webank/letgo-designer';
 import { isNil, isUndefined } from 'lodash-es';
 import { FSwitch } from '@fesjs/fes-design';
 import { commonProps } from '../../common';
@@ -24,7 +26,7 @@ const SlotSetterView = defineComponent({
         defaultValue: Object as PropType<ValueType>,
         supportParams: Boolean,
         templates: Object as PropType<Template[]>,
-        onChange: Function as PropType<(val: any) => void>,
+        onChange: Function as PropType<(val?: any) => void>,
     },
     setup(props) {
         const isOpenSlot = computed(() => {
@@ -93,4 +95,8 @@ export const SlotSetter: IPublicTypeSetter = {
     type: 'SlotSetter',
     title: '插槽设置器',
     Component: SlotSetterView,
+    condition: (field) => {
+        const v = field.getValue() ?? (field as SettingField).getDefaultValue();
+        return isJSSlot(v);
+    },
 };

@@ -1,5 +1,6 @@
 import { defineComponent, onMounted } from 'vue';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
+import type { SettingField } from '@webank/letgo-designer';
 import { FSwitch } from '@fesjs/fes-design';
 import { isUndefined } from 'lodash-es';
 import { commonProps } from '../../common';
@@ -34,4 +35,8 @@ export const BoolSetter: IPublicTypeSetter = {
     type: 'BoolSetter',
     title: '布尔设置器',
     Component: BoolSetterView,
+    condition: (field) => {
+        const v = field.getValue() ?? (field as SettingField).getDefaultValue();
+        return typeof v === 'boolean';
+    },
 };

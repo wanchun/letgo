@@ -1,8 +1,8 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
 import { isJSExpression } from '@webank/letgo-types';
+import { ExpressionEditor } from '@webank/letgo-components';
 import type { IPublicTypeCompositeValue, IPublicTypeSetter } from '@webank/letgo-types';
-import { FInput } from '@fesjs/fes-design';
 import { commonProps } from '../../common';
 
 const ExpressionSetterView = defineComponent({
@@ -40,14 +40,12 @@ const ExpressionSetterView = defineComponent({
                 mock: currentMock.value,
             });
         };
+        const documentModel = computed(() => {
+            return props.node.document;
+        });
         return () => {
             return (
-                <FInput
-                    modelValue={currentValue.value}
-                    placeholder={props.placeholder || ''}
-                    onChange={changeValue}
-                    style={{ width: '100%' }}
-                />
+                <ExpressionEditor documentModel={documentModel.value} doc={currentValue.value} onChangeDoc={changeValue} />
             );
         };
     },

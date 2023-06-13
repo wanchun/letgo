@@ -1,5 +1,6 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
+import { isJSExpression } from '@webank/letgo-types';
 import type { IPublicTypeCompositeValue, IPublicTypeSetter } from '@webank/letgo-types';
 import { FSelect } from '@fesjs/fes-design';
 import { commonProps } from '../../common';
@@ -24,17 +25,21 @@ const VariableSetterView = defineComponent({
             });
         });
         const currentValue = computed(() => {
-            let val = props.value;
-            if (props.value == null && props.defaultValue)
-                val = props.defaultValue;
-
-            if (typeof val === 'string' && /.value/.test(val))
-                return val;
-
-            return '';
+            let val: string;
+            if (!isJSExpression(props.value)) {
+                if (isJSExpression(props.defaultValue))
+                    val = props.defaultValue.value;
+            }
+            else {
+                val = props.value.value;
+            }
+            return val ? val.replace('{{', '').replace('}}', '') : null;
         });
         const changeValue = (val: string) => {
-            props.onChange(val);
+            props.onChange({
+                type: 'JSExpression',
+                value: `{{${val}}}`,
+            });
         };
         return () => {
             return (

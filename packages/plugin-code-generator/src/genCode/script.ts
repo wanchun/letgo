@@ -33,7 +33,6 @@ export function genScript(
     if (rootSchema.code) {
         return `<script setup>
             ${genComponentImports(componentMaps)}
-            ${rootSchema.code || ''}
         </script>`;
     }
     return '';

@@ -78,6 +78,24 @@ function getUseComponents(
     return useComponents;
 }
 
+async function saveFile(content: string) {
+    const options = {
+        types: [
+            {
+                description: 'vue',
+                accept: {
+                    'text/plain': ['.vue'],
+                },
+            },
+        ],
+    };
+    const handle = await window.showSaveFilePicker(options);
+    const writable = await handle.createWritable();
+    await writable.write(content);
+    await writable.close();
+    return handle;
+}
+
 export function schemaToCode(schema: IPublicTypeProjectSchema) {
     const rootComponents = schema.componentsTree.map((rootSchema) => {
         return compileRootSchema(
@@ -85,5 +103,14 @@ export function schemaToCode(schema: IPublicTypeProjectSchema) {
             rootSchema,
         );
     });
+    saveFile(
+        `
+        ${rootComponents[0].template}
+
+        ${rootComponents[0].script}
+
+        ${rootComponents[0].style}
+        `,
+    );
     console.log(rootComponents);
 }

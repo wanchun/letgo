@@ -11,6 +11,7 @@ export const wrapperCls = style({
 
 export const contentCls = style({
     flex: 1,
+    overflow: 'auto',
 });
 
 export const actionsCls = style({

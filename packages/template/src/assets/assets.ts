@@ -1638,6 +1638,11 @@ const assets: IPublicTypeAssetsJson = {
             configure: {
                 props: [
                     {
+                        name: 'v-model',
+                        title: '绑定变量',
+                        setter: 'VariableSetter',
+                    },
+                    {
                         name: 'options',
                         title: '选项',
                         display: 'block',
@@ -1702,6 +1707,7 @@ const assets: IPublicTypeAssetsJson = {
                                 name: 'placeholder',
                                 title: '未选择提示语',
                                 setter: 'StringSetter',
+                                defaultValue: '请选择',
                             },
                             {
                                 name: 'emptyText',

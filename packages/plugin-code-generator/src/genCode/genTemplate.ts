@@ -24,18 +24,12 @@ function genNodeSchemaChildren(nodeSchema: IPublicTypeNodeSchema): IPublicTypeNo
 
         return [nodeSchema.props.children];
     }
-    return nodeSchema.children || [];
+
+    return Array.isArray(nodeSchema.children) ? nodeSchema.children : (nodeSchema.children ? [nodeSchema.children] : []);
 }
 
 function getDirectives(nodeSchema: IPublicTypeNodeSchema): IPublicTypeDirective[] {
     const directives: IPublicTypeDirective[] = nodeSchema.directives || [];
-    if (isNil(nodeSchema.visible)) {
-        directives.unshift({
-            name: 'v-show',
-            value: nodeSchema.visible,
-            modifiers: [],
-        });
-    }
     if (isNil(nodeSchema.condition)) {
         directives.unshift({
             name: 'v-if',
@@ -48,25 +42,31 @@ function getDirectives(nodeSchema: IPublicTypeNodeSchema): IPublicTypeDirective[
 }
 
 // TODO 支持 loop loopArgs
-function compileNodeSchema(nodeSchema: IPublicTypeNodeSchema) {
-    const children = genNodeSchemaChildren(nodeSchema);
-    return `<${nodeSchema.componentName} ${compileDirectives(
-        getDirectives(nodeSchema),
-    ).join(' ')} ${compileProps(nodeSchema.props)} ${
-        !isEmpty(children)
-            ? `>
-                ${children
-                    .map((children) => {
-                        return compileNodeData(children);
-                    })
-                    .join('\n')}
-                </${nodeSchema.componentName}>`
-            : ' />'
-    }`;
+function compileNodeSchema(nodeSchema: IPublicTypeNodeData) {
+    if (isNodeSchema(nodeSchema)) {
+        const children = genNodeSchemaChildren(nodeSchema);
+        return `<${nodeSchema.componentName} ${compileDirectives(
+            getDirectives(nodeSchema),
+        ).join(' ')} ${compileProps(nodeSchema.props)} ${
+            !isEmpty(children)
+                ? `>
+                    ${children
+                        .map((children) => {
+                            return compileNodeData(children);
+                        })
+                        .join('\n')}
+                    </${nodeSchema.componentName}>`
+                : ' />'
+        }`;
+    }
+    if (isJSExpression(nodeSchema))
+        return nodeSchema.value;
+
+    return nodeSchema;
 }
 
 function compileJSExpression(expression: IPublicTypeJSExpression) {
-    return `{{ ${expression.value} }}`;
+    return expression.value;
 }
 
 function compileDOMText(domText: IPublicTypeDOMText) {
@@ -101,11 +101,12 @@ function compileNodeData(nodeData: IPublicTypeNodeData): string {
 }
 
 export function genPageTemplate(rootSchema: IPublicTypeRootSchema) {
+    const nodeData = Array.isArray(rootSchema.children) ? rootSchema.children : [rootSchema.children];
     return `<template>
         <div class="letgo-page" ${compileProps(rootSchema.defaultProps).join(
             ' ',
         )}>
-            ${(rootSchema.children || []).map(compileNodeData).join('\n')}
+            ${nodeData.map(compileNodeData).join('\n')}
         </div>
     </template>`;
 }

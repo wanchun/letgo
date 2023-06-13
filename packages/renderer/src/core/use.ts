@@ -17,6 +17,7 @@ import {
 } from 'vue';
 import type {
     IPublicTypeCompositeValue,
+    IPublicTypeJSExpression,
     IPublicTypeJSFunction,
     IPublicTypeNodeData,
     IPublicTypeNodeSchema,
@@ -277,16 +278,13 @@ function processProp(
 
         const updateEventFn: IPublicTypeJSFunction = {
             type: 'JSFunction',
-            value: `function ($event) {_ctx.${val} = $event}`,
+            value: `function ($event) {_ctx.${(val as IPublicTypeJSExpression).value.replace('{{', '').replace('}}', '').trim()} = $event}`,
         };
         target[eventProp]
             = eventProp in target
                 ? ensureArray(target[eventProp]).concat(updateEventFn)
                 : updateEventFn;
-        target[valueProp] = {
-            type: 'JSExpression',
-            value: `{{${val}}}`,
-        };
+        target[valueProp] = val;
     }
     else if (key.startsWith('v-') && isJSExpression(val)) {
         // TODO: 指令绑定逻辑

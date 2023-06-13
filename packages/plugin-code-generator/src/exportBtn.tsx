@@ -2,6 +2,7 @@ import { defineComponent } from 'vue';
 import { material, project } from '@webank/letgo-engine';
 import { IPublicEnumTransformStage, isProCodeComponentType } from '@webank/letgo-types';
 import { FButton, FMessage } from '@fesjs/fes-design';
+import { schemaToCode } from './genCode';
 
 export default defineComponent({
     setup() {
@@ -9,7 +10,6 @@ export default defineComponent({
             const packages = material.getAssets().packages;
             const schema = project.exportSchema(IPublicEnumTransformStage.Save);
             const usedPackages = [];
-            console.log(packages, schema);
             for (const component of schema.componentsMap) {
                 if (isProCodeComponentType(component)) {
                     const pkg = packages.find(
@@ -24,6 +24,7 @@ export default defineComponent({
                     usedPackages.push(pkg);
                 }
             }
+            schemaToCode(schema);
         };
         return () => {
             return (

@@ -5,13 +5,15 @@ export function funcSchemaToFunc(schema: IPublicTypeJSFunction, ctx: Record<stri
     try {
         // eslint-disable-next-line no-new-func
         const fn = new Function('_ctx', 'params', `
-    with(_ctx) {
-        (${schema.value})(...params);
-    }
+        let result;
+        with(_ctx) {
+            result = (${schema.value})(...params);
+        }
+        return result;
 `);
         return (...args: any[]) => {
             const params = (schema.params || []).map(param => executeExpression(param, ctx));
-            fn(ctx, [...params, ...args]);
+            return fn(ctx, [...params, ...args]);
         };
     }
     catch (err) {
@@ -25,9 +27,11 @@ export function executeFunc(schema: IPublicTypeJSFunction, ctx: Record<string, u
         const params = schema.params.map(param => executeExpression(param, ctx));
         // eslint-disable-next-line no-new-func
         const fn = new Function('_ctx', 'params', `
+        let result;
     with(_ctx) {
-        (${schema.value})(...params);
+        result = (${schema.value})(...params);
     }
+    return result;
 `);
         return fn(ctx, params);
     }

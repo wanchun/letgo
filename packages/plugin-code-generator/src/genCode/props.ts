@@ -1,10 +1,10 @@
-import { IPublicTypePropsMap, isJSExpression, isJSFunction } from '@webank/letgo-types';
+import type { IPublicTypePropsMap } from '@webank/letgo-types';
+import { isJSExpression, isJSFunction } from '@webank/letgo-types';
 
 // TODO 支持更多类型
 export function compileProps(props?: IPublicTypePropsMap) {
-    if (!props) {
+    if (!props)
         return [];
-    }
 
     return Object.keys(props)
         .filter((key) => {
@@ -13,27 +13,27 @@ export function compileProps(props?: IPublicTypePropsMap) {
         })
         .map((key) => {
             const propValue = props[key];
-            if (typeof propValue === 'number') {
+            if (typeof propValue === 'number')
                 return `:${key}="${propValue}"`;
-            }
+
             if (typeof propValue === 'boolean') {
-                if (propValue) {
+                if (propValue)
                     return key;
-                }
+
                 return `:${key}="false"`;
             }
-            if (propValue == null) {
+            if (propValue == null)
                 return '';
-            }
-            if (typeof propValue === 'string') {
+
+            if (typeof propValue === 'string')
                 return `${key}="${propValue}"`;
-            }
-            if (isJSExpression(propValue) || isJSFunction(propValue)) {
+
+            if (isJSExpression(propValue) || isJSFunction(propValue))
                 return `:${key}="${propValue.value}"`;
-            }
-            if (propValue) {
+
+            if (propValue)
                 return `:${key}="${JSON.stringify(propValue)}"`;
-            }
+
             return '';
         });
 }

@@ -1,4 +1,4 @@
-import { IPublicTypeRootSchema } from '@webank/letgo-types';
+import type { IPublicTypeRootSchema } from '@webank/letgo-types';
 
 export function genStyle(rootSchema: IPublicTypeRootSchema) {
     if (rootSchema.css) {

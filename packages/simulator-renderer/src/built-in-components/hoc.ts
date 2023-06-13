@@ -91,7 +91,7 @@ export const Hoc = defineComponent({
                     const slotSchema = prop.slotNode.exportSchema(
                         IPublicEnumTransformStage.Render,
                     );
-                    result.slots[slotSchema?.props?.slotName || key] = slotSchema;
+                    result.slots[slotSchema?.name || key] = slotSchema;
                 }
             }
         });
@@ -152,11 +152,11 @@ export const Hoc = defineComponent({
                             const schema = slotNode.exportSchema(
                                 IPublicEnumTransformStage.Render,
                             );
-                            compSlots[key] = schema;
+                            compSlots[newValue?.name || key] = schema;
                         }
                         else if (isNil(newValue) && isJSSlot(oldValue)) {
                             // 具名插槽移除
-                            delete compSlots[key];
+                            delete compSlots[oldValue?.name || key];
                         }
                         else {
                             // 普通根属性更新

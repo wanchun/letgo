@@ -13,13 +13,7 @@ const componentMetadata: IPublicTypeComponentMetadata = {
     configure: {
         props: [
             {
-                name: 'slotTitle',
-                title: '插槽标题',
-                setter: 'StringSetter',
-                defaultValue: '插槽容器',
-            },
-            {
-                name: 'slotParams',
+                name: 'params',
                 title: '插槽入参',
                 setter: {
                     componentName: 'ArraySetter',

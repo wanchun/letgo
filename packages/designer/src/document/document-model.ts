@@ -90,7 +90,7 @@ export class DocumentModel {
      * 【响应式】获取 schema 数据
      */
     get computedSchema() {
-        return this.rootNode?.computedSchema;
+        return this.exportSchema(IPublicEnumTransformStage.Save);
     }
 
     get fileName(): string {

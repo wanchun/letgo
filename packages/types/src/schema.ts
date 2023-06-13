@@ -135,10 +135,10 @@ export interface IPublicTypeBlockSchema extends IPublicTypeContainerSchema {
  */
 export interface IPublicTypeSlotSchema extends IPublicTypeNodeSchema {
     componentName: 'Slot'
+    title?: string
+    name?: string
     props?: {
-        slotTitle?: string
-        slotName?: string
-        slotParams?: string[]
+        params?: string[]
     }
     children?: IPublicTypeNodeData[] | IPublicTypeNodeData
 }

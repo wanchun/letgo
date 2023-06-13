@@ -7,15 +7,6 @@ import { isNil, isUndefined } from 'lodash-es';
 import { FSwitch } from '@fesjs/fes-design';
 import { commonProps } from '../../common';
 
-interface Template {
-    // 模板标签
-    label: string
-    // 模板ID
-    value: string
-    // 模板内容
-    content: object
-}
-
 type ValueType = IPublicTypeJSSlot & { visible: boolean; title: string };
 
 const SlotSetterView = defineComponent({
@@ -24,9 +15,7 @@ const SlotSetterView = defineComponent({
         ...commonProps,
         value: Object as PropType<ValueType>,
         defaultValue: Object as PropType<ValueType>,
-        supportParams: Boolean,
-        templates: Object as PropType<Template[]>,
-        onChange: Function as PropType<(val?: any) => void>,
+        onChange: Function as PropType<(val?: IPublicTypeJSSlot) => void>,
     },
     setup(props) {
         const isOpenSlot = computed(() => {
@@ -34,7 +23,7 @@ const SlotSetterView = defineComponent({
                 const { value, visible } = props.value;
                 if (value) {
                     if (visible === undefined) {
-                        if (Array.isArray(value) && value.length == 0)
+                        if (Array.isArray(value) && value.length === 0)
                             return false;
 
                         else if (Array.isArray(value) && value?.length > 0)
@@ -52,14 +41,19 @@ const SlotSetterView = defineComponent({
         });
 
         const onChange = (checked: boolean) => {
-            const { onChange, defaultValue } = props;
+            const { onChange, defaultValue, field } = props;
             if (checked) {
-                onChange?.(
-                    defaultValue ?? {
-                        type: 'JSSlot',
-                        value: null,
-                    },
-                );
+                const value: IPublicTypeJSSlot = defaultValue ?? {
+                    type: 'JSSlot',
+                    value: null,
+                };
+                if (isNil(value.title))
+                    value.title = field.title;
+
+                if (isNil(value.name))
+                    value.name = `${field.name}`;
+
+                onChange?.(value);
             }
             else {
                 onChange?.();

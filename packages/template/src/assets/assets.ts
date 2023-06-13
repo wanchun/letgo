@@ -1988,95 +1988,6 @@ const assets: IPublicTypeAssetsJson = {
             ],
         },
         {
-            title: '多选框',
-            componentName: 'FCheckbox',
-            npm: {
-                package: '@fesjs/fes-design',
-                version: '0.7.27',
-                exportName: 'FCheckbox',
-                destructuring: true,
-            },
-            group: '原子组件',
-            category: '数据录入',
-            priority: 0,
-            props: [
-                {
-                    name: 'v-model',
-                    propType: 'bool',
-                },
-                {
-                    name: 'value',
-                    propType: {
-                        type: 'oneOfType',
-                        value: ['string', 'number', 'bool'],
-                    },
-                },
-                {
-                    name: 'label',
-                    propType: 'string',
-                },
-                {
-                    name: 'disabled',
-                    propType: 'bool',
-                },
-                {
-                    name: 'indeterminate',
-                    propType: 'bool',
-                },
-            ],
-            configure: {
-                props: [
-                    {
-                        name: 'v-model',
-                        title: '是否选中',
-                        setter: 'BoolSetter',
-                        defaultValue: false,
-                    },
-                    {
-                        name: 'value',
-                        title: '内容',
-                        setter: ['StringSetter', 'NumberSetter'],
-                        condition: (target) => {
-                            return (
-                                target.top.getNode().parent.componentName
-                                === 'FCheckboxGroup'
-                            );
-                        },
-                    },
-                    {
-                        name: 'label',
-                        title: '描述',
-                        setter: 'StringSetter',
-                    },
-                    {
-                        name: 'disabled',
-                        title: '禁用',
-                        setter: 'BoolSetter',
-                    },
-                    {
-                        name: 'indeterminate',
-                        title: '部分选中',
-                        setter: 'BoolSetter',
-                    },
-                ],
-                component: {},
-                supports: {
-                    events: ['onChange'],
-                    class: true,
-                    style: true,
-                },
-            },
-            snippets: [
-                {
-                    title: '多选框',
-                    schema: {
-                        componentName: 'FCheckbox',
-                        props: {},
-                    },
-                },
-            ],
-        },
-        {
             title: '单选组',
             componentName: 'FRadioGroup',
             npm: {
@@ -2138,81 +2049,75 @@ const assets: IPublicTypeAssetsJson = {
                 props: [
                     {
                         name: 'v-model',
-                        title: '选中的值',
-                        extraProps: {
-                            display: 'block',
-                        },
-                        setter: {
-                            componentName: 'ArraySetter',
-                            props: {
-                                itemSetter: ['StringSetter', 'NumberSetter'],
-                            },
-                        },
+                        title: '绑定变量',
+                        setter: 'VariableSetter',
                     },
                     {
                         name: 'vertical',
                         title: '垂直排列',
                         setter: 'BoolSetter',
+                        defaultValue: false,
                     },
                     {
                         name: 'disabled',
                         title: '是否禁用',
                         setter: 'BoolSetter',
+                        defaultValue: false,
                     },
                     {
                         name: 'cancelable',
                         title: '是否可取消',
                         setter: 'BoolSetter',
+                        defaultValue: true,
                     },
                     {
                         name: 'options',
                         title: '选项配置',
-                        extraProps: {
-                            display: 'block',
-                        },
-                        setter: {
-                            componentName: 'ArraySetter',
-                            props: {
-                                itemSetter: {
-                                    componentName: 'ObjectSetter',
-                                    props: {
-                                        items: [
-                                            {
-                                                name: 'value',
-                                                title: '选项值',
-                                                setter: [
-                                                    'StringSetter',
-                                                    'NumberSetter',
-                                                ],
-                                            },
-                                            {
-                                                name: 'label',
-                                                title: '选项名',
-                                                setter: 'StringSetter',
-                                            },
-                                            {
-                                                name: 'disabled',
-                                                title: '是否禁用',
-                                                setter: 'BoolSetter',
-                                            },
-                                        ],
+                        display: 'block',
+                        setter: [
+                            {
+                                componentName: 'ArraySetter',
+                                props: {
+                                    itemSetter: {
+                                        componentName: 'ObjectSetter',
+                                        props: {
+                                            items: [
+                                                {
+                                                    name: 'value',
+                                                    title: '选项值',
+                                                    setter: [
+                                                        'StringSetter',
+                                                        'NumberSetter',
+                                                    ],
+                                                },
+                                                {
+                                                    name: 'label',
+                                                    title: '选项名',
+                                                    setter: 'StringSetter',
+                                                },
+                                                {
+                                                    name: 'disabled',
+                                                    title: '是否禁用',
+                                                    setter: 'BoolSetter',
+                                                },
+                                            ],
+                                        },
                                     },
                                 },
                             },
-                        },
+                            'JsonSetter',
+                        ],
                     },
                     {
                         title: '类型配置',
                         type: 'group',
-                        extraProps: {
-                            display: 'block',
-                        },
+                        display: 'block',
                         items: [
                             {
                                 name: 'optionType',
                                 title: '选项类型',
                                 setter: {
-                                    componentName: 'SelectSetter',
+                                    componentName: 'RadioGroupSetter',
                                     props: {
                                         options: [
                                             {
@@ -2232,7 +2137,7 @@ const assets: IPublicTypeAssetsJson = {
                                 name: 'type',
                                 title: '按钮样式',
                                 setter: {
-                                    componentName: 'SelectSetter',
+                                    componentName: 'RadioGroupSetter',
                                     props: {
                                         options: [
                                             {
@@ -2301,7 +2206,7 @@ const assets: IPublicTypeAssetsJson = {
             },
             snippets: [
                 {
-                    title: '单选框组',
+                    title: '单选组',
                     schema: {
                         componentName: 'FRadioGroup',
                         props: {
@@ -2318,23 +2223,94 @@ const assets: IPublicTypeAssetsJson = {
                         },
                     },
                 },
+            ],
+        },
+        {
+            title: '多选框',
+            componentName: 'FCheckbox',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.27',
+                exportName: 'FCheckbox',
+                destructuring: true,
+            },
+            group: '原子组件',
+            category: '数据录入',
+            priority: 0,
+            props: [
                 {
-                    title: '单选按钮组',
-                    schema: {
-                        componentName: 'FRadioGroup',
-                        props: {
-                            optionType: 'button',
-                            options: [
-                                {
-                                    value: 1,
-                                    label: '1',
-                                },
-                                {
-                                    value: 2,
-                                    label: '2',
-                                },
-                            ],
+                    name: 'v-model',
+                    propType: 'bool',
+                },
+                {
+                    name: 'value',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'number', 'bool'],
+                    },
+                },
+                {
+                    name: 'label',
+                    propType: 'string',
+                },
+                {
+                    name: 'disabled',
+                    propType: 'bool',
+                },
+                {
+                    name: 'indeterminate',
+                    propType: 'bool',
+                },
+            ],
+            configure: {
+                props: [
+                    {
+                        name: 'v-model',
+                        title: '是否选中',
+                        setter: 'VariableSetter',
+                    },
+                    {
+                        name: 'value',
+                        title: '内容',
+                        setter: ['StringSetter', 'NumberSetter'],
+                        condition: (target) => {
+                            return (
+                                target.top.getNode().parent.componentName
+                                === 'FCheckboxGroup'
+                            );
                         },
+                    },
+                    {
+                        name: 'label',
+                        title: '描述',
+                        setter: 'StringSetter',
+                    },
+                    {
+                        name: 'disabled',
+                        title: '禁用',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'indeterminate',
+                        title: '部分选中',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                ],
+                component: {},
+                supports: {
+                    events: ['onChange'],
+                    class: true,
+                    style: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '多选框',
+                    schema: {
+                        componentName: 'FCheckbox',
+                        props: {},
                     },
                 },
             ],
@@ -2377,8 +2353,7 @@ const assets: IPublicTypeAssetsJson = {
                     {
                         name: 'v-model',
                         title: '是否选中',
-                        setter: 'BoolSetter',
-                        defaultValue: false,
+                        setter: 'VariableSetter',
                     },
                     {
                         name: 'value',
@@ -2400,6 +2375,7 @@ const assets: IPublicTypeAssetsJson = {
                         name: 'disabled',
                         title: '禁用',
                         setter: 'BoolSetter',
+                        defaultValue: false,
                     },
                 ],
                 component: {},
@@ -2440,6 +2416,7 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'vertical',
                     title: '是否垂直方向',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'titlePlacement',
@@ -2448,6 +2425,7 @@ const assets: IPublicTypeAssetsJson = {
                         type: 'oneOf',
                         value: ['center', 'left', 'right'],
                     },
+                    defaultValue: 'center',
                 },
             ],
             snippets: [
@@ -2475,9 +2453,7 @@ const assets: IPublicTypeAssetsJson = {
             props: [
                 {
                     name: 'line',
-                    title: '多行省略',
                     propType: 'number',
-                    defaultValue: 1,
                 },
                 {
                     name: 'content',
@@ -2486,6 +2462,31 @@ const assets: IPublicTypeAssetsJson = {
                 },
             ],
             configure: {
+                props: [
+                    {
+                        name: 'content',
+                        title: '文本内容',
+                        setter: 'StringSetter',
+                    },
+                    {
+                        name: 'line',
+                        title: '多行省略',
+                        setter: 'NumberSetter',
+                        defaultValue: 1,
+                    },
+                    {
+                        name: 'tooltipSlot',
+                        title: '自定义弹出内容',
+                        setter: 'SlotSetter',
+                        defaultValue: {
+                            type: 'JSSlot',
+                            title: '自定义弹出内容',
+                            name: 'tooltip',
+                            params: [],
+                            value: [],
+                        },
+                    },
+                ],
                 supports: {
                     style: true,
                 },

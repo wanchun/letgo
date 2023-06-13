@@ -165,17 +165,17 @@ export class Prop implements IPropParent {
             if (stage === IPublicEnumTransformStage.Render) {
                 return {
                     type: 'JSSlot',
-                    name: schema.props.slotName,
-                    title: schema.props.slotTitle,
-                    params: schema.props.slotParams,
+                    name: schema.name,
+                    title: schema.title,
+                    params: schema.props.params,
                     value: schema,
                 };
             }
             return {
                 type: 'JSSlot',
-                name: schema.props.slotName,
-                title: schema.props.slotTitle,
-                params: schema.props.slotParams,
+                name: schema.name,
+                title: schema.title,
+                params: schema.props.params,
                 value: schema.children,
             };
         }
@@ -223,10 +223,10 @@ export class Prop implements IPropParent {
         else {
             slotSchema = {
                 componentName: 'Slot',
+                name: data.name,
+                title: data.title,
                 props: {
-                    slotName: data.name,
-                    slotTitle: data.title,
-                    slotParams: data.params,
+                    params: data.params,
                 },
                 children: data.value,
             };

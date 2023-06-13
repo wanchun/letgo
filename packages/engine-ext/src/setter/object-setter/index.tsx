@@ -1,6 +1,8 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
 import type { IPublicTypeFieldConfig, IPublicTypeSetter, IPublicTypeSetterType } from '@webank/letgo-types';
+import type { SettingField } from '@webank/letgo-designer';
+import { isUndefined } from 'lodash-es';
 import { createSettingFieldView } from '@webank/letgo-designer';
 import { commonProps } from '../../common';
 import { wrapperCls } from './index.css';
@@ -57,7 +59,7 @@ export const ObjectSetter: IPublicTypeSetter = {
     title: '对象设置器',
     Component: ObjectSetterView,
     condition: (field) => {
-        const v = field.getValue();
-        return typeof v === 'object';
+        const v = field.getValue() ?? (field as SettingField).getDefaultValue();
+        return isUndefined(v) || typeof v === 'object';
     },
 };

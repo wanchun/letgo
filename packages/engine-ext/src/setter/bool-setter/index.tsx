@@ -37,6 +37,6 @@ export const BoolSetter: IPublicTypeSetter = {
     Component: BoolSetterView,
     condition: (field) => {
         const v = field.getValue() ?? (field as SettingField).getDefaultValue();
-        return typeof v === 'boolean';
+        return isUndefined(v) || typeof v === 'boolean';
     },
 };

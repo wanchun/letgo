@@ -39,6 +39,6 @@ export const StringSetter: IPublicTypeSetter = {
     Component: StringSetterView,
     condition: (field) => {
         const v = field.getValue() ?? (field as SettingField).getDefaultValue();
-        return typeof v === 'string';
+        return isUndefined(v) || typeof v === 'string';
     },
 };

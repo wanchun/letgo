@@ -9,7 +9,7 @@ import {
     shallowRef,
     triggerRef,
 } from 'vue';
-import { isArray, isNil } from 'lodash-es';
+import { isArray, isNil, isUndefined } from 'lodash-es';
 import type { IPublicTypeSetter, IPublicTypeSetterType, IPublicTypeSettingTarget } from '@webank/letgo-types';
 import type { SettingField } from '@webank/letgo-designer';
 import { createSettingFieldView } from '@webank/letgo-designer';
@@ -175,7 +175,7 @@ export const ArraySetter: IPublicTypeSetter = {
     title: '数组设置器',
     Component: ArraySetterView,
     condition: (field) => {
-        const v = field.getValue();
-        return isArray(v);
+        const v = field.getValue() ?? (field as SettingField).getDefaultValue();
+        return isUndefined(v) || isArray(v);
     },
 };

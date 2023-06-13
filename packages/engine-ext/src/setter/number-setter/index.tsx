@@ -39,6 +39,6 @@ export const NumberSetter: IPublicTypeSetter = {
     Component: NumberSetterView,
     condition: (field) => {
         const v = field.getValue() ?? (field as SettingField).getDefaultValue();
-        return typeof v === 'number';
+        return isUndefined(v) || typeof v === 'number';
     },
 };

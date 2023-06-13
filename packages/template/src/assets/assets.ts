@@ -1297,7 +1297,7 @@ const assets: IPublicTypeAssetsJson = {
                 props: [
                     {
                         name: 'v-model',
-                        title: '输入值',
+                        title: '绑定变量',
                         setter: 'VariableSetter',
                     },
                     {

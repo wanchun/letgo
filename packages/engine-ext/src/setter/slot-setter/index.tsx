@@ -97,6 +97,6 @@ export const SlotSetter: IPublicTypeSetter = {
     Component: SlotSetterView,
     condition: (field) => {
         const v = field.getValue() ?? (field as SettingField).getDefaultValue();
-        return isJSSlot(v);
+        return isUndefined(v) || isJSSlot(v);
     },
 };

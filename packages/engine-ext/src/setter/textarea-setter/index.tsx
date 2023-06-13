@@ -1,5 +1,6 @@
 import { defineComponent, onMounted } from 'vue';
-import { IPublicTypeSetter } from '@webank/letgo-types';
+import type { IPublicTypeSetter } from '@webank/letgo-types';
+import type { SettingField } from '@webank/letgo-designer';
 import { isUndefined } from 'lodash-es';
 import { FInput } from '@fesjs/fes-design';
 import { commonProps } from '../../common';
@@ -38,7 +39,7 @@ export const TextareaSetter: IPublicTypeSetter = {
     title: '多行文本设置器',
     Component: TextareaSetterView,
     condition: (field) => {
-        const v = field.getValue();
-        return typeof v === 'string';
+        const v = field.getValue() ?? (field as SettingField).getDefaultValue();
+        return isUndefined(v) || typeof v === 'string';
     },
 };

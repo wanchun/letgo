@@ -28,29 +28,36 @@ function compileRootSchema(
 }
 
 function getUseComponentNames(
-    nodeData: IPublicTypeNodeData[],
+    nodeData: IPublicTypeNodeData | IPublicTypeNodeData[],
     componentNames: Set<string> = new Set(),
 ) {
-    nodeData.forEach((item) => {
-        if (isNodeSchema(item)) {
-            componentNames.add(item.componentName);
-            if (item.props.children) {
-                if (isArray(item.props.children))
-                    getUseComponentNames(item.props.children, componentNames);
+    if (Array.isArray(nodeData)) {
+        nodeData.forEach((item) => {
+            if (isNodeSchema(item)) {
+                componentNames.add(item.componentName);
+                if (item.props.children) {
+                    if (isArray(item.props.children))
+                        getUseComponentNames(item.props.children, componentNames);
 
-                else
-                    getUseComponentNames([item.props.children], componentNames);
+                    else
+                        getUseComponentNames([item.props.children], componentNames);
+                }
+                if (item.children)
+                    getUseComponentNames(item.children, componentNames);
             }
-            if (item.children)
-                getUseComponentNames(item.children, componentNames);
-        }
-        else if (isJSSlot(item)) {
-            getUseComponentNames(
-                isArray(item.value) ? item.value : [item.value],
-                componentNames,
-            );
-        }
-    });
+            else if (isJSSlot(item)) {
+                getUseComponentNames(
+                    isArray(item.value) ? item.value : [item.value],
+                    componentNames,
+                );
+            }
+        });
+    }
+    else if (isNodeSchema(nodeData)) {
+        componentNames.add(nodeData.componentName);
+        if (nodeData.children)
+            getUseComponentNames(nodeData.children, componentNames);
+    }
     return componentNames;
 }
 
@@ -73,7 +80,7 @@ function getUseComponents(
 
 export function schemaToCode(schema: IPublicTypeProjectSchema) {
     const rootComponents = schema.componentsTree.map((rootSchema) => {
-        compileRootSchema(
+        return compileRootSchema(
             getUseComponents(schema.componentsMap, rootSchema),
             rootSchema,
         );

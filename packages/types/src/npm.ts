@@ -15,6 +15,10 @@ export interface IPublicTypeNpmInfo {
      */
     destructuring?: boolean
     /**
+     * 组件名
+     */
+    componentName?: string
+    /**
      * 源码组件名称
      */
     exportName?: string

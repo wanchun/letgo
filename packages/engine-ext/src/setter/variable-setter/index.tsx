@@ -49,6 +49,7 @@ const VariableSetterView = defineComponent({
                     options={stateOptions.value}
                     onChange={changeValue}
                     style={{ width: '100%' }}
+                    clearable={true}
                 />
             );
         };

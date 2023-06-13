@@ -136,7 +136,7 @@ export function executeExpression(text: string | null, ctx: Record<string, any>)
                 return fn(ctx);
             });
         }
-        result = JSON.parse(text);
+        result = JSON.parse(result);
         return result;
     }
     catch (_) {

@@ -277,14 +277,16 @@ function processProp(
         const valueProp = camelCase(matched[1] ?? 'modelValue');
         const eventProp = `onUpdate:${valueProp}`;
 
-        const updateEventFn: IPublicTypeJSFunction = {
-            type: 'JSFunction',
-            value: `function ($event) {_ctx.${(val as IPublicTypeJSExpression).value.replace('{{', '').replace('}}', '').trim()} = $event}`,
-        };
-        target[eventProp]
-            = eventProp in target
-                ? ensureArray(target[eventProp]).concat(updateEventFn)
-                : updateEventFn;
+        if ((val as IPublicTypeJSExpression)?.value) {
+            const updateEventFn: IPublicTypeJSFunction = {
+                type: 'JSFunction',
+                value: `function ($event) {_ctx.${(val as IPublicTypeJSExpression).value.replace('{{', '').replace('}}', '').trim()} = $event}`,
+            };
+            target[eventProp]
+                = eventProp in target
+                    ? ensureArray(target[eventProp]).concat(updateEventFn)
+                    : updateEventFn;
+        }
         target[valueProp] = val;
     }
     else if (key.startsWith('v-') && isJSExpression(val)) {

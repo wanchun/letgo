@@ -9,6 +9,7 @@ export default defineComponent({
             const packages = material.getAssets().packages;
             const schema = project.exportSchema(IPublicEnumTransformStage.Save);
             const usedPackages = [];
+            console.log(packages, schema);
             for (const component of schema.componentsMap) {
                 if (isProCodeComponentType(component)) {
                     const pkg = packages.find(

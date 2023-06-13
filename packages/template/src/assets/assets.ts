@@ -1463,7 +1463,7 @@ const assets: IPublicTypeAssetsJson = {
             },
             props: [
                 {
-                    name: 'modelValue',
+                    name: 'v-model',
                     propType: 'number',
                     title: '输入值',
                 },
@@ -1500,6 +1500,16 @@ const assets: IPublicTypeAssetsJson = {
                     title: '是否禁用',
                 },
             ],
+            configure: {
+                supports: {
+                    events: [
+                        'onFocus',
+                        'onBlur',
+                        'onChange',
+                    ],
+                    style: true,
+                },
+            },
             snippets: [
                 {
                     title: '数字输入框',
@@ -1631,31 +1641,34 @@ const assets: IPublicTypeAssetsJson = {
                         name: 'options',
                         title: '选项',
                         display: 'block',
-                        setter: {
-                            componentName: 'ArraySetter',
-                            props: {
-                                itemSetter: {
-                                    componentName: 'ObjectSetter',
-                                    props: {
-                                        items: [
-                                            {
-                                                name: 'value',
-                                                title: '选项值',
-                                                setter: [
-                                                    'StringSetter',
-                                                    'NumberSetter',
-                                                ],
-                                            },
-                                            {
-                                                name: 'label',
-                                                title: '选项名',
-                                                setter: 'StringSetter',
-                                            },
-                                        ],
+                        setter: [
+                            {
+                                componentName: 'ArraySetter',
+                                props: {
+                                    itemSetter: {
+                                        componentName: 'ObjectSetter',
+                                        props: {
+                                            items: [
+                                                {
+                                                    name: 'value',
+                                                    title: '选项值',
+                                                    setter: [
+                                                        'StringSetter',
+                                                        'NumberSetter',
+                                                    ],
+                                                },
+                                                {
+                                                    name: 'label',
+                                                    title: '选项名',
+                                                    setter: 'StringSetter',
+                                                },
+                                            ],
+                                        },
                                     },
                                 },
                             },
-                        },
+                            'JsonSetter',
+                        ],
                     },
                     {
                         title: '选项配置',
@@ -1765,8 +1778,8 @@ const assets: IPublicTypeAssetsJson = {
                                 defaultValue: false,
                             },
                             {
-                                name: 'filterable',
-                                title: 'filter',
+                                name: 'filter',
+                                title: '过滤函数',
                                 setter: 'FunctionSetter',
                             },
                             {
@@ -1806,14 +1819,14 @@ const assets: IPublicTypeAssetsJson = {
                 ],
                 supports: {
                     events: [
-                        'change',
-                        'visibleChange',
-                        'removeTag',
-                        'blur',
-                        'focus',
-                        'clear',
-                        'scroll',
-                        'search',
+                        'onChange',
+                        'onVisibleChange',
+                        'onRemoveTag',
+                        'onBlur',
+                        'onFocus',
+                        'onClear',
+                        'onScroll',
+                        'onSearch',
                     ],
                     class: true,
                     style: true,
@@ -1885,26 +1898,20 @@ const assets: IPublicTypeAssetsJson = {
                 props: [
                     {
                         name: 'v-model',
-                        title: '选中的值',
-                        extraProps: {
-                            display: 'block',
-                        },
-                        setter: {
-                            componentName: 'ArraySetter',
-                            props: {
-                                itemSetter: ['StringSetter', 'NumberSetter'],
-                            },
-                        },
+                        title: '绑定状态',
+                        setter: 'VariableSetter',
                     },
                     {
                         name: 'vertical',
                         title: '垂直排列',
                         setter: 'BoolSetter',
+                        defaultValue: false,
                     },
                     {
                         name: 'disabled',
                         title: '是否禁用',
                         setter: 'BoolSetter',
+                        defaultValue: false,
                     },
                     {
                         name: 'options',
@@ -1912,39 +1919,41 @@ const assets: IPublicTypeAssetsJson = {
                         extraProps: {
                             display: 'block',
                         },
-                        setter: {
-                            componentName: 'ArraySetter',
-                            props: {
-                                itemSetter: {
-                                    componentName: 'ObjectSetter',
-                                    props: {
-                                        items: [
-                                            {
-                                                name: 'value',
-                                                title: '选项值',
-                                                setter: [
-                                                    'StringSetter',
-                                                    'NumberSetter',
-                                                ],
-                                            },
-                                            {
-                                                name: 'label',
-                                                title: '选项名',
-                                                setter: 'StringSetter',
-                                            },
-                                            {
-                                                name: 'disabled',
-                                                title: '是否禁用',
-                                                setter: 'BoolSetter',
-                                            },
-                                        ],
+                        setter: [
+                            {
+                                componentName: 'ArraySetter',
+                                props: {
+                                    itemSetter: {
+                                        componentName: 'ObjectSetter',
+                                        props: {
+                                            items: [
+                                                {
+                                                    name: 'value',
+                                                    title: '选项值',
+                                                    setter: [
+                                                        'StringSetter',
+                                                        'NumberSetter',
+                                                    ],
+                                                },
+                                                {
+                                                    name: 'label',
+                                                    title: '选项名',
+                                                    setter: 'StringSetter',
+                                                },
+                                                {
+                                                    name: 'disabled',
+                                                    title: '是否禁用',
+                                                    setter: 'BoolSetter',
+                                                },
+                                            ],
+                                        },
                                     },
                                 },
                             },
-                        },
+                            'JsonSetter',
+                        ],
                     },
                 ],
-                component: {},
                 supports: {
                     events: ['onChange'],
                     class: true,

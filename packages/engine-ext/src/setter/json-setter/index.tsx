@@ -20,7 +20,7 @@ const JsonSetterView = defineComponent({
         const currentValue = computed(() => {
             return JSON.stringify(isUndefined(props.value)
                 ? props.defaultValue
-                : props.value);
+                : props.value, null, 2);
         });
 
         const onChange = (val: string) => {

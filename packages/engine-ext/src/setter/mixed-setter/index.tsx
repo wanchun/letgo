@@ -14,7 +14,7 @@ import {
     SetterFactory,
     createSetterContent,
 } from '@webank/letgo-designer';
-import { FDropdown } from '@fesjs/fes-design';
+import { FDropdown, FTooltip } from '@fesjs/fes-design';
 import { CodeBrackets, Transform } from '@icon-park/vue-next';
 import { commonProps } from '../../common';
 import { actionsCls, contentCls, iconCls, isActive, wrapperCls } from './index.css';
@@ -188,12 +188,14 @@ const MixedSetterView = defineComponent({
                         currentSetterName.value = otherName;
                 };
                 return (
-                    <CodeBrackets
-                        onClick={onClick}
-                        class={[iconCls, currentSetterName.value === 'ExpressionSetter' && isActive] }
-                        theme="outline"
-                        size="14"
-                    />
+                    <FTooltip content={currentSetterName.value === 'ExpressionSetter' ? '关闭' : '启用表达式'}>
+                        <CodeBrackets
+                            onClick={onClick}
+                            class={[iconCls, currentSetterName.value === 'ExpressionSetter' && isActive]}
+                            theme="outline"
+                            size="14"
+                        />
+                    </FTooltip>
                 );
             }
             return (

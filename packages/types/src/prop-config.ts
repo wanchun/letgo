@@ -8,6 +8,7 @@ export type IPublicTypeBasicProp =
     | 'string'
     | 'node'
     | 'element'
+    | 'date'
     | 'any';
 export type IPublicTypeComplexProp =
     | IPublicTypeOneOf

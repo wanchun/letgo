@@ -390,9 +390,7 @@ const assets: IPublicTypeAssetsJson = {
                     {
                         type: 'group',
                         title: '卡片样式',
-                        extraProps: {
-                            display: 'block',
-                        },
+                        display: 'block',
                         items: [
                             {
                                 name: 'size',
@@ -415,8 +413,8 @@ const assets: IPublicTypeAssetsJson = {
                                             },
                                         ],
                                     },
-                                    defaultValue: 'medium',
                                 },
+                                defaultValue: 'medium',
                             },
                             {
                                 name: 'bordered',
@@ -449,8 +447,8 @@ const assets: IPublicTypeAssetsJson = {
                                             },
                                         ],
                                     },
-                                    defaultValue: 'always',
                                 },
+                                defaultValue: 'always',
                             },
                             {
                                 display: 'popup',
@@ -2634,7 +2632,7 @@ const assets: IPublicTypeAssetsJson = {
                 component: {
                     isContainer: true,
                     nestingRule: {
-                        descendantWhitelist: [
+                        childWhitelist: [
                             'FHeader',
                             'FAside',
                             'FMain',
@@ -3181,7 +3179,7 @@ const assets: IPublicTypeAssetsJson = {
                     {
                         name: 'v-model:current',
                         title: '当前步骤',
-                        setter: 'NumberSetter',
+                        setter: 'VariableSetter',
                     },
                     {
                         name: 'status',

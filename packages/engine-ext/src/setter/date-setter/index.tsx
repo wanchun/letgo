@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
-import { defineComponent, onMounted } from 'vue';
+import { computed, defineComponent, onMounted } from 'vue';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
-import { isUndefined } from 'lodash-es';
+import { isArray, isUndefined } from 'lodash-es';
 import { FDatePicker } from '@fesjs/fes-design';
 import { commonProps } from '../../common';
 
@@ -21,8 +21,8 @@ const DateSetterView = defineComponent({
     name: 'DateSetterView',
     props: {
         ...commonProps,
-        value: [Array, Number] as PropType<number | number[]>,
-        defaultValue: [Array, Number] as PropType<number | number[]>,
+        value: [Array, Date] as PropType<Date | Date[]>,
+        defaultValue: [Array, Date] as PropType<Date | Date[]>,
         type: {
             type: String as PropType<EnumType>,
             default: EnumType.Date,
@@ -37,21 +37,31 @@ const DateSetterView = defineComponent({
         onMounted(() => {
             props.onMounted?.();
         });
+        const currentValue = computed(() => {
+            const value = isUndefined(props.value)
+                ? props.defaultValue
+                : props.value;
+            if (isArray(value))
+                return value.map(val => val.getTime());
+
+            return value.getTime();
+        });
+
+        const onChange = (value: number | number[]) => {
+            props.onChange(isArray(value) ? value.map(val => new Date(val)) : new Date(value));
+        };
+
         return () => {
             return (
                 <FDatePicker
-                    modelValue={
-                        isUndefined(props.value)
-                            ? props.defaultValue
-                            : props.value
-                    }
+                    modelValue={currentValue.value}
                     type={props.type}
                     maxDate={props.maxDate}
                     minDate={props.minDate}
                     maxRange={props.maxRange}
                     defaultTime={props.defaultTime}
                     disabledDate={props.disabledDate}
-                    onChange={(val: any) => props.onChange(val)}
+                    onChange={onChange}
                     style={{ width: '100%' }}
                 />
             );

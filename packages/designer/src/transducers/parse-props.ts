@@ -48,6 +48,11 @@ function propTypeToSetter(propType: IPublicTypeProp): IPublicTypeSetterConfig {
                 isRequired,
                 defaultValue: 0,
             };
+        case 'date':
+            return {
+                componentName: 'DateSetter',
+                isRequired,
+            };
         case 'bool':
             return {
                 componentName: 'BoolSetter',

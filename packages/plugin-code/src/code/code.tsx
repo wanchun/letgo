@@ -33,17 +33,17 @@ export default defineComponent({
         const options = [
             {
                 value: JAVASCRIPT_QUERY,
-                label: 'Javascript query',
+                label: '逻辑',
                 icon: () => h(iconMap[JAVASCRIPT_QUERY]),
             },
             {
                 value: JAVASCRIPT_COMPUTED,
-                label: 'Javascript computed',
+                label: '计算状态',
                 icon: () => h(iconMap[JAVASCRIPT_COMPUTED]),
             },
             {
                 value: TEMPORARY_STATE,
-                label: 'Temporary state',
+                label: '临时状态',
                 icon: () => h(iconMap[TEMPORARY_STATE]),
             },
             // {

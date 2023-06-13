@@ -34,7 +34,7 @@ export default defineComponent({
                         <FScrollbar>
                             <FTabs>
                                 <FTabPane
-                                    name="code"
+                                    name="编辑"
                                     value="code"
                                     displayDirective="show"
                                 >

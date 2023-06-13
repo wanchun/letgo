@@ -6127,6 +6127,251 @@ const assets: IPublicTypeAssetsJson = {
             category: '对话框类',
             priority: 0,
         },
+        {
+            title: '栅格',
+            componentName: 'FGrid',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.27',
+                exportName: 'FGrid',
+                destructuring: true,
+            },
+            group: '原子组件',
+            category: '布局组件',
+            priority: 0,
+            props: [
+                {
+                    name: 'align',
+                    propType: 'string',
+                },
+                {
+                    name: 'gutter',
+                    propType: {
+                        type: 'oneOfType',
+                        value: [
+                            'number',
+                            {
+                                type: 'arrayOf',
+                                value: 'number',
+                            },
+                        ],
+                    },
+                },
+                {
+                    name: 'justify',
+                    propType: 'string',
+                },
+                {
+                    name: 'wrap',
+                    propType: 'bool',
+                },
+            ],
+            configure: {
+                props: [
+                    {
+                        name: 'align',
+                        title: '垂直对齐',
+                        setter: {
+                            componentName: 'SelectSetter',
+                            props: {
+                                options: [
+                                    {
+                                        value: 'flex-start',
+                                        label: '上对齐',
+                                    },
+                                    {
+                                        value: 'center',
+                                        label: '居中',
+                                    },
+                                    {
+                                        value: 'flex-end',
+                                        label: '下对齐',
+                                    },
+                                    {
+                                        value: 'baseline',
+                                        label: '基线对齐',
+                                    },
+                                    {
+                                        value: 'stretch',
+                                        label: '上下拉齐',
+                                    },
+                                ],
+                            },
+                        },
+                        defaultValue: 'flex-start',
+                    },
+                    {
+                        name: 'gutter',
+                        title: '间隔',
+                        setter: [
+                            'NumberSetter',
+                            {
+                                componentName: 'ArraySetter',
+                                props: {
+                                    itemSetter: {
+                                        componentName: 'NumberSetter',
+                                    },
+                                },
+                            },
+                        ],
+                        defaultValue: 0,
+                    },
+                    {
+                        name: 'justify',
+                        title: '水平排列',
+                        setter: {
+                            componentName: 'SelectSetter',
+                            props: {
+                                options: [
+                                    {
+                                        value: 'flex-start',
+                                        label: '左',
+                                    },
+                                    {
+                                        value: 'center',
+                                        label: '居中',
+                                    },
+                                    {
+                                        value: 'flex-end',
+                                        label: '右',
+                                    },
+                                    {
+                                        value: 'space-around',
+                                        label: '空间环绕',
+                                    },
+                                    {
+                                        value: 'space-between',
+                                        label: '两端',
+                                    },
+                                ],
+                            },
+                        },
+                        defaultValue: 'flex-start',
+                    },
+                    {
+                        name: 'wrap',
+                        title: '自动换行',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                ],
+                component: {
+                    isContainer: true,
+                    nestingRule: {
+                        childWhitelist: ['FGridItem'],
+                    },
+                },
+                supports: {
+                    class: true,
+                    style: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '栅格',
+                    schema: {
+                        componentName: 'FGrid',
+                    },
+                },
+            ],
+        },
+        {
+            title: '栅格子项',
+            componentName: 'FGridItem',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.27',
+                exportName: 'FGridItem',
+                destructuring: true,
+            },
+            group: '原子组件',
+            category: '布局组件',
+            priority: 0,
+            props: [
+                {
+                    name: 'flex',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'number'],
+                    },
+                },
+                {
+                    name: 'offset',
+                    propType: 'number',
+                },
+                {
+                    name: 'span',
+                    propType: 'number',
+                },
+                {
+                    name: 'pull',
+                    propType: 'number',
+                },
+                {
+                    name: 'push',
+                    propType: 'number',
+                },
+                {
+                    name: 'order',
+                    propType: 'number',
+                },
+            ],
+            configure: {
+                props: [
+                    {
+                        name: 'span',
+                        title: '占位格数',
+                        setter: 'NumberSetter',
+                    },
+                    {
+                        name: 'offset',
+                        title: '左侧间隔',
+                        setter: 'NumberSetter',
+                        defaultValue: 0,
+                    },
+                    {
+                        name: 'pull',
+                        title: '向左移动',
+                        setter: 'NumberSetter',
+                        defaultValue: 0,
+                    },
+                    {
+                        name: 'push',
+                        title: '向右移动',
+                        setter: 'NumberSetter',
+                        defaultValue: 0,
+                    },
+                    {
+                        name: 'order',
+                        title: '顺序',
+                        setter: 'NumberSetter',
+                    },
+                    {
+                        name: 'flex',
+                        title: '自定义flex',
+                        setter: ['StringSetter', 'NumberSetter'],
+                    },
+                ],
+                component: {
+                    isContainer: true,
+                    nestingRule: {
+                        parentWhitelist: ['FGrid'],
+                    },
+                },
+                supports: {
+                    class: true,
+                    style: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '栅格子项',
+                    schema: {
+                        componentName: 'FGridItem',
+                    },
+                },
+            ],
+        },
     ],
     sort: {
         groupList: ['原子组件', '精选组件'],

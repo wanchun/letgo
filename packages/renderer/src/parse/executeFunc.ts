@@ -9,9 +9,9 @@ export function funcSchemaToFunc(schema: IPublicTypeJSFunction, ctx: Record<stri
         (${schema.value})(...params);
     }
 `);
-        return () => {
-            const params = schema.params.map(param => executeExpression(param, ctx));
-            fn(ctx, params);
+        return (...args: any[]) => {
+            const params = (schema.params || []).map(param => executeExpression(param, ctx));
+            fn(ctx, [...params, ...args]);
         };
     }
     catch (err) {

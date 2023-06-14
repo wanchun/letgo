@@ -11,11 +11,10 @@ import {
     isJSSlot,
     isSlotSchema,
 } from '@webank/letgo-types';
-import { markComputed, markShallowReactive, uniqueId } from '@webank/letgo-common';
+import { markComputed, markShallowReactive, uniqueId, valueToSource } from '@webank/letgo-common';
 import { isNil, isPlainObject } from 'lodash-es';
 import type { INode, ISlotNode } from '../types';
 import type { Props } from './props';
-import { valueToSource } from './value-to-source';
 
 export interface IPropParent {
     delete(prop: Prop): void

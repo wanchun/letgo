@@ -2,8 +2,6 @@ import type { IPublicTypeNodeData, IPublicTypeSlotSchema } from './schema';
 
 /**
  * 变量表达式
- *
- * 表达式内通过 this 对象获取上下文
  */
 export interface IPublicTypeJSExpression {
     type: 'JSExpression'
@@ -19,9 +17,6 @@ export interface IPublicTypeJSExpression {
 
 /**
  * 事件函数类型
- * @see https://lowcode-engine.cn/lowcode
- *
- * 保留与原组件属性、生命周期( React / 小程序)一致的输入参数，并给所有事件函数 binding 统一一致的上下文（当前组件所在容器结构的 this 对象）
  */
 export interface IPublicTypeJSFunction {
     type: 'JSFunction'
@@ -39,7 +34,7 @@ export interface IPublicTypeJSFunction {
 /**
  * Slot 函数类型
  *
- * 通常用于描述组件的某一个属性为 ReactNode 或 Function return ReactNode 的场景。
+ * 通常用于描述组件的某一个属性为 VNode 或 Function return VNode 的场景。
  */
 export interface IPublicTypeJSSlot {
     type: 'JSSlot'
@@ -60,6 +55,10 @@ export interface IPublicTypeJSSlot {
      */
     params?: string[]
 }
+
+/**
+ * 日期类型
+ */
 
 /**
  * JSON 基本类型

@@ -3218,13 +3218,14 @@ const assets: IPublicTypeAssetsJson = {
                                     },
                                 ],
                             },
-                            defaultValue: 'process',
                         },
+                        defaultValue: 'process',
                     },
                     {
                         name: 'vertical',
                         title: '是否垂直方向',
                         setter: 'BoolSetter',
+                        defaultValue: false,
                     },
                 ],
                 component: {
@@ -3306,22 +3307,14 @@ const assets: IPublicTypeAssetsJson = {
                     {
                         name: 'title',
                         title: '标题',
-                        setter: [
-                            {
-                                componentName: 'StringSetter',
-                                defaultValue: '我是标题',
-                            },
-                        ],
+                        setter: 'StringSetter',
+                        defaultValue: '我是标题',
                     },
                     {
                         name: 'description',
                         title: '描述',
-                        setter: [
-                            {
-                                componentName: 'StringSetter',
-                                defaultValue: '我是描述',
-                            },
-                        ],
+                        setter: 'StringSetter',
+                        defaultValue: '我是描述',
                     },
                     {
                         name: 'status',
@@ -3353,7 +3346,12 @@ const assets: IPublicTypeAssetsJson = {
                     {
                         name: 'icon',
                         title: '图标',
-                        setter: 'SlotSetter',
+                        setter: {
+                            componentName: 'IconSetter',
+                            props: {
+                                type: 'node',
+                            },
+                        },
                     },
                 ],
                 component: {
@@ -3434,21 +3432,17 @@ const assets: IPublicTypeAssetsJson = {
                     {
                         title: '基础功能',
                         type: 'group',
-                        extraProps: {
-                            display: 'block',
-                        },
+                        display: 'block',
                         items: [
                             {
                                 name: 'v-model:currentPage',
                                 title: '当前页码',
-                                setter: 'NumberSetter',
-                                defaultValue: 1,
+                                setter: 'VariableSetter',
                             },
                             {
                                 name: 'v-model:pageSize',
                                 title: '每页个数',
-                                setter: 'NumberSetter',
-                                defaultValue: 10,
+                                setter: 'VariableSetter',
                             },
                             {
                                 name: 'totalCount',
@@ -3460,43 +3454,44 @@ const assets: IPublicTypeAssetsJson = {
                     {
                         title: '样式',
                         type: 'group',
-                        extraProps: {
-                            display: 'block',
-                        },
+                        display: 'block',
                         items: [
                             {
                                 name: 'showQuickJumper',
                                 title: '快速跳转',
                                 setter: 'BoolSetter',
+                                defaultValue: false,
                             },
                             {
                                 name: 'showTotal',
                                 title: '总条数',
                                 setter: 'BoolSetter',
+                                defaultValue: false,
                             },
                             {
                                 name: 'small',
                                 title: '小型样式',
                                 setter: 'BoolSetter',
+                                defaultValue: false,
                             },
                             {
                                 name: 'simple',
                                 title: '简洁样式',
                                 setter: 'BoolSetter',
+                                defaultValue: false,
                             },
                         ],
                     },
                     {
                         title: '每页条数选择器',
                         type: 'group',
-                        extraProps: {
-                            display: 'block',
-                        },
+                        display: 'block',
                         items: [
                             {
                                 name: 'showSizeChanger',
                                 title: '开启',
                                 setter: 'BoolSetter',
+                                defaultValue: false,
                             },
                             {
                                 name: 'pageSizeOption',
@@ -3514,7 +3509,6 @@ const assets: IPublicTypeAssetsJson = {
                         ],
                     },
                 ],
-                component: {},
                 supports: {
                     events: ['onChange', 'onPageSizeChange'],
                     class: true,
@@ -3547,22 +3541,6 @@ const assets: IPublicTypeAssetsJson = {
             },
             props: [
                 {
-                    name: 'activeValue',
-                    title: '开启的值',
-                    propType: {
-                        type: 'oneOfType',
-                        value: ['bool', 'string', 'number'],
-                    },
-                },
-                {
-                    name: 'inactiveValue',
-                    title: '关闭的值',
-                    propType: {
-                        type: 'oneOfType',
-                        value: ['bool', 'string', 'number'],
-                    },
-                },
-                {
                     name: 'v-model',
                     title: '当前值',
                     propType: {
@@ -3571,9 +3549,36 @@ const assets: IPublicTypeAssetsJson = {
                     },
                 },
                 {
+                    name: 'activeValue',
+                    title: '开启对应值',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['bool', 'string', 'number'],
+                    },
+                    defaultValue: true,
+                },
+                {
+                    name: 'inactiveValue',
+                    title: '关闭的值',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['bool', 'string', 'number'],
+                    },
+                    defaultValue: false,
+                },
+                {
                     name: 'disabled',
                     title: '是否禁用',
                     propType: 'bool',
+                },
+                {
+                    name: 'size',
+                    title: '大小',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['normal', 'small'],
+                    },
+                    defaultValue: 'normal',
                 },
                 {
                     name: 'beforeChange',
@@ -3610,9 +3615,15 @@ const assets: IPublicTypeAssetsJson = {
                     propType: 'string',
                 },
                 {
+                    name: 'v-model:open',
+                    title: '显示面板',
+                    propType: 'bool',
+                },
+                {
                     name: 'appendToContainer',
                     title: '弹窗是是否挂载到容器',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'getContainer',
@@ -3623,11 +3634,13 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'clearable',
                     title: '是否展示清除图标',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'disabled',
                     title: '是否禁用',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'placeholder',
@@ -3638,21 +3651,25 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'format',
                     title: '时间格式',
                     propType: 'string',
+                    defaultValue: 'HH:mm:ss',
                 },
                 {
                     name: 'hourStep',
                     title: '小时选项间隔',
                     propType: 'number',
+                    defaultValue: 1,
                 },
                 {
                     name: 'minuteStep',
                     title: '分钟选项间隔',
                     propType: 'number',
+                    defaultValue: 1,
                 },
                 {
                     name: 'secondStep',
                     title: '秒钟选项间隔',
                     propType: 'number',
+                    defaultValue: 1,
                 },
                 {
                     name: 'disabledHours',
@@ -3673,8 +3690,21 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'control',
                     title: '是否显示控制区域',
                     propType: 'bool',
+                    defaultValue: true,
+                },
+                {
+                    name: 'addon',
+                    title: '自定义底部',
+                    propType: 'node',
                 },
             ],
+            configure: {
+                supports: {
+                    class: true,
+                    style: true,
+                    events: ['onChange', 'onBlur', 'onFocus'],
+                },
+            },
             snippets: [
                 {
                     title: '时间选择',
@@ -3704,6 +3734,15 @@ const assets: IPublicTypeAssetsJson = {
                     propType: 'string',
                 },
                 {
+                    name: 'type',
+                    title: '类型',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['date', 'datetime', 'datemultiple', 'daterange', 'datetimerange', 'datemonthrange', 'year', 'month', 'quarter'],
+                    },
+                    defaultValue: 'date',
+                },
+                {
                     name: 'disabledDate',
                     title: '禁止日期',
                     propType: 'func',
@@ -3712,11 +3751,6 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'disabledTime',
                     title: '禁止时间',
                     propType: 'func',
-                },
-                {
-                    name: 'type',
-                    title: '类型',
-                    propType: 'string',
                 },
                 {
                     name: 'maxDate',
@@ -3756,6 +3790,7 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'appendToContainer',
                     title: '弹窗是是否挂载到容器',
                     propType: 'bool',
+                    defaultValue: true,
                 },
                 {
                     name: 'getContainer',
@@ -3766,15 +3801,17 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'clearable',
                     title: '是否展示清除图标',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'disabled',
                     title: '是否禁用',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'placeholder',
-                    title: '提示词',
+                    title: '未选择提示',
                     propType: 'string',
                 },
                 {
@@ -3786,23 +3823,39 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'hourStep',
                     title: '小时选项间隔',
                     propType: 'number',
+                    defaultValue: 1,
                 },
                 {
                     name: 'minuteStep',
                     title: '分钟选项间隔',
                     propType: 'number',
+                    defaultValue: 1,
                 },
                 {
                     name: 'secondStep',
                     title: '秒钟选项间隔',
                     propType: 'number',
+                    defaultValue: 1,
                 },
                 {
                     name: 'control',
                     title: '是否显示控制区域',
                     propType: 'bool',
+                    defaultValue: false,
+                },
+                {
+                    name: 'suffixIcon',
+                    title: '图标',
+                    propType: 'node',
                 },
             ],
+            configure: {
+                supports: {
+                    class: true,
+                    style: true,
+                    events: ['onChange', 'onClear', 'onBlur', 'onFocus'],
+                },
+            },
             snippets: [
                 {
                     title: '日期选择',

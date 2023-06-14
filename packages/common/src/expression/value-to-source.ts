@@ -23,7 +23,11 @@ function quoteString(str: string, { doubleQuote }: any) {
         : `'${str.replace(/'/gu, '\\\'')}'`;
 }
 
-export function valueToSource(
+export function valueToSource(value: any, option?: any): any {
+    return `{{${_valueToSource(value, option)}}}`;
+}
+
+function _valueToSource(
     value: any,
     {
         circularReferenceToken = 'CIRCULAR_REFERENCE',

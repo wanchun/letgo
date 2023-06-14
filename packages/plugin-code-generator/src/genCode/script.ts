@@ -68,7 +68,7 @@ export function genScript(
     const context = getCurrentContext();
     if (rootSchema.code) {
         return `<script setup>
-            import {useLetgoConfig} from '@/use/useLetgoGlobal';
+            import { useLetgoConfig } from '@/use/useLetgoGlobal';
             ${genComponentImports(componentMaps)}
 
             const {${genConfigKeys(context.config)}} = useLetgoConfig();

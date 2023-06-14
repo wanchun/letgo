@@ -123,7 +123,7 @@ export function attachContext(code: string, isInclude: (name: string) => boolean
     return generate(ast);
 }
 
-export function executeExpression(text: string | null, ctx: Record<string, any>) {
+export function executeExpression(text: string | null, ctx: Record<string, any> = {}) {
     if (isNil(text))
         return null;
     let result = text;

@@ -1,8 +1,8 @@
-import { replaceExpression } from '@webank/letgo-common';
+import { isOnlyExpression, replaceExpression } from '@webank/letgo-common';
 
 export function parseExpression(text: string) {
     let result = text.trim();
-    if (/^{{(.*?)}}$/.test(result)) {
+    if (isOnlyExpression(result)) {
         return replaceExpression(text, (_, expression) => {
             return expression;
         });

@@ -12,8 +12,8 @@ export function hasExpression(doc: string) {
     return EXPRESSION_REGEX.test(doc);
 }
 
-export function isSingleExpression(doc: string) {
-    return /^{{(.*?)}}$/.test(doc);
+export function isOnlyExpression(doc: string) {
+    return /^{{(.*?)}}$/.test(doc.trim());
 }
 
 export function calcDependencies(item: CodeItem, codeMap: Map<string, CodeItem>) {

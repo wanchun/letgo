@@ -4,9 +4,9 @@ import { executeExpression } from './transform-expression';
 export function funcSchemaToFunc(schema: IPublicTypeJSFunction, ctx: Record<string, unknown>) {
     try {
         // eslint-disable-next-line no-new-func
-        const fn = new Function('_ctx', 'params', `
+        const fn = new Function('letgoCtx', 'params', `
         let result;
-        with(_ctx) {
+        with(letgoCtx) {
             result = (${schema.value})(...params);
         }
         return result;
@@ -26,9 +26,9 @@ export function executeFunc(schema: IPublicTypeJSFunction, ctx: Record<string, u
     try {
         const params = schema.params.map(param => executeExpression(param, ctx));
         // eslint-disable-next-line no-new-func
-        const fn = new Function('_ctx', 'params', `
+        const fn = new Function('letgoCtx', 'params', `
         let result;
-    with(_ctx) {
+    with(letgoCtx) {
         result = (${schema.value})(...params);
     }
     return result;

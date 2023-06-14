@@ -118,7 +118,7 @@ export function findExpressionDependencyCode(code: string, isInclude: (name: str
 export function attachContext(code: string, isInclude: (name: string) => boolean) {
     const ast = transformExpression(code, (identifier) => {
         if (isInclude(identifier.name))
-            identifier.name = `_ctx.${identifier.name}`;
+            identifier.name = `letgoCtx.${identifier.name}`;
     });
     return generate(ast);
 }
@@ -132,7 +132,7 @@ export function executeExpression(text: string | null, ctx: Record<string, any>)
             result = replaceExpression(text, (_, expression) => {
                 const exp = attachContext(expression, name => !isUndefined(ctx[name]));
                 // eslint-disable-next-line no-new-func
-                const fn = new Function('_ctx', `return ${exp}`);
+                const fn = new Function('letgoCtx', `return ${exp}`);
                 return fn(ctx);
             });
         }

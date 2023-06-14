@@ -41,18 +41,24 @@ function getDirectives(nodeSchema: IPublicTypeNodeSchema): IPublicTypeDirective[
     return directives;
 }
 
+function handleComponentRef(nodeSchema: IPublicTypeNodeSchema, componentRefs: Set<string>) {
+    if (componentRefs.has(nodeSchema.ref))
+        return `ref="${nodeSchema.ref}RefEl"`;
+    return '';
+}
+
 // TODO 支持 loop loopArgs
-function compileNodeSchema(nodeSchema: IPublicTypeNodeData) {
+function compileNodeSchema(nodeSchema: IPublicTypeNodeData, componentRefs: Set<string>) {
     if (isNodeSchema(nodeSchema)) {
         const children = genNodeSchemaChildren(nodeSchema);
-        return `<${nodeSchema.componentName} ${compileDirectives(
+        return `<${nodeSchema.componentName} ${handleComponentRef(nodeSchema, componentRefs)} ${compileDirectives(
             getDirectives(nodeSchema),
         ).join(' ')} ${compileProps(nodeSchema.props)} ${
             !isEmpty(children)
                 ? `>
                     ${children
                         .map((children) => {
-                            return compileNodeData(children);
+                            return compileNodeData(children, componentRefs);
                         })
                         .join('\n')}
                     </${nodeSchema.componentName}>`
@@ -73,26 +79,26 @@ function compileDOMText(domText: IPublicTypeDOMText) {
     return domText;
 }
 
-function compileJsSlot(slot: IPublicTypeJSSlot): string {
+function compileJsSlot(slot: IPublicTypeJSSlot, componentRefs: Set<string>): string {
     const slotContent = slot.value;
     return `<template ${slot.name ? `#${slot.name}` : ''}${
         slot.params ? `="${slot.params.join(', ')}"` : ''
     }>
     ${(!isArray(slotContent) ? [slotContent] : slotContent)
-        .map(compileNodeSchema)
+        .map(item => compileNodeSchema(item, componentRefs))
         .join('\n')}
     </template>`;
 }
 
-function compileNodeData(nodeData: IPublicTypeNodeData): string {
+function compileNodeData(nodeData: IPublicTypeNodeData, componentRefs: Set<string>): string {
     if (isNodeSchema(nodeData))
-        return compileNodeSchema(nodeData);
+        return compileNodeSchema(nodeData, componentRefs);
 
     else if (isJSExpression(nodeData))
         return compileJSExpression(nodeData);
 
     else if (isJSSlot(nodeData))
-        return compileJsSlot(nodeData);
+        return compileJsSlot(nodeData, componentRefs);
 
     else if (isDOMText(nodeData))
         return compileDOMText(nodeData);
@@ -100,13 +106,13 @@ function compileNodeData(nodeData: IPublicTypeNodeData): string {
     return '';
 }
 
-export function genPageTemplate(rootSchema: IPublicTypeRootSchema) {
+export function genPageTemplate(rootSchema: IPublicTypeRootSchema, componentRefs: Set<string>) {
     const nodeData = Array.isArray(rootSchema.children) ? rootSchema.children : [rootSchema.children];
     return `<template>
         <div class="letgo-page" ${compileProps(rootSchema.defaultProps).join(
             ' ',
         )}>
-            ${nodeData.map(compileNodeData).join('\n')}
+            ${nodeData.map(item => compileNodeData(item, componentRefs)).join('\n')}
         </div>
     </template>`;
 }

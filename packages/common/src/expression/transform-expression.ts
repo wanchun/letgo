@@ -14,6 +14,15 @@ export function extractExpression(doc: string) {
     return Array.from(result).filter(Boolean);
 }
 
+export function traverseExpression(doc: string, callback: (expression: string) => void) {
+    const regex = new RegExp(EXPRESSION_REGEX, 'gs');
+    let array1;
+
+    // eslint-disable-next-line no-cond-assign
+    while ((array1 = regex.exec(doc)) !== null)
+        callback(array1[1]);
+}
+
 export function replaceExpression(doc: string, callback: (pattern: string, expression: string) => string) {
     const regex = new RegExp(EXPRESSION_REGEX, 'gs');
     return doc.replace(regex, callback);

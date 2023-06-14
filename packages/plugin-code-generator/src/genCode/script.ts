@@ -1,32 +1,30 @@
 import type {
     CodeItem,
     CodeStruct,
-    IPublicTypeComponentMap,
-    IPublicTypeNpmInfo, IPublicTypeRootSchema,
+    IPublicTypeComponentMap, IPublicTypeRootSchema,
 } from '@webank/letgo-types';
 import {
     isProCodeComponentType,
 } from '@webank/letgo-types';
 import { calcDependencies, checkCycleDependency } from '@webank/letgo-common';
 import { getCurrentContext } from './compiler-context';
+import { genGlobalConfig } from './global-config';
+import { genImportCode } from './helper';
+import { type ImportSource, ImportType } from './types';
 
 function genComponentImports(componentMaps: IPublicTypeComponentMap[]) {
-    const pkgs: Record<string, IPublicTypeNpmInfo[]> = {};
+    const importSources: ImportSource[] = [];
     componentMaps.forEach((componentMap) => {
         if (isProCodeComponentType(componentMap)) {
-            if (pkgs[componentMap.package])
-                pkgs[componentMap.package].push(componentMap);
-
-            else
-                pkgs[componentMap.package] = [componentMap];
+            importSources.push({
+                source: componentMap.package,
+                type: ImportType.ImportSpecifier,
+                imported: componentMap.exportName,
+            });
         }
     });
 
-    return Object.keys(pkgs).map((pkg) => {
-        return `import {${pkgs[pkg]
-            .map(item => item.exportName)
-            .join(', ')}} from '${pkg}';`;
-    });
+    return importSources;
 }
 
 function genCodeMap(code: CodeStruct) {
@@ -57,22 +55,40 @@ function genCode(schema: IPublicTypeRootSchema) {
     });
 }
 
-function genConfigKeys(config: Record<string, any>) {
-    return Object.keys(config).join(', ');
+function genRefCode(componentRefs: Set<string>) {
+    if (!componentRefs.size) {
+        return {
+            importSources: [],
+            code: '',
+        };
+    }
+    const code = Array.from(componentRefs).map((item) => {
+        return `const [${item}RefEl, ${item}] = useInstance()`;
+    }).join('\n');
+    return {
+        importSources: [{
+            imported: 'useInstance',
+            type: ImportType.ImportSpecifier,
+            source: '@/use/useInstance',
+        }],
+        code,
+    };
 }
 
 export function genScript(
     componentMaps: IPublicTypeComponentMap[],
     rootSchema: IPublicTypeRootSchema,
+    componentRefs: Set<string>,
 ) {
     const context = getCurrentContext();
-    if (rootSchema.code) {
-        return `<script setup>
-            import { useLetgoConfig } from '@/use/useLetgoGlobal';
+    const configCodeSnippet = genGlobalConfig(context.config);
+    const refCode = genRefCode(componentRefs);
+    const codeImports = genComponentImports(componentMaps);
+    return `<script setup>
+            ${genImportCode(configCodeSnippet.importSources.concat(codeImports, refCode.importSources))}
             ${genComponentImports(componentMaps)}
-
-            const {${genConfigKeys(context.config)}} = useLetgoConfig();
+            ${configCodeSnippet.code}
+            ${refCode.code}
         </script>`;
-    }
     return '';
 }

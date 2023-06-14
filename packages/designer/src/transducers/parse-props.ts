@@ -2,7 +2,6 @@ import type {
     IPublicTypeArrayOf,
     IPublicTypeConfigureSupportEvent,
     IPublicTypeFieldConfig,
-    IPublicTypeObjectOf,
     IPublicTypeOneOf,
     IPublicTypeOneOfType,
     IPublicTypeProp,
@@ -134,14 +133,8 @@ function propTypeToSetter(propType: IPublicTypeProp): IPublicTypeSetterConfig {
         case 'object':
         case 'objectOf':
             return {
-                componentName: 'ObjectSetter',
-                props: {
-                    extraSetter: propTypeToSetter(
-                        typeName === 'objectOf'
-                            ? (propType as IPublicTypeObjectOf).value
-                            : 'any',
-                    ),
-                },
+                componentName: 'JsonSetter',
+                props: {},
                 isRequired,
                 defaultValue: {},
             };

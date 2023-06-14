@@ -3906,6 +3906,7 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'disabled',
                     title: '是否禁用',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'fileList',
@@ -3979,7 +3980,30 @@ const assets: IPublicTypeAssetsJson = {
                     title: '自定义请求',
                     propType: 'func',
                 },
+                {
+                    name: 'tip',
+                    title: '提示文字',
+                    propType: 'node',
+                    defaultValue: {
+                        type: 'JSSlot',
+                        value: [
+                            {
+                                componentName: 'NText',
+                                props: {
+                                    children: '我是提示文字',
+                                },
+                            },
+                        ],
+                    },
+                },
             ],
+            configure: {
+                supports: {
+                    class: true,
+                    style: true,
+                    events: ['onChange', 'onRemove', 'onSuccess', 'onError', 'onExceed', 'onProgress'],
+                },
+            },
             snippets: [
                 {
                     title: '上传',
@@ -3988,10 +4012,42 @@ const assets: IPublicTypeAssetsJson = {
                         props: {},
                     },
                 },
+                {
+                    title: '拖拽上传',
+                    schema: {
+                        componentName: 'FUpload',
+                        props: {},
+                        children: [
+                            {
+                                componentName: 'FUploadDragger',
+                                props: {
+                                    children: '点击或者拖拽文件到此区域',
+                                },
+                            },
+                        ],
+                    },
+                },
             ],
             group: '原子组件',
             category: '数据录入',
             priority: 0,
+        },
+        {
+            title: '拖拽上传容器',
+            componentName: 'FUploadDragger',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.27',
+                exportName: 'FUploadDragger',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'children',
+                    title: '内容',
+                    propType: 'string',
+                },
+            ],
         },
         {
             title: '树形选择器',
@@ -4022,9 +4078,21 @@ const assets: IPublicTypeAssetsJson = {
                     },
                 },
                 {
+                    name: 'v-model:expandedKeys',
+                    title: '展开选项',
+                    propType: {
+                        type: 'arrayOf',
+                        value: {
+                            type: 'oneOfType',
+                            value: ['string', 'number'],
+                        },
+                    },
+                },
+                {
                     name: 'appendToContainer',
                     title: '弹窗是是否挂载到容器',
                     propType: 'bool',
+                    defaultValue: true,
                 },
                 {
                     name: 'getContainer',
@@ -4035,41 +4103,49 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'clearable',
                     title: '是否显示清除图标',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'disabled',
                     title: '是否禁用',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'collapseTags',
                     title: '选项是否折叠展示',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'collapseTagsLimit',
-                    title: '达到多少折叠',
+                    title: '超出多少折叠',
                     propType: 'number',
+                    defaultValue: 1,
                 },
                 {
                     name: 'tagBordered',
                     title: '选项是否有边框',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'emptyText',
                     title: '选项为空的提示文字',
                     propType: 'string',
+                    defaultValue: '无数据',
                 },
                 {
                     name: 'multiple',
                     title: '是否多选',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'multipleLimit',
                     title: '最多选择几个',
                     propType: 'number',
+                    defaultValue: 0,
                 },
                 {
                     name: 'placeholder',
@@ -4080,6 +4156,7 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'filterable',
                     title: '是否支持过滤选项',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'filter',
@@ -4132,7 +4209,7 @@ const assets: IPublicTypeAssetsJson = {
                                     title: '节点前缀',
                                     propType: {
                                         type: 'oneOfType',
-                                        value: ['string', 'func'],
+                                        value: ['string', 'node'],
                                     },
                                 },
                                 {
@@ -4140,7 +4217,7 @@ const assets: IPublicTypeAssetsJson = {
                                     title: '节点后缀',
                                     propType: {
                                         type: 'oneOfType',
-                                        value: ['string', 'func'],
+                                        value: ['string', 'node'],
                                     },
                                 },
                                 {
@@ -4156,27 +4233,19 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'accordion',
                     title: '手风琴模式',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'defaultExpandAll',
                     title: '默认展开所有选项',
                     propType: 'bool',
-                },
-                {
-                    name: 'v-model:expandedKeys',
-                    title: '展开选项',
-                    propType: {
-                        type: 'arrayOf',
-                        value: {
-                            type: 'oneOfType',
-                            value: ['string', 'number'],
-                        },
-                    },
+                    defaultValue: false,
                 },
                 {
                     name: 'cascade',
                     title: '父子节点选中是否关联',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'checkStrictly',
@@ -4190,21 +4259,25 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'childrenField',
                     title: 'children字段名',
                     propType: 'string',
+                    defaultValue: 'children',
                 },
                 {
                     name: 'valueField',
                     title: 'value字段名',
                     propType: 'string',
+                    defaultValue: 'value',
                 },
                 {
                     name: 'labelField',
                     title: 'label字段名',
                     propType: 'string',
+                    defaultValue: 'label',
                 },
                 {
                     name: 'remote',
                     title: '是否异步加载',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'loadData',
@@ -4215,11 +4288,13 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'inline',
                     title: '叶子节点是否一行展示',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'virtualList',
                     title: '是否虚拟滚动',
                     propType: 'bool',
+                    defaultValue: false,
                 },
             ],
             snippets: [

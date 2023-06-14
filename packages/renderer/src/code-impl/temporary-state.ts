@@ -61,7 +61,7 @@ export class TemporaryStateImpl implements ITemporaryStateImpl {
                 result = replaceExpression(text, (_, expression) => {
                     const exp = attachContext(expression, name => this.deps.includes(name));
                     // eslint-disable-next-line no-new-func
-                    const fn = new Function('_ctx', `return ${exp}`);
+                    const fn = new Function('letgoCtx', `return ${exp}`);
                     return fn(this.ctx);
                 });
             }

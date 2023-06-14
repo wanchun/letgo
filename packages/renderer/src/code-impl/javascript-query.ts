@@ -120,9 +120,9 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
         if (this.query) {
             try {
                 // eslint-disable-next-line no-new-func
-                const fn = new Function('_ctx', `
+                const fn = new Function('letgoCtx', `
             let result;
-            with(_ctx) {
+            with(letgoCtx) {
                 result = (() => {
                     ${this.query}
                 })();

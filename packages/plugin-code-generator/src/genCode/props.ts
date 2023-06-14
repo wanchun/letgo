@@ -35,5 +35,5 @@ export function compileProps(props?: IPublicTypePropsMap) {
                 return `:${key}="${JSON.stringify(propValue)}"`;
 
             return '';
-        });
+        }).filter(Boolean);
 }

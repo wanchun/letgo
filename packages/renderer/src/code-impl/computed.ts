@@ -72,7 +72,7 @@ export class ComputedImpl implements IJavascriptComputedImpl {
                 return attachContext(expression, name => this.deps.includes(name));
             });
             // eslint-disable-next-line no-new-func
-            const fn = new Function('_ctx', codeStr);
+            const fn = new Function('letgoCtx', codeStr);
             return fn(this.ctx);
         }
         else {

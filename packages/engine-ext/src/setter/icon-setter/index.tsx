@@ -61,6 +61,10 @@ const IconSetterView = defineComponent({
             type: Array as PropType<string[]>,
             default: () => [] as string[],
         },
+        placeholder: {
+            type: String,
+            default: '请选择图标',
+        },
     },
     setup(props) {
         const icons: Record<string, Component> = {};

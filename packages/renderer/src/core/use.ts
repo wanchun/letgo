@@ -1,4 +1,4 @@
-import type { Prop } from '@webank/letgo-designer';
+import type { INode, Prop } from '@webank/letgo-designer';
 import type {
     Component,
     ComputedRef,
@@ -22,6 +22,7 @@ import type {
     IPublicTypeNodeData,
     IPublicTypeNodeSchema,
     IPublicTypeRootSchema,
+    IPublicTypeSlotSchema,
 } from '@webank/letgo-types';
 import {
     isDOMText,
@@ -29,6 +30,7 @@ import {
     isJSFunction,
     isJSSlot,
     isNodeSchema,
+    isSlotSchema,
 } from '@webank/letgo-types';
 import { camelCase, isArray, isFunction, isNil, isPlainObject, isString } from 'lodash-es';
 import { provideRenderContext, useRendererContext } from '../context';
@@ -113,7 +115,7 @@ function render({
  * - prop 和 node 中同时存在 children 时，prop children 会覆盖 node children
  * - className prop 会被处理为 class prop
  */
-export function buildSchema(props: LeafProps) {
+export function buildSchema(props: LeafProps, node?: INode) {
     const { schema } = props;
 
     const slotProps: SlotSchemaMap = {};
@@ -126,6 +128,14 @@ export function buildSchema(props: LeafProps) {
 
     Object.entries(schema.props ?? {}).forEach(([key, val]) => {
         if (isJSSlot(val)) {
+            // 处理具名插槽
+            const prop = node?.getProp(key, false);
+            if (prop && prop.slotNode) {
+                // design 模式，从 prop 对象到处 schema
+                const slotSchema = prop.slotNode.computedSchema;
+                if (isSlotSchema(slotSchema))
+                    slotProps[key] = slotSchema;
+            }
             if (val.value) {
                 // live 模式，直接获取 schema 值，若值为空则不渲染插槽
                 slotProps[val.name || key] = {
@@ -133,10 +143,9 @@ export function buildSchema(props: LeafProps) {
                     title: val.title,
                     name: val.name,
                     props: {
-
                         params: val.params,
                     },
-                    children: val.value,
+                    children: ensureArray(val.value),
                 };
             }
         }
@@ -165,17 +174,53 @@ export function buildSchema(props: LeafProps) {
  * @param blockScope - 当前块级作用域
  * @param prop - 属性对象，仅在 design 模式下有值
  */
-function buildProp(schema: unknown, scope: RuntimeScope): any {
+function buildProp(
+    render: (
+        nodeSchema: IPublicTypeNodeData,
+        blockScope?: MaybeArray<BlockScope | undefined | null>,
+        comp?: Component,
+    ) => VNode | null,
+    schema: unknown,
+    scope: RuntimeScope,
+    blockScope?: BlockScope | null,
+    prop?: Prop | null,
+): any {
     if (isJSExpression(schema)) {
         return parseExpression(schema, scope);
     }
     else if (isJSFunction(schema)) {
         return funcSchemaToFunc(schema, scope);
     }
+    else if (isJSSlot(schema)) {
+        // 处理属性插槽
+        let slotParams: string[];
+        let slotSchema: IPublicTypeSlotSchema | IPublicTypeNodeData | IPublicTypeNodeData[];
+        if (prop?.slotNode) {
+            // design 模式，从 prop 中导出 schema
+            slotSchema = prop.slotNode.computedSchema;
+            slotParams = isSlotSchema(slotSchema) ? slotSchema.props.params ?? [] : [];
+        }
+        else {
+            // live 模式，直接获取 schema 值
+            slotSchema = ensureArray(schema.value);
+            slotParams = schema.params ?? [];
+        }
+
+        // 返回 slot 函数
+        return (...args: unknown[]) => {
+            const slotScope = parseSlotScope(args, slotParams);
+            const vnodes: VNode[] = [];
+            ensureArray(slotSchema).forEach((item) => {
+                const vnode = render(item, [blockScope, slotScope]);
+                ensureArray(vnode).forEach(item => vnodes.push(item));
+            });
+            return vnodes;
+        };
+    }
     else if (isArray(schema)) {
         // 属性值为 array，递归处理属性的每一项
-        return schema.map(item =>
-            buildProp(item, scope),
+        return schema.map((item, idx) =>
+            buildProp(render, item, scope, blockScope, prop?.get(idx)),
         );
     }
     else if (schema && isPlainObject(schema)) {
@@ -185,7 +230,8 @@ function buildProp(schema: unknown, scope: RuntimeScope): any {
             if (key.startsWith('__'))
                 return;
             const val = schema[key as keyof typeof schema];
-            res[key] = buildProp(val, scope);
+            const childProp = prop?.get(key);
+            res[key] = buildProp(render, val, scope, blockScope, childProp);
         });
         return res;
     }
@@ -200,10 +246,17 @@ function buildProp(schema: unknown, scope: RuntimeScope): any {
  * @param blockScope - 当前块级作用域
  * @param prop - 属性对象，仅在 design 模式下有值
  */
-function buildRefProp(schema: unknown,
+function buildRefProp(
+    render: (
+        nodeSchema: IPublicTypeNodeData,
+        blockScope?: MaybeArray<BlockScope | undefined | null>,
+        comp?: Component,
+    ) => VNode | null,
+    schema: unknown,
     scope: RuntimeScope,
     blockScope?: BlockScope | null,
-    prop?: Prop | null): any {
+    prop?: Prop | null,
+): any {
     if (isString(schema)) {
         const field = schema;
         let lastInst: unknown = null;
@@ -247,9 +300,9 @@ function buildRefProp(schema: unknown,
         };
     }
     else {
-        const propValue = buildProp(schema, scope);
+        const propValue = buildProp(render, schema, scope, blockScope, prop);
         return isString(propValue)
-            ? buildRefProp(propValue, scope, blockScope, prop)
+            ? buildRefProp(render, propValue, scope, blockScope, prop)
             : propValue;
     }
 }
@@ -333,14 +386,22 @@ export function buildProps({
     context,
     scope,
     propsSchema,
+    render,
     blockScope,
     extraProps,
+    node,
 }: {
     context: Record<string, unknown>
     scope: RuntimeScope
     propsSchema: Record<string, unknown>
+    render: (
+        nodeSchema: IPublicTypeNodeData,
+        blockScope?: MaybeArray<BlockScope | undefined | null>,
+        comp?: Component,
+    ) => VNode | null
     blockScope?: BlockScope | null
     extraProps?: Record<string, unknown>
+    node?: INode | null
 }): any {
     // 属性预处理
     const processed: Record<string, unknown> = {};
@@ -357,8 +418,8 @@ export function buildProps({
         const schema = processed[propName];
         parsedProps[propName]
             = propName === 'ref'
-                ? buildRefProp(schema, currentContext, blockScope)
-                : buildProp(schema, currentContext);
+                ? buildRefProp(render, schema, currentContext, blockScope, node?.getProp(propName))
+                : buildProp(render, schema, currentContext, blockScope, node?.getProp(propName));
     });
 
     // 应用运行时附加的属性值
@@ -473,13 +534,15 @@ export function buildShow(scope: RuntimeScope, schema: IPublicTypeNodeSchema) {
  * @param slots - 插槽 schema
  * @param blockScope - 插槽块级作用域
  */
-export function buildSlots(render: (
-    nodeSchema: IPublicTypeNodeData,
-    blockScope?: MaybeArray<BlockScope | undefined | null>,
-    comp?: Component,
-) => VNode | null,
-slots: SlotSchemaMap,
-blockScope?: BlockScope | null): Record<string, Slot> {
+export function buildSlots(
+    render: (
+        nodeSchema: IPublicTypeNodeData,
+        blockScope?: MaybeArray<BlockScope | undefined | null>,
+        comp?: Component,
+    ) => VNode | null,
+    slots: SlotSchemaMap,
+    blockScope?: BlockScope | null,
+): Record<string, Slot> {
     return Object.keys(slots).reduce((prev, next) => {
         const slotSchema = slots[next];
         if (!slotSchema)

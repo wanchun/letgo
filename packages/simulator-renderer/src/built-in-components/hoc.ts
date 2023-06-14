@@ -80,7 +80,7 @@ export const Hoc = defineComponent({
         } = reactive({});
         const compSlots: SlotSchemaMap = reactive({});
 
-        const result = buildSchema(props);
+        const result = buildSchema(props, node);
 
         Object.entries(props.schema.props ?? {}).forEach(([key, val]) => {
             if (isJSSlot(val)) {
@@ -188,6 +188,8 @@ export const Hoc = defineComponent({
             buildLoopScope,
             innerBuildSlots,
             executeCtx,
+            node,
+            renderComp,
         };
     },
     render() {
@@ -202,6 +204,8 @@ export const Hoc = defineComponent({
             innerBuildSlots,
             scope,
             executeCtx,
+            node,
+            renderComp,
         } = this;
 
         if (!show)
@@ -216,6 +220,8 @@ export const Hoc = defineComponent({
                 propsSchema: compProps,
                 blockScope: null,
                 extraProps: { ref: getRef },
+                node,
+                render: renderComp,
             });
             const slots = innerBuildSlots(compSlots);
             return h(comp, props, slots);
@@ -238,6 +244,8 @@ export const Hoc = defineComponent({
                     extraProps: {
                         ref: getRef,
                     },
+                    node,
+                    render: renderComp,
                 });
                 const slots = innerBuildSlots(compSlots, blockScope);
                 return h(comp, props, slots);

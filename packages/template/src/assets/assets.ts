@@ -2998,16 +2998,16 @@ const assets: IPublicTypeAssetsJson = {
                                                 title: '是否禁用',
                                                 setter: 'BoolSetter',
                                             },
-                                            // {
-                                            //     name: 'icon',
-                                            //     title: '图标',
-                                            //     setter: {
-                                            //         componentName: 'IconSetter',
-                                            //         props: {
-                                            //             type: 'node',
-                                            //         },
-                                            //     },
-                                            // },
+                                            {
+                                                name: 'icon',
+                                                title: '图标',
+                                                setter: {
+                                                    componentName: 'IconSetter',
+                                                    props: {
+                                                        type: 'node',
+                                                    },
+                                                },
+                                            },
                                         ],
                                     },
                                 },

@@ -37,6 +37,7 @@ export const Live = defineComponent({
             compSlots,
             innerBuildSlots,
             executeCtx,
+            renderComp,
         };
     },
     render() {
@@ -50,6 +51,7 @@ export const Live = defineComponent({
             innerBuildSlots,
             scope,
             executeCtx,
+            renderComp,
         } = this;
 
         if (!show)
@@ -65,6 +67,7 @@ export const Live = defineComponent({
                     context: executeCtx,
                     scope,
                     propsSchema: compProps,
+                    render: renderComp,
                 }),
                 innerBuildSlots(compSlots),
             );
@@ -89,6 +92,7 @@ export const Live = defineComponent({
                         scope,
                         propsSchema: compProps,
                         blockScope,
+                        render: renderComp,
                     }),
                     innerBuildSlots(compSlots, blockScope),
                 );

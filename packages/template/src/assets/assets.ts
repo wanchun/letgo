@@ -4254,6 +4254,7 @@ const assets: IPublicTypeAssetsJson = {
                         type: 'oneOf',
                         value: ['all', 'parent', 'child'],
                     },
+                    defaultValue: 'child',
                 },
                 {
                     name: 'childrenField',
@@ -4297,6 +4298,13 @@ const assets: IPublicTypeAssetsJson = {
                     defaultValue: false,
                 },
             ],
+            configure: {
+                supports: {
+                    class: true,
+                    style: true,
+                    events: ['onChange', 'onVisibleChange', 'onRemoveTag', 'onBlur', 'onFocus', 'onClear'],
+                },
+            },
             snippets: [
                 {
                     title: '树形选择器',
@@ -4346,9 +4354,21 @@ const assets: IPublicTypeAssetsJson = {
                     },
                 },
                 {
+                    name: 'v-model:expandedKeys',
+                    title: '展开选项',
+                    propType: {
+                        type: 'arrayOf',
+                        value: {
+                            type: 'oneOfType',
+                            value: ['string', 'number'],
+                        },
+                    },
+                },
+                {
                     name: 'appendToContainer',
                     title: '弹窗是是否挂载到容器',
                     propType: 'bool',
+                    defaultValue: true,
                 },
                 {
                     name: 'getContainer',
@@ -4359,36 +4379,43 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'clearable',
                     title: '是否显示清除图标',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'disabled',
                     title: '是否禁用',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'collapseTags',
                     title: '选项是否折叠展示',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'collapseTagsLimit',
-                    title: '达到多少折叠',
+                    title: '超出多少折叠',
                     propType: 'number',
+                    defaultValue: 1,
                 },
                 {
                     name: 'tagBordered',
                     title: '选项是否有边框',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'emptyText',
                     title: '选项为空的提示文字',
                     propType: 'string',
+                    defaultValue: '无数据',
                 },
                 {
                     name: 'multiple',
                     title: '是否多选',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'placeholder',
@@ -4462,20 +4489,10 @@ const assets: IPublicTypeAssetsJson = {
                     },
                 },
                 {
-                    name: 'v-model:expandedKeys',
-                    title: '展开选项',
-                    propType: {
-                        type: 'arrayOf',
-                        value: {
-                            type: 'oneOfType',
-                            value: ['string', 'number'],
-                        },
-                    },
-                },
-                {
                     name: 'cascade',
                     title: '父子节点选中是否关联',
                     propType: 'bool',
+                    defaultValue: 'false',
                 },
                 {
                     name: 'checkStrictly',
@@ -4484,26 +4501,31 @@ const assets: IPublicTypeAssetsJson = {
                         type: 'oneOf',
                         value: ['all', 'parent', 'child'],
                     },
+                    defaultValue: 'child',
                 },
                 {
                     name: 'childrenField',
                     title: 'children字段名',
                     propType: 'string',
+                    defaultValue: 'children',
                 },
                 {
                     name: 'valueField',
                     title: 'value字段名',
                     propType: 'string',
+                    defaultValue: 'value',
                 },
                 {
                     name: 'labelField',
                     title: 'label字段名',
                     propType: 'string',
+                    defaultValue: 'label',
                 },
                 {
                     name: 'remote',
                     title: '是否异步加载',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'loadData',
@@ -4517,18 +4539,28 @@ const assets: IPublicTypeAssetsJson = {
                         type: 'oneOf',
                         value: ['click', 'hover'],
                     },
+                    defaultValue: 'click',
                 },
                 {
                     name: 'emitPath',
                     title: '值是否包含路径',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'showPath',
                     title: '是否显示路径',
                     propType: 'bool',
+                    defaultValue: false,
                 },
             ],
+            configure: {
+                supports: {
+                    class: true,
+                    style: true,
+                    events: ['onChange', 'onVisibleChange', 'onRemoveTag', 'onBlur', 'onFocus', 'onClear'],
+                },
+            },
             snippets: [
                 {
                     title: '级联选择器',

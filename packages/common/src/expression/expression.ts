@@ -12,6 +12,10 @@ export function hasExpression(doc: string) {
     return EXPRESSION_REGEX.test(doc);
 }
 
+export function isSingleExpression(doc: string) {
+    return /^{{(.*?)}}$/.test(doc);
+}
+
 export function calcDependencies(item: CodeItem, codeMap: Map<string, CodeItem>) {
     let dependencies: string[] = [];
     let inputCode: string;

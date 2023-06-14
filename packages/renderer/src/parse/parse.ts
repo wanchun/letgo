@@ -1,7 +1,7 @@
 import type { IPublicTypeJSExpression, IPublicTypeJSFunction } from '@webank/letgo-types';
 import { isJSExpression, isJSFunction } from '@webank/letgo-types';
-import { attachContext, hasExpression, replaceExpression } from '@webank/letgo-common';
-import { isFunction, isNil, isPlainObject, isString, isUndefined } from 'lodash-es';
+import { executeExpression } from '@webank/letgo-common';
+import { isFunction, isPlainObject, isString } from 'lodash-es';
 import { executeFunc } from './executeFunc';
 
 export function parseExpression(schema: IPublicTypeJSExpression, ctx: Record<string, unknown>) {
@@ -11,27 +11,6 @@ export function parseExpression(schema: IPublicTypeJSExpression, ctx: Record<str
     catch (err) {
         console.warn('parseExpression.error', err, schema.value, ctx);
         return undefined;
-    }
-}
-
-export function executeExpression(text: string | null, ctx: Record<string, any>) {
-    if (isNil(text))
-        return null;
-    let result = text;
-    try {
-        if (hasExpression(text)) {
-            result = replaceExpression(text, (_, expression) => {
-                const exp = attachContext(expression, name => !isUndefined(ctx[name]));
-                // eslint-disable-next-line no-new-func
-                const fn = new Function('letgoCtx', `return ${exp}`);
-                return fn(ctx);
-            });
-        }
-        result = JSON.parse(result);
-        return result;
-    }
-    catch (_) {
-        return result;
     }
 }
 

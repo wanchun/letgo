@@ -1,7 +1,7 @@
 import { parse } from 'acorn';
 import { generate } from 'astring';
 import { isNil, isUndefined } from 'lodash-es';
-import { EXPRESSION_REGEX, hasExpression } from './expression';
+import { EXPRESSION_REGEX, hasExpression, isSingleExpression } from './expression';
 
 export function extractExpression(doc: string) {
     const result = new Set<string>();
@@ -128,7 +128,16 @@ export function executeExpression(text: string | null, ctx: Record<string, any> 
         return null;
     let result = text;
     try {
-        if (hasExpression(text)) {
+        if (isSingleExpression(text)) {
+            result = replaceExpression(text, (_, expression) => {
+                return expression;
+            });
+            const exp = attachContext(result, name => !isUndefined(ctx[name]));
+            // eslint-disable-next-line no-new-func
+            const fn = new Function('letgoCtx', `return ${exp}`);
+            result = fn(ctx);
+        }
+        else if (hasExpression(text)) {
             result = replaceExpression(text, (_, expression) => {
                 const exp = attachContext(expression, name => !isUndefined(ctx[name]));
                 // eslint-disable-next-line no-new-func

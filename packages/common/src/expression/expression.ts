@@ -1,12 +1,34 @@
-import type { IPublicTypeEventHandler, IPublicTypeJSFunction } from '@webank/letgo-types';
+import type { CodeItem, IPublicTypeEventHandler, IPublicTypeJSFunction } from '@webank/letgo-types';
 import {
+    CodeType,
     InnerEventHandlerAction,
 } from '@webank/letgo-types';
+
+import { extractExpression, findExpressionDependencyCode } from './transform-expression';
 
 export const EXPRESSION_REGEX = /{{(.*?)}}/;
 
 export function hasExpression(doc: string) {
     return EXPRESSION_REGEX.test(doc);
+}
+
+export function calcDependencies(item: CodeItem, codeMap: Map<string, CodeItem>) {
+    let dependencies: string[] = [];
+    let inputCode: string;
+    if (item.type === CodeType.TEMPORARY_STATE)
+        inputCode = item.initValue;
+    else if (item.type === CodeType.JAVASCRIPT_COMPUTED)
+        inputCode = item.funcBody;
+
+    if (inputCode) {
+        extractExpression(inputCode).forEach((expression) => {
+            dependencies = dependencies.concat(findExpressionDependencyCode(expression, (name: string) => {
+                return codeMap.has(name);
+            }));
+        });
+    }
+
+    return dependencies;
 }
 
 export function eventHandlerToJsExpression(item: IPublicTypeEventHandler): IPublicTypeJSFunction {

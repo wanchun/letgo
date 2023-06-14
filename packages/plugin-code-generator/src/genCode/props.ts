@@ -1,7 +1,30 @@
+import { hasExpression, replaceExpression } from '@webank/letgo-common';
 import type { IPublicTypePropsMap } from '@webank/letgo-types';
 import { isJSExpression, isJSFunction } from '@webank/letgo-types';
+import { parseExpression, parseNormalValue } from './expression';
 
-// TODO 支持更多类型
+export function normalProps(key: string, value: any) {
+    if (typeof value === 'number')
+        return `:${key}="${value}"`;
+
+    if (typeof value === 'boolean') {
+        if (value)
+            return key;
+
+        return `:${key}="false"`;
+    }
+    if (value == null)
+        return '';
+
+    if (typeof value === 'string')
+        return `${key}="${value}"`;
+
+    if (value)
+        return `:${key}="${JSON.stringify(value)}"`;
+
+    return '';
+}
+
 export function compileProps(props?: IPublicTypePropsMap) {
     if (!props)
         return [];
@@ -13,27 +36,26 @@ export function compileProps(props?: IPublicTypePropsMap) {
         })
         .map((key) => {
             const propValue = props[key];
-            if (typeof propValue === 'number')
-                return `:${key}="${propValue}"`;
-
-            if (typeof propValue === 'boolean') {
-                if (propValue)
-                    return key;
-
-                return `:${key}="false"`;
+            if (key.startsWith('v-model')) {
+                if (isJSExpression(propValue)) {
+                    const val = replaceExpression(propValue.value, (_, expression) => {
+                        return expression;
+                    });
+                    return `${key}="${val}"`;
+                }
+                else {
+                    return `${key}="${propValue}"`;
+                }
             }
-            if (propValue == null)
-                return '';
+            if (isJSExpression(propValue)) {
+                if (hasExpression(propValue.value))
+                    return `:${key}="${parseExpression(propValue.value)}"`;
+                return normalProps(key, parseNormalValue(propValue.value));
+            }
 
-            if (typeof propValue === 'string')
-                return `${key}="${propValue}"`;
-
-            if (isJSExpression(propValue) || isJSFunction(propValue))
+            if (isJSFunction(propValue))
                 return `:${key}="${propValue.value}"`;
 
-            if (propValue)
-                return `:${key}="${JSON.stringify(propValue)}"`;
-
-            return '';
+            return normalProps(key, propValue);
         }).filter(Boolean);
 }

@@ -18,11 +18,9 @@
     "vue": "^3.3.4"
   },
   "dependencies": {
+    "@webank/letgo-common": "workspace:*",
     "@webank/letgo-designer": "workspace:*",
     "@webank/letgo-types": "workspace:*",
-    "@webank/letgo-common": "workspace:*",
-    "acorn": "^8.8.2",
-    "astring": "^1.8.4",
     "lodash-es": "^4.17.21"
   },
   "publishConfig": {

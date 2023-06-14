@@ -24,3 +24,14 @@ export function topologicalSort(dependencyMap: Map<string, string[]>) {
     }
     return result;
 }
+
+export function checkCycleDependency(dependencyMap: Map<string, string[]>) {
+    const sortResult = topologicalSort(dependencyMap);
+    if (sortResult.length < dependencyMap.size) {
+        const cycleDep = [...dependencyMap.keys()].filter((codeId) => {
+            return !sortResult.includes(codeId);
+        });
+        throw new Error(`There is a cycle in the dependencies: ${cycleDep.join(',')}.`);
+    }
+    return sortResult;
+}

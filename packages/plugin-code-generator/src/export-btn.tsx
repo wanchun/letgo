@@ -24,6 +24,7 @@ export default defineComponent({
                     usedPackages.push(pkg);
                 }
             }
+            console.log(schema);
             schemaToCode(schema);
         };
         return () => {

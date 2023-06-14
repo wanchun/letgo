@@ -1,5 +1,6 @@
 import type {
     IPublicTypeComponentMap,
+
     IPublicTypeNodeData,
     IPublicTypeProjectSchema,
     IPublicTypeRootSchema,
@@ -9,9 +10,10 @@ import {
     isNodeSchema,
 } from '@webank/letgo-types';
 import { isArray } from 'lodash-es';
-import { genPageTemplate } from './genTemplate';
+import { genPageTemplate } from './gen-template';
 import { genStyle } from './style';
 import { genScript } from './script';
+import { setGlobalConfig } from './compiler-context';
 
 function compileRootSchema(
     componentMaps: IPublicTypeComponentMap[],
@@ -97,12 +99,15 @@ async function saveFile(content: string) {
 }
 
 export function schemaToCode(schema: IPublicTypeProjectSchema) {
+    setGlobalConfig(schema.config);
+
     const rootComponents = schema.componentsTree.map((rootSchema) => {
         return compileRootSchema(
             getUseComponents(schema.componentsMap, rootSchema),
             rootSchema,
         );
     });
+
     saveFile(
         `
         ${rootComponents[0].template}

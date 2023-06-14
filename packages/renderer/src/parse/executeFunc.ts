@@ -1,5 +1,5 @@
 import type { IPublicTypeJSFunction } from '@webank/letgo-types';
-import { executeExpression } from './transform-expression';
+import { executeExpression } from './parse';
 
 export function funcSchemaToFunc(schema: IPublicTypeJSFunction, ctx: Record<string, unknown>) {
     try {

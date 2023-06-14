@@ -1,9 +1,8 @@
 import { isNil } from 'lodash-es';
-import { hasExpression, markComputed, markReactive } from '@webank/letgo-common';
+import { attachContext, hasExpression, markComputed, markReactive, replaceExpression } from '@webank/letgo-common';
 import type { ITemporaryState } from '@webank/letgo-types';
 import { CodeType } from '@webank/letgo-types';
 import type { ITemporaryStateImpl } from '@webank/letgo-designer';
-import { attachContext, replaceExpression } from '../parse';
 
 // 解析执行
 export class TemporaryStateImpl implements ITemporaryStateImpl {

@@ -95,10 +95,12 @@ export interface IPublicTypeContainerSchema extends IPublicTypeNodeSchema {
      * 文件名称
      */
     fileName: string
+
     /**
      * 代码
      */
     code: CodeStruct
+
     /**
      * 样式文件
      */

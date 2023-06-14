@@ -4,7 +4,8 @@ import { isNil } from 'lodash-es';
 import type { CodeItem } from '@webank/letgo-types';
 import { CodeType } from '@webank/letgo-types';
 import type { CodeImplType } from '@webank/letgo-designer';
-import { ComputedImpl, JavascriptQueryImpl, TemporaryStateImpl, calcDependencies, topologicalSort } from '@webank/letgo-renderer';
+import { ComputedImpl, JavascriptQueryImpl, TemporaryStateImpl } from '@webank/letgo-renderer';
+import { calcDependencies, topologicalSort } from '@webank/letgo-common';
 
 // TODO 修改 change id
 

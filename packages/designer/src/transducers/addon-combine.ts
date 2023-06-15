@@ -4,10 +4,10 @@ import type {
 
     IPublicTypeTransformedComponentMetadata,
 } from '@webank/letgo-types';
-
 import { engineConfig } from '@webank/letgo-editor-core';
 import { isArray } from 'lodash-es';
 import { eventHandlersToJsExpression } from '@webank/letgo-common';
+import { getConvertedExtraKey } from '../node';
 
 export default function (
     metadata: IPublicTypeTransformedComponentMetadata,
@@ -47,7 +47,7 @@ export default function (
             }
         }
     }
-    const combined: IPublicTypeFieldConfig[] = [
+    let combined: IPublicTypeFieldConfig[] = [
         {
             title: '属性',
             name: '#props',
@@ -85,7 +85,7 @@ export default function (
             title: '事件',
             items: [
                 {
-                    name: '___events___',
+                    name: getConvertedExtraKey('events'),
                     title: '事件设置',
                     setter: {
                         componentName: 'EventSetter',
@@ -124,7 +124,7 @@ export default function (
     if (!isRoot) {
         if (supports.condition !== false) {
             advancedGroup.push({
-                name: '___condition___',
+                name: getConvertedExtraKey('condition'),
                 title: '是否渲染',
                 defaultValue: true,
                 setter: [
@@ -146,7 +146,7 @@ export default function (
                 title: '循环',
                 items: [
                     {
-                        name: '___loop___',
+                        name: getConvertedExtraKey('loop'),
                         title: '循环数据',
                         setter: [
                             {
@@ -162,7 +162,7 @@ export default function (
                         ],
                     },
                     {
-                        name: '___loopArgs___.0',
+                        name: `${getConvertedExtraKey('loopArgs')}.0`,
                         title: '迭代变量名',
                         setter: {
                             componentName: 'StringSetter',
@@ -172,8 +172,7 @@ export default function (
                         },
                     },
                     {
-                        name: '___loopArgs___.1',
-                        title: '索引变量名',
+                        name: `${getConvertedExtraKey('loopArgs')}.1`,
                         setter: {
                             componentName: 'StringSetter',
                             props: {
@@ -217,6 +216,15 @@ export default function (
                 },
             });
         }
+    }
+    else {
+        advancedGroup.push(
+            {
+                name: getConvertedExtraKey('fileName'),
+                title: '页面路径',
+                setter: 'StringSetter',
+            },
+        );
     }
     if (advancedGroup.length > 0) {
         combined.push({
@@ -265,6 +273,11 @@ export default function (
             addVariableSetter(fieldConfig);
         });
     }
+
+    // 过滤掉没有配置的大项
+    combined = combined.filter((item) => {
+        return item.items.length;
+    });
 
     return {
         ...metadata,

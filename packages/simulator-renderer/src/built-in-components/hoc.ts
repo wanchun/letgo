@@ -23,6 +23,7 @@ import {
     IPublicEnumTransformStage,
     isJSSlot,
 } from '@webank/letgo-types';
+import { getConvertedExtraKey } from '@webank/letgo-designer';
 import type { ISlotNode } from '@webank/letgo-designer';
 import type {
     BlockScope,
@@ -120,15 +121,15 @@ export const Hoc = defineComponent({
                     const rootPropKey: string = prop.path[0];
 
                     if (isRootProp && key) {
-                        if (key === '___condition___') {
+                        if (key === getConvertedExtraKey('condition')) {
                             // 条件渲染更新 v-if
                             condition(newValue);
                         }
-                        else if (key === '___loop___') {
+                        else if (key === getConvertedExtraKey('loop')) {
                             // 循环数据更新 v-for
                             updateLoop(newValue);
                         }
-                        else if (key === '___loopArgs___') {
+                        else if (key === getConvertedExtraKey('loopArgs')) {
                             // 循环参数初始化 (item, index)
                             updateLoopArg(newValue);
                         }
@@ -163,7 +164,7 @@ export const Hoc = defineComponent({
                             compProps[key] = newValue;
                         }
                     }
-                    else if (rootPropKey === '___loopArgs___') {
+                    else if (rootPropKey === getConvertedExtraKey('loopArgs')) {
                         // 循环参数初始化 (item, index)
                         updateLoopArg(newValue, key);
                     }

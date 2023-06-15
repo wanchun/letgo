@@ -39,7 +39,7 @@ export { editor, config, designer, plugins, skeleton, material, project, hotkey,
 (async function registerPlugins() {
     // 处理 editor.set('assets')，将组件元数据创建好
     innerPlugins.register({
-        name: '___component_meta_parser___',
+        name: 'component_meta_parser',
         init(ctx) {
             const { editor, designer } = ctx;
             editor.onGot('assets', (assets: any) => {
@@ -50,7 +50,7 @@ export { editor, config, designer, plugins, skeleton, material, project, hotkey,
     });
     // 注册默认的 setters
     innerPlugins.register({
-        name: '___setter_registry___',
+        name: 'setter_registry',
         init(ctx) {
             const { setters } = ctx;
             setters.register(engineExt.setters);

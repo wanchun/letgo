@@ -5,24 +5,46 @@ import type {
     IPublicTypeProjectSchema,
     IPublicTypeRootSchema,
 } from '@webank/letgo-types';
-import {
-    isJSSlot,
-    isNodeSchema,
-} from '@webank/letgo-types';
-import { isArray } from 'lodash-es';
+
+import { traverseExpression } from '@webank/letgo-common';
 import { genPageTemplate } from './gen-template';
 import { genStyle } from './style';
 import { genScript } from './script';
 import { setGlobalConfig } from './compiler-context';
+import { traverseNodeSchema } from './helper';
+
+function getComponentRefs(
+    nodeData: IPublicTypeNodeData | IPublicTypeNodeData[],
+) {
+    const componentRefs: Set<string> = new Set();
+    traverseNodeSchema(nodeData, (item) => {
+        componentRefs.add(item.componentName);
+    });
+    return componentRefs;
+}
+
+function getUseComponentRefs(rootSchema: IPublicTypeRootSchema) {
+    const componentRefs = getComponentRefs(rootSchema.children);
+    const usedComponents = new Set<string>();
+    traverseExpression(JSON.stringify(rootSchema), (expression) => {
+        for (const refName of componentRefs.values()) {
+            // REFACTOR 有可能误杀
+            if (expression.includes(refName))
+                usedComponents.add(refName);
+        }
+    });
+    return usedComponents;
+}
 
 function compileRootSchema(
     componentMaps: IPublicTypeComponentMap[],
     rootSchema: IPublicTypeRootSchema,
 ) {
     if (rootSchema.componentName === 'Page') {
+        const componentRefs = getUseComponentRefs(rootSchema);
         return {
-            template: genPageTemplate(rootSchema),
-            script: genScript(componentMaps, rootSchema),
+            template: genPageTemplate(rootSchema, componentRefs),
+            script: genScript(componentMaps, rootSchema, componentRefs),
             style: genStyle(rootSchema),
         };
     }
@@ -31,35 +53,11 @@ function compileRootSchema(
 
 function getUseComponentNames(
     nodeData: IPublicTypeNodeData | IPublicTypeNodeData[],
-    componentNames: Set<string> = new Set(),
 ) {
-    if (Array.isArray(nodeData)) {
-        nodeData.forEach((item) => {
-            if (isNodeSchema(item)) {
-                componentNames.add(item.componentName);
-                if (item.props.children) {
-                    if (isArray(item.props.children))
-                        getUseComponentNames(item.props.children, componentNames);
-
-                    else
-                        getUseComponentNames([item.props.children], componentNames);
-                }
-                if (item.children)
-                    getUseComponentNames(item.children, componentNames);
-            }
-            else if (isJSSlot(item)) {
-                getUseComponentNames(
-                    isArray(item.value) ? item.value : [item.value],
-                    componentNames,
-                );
-            }
-        });
-    }
-    else if (isNodeSchema(nodeData)) {
-        componentNames.add(nodeData.componentName);
-        if (nodeData.children)
-            getUseComponentNames(nodeData.children, componentNames);
-    }
+    const componentNames: Set<string> = new Set();
+    traverseNodeSchema(nodeData, (item) => {
+        componentNames.add(item.componentName);
+    });
     return componentNames;
 }
 

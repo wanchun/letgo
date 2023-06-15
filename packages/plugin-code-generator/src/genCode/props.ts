@@ -2,6 +2,7 @@ import { hasExpression, replaceExpression } from '@webank/letgo-common';
 import type { IPublicTypePropsMap } from '@webank/letgo-types';
 import { isJSExpression, isJSFunction } from '@webank/letgo-types';
 import { parseExpression, parseNormalValue } from './expression';
+import { genEventName } from './events';
 
 export function normalProps(key: string, value: any) {
     if (typeof value === 'number')
@@ -25,7 +26,7 @@ export function normalProps(key: string, value: any) {
     return '';
 }
 
-export function compileProps(props?: IPublicTypePropsMap) {
+export function compileProps(props?: IPublicTypePropsMap, refName = '') {
     if (!props)
         return [];
 
@@ -53,8 +54,11 @@ export function compileProps(props?: IPublicTypePropsMap) {
                 return normalProps(key, parseNormalValue(propValue.value));
             }
 
+            if (key.match(/^on[A-Z]/))
+                return `:${key}="${genEventName(key, refName)}"`;
+
             if (isJSFunction(propValue))
-                return `:${key}="${propValue.value}"`;
+                return `:${key}="${genEventName(key, refName)}"`;
 
             return normalProps(key, propValue);
         }).filter(Boolean);

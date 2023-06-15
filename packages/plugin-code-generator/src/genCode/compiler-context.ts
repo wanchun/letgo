@@ -1,6 +1,7 @@
 const context: {
     config: Record<string, any>
 } = {
+
     config: {},
 };
 

@@ -1,4 +1,4 @@
-import { eventHandlersToJsExpression, markComputed, markShallowReactive } from '@webank/letgo-common';
+import { eventHandlersToJsFunction, markComputed, markShallowReactive } from '@webank/letgo-common';
 import type { IFailureCondition, IJavascriptQuery, IPublicTypeEventHandler } from '@webank/letgo-types';
 import type { IJavascriptQueryImpl } from '@webank/letgo-designer';
 import { CodeType, RunCondition } from '@webank/letgo-types';
@@ -57,7 +57,7 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
     eventSchemaToFunc(events: IPublicTypeEventHandler[] = []) {
         if (!events.length)
             return [];
-        const jsExpressionMap = eventHandlersToJsExpression(events);
+        const jsExpressionMap = eventHandlersToJsFunction(events);
         const jsExpressions = Object.keys(jsExpressionMap).reduce((acc, cur) => {
             acc = acc.concat(jsExpressionMap[cur]);
             return acc;
@@ -157,20 +157,5 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
         this.clearCache();
         this.data = null;
         this.error = null;
-    }
-
-    getState() {
-        return {
-            id: this.id,
-            data: this.data,
-            error: this.error,
-            enableTransformer: this.enableTransformer,
-            transformer: this.transformer,
-            showSuccessToaster: this.showSuccessToaster,
-            successMessage: this.successMessage,
-            queryTimeout: this.queryTimeout,
-            runCondition: this.runCondition,
-            queryFailureCondition: this.queryFailureCondition,
-        };
     }
 }

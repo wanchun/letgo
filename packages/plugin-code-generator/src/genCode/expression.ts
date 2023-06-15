@@ -1,4 +1,10 @@
-import { isOnlyExpression, replaceExpression } from '@webank/letgo-common';
+import { hasExpression, isOnlyExpression, replaceExpression } from '@webank/letgo-common';
+
+export function parseFuncBody(text: string) {
+    return replaceExpression(text, (_, expression) => {
+        return expression;
+    });
+}
 
 export function parseExpression(text: string) {
     let result = text.trim();
@@ -18,9 +24,18 @@ export function parseNormalValue(text: string) {
     let result = text.trim();
     try {
         result = JSON.parse(result);
-        return result;
     }
     catch (_) {
-        return result;
     }
+    if (typeof result === 'string')
+        return JSON.stringify(result);
+
+    return result;
+}
+
+export function parseInput(text: string) {
+    if (hasExpression(text))
+        return parseExpression(text);
+
+    return parseNormalValue(text);
 }

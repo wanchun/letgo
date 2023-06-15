@@ -35,7 +35,7 @@ export function calcDependencies(item: CodeItem, codeMap: Map<string, CodeItem>)
     return dependencies;
 }
 
-export function eventHandlerToJsExpression(item: IPublicTypeEventHandler): IPublicTypeJSFunction {
+export function eventHandlerToJsFunction(item: IPublicTypeEventHandler): IPublicTypeJSFunction {
     let expression: string;
     const params: any[] = [];
     if (item.action === InnerEventHandlerAction.CONTROL_QUERY) {
@@ -72,13 +72,13 @@ export function eventHandlerToJsExpression(item: IPublicTypeEventHandler): IPubl
     };
 }
 
-export function eventHandlersToJsExpression(handlers: IPublicTypeEventHandler[]) {
+export function eventHandlersToJsFunction(handlers: IPublicTypeEventHandler[]) {
     const result: {
         [key: string]: IPublicTypeJSFunction[]
     } = {};
     handlers.forEach((item: IPublicTypeEventHandler) => {
         if (item.namespace && item.method) {
-            const jsExpression = eventHandlerToJsExpression(item);
+            const jsExpression = eventHandlerToJsFunction(item);
             result[item.name] = (result[item.name] || []).concat(jsExpression);
         }
     });

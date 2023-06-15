@@ -7,7 +7,7 @@ import type {
 
 import { engineConfig } from '@webank/letgo-editor-core';
 import { isArray } from 'lodash-es';
-import { eventHandlersToJsExpression } from '@webank/letgo-common';
+import { eventHandlersToJsFunction } from '@webank/letgo-common';
 
 export default function (
     metadata: IPublicTypeTransformedComponentMetadata,
@@ -109,7 +109,7 @@ export default function (
                             }
 
                             if (Array.isArray(componentEvents)) {
-                                const result = eventHandlersToJsExpression(componentEvents);
+                                const result = eventHandlersToJsFunction(componentEvents);
                                 Object.keys(result).forEach((name) => {
                                     field.parent.setPropValue(name, result[name]);
                                 });

@@ -1,18 +1,21 @@
 import type {
     CodeItem,
     CodeStruct,
-    IPublicTypeComponentMap, IPublicTypeJSFunction, IPublicTypeNodeData, IPublicTypeRootSchema,
+    IPublicTypeComponentMap, IPublicTypeEventHandler, IPublicTypeJSFunction, IPublicTypeNodeData, IPublicTypeRootSchema,
 } from '@webank/letgo-types';
 import {
+    CodeType,
     isJSFunction,
     isProCodeComponentType,
 } from '@webank/letgo-types';
-import { calcDependencies, checkCycleDependency } from '@webank/letgo-common';
+import { calcDependencies, checkCycleDependency, eventHandlersToJsFunction } from '@webank/letgo-common';
 import { getCurrentContext } from './compiler-context';
 import { genGlobalConfig } from './global-config';
 import { genImportCode, traverseNodeSchema } from './helper';
-import { type ImportSource, ImportType } from './types';
+import { ImportType } from './types';
+import type { ImportSource, SetupCode } from './types';
 import { funcSchemaToFunc, genEventName } from './events';
+import { parseFuncBody, parseInput } from './expression';
 
 function genComponentImports(componentMaps: IPublicTypeComponentMap[]) {
     const importSources: ImportSource[] = [];
@@ -43,7 +46,18 @@ function genCodeMap(code: CodeStruct) {
     return codeMap;
 }
 
-function genCode(schema: IPublicTypeRootSchema) {
+function eventSchemaToFunc(events: IPublicTypeEventHandler[] = []) {
+    if (!events.length)
+        return [];
+    const jsFunctionMap = eventHandlersToJsFunction(events);
+    const jsFunctions = Object.keys(jsFunctionMap).reduce((acc, cur) => {
+        acc = acc.concat(jsFunctionMap[cur]);
+        return acc;
+    }, []);
+    return jsFunctions.map(item => funcSchemaToFunc(item));
+}
+
+function genCode(schema: IPublicTypeRootSchema): SetupCode {
     const codeMap = genCodeMap(schema.code);
     const dependencyMap = new Map<string, string[]>();
 
@@ -51,10 +65,69 @@ function genCode(schema: IPublicTypeRootSchema) {
         dependencyMap.set(codeId, calcDependencies(item, codeMap));
 
     const sortResult = checkCycleDependency(dependencyMap);
+    const codeStr: string[] = [];
+    const importSourceMap = new Map<string, ImportSource>();
     sortResult.reverse().forEach((codeId) => {
         const item = codeMap.get(codeId);
-        // TODO 处理 expression
+        if (item.type === CodeType.TEMPORARY_STATE) {
+            importSourceMap.set('useTemporaryState', {
+                imported: 'useTemporaryState',
+                type: ImportType.ImportSpecifier,
+                source: '@/use/useTemporaryState',
+            });
+            codeStr.push(`
+            const ${item.id} = useTemporaryState({
+                id: '${item.id}',
+                initValue: ${parseInput(item.initValue)},
+            });
+            `);
+        }
+        else if (item.type === CodeType.JAVASCRIPT_COMPUTED) {
+            importSourceMap.set('useComputed', {
+                imported: 'useComputed',
+                type: ImportType.ImportSpecifier,
+                source: '@/use/useComputed',
+            });
+            codeStr.push(`
+            const ${item.id} = useComputed({
+                id: '${item.id}',
+                func: () => {
+                    ${parseFuncBody(item.funcBody)}
+                },
+            });
+            `);
+        }
+        else if (item.type === CodeType.JAVASCRIPT_QUERY) {
+            importSourceMap.set('useJSQuery', {
+                imported: 'useJSQuery',
+                type: ImportType.ImportSpecifier,
+                source: '@/use/useJSQuery',
+            });
+            codeStr.push(`
+            const ${item.id} = useJSQuery({
+                id: '${item.id}',
+                query() {
+                    ${item.query}
+                },
+                enableTransformer: ${item.enableTransformer},
+                transformer: '${item.enableTransformer}',
+                showFailureToaster: ${item.showFailureToaster},
+                showSuccessToaster: ${item.showSuccessToaster},
+                successMessage: '${item.successMessage}',
+                queryTimeout: ${item.queryTimeout},
+                runCondition: ${item.runCondition},
+                queryFailureCondition: ${item.queryFailureCondition},
+                successEvent: ${eventSchemaToFunc(item.successEvent)},
+                failureEvent: ${eventSchemaToFunc(item.failureEvent)},
+            });
+            `);
+        }
     });
+
+    return {
+        importSources: Array.from(importSourceMap.values()),
+        code: codeStr.join('\n'),
+    };
 }
 
 function genRefCode(componentRefs: Set<string>) {
@@ -125,14 +198,16 @@ export function genScript(
     componentRefs: Set<string>,
 ) {
     const context = getCurrentContext();
+    const codeImports = genComponentImports(componentMaps);
     const configCodeSnippet = genGlobalConfig(context.config);
     const refCode = genRefCode(componentRefs);
-    const codeImports = genComponentImports(componentMaps);
+    const codes = genCode(rootSchema);
     return `<script setup>
-            ${genImportCode(configCodeSnippet.importSources.concat(codeImports, refCode.importSources))}
+            ${genImportCode(configCodeSnippet.importSources.concat(codeImports, refCode.importSources, codes.importSources))}
             ${genComponentImports(componentMaps)}
             ${configCodeSnippet.code}
             ${refCode.code}
+            ${codes.code}
 
             ${genUseComponentEvents(rootSchema).join('\n')}
         </script>`;

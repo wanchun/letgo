@@ -133,7 +133,7 @@ const MixedSetterView = defineComponent({
                 if (!firstMatched && setter.condition(field))
                     firstMatched = setter;
             }
-            return (firstMatched || firstDefault || setters.value[0]).name;
+            return (firstMatched || firstDefault || setters.value[0])?.name;
         };
 
         const currentSetterName: Ref<string> = ref(getDefaultSetterName());

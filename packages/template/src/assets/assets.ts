@@ -4586,18 +4586,28 @@ const assets: IPublicTypeAssetsJson = {
             configure: {
                 component: {
                     isContainer: true,
+                    nestingRule: {
+                        childWhitelist: ['FCarouselItem'],
+                    },
+                },
+                supports: {
+                    events: ['onChange'],
                 },
             },
             props: [
                 {
+                    name: 'type',
+                    title: '类型',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['default', 'card'],
+                    },
+                    defaultValue: 'default',
+                },
+                {
                     name: 'height',
                     title: '高度',
                     propType: 'string',
-                },
-                {
-                    name: 'initialIndex',
-                    title: '初始索引',
-                    propType: 'number',
                 },
                 {
                     name: 'trigger',
@@ -4606,16 +4616,31 @@ const assets: IPublicTypeAssetsJson = {
                         type: 'oneOf',
                         value: ['click', 'hover'],
                     },
+                    defaultValue: 'click',
                 },
                 {
                     name: 'autoplay',
                     title: '自动切换',
                     propType: 'bool',
+                    defaultValue: true,
                 },
                 {
                     name: 'interval',
                     title: '自动切换间隔',
                     propType: 'number',
+                    defaultValue: 3000,
+                },
+                {
+                    name: 'loop',
+                    title: '是否循环',
+                    propType: 'bool',
+                    defaultValue: true,
+                },
+                {
+                    name: 'pauseOnHover',
+                    title: '悬浮暂停切换',
+                    propType: 'bool',
+                    defaultValue: true,
                 },
                 {
                     name: 'indicatorType',
@@ -4624,48 +4649,40 @@ const assets: IPublicTypeAssetsJson = {
                         type: 'oneOf',
                         value: ['linear', 'dot'],
                     },
-                },
-                {
-                    name: 'indicatorPlacement',
-                    title: '指示器摆放方向',
-                    propType: {
-                        type: 'oneOf',
-                        value: ['top', 'right', 'bottom', 'left'],
-                    },
+                    defaultValue: 'linear',
                 },
                 {
                     name: 'indicatorPosition',
                     title: '指示器位置',
                     propType: {
                         type: 'oneOf',
-                        value: ['outside', 'none', ''],
+                        value: ['default', 'outside', 'none'],
                     },
+                    defaultValue: 'default',
+                },
+                {
+                    name: 'indicatorPlacement',
+                    title: '指示器方向',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['top', 'right', 'bottom', 'left'],
+                    },
+                    defaultValue: 'bottom',
                 },
                 {
                     name: 'showArrow',
-                    title: '箭头显示',
+                    title: '箭头显示时机',
                     propType: {
                         type: 'oneOf',
                         value: ['always', 'hover', 'never'],
                     },
+                    defaultValue: 'hover',
                 },
                 {
-                    name: 'type',
-                    title: '类型',
-                    propType: {
-                        type: 'oneOf',
-                        value: ['', 'card'],
-                    },
-                },
-                {
-                    name: 'loop',
-                    title: '循环',
-                    propType: 'bool',
-                },
-                {
-                    name: 'pauseOnHover',
-                    title: '悬浮暂停',
-                    propType: 'bool',
+                    name: 'initialIndex',
+                    title: '初始索引',
+                    propType: 'number',
+                    defaultValue: 0,
                 },
             ],
             snippets: [
@@ -4673,8 +4690,41 @@ const assets: IPublicTypeAssetsJson = {
                     title: '走马灯',
                     schema: {
                         componentName: 'FCarousel',
-                        props: {},
-                        children: [],
+                        props: {
+                            height: '240px',
+                        },
+                        children: [
+                            {
+                                componentName: 'FCarouselItem',
+                                children: [
+                                    {
+                                        componentName: 'FImage',
+                                        props: {
+                                            src: 'https://s3.bmp.ovh/imgs/2022/01/f615608955b707cd.png',
+                                            style: {
+                                                width: '100%',
+                                                height: '100%',
+                                            },
+                                        },
+                                    },
+                                ],
+                            },
+                            {
+                                componentName: 'FCarouselItem',
+                                children: [
+                                    {
+                                        componentName: 'FImage',
+                                        props: {
+                                            src: 'https://s3.bmp.ovh/imgs/2022/01/5c8bf7eb1ef7a400.png',
+                                            style: {
+                                                width: '100%',
+                                                height: '100%',
+                                            },
+                                        },
+                                    },
+                                ],
+                            },
+                        ],
                     },
                 },
             ],
@@ -4695,11 +4745,14 @@ const assets: IPublicTypeAssetsJson = {
             configure: {
                 component: {
                     isContainer: true,
+                    nestingRule: {
+                        parentWhitelist: ['FCarousel'],
+                    },
                 },
             },
             snippets: [
                 {
-                    title: '走马灯',
+                    title: '走马灯选项',
                     schema: {
                         componentName: 'FCarouselItem',
                         children: [],
@@ -4707,86 +4760,6 @@ const assets: IPublicTypeAssetsJson = {
                 },
             ],
             group: '原子组件',
-            category: '信息展示',
-            priority: 0,
-        },
-        {
-            componentName: '',
-            title: '',
-            snippets: [
-                {
-                    title: '走马灯',
-                    schema: {
-                        componentName: 'FCarousel',
-                        props: {
-                            height: '240px',
-                        },
-                        children: [
-                            {
-                                componentName: 'FCarouselItem',
-                                children: [
-                                    {
-                                        componentName: 'img',
-                                        props: {
-                                            src: 'https://s3.bmp.ovh/imgs/2022/01/f615608955b707cd.png',
-                                            style: {
-                                                width: '100%',
-                                                height: '100%',
-                                            },
-                                        },
-                                    },
-                                ],
-                            },
-                            {
-                                componentName: 'FCarouselItem',
-                                children: [
-                                    {
-                                        componentName: 'img',
-                                        props: {
-                                            src: 'https://s3.bmp.ovh/imgs/2022/01/5c8bf7eb1ef7a400.png',
-                                            style: {
-                                                width: '100%',
-                                                height: '100%',
-                                            },
-                                        },
-                                    },
-                                ],
-                            },
-                            {
-                                componentName: 'FCarouselItem',
-                                children: [
-                                    {
-                                        componentName: 'img',
-                                        props: {
-                                            src: 'https://s3.bmp.ovh/imgs/2022/01/ebaa3c3133c9e964.png',
-                                            style: {
-                                                width: '100%',
-                                                height: '100%',
-                                            },
-                                        },
-                                    },
-                                ],
-                            },
-                            {
-                                componentName: 'FCarouselItem',
-                                children: [
-                                    {
-                                        componentName: 'img',
-                                        props: {
-                                            src: 'https://s3.bmp.ovh/imgs/2022/01/2f68ed8e26dc519b.png',
-                                            style: {
-                                                width: '100%',
-                                                height: '100%',
-                                            },
-                                        },
-                                    },
-                                ],
-                            },
-                        ],
-                    },
-                },
-            ],
-            group: '精选组件',
             category: '信息展示',
             priority: 0,
         },
@@ -4818,6 +4791,7 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'accordion',
                     title: '手风琴模式',
                     propType: 'bool',
+                    defaultValue: false,
                 },
                 {
                     name: 'arrow',
@@ -4826,11 +4800,24 @@ const assets: IPublicTypeAssetsJson = {
                         type: 'oneOf',
                         value: ['left', 'right'],
                     },
+                    defaultValue: 'right',
+                },
+                {
+                    name: 'embedded',
+                    title: '深色背景',
+                    propType: 'bool',
+                    defaultValue: true,
                 },
             ],
             configure: {
                 component: {
                     isContainer: true,
+                    nestingRule: {
+                        childWhitelist: ['FCollapseItem'],
+                    },
+                },
+                supports: {
+                    events: ['onChange'],
                 },
             },
             snippets: [
@@ -4838,7 +4825,68 @@ const assets: IPublicTypeAssetsJson = {
                     title: '折叠面板',
                     schema: {
                         componentName: 'FCollapse',
-                        children: [],
+                        children: [
+                            {
+                                componentName: 'FCollapseItem',
+                                props: {
+                                    name: '1',
+                                    title: 'Consistency',
+                                },
+                                children: [
+                                    {
+                                        componentName: 'NText',
+                                        props: {
+                                            children: '岁月静好，浅笑安然。打开记忆的闸门，仿佛又回到了那年那月那时光，仿佛又见到你送给我的那盆清香茉莉，在细雨潇潇的夜晚，所呈现出来的洁净和楚楚动人。以前的过往总是在记忆深处，以固有的姿态，以从未稍离的执着提醒我，生命中有一种存在，叫以前。',
+                                        },
+                                    },
+                                ],
+                            },
+                            {
+                                componentName: 'FCollapseItem',
+                                props: {
+                                    name: '2',
+                                    title: 'Feedback',
+                                },
+                                children: [
+                                    {
+                                        componentName: 'NText',
+                                        props: {
+                                            children: '生活是蜿蜒在山中的小径，坎坷不平，沟崖在侧。摔倒了，要哭就哭吧，怕什么，不心装模作样！这是直率，不是软弱，因为哭一场并不影响赶路，反而能增添一份留意。山花烂漫，景色宜人，如果陶醉了，想笑就笑吧，不心故作矜持！这是直率，不是骄傲，因为笑一次并不影响赶路，反而能增添一份信心。',
+                                        },
+                                    },
+                                ],
+                            },
+                            {
+                                componentName: 'FCollapseItem',
+                                props: {
+                                    name: '3',
+                                    title: 'Efficiency',
+                                },
+                                children: [
+                                    {
+                                        componentName: 'NText',
+                                        props: {
+                                            children: '喜欢一种情意，浅浅淡淡，不远不近。念起便有一种沁心的暖，知心的柔。岁月轮转，韶华渐老，惟愿人依旧安静，温雅。世事经年，惟愿情怀依旧宁静如初。静默时光的彼岸，就让我宁心等待一场必然来临的春暖花开。即使偶尔会有心潮澎湃，亦是沉寂中的安恬与端庄。',
+                                        },
+                                    },
+                                ],
+                            },
+                            {
+                                componentName: 'FCollapseItem',
+                                props: {
+                                    name: '4',
+                                    title: 'Controllability',
+                                },
+                                children: [
+                                    {
+                                        componentName: 'NText',
+                                        props: {
+                                            children: '一弯月光，风飘云漫，多少个明月夜，寂寞走不出思念的射线，静静的听你梦中的心跳，轻嗅你唇边的香息，柔醉你缱绻的缠绵。衣袂飘飘，心香瓣瓣，在飘渺的细雨中，衍生了无尽的眷恋。用一生的深情与你凝眸相拥，朝夕相伴。幽篁深处，落叶与娇花相随，你我的沉醉，静默了一池山水。',
+                                        },
+                                    },
+                                ],
+                            },
+                        ],
                     },
                 },
             ],
@@ -4873,11 +4921,15 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'disabled',
                     title: '禁用',
                     propType: 'bool',
+                    defaultValue: false,
                 },
             ],
             configure: {
                 component: {
                     isContainer: true,
+                    nestingRule: {
+                        parentWhitelist: ['FCollapse'],
+                    },
                 },
             },
             snippets: [
@@ -4890,64 +4942,6 @@ const assets: IPublicTypeAssetsJson = {
                 },
             ],
             group: '原子组件',
-            category: '信息展示',
-            priority: 0,
-        },
-        {
-            componentName: '',
-            title: '',
-            snippets: [
-                {
-                    title: '折叠面板',
-                    schema: {
-                        componentName: 'FCollapse',
-
-                        children: [
-                            {
-                                componentName: 'FCollapseItem',
-                                props: {
-                                    name: '1',
-                                    title: 'Consistency',
-                                },
-                                children: [
-                                    '岁月静好，浅笑安然。打开记忆的闸门，仿佛又回到了那年那月那时光，仿佛又见到你送给我的那盆清香茉莉，在细雨潇潇的夜晚，所呈现出来的洁净和楚楚动人。以前的过往总是在记忆深处，以固有的姿态，以从未稍离的执着提醒我，生命中有一种存在，叫以前。',
-                                ],
-                            },
-                            {
-                                componentName: 'FCollapseItem',
-                                props: {
-                                    name: '2',
-                                    title: 'Feedback',
-                                },
-                                children: [
-                                    '生活是蜿蜒在山中的小径，坎坷不平，沟崖在侧。摔倒了，要哭就哭吧，怕什么，不心装模作样！这是直率，不是软弱，因为哭一场并不影响赶路，反而能增添一份留意。山花烂漫，景色宜人，如果陶醉了，想笑就笑吧，不心故作矜持！这是直率，不是骄傲，因为笑一次并不影响赶路，反而能增添一份信心。',
-                                ],
-                            },
-                            {
-                                componentName: 'FCollapseItem',
-                                props: {
-                                    name: '3',
-                                    title: 'Efficiency',
-                                },
-                                children: [
-                                    '喜欢一种情意，浅浅淡淡，不远不近。念起便有一种沁心的暖，知心的柔。岁月轮转，韶华渐老，惟愿人依旧安静，温雅。世事经年，惟愿情怀依旧宁静如初。静默时光的彼岸，就让我宁心等待一场必然来临的春暖花开。即使偶尔会有心潮澎湃，亦是沉寂中的安恬与端庄。',
-                                ],
-                            },
-                            {
-                                componentName: 'FCollapseItem',
-                                props: {
-                                    name: '4',
-                                    title: 'Controllability',
-                                },
-                                children: [
-                                    '一弯月光，风飘云漫，多少个明月夜，寂寞走不出思念的射线，静静的听你梦中的心跳，轻嗅你唇边的香息，柔醉你缱绻的缠绵。衣袂飘飘，心香瓣瓣，在飘渺的细雨中，衍生了无尽的眷恋。用一生的深情与你凝眸相拥，朝夕相伴。幽篁深处，落叶与娇花相随，你我的沉醉，静默了一池山水。',
-                                ],
-                            },
-                        ],
-                    },
-                },
-            ],
-            group: '精选组件',
             category: '信息展示',
             priority: 0,
         },
@@ -4965,14 +4959,7 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'column',
                     title: '总列数',
                     propType: 'number',
-                },
-                {
-                    name: 'contentStyle',
-                    title: '内容样式',
-                    propType: {
-                        type: 'oneOfType',
-                        value: ['string', 'object'],
-                    },
+                    defaultValue: 3,
                 },
                 {
                     name: 'labelAlign',
@@ -4981,6 +4968,7 @@ const assets: IPublicTypeAssetsJson = {
                         type: 'oneOf',
                         value: ['left', 'center', 'right'],
                     },
+                    defaultValue: 'left',
                 },
                 {
                     name: 'labelPlacement',
@@ -4989,19 +4977,13 @@ const assets: IPublicTypeAssetsJson = {
                         type: 'oneOf',
                         value: ['left', 'top'],
                     },
-                },
-                {
-                    name: 'labelStyle',
-                    title: '标签样式',
-                    propType: {
-                        type: 'oneOfType',
-                        value: ['string', 'object'],
-                    },
+                    defaultValue: 'left',
                 },
                 {
                     name: 'separator',
                     title: '分隔符',
                     propType: 'string',
+                    defaultValue: ':',
                 },
                 {
                     name: 'title',
@@ -5012,11 +4994,31 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'bordered',
                     title: '边框',
                     propType: 'bool',
+                    defaultValue: false,
+                },
+                {
+                    name: 'contentStyle',
+                    title: '内容样式',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'object'],
+                    },
+                },
+                {
+                    name: 'labelStyle',
+                    title: '标签样式',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'object'],
+                    },
                 },
             ],
             configure: {
                 component: {
                     isContainer: true,
+                    nestingRule: {
+                        childWhitelist: ['FDescriptionsItem'],
+                    },
                 },
             },
             snippets: [
@@ -5024,7 +5026,81 @@ const assets: IPublicTypeAssetsJson = {
                     title: '描述列表',
                     schema: {
                         componentName: 'FDescriptions',
-                        children: [],
+                        props: {
+                            title: '身份信息',
+                        },
+                        children: [
+                            {
+                                componentName: 'FDescriptionsItem',
+                                props: {
+                                    label: '姓名',
+                                },
+                                children: [
+                                    {
+                                        componentName: 'NText',
+                                        props: {
+                                            children: '万xx',
+                                        },
+                                    },
+                                ],
+                            },
+                            {
+                                componentName: 'FDescriptionsItem',
+                                props: {
+                                    label: '性别',
+                                },
+                                children: [
+                                    {
+                                        componentName: 'NText',
+                                        props: {
+                                            children: '男',
+                                        },
+                                    },
+                                ],
+                            },
+                            {
+                                componentName: 'FDescriptionsItem',
+                                props: {
+                                    label: '年龄',
+                                },
+                                children: [
+                                    {
+                                        componentName: 'NText',
+                                        props: {
+                                            children: '60',
+                                        },
+                                    },
+                                ],
+                            },
+                            {
+                                componentName: 'FDescriptionsItem',
+                                props: {
+                                    label: '身份证',
+                                },
+                                children: [
+                                    {
+                                        componentName: 'NText',
+                                        props: {
+                                            children: '42xxxxxxxxxxxxx212',
+                                        },
+                                    },
+                                ],
+                            },
+                            {
+                                componentName: 'FDescriptionsItem',
+                                props: {
+                                    label: '血型',
+                                },
+                                children: [
+                                    {
+                                        componentName: 'NText',
+                                        props: {
+                                            children: 'A',
+                                        },
+                                    },
+                                ],
+                            },
+                        ],
                     },
                 },
             ],
@@ -5051,6 +5127,7 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'span',
                     title: '占的列数',
                     propType: 'number',
+                    defaultValue: 1,
                 },
                 {
                     name: 'contentStyle',
@@ -5072,6 +5149,9 @@ const assets: IPublicTypeAssetsJson = {
             configure: {
                 component: {
                     isContainer: true,
+                    nestingRule: {
+                        parentWhitelist: ['FDescriptions'],
+                    },
                 },
             },
             snippets: [
@@ -5088,61 +5168,6 @@ const assets: IPublicTypeAssetsJson = {
             priority: 0,
         },
         {
-            componentName: '',
-            title: '',
-            snippets: [
-                {
-                    title: '描述列表',
-                    schema: {
-                        componentName: 'FDescriptions',
-                        props: {
-                            title: '身份信息',
-                        },
-                        children: [
-                            {
-                                componentName: 'FDescriptionsItem',
-                                props: {
-                                    label: '姓名',
-                                },
-                                children: ['万xx'],
-                            },
-                            {
-                                componentName: 'FDescriptionsItem',
-                                props: {
-                                    label: '性别',
-                                },
-                                children: ['男'],
-                            },
-                            {
-                                componentName: 'FDescriptionsItem',
-                                props: {
-                                    label: '年龄',
-                                },
-                                children: ['60'],
-                            },
-                            {
-                                componentName: 'FDescriptionsItem',
-                                props: {
-                                    label: '身份证',
-                                },
-                                children: ['4222202166606061212'],
-                            },
-                            {
-                                componentName: 'FDescriptionsItem',
-                                props: {
-                                    label: '血型',
-                                },
-                                children: ['A'],
-                            },
-                        ],
-                    },
-                },
-            ],
-            group: '精选组件',
-            category: '信息展示',
-            priority: 0,
-        },
-        {
             title: '图片',
             componentName: 'FImage',
             npm: {
@@ -5153,8 +5178,8 @@ const assets: IPublicTypeAssetsJson = {
             },
             props: [
                 {
-                    name: 'alt',
-                    title: '描述',
+                    name: 'src',
+                    title: '图片地址',
                     propType: 'string',
                 },
                 {
@@ -5174,16 +5199,6 @@ const assets: IPublicTypeAssetsJson = {
                     },
                 },
                 {
-                    name: 'src',
-                    title: '图片地址',
-                    propType: 'string',
-                },
-                {
-                    name: 'preview',
-                    title: '是否预览',
-                    propType: 'bool',
-                },
-                {
                     name: 'fit',
                     title: '适应容器',
                     propType: {
@@ -5198,24 +5213,21 @@ const assets: IPublicTypeAssetsJson = {
                     },
                 },
                 {
+                    name: 'alt',
+                    title: '描述',
+                    propType: 'string',
+                },
+                {
+                    name: 'preview',
+                    title: '是否预览',
+                    propType: 'bool',
+                    defaultValue: false,
+                },
+                {
                     name: 'lazy',
                     title: '懒加载',
                     propType: 'bool',
-                },
-                {
-                    name: 'scrollContainer',
-                    title: '懒加载监听节点',
-                    propType: 'element',
-                },
-                {
-                    name: 'hideOnClickModal',
-                    title: '点击遮罩层关闭预览',
-                    propType: 'bool',
-                },
-                {
-                    name: 'previewContainer',
-                    title: '预览挂载节点',
-                    propType: 'func',
+                    defaultValue: false,
                 },
                 {
                     name: 'name',
@@ -5226,8 +5238,40 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'download',
                     title: '是否下载',
                     propType: 'bool',
+                    defaultValue: false,
+                },
+                {
+                    name: 'hideOnClickModal',
+                    title: '点击遮罩层关闭预览',
+                    propType: 'bool',
+                    defaultValue: false,
+                },
+                {
+                    name: 'scrollContainer',
+                    title: '懒加载监听节点',
+                    propType: 'func',
+                },
+                {
+                    name: 'previewContainer',
+                    title: '预览挂载节点',
+                    propType: 'func',
+                },
+                {
+                    name: 'placeholder',
+                    title: '图片未加载占位内容',
+                    propType: 'node',
+                },
+                {
+                    name: 'error',
+                    title: '加载失败显示内容',
+                    propType: 'node',
                 },
             ],
+            configure: {
+                supports: {
+                    events: ['onLoad', 'onError'],
+                },
+            },
             snippets: [
                 {
                     title: '图片',
@@ -5237,7 +5281,7 @@ const assets: IPublicTypeAssetsJson = {
                 },
             ],
             group: '原子组件',
-            category: '信息展示',
+            category: '基础元素',
             priority: 0,
         },
         {
@@ -5254,11 +5298,18 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'hideOnClickModal',
                     title: '点击遮罩层关闭预览',
                     propType: 'bool',
+                    defaultValue: false,
                 },
             ],
             configure: {
                 component: {
                     isContainer: true,
+                    nestingRule: {
+                        childWhitelist: ['FImage'],
+                    },
+                },
+                supports: {
+                    events: ['onChange'],
                 },
             },
             snippets: [

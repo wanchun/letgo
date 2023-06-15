@@ -256,6 +256,15 @@ export default function parseProps(
             return;
         }
 
+        if (name.endsWith('Style')) {
+            needConfiguredProps.push({
+                ...prop,
+                display: 'popup',
+                setter: 'StyleSetter',
+            });
+            return;
+        }
+
         // 双向绑定的默认使用 'VariableSetter'
         if (name.startsWith('v-model')) {
             needConfiguredProps.push({

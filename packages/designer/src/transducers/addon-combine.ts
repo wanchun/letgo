@@ -173,6 +173,7 @@ export default function (
                     },
                     {
                         name: `${getConvertedExtraKey('loopArgs')}.1`,
+                        title: '索引变量名',
                         setter: {
                             componentName: 'StringSetter',
                             props: {

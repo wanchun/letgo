@@ -1,16 +1,18 @@
 import type {
     CodeItem,
     CodeStruct,
-    IPublicTypeComponentMap, IPublicTypeRootSchema,
+    IPublicTypeComponentMap, IPublicTypeJSFunction, IPublicTypeNodeData, IPublicTypeRootSchema,
 } from '@webank/letgo-types';
 import {
+    isJSFunction,
     isProCodeComponentType,
 } from '@webank/letgo-types';
 import { calcDependencies, checkCycleDependency } from '@webank/letgo-common';
 import { getCurrentContext } from './compiler-context';
 import { genGlobalConfig } from './global-config';
-import { genImportCode } from './helper';
+import { genImportCode, traverseNodeSchema } from './helper';
 import { type ImportSource, ImportType } from './types';
+import { funcSchemaToFunc, genEventName } from './events';
 
 function genComponentImports(componentMaps: IPublicTypeComponentMap[]) {
     const importSources: ImportSource[] = [];
@@ -75,6 +77,48 @@ function genRefCode(componentRefs: Set<string>) {
     };
 }
 
+function getComponentEvents(
+    nodeData: IPublicTypeNodeData | IPublicTypeNodeData[],
+) {
+    const componentEvents: Map<string, Map<string, IPublicTypeJSFunction[]>> = new Map();
+    traverseNodeSchema(nodeData, (item) => {
+        const currentEventMap = new Map<string, IPublicTypeJSFunction[]>();
+        Object.keys(item.props).forEach((propName) => {
+            if (propName.match(/^on[A-Z]/))
+                currentEventMap.set(propName, item.props[propName] as any);
+            else if (isJSFunction(item.props[propName]))
+                currentEventMap.set(propName, [item.props[propName]] as any);
+        });
+        if (currentEventMap.size)
+            componentEvents.set(item.ref, currentEventMap);
+    });
+    return componentEvents;
+}
+
+function genUseComponentEvents(rootSchema: IPublicTypeRootSchema) {
+    const componentEvents = getComponentEvents(rootSchema);
+    const eventFuncs: string[] = [];
+    for (const [refName, currentComponentEvents] of componentEvents) {
+        for (const [propName, events] of currentComponentEvents) {
+            const funName = genEventName(propName, refName);
+            if (events.length === 1) {
+                const func = funcSchemaToFunc(events[0]);
+                eventFuncs.push(func.replace('function ', `function ${funName}`));
+            }
+            eventFuncs.push(`
+            function ${funName}(...args) {
+                let result;
+                [${events.map(funcSchemaToFunc).join(',')}].forEach(fn => {
+                    result = fn(...args);
+                })
+                return result;
+            }
+            `);
+        }
+    }
+    return eventFuncs;
+}
+
 export function genScript(
     componentMaps: IPublicTypeComponentMap[],
     rootSchema: IPublicTypeRootSchema,
@@ -89,6 +133,8 @@ export function genScript(
             ${genComponentImports(componentMaps)}
             ${configCodeSnippet.code}
             ${refCode.code}
+
+            ${genUseComponentEvents(rootSchema).join('\n')}
         </script>`;
     return '';
 }

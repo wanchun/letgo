@@ -53,7 +53,7 @@ function compileNodeSchema(nodeSchema: IPublicTypeNodeData, componentRefs: Set<s
         const children = genNodeSchemaChildren(nodeSchema);
         return `<${nodeSchema.componentName} ${handleComponentRef(nodeSchema, componentRefs)} ${compileDirectives(
             getDirectives(nodeSchema),
-        ).join(' ')} ${compileProps(nodeSchema.props)} ${
+        ).join(' ')} ${compileProps(nodeSchema.props, nodeSchema.ref)} ${
             !isEmpty(children)
                 ? `>
                     ${children

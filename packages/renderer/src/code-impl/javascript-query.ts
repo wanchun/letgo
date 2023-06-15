@@ -158,19 +158,4 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
         this.data = null;
         this.error = null;
     }
-
-    getState() {
-        return {
-            id: this.id,
-            data: this.data,
-            error: this.error,
-            enableTransformer: this.enableTransformer,
-            transformer: this.transformer,
-            showSuccessToaster: this.showSuccessToaster,
-            successMessage: this.successMessage,
-            queryTimeout: this.queryTimeout,
-            runCondition: this.runCondition,
-            queryFailureCondition: this.queryFailureCondition,
-        };
-    }
 }

@@ -33,6 +33,33 @@ export default defineBuildConfig({
 });
 `;
 
+async function saveFile(rootComponents: {
+    template: string
+    script: string
+}[]) {
+    const content
+        = `
+        ${rootComponents[0].template}
+
+        ${rootComponents[0].script}
+        `;
+    const options = {
+        types: [
+            {
+                description: 'vue',
+                accept: {
+                    'text/plain': ['.vue'],
+                },
+            },
+        ],
+    };
+    const handle = await window.showSaveFilePicker(options);
+    const writable = await handle.createWritable();
+    await writable.write(content);
+    await writable.close();
+    return handle;
+}
+
 export default defineComponent({
     setup() {
         const genCode = () => {
@@ -54,6 +81,8 @@ export default defineComponent({
                 }
             }
             const rootComponents = schemaToCode(schema);
+            // saveFile(rootComponents);
+            // return;
             const currentContent = cloneDeep(defaultContent);
             const pages = rootComponents.reduce((acc, cur) => {
                 acc[cur.meta.fileName] = `

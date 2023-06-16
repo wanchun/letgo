@@ -90,33 +90,6 @@ function getUseComponents(
     return useComponents;
 }
 
-// async function saveFile(rootComponents: {
-//     template: string
-//     script: string
-// }[]) {
-//     const content
-//         = `
-//         ${rootComponents[0].template}
-
-//         ${rootComponents[0].script}
-//         `;
-//     const options = {
-//         types: [
-//             {
-//                 description: 'vue',
-//                 accept: {
-//                     'text/plain': ['.vue'],
-//                 },
-//             },
-//         ],
-//     };
-//     const handle = await window.showSaveFilePicker(options);
-//     const writable = await handle.createWritable();
-//     await writable.write(content);
-//     await writable.close();
-//     return handle;
-// }
-
 export function schemaToCode(schema: IPublicTypeProjectSchema) {
     setGlobalConfig(schema.config);
 

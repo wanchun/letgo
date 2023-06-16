@@ -97,8 +97,10 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
 
         if (content.failureEvent)
             this.failureEventInstances = this.eventSchemaToFunc(content.failureEvent);
-
         Object.assign(this, content);
+
+        if (content.runWhenPageLoads)
+            this.trigger();
     }
 
     timeoutPromise(timeout: number) {
@@ -123,7 +125,7 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
                 const fn = new Function('letgoCtx', `
             let result;
             with(letgoCtx) {
-                result = (() => {
+                result = (async () => {
                     ${this.query}
                 })();
             }

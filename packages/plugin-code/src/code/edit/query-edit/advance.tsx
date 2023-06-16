@@ -39,6 +39,11 @@ export default defineComponent({
                                     </div>;
                                 },
                             }} />
+                            <ContentItem label="页面加载" v-slots={{
+                                content: () => {
+                                    return <FCheckbox v-model={props.codeItem.runWhenPageLoads}>页面加载执行</FCheckbox>;
+                                },
+                            }} />
                         </>;
                     },
                 }} />

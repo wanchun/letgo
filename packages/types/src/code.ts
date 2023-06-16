@@ -30,6 +30,7 @@ export interface IQueryResource {
     showSuccessToaster: boolean
     successMessage: string
     runCondition?: RunCondition
+    runWhenPageLoads?: boolean
     enableCaching?: boolean
     cacheDuration?: number
     queryTimeout?: number

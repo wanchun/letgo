@@ -107,7 +107,7 @@ function genCode(schema: IPublicTypeRootSchema): SetupCode {
             codeStr.push(`
             const ${item.id} = useJSQuery({
                 id: '${item.id}',
-                query() {
+                async query() {
                     ${item.query}
                 },
                 ${item.enableTransformer ? `enableTransformer: ${item.enableTransformer},` : ''}
@@ -117,6 +117,7 @@ function genCode(schema: IPublicTypeRootSchema): SetupCode {
                 ${item.successMessage ? `successMessage: '${item.successMessage}',` : ''}
                 ${item.queryTimeout ? `queryTimeout: ${item.queryTimeout},` : ''}
                 ${item.runCondition ? `runCondition: ${item.runCondition},` : ''}
+                ${item.runWhenPageLoads ? `runWhenPageLoads: ${item.runWhenPageLoads},` : ''}
                 ${(item.queryFailureCondition && item.queryFailureCondition.length) ? `queryFailureCondition: ${item.queryFailureCondition},` : ''}
                 ${item.successEvent ? `successEvent: ${eventSchemaToFunc(item.successEvent)}},` : ''}
                 ${item.failureEvent ? `failureEvent: ${eventSchemaToFunc(item.failureEvent)},` : ''}

@@ -6,9 +6,7 @@ export const wrapperCls = style({
 
 export const itemCls = style({
     display: 'flex',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    background: 'rgb(250, 250, 252)',
     padding: '8px 16px',
     marginBottom: '12px',
     borderRadius: '4px',

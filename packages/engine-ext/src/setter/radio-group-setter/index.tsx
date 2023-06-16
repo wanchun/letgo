@@ -5,18 +5,27 @@ import { isUndefined } from 'lodash-es';
 import { FRadio, FRadioGroup } from '@fesjs/fes-design';
 import { commonProps } from '../../common';
 
+type ValueType = number | string | boolean;
+
+interface Option {
+    label: string
+    value: ValueType
+    disabled?: boolean
+    [key: string]: any
+}
+
 const RadioGroupSetterView = defineComponent({
     name: 'RadioGroupSetterView',
     props: {
         ...commonProps,
-        value: [Number, String] as PropType<any>,
-        defaultValue: [Number, String] as PropType<any>,
+        value: [Number, String, Boolean] as PropType<ValueType>,
+        defaultValue: [Number, String, Boolean] as PropType<ValueType>,
         options: {
-            type: Array as PropType<any[]>,
+            type: Array as PropType<Option[]>,
             isRequired: true,
         },
         onChange: {
-            type: Function as PropType<(val: string | number) => void>,
+            type: Function as PropType<(val: ValueType) => void>,
         },
     },
     setup(props) {
@@ -25,7 +34,7 @@ const RadioGroupSetterView = defineComponent({
                 return {
                     label: item.title || item.label || '-',
                     value: item.value,
-                    disabled: item.disabled || false,
+                    disabled: item.disabled ?? false,
                 };
             });
         });

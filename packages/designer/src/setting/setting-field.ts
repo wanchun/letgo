@@ -60,7 +60,7 @@ export class SettingField extends SettingProp implements ISettingEntry {
     constructor(
         parent: ISettingEntry,
         config: IPublicTypeFieldConfig,
-        settingFieldCollector?: (
+        private settingFieldCollector?: (
             name: string | number,
             field: SettingField,
         ) => void,
@@ -122,7 +122,8 @@ export class SettingField extends SettingProp implements ISettingEntry {
 
     // 创建子配置项，通常用于 object/array 类型数据
     createField(config: IPublicTypeFieldConfig): SettingField {
-        return new SettingField(this, config);
+        this.settingFieldCollector?.(getSettingFieldCollectorKey(this.parent, config), this);
+        return new SettingField(this, config, this.settingFieldCollector);
     }
 
     getConfig<K extends keyof IPublicTypeFieldConfig>(

@@ -9,6 +9,7 @@ export type IPublicTypeDisplay = 'accordion' | 'inline' | 'block' | 'plain' | 'p
 export interface IPublicTypeFieldExtraProps {
     /**
      * 是否必填参数
+     * TODO
      */
     isRequired?: boolean
     /**
@@ -29,11 +30,8 @@ export interface IPublicTypeFieldExtraProps {
      */
     condition?: (target: IPublicTypeSettingTarget) => boolean
     /**
-     * autoRun when something change
-     */
-    autoRun?: (target: IPublicTypeSettingTarget) => void
-    /**
      * is this field is a virtual field that not save to schema
+     * TODO
      */
     virtual?: (target: IPublicTypeSettingTarget) => boolean
     /**
@@ -42,6 +40,7 @@ export interface IPublicTypeFieldExtraProps {
     defaultExpanded?: boolean
     /**
      * important field
+     * TODO
      */
     important?: boolean
     /**

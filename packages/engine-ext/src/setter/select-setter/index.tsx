@@ -5,19 +5,28 @@ import { isUndefined } from 'lodash-es';
 import { FSelect } from '@fesjs/fes-design';
 import { commonProps } from '../../common';
 
+type ValueType = number | string | boolean;
+
+interface Option {
+    label: string
+    value: ValueType
+    disable?: boolean
+    [key: string]: any
+}
+
 const SelectSetterView = defineComponent({
     name: 'SelectSetterView',
     props: {
         ...commonProps,
         options: {
-            type: Array as PropType<any[]>,
+            type: Array as PropType<Option[]>,
             isRequired: true,
         },
         filterable: Boolean,
-        value: [String, Number] as PropType<any>,
-        defaultValue: [String, Number] as PropType<any>,
+        value: [String, Number, Boolean] as PropType<ValueType>,
+        defaultValue: [String, Number, Boolean] as PropType<ValueType>,
         onChange: {
-            type: Function as PropType<(val: number | string) => void>,
+            type: Function as PropType<(val: ValueType) => void>,
         },
     },
     setup(props) {
@@ -26,7 +35,7 @@ const SelectSetterView = defineComponent({
                 return {
                     label: item.title || item.label || '-',
                     value: item.value,
-                    disabled: item.disabled || false,
+                    disabled: item.disabled ?? false,
                 };
             });
         });

@@ -183,12 +183,12 @@ export class Prop implements IPropParent {
                 return this._value;
 
             let maps: any;
-            this.items.forEach((prop, key) => {
+            this.items.forEach((prop, index) => {
                 if (!prop.isUnset()) {
                     const v = prop.export(stage);
                     if (v != null) {
                         maps = maps || {};
-                        maps[prop.key || key] = v;
+                        maps[prop.key ?? index] = v;
                     }
                 }
             });
@@ -235,7 +235,7 @@ export class Prop implements IPropParent {
             this._slotNode.importSchema(slotSchema);
         }
         else {
-            const { owner } = this.props;
+            const owner = this.owner;
             this._slotNode = owner.document.createNode(slotSchema);
             owner.addSlot(this._slotNode);
             this._slotNode.internalSetSlotFor(this);

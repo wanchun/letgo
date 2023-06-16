@@ -241,6 +241,9 @@ export class SettingField implements ISettingEntry {
         return this._name;
     }
 
+    /**
+     * 改变 setting-filed 的 key，同步修改 Prop的 key，目前对 list 无问题， 对 map 类型数据，修改 key 还有问题
+     */
     setKey(key: string | number) {
         if (this.type !== 'field')
             return;

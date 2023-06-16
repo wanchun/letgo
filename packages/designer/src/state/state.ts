@@ -44,7 +44,7 @@ export class State {
     }
 
     getInstance(instances: IComponentInstance[]) {
-        return JSON.parse(JSON.stringify(this.designer.simulator.getComponentInstancesExpose(instances[0])));
+        return this.designer.simulator.getComponentInstancesExpose(instances[0]);
     }
 
     initComponentInstanceListen() {

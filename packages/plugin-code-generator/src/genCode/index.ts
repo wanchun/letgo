@@ -8,7 +8,6 @@ import type {
 
 import { traverseExpression } from '@webank/letgo-common';
 import { genPageTemplate } from './gen-template';
-import { genStyle } from './style';
 import { genScript } from './script';
 import { setGlobalConfig } from './compiler-context';
 import { traverseNodeSchema } from './helper';
@@ -45,7 +44,6 @@ function compileRootSchema(
         return {
             template: genPageTemplate(rootSchema, componentRefs),
             script: genScript(componentMaps, rootSchema, componentRefs),
-            style: genStyle(rootSchema),
         };
     }
     return {};
@@ -111,8 +109,6 @@ export function schemaToCode(schema: IPublicTypeProjectSchema) {
         ${rootComponents[0].template}
 
         ${rootComponents[0].script}
-
-        ${rootComponents[0].style}
         `,
     );
     console.log(rootComponents);

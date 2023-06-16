@@ -109,16 +109,16 @@ function genCode(schema: IPublicTypeRootSchema): SetupCode {
                 query() {
                     ${item.query}
                 },
-                enableTransformer: ${item.enableTransformer},
-                transformer: '${item.enableTransformer}',
-                showFailureToaster: ${item.showFailureToaster},
-                showSuccessToaster: ${item.showSuccessToaster},
-                successMessage: '${item.successMessage}',
-                queryTimeout: ${item.queryTimeout},
-                runCondition: ${item.runCondition},
-                queryFailureCondition: ${item.queryFailureCondition},
-                successEvent: ${eventSchemaToFunc(item.successEvent)},
-                failureEvent: ${eventSchemaToFunc(item.failureEvent)},
+                ${item.enableTransformer ? `enableTransformer: ${item.enableTransformer},` : ''}
+                ${item.transformer ? `transformer: '${item.transformer}',` : ''}
+                ${item.showFailureToaster ? `showFailureToaster: ${item.showFailureToaster},` : ''}
+                ${item.showSuccessToaster ? `showSuccessToaster: ${item.showSuccessToaster},` : ''}
+                ${item.successMessage ? `successMessage: '${item.successMessage}',` : ''}
+                ${item.queryTimeout ? `queryTimeout: ${item.queryTimeout},` : ''}
+                ${item.runCondition ? `runCondition: ${item.runCondition},` : ''}
+                ${(item.queryFailureCondition && item.queryFailureCondition.length) ? `queryFailureCondition: ${item.queryFailureCondition},` : ''}
+                ${item.successEvent ? `successEvent: ${eventSchemaToFunc(item.successEvent)}},` : ''}
+                ${item.failureEvent ? `failureEvent: ${eventSchemaToFunc(item.failureEvent)},` : ''}
             });
             `);
         }
@@ -178,15 +178,17 @@ function genUseComponentEvents(rootSchema: IPublicTypeRootSchema) {
                 const func = funcSchemaToFunc(events[0]);
                 eventFuncs.push(func.replace('function ', `function ${funName}`));
             }
-            eventFuncs.push(`
-            function ${funName}(...args) {
-                let result;
-                [${events.map(funcSchemaToFunc).join(',')}].forEach(fn => {
-                    result = fn(...args);
-                })
-                return result;
+            else {
+                eventFuncs.push(`
+                function ${funName}(...args) {
+                    let result;
+                    [${events.map(funcSchemaToFunc).join(',')}].forEach(fn => {
+                        result = fn(...args);
+                    })
+                    return result;
+                }
+                `);
             }
-            `);
         }
     }
     return eventFuncs;
@@ -204,7 +206,6 @@ export function genScript(
     const codes = genCode(rootSchema);
     return `<script setup>
             ${genImportCode(configCodeSnippet.importSources.concat(codeImports, refCode.importSources, codes.importSources))}
-            ${genComponentImports(componentMaps)}
             ${configCodeSnippet.code}
             ${refCode.code}
             ${codes.code}

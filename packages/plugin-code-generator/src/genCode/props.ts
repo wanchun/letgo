@@ -1,6 +1,7 @@
 import { hasExpression, replaceExpression } from '@webank/letgo-common';
 import type { IPublicTypePropsMap } from '@webank/letgo-types';
 import { isJSExpression, isJSFunction } from '@webank/letgo-types';
+import { camelCase } from 'lodash-es';
 import { parseExpression, parseNormalValue } from './expression';
 import { genEventName } from './events';
 
@@ -21,7 +22,7 @@ export function normalProps(key: string, value: any) {
         return `${key}="${value}"`;
 
     if (value)
-        return `:${key}="${JSON.stringify(value)}"`;
+        return `:${key}="${JSON.stringify(value).replace(/\"/g, '\'')}"`;
 
     return '';
 }
@@ -54,8 +55,10 @@ export function compileProps(props?: IPublicTypePropsMap, refName = '') {
                 return normalProps(key, parseNormalValue(propValue.value));
             }
 
-            if (key.match(/^on[A-Z]/))
-                return `:${key}="${genEventName(key, refName)}"`;
+            if (key.match(/^on[A-Z]/)) {
+                const eventName = camelCase(key.replace(/^on/, ''));
+                return `@${eventName}="${genEventName(key, refName)}"`;
+            }
 
             if (isJSFunction(propValue))
                 return `:${key}="${genEventName(key, refName)}"`;

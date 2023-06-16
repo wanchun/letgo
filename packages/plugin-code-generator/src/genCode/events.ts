@@ -16,7 +16,7 @@ function handleParams(params: string[]) {
 }
 
 export function funcSchemaToFunc(schema: IPublicTypeJSFunction) {
-    if (schema.params) {
+    if (schema.params && schema.params.length > 0) {
         return `function (...args) {
             const params = [${handleParams(schema.params).join(', ')}]; 
             return (${schema.value})(...params, ...args);

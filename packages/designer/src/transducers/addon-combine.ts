@@ -226,6 +226,13 @@ export default function (
                 setter: 'StringSetter',
             },
         );
+        advancedGroup.push(
+            {
+                name: getConvertedExtraKey('title'),
+                title: '页面中文名',
+                setter: 'StringSetter',
+            },
+        );
     }
     if (advancedGroup.length > 0) {
         combined.push({

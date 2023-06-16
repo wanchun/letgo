@@ -1,25 +1,25 @@
 import type { IPublicTypeSetter } from '@webank/letgo-types';
-import { SetterFactory } from '@webank/letgo-designer';
+import { SetterManager } from '@webank/letgo-designer';
 
 export class Setters {
     /**
      * 获取指定 setter
      */
     getSetter(type: string) {
-        return SetterFactory.getSetter(type);
+        return SetterManager.getSetter(type);
     }
 
     /**
      * 获取已注册的所有 settersMap
      */
     getSettersMap() {
-        return SetterFactory.getSettersMap();
+        return SetterManager.getSettersMap();
     }
 
     /**
      * 注册 setters
      */
     register(setters: IPublicTypeSetter[]) {
-        return SetterFactory.register(setters);
+        return SetterManager.register(setters);
     }
 }

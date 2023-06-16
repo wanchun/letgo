@@ -11,7 +11,7 @@ import {
 } from '@webank/letgo-types';
 import type { SettingField } from '@webank/letgo-designer';
 import {
-    SetterFactory,
+    SetterManager,
     createSetterContent,
 } from '@webank/letgo-designer';
 import { FDropdown, FTooltip } from '@fesjs/fes-design';
@@ -48,7 +48,7 @@ function normalizeSetters(setters?: Array<IPublicTypeSetterType>): SetterItem[] 
         };
         if (isSetterConfig(setter)) {
             if (typeof setter.componentName === 'string') {
-                const setterInfo = SetterFactory.getSetter(setter.componentName);
+                const setterInfo = SetterManager.getSetter(setter.componentName);
                 config.name = setterInfo?.type || generateName('CustomSetter');
                 config.title = setter.title || setterInfo?.title;
                 config.condition = setter.condition || setterInfo?.condition;
@@ -63,7 +63,7 @@ function normalizeSetters(setters?: Array<IPublicTypeSetterType>): SetterItem[] 
             config.defaultValue = setter.defaultValue;
         }
         if (typeof setter === 'string') {
-            const setterInfo = SetterFactory.getSetter(config.setter);
+            const setterInfo = SetterManager.getSetter(config.setter);
             config.name = setter;
             if (!config.title)
                 config.title = setterInfo?.title || config.setter;

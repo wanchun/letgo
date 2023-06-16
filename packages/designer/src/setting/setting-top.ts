@@ -5,7 +5,6 @@ import type { Designer } from '../designer';
 import type { INode } from '../types';
 import type { ISettingEntry } from './types';
 import { SettingField } from './setting-field';
-import { SettingProp } from './setting-prop';
 
 function generateSessionId(nodes: INode[]) {
     return nodes
@@ -136,6 +135,11 @@ export class SettingTop implements ISettingEntry {
         });
     }
 
+    private disposeItems() {
+        this._items.forEach(item => isPurge(item) && item.purge());
+        this._items = [];
+    }
+
     /**
      * 获取当前属性值
      */
@@ -153,11 +157,11 @@ export class SettingTop implements ISettingEntry {
     /**
      * 获取子项
      */
-    get(propName: string | number): SettingProp | null {
+    get(propName: string | number): SettingField | null {
         if (!propName)
             return null;
         return (
-            this._settingFieldMap[propName] || new SettingProp(this, propName)
+            this._settingFieldMap[propName] || new SettingField(this, { name: propName })
         );
     }
 
@@ -226,11 +230,6 @@ export class SettingTop implements ISettingEntry {
 
     getNode(): INode {
         return this.nodes[0];
-    }
-
-    private disposeItems() {
-        this._items.forEach(item => isPurge(item) && item.purge());
-        this._items = [];
     }
 
     purge() {

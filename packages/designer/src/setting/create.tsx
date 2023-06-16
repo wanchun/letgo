@@ -6,7 +6,7 @@ import { isFunction } from 'lodash-es';
 import type { IFieldProps } from './fields';
 import { AccordionFieldView, BlockFieldView, InlineFieldView, PlainFieldView, PopupFieldView } from './fields';
 import type { SettingField } from './setting-field';
-import { SetterFactory } from './setter-manager';
+import { SetterManager } from './setter-manager';
 
 export function createFieldContent(
     props: IFieldProps,
@@ -33,7 +33,7 @@ export function createSetterContent(
     props: Record<string, any>,
 ): VNode[] {
     if (typeof setter === 'string') {
-        const _setter = SetterFactory.getSetter(setter);
+        const _setter = SetterManager.getSetter(setter);
         if (!_setter)
             return null;
 

@@ -1,7 +1,7 @@
-import { defineComponent, onMounted } from 'vue';
+import { computed, defineComponent, onMounted } from 'vue';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
 import type { SettingField } from '@webank/letgo-designer';
-import { isUndefined } from 'lodash-es';
+import { isNumber, isUndefined } from 'lodash-es';
 import { FInputNumber } from '@fesjs/fes-design';
 import { commonProps } from '../../common';
 
@@ -16,14 +16,19 @@ const NumberSetterView = defineComponent({
         onMounted(() => {
             props.onMounted?.();
         });
+        const currentValue = computed(() => {
+            if (isNumber(props.value))
+                return props.value;
+
+            else if (isNumber(props.defaultValue))
+                return props.defaultValue;
+
+            return null;
+        });
         return () => {
             return (
                 <FInputNumber
-                    modelValue={
-                        isUndefined(props.value)
-                            ? props.defaultValue
-                            : props.value
-                    }
+                    modelValue={currentValue.value}
                     placeholder={props.placeholder || ''}
                     onChange={(val: any) => props.onChange(val)}
                     style={{ width: '100%' }}

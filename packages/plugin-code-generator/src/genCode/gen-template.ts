@@ -13,7 +13,7 @@ import {
     isJSSlot,
     isNodeSchema,
 } from '@webank/letgo-types';
-import { isArray, isEmpty, isNil } from 'lodash-es';
+import { isArray, isEmpty, isNil, merge } from 'lodash-es';
 import { compileDirectives } from './directives';
 import { compileProps } from './props';
 
@@ -53,7 +53,7 @@ function compileNodeSchema(nodeSchema: IPublicTypeNodeData, componentRefs: Set<s
         const children = genNodeSchemaChildren(nodeSchema);
         return `<${nodeSchema.componentName} ${handleComponentRef(nodeSchema, componentRefs)} ${compileDirectives(
             getDirectives(nodeSchema),
-        ).join(' ')} ${compileProps(nodeSchema.props, nodeSchema.ref)} ${
+        ).join(' ')} ${compileProps(nodeSchema.props, nodeSchema.ref).join(' ')} ${
             !isEmpty(children)
                 ? `>
                     ${children
@@ -109,9 +109,7 @@ function compileNodeData(nodeData: IPublicTypeNodeData, componentRefs: Set<strin
 export function genPageTemplate(rootSchema: IPublicTypeRootSchema, componentRefs: Set<string>) {
     const nodeData = Array.isArray(rootSchema.children) ? rootSchema.children : [rootSchema.children];
     return `<template>
-        <div class="letgo-page" ${compileProps(rootSchema.defaultProps).join(
-            ' ',
-        )}>
+        <div class="letgo-page" ${compileProps(merge(rootSchema.defaultProps, rootSchema.props)).join(' ')}>
             ${nodeData.map(item => compileNodeData(item, componentRefs)).join('\n')}
         </div>
     </template>`;

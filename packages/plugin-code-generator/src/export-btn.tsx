@@ -3,16 +3,16 @@ import { material, project } from '@webank/letgo-engine';
 import { IPublicEnumTransformStage, isProCodeComponentType } from '@webank/letgo-types';
 import { FButton, FMessage } from '@fesjs/fes-design';
 import { cloneDeep } from 'lodash-es';
-import { schemaToCode } from './genCode';
 import { exportZip } from './export-zip';
 import defaultContent from './template';
+import { schemaToCode } from './genCode';
 
 const defaultObjectConfig = `
 import { defineBuildConfig } from '@fesjs/fes';
 
 export default defineBuildConfig({
     proxy: {
-        '/rcs-icsm': {
+        '/rcs-mas': {
             target: process.env.TEST_HOST,
             secure: false,
             changeOrigin: true,
@@ -33,6 +33,7 @@ export default defineBuildConfig({
 });
 `;
 
+// debug func
 async function saveFile(rootComponents: {
     template: string
     script: string
@@ -80,9 +81,10 @@ export default defineComponent({
                     usedPackages.push(pkg);
                 }
             }
-            const rootComponents = schemaToCode(schema);
-            // saveFile(rootComponents);
+            // console.log(schema);
+            // saveFile(schemaToCode(schema));
             // return;
+            const rootComponents = schemaToCode(schema);
             const currentContent = cloneDeep(defaultContent);
             const pages = rootComponents.reduce((acc, cur) => {
                 acc[cur.meta.fileName] = `

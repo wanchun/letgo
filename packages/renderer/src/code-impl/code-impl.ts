@@ -3,7 +3,7 @@ import { watch } from 'vue';
 import type { CodeItem, CodeStruct } from '@webank/letgo-types';
 import { CodeType } from '@webank/letgo-types';
 import type { CodeImplType } from '@webank/letgo-designer';
-import { calcDependencies, checkCycleDependency } from '@webank/letgo-common';
+import { calcDependencies, sortState } from '@webank/letgo-common';
 import { TemporaryStateImpl } from './temporary-state';
 import { ComputedImpl } from './computed';
 import { JavascriptQueryImpl } from './javascript-query';
@@ -59,12 +59,8 @@ export function useCodesInstance({
             genCodeMap(codeStruct.value, codeMap);
 
             dependencyMap.clear();
-            for (const [codeId, item] of codeMap)
-                dependencyMap.set(codeId, calcDependencies(item, codeMap));
-
-            const sortResult = checkCycleDependency(dependencyMap);
-            // 最底层的依赖最先被实例化
-            sortResult.reverse().forEach((codeId) => {
+            const sortResult = sortState(codeMap, dependencyMap);
+            sortResult.forEach((codeId) => {
                 const item = codeMap.get(codeId);
                 createCodeInstance(item, ctx);
             });

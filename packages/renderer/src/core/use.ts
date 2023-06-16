@@ -418,8 +418,8 @@ export function buildProps({
         const schema = processed[propName];
         parsedProps[propName]
             = propName === 'ref'
-                ? buildRefProp(render, schema, currentContext, blockScope, node?.getProp(propName))
-                : buildProp(render, schema, currentContext, blockScope, node?.getProp(propName));
+                ? buildRefProp(render, schema, currentContext, blockScope, node?.getProp(propName, false))
+                : buildProp(render, schema, currentContext, blockScope, node?.getProp(propName, false));
     });
 
     // 应用运行时附加的属性值

@@ -1083,7 +1083,6 @@ const assets: IPublicTypeAssetsJson = {
                                 componentName: 'FFormItem',
                                 props: {
                                     label: '用户名',
-                                    rules: [{ required: true, message: '必填' }],
                                 },
                                 children: [
                                     {

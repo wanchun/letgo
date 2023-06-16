@@ -5,24 +5,13 @@ import type { CodeItem } from '@webank/letgo-types';
 import { CodeType } from '@webank/letgo-types';
 import type { CodeImplType } from '@webank/letgo-designer';
 import { ComputedImpl, JavascriptQueryImpl, TemporaryStateImpl } from '@webank/letgo-renderer';
-import { calcDependencies, topologicalSort } from '@webank/letgo-common';
+import { calcDependencies, sortState } from '@webank/letgo-common';
 
 // TODO 修改 change id
 
 export function useCodesInstance(codeMap: Map<string, CodeItem>) {
     const dependencyMap = new Map<string, string[]>();
     const codesInstance: Record<string, CodeImplType> = reactive({});
-
-    const checkCycleDependency = () => {
-        const sortResult = topologicalSort(dependencyMap);
-        if (sortResult.length < dependencyMap.size) {
-            const cycleDep = [...dependencyMap.keys()].filter((codeId) => {
-                return !sortResult.includes(codeId);
-            });
-            throw new Error(`There is a cycle in the dependencies: ${cycleDep.join(',')}.`);
-        }
-        return sortResult;
-    };
 
     const createCodeInstance = (item: CodeItem, ctx: Record<string, any>) => {
         if (!dependencyMap.has(item.id))
@@ -88,12 +77,9 @@ export function useCodesInstance(codeMap: Map<string, CodeItem>) {
     const initCodesInstance = (ctx: Record<string, any>) => {
         try {
             dependencyMap.clear();
-            for (const [codeId, item] of codeMap)
-                dependencyMap.set(codeId, calcDependencies(item, codeMap));
-
-            const sortResult = checkCycleDependency();
+            const sortResult = sortState(codeMap, dependencyMap);
             // 最底层的依赖最先被实例化
-            sortResult.reverse().forEach((codeId) => {
+            sortResult.forEach((codeId) => {
                 const item = codeMap.get(codeId);
                 createCodeInstance(item, ctx);
             });

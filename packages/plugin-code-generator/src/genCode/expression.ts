@@ -10,7 +10,7 @@ export function parseExpression(text: string) {
     let result = text.trim();
     if (isOnlyExpression(result)) {
         return replaceExpression(text, (_, expression) => {
-            return expression;
+            return expression.trim();
         });
     }
 

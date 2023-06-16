@@ -8,7 +8,7 @@ import {
     isJSFunction,
     isProCodeComponentType,
 } from '@webank/letgo-types';
-import { calcDependencies, checkCycleDependency, eventHandlersToJsFunction } from '@webank/letgo-common';
+import { eventHandlersToJsFunction, sortState } from '@webank/letgo-common';
 import { getCurrentContext } from './compiler-context';
 import { genGlobalConfig } from './global-config';
 import { genImportCode, traverseNodeSchema } from './helper';
@@ -60,15 +60,10 @@ function eventSchemaToFunc(events: IPublicTypeEventHandler[] = []) {
 
 function genCode(schema: IPublicTypeRootSchema): SetupCode {
     const codeMap = genCodeMap(schema.code);
-    const dependencyMap = new Map<string, string[]>();
-
-    for (const [codeId, item] of codeMap)
-        dependencyMap.set(codeId, calcDependencies(item, codeMap));
-
-    const sortResult = checkCycleDependency(dependencyMap);
+    const sortResult = sortState(codeMap);
     const codeStr: string[] = [];
     const importSourceMap = new Map<string, ImportSource>();
-    sortResult.reverse().forEach((codeId) => {
+    sortResult.forEach((codeId) => {
         const item = codeMap.get(codeId);
         if (item.type === CodeType.TEMPORARY_STATE) {
             importSourceMap.set('useTemporaryState', {
@@ -159,7 +154,7 @@ function getComponentEvents(
     traverseNodeSchema(nodeData, (item) => {
         const currentEventMap = new Map<string, IPublicTypeJSFunction[]>();
         Object.keys(item.props).forEach((propName) => {
-            if (propName.match(/^on[A-Z]/))
+            if (propName.match(/^on[A-Z]/) && item.props[propName])
                 currentEventMap.set(propName, item.props[propName] as any);
             else if (isJSFunction(item.props[propName]))
                 currentEventMap.set(propName, [item.props[propName]] as any);

@@ -6,18 +6,24 @@ import {
     defineComponent,
     onBeforeMount,
     onMounted,
+    reactive,
     shallowRef,
     triggerRef,
 } from 'vue';
-import { isArray, isNil, isUndefined } from 'lodash-es';
-import type { IPublicTypeSetter, IPublicTypeSetterType, IPublicTypeSettingTarget } from '@webank/letgo-types';
-import type { SettingField } from '@webank/letgo-designer';
+import { get, isArray, isNil, isUndefined } from 'lodash-es';
+import type {
+    IPublicTypeFieldConfig, IPublicTypeSetter,
+    IPublicTypeSetterType, IPublicTypeSettingTarget,
+} from '@webank/letgo-types';
 import { createSettingFieldView } from '@webank/letgo-designer';
-import { FButton } from '@fesjs/fes-design';
-import { PlusOutlined } from '@fesjs/fes-design/icon';
-import { Delete } from '@icon-park/vue-next';
+import type { SettingField } from '@webank/letgo-designer';
+import { FButton, FDrawer } from '@fesjs/fes-design';
+import { AddOne, Config, DeleteOne } from '@icon-park/vue-next';
 import { commonProps } from '../../common';
-import { itemCls, itemContentCls, itemIconCls, wrapperCls } from './index.css';
+import {
+    addWrapperCls, bodyCls, bodyWrapperCls, iconCls,
+    popupContentCls, titleCls, titleWrapperCls, wrapperCls,
+} from './index.css';
 
 const ArraySetterView = defineComponent({
     name: 'ArraySetterView',
@@ -32,6 +38,9 @@ const ArraySetterView = defineComponent({
         itemSetter: {
             type: [String, Object, Array] as PropType<IPublicTypeSetterType>,
         },
+        columns: {
+            type: Array as PropType<IPublicTypeFieldConfig[]>,
+        },
     },
     setup(props) {
         const { field } = props;
@@ -42,8 +51,7 @@ const ArraySetterView = defineComponent({
             const targetPath: Array<string | number> = target?.path;
             if (!targetPath || targetPath.length < 2) {
                 console.warn(
-                    `[ArraySetter] onItemChange 接收的 target.path <${
-                        targetPath || 'undefined'
+                    `[ArraySetter] onItemChange 接收的 target.path <${targetPath || 'undefined'
                     }> 格式非法需为 [propName, arrayIndex, key?]`,
                 );
                 return;
@@ -139,31 +147,97 @@ const ArraySetterView = defineComponent({
             });
         });
 
+        const renderTitle = () => {
+            if (!props.columns)
+                return;
+
+            return (
+                <div class={titleWrapperCls}>
+                    {
+                        props.columns?.map((item) => {
+                            return <span class={titleCls}>{item.title}</span>;
+                        })
+                    }
+                </div>
+            );
+        };
+
+        const drawerShowList = reactive<Record<number, boolean>>({});
+
+        const renderField = (item: SettingField, rowIndex: number) => {
+            const value = isNil(props.value) ? props.defaultValue : props.value;
+            if (props.columns) {
+                const toggle = () => {
+                    drawerShowList[rowIndex] = !drawerShowList[rowIndex];
+                };
+                return (
+                    <>
+                        <Config onClick={toggle} class={iconCls} theme="outline" strokeWidth={2} />
+                        {
+                            props.columns.map((item) => {
+                                const name = `${rowIndex}.${item.name}`;
+                                const itemField = field.createField({
+                                    ...item,
+                                    name,
+                                    forceInline: 1,
+                                    extraProps: {
+                                        defaultValue: get(value, name),
+                                        setValue: onItemChange,
+                                    },
+                                });
+                                return (
+                                    <div class={bodyCls}>
+                                        {createSettingFieldView(itemField)}
+                                    </div>
+                                );
+                            })
+                        }
+                        <FDrawer
+                            show={drawerShowList[rowIndex]}
+                            title={`${item.name}`}
+                            displayDirective="if"
+                            mask={false}
+                            width={400}
+                            contentClass={popupContentCls}
+                            onCancel={toggle}
+                        >
+                            {createSettingFieldView(item)}
+                        </FDrawer>
+                    </>
+                );
+            }
+            return (
+                <div class={bodyCls}>
+                    {createSettingFieldView(item)}
+                </div>
+            );
+        };
+
+        const renderBody = () => {
+            return items.value.map((item, index) => {
+                return (
+                    <div class={bodyWrapperCls}>
+                        {renderField(item, index)}
+                        <DeleteOne onClick={() => onRemove(item, index)} class={iconCls} theme="outline" strokeWidth={2} />
+                    </div>
+                );
+            });
+        };
+
         return () => {
             return (
                 <div class={wrapperCls}>
-                    {items.value.map((item, index) => {
-                        return (
-                            <div class={itemCls}>
-                                <div class={itemContentCls}>
-                                    {createSettingFieldView(item)}
-                                </div>
-                                <Delete
-                                    class={itemIconCls}
-                                    onClick={() => {
-                                        onRemove(item, index);
-                                    }}
-                                />
-                            </div>
-                        );
-                    })}
-                    <FButton
-                        long
-                        v-slots={{ icon: () => <PlusOutlined></PlusOutlined> }}
-                        onClick={onAdd}
-                    >
-                        新增选项
-                    </FButton>
+                    {renderTitle()}
+                    {renderBody()}
+                    <div class={[props.columns && addWrapperCls] }>
+                        <FButton
+                            long
+                            v-slots={{ icon: () => <AddOne style={{ marginRight: '8px' }} class={iconCls} theme="outline" strokeWidth={2}></AddOne> }}
+                            onClick={onAdd}
+                        >
+                            新增选项
+                        </FButton>
+                    </div>
                 </div>
             );
         };

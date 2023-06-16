@@ -5618,18 +5618,19 @@ const assets: IPublicTypeAssetsJson = {
                                                     setter: 'FunctionSetter',
                                                 },
                                                 {
-                                                    name: 'default',
+                                                    name: 'render',
                                                     title: '自定义渲染',
                                                     setter: 'SlotSetter',
                                                 },
                                                 {
-                                                    name: 'header',
+                                                    name: 'renderHeader',
                                                     title: '自定义标题',
                                                     setter: 'SlotSetter',
                                                 },
                                                 {
                                                     name: 'action',
                                                     title: '操作',
+                                                    display: 'block',
                                                     setter: {
                                                         componentName: 'ArraySetter',
                                                         props: {
@@ -5667,6 +5668,13 @@ const assets: IPublicTypeAssetsJson = {
                                             ],
                                         },
                                     },
+                                    columns: [
+                                        {
+                                            name: 'prop',
+                                            title: '列字段',
+                                            setter: 'StringSetter',
+                                        },
+                                    ],
                                 },
                             },
                         ],

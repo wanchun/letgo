@@ -1,4 +1,4 @@
-import type { PropType, VNode } from 'vue';
+import type { PropType, VNodeChild } from 'vue';
 import { computed, createVNode, defineComponent, h } from 'vue';
 import type { IPublicTypeCustomView, IPublicTypeDisplay } from '@webank/letgo-types';
 import { isSetterConfig } from '@webank/letgo-types';
@@ -10,7 +10,7 @@ import { SetterManager } from './setter-manager';
 
 export function createFieldContent(
     props: IFieldProps,
-    children: any[],
+    children: VNodeChild,
     type?: IPublicTypeDisplay,
 ) {
     if (type === 'plain' || !props.title)
@@ -31,7 +31,7 @@ export function createFieldContent(
 export function createSetterContent(
     setter: string | IPublicTypeCustomView,
     props: Record<string, any>,
-): VNode[] {
+): VNodeChild {
     if (typeof setter === 'string') {
         const _setter = SetterManager.getSetter(setter);
         if (!_setter)
@@ -197,9 +197,9 @@ export const SettingFieldView = defineComponent({
     },
 });
 
-export function createSettingFieldView(item: SettingField) {
+export function createSettingFieldView(item: SettingField): VNodeChild {
     if (item.isGroup)
-        return <SettingGroupView field={item} key={item.id} />;
+        return [<SettingGroupView field={item} key={item.id} />];
     else
-        return <SettingFieldView field={item} key={item.id} />;
+        return [<SettingFieldView field={item} key={item.id} />];
 }

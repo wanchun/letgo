@@ -21,8 +21,9 @@ import { FButton, FDrawer } from '@fesjs/fes-design';
 import { AddOne, Config, DeleteOne } from '@icon-park/vue-next';
 import { commonProps } from '../../common';
 import {
-    addWrapperCls, bodyCls, bodyWrapperCls, iconCls,
-    popupContentCls, titleCls, titleWrapperCls, wrapperCls,
+    addWrapperCls, bigBodyWrapperCls, bodyCls, bodyWrapperCls,
+    iconCls, popupContentCls, titleCls, titleWrapperCls,
+    wrapperCls,
 } from './index.css';
 
 const ArraySetterView = defineComponent({
@@ -164,9 +165,11 @@ const ArraySetterView = defineComponent({
 
         const drawerShowList = reactive<Record<number, boolean>>({});
 
+        const hasCol = props.columns && props.columns.length;
+
         const renderField = (item: SettingField, rowIndex: number) => {
             const value = isNil(props.value) ? props.defaultValue : props.value;
-            if (props.columns) {
+            if (hasCol) {
                 const toggle = () => {
                     drawerShowList[rowIndex] = !drawerShowList[rowIndex];
                 };
@@ -216,7 +219,7 @@ const ArraySetterView = defineComponent({
         const renderBody = () => {
             return items.value.map((item, index) => {
                 return (
-                    <div class={bodyWrapperCls}>
+                    <div class={[bodyWrapperCls, !hasCol && bigBodyWrapperCls]}>
                         {renderField(item, index)}
                         <DeleteOne onClick={() => onRemove(item, index)} class={iconCls} theme="outline" strokeWidth={2} />
                     </div>
@@ -229,7 +232,7 @@ const ArraySetterView = defineComponent({
                 <div class={wrapperCls}>
                     {renderTitle()}
                     {renderBody()}
-                    <div class={[props.columns && addWrapperCls] }>
+                    <div class={[hasCol && addWrapperCls] }>
                         <FButton
                             long
                             v-slots={{ icon: () => <AddOne style={{ marginRight: '8px' }} class={iconCls} theme="outline" strokeWidth={2}></AddOne> }}

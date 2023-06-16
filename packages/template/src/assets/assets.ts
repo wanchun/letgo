@@ -2981,17 +2981,17 @@ const assets: IPublicTypeAssetsJson = {
                                     props: {
                                         items: [
                                             {
+                                                name: 'label',
+                                                title: '选项名',
+                                                setter: 'StringSetter',
+                                            },
+                                            {
                                                 name: 'value',
                                                 title: '选项值',
                                                 setter: [
                                                     'StringSetter',
                                                     'NumberSetter',
                                                 ],
-                                            },
-                                            {
-                                                name: 'label',
-                                                title: '选项名',
-                                                setter: 'StringSetter',
                                             },
                                             {
                                                 name: 'disabled',
@@ -3011,6 +3011,21 @@ const assets: IPublicTypeAssetsJson = {
                                         ],
                                     },
                                 },
+                                columns: [
+                                    {
+                                        name: 'label',
+                                        title: '选项名',
+                                        setter: 'StringSetter',
+                                    },
+                                    {
+                                        name: 'value',
+                                        title: '选项值',
+                                        setter: [
+                                            'StringSetter',
+                                            'NumberSetter',
+                                        ],
+                                    },
+                                ],
                             },
                         },
                     },

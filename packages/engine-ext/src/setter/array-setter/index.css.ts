@@ -21,6 +21,10 @@ export const bodyWrapperCls = style({
     padding: '0 0 8px 0',
 });
 
+export const bigBodyWrapperCls = style({
+    padding: '0 0 24px 0',
+});
+
 export const bodyCls = style({
     flex: 1,
 });

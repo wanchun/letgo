@@ -13,9 +13,10 @@ import { getCurrentContext } from './compiler-context';
 import { genGlobalConfig } from './global-config';
 import { genImportCode, traverseNodeSchema } from './helper';
 import { ImportType } from './types';
-import type { ImportSource, SetupCode } from './types';
+import type { ImportSource, PageMeta, SetupCode } from './types';
 import { funcSchemaToFunc, genEventName } from './events';
 import { parseFuncBody, parseInput } from './expression';
+import { genPageMetaCode } from './page-meta';
 
 function genComponentImports(componentMaps: IPublicTypeComponentMap[]) {
     const importSources: ImportSource[] = [];
@@ -194,21 +195,25 @@ function genUseComponentEvents(rootSchema: IPublicTypeRootSchema) {
     return eventFuncs;
 }
 
-export function genScript(
-    componentMaps: IPublicTypeComponentMap[],
-    rootSchema: IPublicTypeRootSchema,
-    componentRefs: Set<string>,
+export function genScript({ componentMaps, rootSchema, componentRefs, meta }: {
+    componentMaps: IPublicTypeComponentMap[]
+    rootSchema: IPublicTypeRootSchema
+    componentRefs: Set<string>
+    meta: PageMeta
+},
 ) {
     const context = getCurrentContext();
     const codeImports = genComponentImports(componentMaps);
     const configCodeSnippet = genGlobalConfig(context.config);
-    const refCode = genRefCode(componentRefs);
-    const codes = genCode(rootSchema);
+    const refCodeSnippet = genRefCode(componentRefs);
+    const codesSnippet = genCode(rootSchema);
+    const pageMetaSnippet = genPageMetaCode(meta);
     return `<script setup>
-            ${genImportCode(configCodeSnippet.importSources.concat(codeImports, refCode.importSources, codes.importSources))}
+            ${genImportCode(configCodeSnippet.importSources.concat(pageMetaSnippet.importSources, codeImports, refCodeSnippet.importSources, codesSnippet.importSources))}
+            ${pageMetaSnippet.code}
             ${configCodeSnippet.code}
-            ${refCode.code}
-            ${codes.code}
+            ${refCodeSnippet.code}
+            ${codesSnippet.code}
 
             ${genUseComponentEvents(rootSchema).join('\n')}
         </script>`;

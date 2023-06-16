@@ -11,6 +11,8 @@ import { genPageTemplate } from './gen-template';
 import { genScript } from './script';
 import { setGlobalConfig } from './compiler-context';
 import { traverseNodeSchema } from './helper';
+import { formatFileName, formatPageName, formatPageTitle } from './page-meta';
+import type { PageMeta } from './types';
 
 function getComponentRefs(
     nodeData: IPublicTypeNodeData | IPublicTypeNodeData[],
@@ -41,9 +43,21 @@ function compileRootSchema(
 ) {
     if (rootSchema.componentName === 'Page') {
         const componentRefs = getUseComponentRefs(rootSchema);
+        const fileName = formatFileName(rootSchema.fileName);
+        const meta: PageMeta = {
+            fileName,
+            name: formatPageName(fileName),
+            title: formatPageTitle(rootSchema.title),
+        };
         return {
+            meta,
             template: genPageTemplate(rootSchema, componentRefs),
-            script: genScript(componentMaps, rootSchema, componentRefs),
+            script: genScript({
+                componentMaps,
+                rootSchema,
+                componentRefs,
+                meta,
+            }),
         };
     }
     return {};
@@ -76,23 +90,32 @@ function getUseComponents(
     return useComponents;
 }
 
-async function saveFile(content: string) {
-    const options = {
-        types: [
-            {
-                description: 'vue',
-                accept: {
-                    'text/plain': ['.vue'],
-                },
-            },
-        ],
-    };
-    const handle = await window.showSaveFilePicker(options);
-    const writable = await handle.createWritable();
-    await writable.write(content);
-    await writable.close();
-    return handle;
-}
+// async function saveFile(rootComponents: {
+//     template: string
+//     script: string
+// }[]) {
+//     const content
+//         = `
+//         ${rootComponents[0].template}
+
+//         ${rootComponents[0].script}
+//         `;
+//     const options = {
+//         types: [
+//             {
+//                 description: 'vue',
+//                 accept: {
+//                     'text/plain': ['.vue'],
+//                 },
+//             },
+//         ],
+//     };
+//     const handle = await window.showSaveFilePicker(options);
+//     const writable = await handle.createWritable();
+//     await writable.write(content);
+//     await writable.close();
+//     return handle;
+// }
 
 export function schemaToCode(schema: IPublicTypeProjectSchema) {
     setGlobalConfig(schema.config);
@@ -104,12 +127,5 @@ export function schemaToCode(schema: IPublicTypeProjectSchema) {
         );
     });
 
-    saveFile(
-        `
-        ${rootComponents[0].template}
-
-        ${rootComponents[0].script}
-        `,
-    );
-    console.log(rootComponents);
+    return rootComponents;
 }

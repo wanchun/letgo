@@ -3,6 +3,7 @@ import type {
     ShallowRef,
 } from 'vue';
 import {
+    computed,
     defineComponent,
     onBeforeMount,
     onMounted,
@@ -11,9 +12,13 @@ import {
     triggerRef,
 } from 'vue';
 import { get, isArray, isNil, isUndefined } from 'lodash-es';
+import {
+    isSetterConfig,
+} from '@webank/letgo-types';
 import type {
     IPublicTypeFieldConfig, IPublicTypeSetter,
-    IPublicTypeSetterType, IPublicTypeSettingTarget,
+    IPublicTypeSetterConfig, IPublicTypeSetterType,
+    IPublicTypeSettingTarget,
 } from '@webank/letgo-types';
 import { createSettingFieldView } from '@webank/letgo-designer';
 import type { SettingField } from '@webank/letgo-designer';
@@ -42,9 +47,34 @@ const ArraySetterView = defineComponent({
         columns: {
             type: Array as PropType<IPublicTypeFieldConfig[]>,
         },
+        infinite: Boolean,
     },
     setup(props) {
         const { field } = props;
+
+        const propsRef = computed(() => {
+            if (!props.infinite)
+                return props;
+
+            const setter = field.parent?.parent?.setter;
+
+            if (isArray(setter)) {
+                const arraySetter = setter.find(item => isSetterConfig(item) && item?.componentName === 'ArraySetter');
+                return ((arraySetter as IPublicTypeSetterConfig)?.props as typeof props) ?? props;
+            }
+            if (isSetterConfig(setter))
+                return (setter.props as typeof props) ?? props;
+
+            return props;
+        });
+
+        const itemSetterRef = computed(() => {
+            return propsRef.value?.itemSetter ?? props.itemSetter;
+        });
+
+        const columnsRef = computed(() => {
+            return propsRef.value?.columns ?? props.columns;
+        });
 
         const items: ShallowRef<SettingField[]> = shallowRef([]);
 
@@ -81,10 +111,9 @@ const ArraySetterView = defineComponent({
 
         // TODO: 处理defaultValue
         const onAdd = () => {
-            const { itemSetter, field } = props;
             const item = field.createField({
                 name: items.value.length,
-                setter: itemSetter,
+                setter: itemSetterRef.value,
                 forceInline: 1,
                 extraProps: {
                     setValue: onItemChange,
@@ -123,7 +152,7 @@ const ArraySetterView = defineComponent({
             for (let i = 0; i < valueLength; i++) {
                 const item = field.createField({
                     name: i,
-                    setter: props.itemSetter,
+                    setter: itemSetterRef.value,
                     forceInline: 1,
                     extraProps: {
                         defaultValue: value[i],
@@ -149,13 +178,13 @@ const ArraySetterView = defineComponent({
         });
 
         const renderTitle = () => {
-            if (!props.columns)
+            if (!columnsRef.value)
                 return;
 
             return (
                 <div class={titleWrapperCls}>
                     {
-                        props.columns?.map((item) => {
+                        columnsRef.value?.map((item) => {
                             return <span class={titleCls}>{item.title}</span>;
                         })
                     }
@@ -165,7 +194,7 @@ const ArraySetterView = defineComponent({
 
         const drawerShowList = reactive<Record<number, boolean>>({});
 
-        const hasCol = props.columns && props.columns.length;
+        const hasCol = columnsRef.value && columnsRef.value.length;
 
         const renderField = (item: SettingField, rowIndex: number) => {
             const value = isNil(props.value) ? props.defaultValue : props.value;
@@ -175,9 +204,9 @@ const ArraySetterView = defineComponent({
                 };
                 return (
                     <>
-                        <Config onClick={toggle} class={iconCls} theme="outline" strokeWidth={2} />
+                        <Config onClick={() => toggle()} class={iconCls} theme="outline" strokeWidth={2} />
                         {
-                            props.columns.map((item) => {
+                            columnsRef.value.map((item) => {
                                 const name = `${rowIndex}.${item.name}`;
                                 const itemField = field.createField({
                                     ...item,

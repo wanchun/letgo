@@ -7590,6 +7590,421 @@ const assets: IPublicTypeAssetsJson = {
                 },
             ],
         },
+        {
+            title: '树形控件',
+            componentName: 'FTree',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.27',
+                exportName: 'FTree',
+                destructuring: true,
+            },
+            group: '原子组件',
+            category: '信息展示',
+            priority: 0,
+            props: [
+                {
+                    name: 'data',
+                    propType: {
+                        type: 'arrayOf',
+                        value: {
+                            type: 'shape',
+                            value: [
+                                {
+                                    name: 'value',
+                                    title: '选项值',
+                                    propType: {
+                                        type: 'oneOfType',
+                                        value: ['string', 'number'],
+                                    },
+                                },
+                                {
+                                    name: 'label',
+                                    title: '选项名称',
+                                    propType: 'string',
+                                },
+                                {
+                                    name: 'selectable',
+                                    title: '选项是否可选中',
+                                    propType: 'bool',
+                                },
+                                {
+                                    name: 'disabled',
+                                    title: '选项是否禁用',
+                                    propType: 'bool',
+                                },
+                                {
+                                    name: 'checkable',
+                                    title: '选项是否可勾选',
+                                    propType: 'bool',
+                                },
+                                {
+                                    name: 'isLeaf',
+                                    title: '选项是否是叶子节点',
+                                    propType: 'bool',
+                                },
+                                {
+                                    name: 'prefix',
+                                    title: '节点前缀',
+                                    propType: {
+                                        type: 'oneOfType',
+                                        value: ['string', 'node'],
+                                    },
+                                },
+                                {
+                                    name: 'suffix',
+                                    title: '节点后缀',
+                                    propType: {
+                                        type: 'oneOfType',
+                                        value: ['string', 'node'],
+                                    },
+                                },
+                                {
+                                    name: 'children',
+                                    title: '子选项数据',
+                                    propType: 'array',
+                                },
+                            ],
+                        },
+                    },
+                },
+                {
+                    name: 'defaultExpandAll',
+                    propType: 'bool',
+                },
+                {
+                    name: 'v-model:expandedKeys',
+                    propType: {
+                        type: 'arrayOf',
+                        value: {
+                            type: 'oneOfType',
+                            value: ['string', 'number'],
+                        },
+                    },
+                },
+                {
+                    name: 'selectable',
+                    propType: 'bool',
+                },
+                {
+                    name: 'v-model:selectedKeys',
+                    propType: {
+                        type: 'arrayOf',
+                        value: {
+                            type: 'oneOfType',
+                            value: ['string', 'number'],
+                        },
+                    },
+                },
+                {
+                    name: 'multiple',
+                    propType: 'bool',
+                },
+                {
+                    name: 'cancelable',
+                    propType: 'bool',
+                },
+                {
+                    name: 'checkable',
+                    propType: 'bool',
+                },
+                {
+                    name: 'cascade',
+                    propType: 'bool',
+                },
+                {
+                    name: 'checkStrictly',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['all', 'parent', 'child'],
+                    },
+                },
+                {
+                    name: 'v-model:checkedKeys',
+                    propType: {
+                        type: 'arrayOf',
+                        value: {
+                            type: 'oneOfType',
+                            value: ['string', 'number'],
+                        },
+                    },
+                },
+                {
+                    name: 'childrenField',
+                    propType: 'string',
+                },
+                {
+                    name: 'valueField',
+                    propType: 'string',
+                },
+                {
+                    name: 'labelField',
+                    propType: 'string',
+                },
+                {
+                    name: 'remote',
+                    propType: 'bool',
+                },
+                {
+                    name: 'loadData',
+                    propType: 'func',
+                },
+                {
+                    name: 'accordion',
+                    propType: 'bool',
+                },
+                {
+                    name: 'draggable',
+                    propType: 'bool',
+                },
+                {
+                    name: 'inline',
+                    propType: 'bool',
+                },
+                {
+                    name: 'virtualList',
+                    propType: 'bool',
+                },
+                {
+                    name: 'filterMethod',
+                    propType: 'func',
+                },
+            ],
+            configure: {
+                props: [
+                    {
+                        name: 'data',
+                        title: '节点数据',
+                        display: 'block',
+                        setter: [
+                            'JsonSetter',
+                            {
+                                componentName: 'ArraySetter',
+                                props: {
+                                    itemSetter: {
+                                        componentName: 'ObjectSetter',
+                                        props: {
+                                            items: [
+                                                {
+                                                    name: 'label',
+                                                    title: '节点名称',
+                                                    setter: 'StringSetter',
+                                                },
+                                                {
+                                                    name: 'value',
+                                                    title: '节点值',
+                                                    setter: ['StringSetter', 'NumberSetter'],
+                                                },
+                                                {
+                                                    name: 'selectable',
+                                                    title: '可选中',
+                                                    setter: 'BoolSetter',
+                                                },
+                                                {
+                                                    name: 'disabled',
+                                                    title: '是否禁用',
+                                                    setter: 'BoolSetter',
+                                                },
+                                                {
+                                                    name: 'checkable',
+                                                    title: '可勾选',
+                                                    setter: 'BoolSetter',
+                                                },
+                                                {
+                                                    name: 'isLeaf',
+                                                    title: '是否叶子节点',
+                                                    setter: 'BoolSetter',
+                                                    defaultValue: false,
+                                                },
+                                                {
+                                                    name: 'prefix',
+                                                    title: '前缀',
+                                                    setter: ['StringSetter', 'SlotSetter'],
+                                                },
+                                                {
+                                                    name: 'suffix',
+                                                    title: '后缀',
+                                                    setter: ['StringSetter', 'SlotSetter'],
+                                                },
+                                                {
+                                                    name: 'children',
+                                                    title: '子节点数据',
+                                                    display: 'block',
+                                                    setter: {
+                                                        componentName: 'ArraySetter',
+                                                        props: {
+                                                            infinite: true,
+                                                        },
+                                                    },
+                                                },
+                                            ],
+                                        },
+                                    },
+                                    columns: [
+                                        {
+                                            name: 'label',
+                                            title: '节点名称',
+                                            setter: 'StringSetter',
+                                        },
+                                        {
+                                            name: 'value',
+                                            title: '节点值',
+                                            setter: ['StringSetter', 'NumberSetter'],
+                                        },
+                                    ],
+                                },
+                            },
+                        ],
+                    },
+                    // {
+                    //     name: 'defaultExpandAll',
+                    //     title: '默认展开所有选项',
+                    //     propType: 'bool',
+                    //     defaultValue: false,
+                    // },
+                    // {
+                    //     name: 'v-model:expandedKeys',
+                    //     title: '展开的节点',
+                    //     propType: {
+                    //         type: 'arrayOf',
+                    //         value: {
+                    //             type: 'oneOfType',
+                    //             value: ['string', 'number'],
+                    //         },
+                    //     },
+                    // },
+                    // {
+                    //     name: 'selectable',
+                    //     propType: 'bool',
+                    // },
+                    // {
+                    //     name: 'v-model:selectedKeys',
+                    //     title: '选中的节点',
+                    //     propType: {
+                    //         type: 'arrayOf',
+                    //         value: {
+                    //             type: 'oneOfType',
+                    //             value: ['string', 'number'],
+                    //         },
+                    //     },
+                    // },
+                    // {
+                    //     name: 'multiple',
+                    //     title: '是否多选',
+                    //     propType: 'bool',
+                    //     defaultValue: false,
+                    // },
+                    // {
+                    //     name: 'cancelable',
+                    //     propType: 'bool',
+                    // },
+                    // {
+                    //     name: 'checkable',
+                    //     propType: 'bool',
+                    // },
+                    // {
+                    //     name: 'cascade',
+                    //     title: '父子节点选中是否关联',
+                    //     propType: 'bool',
+                    //     defaultValue: false,
+                    // },
+                    // {
+                    //     name: 'checkStrictly',
+                    //     title: '勾选策略',
+                    //     propType: {
+                    //         type: 'oneOf',
+                    //         value: ['all', 'parent', 'child'],
+                    //     },
+                    //     defaultValue: 'child',
+                    // },
+                    // {
+                    //     name: 'v-model:checkedKeys',
+                    //     title: '勾选的节点',
+                    //     propType: {
+                    //         type: 'arrayOf',
+                    //         value: {
+                    //             type: 'oneOfType',
+                    //             value: ['string', 'number'],
+                    //         },
+                    //     },
+                    // },
+                    // {
+                    //     name: 'childrenField',
+                    //     title: 'children字段名',
+                    //     propType: 'string',
+                    //     defaultValue: 'children',
+                    // },
+                    // {
+                    //     name: 'valueField',
+                    //     title: 'value字段名',
+                    //     propType: 'string',
+                    //     defaultValue: 'value',
+                    // },
+                    // {
+                    //     name: 'labelField',
+                    //     title: 'label字段名',
+                    //     propType: 'string',
+                    //     defaultValue: 'label',
+                    // },
+                    // {
+                    //     name: 'remote',
+                    //     title: '是否异步加载',
+                    //     propType: 'bool',
+                    //     defaultValue: false,
+                    // },
+                    // {
+                    //     name: 'loadData',
+                    //     title: '异步加载数据函数',
+                    //     propType: 'func',
+                    // },
+
+                    // {
+                    //     name: 'accordion',
+                    //     title: '手风琴模式',
+                    //     propType: 'bool',
+                    //     defaultValue: false,
+                    // },
+                    // {
+                    //     name: 'draggable',
+                    //     propType: 'bool',
+                    // },
+                    // {
+                    //     name: 'inline',
+                    //     title: '叶子节点是否一行展示',
+                    //     propType: 'bool',
+                    //     defaultValue: false,
+                    // },
+                    // {
+                    //     name: 'virtualList',
+                    //     title: '是否虚拟滚动',
+                    //     propType: 'bool',
+                    //     defaultValue: false,
+                    // },
+                    // {
+                    //     name: 'filterMethod',
+                    //     propType: 'func',
+                    // },
+                ],
+                supports: {
+                    class: true,
+                    style: true,
+                    events: [
+                        'onCheck', 'onExpand', 'onSelect', 'onDragstart', 'onDragend',
+                        'onDragenter', 'onDragleave', 'onDragover', 'onDrop',
+                    ],
+                },
+            },
+            snippets: [
+                {
+                    title: '树形控件',
+                    schema: {
+                        componentName: 'FTree',
+                        props: {
+                        },
+                    },
+                },
+            ],
+        },
     ],
     sort: {
         groupList: ['原子组件', '精选组件'],

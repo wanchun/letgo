@@ -5489,7 +5489,6 @@ const assets: IPublicTypeAssetsJson = {
                             },
                         ],
                     },
-
                     {
                         name: 'columns',
                         title: '列配置',
@@ -5632,14 +5631,21 @@ const assets: IPublicTypeAssetsJson = {
                                                     setter: 'FunctionSetter',
                                                 },
                                                 {
-                                                    name: 'render',
                                                     title: '自定义渲染',
-                                                    setter: 'SlotSetter',
-                                                },
-                                                {
-                                                    name: 'renderHeader',
-                                                    title: '自定义标题',
-                                                    setter: 'SlotSetter',
+                                                    type: 'group',
+                                                    display: 'block',
+                                                    items: [
+                                                        {
+                                                            name: 'render',
+                                                            title: '自定义渲染',
+                                                            setter: 'SlotSetter',
+                                                        },
+                                                        {
+                                                            name: 'renderHeader',
+                                                            title: '自定义标题',
+                                                            setter: 'SlotSetter',
+                                                        },
+                                                    ],
                                                 },
                                                 {
                                                     name: 'action',
@@ -5669,15 +5675,22 @@ const assets: IPublicTypeAssetsJson = {
                                                     },
                                                 },
                                                 {
-                                                    name: 'colClassName',
-                                                    title: '列样式类名称',
-                                                    setter: 'StringSetter',
-                                                },
-                                                {
-                                                    name: 'colStyle',
-                                                    title: '列样式类名称',
-                                                    setter: 'StyleSetter',
-                                                    display: 'popup',
+                                                    title: '样式',
+                                                    type: 'group',
+                                                    display: 'block',
+                                                    items: [
+                                                        {
+                                                            name: 'colClassName',
+                                                            title: '列样式类名称',
+                                                            setter: 'StringSetter',
+                                                        },
+                                                        {
+                                                            name: 'colStyle',
+                                                            title: '列样式类名称',
+                                                            setter: 'StyleSetter',
+                                                            display: 'popup',
+                                                        },
+                                                    ],
                                                 },
                                             ],
                                         },
@@ -5688,111 +5701,186 @@ const assets: IPublicTypeAssetsJson = {
                                             title: '列字段',
                                             setter: 'StringSetter',
                                         },
+                                        {
+                                            name: 'label',
+                                            title: '标题',
+                                            setter: 'StringSetter',
+                                        },
                                     ],
                                 },
                             },
                         ],
                     },
-                    // {
-                    //     name: 'bordered',
-                    //     title: '边框',
-                    //     propType: 'bool',
-                    // },
-                    // {
-                    //     name: 'emptyText',
-                    //     title: '空数据提示',
-                    //     propType: 'string',
-                    // },
-                    // {
-                    //     name: 'empty',
-                    //     title: '空数据插槽',
-                    //     propType: 'node',
-                    // },
-                    // {
-                    //     name: 'height',
-                    //     title: '高度',
-                    //     propType: 'number',
-                    // },
+                    {
+                        title: '功能配置',
+                        type: 'group',
+                        display: 'block',
+                        items: [
+                            {
+                                name: 'bordered',
+                                title: '边框',
+                                setter: 'BoolSetter',
+                                defaultValue: false,
+                            },
+                            {
+                                name: 'showHeader',
+                                title: '显示表头',
+                                setter: 'BoolSetter',
+                                defaultValue: true,
+                            },
+                            {
+                                name: 'height',
+                                title: '固定高度',
+                                setter: 'NumberSetter',
+                            },
+                            {
+                                name: 'virtualScroll',
+                                title: '虚拟滚动',
+                                setter: 'BoolSetter',
+                                defaultValue: false,
+                            },
+                            {
+                                name: 'layout',
+                                title: '列布局方式',
+                                setter: {
+                                    componentName: 'RadioGroupSetter',
+                                    props: {
+                                        options: [
+                                            {
+                                                value: 'fixed',
+                                                label: '等分',
+                                            },
+                                            {
+                                                value: 'auto',
+                                                label: '自适应',
+                                            },
+                                        ],
+                                    },
+                                },
+                                defaultValue: 'fixed',
+                            },
+                            {
+                                name: 'size',
+                                title: '间距大小',
+                                setter: {
+                                    componentName: 'RadioGroupSetter',
+                                    props: {
+                                        options: [
+                                            {
+                                                value: 'middle',
+                                                label: '默认',
+                                            },
+                                            {
+                                                value: 'small',
+                                                label: '小',
+                                            },
+                                        ],
+                                    },
+                                },
+                                defaultValue: 'middle',
+                            },
+                            {
+                                name: 'spanMethod',
+                                title: '合并列',
+                                setter: 'FunctionSetter',
+                            },
 
-                    // {
-                    //     name: 'showHeader',
-                    //     title: '显示表头',
-                    //     propType: 'bool',
-                    // },
-                    // {
-                    //     name: 'spanMethod',
-                    //     title: '合并列',
-                    //     propType: 'func',
-                    // },
-                    // {
-                    //     name: 'virtualScroll',
-                    //     title: '虚拟滚动',
-                    //     propType: 'bool',
-                    // },
-                    // {
-                    //     name: 'size',
-                    //     title: '间距大小',
-                    //     propType: {
-                    //         type: 'oneOf',
-                    //         value: ['middle', 'small'],
-                    //     },
-                    // },
-                    // {
-                    //     name: 'layout',
-                    //     title: '布局方式',
-                    //     propType: {
-                    //         type: 'oneOf',
-                    //         value: ['fixed', 'auto'],
-                    //     },
-                    // },
-                    // {
-                    //     name: 'draggable',
-                    //     title: '拖拽',
-                    //     propType: 'bool',
-                    // },
-                    // {
-                    //     name: 'beforeDragend',
-                    //     title: '拖拽结束前钩子',
-                    //     propType: 'func',
-                    // },
-                    // {
-                    //     name: 'v-model:expandedKeys',
-                    //     title: '展开行的key',
-                    //     propType: {
-                    //         type: 'arrayOf',
-                    //         value: {
-                    //             type: 'oneOfType',
-                    //             value: ['string', 'number'],
-                    //         },
-                    //     },
-                    // },
-                    // {
-                    //     name: 'v-model:checkedKeys',
-                    //     title: '勾选行的key',
-                    //     propType: {
-                    //         type: 'arrayOf',
-                    //         value: {
-                    //             type: 'oneOfType',
-                    //             value: ['string', 'number'],
-                    //         },
-                    //     },
-                    // },
-                    // {
-                    //     name: 'rowClassName',
-                    //     title: '行样式类名',
-                    //     propType: {
-                    //         type: 'oneOfType',
-                    //         value: ['string', 'object', 'array', 'func'],
-                    //     },
-                    // },
-                    // {
-                    //     name: 'rowStyle',
-                    //     title: '行样式',
-                    //     propType: {
-                    //         type: 'oneOfType',
-                    //         value: ['object', 'func'],
-                    //     },
-                    // },
+                        ],
+                    },
+                    {
+                        title: '拖拽配置',
+                        type: 'group',
+                        display: 'block',
+                        items: [
+                            {
+                                name: 'draggable',
+                                title: '是否拖拽',
+                                setter: 'BoolSetter',
+                                defaultValue: false,
+                            },
+                            {
+                                name: 'beforeDragend',
+                                title: '拖拽结束前钩子',
+                                setter: 'FunctionSetter',
+                            },
+                        ],
+                    },
+                    {
+                        title: '数据绑定',
+                        type: 'group',
+                        display: 'block',
+                        items: [
+                            {
+                                name: 'v-model:expandedKeys',
+                                title: '展开行的key',
+                                setter: [
+                                    'VariableSetter',
+                                    {
+                                        componentName: 'ArraySetter',
+                                        props: {
+                                            itemSetter: [
+                                                'StringSetter',
+                                                'NumberSetter',
+                                            ],
+                                        },
+                                    },
+                                ],
+                            },
+                            {
+                                name: 'v-model:checkedKeys',
+                                title: '勾选行的key',
+                                setter: [
+                                    'VariableSetter',
+                                    {
+                                        componentName: 'ArraySetter',
+                                        props: {
+                                            itemSetter: [
+                                                'StringSetter',
+                                                'NumberSetter',
+                                            ],
+                                        },
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                    {
+                        title: '空数据配置',
+                        type: 'group',
+                        display: 'block',
+                        items: [
+                            {
+                                name: 'emptyText',
+                                title: '空数据提示',
+                                setter: 'StringSetter',
+                            },
+                            {
+                                name: 'empty',
+                                title: '空数据插槽',
+                                setter: 'SlotSetter',
+                            },
+                        ],
+                    },
+                    {
+                        title: '行样式配置',
+                        type: 'group',
+                        display: 'block',
+                        items: [
+                            {
+                                name: 'rowClassName',
+                                title: '行样式类名',
+                                setter: [
+                                    'StringSetter',
+                                ],
+                            },
+                            {
+                                name: 'rowStyle',
+                                title: '行样式',
+                                setter: 'StyleSetter',
+                                display: 'popup',
+                            },
+                        ],
+                    },
                 ],
                 supports: {
                     events: ['onCellClick', 'onExpandChange', 'onHeaderClick', 'onRowClick', 'onSelect', 'onSelectAll', 'onSelectionChange', 'onDragstart', 'onDragend', 'onSortChange'],
@@ -5844,7 +5932,7 @@ const assets: IPublicTypeAssetsJson = {
             priority: 0,
         },
         {
-            title: '标签页',
+            title: 'Tab页',
             componentName: 'FTabs',
             npm: {
                 package: '@fesjs/fes-design',
@@ -5900,12 +5988,12 @@ const assets: IPublicTypeAssetsJson = {
                                 {
                                     name: 'render',
                                     title: '渲染内容',
-                                    propType: 'func',
+                                    propType: 'node',
                                 },
                                 {
                                     name: 'renderTab',
                                     title: '渲染页签',
-                                    propType: 'func',
+                                    propType: 'node',
                                 },
                             ],
                         },
@@ -5957,43 +6045,219 @@ const assets: IPublicTypeAssetsJson = {
                 },
             ],
             configure: {
-                component: {
-                    isContainer: true,
+                props: [
+                    {
+                        name: 'v-model',
+                        title: '激活页签',
+                        setter: 'VariableSetter',
+                    },
+                    {
+                        name: 'panes',
+                        title: '页签配置',
+                        display: 'block',
+                        setter: {
+                            componentName: 'ArraySetter',
+                            props: {
+                                itemSetter: {
+                                    componentName: 'ObjectSetter',
+                                    props: {
+                                        items: [
+                                            {
+                                                name: 'name',
+                                                title: '标题',
+                                                setter: 'StringSetter',
+                                            },
+                                            {
+                                                name: 'value',
+                                                title: '页签key',
+                                                setter: 'StringSetter',
+                                            },
+                                            {
+                                                name: 'render',
+                                                title: '渲染内容',
+                                                setter: 'SlotSetter',
+                                                defaultValue: {
+                                                    type: 'JSSlot',
+                                                    value: [],
+                                                },
+                                            },
+                                            {
+                                                name: 'disabled',
+                                                title: '禁用',
+                                                setter: 'BoolSetter',
+                                                defaultValue: false,
+                                            },
+                                            {
+                                                name: 'closable',
+                                                title: '可关闭',
+                                                setter: 'BoolSetter',
+                                                defaultValue: false,
+                                            },
+                                            {
+                                                name: 'displayDirective',
+                                                title: '子项加载策略',
+                                                setter: {
+                                                    componentName: 'SelectSetter',
+                                                    props: {
+                                                        options: [
+                                                            {
+                                                                value: 'if',
+                                                                label: '切换重新加载',
+                                                            },
+                                                            {
+                                                                value: 'show',
+                                                                label: '默认加载',
+                                                            },
+                                                            {
+                                                                value: 'show:lazy',
+                                                                label: '显示时才加载',
+                                                            },
+                                                        ],
+                                                    },
+                                                },
+                                                defaultValue: 'if',
+                                            },
+
+                                            {
+                                                name: 'renderTab',
+                                                title: '自定义标题',
+                                                setter: 'SlotSetter',
+                                            },
+                                        ],
+                                    },
+                                },
+                                columns: [
+                                    {
+                                        name: 'name',
+                                        title: '标题',
+                                        setter: 'StringSetter',
+                                    },
+                                    {
+                                        name: 'value',
+                                        title: 'key',
+                                        setter: 'StringSetter',
+                                    },
+                                ],
+                            },
+                        },
+                    },
+                    {
+                        title: '其他配置',
+                        type: 'group',
+                        display: 'block',
+                        items: [
+                            {
+                                name: 'position',
+                                title: '页签位置',
+                                setter: {
+                                    componentName: 'SelectSetter',
+                                    props: {
+                                        options: [
+                                            {
+                                                value: 'left',
+                                                label: '左',
+                                            },
+                                            {
+                                                value: 'right',
+                                                label: '右',
+                                            },
+                                            {
+                                                value: 'top',
+                                                label: '上',
+                                            },
+                                            {
+                                                value: 'bottom',
+                                                label: '下',
+                                            },
+                                        ],
+                                    },
+                                },
+                                defaultValue: 'top',
+                            },
+                            {
+                                name: 'type',
+                                title: '页签类型',
+                                setter: {
+                                    componentName: 'SelectSetter',
+                                    props: {
+                                        options: [
+                                            {
+                                                value: 'line',
+                                                label: '线型',
+                                            },
+                                            {
+                                                value: 'card',
+                                                label: '卡片样式',
+                                            },
+                                        ],
+                                    },
+                                },
+                                defaultValue: 'line',
+                            },
+                            {
+                                name: 'closable',
+                                title: '可关闭',
+                                setter: 'BoolSetter',
+                                defaultValue: false,
+                            },
+                            {
+                                name: 'closeMode',
+                                title: '关闭按钮触发时机',
+                                setter: {
+                                    componentName: 'SelectSetter',
+                                    props: {
+                                        options: [
+                                            {
+                                                value: 'visible',
+                                                label: '一直显示',
+                                            },
+                                            {
+                                                value: 'hover',
+                                                label: '悬浮显示',
+                                            },
+                                        ],
+                                    },
+                                },
+                                defaultValue: 'visible',
+                            },
+                            {
+                                name: 'transition',
+                                title: '切换动画',
+                                setter: 'BoolSetter',
+                                defaultValue: true,
+                            },
+
+                        ],
+                    },
+                    {
+                        title: '插槽',
+                        type: 'group',
+                        display: 'block',
+                        items: [
+                            {
+                                name: 'prefix',
+                                title: '前置内容',
+                                setter: 'SlotSetter',
+                            },
+                            {
+                                name: 'suffix',
+                                title: '后置内容',
+                                setter: 'SlotSetter',
+                            },
+                        ],
+                    },
+                ],
+                component: {},
+                supports: {
+                    events: ['onClose', 'onChange'],
                 },
             },
             snippets: [
                 {
-                    title: '标签页',
+                    title: 'Tab页',
                     schema: {
                         componentName: 'FTabs',
-                        props: {
-                            panes: [
-                                {
-                                    name: 'T恤',
-                                    value: 'T恤',
-                                    render: {
-                                        type: 'JSFunction',
-                                        value: '()=> 1',
-                                    },
-                                },
-                                {
-                                    name: '卫衣啊卫衣',
-                                    value: '卫衣',
-                                    render: {
-                                        type: 'JSFunction',
-                                        value: '()=> 1',
-                                    },
-                                },
-                                {
-                                    name: '衬衫',
-                                    value: '衬衫',
-                                    render: {
-                                        type: 'JSFunction',
-                                        value: '()=> 1',
-                                    },
-                                },
-                            ],
-                        },
+                        props: {},
                     },
                 },
             ],
@@ -6057,8 +6321,123 @@ const assets: IPublicTypeAssetsJson = {
                 },
             ],
             configure: {
-                component: {
-                    isContainer: true,
+                props: [
+                    {
+                        name: 'type',
+                        title: '类型',
+                        setter: {
+                            componentName: 'SelectSetter',
+                            props: {
+                                options: [
+                                    {
+                                        value: 'default',
+                                        label: '默认',
+                                    },
+                                    {
+                                        value: 'info',
+                                        label: '信息',
+                                    },
+                                    {
+                                        value: 'success',
+                                        label: '成功',
+                                    },
+                                    {
+                                        value: 'warning',
+                                        label: '警告',
+                                    },
+                                    {
+                                        value: 'danger',
+                                        label: '错误',
+                                    },
+                                ],
+                            },
+                        },
+                        defaultValue: 'default',
+                    },
+                    {
+                        name: 'children',
+                        title: '内容',
+                        setter: 'StringSetter',
+                    },
+                    {
+                        name: 'bordered',
+                        title: '边框',
+                        setter: 'BoolSetter',
+                        defaultValue: true,
+                    },
+                    {
+                        name: 'closable',
+                        title: '可关闭',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'backgroundColor',
+                        title: '背景色',
+                        setter: 'ColorSetter',
+                    },
+                    {
+                        name: 'size',
+                        title: '大小',
+                        setter: {
+                            componentName: 'RadioGroupSetter',
+                            props: {
+                                options: [
+                                    {
+                                        value: 'small',
+                                        label: '小',
+                                    },
+                                    {
+                                        value: 'middle',
+                                        label: '中',
+                                    },
+                                    {
+                                        value: 'large',
+                                        label: '大',
+                                    },
+                                ],
+                            },
+                        },
+                        defaultValue: 'middle',
+                    },
+                    {
+                        name: 'effect',
+                        title: '主题',
+                        setter: {
+                            componentName: 'RadioGroupSetter',
+                            props: {
+                                options: [
+                                    {
+                                        value: 'dark',
+                                        label: '深色',
+                                    },
+                                    {
+                                        value: 'light',
+                                        label: '亮色',
+                                    },
+                                    {
+                                        value: 'plain',
+                                        label: '无色',
+                                    },
+                                ],
+                            },
+                        },
+                        defaultValue: 'light',
+                    },
+                    {
+                        name: 'icon',
+                        title: '按钮',
+                        setter: {
+                            componentName: 'IconSetter',
+                            props: {
+                                type: 'node',
+                            },
+                        },
+                    },
+                ],
+                supports: {
+                    style: true,
+                    class: true,
                 },
             },
             snippets: [
@@ -6066,7 +6445,9 @@ const assets: IPublicTypeAssetsJson = {
                     title: '标签',
                     schema: {
                         componentName: 'FTag',
-                        children: [],
+                        props: {
+                            children: '我是标签',
+                        },
                     },
                 },
             ],
@@ -6998,11 +7379,223 @@ const assets: IPublicTypeAssetsJson = {
                 },
             ],
         },
+        {
+            title: '滚动条',
+            componentName: 'FScrollbar',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.27',
+                exportName: 'FScrollbar',
+                destructuring: true,
+            },
+            group: '原子组件',
+            category: '通用组件',
+            priority: 0,
+            props: [
+                {
+                    name: 'height',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'number'],
+                    },
+                },
+                {
+                    name: 'maxHeight',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'number'],
+                    },
+                },
+                {
+                    name: 'native',
+                    propType: 'bool',
+                },
+                {
+                    name: 'noresize',
+                    propType: 'bool',
+                },
+                {
+                    name: 'always',
+                    propType: 'bool',
+                },
+                {
+                    name: 'minSize',
+                    propType: 'number',
+                },
+                {
+                    name: 'shadow',
+                    propType: {
+                        type: 'oneOfType',
+                        value: [
+                            'bool',
+                            {
+                                type: 'shape',
+                                value: [
+                                    {
+                                        name: 'x',
+                                        propType: 'bool',
+                                    },
+                                    {
+                                        name: 'y',
+                                        propType: 'bool',
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                },
+                {
+                    name: 'containerClass',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['array', 'object', 'string'],
+                    },
+                },
+                {
+                    name: 'containerStyle',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['array', 'object', 'string'],
+                    },
+                },
+                {
+                    name: 'contentStyle',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['array', 'object', 'string'],
+                    },
+                },
+                {
+                    name: 'horizontalRatioStyle',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['array', 'object', 'string'],
+                    },
+                },
+                {
+                    name: 'verticalRatioStyle',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['array', 'object', 'string'],
+                    },
+                },
+            ],
+            configure: {
+                props: [
+                    {
+                        name: 'height',
+                        title: '固定高度',
+                        setter: ['NumberSetter', 'StringSetter'],
+                    },
+                    {
+                        name: 'maxHeight',
+                        title: '最大高度',
+                        setter: ['NumberSetter', 'StringSetter'],
+                    },
+                    {
+                        name: 'native',
+                        title: '原生滚动样式',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'noresize',
+                        title: '不响应容器尺寸变化',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'always',
+                        title: '总是显示滚动条',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'minSize',
+                        title: '滑块最小尺寸',
+                        setter: 'NumberSetter',
+                        defaultValue: 20,
+                    },
+                    {
+                        name: 'shadow',
+                        title: '待滚动区域阴影',
+                        setter: [
+                            'BoolSetter',
+                            {
+                                componentName: 'ObjectSetter',
+                                props: {
+                                    items: [
+                                        {
+                                            name: 'x',
+                                            title: '水平轴',
+                                            setter: 'BoolSetter',
+                                        },
+                                        {
+                                            name: 'y',
+                                            title: '垂直轴',
+                                            setter: 'BoolSetter',
+                                        },
+                                    ],
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        name: 'containerClass',
+                        title: '包裹容器类名',
+                        setter: 'StringSetter',
+                    },
+                    {
+                        name: 'containerStyle',
+                        title: '包裹容器样式',
+                        setter: 'StyleSetter',
+                        display: 'popup',
+                    },
+                    {
+                        name: 'contentStyle',
+                        title: '内容样式',
+                        setter: 'StyleSetter',
+                        display: 'popup',
+                    },
+                    {
+                        name: 'horizontalRatioStyle',
+                        title: '水平滚动条样式',
+                        setter: 'StyleSetter',
+                        display: 'popup',
+                    },
+                    {
+                        name: 'verticalRatioStyle',
+                        title: '垂直滚动条样式',
+                        setter: 'StyleSetter',
+                        display: 'popup',
+                    },
+                ],
+                component: {
+                    isContainer: true,
+                },
+                supports: {
+                    class: true,
+                    style: true,
+                    events: ['onScroll'],
+                },
+            },
+            snippets: [
+                {
+                    title: '滚动条',
+                    schema: {
+                        componentName: 'FScrollbar',
+                        props: {
+                        },
+                    },
+                },
+            ],
+        },
     ],
     sort: {
         groupList: ['原子组件', '精选组件'],
         categoryList: [
             '基础元素',
+            '通用组件',
             '布局组件',
             '导航组件',
             '数据录入',

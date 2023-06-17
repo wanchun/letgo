@@ -57,6 +57,7 @@ export function useCodesInstance(codeMap: Map<string, CodeItem>) {
         dependencyMap.set(id, dependencyMap.get(id));
         codesInstance[id] = codesInstance[preId];
         codesInstance[id].changeId(id);
+        delete codesInstance[preId];
         const item = codeMap.get(id);
 
         // for (const [_, deps] of dependencyMap) {

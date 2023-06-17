@@ -1,4 +1,4 @@
 export * from './expression';
-export * from './transform-expression';
+export * from './ast';
 export * from './dag';
 export * from './value-to-source';

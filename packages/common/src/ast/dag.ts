@@ -1,6 +1,5 @@
 import type { CodeItem } from '@webank/letgo-types';
-import { CodeType } from '@webank/letgo-types';
-import { calcDependencies } from './expression';
+import { calcDependencies } from './ast';
 
 export function topologicalSort(dependencyMap: Map<string, string[]>) {
     const indegree = new Map();
@@ -41,16 +40,10 @@ export function checkCycleDependency(dependencyMap: Map<string, string[]>) {
 }
 
 export function sortState(codeMap: Map<string, CodeItem>, dependencyMap = new Map<string, string[]>()) {
-    const JSQuery = [];
-    for (const [codeId, item] of codeMap) {
-        if (item.type !== CodeType.JAVASCRIPT_QUERY)
-            dependencyMap.set(codeId, calcDependencies(item, codeMap));
-
-        else
-            JSQuery.push(codeId);
-    }
+    for (const [codeId, item] of codeMap)
+        dependencyMap.set(codeId, calcDependencies(item, codeMap));
 
     const sortResult = checkCycleDependency(dependencyMap);
     // 最底层的依赖最先被实例化
-    return [...sortResult.reverse(), ...JSQuery];
+    return sortResult.reverse();
 }

@@ -1,10 +1,6 @@
-import type { CodeItem, IPublicTypeEventHandler, IPublicTypeJSFunction } from '@webank/letgo-types';
-import {
-    CodeType,
-    InnerEventHandlerAction,
-} from '@webank/letgo-types';
-
-import { extractExpression, findExpressionDependencyCode } from './transform-expression';
+import { parse } from 'acorn';
+import { generate } from 'astring';
+import { isNil, isUndefined } from 'lodash-es';
 
 export const EXPRESSION_REGEX = /{{(.*?)}}/;
 
@@ -16,71 +12,161 @@ export function isOnlyExpression(doc: string) {
     return /^{{(.*?)}}$/.test(doc.trim());
 }
 
-export function calcDependencies(item: CodeItem, codeMap: Map<string, CodeItem>) {
-    let dependencies: string[] = [];
-    let inputCode: string;
-    if (item.type === CodeType.TEMPORARY_STATE)
-        inputCode = item.initValue;
-    else if (item.type === CodeType.JAVASCRIPT_COMPUTED)
-        inputCode = item.funcBody;
+export function extractExpression(doc: string) {
+    const result = new Set<string>();
+    const regex = new RegExp(EXPRESSION_REGEX, 'gs');
+    let match;
+    // eslint-disable-next-line no-cond-assign
+    while ((match = regex.exec(doc)) !== null)
+        result.add(match[1].trim());
 
-    if (inputCode) {
-        extractExpression(inputCode).forEach((expression) => {
-            dependencies = dependencies.concat(findExpressionDependencyCode(expression, (name: string) => {
-                return codeMap.has(name);
-            }));
+    return Array.from(result).filter(Boolean);
+}
+
+export function traverseExpression(doc: string, callback: (expression: string) => void) {
+    const regex = new RegExp(EXPRESSION_REGEX, 'gs');
+    let array1;
+
+    // eslint-disable-next-line no-cond-assign
+    while ((array1 = regex.exec(doc)) !== null)
+        callback(array1[1]);
+}
+
+export function replaceExpression(doc: string, callback: (pattern: string, expression: string) => string) {
+    const regex = new RegExp(EXPRESSION_REGEX, 'gs');
+    return doc.replace(regex, callback);
+}
+
+interface Identifier {
+    type: 'Identifier'
+    start: number
+    end: number
+    name: string
+}
+
+interface MemberExpression {
+    type: 'MemberExpression'
+    object: Identifier | MemberExpression
+    property: Identifier | MemberExpression
+}
+
+interface BinaryExpression {
+    type: 'BinaryExpression'
+    left: AstNode
+    right: AstNode
+}
+
+interface CallExpression {
+    type: 'CallExpression'
+    callee: AstNode
+    arguments: AstNode[]
+}
+
+interface UnaryExpression {
+    type: 'UnaryExpression'
+    argument: AstNode
+}
+
+type Callback = (identifier: Identifier) => void;
+
+type AstNode = Identifier | MemberExpression | BinaryExpression | CallExpression | UnaryExpression;
+
+function processVarIdentifier(expression: AstNode, callback: Callback) {
+    if (expression.type === 'Identifier')
+        callback(expression);
+
+    else
+        walkAst(expression, callback);
+}
+
+function walkAst(expression: AstNode, callback: Callback) {
+    if (expression.type === 'Identifier') {
+        callback(expression);
+    }
+    else if (expression.type === 'MemberExpression') {
+        processVarIdentifier(expression.object, callback);
+        if (expression.property.type !== 'Identifier')
+            walkAst(expression.property, callback);
+    }
+    else if (expression.type === 'BinaryExpression') {
+        processVarIdentifier(expression.left, callback);
+        processVarIdentifier(expression.right, callback);
+    }
+    else if (expression.type === 'CallExpression') {
+        processVarIdentifier(expression.callee, callback);
+        expression.arguments.forEach((child) => {
+            processVarIdentifier(child, callback);
         });
     }
-
-    return dependencies;
+    else if (expression.type === 'UnaryExpression') {
+        processVarIdentifier(expression.argument, callback);
+    }
+    return expression;
 }
 
-export function eventHandlerToJsFunction(item: IPublicTypeEventHandler): IPublicTypeJSFunction {
-    let expression: string;
-    const params: any[] = [];
-    if (item.action === InnerEventHandlerAction.CONTROL_QUERY) {
-        expression = `${item.namespace}.${item.method}.apply(${item.namespace}, Array.prototype.slice.call(arguments))`;
-    }
-    else if (item.action === InnerEventHandlerAction.CONTROL_COMPONENT) {
-        // TODO 支持参数
-        expression = `${item.namespace}.${item.method}()`;
-    }
-    else if (item.action === InnerEventHandlerAction.SET_TEMPORARY_STATE) {
-        // TODO 支持其他方法
-        params.push(item.params.value);
-        expression = `${item.namespace}.${item.method}.apply(${item.namespace}, Array.prototype.slice.call(arguments))`;
-    }
-    else if (item.action === InnerEventHandlerAction.SET_LOCAL_STORAGE) {
-        // TODO 支持其他方法
-        if (item.method === 'setValue') {
-            params.push(item.params.key, item.params.value);
-            expression = `${item.namespace}.${item.method}.apply(null, Array.prototype.slice.call(arguments))`;
-        }
-        else {
-            expression = `${item.namespace}.${item.method}()`;
-        }
-    }
-    else {
-        // TODO 支持用户自定义方法
-    }
+//  * 要判断是不是表达式
+//  * 要判断是不是有多个表达式
+export function transformExpression(code: string, callback: Callback) {
+    const ast = parse(code, {
+        ecmaVersion: 2022,
+    });
+    const body = (ast as any).body;
+    if (!body.length)
+        return;
+    if (body.length > 1)
+        throw new Error('不支持多语句');
 
-    return {
-        type: 'JSFunction',
-        // 需要传下入参
-        value: `function(){${expression}}`,
-        params,
-    };
+    else if (body[0].type !== 'ExpressionStatement')
+        throw new Error('只支持 js 表达式');
+
+    const content = body[0].expression;
+    walkAst(content, callback);
+    return content;
 }
 
-export function eventHandlersToJsFunction(handlers: IPublicTypeEventHandler[]) {
-    const result: {
-        [key: string]: IPublicTypeJSFunction[]
-    } = {};
-    handlers.forEach((item: IPublicTypeEventHandler) => {
-        if (item.namespace && item.method) {
-            const jsExpression = eventHandlerToJsFunction(item);
-            result[item.name] = (result[item.name] || []).concat(jsExpression);
-        }
+export function findExpressionDependencyCode(code: string, isInclude: (name: string) => boolean) {
+    const result: string[] = [];
+    transformExpression(code, (identifier) => {
+        if (isInclude(identifier.name))
+            result.push(identifier.name);
     });
     return result;
+}
+
+export function attachContext(code: string, isInclude: (name: string) => boolean) {
+    const ast = transformExpression(code, (identifier) => {
+        if (isInclude(identifier.name))
+            identifier.name = `letgoCtx.${identifier.name}`;
+    });
+    return generate(ast);
+}
+
+export function executeExpression(text: string | null, ctx: Record<string, any> = {}) {
+    if (isNil(text))
+        return null;
+    let result = text;
+    try {
+        if (isOnlyExpression(text)) {
+            result = replaceExpression(text, (_, expression) => {
+                return expression;
+            });
+            const exp = attachContext(result, name => !isUndefined(ctx[name]));
+            // eslint-disable-next-line no-new-func
+            const fn = new Function('letgoCtx', `return ${exp}`);
+            result = fn(ctx);
+        }
+        else if (hasExpression(text)) {
+            result = replaceExpression(text, (_, expression) => {
+                const exp = attachContext(expression, name => !isUndefined(ctx[name]));
+                // eslint-disable-next-line no-new-func
+                const fn = new Function('letgoCtx', `return ${exp}`);
+                return fn(ctx);
+            });
+        }
+        result = JSON.parse(result);
+        return result;
+    }
+    catch (_) {
+        return result;
+    }
 }

@@ -65,8 +65,7 @@ function declarePattern(node: any, parent: any) {
     }
 }
 
-export function findGlobals(source: string, options: Options) {
-    options = options || {} as Options;
+export function findGlobals(source: string, options: Options = {} as Options) {
     const globals: Node[] = [];
     let ast: any;
     // istanbul ignore else

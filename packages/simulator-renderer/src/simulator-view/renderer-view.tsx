@@ -43,11 +43,16 @@ export default defineComponent({
             executeCtx[item.id] = codesInstance[item.id];
         });
         code.value.onCodeItemDelete((id: string) => {
+            // TODO 有依赖的时候删除给提示
             deleteCodeInstance(id);
             delete executeCtx[id];
         });
         code.value.onCodeItemChanged(changeCodeInstance);
-        code.value.onCodeIdChanged(changeCodeInstanceId);
+        code.value.onCodeIdChanged((id: string, preId: string) => {
+            changeCodeInstanceId(id, preId);
+            executeCtx[id] = codesInstance[id];
+            delete executeCtx[preId];
+        });
 
         const viewState = computed(() => {
             return Object.keys(codesInstance).reduce((acc, cur) => {

@@ -80,8 +80,11 @@ export default defineComponent({
         } = useCode();
 
         const onCommonAction = (value: string, item: CodeItem) => {
-            if (value === 'delete')
+            if (value === 'delete') {
                 code.value?.deleteCodeItem(item.id);
+                if (currentCodeItem.value?.id === item.id)
+                    changeCurrentCodeItem(null);
+            }
         };
 
         const renderFolders = () => {

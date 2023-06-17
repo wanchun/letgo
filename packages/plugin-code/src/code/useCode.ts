@@ -4,7 +4,7 @@ import type { CodeItem } from '@webank/letgo-types';
 
 function useCode() {
     const currentCodeItem = ref<CodeItem>();
-    const changeCurrentCodeItem = (item: CodeItem) => {
+    const changeCurrentCodeItem = (item: CodeItem | null) => {
         currentCodeItem.value = item;
     };
     return {

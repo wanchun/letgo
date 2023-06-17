@@ -226,7 +226,7 @@ const ArraySetterView = defineComponent({
                         }
                         <FDrawer
                             show={drawerShowList[rowIndex]}
-                            title={`${item.name}`}
+                            title={`${field.name}.${item.name}`}
                             displayDirective="if"
                             mask={false}
                             width={400}

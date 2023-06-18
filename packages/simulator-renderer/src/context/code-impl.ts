@@ -24,7 +24,7 @@ export function useCodesInstance(codeMap: Map<string, CodeItem>) {
             codesInstance[item.id] = new ComputedImpl(item, dependencyMap.get(item.id), ctx);
 
         else if (item.type === CodeType.JAVASCRIPT_QUERY)
-            codesInstance[item.id] = new JavascriptQueryImpl(item, ctx);
+            codesInstance[item.id] = new JavascriptQueryImpl(item, dependencyMap.get(item.id), ctx);
     };
 
     const deleteCodeInstance = (id: string) => {
@@ -37,7 +37,10 @@ export function useCodesInstance(codeMap: Map<string, CodeItem>) {
         const item = codeMap.get(id);
         const currentInstance = codesInstance[id];
 
-        if ((currentInstance instanceof TemporaryStateImpl && !isNil(content.initValue)) || (currentInstance instanceof ComputedImpl && !isNil(content.funcBody))) {
+        if ((currentInstance instanceof TemporaryStateImpl && !isNil(content.initValue))
+            || (currentInstance instanceof ComputedImpl && !isNil(content.funcBody))
+            || (currentInstance instanceof JavascriptQueryImpl && !isNil(content.query))
+        ) {
             const deps = calcDependencies(item, codeMap);
             dependencyMap.set(id, deps);
             currentInstance.changeDeps(deps);
@@ -54,25 +57,12 @@ export function useCodesInstance(codeMap: Map<string, CodeItem>) {
     };
 
     const changeCodeInstanceId = (id: string, preId: string) => {
-        dependencyMap.set(id, dependencyMap.get(id));
+        dependencyMap.set(id, dependencyMap.get(preId));
+        dependencyMap.delete(preId);
+
         codesInstance[id] = codesInstance[preId];
         codesInstance[id].changeId(id);
         delete codesInstance[preId];
-        const item = codeMap.get(id);
-
-        // for (const [_, deps] of dependencyMap) {
-        //     if (deps.includes(preId)) {
-        //         if (item.type === CodeType.TEMPORARY_STATE) {
-        //             replaceExpression(item.initValue, (_, expression) => {
-        //                 const ast = transformExpression(expression, (identity) => {
-        //                     if (identity.name === preId)
-        //                         identity.name = id;
-        //                 });
-        //                 return `\${${generate(ast)}`;
-        //             });
-        //         }
-        //     }
-        // }
     };
 
     const initCodesInstance = (ctx: Record<string, any>) => {

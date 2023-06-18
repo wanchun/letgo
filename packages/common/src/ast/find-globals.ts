@@ -24,7 +24,7 @@ function declaresArguments(node: Node) {
     );
 }
 
-function reallyParse(source: string, options: Options) {
+export function reallyParse(source: string, options?: Options) {
     const parseOptions = Object.assign(
         {
             allowReturnOutsideFunction: true,
@@ -65,7 +65,7 @@ function declarePattern(node: any, parent: any) {
     }
 }
 
-export function findGlobals(source: string, options: Options = {} as Options) {
+export function findGlobals(source: string | Node, options: Options = {} as Options) {
     const globals: Node[] = [];
     let ast: any;
     // istanbul ignore else

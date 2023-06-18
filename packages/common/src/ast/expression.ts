@@ -133,6 +133,16 @@ export function findExpressionDependencyCode(code: string, isInclude: (name: str
     return result;
 }
 
+export function replaceExpressionIdentifier(code: string, newName: string, preName: string) {
+    return replaceExpression(code, (_, expression) => {
+        const ast = transformExpression(expression, (identifier) => {
+            if (identifier.name === preName)
+                identifier.name = newName;
+        });
+        return `{{ ${generate(ast)} }}`;
+    });
+}
+
 export function attachContext(code: string, isInclude: (name: string) => boolean) {
     const ast = transformExpression(code, (identifier) => {
         if (isInclude(identifier.name))

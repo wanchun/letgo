@@ -11,6 +11,8 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
     ctx: Record<string, any>;
     data: any = null;
     error: string = null;
+    deps: string[];
+
     showFailureToaster: boolean;
     showSuccessToaster: boolean;
     successMessage: string;
@@ -27,7 +29,7 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
     successEvent: IPublicTypeEventHandler[];
     queryFailureCondition: IFailureCondition[];
     cacheTime: number;
-    constructor(data: IJavascriptQuery, ctx: Record<string, any>) {
+    constructor(data: IJavascriptQuery, deps: string[], ctx: Record<string, any>) {
         markShallowReactive(this, {
             id: data.id,
             query: data.query,
@@ -49,9 +51,14 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
         });
         markComputed(this, ['view']);
         this.ctx = ctx;
+        this.deps = deps;
 
         this.successEventInstances = this.eventSchemaToFunc(this.successEvent);
         this.failureEventInstances = this.eventSchemaToFunc(this.successEvent);
+    }
+
+    changeDeps(deps: string[]) {
+        this.deps = deps;
     }
 
     eventSchemaToFunc(events: IPublicTypeEventHandler[] = []) {

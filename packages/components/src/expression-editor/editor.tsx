@@ -83,6 +83,7 @@ export const ExpressionEditor = defineComponent({
 
         watch(() => props.doc, () => {
             if (editorView && props.doc !== currentDoc) {
+                currentDoc = props.doc;
                 const state = genState();
                 editorView.setState(state);
             }

@@ -33,11 +33,11 @@ class JavascriptQueryEdit implements CodeBaseEdit {
             enableTransformer: false,
             query: '',
             queryFailureCondition: [],
+            showFailureToaster: false,
             showSuccessToaster: false,
             successMessage: '',
             enableCaching: false,
             queryTimeout: 10000,
-            transformer: '',
         };
     }
 }

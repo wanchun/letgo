@@ -3,7 +3,8 @@ import type { PropType } from 'vue';
 import { FDropdown } from '@fesjs/fes-design';
 import { PlusOutlined } from '@fesjs/fes-design/icon';
 import type { Designer } from '@webank/letgo-designer';
-import type { CodeItem } from '@webank/letgo-types';
+import { type CodeItem, CodeType } from '@webank/letgo-types';
+import { replaceExpressionIdentifier, replaceJSFunctionIdentifier } from '@webank/letgo-common';
 import { JAVASCRIPT_COMPUTED, JAVASCRIPT_QUERY, TEMPORARY_STATE } from '../constants';
 
 import { codeCls, codeHeaderCls, codeItemActiveCls, codeItemCls, codeItemIdCls, codeWrapCls, headerIconCls } from './code.css';
@@ -73,6 +74,9 @@ export default defineComponent({
         const code = computed(() => {
             return currentDocument.value?.code;
         });
+        const codesInstance = computed(() => {
+            return currentDocument.value?.state.codesInstance;
+        });
 
         const {
             currentCodeItem,
@@ -84,6 +88,33 @@ export default defineComponent({
                 code.value?.deleteCodeItem(item.id);
                 if (currentCodeItem.value?.id === item.id)
                     changeCurrentCodeItem(null);
+            }
+        };
+
+        const changeCodeId = (id: string, preId: string) => {
+            code.value?.changeCodeId(id, preId);
+            if (codesInstance.value) {
+                Object.keys(codesInstance.value).forEach((currentId) => {
+                    if (codesInstance.value[currentId].deps.includes(preId)) {
+                        const item = code.value.codeMap.get(currentId);
+
+                        if (item.type === CodeType.TEMPORARY_STATE) {
+                            code.value.changeCodeItemContent(currentId, {
+                                initValue: replaceExpressionIdentifier(item.initValue, id, preId),
+                            });
+                        }
+                        else if (item.type === CodeType.JAVASCRIPT_COMPUTED) {
+                            code.value.changeCodeItemContent(currentId, {
+                                funcBody: replaceExpressionIdentifier(item.funcBody, id, preId),
+                            });
+                        }
+                        else if (item.type === CodeType.JAVASCRIPT_QUERY) {
+                            code.value.changeCodeItemContent(currentId, {
+                                query: replaceJSFunctionIdentifier(item.query, id, preId),
+                            });
+                        }
+                    }
+                });
             }
         };
 
@@ -107,7 +138,7 @@ export default defineComponent({
             return code.value?.code.map((item) => {
                 return <li onClick={() => changeCurrentCodeItem(item)} class={[codeItemCls, currentCodeItem.value?.id === item.id ? codeItemActiveCls : '']}>
                     {renderCodeIcon(item)}
-                    <CodeId id={item.id} onChange={code.value?.changeCodeId} />
+                    <CodeId id={item.id} onChange={changeCodeId} />
                     <FDropdown onClick={value => onCommonAction(value, item)} trigger="click" placement="bottom-end" options={commonOptions}>
                         <MoreIcon />
                     </FDropdown>

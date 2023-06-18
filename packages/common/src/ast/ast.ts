@@ -1,24 +1,38 @@
+import { generate } from 'astring';
 import type { CodeItem, IJavascriptQuery, IPublicTypeEventHandler, IPublicTypeJSFunction } from '@webank/letgo-types';
 import {
     CodeType,
     InnerEventHandlerAction,
 } from '@webank/letgo-types';
-import { extractExpression, findExpressionDependencyCode } from './expression';
-import { findGlobals } from './find-globals';
+import { extractExpression, findExpressionDependencyCode, hasExpression } from './expression';
+import { findGlobals, reallyParse } from './find-globals';
+
+export function replaceJSFunctionIdentifier(code: string, newName: string, preName: string) {
+    const ast = reallyParse(code);
+    const globalNodes = findGlobals(ast);
+    globalNodes.forEach((item) => {
+        if (item.name === preName) {
+            item.nodes.forEach((node: any) => {
+                node.name = newName;
+            });
+        }
+    });
+    return generate(ast);
+}
 
 export function calcJSQueryDependencies(item: IJavascriptQuery, codeMap: Map<string, CodeItem>) {
     const globalNodes = findGlobals(item.query);
     const dependencies: string[] = [];
-    Object.keys(globalNodes).forEach((key) => {
-        if (codeMap.has(key))
-            dependencies.push(key);
+    globalNodes.forEach((item) => {
+        if (codeMap.has(item.name))
+            dependencies.push(item.name);
     });
     return dependencies;
 }
 
 export function calcExpressionDependencies(input: string, codeMap: Map<string, CodeItem>) {
     let dependencies: string[] = [];
-    if (input) {
+    if (input && hasExpression(input)) {
         extractExpression(input).forEach((expression) => {
             dependencies = dependencies.concat(findExpressionDependencyCode(expression, (name: string) => {
                 return codeMap.has(name);
@@ -29,14 +43,19 @@ export function calcExpressionDependencies(input: string, codeMap: Map<string, C
 }
 
 export function calcDependencies(item: CodeItem, codeMap: Map<string, CodeItem>) {
-    if (item.type === CodeType.TEMPORARY_STATE)
-        return calcExpressionDependencies(item.initValue, codeMap);
+    try {
+        if (item.type === CodeType.TEMPORARY_STATE)
+            return calcExpressionDependencies(item.initValue, codeMap);
 
-    else if (item.type === CodeType.JAVASCRIPT_COMPUTED)
-        return calcExpressionDependencies(item.funcBody, codeMap);
+        else if (item.type === CodeType.JAVASCRIPT_COMPUTED)
+            return calcExpressionDependencies(item.funcBody, codeMap);
 
-    else if (item.type === CodeType.JAVASCRIPT_QUERY)
-        return calcJSQueryDependencies(item, codeMap);
+        else if (item.type === CodeType.JAVASCRIPT_QUERY)
+            return calcJSQueryDependencies(item, codeMap);
+    }
+    catch (_) {
+        return [];
+    }
 
     throw new Error('[letgo]: unknown code item: ', item);
 }

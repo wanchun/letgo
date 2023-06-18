@@ -1,4 +1,5 @@
 import { EventEmitter } from 'eventemitter3';
+import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
 import { markComputed, uniqueId } from '@webank/letgo-common';
 import type {
     IPublicTypeComponentsMap,
@@ -62,6 +63,8 @@ export class DocumentModel {
     private _nodesMap = new Map<string, INode>();
 
     private nodes = new Set<INode>();
+
+    private offNodeRefChange: () => void;
 
     private emitter = new EventEmitter();
 
@@ -139,7 +142,27 @@ export class DocumentModel {
         this.rootNode = this.createNode(currentSchema);
 
         this.isMounted = true;
+
+        this.offNodeRefChange = this.onNodeRefChange((ref: string, preRef: string) => {
+            this.state.changeNodeRef(ref, preRef);
+        });
     }
+
+    private onEvent(name: string, func: (...args: any[]) => void) {
+        const wrappedFunc = wrapWithEventSwitch(func);
+        this.emitter.on(name, wrappedFunc);
+        return () => {
+            this.emitter.off(name, wrappedFunc);
+        };
+    }
+
+    emitNodeRefChange(ref: string, preRef: string) {
+        this.emitter.emit('codeItemAdd', ref, preRef);
+    }
+
+    onNodeRefChange = (func: (ref: string, preRef: string) => void) => {
+        return this.onEvent('codeItemAdd', func);
+    };
 
     importSchema(schema: IPublicTypeRootSchema) {
         // TODO: 暂时用饱和式删除，原因是 Slot 节点并不是树节点，无法正常递归删除

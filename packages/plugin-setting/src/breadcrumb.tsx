@@ -2,6 +2,7 @@ import type { PropType } from 'vue';
 import type { INode } from '@webank/letgo-designer';
 import { RightOutlined } from '@fesjs/fes-design/icon';
 import { defineComponent } from 'vue';
+import NodeRef from './node-ref';
 import {
     navigatorCls,
     navigatorItemCls,
@@ -13,6 +14,13 @@ export default defineComponent({
         node: Object as PropType<INode>,
     },
     setup(props) {
+        const changeNodeRef = (ref: string) => {
+            props.node.changeRef(ref);
+        };
+        const renderNodeRef = () => {
+            return <NodeRef id={props.node.ref} onChange={changeNodeRef} />;
+        };
+
         return () => {
             const node = props.node;
             const { focusNode } = node.document;
@@ -50,7 +58,7 @@ export default defineComponent({
                                     >
                                         {node?.componentMeta?.title}
                                         {/* TODO refName 可更改 */}
-                                        { isCurrentNode ? ` ( ${node.ref} )` : '' }
+                                        { isCurrentNode ? renderNodeRef() : '' }
                                     </span>
                                     {isParentNode && (
                                         <RightOutlined></RightOutlined>

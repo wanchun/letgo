@@ -54,6 +54,15 @@ export default defineComponent({
             delete executeCtx[preId];
         });
 
+        const offNodeRefChange = props.documentInstance.document.onNodeRefChange((ref: string, preRef: string) => {
+            executeCtx[ref] = executeCtx[preRef];
+            delete executeCtx[preRef];
+        });
+
+        onUnmounted(() => {
+            offNodeRefChange();
+        });
+
         const viewState = computed(() => {
             return Object.keys(codesInstance).reduce((acc, cur) => {
                 acc[cur] = codesInstance[cur].view;

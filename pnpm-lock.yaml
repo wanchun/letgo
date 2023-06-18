@@ -567,6 +567,9 @@ importers:
       '@webank/letgo-common':
         specifier: workspace:*
         version: link:../common
+      '@webank/letgo-components':
+        specifier: workspace:*
+        version: link:../components
       '@webank/letgo-designer':
         specifier: workspace:*
         version: link:../designer

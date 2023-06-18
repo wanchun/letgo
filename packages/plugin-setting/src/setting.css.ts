@@ -16,6 +16,7 @@ export const navigatorCls = style({
 });
 
 export const navigatorItemCls = style({
+    display: 'flex',
     margin: '0 4px',
     selectors: {
         '&.is-parent': {

@@ -199,13 +199,14 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
 
     constructor(readonly document: DocumentModel, nodeSchema: Schema) {
         markShallowReactive(this, {
+            ref: '',
             _slots: [],
         });
         markComputed(this, ['computedSchema', 'slots', 'isLocked']);
 
-        const { componentName, id, children, props, ...extras } = nodeSchema;
+        const { componentName, id, ref, children, props, ...extras } = nodeSchema;
         this.id = document.nextId(id, componentName);
-        this.ref = this.id;
+        this.ref = ref || this.id;
         this.componentName = componentName;
         if (this.componentName === 'Leaf') {
             this.props = new Props(this as INode, {
@@ -256,6 +257,12 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
 
     onCodeIdChanged(func: (id: string, preId: string) => void) {
         this.offCodeIdChange.push(this.document.code.onCodeIdChanged(func));
+    }
+
+    changeRef(ref: string) {
+        const preRef = this.ref;
+        this.ref = ref;
+        this.document.emitNodeRefChange(ref, preRef);
     }
 
     /**

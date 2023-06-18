@@ -1,12 +1,13 @@
 import type { PropType } from 'vue';
 import { defineComponent, nextTick, ref } from 'vue';
 import { EditIcon } from '@webank/letgo-components';
-import { codeIdCls, editIconCls, idContentCls, inputCls } from './code-id.css';
+import { codeIdCls, editIconCls, idContentCls, inputCls } from './node-ref.css';
 
 export default defineComponent({
+    name: 'NodeRef',
     props: {
         id: String,
-        onChange: Function as PropType<(id: string, preId: string) => void>,
+        onChange: Function as PropType<(ref: string, preRef: string) => void>,
     },
     setup(props) {
         const inputRefEl = ref<HTMLElement>();

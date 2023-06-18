@@ -47,6 +47,11 @@ export class State {
         return this.designer.simulator.getComponentInstancesExpose(instances[0]);
     }
 
+    changeNodeRef(ref: string, preRef: string) {
+        this.componentsInstance[ref] = this.componentsInstance[preRef];
+        delete this.componentsInstance[preRef];
+    }
+
     initComponentInstanceListen() {
         // TODO: 清理
         this.designer.onSimulatorReady(() => {
@@ -61,13 +66,12 @@ export class State {
                 if (node) {
                     if (node.id === 'root')
                         return;
-                    const refName = node.ref;
                     let offEvent: () => void;
                     const clearInstance = () => {
                         if (offEvent)
                             offEvent();
 
-                        delete this.componentsInstance[refName];
+                        delete this.componentsInstance[node.ref];
                     };
                     if (!options.instances || options.instances.length === 0 || options.instances.length > 1) {
                         clearInstance();
@@ -82,14 +86,14 @@ export class State {
                         const instance = this.getInstance(options.instances);
                         if (instance) {
                             instance._componentName = node.componentName;
-                            this.componentsInstance[refName] = instance;
+                            this.componentsInstance[node.ref] = instance;
                             const listen = debounce(() => setTimeout(() => {
                                 const currentInstance = this.getInstance(options.instances);
-                                if (this.componentsInstance[refName] && currentInstance)
-                                    Object.assign(this.componentsInstance[refName], currentInstance);
+                                if (this.componentsInstance[node.ref] && currentInstance)
+                                    Object.assign(this.componentsInstance[node.ref], currentInstance);
                             }, 50), 100);
                             offEvent = node.onPropChange(() => {
-                                if (!this.componentsInstance[refName])
+                                if (!this.componentsInstance[node.ref])
                                     offEvent();
 
                                 else

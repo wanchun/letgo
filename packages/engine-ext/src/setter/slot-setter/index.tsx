@@ -73,7 +73,7 @@ const SlotSetterView = defineComponent({
                                 ? isOpenSlot.value
                                 : !!props.value
                         }
-                        onChange={(val: any) => {
+                        onChange={(val: boolean) => {
                             onChange(val);
                         }}
                     >

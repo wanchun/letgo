@@ -4,7 +4,7 @@ const assets: IPublicTypeAssetsJson = {
     packages: [
         {
             package: '@fesjs/fes-design',
-            version: '0.7.27',
+            version: '0.7.31',
             urls: [
                 'https://registry.npmmirror.com/@fesjs/fes-design/0.7.31/files/dist/fes-design.js',
                 'https://registry.npmmirror.com/@fesjs/fes-design/0.7.31/files/dist/fes-design.css',
@@ -339,7 +339,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FCard',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FCard',
                 destructuring: true,
             },
@@ -506,7 +506,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FSpace',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FSpace',
                 destructuring: true,
             },
@@ -693,7 +693,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FButton',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FButton',
                 destructuring: true,
             },
@@ -907,7 +907,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FForm',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FForm',
                 destructuring: true,
             },
@@ -1122,7 +1122,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FFormItem',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FFormItem',
                 destructuring: true,
             },
@@ -1256,7 +1256,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FInput',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FInput',
                 destructuring: true,
             },
@@ -1454,7 +1454,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FInputNumber',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FInputNumber',
                 destructuring: true,
             },
@@ -1525,7 +1525,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FSelect',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FSelect',
                 destructuring: true,
             },
@@ -1864,7 +1864,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FCheckboxGroup',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FCheckboxGroup',
                 destructuring: true,
             },
@@ -1989,7 +1989,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FRadioGroup',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FRadioGroup',
                 destructuring: true,
             },
@@ -2227,7 +2227,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FCheckbox',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FCheckbox',
                 destructuring: true,
             },
@@ -2317,7 +2317,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FRadio',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FRadio',
                 destructuring: true,
             },
@@ -2399,7 +2399,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FDivider',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FDivider',
                 destructuring: true,
             },
@@ -2443,7 +2443,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FEllipsis',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FEllipsis',
                 destructuring: true,
             },
@@ -2585,7 +2585,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FLayout',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FLayout',
                 destructuring: true,
             },
@@ -2661,7 +2661,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FHeader',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FHeader',
                 destructuring: true,
             },
@@ -2727,7 +2727,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FAside',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FAside',
                 destructuring: true,
             },
@@ -2793,7 +2793,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FMain',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FMain',
                 destructuring: true,
             },
@@ -2839,7 +2839,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FFooter',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FFooter',
                 destructuring: true,
             },
@@ -2905,7 +2905,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FDropdown',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FDropdown',
                 destructuring: true,
             },
@@ -3186,7 +3186,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FSteps',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FSteps',
                 destructuring: true,
             },
@@ -3288,7 +3288,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FStep',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FStep',
                 destructuring: true,
             },
@@ -3399,7 +3399,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FPagination',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FPagination',
                 destructuring: true,
             },
@@ -3549,7 +3549,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FSwitch',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FSwitch',
                 destructuring: true,
             },
@@ -3618,7 +3618,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FTimePicker',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FTimePicker',
                 destructuring: true,
             },
@@ -3737,7 +3737,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FDatePicker',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FDatePicker',
                 destructuring: true,
             },
@@ -3888,7 +3888,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FUpload',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FUpload',
                 destructuring: true,
             },
@@ -4051,7 +4051,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FUploadDragger',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FUploadDragger',
                 destructuring: true,
             },
@@ -4068,7 +4068,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FSelectTree',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FSelectTree',
                 destructuring: true,
             },
@@ -4344,7 +4344,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FSelectCascader',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FSelectCascader',
                 destructuring: true,
             },
@@ -4593,7 +4593,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FCarousel',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FCarousel',
                 destructuring: true,
             },
@@ -4751,7 +4751,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FCarouselItem',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FCarouselItem',
                 destructuring: true,
             },
@@ -4782,7 +4782,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FCollapse',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FCollapse',
                 destructuring: true,
             },
@@ -4913,7 +4913,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FCollapseItem',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FCollapseItem',
                 destructuring: true,
             },
@@ -4964,7 +4964,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FDescriptions',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FDescriptions',
                 destructuring: true,
             },
@@ -5127,7 +5127,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FDescriptionsItem',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FDescriptionsItem',
                 destructuring: true,
             },
@@ -5186,7 +5186,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FImage',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FImage',
                 destructuring: true,
             },
@@ -5303,7 +5303,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FPreviewGroup',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FPreviewGroup',
                 destructuring: true,
             },
@@ -5344,7 +5344,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FTable',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FTable',
                 destructuring: true,
             },
@@ -5936,7 +5936,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FTabs',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FTabs',
                 destructuring: true,
             },
@@ -6270,7 +6270,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FTag',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FTag',
                 destructuring: true,
             },
@@ -6460,7 +6460,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FAlert',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FAlert',
                 destructuring: true,
             },
@@ -6504,6 +6504,112 @@ const assets: IPublicTypeAssetsJson = {
                     propType: 'func',
                 },
             ],
+            configure: {
+                props: [
+                    {
+                        name: 'type',
+                        title: '类型',
+                        setter: {
+                            componentName: 'SelectSetter',
+                            props: {
+                                options: [
+                                    {
+                                        value: 'info',
+                                        label: '信息',
+                                    },
+                                    {
+                                        value: 'success',
+                                        label: '成功',
+                                    },
+                                    {
+                                        value: 'warning',
+                                        label: '警告',
+                                    },
+                                    {
+                                        value: 'error',
+                                        label: '错误',
+                                    },
+                                ],
+                            },
+                        },
+                        defaultValue: 'info',
+                    },
+                    {
+                        name: 'message',
+                        title: '提示内容',
+                        setter: 'StringSetter',
+                    },
+                    {
+                        name: 'description',
+                        title: '辅助信息',
+                        setter: 'StringSetter',
+                    },
+                    {
+                        name: 'showIcon',
+                        title: '显示图标',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'closable',
+                        title: '可关闭',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'center',
+                        title: '是否居中',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'beforeClose',
+                        title: '关闭前钩子',
+                        setter: 'FunctionSetter',
+                    },
+                    {
+                        title: '插槽',
+                        type: 'group',
+                        display: 'block',
+                        items: [
+                            {
+                                name: 'default',
+                                title: '自定义消息',
+                                setter: 'SlotSetter',
+                            },
+                            {
+                                name: 'descriptionSlot',
+                                title: '自定义辅助消息',
+                                setter: 'SlotSetter',
+                                defaultValue: {
+                                    type: 'JSSlot',
+                                    name: 'description',
+                                    value: [],
+                                },
+                            },
+                            {
+                                name: 'icon',
+                                title: '自定义图标',
+                                setter: {
+                                    componentName: 'IconSetter',
+                                    props: {
+                                        type: 'node',
+                                    },
+                                },
+                            },
+                            {
+                                name: 'action',
+                                title: '自定义操作',
+                                setter: 'SlotSetter',
+                            },
+                        ],
+                    },
+                ],
+                supports: {
+                    style: true,
+                    class: true,
+                },
+            },
             snippets: [
                 {
                     title: '警告提示',
@@ -6525,7 +6631,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FTooltip',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FTooltip',
                 destructuring: true,
             },
@@ -6675,7 +6781,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FSpin',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FSpin',
                 destructuring: true,
             },
@@ -6731,7 +6837,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FDrawer',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FDrawer',
                 destructuring: true,
             },
@@ -6808,19 +6914,149 @@ const assets: IPublicTypeAssetsJson = {
                     propType: 'string',
                 },
                 {
-                    name: 'getContainer',
-                    title: '挂载节点',
-                    propType: 'func',
-                },
-                {
                     name: 'contentClass',
                     title: '内容样式名称',
                     propType: 'string',
                 },
             ],
             configure: {
+                props: [
+                    {
+                        name: 'show',
+                        title: '显示',
+                        setter: 'BoolSetter',
+                    },
+                    {
+                        name: 'placement',
+                        title: '方向',
+                        setter: {
+                            componentName: 'SelectSetter',
+                            props: {
+                                options: [
+                                    {
+                                        label: '上',
+                                        value: 'top',
+                                    },
+                                    {
+                                        label: '下',
+                                        value: 'bottom',
+                                    },
+                                    {
+                                        label: '左',
+                                        value: 'left',
+                                    },
+                                    {
+                                        label: '右',
+                                        value: 'right',
+                                    },
+                                ],
+                            },
+                        },
+                        defaultValue: 'right',
+                    },
+                    {
+                        name: 'height',
+                        title: '高度',
+                        setter: 'NumberSetter',
+                    },
+                    {
+                        name: 'width',
+                        title: '宽度',
+                        setter: 'NumberSetter',
+                    },
+                    {
+                        name: 'displayDirective',
+                        title: '渲染方式',
+                        setter: {
+                            componentName: 'RadioGroupSetter',
+                            props: {
+                                options: [
+                                    {
+                                        label: '渲染一次',
+                                        value: 'show',
+                                    },
+                                    {
+                                        label: '多次渲染',
+                                        value: 'if',
+                                    },
+                                ],
+                            },
+                        },
+                        defaultValue: 'show',
+                    },
+                    {
+                        name: 'closable',
+                        title: '可关闭',
+                        setter: 'BoolSetter',
+                        defaultValue: true,
+                    },
+                    {
+                        name: 'mask',
+                        title: '是否有蒙层',
+                        setter: 'BoolSetter',
+                        defaultValue: true,
+                    },
+                    {
+                        name: 'maskClosable',
+                        title: '点击蒙层关闭',
+                        setter: 'BoolSetter',
+                        defaultValue: true,
+                    },
+                    {
+                        name: 'title',
+                        title: '标题',
+                        setter: 'StringSetter',
+                    },
+                    {
+                        name: 'titleSlot',
+                        title: '自定义标题',
+                        setter: 'SlotSetter',
+                        defaultValue: {
+                            type: 'JSSlot',
+                            name: 'title',
+                            value: [],
+                        },
+                    },
+                    {
+                        name: 'footer',
+                        title: '是否有底部',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'okText',
+                        title: '确认按钮文字',
+                        setter: 'StringSetter',
+                        defaultValue: '确定',
+                    },
+                    {
+                        name: 'cancelText',
+                        title: '取消按钮文字',
+                        setter: 'StringSetter',
+                        defaultValue: '取消',
+                    },
+                    {
+                        name: 'footerSlot',
+                        title: '自定义底部',
+                        setter: 'SlotSetter',
+                        defaultValue: {
+                            type: 'JSSlot',
+                            name: 'footer',
+                            value: [],
+                        },
+                    },
+                    {
+                        name: 'contentClass',
+                        title: '内容样式名称',
+                        setter: 'StringSetter',
+                    },
+                ],
                 component: {
                     isContainer: true,
+                },
+                supports: {
+                    // TODO: StyleSetter会出错
+                    events: ['onOk', 'onCancel'],
                 },
             },
             snippets: [
@@ -6829,7 +7065,7 @@ const assets: IPublicTypeAssetsJson = {
                     schema: {
                         componentName: 'FDrawer',
                         props: {
-                            'v-model:show': true,
+                            show: true,
                         },
                     },
                 },
@@ -6843,7 +7079,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FModal',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FModal',
                 destructuring: true,
             },
@@ -6962,7 +7198,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FGrid',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FGrid',
                 destructuring: true,
             },
@@ -7110,7 +7346,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FGridItem',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FGridItem',
                 destructuring: true,
             },
@@ -7207,7 +7443,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FMenu',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FMenu',
                 destructuring: true,
             },
@@ -7384,7 +7620,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FScrollbar',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FScrollbar',
                 destructuring: true,
             },
@@ -7595,7 +7831,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FTree',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.7.27',
+                version: '0.7.31',
                 exportName: 'FTree',
                 destructuring: true,
             },
@@ -7856,134 +8092,182 @@ const assets: IPublicTypeAssetsJson = {
                             },
                         ],
                     },
-                    // {
-                    //     name: 'defaultExpandAll',
-                    //     title: '默认展开所有选项',
-                    //     propType: 'bool',
-                    //     defaultValue: false,
-                    // },
-                    // {
-                    //     name: 'v-model:expandedKeys',
-                    //     title: '展开的节点',
-                    //     propType: {
-                    //         type: 'arrayOf',
-                    //         value: {
-                    //             type: 'oneOfType',
-                    //             value: ['string', 'number'],
-                    //         },
-                    //     },
-                    // },
-                    // {
-                    //     name: 'selectable',
-                    //     propType: 'bool',
-                    // },
-                    // {
-                    //     name: 'v-model:selectedKeys',
-                    //     title: '选中的节点',
-                    //     propType: {
-                    //         type: 'arrayOf',
-                    //         value: {
-                    //             type: 'oneOfType',
-                    //             value: ['string', 'number'],
-                    //         },
-                    //     },
-                    // },
-                    // {
-                    //     name: 'multiple',
-                    //     title: '是否多选',
-                    //     propType: 'bool',
-                    //     defaultValue: false,
-                    // },
-                    // {
-                    //     name: 'cancelable',
-                    //     propType: 'bool',
-                    // },
-                    // {
-                    //     name: 'checkable',
-                    //     propType: 'bool',
-                    // },
-                    // {
-                    //     name: 'cascade',
-                    //     title: '父子节点选中是否关联',
-                    //     propType: 'bool',
-                    //     defaultValue: false,
-                    // },
-                    // {
-                    //     name: 'checkStrictly',
-                    //     title: '勾选策略',
-                    //     propType: {
-                    //         type: 'oneOf',
-                    //         value: ['all', 'parent', 'child'],
-                    //     },
-                    //     defaultValue: 'child',
-                    // },
-                    // {
-                    //     name: 'v-model:checkedKeys',
-                    //     title: '勾选的节点',
-                    //     propType: {
-                    //         type: 'arrayOf',
-                    //         value: {
-                    //             type: 'oneOfType',
-                    //             value: ['string', 'number'],
-                    //         },
-                    //     },
-                    // },
-                    // {
-                    //     name: 'childrenField',
-                    //     title: 'children字段名',
-                    //     propType: 'string',
-                    //     defaultValue: 'children',
-                    // },
-                    // {
-                    //     name: 'valueField',
-                    //     title: 'value字段名',
-                    //     propType: 'string',
-                    //     defaultValue: 'value',
-                    // },
-                    // {
-                    //     name: 'labelField',
-                    //     title: 'label字段名',
-                    //     propType: 'string',
-                    //     defaultValue: 'label',
-                    // },
-                    // {
-                    //     name: 'remote',
-                    //     title: '是否异步加载',
-                    //     propType: 'bool',
-                    //     defaultValue: false,
-                    // },
-                    // {
-                    //     name: 'loadData',
-                    //     title: '异步加载数据函数',
-                    //     propType: 'func',
-                    // },
+                    {
+                        title: '节点数据字段配置',
+                        type: 'group',
+                        display: 'block',
+                        items: [
+                            {
+                                name: 'childrenField',
+                                title: 'children字段名',
+                                setter: 'StringSetter',
+                                defaultValue: 'children',
+                            },
+                            {
+                                name: 'valueField',
+                                title: 'value字段名',
+                                setter: 'StringSetter',
+                                defaultValue: 'value',
+                            },
+                            {
+                                name: 'labelField',
+                                title: 'label字段名',
+                                setter: 'StringSetter',
+                                defaultValue: 'label',
+                            },
+                        ],
+                    },
+                    {
+                        title: '展开配置',
+                        type: 'group',
+                        display: 'block',
+                        items: [
+                            {
+                                name: 'v-model:expandedKeys',
+                                title: '展开的节点',
+                                setter: 'VariableSetter',
+                            },
+                            {
+                                name: 'accordion',
+                                title: '手风琴模式',
+                                setter: 'BoolSetter',
+                                defaultValue: false,
+                            },
+                            {
+                                name: 'defaultExpandAll',
+                                title: '默认展开所有选项',
+                                setter: 'BoolSetter',
+                                defaultValue: false,
+                            },
+                        ],
+                    },
+                    {
+                        title: '选中配置',
+                        type: 'group',
+                        display: 'block',
+                        items: [
+                            {
+                                name: 'selectable',
+                                title: '可选中',
+                                setter: 'BoolSetter',
+                                defaultValue: true,
+                            },
+                            {
+                                name: 'cancelable',
+                                title: '可取消',
+                                setter: 'BoolSetter',
+                                defaultValue: true,
+                            },
+                            {
+                                name: 'multiple',
+                                title: '可多选',
+                                setter: 'BoolSetter',
+                                defaultValue: false,
+                            },
+                            {
+                                name: 'v-model:selectedKeys',
+                                title: '选中的节点',
+                                setter: 'VariableSetter',
+                            },
+                        ],
+                    },
+                    {
+                        title: '勾选配置',
+                        type: 'group',
+                        display: 'block',
+                        items: [
+                            {
+                                name: 'checkable',
+                                title: '可勾选',
+                                setter: 'BoolSetter',
+                                defaultValue: false,
+                            },
+                            {
+                                name: 'cascade',
+                                title: '父子节点是否关联',
+                                setter: 'BoolSetter',
+                                defaultValue: false,
+                            },
+                            {
+                                name: 'checkStrictly',
+                                title: '勾选策略',
+                                setter: {
+                                    componentName: 'SelectSetter',
+                                    props: {
+                                        options: [
+                                            {
+                                                value: 'all',
+                                                label: '所有关联节点',
+                                            },
+                                            {
+                                                value: 'parent',
+                                                label: '关联父节点',
+                                            },
+                                            {
+                                                value: 'child',
+                                                label: '关联子节点',
+                                            },
+                                        ],
+                                    },
+                                },
+                                defaultValue: 'child',
+                            },
+                            {
+                                name: 'v-model:checkedKeys',
+                                title: '勾选的节点',
+                                setter: 'VariableSetter',
+                            },
+                        ],
+                    },
+                    {
+                        title: '异步加载配置',
+                        type: 'group',
+                        display: 'block',
+                        items: [
+                            {
+                                name: 'remote',
+                                title: '是否异步加载',
+                                setter: 'BoolSetter',
+                                defaultValue: false,
+                            },
+                            {
+                                name: 'loadData',
+                                title: '异步加载数据函数',
+                                setter: 'FunctionSetter',
+                            },
+                        ],
+                    },
+                    {
+                        title: '其他配置',
+                        type: 'group',
+                        display: 'block',
+                        items: [
+                            {
+                                name: 'draggable',
+                                title: '可拖拽',
+                                setter: 'BoolSetter',
+                                defaultValue: false,
+                            },
+                            {
+                                name: 'inline',
+                                title: '是否一行展示叶子节点',
+                                setter: 'BoolSetter',
+                                defaultValue: false,
+                            },
+                            {
+                                name: 'virtualList',
+                                title: '是否虚拟滚动',
+                                setter: 'BoolSetter',
+                                defaultValue: false,
+                            },
+                            {
+                                name: 'filterMethod',
+                                title: '自定义过滤函数',
+                                setter: 'FunctionSetter',
+                            },
+                        ],
+                    },
 
-                    // {
-                    //     name: 'accordion',
-                    //     title: '手风琴模式',
-                    //     propType: 'bool',
-                    //     defaultValue: false,
-                    // },
-                    // {
-                    //     name: 'draggable',
-                    //     propType: 'bool',
-                    // },
-                    // {
-                    //     name: 'inline',
-                    //     title: '叶子节点是否一行展示',
-                    //     propType: 'bool',
-                    //     defaultValue: false,
-                    // },
-                    // {
-                    //     name: 'virtualList',
-                    //     title: '是否虚拟滚动',
-                    //     propType: 'bool',
-                    //     defaultValue: false,
-                    // },
-                    // {
-                    //     name: 'filterMethod',
-                    //     propType: 'func',
-                    // },
                 ],
                 supports: {
                     class: true,
@@ -8000,6 +8284,212 @@ const assets: IPublicTypeAssetsJson = {
                     schema: {
                         componentName: 'FTree',
                         props: {
+                            data: [
+                                {
+                                    value: '1',
+                                    label: '1',
+                                },
+                                {
+                                    value: '2',
+                                    label: '2',
+                                },
+                            ],
+                        },
+                    },
+                },
+            ],
+        },
+        {
+            title: '虚拟列表',
+            componentName: 'FVirtualList',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.31',
+                exportName: 'FVirtualList',
+                destructuring: true,
+            },
+            group: '原子组件',
+            category: '通用组件',
+            priority: 0,
+            props: [
+                {
+                    name: 'dataSources',
+                    propType: 'array',
+                },
+                {
+                    name: 'dataKey',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'func'],
+                    },
+                },
+                {
+                    name: 'keeps',
+                    propType: 'number',
+                },
+                {
+                    name: 'estimateSize',
+                    propType: 'number',
+                },
+                {
+                    name: 'start',
+                    propType: 'number',
+                },
+                {
+                    name: 'offset',
+                    propType: 'number',
+                },
+                {
+                    name: 'direction',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['vertical', 'horizontal'],
+                    },
+                },
+                {
+                    name: 'wrapTag',
+                    propType: 'string',
+                },
+                {
+                    name: 'wrapClass',
+                    propType: 'string',
+                },
+                {
+                    name: 'wrapStyle',
+                    propType: 'object',
+                },
+                {
+                    name: 'height',
+                    propType: 'number',
+                },
+                {
+                    name: 'maxHeight',
+                    propType: 'number',
+                },
+                {
+                    name: 'topThreshold',
+                    propType: 'number',
+                },
+                {
+                    name: 'bottomThreshold',
+                    propType: 'number',
+                },
+            ],
+            configure: {
+                props: [
+                    {
+                        name: 'dataSources',
+                        title: '数据源',
+                        setter: 'JsonSetter',
+                    },
+                    {
+                        name: 'dataKey',
+                        title: 'key',
+                        setter: ['StringSetter', 'FunctionSetter'],
+                    },
+                    {
+                        name: 'direction',
+                        title: '方向',
+                        setter: {
+                            componentName: 'RadioGroupSetter',
+                            props: {
+                                options: [
+                                    {
+                                        label: '垂直',
+                                        value: 'vertical',
+                                    },
+                                    {
+                                        label: '水平',
+                                        value: 'horizontal',
+                                    },
+                                ],
+                            },
+                        },
+                        defaultValue: 'vertical',
+                    },
+                    {
+                        name: 'keeps',
+                        title: '真实渲染量',
+                        setter: 'NumberSetter',
+                        defaultValue: 30,
+                    },
+                    {
+                        name: 'estimateSize',
+                        title: '每项平均高度或者宽度',
+                        setter: 'NumberSetter',
+                        defaultValue: 50,
+                    },
+                    {
+                        name: 'height',
+                        title: '固定高度',
+                        setter: 'NumberSetter',
+                    },
+                    {
+                        name: 'maxHeight',
+                        title: '最大高度',
+                        setter: 'NumberSetter',
+                    },
+                    {
+                        name: 'topThreshold',
+                        title: '触发totop阈值',
+                        setter: 'NumberSetter',
+                        defaultValue: 0,
+                    },
+                    {
+                        name: 'bottomThreshold',
+                        title: '触发tobottom阈值',
+                        setter: 'NumberSetter',
+                        defaultValue: 0,
+                    },
+                    {
+                        name: 'start',
+                        title: '开始索引',
+                        setter: 'NumberSetter',
+                        defaultValue: 0,
+                    },
+                    {
+                        name: 'offset',
+                        title: '偏移',
+                        setter: 'NumberSetter',
+                        defaultValue: 0,
+                    },
+                    {
+                        name: 'wrapTag',
+                        title: '包裹元素',
+                        setter: 'StringSetter',
+                        defaultValue: 'div',
+                    },
+                    {
+                        name: 'wrapClass',
+                        title: '包裹元素样式类名',
+                        setter: 'StringSetter',
+                    },
+                    {
+                        name: 'wrapStyle',
+                        title: '包裹元素样式',
+                        setter: 'StyleSetter',
+                        display: 'popup',
+                    },
+                    {
+                        name: 'default',
+                        title: '子项插槽',
+                        setter: 'SlotSetter',
+                    },
+                ],
+                supports: {
+                    style: true,
+                    class: true,
+                    events: ['onScroll', 'onTotop', 'onTobottom', 'onResized'],
+                },
+            },
+            snippets: [
+                {
+                    title: '虚拟列表',
+                    schema: {
+                        componentName: 'FVirtualList',
+                        props: {
+                            dataSources: [],
+                            dataKey: 'id',
                         },
                     },
                 },

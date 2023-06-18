@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { defineComponent, onBeforeUnmount } from 'vue';
-import { FTabPane, FTabs } from '@fesjs/fes-design';
+import { FScrollbar, FTabPane, FTabs } from '@fesjs/fes-design';
 import type { SettingField } from '@webank/letgo-designer';
 import {
     createSettingFieldView,
@@ -86,11 +86,11 @@ export default defineComponent({
                             key={field.id}
                             displayDirective="show"
                         >
-                            <div class={paneWrapperCls}>
+                            <FScrollbar class={paneWrapperCls}>
                                 {field.items.map(item =>
                                     createSettingFieldView(item),
                                 )}
-                            </div>
+                            </FScrollbar>
                         </FTabPane>
                     );
                 });

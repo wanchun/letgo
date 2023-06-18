@@ -13,7 +13,7 @@ export interface ISettingEntry extends IPublicTypeSettingTarget {
     // 父级
     readonly parent: ISettingEntry
 
-    readonly setter: IPublicTypeSetterType | null
+    readonly setter?: IPublicTypeSetterType | null
 
     get: (propName: string | number) => ISettingEntry | null
 }

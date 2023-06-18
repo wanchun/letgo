@@ -35,7 +35,6 @@ export const bodyCls = style({
     right: 0,
     left: 0,
     bottom: 0,
-    overflowY: 'auto',
 });
 
 globalStyle(`${bodyCls} .fes-tabs-nav-wrapper,.fes-tabs-nav-scroll`, {

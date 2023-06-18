@@ -63,6 +63,7 @@ function parseJSFunc(obj: any, enableAllowedKeys = true) {
 export default function (
     metadata: IPublicTypeTransformedComponentMetadata,
 ): IPublicTypeTransformedComponentMetadata {
+    // TODO: 不知道要干嘛用？？？
     parseJSFunc(metadata, false);
 
     return metadata;

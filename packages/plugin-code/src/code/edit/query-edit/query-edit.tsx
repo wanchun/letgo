@@ -28,6 +28,8 @@ export default defineComponent({
         };
         watch(() => props.codeItem, () => {
             tmpCodeItem.value = cloneDeep(props.codeItem);
+        }, {
+            deep: true,
         });
 
         const isChange = computed(() => {

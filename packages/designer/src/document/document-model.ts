@@ -4,6 +4,8 @@ import type {
     IPublicTypeComponentsMap,
     IPublicTypeNodeData,
     IPublicTypeNodeSchema,
+    IPublicTypePageSchema,
+
     IPublicTypeRootSchema,
 } from '@webank/letgo-types';
 import {
@@ -126,17 +128,15 @@ export class DocumentModel {
         markComputed(this, ['computedSchema', 'isActive']);
         this.project = project;
         this.designer = this.project?.designer;
-
-        this.rootNode = this.createNode(
-            schema || {
-                componentName: 'Page',
-                id: 'root',
-                fileName: '',
-            },
-        );
-
-        this.code = new Code(schema?.code);
+        const currentSchema = schema || {
+            componentName: 'Page',
+            id: 'root',
+            fileName: '',
+        } as IPublicTypePageSchema;
+        this.code = new Code(currentSchema.code);
         this.state = new State(project);
+
+        this.rootNode = this.createNode(currentSchema);
 
         this.isMounted = true;
     }

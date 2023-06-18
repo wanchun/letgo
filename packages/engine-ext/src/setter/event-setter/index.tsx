@@ -61,10 +61,6 @@ const EventSetterView = defineComponent({
             },
         );
 
-        watch(() => props.value, () => {
-            selectedEventData.value = props.value?.componentEvents || [];
-        });
-
         onMounted(() => {
             props.onMounted?.();
         });
@@ -82,6 +78,19 @@ const EventSetterView = defineComponent({
         };
 
         const currentEditEvent = ref<IPublicTypeEventHandler>(getInitComponentEvent());
+
+        watch(() => props.value, () => {
+            selectedEventData.value = props.value?.componentEvents || [];
+            if (currentEditEvent.value) {
+                const matchEvent = selectedEventData.value.find(item => item.id === currentEditEvent.value.id);
+                if (matchEvent)
+                    currentEditEvent.value = matchEvent;
+
+                else
+                    currentEditEvent.value = getInitComponentEvent();
+            }
+        });
+
         const onEdit = (data: IPublicTypeEventHandler) => {
             currentEditEvent.value = { ...data };
         };

@@ -8,6 +8,7 @@ import type { IPublicTypeComponentsMap } from './npm';
 import type { IPublicTypeUtilsMap } from './utils';
 import type { IPublicTypeAppConfig } from './app-config';
 import type { CodeStruct } from './code';
+import type { IPublicTypeEventHandler } from './event-handler';
 
 export interface IPublicTypeDirective {
     name: string
@@ -47,6 +48,13 @@ export interface IPublicTypeNodeSchema {
      * 组件指令数组
      */
     directives?: IPublicTypeDirective[]
+    /**
+     * 事件
+     */
+    events?: {
+        eventList: { value: string; label: string }[]
+        componentEvents: IPublicTypeEventHandler[]
+    }
     /**
      * 渲染条件
      */

@@ -1,11 +1,12 @@
-import { uniqueId } from '@webank/letgo-common';
+import { eventHandlersToJsFunction, replaceExpressionIdentifier, replaceJSFunctionIdentifier, uniqueId } from '@webank/letgo-common';
 import type {
     IPublicTypeCompositeValue,
+    IPublicTypeEventHandler,
     IPublicTypePropsList,
     IPublicTypePropsMap,
 } from '@webank/letgo-types';
 import {
-    IPublicEnumTransformStage,
+    IPublicEnumTransformStage, isJSExpression, isJSFunction,
 } from '@webank/letgo-types';
 import type { ShallowRef } from 'vue';
 import { shallowRef, triggerRef } from 'vue';
@@ -83,7 +84,54 @@ export class Props implements IPropParent {
                 this.add(getConvertedExtraKey(key), extras[key]);
             });
         }
+
+        this.owner.onCodeIdChanged(this.codeIdChanged);
     }
+
+    codeIdChanged = (id: string, preId: string) => {
+        this.items.value.forEach((item) => {
+            const value = item.getValue();
+            if (typeof item.key === 'string') {
+                if (item.key === getConvertedExtraKey('events')) {
+                    const componentEvents = (value as any).componentEvents.map((item: IPublicTypeEventHandler) => {
+                        if (item.namespace === preId)
+                            item.namespace = id;
+
+                        return item;
+                    });
+                    const result = eventHandlersToJsFunction(componentEvents);
+                    Object.keys(result).forEach((name) => {
+                        this.getProp(name).setValue(result[name]);
+                    });
+                    item.setValue({
+                        eventList: (value as any).eventList,
+                        componentEvents,
+                    });
+                }
+                else if (!item.key.startsWith('on')) {
+                    if (isJSExpression(value)) {
+                        item.setValue({
+                            ...value,
+                            value: replaceExpressionIdentifier(value.value, id, preId),
+                        });
+                    }
+                    else if (isJSFunction(value)) {
+                        let params = value.params;
+                        if (params) {
+                            params = params.map((param) => {
+                                return replaceJSFunctionIdentifier(param, id, preId);
+                            });
+                        }
+                        item.setValue({
+                            ...value,
+                            value: replaceJSFunctionIdentifier(value.value, id, preId),
+                            params,
+                        });
+                    }
+                }
+            }
+        });
+    };
 
     import(value?: IPublicTypePropsMap | IPublicTypePropsList | null, extras?: ExtrasObject) {
         this.items.value.forEach(item => item.purge());

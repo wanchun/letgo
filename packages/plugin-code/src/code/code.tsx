@@ -109,6 +109,7 @@ export default defineComponent({
                             });
                         }
                         else if (item.type === CodeType.JAVASCRIPT_QUERY) {
+                            // TODO 以后有变量依赖的不仅仅是 query 属性
                             code.value.changeCodeItemContent(currentId, {
                                 query: replaceJSFunctionIdentifier(item.query, id, preId),
                             });

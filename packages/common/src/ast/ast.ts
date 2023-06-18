@@ -4,6 +4,7 @@ import {
     CodeType,
     InnerEventHandlerAction,
 } from '@webank/letgo-types';
+import { isNil } from 'lodash-es';
 import { extractExpression, findExpressionDependencyCode, hasExpression } from './expression';
 import { findGlobals, reallyParse } from './find-globals';
 
@@ -20,38 +21,38 @@ export function replaceJSFunctionIdentifier(code: string, newName: string, preNa
     return generate(ast);
 }
 
-export function calcJSQueryDependencies(item: IJavascriptQuery, codeMap: Map<string, CodeItem>) {
+export function calcJSQueryDependencies(item: IJavascriptQuery, ctx?: Record<string, any>) {
     const globalNodes = findGlobals(item.query);
     const dependencies: string[] = [];
     globalNodes.forEach((item) => {
-        if (codeMap.has(item.name))
+        if (!ctx || !isNil(ctx[item.name]))
             dependencies.push(item.name);
     });
     return dependencies;
 }
 
-export function calcExpressionDependencies(input: string, codeMap: Map<string, CodeItem>) {
+export function calcExpressionDependencies(input: string, ctx?: Record<string, any>) {
     let dependencies: string[] = [];
     if (input && hasExpression(input)) {
         extractExpression(input).forEach((expression) => {
             dependencies = dependencies.concat(findExpressionDependencyCode(expression, (name: string) => {
-                return codeMap.has(name);
+                return !ctx || !isNil(ctx[name]);
             }));
         });
     }
     return dependencies;
 }
 
-export function calcDependencies(item: CodeItem, codeMap: Map<string, CodeItem>) {
+export function calcDependencies(item: CodeItem, ctx?: Record<string, any>) {
     try {
         if (item.type === CodeType.TEMPORARY_STATE)
-            return calcExpressionDependencies(item.initValue, codeMap);
+            return calcExpressionDependencies(item.initValue, ctx);
 
         else if (item.type === CodeType.JAVASCRIPT_COMPUTED)
-            return calcExpressionDependencies(item.funcBody, codeMap);
+            return calcExpressionDependencies(item.funcBody, ctx);
 
         else if (item.type === CodeType.JAVASCRIPT_QUERY)
-            return calcJSQueryDependencies(item, codeMap);
+            return calcJSQueryDependencies(item, ctx);
     }
     catch (_) {
         return [];

@@ -15,7 +15,7 @@ export function useCodesInstance(codeMap: Map<string, CodeItem>) {
 
     const createCodeInstance = (item: CodeItem, ctx: Record<string, any>) => {
         if (!dependencyMap.has(item.id))
-            dependencyMap.set(item.id, calcDependencies(item, codeMap));
+            dependencyMap.set(item.id, calcDependencies(item, ctx));
 
         if (item.type === CodeType.TEMPORARY_STATE)
             codesInstance[item.id] = new TemporaryStateImpl(item, dependencyMap.get(item.id), ctx);
@@ -33,7 +33,7 @@ export function useCodesInstance(codeMap: Map<string, CodeItem>) {
         delete codesInstance[id];
     };
 
-    const changeCodeInstance = (id: string, content: Record<string, any>) => {
+    const changeCodeInstance = (id: string, content: Record<string, any>, ctx: Record<string, any>) => {
         const item = codeMap.get(id);
         const currentInstance = codesInstance[id];
 
@@ -41,7 +41,7 @@ export function useCodesInstance(codeMap: Map<string, CodeItem>) {
             || (currentInstance instanceof ComputedImpl && !isNil(content.funcBody))
             || (currentInstance instanceof JavascriptQueryImpl && !isNil(content.query))
         ) {
-            const deps = calcDependencies(item, codeMap);
+            const deps = calcDependencies(item, ctx);
             dependencyMap.set(id, deps);
             currentInstance.changeDeps(deps);
         }
@@ -68,7 +68,7 @@ export function useCodesInstance(codeMap: Map<string, CodeItem>) {
     const initCodesInstance = (ctx: Record<string, any>) => {
         try {
             dependencyMap.clear();
-            const sortResult = sortState(codeMap, dependencyMap);
+            const sortResult = sortState(codeMap, dependencyMap, ctx);
             // 最底层的依赖最先被实例化
             sortResult.forEach((codeId) => {
                 const item = codeMap.get(codeId);

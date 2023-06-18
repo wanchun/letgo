@@ -145,6 +145,11 @@ export class DocumentModel {
 
         this.offNodeRefChange = this.onNodeRefChange((ref: string, preRef: string) => {
             this.state.changeNodeRef(ref, preRef);
+            const codesInstance = this.state.codesInstance;
+            Object.keys(codesInstance.value).forEach((currentId) => {
+                if (codesInstance.value[currentId].deps.includes(preRef))
+                    this.code.scopeVariableChange(currentId, ref, preRef);
+            });
         });
     }
 
@@ -391,6 +396,7 @@ export class DocumentModel {
         this.nodes.clear();
         this._nodesMap.clear();
         this.code.purge();
+        this.offNodeRefChange();
     }
 
     checkDropTarget(

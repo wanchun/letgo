@@ -1,6 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
 import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
-import { markComputed, markReactive } from '@webank/letgo-common';
+import { markComputed, markReactive, replaceExpressionIdentifier, replaceJSFunctionIdentifier } from '@webank/letgo-common';
 import { CodeType } from '@webank/letgo-types';
 import type { CodeItem, CodeStruct } from '@webank/letgo-types';
 import { codeBaseEdit } from './code-base';
@@ -155,6 +155,27 @@ export class Code {
         Object.assign(item, content);
         this.emitCodeItemChange(id, content);
     };
+
+    scopeVariableChange(id: string, newVariable: string, oldVariable: string) {
+        const item = this.codeMap.get(id);
+
+        if (item.type === CodeType.TEMPORARY_STATE) {
+            this.changeCodeItemContent(id, {
+                initValue: replaceExpressionIdentifier(item.initValue, newVariable, oldVariable),
+            });
+        }
+        else if (item.type === CodeType.JAVASCRIPT_COMPUTED) {
+            this.changeCodeItemContent(id, {
+                funcBody: replaceExpressionIdentifier(item.funcBody, newVariable, oldVariable),
+            });
+        }
+        else if (item.type === CodeType.JAVASCRIPT_QUERY) {
+            // TODO 以后有变量依赖的不仅仅是 query 属性
+            this.changeCodeItemContent(id, {
+                query: replaceJSFunctionIdentifier(item.query, newVariable, oldVariable),
+            });
+        }
+    }
 
     purge() {
         this.emitter.removeAllListeners();

@@ -3,8 +3,7 @@ import type { PropType } from 'vue';
 import { FDropdown } from '@fesjs/fes-design';
 import { PlusOutlined } from '@fesjs/fes-design/icon';
 import type { Designer } from '@webank/letgo-designer';
-import { type CodeItem, CodeType } from '@webank/letgo-types';
-import { replaceExpressionIdentifier, replaceJSFunctionIdentifier } from '@webank/letgo-common';
+import { type CodeItem } from '@webank/letgo-types';
 import { JAVASCRIPT_COMPUTED, JAVASCRIPT_QUERY, TEMPORARY_STATE } from '../constants';
 
 import { codeCls, codeHeaderCls, codeItemActiveCls, codeItemCls, codeItemIdCls, codeWrapCls, headerIconCls } from './code.css';
@@ -95,26 +94,8 @@ export default defineComponent({
             code.value?.changeCodeId(id, preId);
             if (codesInstance.value) {
                 Object.keys(codesInstance.value).forEach((currentId) => {
-                    if (codesInstance.value[currentId].deps.includes(preId)) {
-                        const item = code.value.codeMap.get(currentId);
-
-                        if (item.type === CodeType.TEMPORARY_STATE) {
-                            code.value.changeCodeItemContent(currentId, {
-                                initValue: replaceExpressionIdentifier(item.initValue, id, preId),
-                            });
-                        }
-                        else if (item.type === CodeType.JAVASCRIPT_COMPUTED) {
-                            code.value.changeCodeItemContent(currentId, {
-                                funcBody: replaceExpressionIdentifier(item.funcBody, id, preId),
-                            });
-                        }
-                        else if (item.type === CodeType.JAVASCRIPT_QUERY) {
-                            // TODO 以后有变量依赖的不仅仅是 query 属性
-                            code.value.changeCodeItemContent(currentId, {
-                                query: replaceJSFunctionIdentifier(item.query, id, preId),
-                            });
-                        }
-                    }
+                    if (codesInstance.value[currentId].deps.includes(preId))
+                        code.value.scopeVariableChange(currentId, id, preId);
                 });
             }
         };

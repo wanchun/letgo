@@ -34,7 +34,7 @@ export function useCodesInstance({
 
     const createCodeInstance = (item: CodeItem, ctx: Record<string, any>) => {
         if (!dependencyMap.has(item.id))
-            dependencyMap.set(item.id, calcDependencies(item, codeMap));
+            dependencyMap.set(item.id, calcDependencies(item, ctx));
 
         let instance: CodeImplType;
         if (item.type === CodeType.TEMPORARY_STATE)
@@ -44,7 +44,7 @@ export function useCodesInstance({
             instance = new ComputedImpl(item, dependencyMap.get(item.id), ctx);
 
         else if (item.type === CodeType.JAVASCRIPT_QUERY)
-            instance = new JavascriptQueryImpl(item, ctx);
+            instance = new JavascriptQueryImpl(item, dependencyMap.get(item.id), ctx);
 
         if (instance)
             onSet(item.id, instance);
@@ -59,7 +59,7 @@ export function useCodesInstance({
             genCodeMap(codeStruct.value, codeMap);
 
             dependencyMap.clear();
-            const sortResult = sortState(codeMap, dependencyMap);
+            const sortResult = sortState(codeMap, dependencyMap, ctx);
             sortResult.forEach((codeId) => {
                 const item = codeMap.get(codeId);
                 createCodeInstance(item, ctx);

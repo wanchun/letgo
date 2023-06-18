@@ -85,13 +85,14 @@ export class Props implements IPropParent {
             });
         }
 
-        this.owner.onCodeIdChanged(this.codeIdChanged);
+        this.owner.onCodeIdChanged(this.scopeVariableChanged);
+        this.owner.onNodeRefChanged(this.scopeVariableChanged);
     }
 
-    codeIdChanged = (id: string, preId: string) => {
+    scopeVariableChanged = (id: string, preId: string) => {
         this.items.value.forEach((item) => {
             const value = item.getValue();
-            if (typeof item.key === 'string') {
+            if (typeof item.key === 'string' && value) {
                 if (item.key === getConvertedExtraKey('events')) {
                     const componentEvents = (value as any).componentEvents.map((item: IPublicTypeEventHandler) => {
                         if (item.namespace === preId)

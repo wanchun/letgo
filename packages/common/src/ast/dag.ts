@@ -39,9 +39,9 @@ export function checkCycleDependency(dependencyMap: Map<string, string[]>) {
     return sortResult;
 }
 
-export function sortState(codeMap: Map<string, CodeItem>, dependencyMap = new Map<string, string[]>()) {
+export function sortState(codeMap: Map<string, CodeItem>, dependencyMap = new Map<string, string[]>(), ctx?: Record<string, any>) {
     for (const [codeId, item] of codeMap)
-        dependencyMap.set(codeId, calcDependencies(item, codeMap));
+        dependencyMap.set(codeId, calcDependencies(item, ctx));
 
     const sortResult = checkCycleDependency(dependencyMap);
     // 最底层的依赖最先被实例化

@@ -77,6 +77,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     private _settingEntry: SettingTop;
 
     private offCodeIdChange: (() => void)[] = [];
+    private offNodeRefChange: (() => void)[] = [];
 
     /**
      * 【响应式】获取符合搭建协议-节点 schema 结构
@@ -257,6 +258,10 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
 
     onCodeIdChanged(func: (id: string, preId: string) => void) {
         this.offCodeIdChange.push(this.document.code.onCodeIdChanged(func));
+    }
+
+    onNodeRefChanged(func: (ref: string, preRef: string) => void) {
+        this.offNodeRefChange.push(this.document.onNodeRefChange(func));
     }
 
     changeRef(ref: string) {
@@ -607,6 +612,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
 
         this.purged = true;
         this.offCodeIdChange.forEach(fn => fn());
+        this.offNodeRefChange.forEach(fn => fn());
         this.props.purge();
         this.settingEntry?.purge();
         this.emitter.removeAllListeners();

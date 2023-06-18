@@ -47,7 +47,9 @@ export default defineComponent({
             deleteCodeInstance(id);
             delete executeCtx[id];
         });
-        code.value.onCodeItemChanged(changeCodeInstance);
+        code.value.onCodeItemChanged((id: string, content: Record<string, any>) => {
+            changeCodeInstance(id, content, executeCtx);
+        });
         code.value.onCodeIdChanged((id: string, preId: string) => {
             changeCodeInstanceId(id, preId);
             executeCtx[id] = codesInstance[id];

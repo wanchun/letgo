@@ -4,7 +4,6 @@ import { IPublicEnumTransformStage, isProCodeComponentType } from '@webank/letgo
 import { FButton, FMessage } from '@fesjs/fes-design';
 import { cloneDeep } from 'lodash-es';
 import { exportZip } from './export-zip';
-import defaultContent from './template';
 import { schemaToCode } from './genCode';
 
 const defaultObjectConfig = `
@@ -63,7 +62,7 @@ async function saveFile(rootComponents: {
 
 export default defineComponent({
     setup() {
-        const genCode = () => {
+        const genCode = async () => {
             const packages = material.getAssets().packages;
             const schema = project.exportSchema(IPublicEnumTransformStage.Save);
             const usedPackages = [];
@@ -85,7 +84,8 @@ export default defineComponent({
             // saveFile(schemaToCode(schema));
             // return;
             const rootComponents = schemaToCode(schema);
-            const currentContent = cloneDeep(defaultContent);
+            const defaultContent = await import('./template.json');
+            const currentContent = cloneDeep(defaultContent.default);
             const pages = rootComponents.reduce((acc, cur) => {
                 acc[cur.meta.fileName] = `
                 ${cur.template}

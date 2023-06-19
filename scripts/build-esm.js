@@ -46,6 +46,8 @@ async function compilerFile(filePath, outputDir, isForceUpdate) {
         && (isForceUpdate || !isWatch() || isCssFileChange(filePath))
     )
         await compilerCss(filePath, outputDir);
+    else if (extname === '.json')
+        fs.copyFileSync(filePath, path.join(outputDir, fileName));
 }
 
 async function compilerFiles(source, outputDir) {
@@ -114,7 +116,13 @@ async function buildEsm() {
             }
         }, (filePath) => {
             const dir = getOutputDirFromFilePath(filePath);
-            fse.removeSync(`${dir}/${path.basename(filePath).replace(/\.tsx?/, '.js')}`);
+            const extname = path.extname(filePath);
+            if (extname === '.json')
+                fse.removeSync(filePath);
+            else if (filePath.endsWith('.css.ts'))
+                fse.removeSync(`${filePath}.vanilla.css`);
+            else if (['.ts', 'tsx'].includes(extname))
+                fse.removeSync(`${dir}/${path.basename(filePath).replace(/\.tsx?/, '.js')}`);
         });
     }
 }

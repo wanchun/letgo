@@ -511,14 +511,14 @@ export function buildLoop(scope: RuntimeScope, schema: IPublicTypeNodeSchema) {
     };
 }
 
-export function buildShow(scope: RuntimeScope, schema: IPublicTypeNodeSchema) {
+export function buildShow(scope: RuntimeScope, ctx: Record<string, any>, schema: IPublicTypeNodeSchema) {
     const condition = ref<unknown>(schema.condition ?? true);
 
     const show = computed(() => {
         const { value: showCondition } = condition;
         if (typeof showCondition === 'boolean')
             return showCondition;
-        return !!parseSchema(showCondition, scope);
+        return !!parseSchema(showCondition, { ...scope, ...ctx });
     });
 
     return {

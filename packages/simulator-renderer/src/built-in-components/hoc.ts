@@ -59,7 +59,7 @@ export const Hoc = defineComponent({
 
         const { renderComp } = useLeaf(props, executeCtx);
 
-        const { show, condition } = buildShow(props.scope, props.schema);
+        const { show, condition } = buildShow(props.scope, executeCtx, props.schema);
         const { loop, updateLoop, updateLoopArg, buildLoopScope } = buildLoop(
             props.scope,
             props.schema,

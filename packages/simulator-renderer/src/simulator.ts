@@ -327,7 +327,7 @@ function createSimulatorRenderer() {
     syncHostProps();
 
     const initDocument = () => {
-        const { router } = simulator;
+        const router = simulator.router;
         documentInstances.value = host.project.documents.map((doc) => {
             let documentInstance = documentInstanceMap.get(doc.id);
             if (!documentInstance) {

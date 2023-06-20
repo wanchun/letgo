@@ -176,6 +176,7 @@ export class DocumentModel {
                 return;
             this.deleteNode(node);
         });
+        this.code.initCode(schema.code);
         this.rootNode?.importSchema(schema as any);
     }
 

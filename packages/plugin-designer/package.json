@@ -15,7 +15,7 @@
     "@vanilla-extract/css": "^1.11.0",
     "@webank/letgo-engine-plugin": "workspace:*",
     "@webank/letgo-designer": "workspace:*",
-    "@fesjs/fes-design": "^0.7.31"
+    "@fesjs/fes-design": "^0.7.32"
   },
   "peerDependencies": {
     "vue": "^3.3.4"

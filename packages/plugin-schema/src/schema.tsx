@@ -47,7 +47,7 @@ export const SchemaView = defineComponent({
                         lang={json()}
                     ></CodeMirror>
                     <div class={actionCls}>
-                        <FButton type="info" size="small" onClick={() => onSave()}>保存 Schema</FButton>
+                        <FButton type="info" size="small" onClick={onSave}>保存 Schema</FButton>
                     </div>
                 </div>
             );

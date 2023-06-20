@@ -54,16 +54,29 @@ export class Code {
         return codeMap;
     }
 
-    hasCodeId = (id: string) => {
-        return this.codeMap.has(id);
-    };
-
     private onEvent(name: string, func: (...args: any[]) => void) {
         const wrappedFunc = wrapWithEventSwitch(func);
         this.emitter.on(name, wrappedFunc);
         return () => {
             this.emitter.off(name, wrappedFunc);
         };
+    }
+
+    hasCodeId = (id: string) => {
+        return this.codeMap.has(id);
+    };
+
+    onCodesChanged = (func: (currentCodeMap: Map<string, CodeItem>) => void) => {
+        return this.onEvent('codesChanged', func);
+    };
+
+    initCode(codeStruct?: CodeStruct) {
+        this.codeStruct = codeStruct || {
+            directories: [],
+            code: [],
+        };
+        this.codeMap = this.genCodeMap(codeStruct);
+        this.emitter.emit('codesChanged', this.codeMap);
     }
 
     emitCodeIdChanged(id: string, preId: string) {

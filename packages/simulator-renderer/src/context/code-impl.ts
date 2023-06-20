@@ -9,8 +9,9 @@ import { calcDependencies, sortState } from '@webank/letgo-common';
 
 // TODO 修改 change id
 
-export function useCodesInstance(codeMap: Map<string, CodeItem>) {
+export function useCodesInstance() {
     const dependencyMap = new Map<string, string[]>();
+    let codeMap: Map<string, CodeItem> = new Map();
     const codesInstance: Record<string, CodeImplType> = reactive({});
 
     const createCodeInstance = (item: CodeItem, ctx: Record<string, any>) => {
@@ -65,9 +66,15 @@ export function useCodesInstance(codeMap: Map<string, CodeItem>) {
         delete codesInstance[preId];
     };
 
-    const initCodesInstance = (ctx: Record<string, any>) => {
+    const initCodesInstance = (currentCodeMap: Map<string, CodeItem>, ctx: Record<string, any>) => {
         try {
             dependencyMap.clear();
+            for (const key of codeMap.keys()) {
+                delete ctx[key];
+                deleteCodeInstance(key);
+            }
+
+            codeMap = currentCodeMap;
             const sortResult = sortState(codeMap, dependencyMap, ctx);
             // 最底层的依赖最先被实例化
             sortResult.forEach((codeId) => {

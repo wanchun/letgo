@@ -12,7 +12,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@fesjs/fes-design": "^0.7.31",
+    "@fesjs/fes-design": "^0.7.32",
     "@webank/letgo-common": "workspace:*",
     "@webank/letgo-designer": "workspace:*",
     "@webank/letgo-engine": "workspace:*",

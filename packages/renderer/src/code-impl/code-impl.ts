@@ -68,6 +68,8 @@ export function useCodesInstance({
         catch (err) {
             if (err instanceof Error)
                 window.alert(err.message);
+            else
+                console.error(err);
         }
     };
 

@@ -85,6 +85,8 @@ export function useCodesInstance() {
         catch (err) {
             if (err instanceof Error)
                 FMessage.error(err.message);
+            else
+                console.error(err);
         }
     };
 

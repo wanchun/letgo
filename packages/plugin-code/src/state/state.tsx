@@ -58,7 +58,7 @@ export default defineComponent({
             return (
                 <div class={stateWrapCls}>
                     <div class={categoryCls}>
-                        <StateHeader title="Code" isActive={activeItem.code} clickHeader={toggleCodeExpend} />
+                        <StateHeader title="状态" isActive={activeItem.code} clickHeader={toggleCodeExpend} />
                         <FadeInExpandTransition>
                             <div v-show={activeItem.code}>
                                 <Tree value={codesState.value} />
@@ -66,7 +66,7 @@ export default defineComponent({
                         </FadeInExpandTransition>
                     </div>
                     <div class={categoryCls}>
-                        <StateHeader title="Components" isActive={activeItem.components} clickHeader={toggleComponentsExpend} />
+                        <StateHeader title="组件" isActive={activeItem.components} clickHeader={toggleComponentsExpend} />
                         <FadeInExpandTransition>
                             <div v-show={activeItem.components}>
                                 <Tree value={currentState.value?.componentsInstance} />
@@ -74,7 +74,7 @@ export default defineComponent({
                         </FadeInExpandTransition>
                     </div>
                     <div class={categoryCls}>
-                        <StateHeader title="Globals" isActive={activeItem.global} clickHeader={toggleGlobalExpend} />
+                        <StateHeader title="全局状态" isActive={activeItem.global} clickHeader={toggleGlobalExpend} />
                         <FadeInExpandTransition>
                             <div v-show={activeItem.global}>
                                 <Tree value={globalState.value} />

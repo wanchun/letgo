@@ -41,7 +41,7 @@ export default defineComponent({
                                     <CodeSetting designer={props.designer} />
                                 </FTabPane>
                                 <FTabPane
-                                    name="状态"
+                                    name="查看"
                                     value="state"
                                     displayDirective="show"
                                 >

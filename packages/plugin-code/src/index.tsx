@@ -19,7 +19,7 @@ export default {
                 render: () => <Panel editor={editor} designer={designer} />,
                 props: {
                     width: 720,
-                    title: '代码',
+                    title: '逻辑编排',
                 },
             }),
         );

@@ -200,23 +200,24 @@ export default function (
             });
         }
 
-        if (supports.condition !== false || supports.loop !== false) {
-            advancedGroup.push({
-                name: 'key',
-                title: '渲染唯一标识（key）',
-                setter: [
-                    {
-                        componentName: 'StringSetter',
-                    },
-                    {
-                        componentName: 'ExpressionSetter',
-                    },
-                ],
-                extraProps: {
-                    display: 'block',
-                },
-            });
-        }
+        // TODO: 貌似没用？
+        // if (supports.condition !== false || supports.loop !== false) {
+        //     advancedGroup.push({
+        //         name: 'key',
+        //         title: '渲染唯一标识（key）',
+        //         setter: [
+        //             {
+        //                 componentName: 'StringSetter',
+        //             },
+        //             {
+        //                 componentName: 'ExpressionSetter',
+        //             },
+        //         ],
+        //         extraProps: {
+        //             display: 'block',
+        //         },
+        //     });
+        // }
     }
     else {
         advancedGroup.push(

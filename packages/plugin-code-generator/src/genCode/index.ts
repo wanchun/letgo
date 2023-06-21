@@ -6,7 +6,6 @@ import type {
     IPublicTypeRootSchema,
 } from '@webank/letgo-types';
 
-import { traverseExpression } from '@webank/letgo-common';
 import { genPageTemplate } from './gen-template';
 import { genScript } from './script';
 import { setGlobalConfig } from './compiler-context';
@@ -27,13 +26,12 @@ function getComponentRefs(
 function getUseComponentRefs(rootSchema: IPublicTypeRootSchema) {
     const componentRefs = getComponentRefs(rootSchema.children);
     const usedComponents = new Set<string>();
-    traverseExpression(JSON.stringify(rootSchema), (expression) => {
-        for (const refName of componentRefs.values()) {
-            // REFACTOR 有可能误杀
-            if (expression.includes(refName))
-                usedComponents.add(refName);
-        }
-    });
+    const schemaStr = JSON.stringify(rootSchema);
+    for (const refName of componentRefs.values()) {
+        // REFACTOR 有可能误杀
+        if (schemaStr.includes(`${refName}.`))
+            usedComponents.add(refName);
+    }
     return usedComponents;
 }
 

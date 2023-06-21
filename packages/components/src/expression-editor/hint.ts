@@ -35,11 +35,10 @@ export function hintPlugin(hintPaths: ComputedRef<HintPathType[]>) {
         //       和第二种情况处理方法差不多，区别就是不用删除数组最后一个元素，并且格式化的时候，需要给label前面补上.,然后才能匹配上。
 
         if (!path.includes('.')) {
-            const isInBraces = !!context.matchBefore(/{{\s*\w*/);
             return {
                 from: word.from,
                 options: hintPaths.value.map((item: any) => {
-                    const label = isInBraces ? `${item.label}` : `{{ ${item.label} }}`;
+                    const label = `${item.label}`;
                     return snippetCompletion(label, {
                         label,
                         detail: item.detail,

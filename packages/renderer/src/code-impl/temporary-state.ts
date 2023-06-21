@@ -1,5 +1,5 @@
 import { isNil } from 'lodash-es';
-import { attachContext, hasExpression, markComputed, markReactive, replaceExpression } from '@webank/letgo-common';
+import { attachContext, markComputed, markReactive } from '@webank/letgo-common';
 import type { ITemporaryState } from '@webank/letgo-types';
 import { CodeType } from '@webank/letgo-types';
 import type { ITemporaryStateImpl } from '@webank/letgo-designer';
@@ -54,21 +54,14 @@ export class TemporaryStateImpl implements ITemporaryStateImpl {
     executeInput(text?: string) {
         if (isNil(text))
             return null;
-        let result = text;
         try {
-            if (hasExpression(text)) {
-                result = replaceExpression(text, (_, expression) => {
-                    const exp = attachContext(expression, name => this.deps.includes(name));
-                    // eslint-disable-next-line no-new-func
-                    const fn = new Function('letgoCtx', `return ${exp}`);
-                    return fn(this.ctx);
-                });
-            }
-            result = JSON.parse(result);
-            return result;
+            const exp = attachContext(text, name => this.deps.includes(name));
+            // eslint-disable-next-line no-new-func
+            const fn = new Function('_ctx', `return ${exp}`);
+            return fn(this.ctx);
         }
         catch (_) {
-            return result;
+            return null;
         }
     }
 

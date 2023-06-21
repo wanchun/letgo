@@ -24,8 +24,8 @@ export default defineComponent({
         const renderContent = () => {
             return props.failureCondition.map((item) => {
                 return <li class={failureItemCls}>
-                <FInput class={conditionCls} v-model={item.condition} placeholder="{{error}}" />
-                <FInput v-model={item.message} placeholder="{{data.error.message}}" />
+                <FInput class={conditionCls} v-model={item.condition} placeholder="error" />
+                <FInput v-model={item.message} placeholder="data.error.message" />
                 <span class={actionCls} onClick={() => deleteFailureCondition(item)}>
                     <CloseOutlined class={iconCls} />
                 </span>

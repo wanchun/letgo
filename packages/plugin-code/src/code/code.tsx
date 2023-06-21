@@ -121,7 +121,7 @@ export default defineComponent({
                 return <li onClick={() => changeCurrentCodeItem(item)} class={[codeItemCls, currentCodeItem.value?.id === item.id ? codeItemActiveCls : '']}>
                     {renderCodeIcon(item)}
                     <CodeId id={item.id} onChange={changeCodeId} />
-                    <FDropdown onClick={value => onCommonAction(value, item)} trigger="click" placement="bottom-end" options={commonOptions}>
+                    <FDropdown onClick={value => onCommonAction(value, item)} appendToContainer={false} trigger="click" placement="bottom-end" options={commonOptions}>
                         <MoreIcon />
                     </FDropdown>
                 </li>;

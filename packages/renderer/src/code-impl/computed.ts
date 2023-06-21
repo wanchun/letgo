@@ -1,7 +1,7 @@
 import { isNil } from 'lodash-es';
 import type { WatchStopHandle } from 'vue';
 import { watch } from 'vue';
-import { attachContext, hasExpression, markComputed, markShallowReactive, replaceExpression } from '@webank/letgo-common';
+import { attachContext, markComputed, markShallowReactive } from '@webank/letgo-common';
 import type { IJavascriptComputed } from '@webank/letgo-types';
 import { CodeType } from '@webank/letgo-types';
 import type { IJavascriptComputedImpl } from '@webank/letgo-designer';
@@ -66,18 +66,15 @@ export class ComputedImpl implements IJavascriptComputedImpl {
     executeInput(text?: string) {
         if (isNil(text))
             return null;
-        if (hasExpression(text)) {
-            const codeStr = replaceExpression(text, (_, expression) => {
-                return attachContext(expression, name => this.deps.includes(name));
-            });
+        try {
+            const codeStr = attachContext(text, name => this.deps.includes(name));
             // eslint-disable-next-line no-new-func
-            const fn = new Function('letgoCtx', codeStr);
+            const fn = new Function('_ctx', codeStr);
             return fn(this.ctx);
         }
-        else {
-            // eslint-disable-next-line no-new-func
-            const fn = new Function(this.funcBody);
-            return fn(this.ctx);
+        catch (_) {
+            console.error(_);
+            return null;
         }
     }
 

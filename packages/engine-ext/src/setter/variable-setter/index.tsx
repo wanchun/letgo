@@ -33,12 +33,12 @@ const VariableSetterView = defineComponent({
             else {
                 val = props.value.value;
             }
-            return val ? val.replace('{{', '').replace('}}', '') : null;
+            return val;
         });
         const changeValue = (val: string) => {
             props.onChange({
                 type: 'JSExpression',
-                value: `{{${val}}}`,
+                value: val,
             });
         };
         return () => {

@@ -15,7 +15,6 @@ import { genImportCode, traverseNodeSchema } from './helper';
 import { ImportType } from './types';
 import type { ImportSource, PageMeta, SetupCode } from './types';
 import { funcSchemaToFunc, genEventName } from './events';
-import { parseFuncBody, parseInput } from './expression';
 import { genPageMetaCode } from './page-meta';
 
 function genComponentImports(componentMaps: IPublicTypeComponentMap[]) {
@@ -74,7 +73,7 @@ function genCode(schema: IPublicTypeRootSchema): SetupCode {
             codeStr.push(`
             const ${item.id} = useTemporaryState({
                 id: '${item.id}',
-                initValue: ${parseInput(item.initValue)},
+                initValue: ${item.initValue.trim()},
             });
             `);
         }
@@ -88,7 +87,7 @@ function genCode(schema: IPublicTypeRootSchema): SetupCode {
             const ${item.id} = useComputed({
                 id: '${item.id}',
                 func: () => {
-                    ${parseFuncBody(item.funcBody)}
+                    ${item.funcBody}
                 },
             });
             `);

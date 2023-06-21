@@ -1,11 +1,10 @@
 import { generate } from 'astring';
-import type { CodeItem, IJavascriptQuery, IPublicTypeEventHandler, IPublicTypeJSFunction } from '@webank/letgo-types';
+import type { CodeItem, IPublicTypeEventHandler, IPublicTypeJSFunction } from '@webank/letgo-types';
 import {
     CodeType,
     InnerEventHandlerAction,
 } from '@webank/letgo-types';
 import { isNil } from 'lodash-es';
-import { extractExpression, findExpressionDependencyCode, hasExpression } from './expression';
 import { findGlobals, reallyParse } from './find-globals';
 
 export function replaceJSFunctionIdentifier(code: string, newName: string, preName: string) {
@@ -21,8 +20,8 @@ export function replaceJSFunctionIdentifier(code: string, newName: string, preNa
     return generate(ast);
 }
 
-export function calcJSQueryDependencies(item: IJavascriptQuery, ctx?: Record<string, any>) {
-    const globalNodes = findGlobals(item.query);
+export function calcJSCodeDependencies(code: string, ctx?: Record<string, any>) {
+    const globalNodes = findGlobals(code);
     const dependencies: string[] = [];
     globalNodes.forEach((item) => {
         if (!ctx || !isNil(ctx[item.name]))
@@ -31,28 +30,16 @@ export function calcJSQueryDependencies(item: IJavascriptQuery, ctx?: Record<str
     return dependencies;
 }
 
-export function calcExpressionDependencies(input: string, ctx?: Record<string, any>) {
-    let dependencies: string[] = [];
-    if (input && hasExpression(input)) {
-        extractExpression(input).forEach((expression) => {
-            dependencies = dependencies.concat(findExpressionDependencyCode(expression, (name: string) => {
-                return !ctx || !isNil(ctx[name]);
-            }));
-        });
-    }
-    return dependencies;
-}
-
 export function calcDependencies(item: CodeItem, ctx?: Record<string, any>) {
     try {
         if (item.type === CodeType.TEMPORARY_STATE)
-            return calcExpressionDependencies(item.initValue, ctx);
+            return calcJSCodeDependencies(item.initValue, ctx);
 
         else if (item.type === CodeType.JAVASCRIPT_COMPUTED)
-            return calcExpressionDependencies(item.funcBody, ctx);
+            return calcJSCodeDependencies(item.funcBody, ctx);
 
         else if (item.type === CodeType.JAVASCRIPT_QUERY)
-            return calcJSQueryDependencies(item, ctx);
+            return calcJSCodeDependencies(item.query, ctx);
     }
     catch (_) {
         return [];

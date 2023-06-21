@@ -1,7 +1,5 @@
-import { hasExpression } from '@webank/letgo-common';
 import type { IPublicTypeJSFunction } from '@webank/letgo-types';
 import { camelCase } from 'lodash-es';
-import { parseExpression, parseNormalValue } from './expression';
 
 export function genEventName(prop: string, refName: string) {
     return camelCase(`${prop}_${refName}`);
@@ -9,9 +7,7 @@ export function genEventName(prop: string, refName: string) {
 
 function handleParams(params: string[]) {
     return params.map((param) => {
-        if (hasExpression(param))
-            return parseExpression(param);
-        return parseNormalValue(param);
+        return param.trim();
     });
 }
 

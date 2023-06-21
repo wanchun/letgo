@@ -177,7 +177,10 @@ export class DocumentModel {
             this.deleteNode(node);
         });
         this.code.initCode(schema.code);
-        this.rootNode?.importSchema(schema as any);
+        // 等 code 实例化滞以后再实例化 root
+        setTimeout(() => {
+            this.rootNode?.importSchema(schema as any);
+        }, 4);
     }
 
     exportSchema(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Serialize) {

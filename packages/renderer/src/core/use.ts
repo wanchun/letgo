@@ -333,7 +333,7 @@ function processProp(
         if ((val as IPublicTypeJSExpression)?.value) {
             const updateEventFn: IPublicTypeJSFunction = {
                 type: 'JSFunction',
-                value: `function ($event) {letgoCtx.${(val as IPublicTypeJSExpression).value.replace('{{', '').replace('}}', '').trim()} = $event}`,
+                value: `function ($event) {${(val as IPublicTypeJSExpression).value.replace('{{', '').replace('}}', '').trim()} = $event}`,
             };
             target[eventProp]
                 = eventProp in target

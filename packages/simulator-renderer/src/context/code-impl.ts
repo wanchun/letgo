@@ -80,6 +80,9 @@ export function useCodesInstance() {
             sortResult.forEach((codeId) => {
                 const item = codeMap.get(codeId);
                 createCodeInstance(item, ctx);
+                Object.keys(codesInstance).forEach((key) => {
+                    ctx[key] = codesInstance[key];
+                });
             });
         }
         catch (err) {

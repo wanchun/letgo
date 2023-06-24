@@ -30,7 +30,7 @@ export default defineComponent({
                 if (currentCodeItem.value.type === CodeType.TEMPORARY_STATE)
                     return <StateEdit documentModel={props.designer.currentDocument} codeItem={currentCodeItem.value} changeContent={code.value?.changeCodeItemContent} />;
                 if (currentCodeItem.value.type === CodeType.JAVASCRIPT_COMPUTED)
-                    return <ComputedEdit codeItem={currentCodeItem.value} changeContent={code.value?.changeCodeItemContent} />;
+                    return <ComputedEdit documentModel={props.designer.currentDocument} codeItem={currentCodeItem.value} changeContent={code.value?.changeCodeItemContent} />;
                 if (currentCodeItem.value.type === CodeType.JAVASCRIPT_QUERY)
                     return <QueryEdit documentModel={props.designer.currentDocument} codeItem={currentCodeItem.value} changeContent={code.value?.changeCodeItemContent} />;
             }

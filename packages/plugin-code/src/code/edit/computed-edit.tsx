@@ -1,8 +1,9 @@
 import type { PropType } from 'vue';
 import { defineComponent, ref } from 'vue';
 import { FButton } from '@fesjs/fes-design';
+import { JsEditor } from '@webank/letgo-components';
+import type { DocumentModel } from '@webank/letgo-designer';
 import type { IJavascriptComputed } from '@webank/letgo-types';
-import CodeEditor from '../../code-editor';
 import { contentCls, headerCls } from './computed-edit.css';
 
 /**
@@ -12,6 +13,7 @@ import { contentCls, headerCls } from './computed-edit.css';
  */
 export default defineComponent({
     props: {
+        documentModel: Object as PropType<DocumentModel>,
         codeItem: Object as PropType<IJavascriptComputed>,
         changeContent: Function as PropType<(id: string, content: Partial<IJavascriptComputed>) => void>,
     },
@@ -38,7 +40,7 @@ export default defineComponent({
                     </div>
                 </div>
                 <div class={contentCls}>
-                    <CodeEditor doc={props.codeItem.funcBody} changeDoc={changeFuncBody} />
+                    <JsEditor documentModel={props.documentModel} doc={props.codeItem.funcBody} changeDoc={changeFuncBody} />
                 </div>
             </div>;
         };

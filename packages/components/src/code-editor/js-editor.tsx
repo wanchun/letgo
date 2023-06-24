@@ -6,8 +6,8 @@ import { placeholder } from '@codemirror/view';
 import type { ViewUpdate } from '@codemirror/view';
 import type { PropType } from 'vue';
 import { defineComponent, onMounted, ref, watch } from 'vue';
-import { hintPlugin } from './hint';
-import { editorCls } from './js-editor.css';
+import { autocompletion } from '@codemirror/autocomplete';
+import { HintTheme, hintPlugin } from './hint';
 import { useHint } from './use';
 
 // TODO: 语法校验
@@ -24,14 +24,34 @@ export const JsEditor = defineComponent({
 
         const { hintOptions } = useHint(props);
 
+        const Theme = EditorView.theme({
+            '&': {
+                borderRadius: '4px',
+                minHeight: '85px',
+                border: '1px solid #ebebeb',
+            },
+            '&.cm-focused': {
+                outline: '1px solid #4096ff',
+            },
+            '& .cm-gutters': {
+                minHeight: '85px !important',
+                borderRight: 0,
+            },
+            ...HintTheme,
+        });
+
         const genState = () => {
             return EditorState.create({
                 doc: props.doc,
                 extensions: [
                     basicSetup,
+                    Theme,
                     javascript(),
                     javascriptLanguage.data.of({
                         autocomplete: hintPlugin(hintOptions),
+                    }),
+                    autocompletion({
+                        icons: false,
                     }),
                     placeholder('Type your code here'),
                     EditorView.updateListener.of((v: ViewUpdate) => {
@@ -57,7 +77,7 @@ export const JsEditor = defineComponent({
         });
 
         return () => {
-            return <div class={editorCls} ref={editorRefEl}></div>;
+            return <div ref={editorRefEl}></div>;
         };
     },
 });

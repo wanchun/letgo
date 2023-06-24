@@ -6,7 +6,7 @@ import { autocompletion } from '@codemirror/autocomplete';
 import type { ViewUpdate } from '@codemirror/view';
 import type { PropType } from 'vue';
 import { editorCls } from './index.css';
-import { hintPlugin } from './hint';
+import { HintTheme, hintPlugin } from './hint';
 import { useHint } from './use';
 
 export const ExpressionEditor = defineComponent({
@@ -22,16 +22,32 @@ export const ExpressionEditor = defineComponent({
 
         const { hintOptions } = useHint(props);
 
+        const Theme = EditorView.theme({
+            '&': {
+                borderRadius: '4px',
+                border: '1px solid #ebebeb',
+            },
+            '&.cm-focused': {
+                outline: '1px solid #4096ff',
+            },
+            '& .cm-gutters': {
+                borderRight: 0,
+            },
+            ...HintTheme,
+        });
+
         const genState = () => {
             return EditorState.create({
                 doc: props.doc,
                 extensions: [
                     minimalSetup,
+                    Theme,
                     EditorState.transactionFilter.of((tr) => {
                         return tr.newDoc.lines > 1 ? [] : [tr];
                     }),
                     autocompletion({
                         override: [hintPlugin(hintOptions)],
+                        icons: false,
                     }),
                     EditorView.updateListener.of((v: ViewUpdate) => {
                         if (v.docChanged) {

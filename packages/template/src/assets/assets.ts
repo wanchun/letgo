@@ -1814,8 +1814,13 @@ const assets: IPublicTypeAssetsJson = {
                             },
                             {
                                 name: 'getContainer',
-                                title: '指定弹窗挂载的节点',
+                                title: '挂载容器',
                                 setter: 'FunctionSetter',
+                                defaultValue: () => {
+                                    return function () {
+                                        return document.body;
+                                    };
+                                },
                             },
                         ],
                     },
@@ -7084,6 +7089,66 @@ const assets: IPublicTypeAssetsJson = {
                     propType: 'node',
                 },
             ],
+            configure: {
+                props: [
+                    {
+                        name: 'show',
+                        title: '显示',
+                        setter: 'BoolSetter',
+                        defaultValue: true,
+                    },
+                    {
+                        name: 'size',
+                        title: '大小',
+                        setter: {
+                            componentName: 'SelectSetter',
+                            props: {
+                                options: [
+                                    {
+                                        value: 'small',
+                                        label: '小',
+                                    },
+                                    {
+                                        value: 'middle',
+                                        label: '中',
+                                    },
+                                    {
+                                        value: 'large',
+                                        label: '大',
+                                    },
+                                ],
+                            },
+                        },
+                        defaultValue: 'middle',
+                    },
+                    {
+                        name: 'description',
+                        title: '描述',
+                        setter: ['StringSetter', 'SlotSetter'],
+                    },
+                    {
+                        name: 'stroke',
+                        title: '边框颜色',
+                        setter: 'ColorSetter',
+                    },
+                    {
+                        name: 'delay',
+                        title: '延迟显示',
+                        setter: 'NumberSetter',
+                    },
+                    // TODO: 不生效
+                    {
+                        name: 'icon',
+                        title: '自定义图标',
+                        setter: 'IconSetter',
+                    },
+                    {
+                        name: 'default',
+                        title: '包裹内容',
+                        setter: 'SlotSetter',
+                    },
+                ],
+            },
             snippets: [
                 {
                     title: '加载中',
@@ -7349,7 +7414,7 @@ const assets: IPublicTypeAssetsJson = {
             },
             props: [
                 {
-                    name: 'v-model:show',
+                    name: 'show',
                     title: '显示',
                     propType: 'bool',
                 },
@@ -7360,11 +7425,6 @@ const assets: IPublicTypeAssetsJson = {
                         type: 'oneOf',
                         value: ['show', 'if'],
                     },
-                },
-                {
-                    name: 'closable',
-                    title: '可关闭',
-                    propType: 'bool',
                 },
                 {
                     name: 'closable',
@@ -7438,8 +7498,141 @@ const assets: IPublicTypeAssetsJson = {
                 },
             ],
             configure: {
+                props: [
+                    {
+                        name: 'show',
+                        title: '显示',
+                        setter: 'BoolSetter',
+                    },
+                    {
+                        name: 'title',
+                        title: '标题',
+                        setter: ['StringSetter', 'SlotSetter'],
+                    },
+                    {
+                        name: 'displayDirective',
+                        title: '渲染方式',
+                        setter: {
+                            componentName: 'RadioGroupSetter',
+                            props: {
+                                options: [
+                                    {
+                                        label: '渲染一次',
+                                        value: 'show',
+                                    },
+                                    {
+                                        label: '多次渲染',
+                                        value: 'if',
+                                    },
+                                ],
+                            },
+                        },
+                        defaultValue: 'show',
+                    },
+                    {
+                        name: 'closable',
+                        title: '可关闭',
+                        setter: 'BoolSetter',
+                        defaultValue: true,
+                    },
+                    {
+                        name: 'mask',
+                        title: '蒙层',
+                        setter: 'BoolSetter',
+                        defaultValue: true,
+                    },
+                    {
+                        name: 'maskClosable',
+                        title: '点击蒙层关闭',
+                        setter: 'BoolSetter',
+                        defaultValue: true,
+                    },
+                    {
+                        name: 'width',
+                        title: '宽度',
+                        setter: 'NumberSetter',
+                        defaultValue: 520,
+                    },
+                    {
+                        name: 'top',
+                        title: '距离顶部',
+                        setter: 'NumberSetter',
+                        defaultValue: 50,
+                    },
+                    {
+                        name: 'verticalCenter',
+                        title: '垂直居中',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'center',
+                        title: '内容居中',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'fullScreen',
+                        title: '全屏',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'footer',
+                        title: '底部',
+                        setter: 'BoolSetter',
+                        defaultValue: true,
+                    },
+                    {
+                        name: 'footer',
+                        title: '自定底部',
+                        setter: 'SlotSetter',
+                        defaultValue: {
+                            type: 'JSSlot',
+                            name: 'footer',
+                            value: [],
+                        },
+                    },
+                    {
+                        name: 'okText',
+                        title: '确认按钮文字',
+                        setter: 'StringSetter',
+                        defaultValue: '确认',
+                    },
+                    {
+                        name: 'cancelText',
+                        title: '取消按钮文字',
+                        setter: 'StringSetter',
+                        defaultValue: '取消',
+                    },
+                    {
+                        name: 'contentClass',
+                        title: '内容样式名称',
+                        setter: 'StringSetter',
+                    },
+                    {
+                        name: 'appendToContainer',
+                        title: '弹窗是是否挂载到容器',
+                        setter: 'BoolSetter',
+                        defaultValue: true,
+                    },
+                    {
+                        name: 'getContainer',
+                        title: '配置挂载容器',
+                        setter: 'FunctionSetter',
+                        defaultValue: () => {
+                            return function () {
+                                return document.body;
+                            };
+                        },
+                    },
+                ],
                 component: {
                     isContainer: true,
+                },
+                supports: {
+                    // TODO: StyleSetter会出错
+                    events: ['onUpdate:show', 'onOk', 'onCancel'],
                 },
             },
             snippets: [
@@ -7448,7 +7641,7 @@ const assets: IPublicTypeAssetsJson = {
                     schema: {
                         componentName: 'FModal',
                         props: {
-                            'v-model:show': true,
+                            show: true,
                         },
                     },
                 },
@@ -8758,6 +8951,215 @@ const assets: IPublicTypeAssetsJson = {
                     },
                 },
             ],
+        },
+        {
+            title: '骨架屏',
+            componentName: 'FSkeleton',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.31',
+                exportName: 'FSkeleton',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'text',
+                    propType: 'bool',
+                },
+                {
+                    name: 'round',
+                    propType: 'bool',
+                },
+                {
+                    name: 'circle',
+                    propType: 'bool',
+                },
+                {
+                    name: 'height',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'number'],
+                    },
+                },
+                {
+                    name: 'width',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['string', 'number'],
+                    },
+                },
+                {
+                    name: 'size',
+                    propType: {
+                        type: 'oneOf',
+                        value: ['small', 'middle', 'large'],
+                    },
+                },
+                {
+                    name: 'repeat',
+                    propType: 'number',
+                },
+                {
+                    name: 'animated',
+                    propType: 'bool',
+                },
+                {
+                    name: 'sharp',
+                    propType: 'bool',
+                },
+            ],
+            configure: {
+                props: [
+                    {
+                        name: 'sharp',
+                        title: '直角',
+                        setter: 'BoolSetter',
+                        defaultValue: true,
+                    },
+                    {
+                        name: 'text',
+                        title: '文本',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'round',
+                        title: '圆角',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'circle',
+                        title: '圆形',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        name: 'height',
+                        title: '高度',
+                        setter: ['NumberSetter', 'StringSetter'],
+                    },
+                    {
+                        name: 'width',
+                        title: '宽度',
+                        setter: ['NumberSetter', 'StringSetter'],
+                    },
+                    {
+                        name: 'size',
+                        title: '大小',
+                        setter: {
+                            componentName: 'SelectSetter',
+                            props: {
+                                options: [
+                                    {
+                                        value: 'small',
+                                        label: '小',
+                                    },
+                                    {
+                                        value: 'middle',
+                                        label: '中',
+                                    },
+                                    {
+                                        value: 'large',
+                                        label: '大',
+                                    },
+                                ],
+                            },
+                        },
+                        defaultValue: 'middle',
+                    },
+                    {
+                        name: 'repeat',
+                        title: '重复次数',
+                        setter: 'NumberSetter',
+                        defaultValue: 1,
+                    },
+                    {
+                        name: 'animated',
+                        title: '启用动画',
+                        setter: 'BoolSetter',
+                        defaultValue: true,
+                    },
+
+                ],
+            },
+            snippets: [
+                {
+                    title: '骨架屏',
+                    schema: {
+                        componentName: 'FSkeleton',
+                        props: {
+                            text: true,
+                        },
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '信息反馈',
+            priority: 0,
+        },
+        {
+            title: '全局配置',
+            componentName: 'FConfigProvider',
+            npm: {
+                package: '@fesjs/fes-design',
+                version: '0.7.31',
+                exportName: 'FConfigProvider',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'getContainer',
+                    propType: 'func',
+                },
+                {
+                    name: 'locale',
+                    propType: 'object',
+                },
+                {
+                    name: 'themeOverrides',
+                    propType: 'object',
+                },
+            ],
+            configure: {
+                props: [
+                    {
+                        name: 'getContainer',
+                        title: '挂载容器',
+                        setter: 'FunctionSetter',
+                        defaultValue: () => {
+                            return function () {
+                                return document.body;
+                            };
+                        },
+                    },
+                    {
+                        name: 'locale',
+                        title: '语言',
+                        setter: 'JsonSetter',
+                    },
+                    {
+                        name: 'themeOverrides',
+                        title: '主题覆盖',
+                        setter: 'JsonSetter',
+                    },
+                ],
+                component: {
+                    isContainer: true,
+                },
+            },
+            snippets: [
+                {
+                    title: '全局配置',
+                    schema: {
+                        componentName: 'FConfigProvider',
+                        props: {},
+                    },
+                },
+            ],
+            group: '原子组件',
+            category: '通用组件',
+            priority: 0,
         },
     ],
     sort: {

@@ -13,7 +13,7 @@ export default {
             props: {
                 align: 'bottom',
             },
-            render: () => <More theme="outline" strokeWidth={2} class={iconCls} />,
+            render: () => <More theme="outline"  class={iconCls} />,
         }).link(
             skeleton.add({
                 type: 'Panel',

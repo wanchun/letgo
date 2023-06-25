@@ -209,7 +209,6 @@ const MixedSetterView = defineComponent({
                         class={iconCls}
                         theme="outline"
                         size="14"
-                        strokeWidth={2}
                     />
                 </FDropdown>
             );

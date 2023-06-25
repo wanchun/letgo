@@ -204,7 +204,7 @@ const ArraySetterView = defineComponent({
                 };
                 return (
                     <>
-                        <Config onClick={() => toggle()} class={iconCls} theme="outline" strokeWidth={2} />
+                        <Config onClick={() => toggle()} class={iconCls} theme="outline" />
                         {
                             columnsRef.value.map((item) => {
                                 const name = `${rowIndex}.${item.name}`;
@@ -250,7 +250,7 @@ const ArraySetterView = defineComponent({
                 return (
                     <div class={[bodyWrapperCls, !hasCol && bigBodyWrapperCls]}>
                         {renderField(item, index)}
-                        <DeleteOne onClick={() => onRemove(item, index)} class={iconCls} theme="outline" strokeWidth={2} />
+                        <DeleteOne onClick={() => onRemove(item, index)} class={iconCls} theme="outline" />
                     </div>
                 );
             });
@@ -264,7 +264,7 @@ const ArraySetterView = defineComponent({
                     <div class={[hasCol && addWrapperCls] }>
                         <FButton
                             long
-                            v-slots={{ icon: () => <AddOne style={{ marginRight: '8px' }} class={iconCls} theme="outline" strokeWidth={2}></AddOne> }}
+                            v-slots={{ icon: () => <AddOne style={{ marginRight: '8px' }} class={iconCls} theme="outline" ></AddOne> }}
                             onClick={onAdd}
                         >
                             新增选项

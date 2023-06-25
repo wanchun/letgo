@@ -23,7 +23,7 @@ const FunctionSetterView = defineComponent({
 
         const currentValue = computed(() => {
             return isUndefined(props.value)
-                ? props.defaultValue.toString()
+                ? props.defaultValue?.toString()
                 : props.value?.value;
         });
 

@@ -105,29 +105,29 @@ const assets: IPublicTypeAssetsJson = {
                             props: {
                                 options: [
                                     {
-                                        label: 'default',
+                                        label: '默认',
                                         value: 'default',
                                     },
                                     {
-                                        label: 'success',
+                                        label: '成功',
                                         value: 'success',
                                     },
                                     {
-                                        label: 'info',
+                                        label: '信息',
                                         value: 'info',
                                     },
                                     {
-                                        label: 'warning',
+                                        label: '警告',
                                         value: 'warning',
                                     },
                                     {
-                                        label: 'error',
+                                        label: '错误',
                                         value: 'error',
                                     },
                                 ],
                             },
-                            defaultValue: 'default',
                         },
+                        defaultValue: 'default',
                     },
                     {
                         name: 'strong',
@@ -288,15 +288,15 @@ const assets: IPublicTypeAssetsJson = {
                                         props: {
                                             options: [
                                                 {
-                                                    label: 'small',
+                                                    label: '小',
                                                     value: 'small',
                                                 },
                                                 {
-                                                    label: 'medium',
+                                                    label: '中',
                                                     value: 'medium',
                                                 },
                                                 {
-                                                    label: 'large',
+                                                    label: '大',
                                                     value: 'large',
                                                 },
                                             ],
@@ -355,7 +355,7 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'size',
                     propType: {
                         type: 'oneOf',
-                        value: ['small', 'medium', 'large'],
+                        value: ['small', 'middle', 'large'],
                     },
                 },
                 {
@@ -388,77 +388,6 @@ const assets: IPublicTypeAssetsJson = {
                 },
                 props: [
                     {
-                        type: 'group',
-                        title: '卡片样式',
-                        display: 'block',
-                        items: [
-                            {
-                                name: 'size',
-                                title: '卡片尺寸',
-                                setter: {
-                                    componentName: 'RadioGroupSetter',
-                                    props: {
-                                        options: [
-                                            {
-                                                label: 'small',
-                                                value: 'small',
-                                            },
-                                            {
-                                                label: 'medium',
-                                                value: 'medium',
-                                            },
-                                            {
-                                                label: 'large',
-                                                value: 'large',
-                                            },
-                                        ],
-                                    },
-                                },
-                                defaultValue: 'medium',
-                            },
-                            {
-                                name: 'bordered',
-                                title: '显示边框',
-                                setter: 'BoolSetter',
-                            },
-                            {
-                                name: 'divider',
-                                title: '显示分割线',
-                                setter: 'BoolSetter',
-                            },
-                            {
-                                name: 'shadow',
-                                title: '阴影效果',
-                                setter: {
-                                    componentName: 'RadioGroupSetter',
-                                    props: {
-                                        options: [
-                                            {
-                                                label: 'always',
-                                                value: 'always',
-                                            },
-                                            {
-                                                label: 'never',
-                                                value: 'never',
-                                            },
-                                            {
-                                                label: 'hover',
-                                                value: 'hover',
-                                            },
-                                        ],
-                                    },
-                                },
-                                defaultValue: 'always',
-                            },
-                            {
-                                display: 'popup',
-                                name: 'bodyStyle',
-                                title: '内容样式',
-                                setter: 'StyleSetter',
-                            },
-                        ],
-                    },
-                    {
                         title: '卡片内容',
                         type: 'group',
                         extraProps: {
@@ -481,6 +410,79 @@ const assets: IPublicTypeAssetsJson = {
                                         },
                                     },
                                 ],
+                            },
+                        ],
+                    },
+                    {
+                        type: 'group',
+                        title: '卡片样式',
+                        display: 'block',
+                        items: [
+                            {
+                                name: 'size',
+                                title: '卡片尺寸',
+                                setter: {
+                                    componentName: 'RadioGroupSetter',
+                                    props: {
+                                        options: [
+                                            {
+                                                label: '小',
+                                                value: 'small',
+                                            },
+                                            {
+                                                label: '中',
+                                                value: 'middle',
+                                            },
+                                            {
+                                                label: '大',
+                                                value: 'large',
+                                            },
+                                        ],
+                                    },
+                                },
+                                defaultValue: 'middle',
+                            },
+                            {
+                                name: 'bordered',
+                                title: '显示边框',
+                                setter: 'BoolSetter',
+                                defaultValue: true,
+                            },
+                            {
+                                name: 'divider',
+                                title: '显示分割线',
+                                setter: 'BoolSetter',
+                                defaultValue: true,
+                            },
+                            {
+                                name: 'shadow',
+                                title: '阴影效果',
+                                setter: {
+                                    componentName: 'RadioGroupSetter',
+                                    props: {
+                                        options: [
+                                            {
+                                                label: '总是',
+                                                value: 'always',
+                                            },
+                                            {
+                                                label: '没有',
+                                                value: 'never',
+                                            },
+                                            {
+                                                label: '悬浮显示',
+                                                value: 'hover',
+                                            },
+                                        ],
+                                    },
+                                },
+                                defaultValue: 'always',
+                            },
+                            {
+                                name: 'bodyStyle',
+                                title: '内容样式',
+                                setter: 'StyleSetter',
+                                display: 'popup',
                             },
                         ],
                     },
@@ -550,66 +552,61 @@ const assets: IPublicTypeAssetsJson = {
                 props: [
                     {
                         name: 'align',
-                        title: '垂直排列方式',
+                        title: '交叉轴对齐方式',
                         setter: {
                             componentName: 'SelectSetter',
                             props: {
                                 options: [
                                     {
-                                        label: 'start',
+                                        label: '起点对齐',
                                         value: 'start',
                                     },
                                     {
-                                        label: 'end',
+                                        label: '终点对齐',
                                         value: 'end',
                                     },
                                     {
-                                        label: 'center',
+                                        label: '居中对齐',
                                         value: 'center',
                                     },
                                     {
-                                        label: 'baseline',
+                                        label: '基线对齐',
                                         value: 'baseline',
                                     },
                                     {
-                                        label: 'stretch',
+                                        label: '铺满',
                                         value: 'stretch',
                                     },
                                 ],
                             },
                         },
-                        defaultValue: 'start',
                     },
                     {
                         name: 'justify',
-                        title: '水平排列方式',
+                        title: '主轴排列方式',
                         setter: {
                             componentName: 'SelectSetter',
                             props: {
                                 options: [
                                     {
-                                        label: 'start',
+                                        label: '行首开始排列',
                                         value: 'start',
                                     },
                                     {
-                                        label: 'end',
+                                        label: '行尾开始排列',
                                         value: 'end',
                                     },
                                     {
-                                        label: 'center',
+                                        label: '向行中点排列',
                                         value: 'center',
                                     },
                                     {
-                                        label: 'space-around',
+                                        label: '均匀分配',
                                         value: 'space-around',
                                     },
                                     {
-                                        label: 'space-between',
+                                        label: '均匀分配-首尾对齐',
                                         value: 'space-between',
-                                    },
-                                    {
-                                        label: 'space-evenly',
-                                        value: 'space-evenly',
                                     },
                                 ],
                             },
@@ -625,19 +622,19 @@ const assets: IPublicTypeAssetsJson = {
                                 props: {
                                     options: [
                                         {
-                                            label: 'xsmall',
+                                            label: '超小',
                                             value: 'xsmall',
                                         },
                                         {
-                                            label: 'small',
+                                            label: '小',
                                             value: 'small',
                                         },
                                         {
-                                            label: 'middle',
+                                            label: '中',
                                             value: 'middle',
                                         },
                                         {
-                                            label: 'large',
+                                            label: '大',
                                             value: 'large',
                                         },
                                     ],
@@ -771,11 +768,11 @@ const assets: IPublicTypeAssetsJson = {
                                     props: {
                                         options: [
                                             {
-                                                label: 'button',
+                                                label: '普通按钮',
                                                 value: 'button',
                                             },
                                             {
-                                                label: 'submit',
+                                                label: '表单提交',
                                                 value: 'submit',
                                             },
                                         ],
@@ -801,40 +798,41 @@ const assets: IPublicTypeAssetsJson = {
                                     props: {
                                         options: [
                                             {
-                                                label: 'primary',
+                                                label: '默认',
+                                                value: 'default',
+                                            },
+                                            {
+                                                label: '重要',
                                                 value: 'primary',
                                             },
                                             {
-                                                label: 'text',
+                                                label: '文本',
                                                 value: 'text',
                                             },
                                             {
-                                                label: 'link',
+                                                label: '链接',
                                                 value: 'link',
                                             },
                                             {
-                                                label: 'info',
+                                                label: '信息',
                                                 value: 'info',
                                             },
                                             {
-                                                label: 'info',
-                                                value: 'info',
-                                            },
-                                            {
-                                                label: 'success',
+                                                label: '成功',
                                                 value: 'success',
                                             },
                                             {
-                                                label: 'warning',
+                                                label: '警告',
                                                 value: 'warning',
                                             },
                                             {
-                                                label: 'danger',
+                                                label: '危险',
                                                 value: 'danger',
                                             },
                                         ],
                                     },
                                 },
+                                defaultValue: 'default',
                             },
                             {
                                 name: 'size',
@@ -844,21 +842,21 @@ const assets: IPublicTypeAssetsJson = {
                                     props: {
                                         options: [
                                             {
-                                                label: 'small',
+                                                label: '小',
                                                 value: 'small',
                                             },
                                             {
-                                                label: 'medium',
-                                                value: 'medium',
+                                                label: '中',
+                                                value: 'middle',
                                             },
                                             {
-                                                label: 'large',
+                                                label: '大',
                                                 value: 'large',
                                             },
                                         ],
                                     },
                                 },
-                                defaultValue: 'medium',
+                                defaultValue: 'middle',
                             },
                             {
                                 name: 'long',
@@ -958,7 +956,7 @@ const assets: IPublicTypeAssetsJson = {
                 supports: {
                     style: true,
                     events: ['onSubmit'],
-                    methods: ['validate', 'clearValidate'],
+                    methods: ['validate', 'clearValidate', 'resetFields'],
                 },
                 component: {
                     isContainer: true,
@@ -991,7 +989,7 @@ const assets: IPublicTypeAssetsJson = {
                             props: {
                                 options: [
                                     {
-                                        title: '垂直',
+                                        title: '垂直表单',
                                         value: 'horizontal',
                                     },
                                     {
@@ -1164,6 +1162,7 @@ const assets: IPublicTypeAssetsJson = {
                 },
                 supports: {
                     style: true,
+                    methods: ['validate'],
                 },
                 props: [
                     {
@@ -1186,15 +1185,10 @@ const assets: IPublicTypeAssetsJson = {
                             {
                                 name: 'labelWidth',
                                 title: '标签宽度',
-                                setter: {
-                                    componentName: 'MixedSetter',
-                                    props: {
-                                        setters: [
-                                            'StringSetter',
-                                            'NumberSetter',
-                                        ],
-                                    },
-                                },
+                                setter: [
+                                    'StringSetter',
+                                    'NumberSetter',
+                                ],
                                 defaultValue: 'auto',
                             },
                         ],
@@ -1304,8 +1298,9 @@ const assets: IPublicTypeAssetsJson = {
                     },
                     {
                         name: 'placeholder',
-                        title: '输入占位符',
+                        title: '输入提示',
                         setter: 'StringSetter',
+                        defaultValue: '请输入',
                     },
                     {
                         name: 'rows',
@@ -1319,7 +1314,7 @@ const assets: IPublicTypeAssetsJson = {
                     },
                     {
                         name: 'resize',
-                        title: '是否缩放',
+                        title: '缩放',
                         setter: {
                             componentName: 'SelectSetter',
                             props: {
@@ -1366,13 +1361,13 @@ const assets: IPublicTypeAssetsJson = {
                     },
                     {
                         name: 'clearable',
-                        title: '是否可清空',
+                        title: '可清空',
                         setter: 'BoolSetter',
                         defaultValue: false,
                     },
                     {
                         name: 'showPassword',
-                        title: '是否显示密码图标',
+                        title: '显示密码图标',
                         setter: 'BoolSetter',
                         defaultValue: false,
                     },
@@ -1403,15 +1398,15 @@ const assets: IPublicTypeAssetsJson = {
                             },
                         ],
                     },
-
                 ],
                 supports: {
                     events: [
+                        'onChange',
                         'onInput',
                         'onFocus',
                         'onBlur',
                         'onClear',
-                        'onChange',
+                        'onKeydown',
                     ],
                     style: true,
                 },
@@ -1483,7 +1478,7 @@ const assets: IPublicTypeAssetsJson = {
                 {
                     name: 'placeholder',
                     propType: 'string',
-                    title: '输入占位符',
+                    title: '输入提示',
                 },
                 {
                     name: 'precision',
@@ -1506,6 +1501,62 @@ const assets: IPublicTypeAssetsJson = {
                     ],
                     style: true,
                 },
+                props: [
+                    {
+                        name: 'v-model',
+                        title: '绑定变量',
+                        setter: 'VariableSetter',
+                    },
+                    {
+                        name: 'mix',
+                        title: '最小值',
+                        setter: 'NumberSetter',
+                    },
+                    {
+                        name: 'max',
+                        title: '最大值',
+                        setter: 'NumberSetter',
+                    },
+                    {
+                        name: 'precision',
+                        title: '值精度',
+                        setter: 'NumberSetter',
+                    },
+                    {
+                        name: 'step',
+                        title: '计数器步长',
+                        setter: 'NumberSetter',
+                        defaultValue: 1,
+                    },
+                    {
+                        name: 'placeholder',
+                        title: '输入提示',
+                        setter: 'StringSetter',
+                    },
+                    {
+                        name: 'disabled',
+                        title: '是否禁用',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                    {
+                        type: 'group',
+                        title: '自定义前缀后缀',
+                        display: 'block',
+                        items: [
+                            {
+                                name: 'prefix',
+                                title: '前缀',
+                                setter: 'SlotSetter',
+                            },
+                            {
+                                name: 'suffix',
+                                title: '后缀',
+                                setter: 'SlotSetter',
+                            },
+                        ],
+                    },
+                ],
             },
             snippets: [
                 {
@@ -1667,6 +1718,21 @@ const assets: IPublicTypeAssetsJson = {
                                             ],
                                         },
                                     },
+                                    columns: [
+                                        {
+                                            name: 'value',
+                                            title: '选项值',
+                                            setter: [
+                                                'StringSetter',
+                                                'NumberSetter',
+                                            ],
+                                        },
+                                        {
+                                            name: 'label',
+                                            title: '选项名',
+                                            setter: 'StringSetter',
+                                        },
+                                    ],
                                 },
                             },
                             'JsonSetter',
@@ -1906,7 +1972,7 @@ const assets: IPublicTypeAssetsJson = {
                 props: [
                     {
                         name: 'v-model',
-                        title: '绑定状态',
+                        title: '绑定变量',
                         setter: 'VariableSetter',
                     },
                     {
@@ -1956,6 +2022,21 @@ const assets: IPublicTypeAssetsJson = {
                                             ],
                                         },
                                     },
+                                    columns: [
+                                        {
+                                            name: 'value',
+                                            title: '选项值',
+                                            setter: [
+                                                'StringSetter',
+                                                'NumberSetter',
+                                            ],
+                                        },
+                                        {
+                                            name: 'label',
+                                            title: '选项名',
+                                            setter: 'StringSetter',
+                                        },
+                                    ],
                                 },
                             },
                             'JsonSetter',
@@ -2105,6 +2186,21 @@ const assets: IPublicTypeAssetsJson = {
                                             ],
                                         },
                                     },
+                                    columns: [
+                                        {
+                                            name: 'value',
+                                            title: '选项值',
+                                            setter: [
+                                                'StringSetter',
+                                                'NumberSetter',
+                                            ],
+                                        },
+                                        {
+                                            name: 'label',
+                                            title: '选项名',
+                                            setter: 'StringSetter',
+                                        },
+                                    ],
                                 },
                             },
                             'JsonSetter',
@@ -2144,11 +2240,11 @@ const assets: IPublicTypeAssetsJson = {
                                         options: [
                                             {
                                                 value: 'default',
-                                                label: 'default',
+                                                label: '默认',
                                             },
                                             {
                                                 value: 'primary',
-                                                label: 'primary',
+                                                label: '重要',
                                             },
                                         ],
                                     },
@@ -2268,7 +2364,7 @@ const assets: IPublicTypeAssetsJson = {
                 props: [
                     {
                         name: 'v-model',
-                        title: '是否选中',
+                        title: '绑定变量',
                         setter: 'VariableSetter',
                     },
                     {
@@ -2354,7 +2450,7 @@ const assets: IPublicTypeAssetsJson = {
                 props: [
                     {
                         name: 'v-model',
-                        title: '是否选中',
+                        title: '绑定变量',
                         setter: 'VariableSetter',
                     },
                     {
@@ -2430,6 +2526,49 @@ const assets: IPublicTypeAssetsJson = {
                     defaultValue: 'center',
                 },
             ],
+            configure: {
+                props: [
+                    {
+                        name: 'children',
+                        title: '标题',
+                        setter: 'StringSetter',
+                    },
+                    {
+                        name: 'titlePlacement',
+                        title: '文字位置',
+                        setter: {
+                            componentName: 'RadioGroupSetter',
+                            props: {
+                                options: [
+                                    {
+                                        value: 'left',
+                                        label: '起点',
+                                    },
+                                    {
+                                        value: 'center',
+                                        label: '中间',
+                                    },
+                                    {
+                                        value: 'right',
+                                        label: '终点',
+                                    },
+                                ],
+                            },
+                        },
+                        defaultValue: 'center',
+                    },
+                    {
+                        name: 'vertical',
+                        title: '是否垂直方向',
+                        setter: 'BoolSetter',
+                        defaultValue: false,
+                    },
+                ],
+                supports: {
+                    style: true,
+                    class: true,
+                },
+            },
             snippets: [
                 {
                     title: '分割线',
@@ -6826,7 +6965,12 @@ const assets: IPublicTypeAssetsJson = {
                             {
                                 name: 'icon',
                                 title: '图标',
-                                setter: 'IconSetter',
+                                setter: {
+                                    componentName: 'IconSetter',
+                                    props: {
+                                        type: 'node',
+                                    },
+                                },
                             },
                         ],
                     },
@@ -7136,11 +7280,15 @@ const assets: IPublicTypeAssetsJson = {
                         title: '延迟显示',
                         setter: 'NumberSetter',
                     },
-                    // TODO: 不生效
                     {
                         name: 'icon',
                         title: '自定义图标',
-                        setter: 'IconSetter',
+                        setter: {
+                            componentName: 'IconSetter',
+                            props: {
+                                type: 'node',
+                            },
+                        },
                     },
                     {
                         name: 'default',

@@ -10,7 +10,7 @@ export default {
             area: 'leftArea',
             name: 'CodeWidget',
             type: 'Widget',
-            render: () => <Code theme="outline" size={20} strokeWidth={2} class={iconCls} />,
+            render: () => <Code theme="outline" size={20} class={iconCls} />,
         }).link(
             skeleton.add({
                 type: 'Panel',

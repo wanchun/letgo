@@ -5,7 +5,7 @@ import { iconCls } from './content.css';
 export default defineComponent({
     setup() {
         return () => {
-            return <Components theme="outline" strokeWidth={2} class={iconCls} />;
+            return <Components theme="outline" class={iconCls} />;
         };
     },
 });

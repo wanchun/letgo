@@ -6,7 +6,7 @@ export const SuffixView = defineComponent({
         return () => {
             // return (
             //     <div class={suffixWrapperCls}>
-            //         <SettingTwo class={nodeIconCls} theme="outline" strokeWidth={2} />
+            //         <SettingTwo class={nodeIconCls} theme="outline"  />
             //     </div>
             // );
             return null;

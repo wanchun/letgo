@@ -29,12 +29,12 @@ export function transformNode(node: INode, isSlot = false): Option {
     option.children = [...node.slots.map(node => transformNode(node, true)), ...node.children.getNodes().map(node => transformNode(node))];
     option.prefix = () => {
         if (node.componentName === 'Page')
-            return <Page class={nodeIconCls} theme="outline" strokeWidth={2} />;
+            return <Page class={nodeIconCls} theme="outline" />;
 
         if (isSlot)
-            return <Plug class={nodeIconCls} theme="outline" strokeWidth={2} />;
+            return <Plug class={nodeIconCls} theme="outline" />;
 
-        return <FigmaComponent class={nodeIconCls} theme="outline" strokeWidth={2} />;
+        return <FigmaComponent class={nodeIconCls} theme="outline" />;
     };
     option.suffix = () => {
         return <SuffixView></SuffixView>;
@@ -99,7 +99,7 @@ export default {
             area: 'leftArea',
             type: 'Widget',
             name: 'PluginComponentTreeWidget',
-            render: () => <TreeList theme="outline" strokeWidth={2} class={iconCls} />,
+            render: () => <TreeList theme="outline" class={iconCls} />,
         }).link(
             skeleton.add({
                 type: 'Panel',

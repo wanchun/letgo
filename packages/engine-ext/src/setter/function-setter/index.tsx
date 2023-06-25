@@ -1,8 +1,10 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
+import { isJSFunction } from '@webank/letgo-types';
 import type { IPublicTypeJSFunction, IPublicTypeSetter } from '@webank/letgo-types';
+import type { SettingField } from '@webank/letgo-designer';
 import { javascript } from '@codemirror/lang-javascript';
-import { isUndefined } from 'lodash-es';
+import { isFunction, isUndefined } from 'lodash-es';
 import { CodeMirror } from '@webank/letgo-components';
 import { commonProps } from '../../common';
 
@@ -11,7 +13,7 @@ const FunctionSetterView = defineComponent({
     props: {
         ...commonProps,
         value: Object as PropType<IPublicTypeJSFunction>,
-        defaultValue: Object as PropType<IPublicTypeJSFunction>,
+        defaultValue: Function,
         onChange: Function as PropType<(val: IPublicTypeJSFunction) => void>,
     },
     setup(props) {
@@ -20,10 +22,9 @@ const FunctionSetterView = defineComponent({
         });
 
         const currentValue = computed(() => {
-            const val = isUndefined(props.value)
-                ? props.defaultValue
-                : props.value;
-            return val?.value;
+            return isUndefined(props.value)
+                ? props.defaultValue.toString()
+                : props.value?.value;
         });
 
         const onChange = (val: string) => {
@@ -55,4 +56,9 @@ export const FunctionSetter: IPublicTypeSetter = {
     type: 'FunctionSetter',
     title: '函数设置器',
     Component: FunctionSetterView,
+    condition: (field) => {
+        const v = field.getValue();
+        const defaultValue = (field as SettingField).getDefaultValue();
+        return isUndefined(v) || isJSFunction(v) || isFunction(defaultValue);
+    },
 };

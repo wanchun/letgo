@@ -6637,7 +6637,7 @@ const assets: IPublicTypeAssetsJson = {
             },
             props: [
                 {
-                    name: 'v-model',
+                    name: 'modelValue',
                     title: '显示提示',
                     propType: 'bool',
                 },
@@ -6669,7 +6669,7 @@ const assets: IPublicTypeAssetsJson = {
                 },
                 {
                     name: 'placement',
-                    title: '内容',
+                    title: '位置',
                     propType: {
                         type: 'oneOf',
                         value: [
@@ -6752,20 +6752,284 @@ const assets: IPublicTypeAssetsJson = {
                     propType: 'func',
                 },
             ],
+            configure: {
+                props: [
+                    {
+                        name: 'modelValue',
+                        title: '是否显示',
+                        setter: 'BoolSetter',
+                    },
+                    {
+                        name: 'model',
+                        title: '模式',
+                        setter: {
+                            componentName: 'SelectSetter',
+                            props: {
+                                options: [
+                                    {
+                                        value: 'text',
+                                        label: 'text',
+                                    },
+                                    {
+                                        value: 'confirm',
+                                        label: 'confirm',
+                                    },
+                                    {
+                                        value: 'popover',
+                                        label: 'popover',
+                                    },
+                                ],
+                            },
+                        },
+                        defaultValue: 'text',
+                    },
+                    {
+                        title: '内容配置',
+                        type: 'group',
+                        display: 'block',
+                        items: [
+                            {
+                                name: 'title',
+                                title: '标题',
+                                setter: ['StringSetter', 'SlotSetter'],
+                            },
+                            {
+                                name: 'content',
+                                title: '内容',
+                                setter: ['StringSetter', 'SlotSetter'],
+                            },
+                        ],
+                    },
+                    {
+                        name: 'confirmOption',
+                        title: '确认提示选项',
+                        type: 'group',
+                        display: 'block',
+                        items: [
+                            {
+                                name: 'okText',
+                                title: '确认按钮文字',
+                                setter: 'StringSetter',
+                                defaultValue: '确定',
+                            },
+                            {
+                                name: 'cancelText',
+                                title: '取消按钮文字',
+                                setter: 'StringSetter',
+                                defaultValue: '取消',
+                            },
+                            {
+                                name: 'icon',
+                                title: '图标',
+                                setter: 'IconSetter',
+                            },
+                        ],
+                    },
+                    {
+                        title: '弹出配置',
+                        type: 'group',
+                        display: 'block',
+                        items: [
+                            {
+                                name: 'disabled',
+                                title: '禁用',
+                                setter: 'BoolSetter',
+                            },
+                            {
+                                name: 'trigger',
+                                title: '触发方式',
+                                setter: {
+                                    componentName: 'SelectSetter',
+                                    props: {
+                                        options: [
+                                            {
+                                                value: 'hover',
+                                                label: 'hover',
+                                            },
+                                            {
+                                                value: 'click',
+                                                label: 'click',
+                                            },
+                                            {
+                                                value: 'focus',
+                                                label: 'focus',
+                                            },
+                                        ],
+                                    },
+                                },
+                            },
+                            {
+                                name: 'placement',
+                                title: '弹出位置',
+                                setter: {
+                                    componentName: 'SelectSetter',
+                                    props: {
+                                        options: [
+                                            {
+                                                value: 'auto',
+                                                label: 'auto',
+                                            },
+                                            {
+                                                value: 'top',
+                                                label: 'top',
+                                            },
+                                            {
+                                                value: 'top-start',
+                                                label: 'top-start',
+                                            },
+                                            {
+                                                value: 'top-end',
+                                                label: 'top-end',
+                                            },
+                                            {
+                                                value: 'bottom',
+                                                label: 'bottom',
+                                            },
+                                            {
+                                                value: 'bottom-start',
+                                                label: 'bottom-start',
+                                            },
+                                            {
+                                                value: 'bottom-end',
+                                                label: 'bottom-end',
+                                            },
+                                            {
+                                                value: 'left',
+                                                label: 'left',
+                                            },
+                                            {
+                                                value: 'left-start',
+                                                label: 'left-start',
+                                            },
+                                            {
+                                                value: 'left-end',
+                                                label: 'left-end',
+                                            },
+                                            {
+                                                value: 'right',
+                                                label: 'right',
+                                            },
+                                            {
+                                                value: 'right-start',
+                                                label: 'right-start',
+                                            },
+                                            {
+                                                value: 'right-end',
+                                                label: 'right-end',
+                                            },
+
+                                        ],
+                                    },
+                                },
+                                defaultValue: 'auto',
+                            },
+                            {
+                                name: 'arrow',
+                                title: '箭头',
+                                setter: 'BoolSetter',
+                                defaultValue: true,
+                            },
+                            {
+                                name: 'offset',
+                                title: '偏移量',
+                                setter: 'NumberSetter',
+                                defaultValue: 8,
+                            },
+                            {
+                                name: 'showAfter',
+                                title: '显示延迟（毫秒）',
+                                setter: 'NumberSetter',
+                                defaultValue: 0,
+                            },
+                            {
+                                name: 'hideAfter',
+                                title: '消失延迟（毫秒）',
+                                setter: 'NumberSetter',
+                                defaultValue: 200,
+                            },
+                            {
+                                name: 'popperClass',
+                                title: '弹出框样式类名',
+                                setter: 'StringSetter',
+                            },
+                            {
+                                name: 'appendToContainer',
+                                title: '弹窗是是否挂载到容器',
+                                setter: 'BoolSetter',
+                                defaultValue: true,
+                            },
+                            {
+                                name: 'getContainer',
+                                title: '配置挂载容器',
+                                setter: 'FunctionSetter',
+                                defaultValue: () => {
+                                    return function () {
+                                        return document.body;
+                                    };
+                                },
+                            },
+                        ],
+                    },
+
+                ],
+                component: {
+                    isContainer: true,
+                },
+                supports: {
+                    events: ['onOk', 'onCancel'],
+                },
+            },
             snippets: [
                 {
                     title: '文字提示',
                     schema: {
                         componentName: 'FTooltip',
                         props: {
-                            content: 'top-start',
-                            placement: 'top-start',
+                            content: '在一件事情的关键部分做出精妙的补充，使整个事情更加完美',
+                        },
+                        children: [
+                            {
+                                componentName: 'NText',
+                                props: {
+                                    children: '画龙点睛',
+                                },
+                            },
+                        ],
+                    },
+                },
+                {
+                    title: '确认提示',
+                    schema: {
+                        componentName: 'FTooltip',
+                        props: {
+                            mode: 'confirm',
+                            title: '是否删除当前工单？',
+                            content: '删除后无法恢复哦',
                         },
                         children: [
                             {
                                 componentName: 'FButton',
                                 props: {
-                                    children: 'top-start',
+                                    children: '删除',
+                                },
+                            },
+                        ],
+                    },
+                },
+                {
+                    title: '内容提示',
+                    schema: {
+                        componentName: 'FTooltip',
+                        props: {
+                            mode: 'popover',
+                            title: '我是标题',
+                            content: '我是内容',
+                        },
+                        children: [
+                            {
+                                componentName: 'FButton',
+                                props: {
+                                    children: '查看更多',
                                 },
                             },
                         ],
@@ -7056,7 +7320,7 @@ const assets: IPublicTypeAssetsJson = {
                 },
                 supports: {
                     // TODO: StyleSetter会出错
-                    events: ['onOk', 'onCancel'],
+                    events: ['onUpdate:show', 'onOk', 'onCancel'],
                 },
             },
             snippets: [

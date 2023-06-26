@@ -1,7 +1,9 @@
-import SimulatorRendererView from './simulator-view';
+import SimulatorApp from './app';
+import SimulatorViewRender from './layout-view';
 import RendererView from './renderer-view';
 
 export {
-    SimulatorRendererView,
+    SimulatorViewRender,
+    SimulatorApp,
     RendererView,
 };

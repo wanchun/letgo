@@ -24,7 +24,7 @@ import type {
     SimulatorViewLayout,
     VueSimulatorRenderer,
 } from './interface';
-import { RendererView, SimulatorRendererView } from './simulator-view';
+import { RendererView, SimulatorApp } from './simulator-view';
 import { Icon, Leaf, Page, Slot } from './built-in-components';
 import { host } from './host';
 import {
@@ -184,7 +184,7 @@ function createSimulatorRenderer() {
         isSimulatorRenderer: true,
     }) as VueSimulatorRenderer;
 
-    simulator.app = markRaw(createApp(SimulatorRendererView, { simulator }));
+    simulator.app = markRaw(createApp(SimulatorApp, { simulator }));
     simulator.app.config.warnHandler = (msg: string) => {
         // 忽略这个警告，生产不会遍历 component instance 的 keys
         if (!msg.includes('enumerating keys'))

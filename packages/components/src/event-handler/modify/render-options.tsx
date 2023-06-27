@@ -1,9 +1,10 @@
-import type { IControlComponentAction, IControlQueryAction, IPublicTypeEventHandler, ISetLocalStorageAction, ISetTemporaryStateAction } from '@webank/letgo-types';
+import type { IControlComponentAction, IControlQueryAction, IPublicTypeEventHandler, IRunFunctionAction, ISetLocalStorageAction, ISetTemporaryStateAction } from '@webank/letgo-types';
 import { InnerEventHandlerAction } from '@webank/letgo-types';
 import type { PropType } from 'vue';
 import { computed, defineComponent, ref } from 'vue';
 import { FInput, FOption, FSelect } from '@fesjs/fes-design';
 import type { DocumentModel } from '@webank/letgo-designer';
+import { JsEditor } from '../../code-editor';
 import Label from './label';
 
 export default defineComponent({
@@ -11,6 +12,7 @@ export default defineComponent({
     props: {
         documentModel: Object as PropType<DocumentModel>,
         componentEvent: Object as PropType<IPublicTypeEventHandler>,
+        onChange: Function as PropType<((content: Record<string, any>) => void)>,
     },
     setup(props) {
         const queryOptions = computed(() => {
@@ -107,6 +109,17 @@ export default defineComponent({
                 </Label>
             </>;
         };
+
+        const changeFuncBody = (doc: string) => {
+            props.onChange({
+                funcBody: doc,
+            });
+        };
+
+        const renderRunFunction = (data: IRunFunctionAction) => {
+            return <JsEditor documentModel={props.documentModel} doc={data.funcBody} changeDoc={changeFuncBody} />;
+        };
+
         return () => {
             if (props.componentEvent.action === InnerEventHandlerAction.CONTROL_QUERY)
                 return renderQuery(props.componentEvent as IControlQueryAction);
@@ -119,6 +132,9 @@ export default defineComponent({
 
             if (props.componentEvent.action === InnerEventHandlerAction.SET_LOCAL_STORAGE)
                 return renderSetLocalStorage(props.componentEvent as ISetLocalStorageAction);
+
+            if (props.componentEvent.action === InnerEventHandlerAction.RUN_FUNCTION)
+                return renderRunFunction(props.componentEvent as IRunFunctionAction);
         };
     },
 });

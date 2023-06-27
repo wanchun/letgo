@@ -21,6 +21,12 @@ const actions = [{
 }, {
     value: InnerEventHandlerAction.SET_LOCAL_STORAGE,
     label: '设置本地存储',
+}, {
+    value: InnerEventHandlerAction.SET_LOCAL_STORAGE,
+    label: '设置本地存储',
+}, {
+    value: InnerEventHandlerAction.RUN_FUNCTION,
+    label: '执行函数',
 }];
 
 const initOptions: any = {
@@ -29,6 +35,7 @@ const initOptions: any = {
         method: 'trigger',
     },
     [InnerEventHandlerAction.CONTROL_COMPONENT]: {
+        namespace: null,
         method: null,
     },
     [InnerEventHandlerAction.SET_TEMPORARY_STATE]: {
@@ -45,6 +52,11 @@ const initOptions: any = {
             value: null,
             key: null,
         },
+    },
+    [InnerEventHandlerAction.RUN_FUNCTION]: {
+        namespace: null,
+        method: null,
+        funcBody: '',
     },
 };
 
@@ -85,7 +97,6 @@ export default defineComponent({
                 onlyRunWhen: innerEditEvent.value.onlyRunWhen,
                 waitMs: innerEditEvent.value.waitMs,
                 action: innerEditEvent.value.action,
-                namespace: innerEditEvent.value.namespace,
                 ...initOptions[innerEditEvent.value.action],
             };
         };
@@ -107,12 +118,16 @@ export default defineComponent({
             });
         };
 
+        const changeCurrentEvent = (content: Record<string, any>) => {
+            Object.assign(innerEditEvent.value, content);
+        };
+
         return () => {
             return <div class={blockCls}>
                 {renderEvent()}
                 {renderAction()}
                 <Separator text={firstSeparatorText.value} />
-                <RenderOptions documentModel={props.documentModel} componentEvent={innerEditEvent.value} />
+                <RenderOptions documentModel={props.documentModel} onChange={changeCurrentEvent} componentEvent={innerEditEvent.value} />
                 <Separator text="高级" />
                 <Label label="执行条件">
                     <FInput v-model={innerEditEvent.value.onlyRunWhen} />

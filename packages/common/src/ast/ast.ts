@@ -1,5 +1,5 @@
 import { generate } from 'astring';
-import type { CodeItem, IPublicTypeEventHandler, IPublicTypeJSFunction } from '@webank/letgo-types';
+import type { CodeItem, IPublicTypeEventHandler, IPublicTypeJSFunction, IRunFunctionAction } from '@webank/letgo-types';
 import {
     CodeType,
     InnerEventHandlerAction,
@@ -51,7 +51,10 @@ export function calcDependencies(item: CodeItem, ctx?: Record<string, any>) {
 export function eventHandlerToJsFunction(item: IPublicTypeEventHandler): IPublicTypeJSFunction {
     let expression: string;
     const params: any[] = [];
-    if (item.action === InnerEventHandlerAction.CONTROL_QUERY) {
+    if (item.action === InnerEventHandlerAction.RUN_FUNCTION) {
+        expression = (item as IRunFunctionAction).funcBody;
+    }
+    else if (item.action === InnerEventHandlerAction.CONTROL_QUERY) {
         expression = `${item.namespace}.${item.method}.apply(${item.namespace}, Array.prototype.slice.call(arguments))`;
     }
     else if (item.action === InnerEventHandlerAction.CONTROL_COMPONENT) {
@@ -80,7 +83,7 @@ export function eventHandlerToJsFunction(item: IPublicTypeEventHandler): IPublic
     return {
         type: 'JSFunction',
         // 需要传下入参
-        value: `function(){${expression}}`,
+        value: /^\s*function/.test(expression) ? expression : `function(){${expression}}`,
         params,
     };
 }
@@ -90,7 +93,7 @@ export function eventHandlersToJsFunction(handlers: IPublicTypeEventHandler[]) {
         [key: string]: IPublicTypeJSFunction[]
     } = {};
     handlers.forEach((item: IPublicTypeEventHandler) => {
-        if (item.namespace && item.method) {
+        if ((item.namespace && item.method) || item.action === InnerEventHandlerAction.RUN_FUNCTION) {
             const jsExpression = eventHandlerToJsFunction(item);
             result[item.name] = (result[item.name] || []).concat(jsExpression);
         }

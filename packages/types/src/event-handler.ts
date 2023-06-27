@@ -3,6 +3,7 @@ export enum InnerEventHandlerAction {
     CONTROL_COMPONENT = 'controlComponent',
     SET_TEMPORARY_STATE = 'setTemporaryState',
     SET_LOCAL_STORAGE = 'localStorage',
+    RUN_FUNCTION = 'runFunction',
 }
 
 export interface IPublicTypeEventHandler {
@@ -65,4 +66,9 @@ export interface ISetLocalStorageAction extends IPublicTypeEventHandler {
         key: string
         value: string
     }
+}
+
+export interface IRunFunctionAction extends IPublicTypeEventHandler {
+    action: InnerEventHandlerAction.RUN_FUNCTION
+    funcBody: string
 }

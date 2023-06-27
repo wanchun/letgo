@@ -1,11 +1,7 @@
 import { defineComponent } from 'vue';
 import type { PropType } from 'vue';
 import type { IFailureCondition, IJavascriptQuery } from '@webank/letgo-types';
-import { FCheckbox, FInput } from '@fesjs/fes-design';
 import { uniqueId } from '@webank/letgo-common';
-import Category from './category';
-import ContentItem from './content-item';
-import FailureCondition from './failure-condition';
 
 function genFailureConditionId() {
     return uniqueId('fc_');
@@ -42,7 +38,7 @@ export default defineComponent({
 
         return () => {
             return <>
-                <Category title="请求失败" v-slots={{
+                {/* <Category title="请求失败" v-slots={{
                     default: () => {
                         return <>
                             <ContentItem v-slots={{
@@ -73,7 +69,8 @@ export default defineComponent({
                             }} />
                         </>;
                     },
-                }} />
+                }} /> */}
+                <div>TODO</div>
             </>;
         };
     },

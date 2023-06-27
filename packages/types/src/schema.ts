@@ -187,6 +187,10 @@ export interface IPublicTypeProjectSchema {
      */
     css?: string
     /**
+     * 应用范围内的全局脚本
+     */
+    script?: string
+    /**
      * 当前应用配置信息
      */
     config?: IPublicTypeAppConfig

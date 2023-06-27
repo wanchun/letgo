@@ -6,6 +6,7 @@ import PluginComponentTree from '@webank/letgo-plugin-component-tree';
 import PluginDevice from '@webank/letgo-plugin-device';
 import PluginSchema from '@webank/letgo-plugin-schema';
 import PluginCodeGenerator from '@webank/letgo-plugin-code-generator';
+import PluginGlobalConfig from '@webank/letgo-plugin-global';
 import type { App } from 'vue';
 import assets from './assets/assets';
 import PluginLogo from './plugins/plugin-logo';
@@ -25,6 +26,7 @@ plugins.register(PluginDevice);
 plugins.register(PluginSchema);
 plugins.register(PluginLogo);
 plugins.register(PluginPreview);
+plugins.register(PluginGlobalConfig);
 
 export default defineRuntimeConfig({
     onAppCreated({ app }: { app: App }) {

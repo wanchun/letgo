@@ -31,6 +31,12 @@ export function getProjectSchemaFromLocalStorage(scenarioName: string) {
     return undefined;
 }
 
+function cssHandler(css: string) {
+    const styleDom = document.createElement('style');
+    document.getElementsByTagName('head')[0].appendChild(styleDom);
+    styleDom.innerText = css.replace(/\\n/g, '');
+}
+
 export default defineComponent({
     components: {
         VueRenderer,
@@ -46,6 +52,8 @@ export default defineComponent({
             componentsMap: componentsMapArray,
             componentsTree,
         } = projectSchema;
+
+        cssHandler(projectSchema.css);
 
         const componentsMap: any = {};
         componentsMapArray.forEach((component: any) => {

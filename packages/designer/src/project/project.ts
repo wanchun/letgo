@@ -18,6 +18,7 @@ import type { Designer } from '../designer';
 import { DocumentModel } from '../document';
 
 export class Project {
+    css: string;
     private emitter = new EventEmitter();
 
     private data: IPublicTypeProjectSchema = {
@@ -57,6 +58,7 @@ export class Project {
     constructor(readonly designer: Designer, schema?: IPublicTypeProjectSchema) {
         markShallowReactive(this, {
             _currentDocument: null,
+            css: '',
         });
         markComputed(this, ['currentDocument']);
 
@@ -108,6 +110,7 @@ export class Project {
             ...schema,
         };
         this.config = schema?.config || this.config;
+        this.css = schema?.css;
 
         if (autoOpen) {
             if (autoOpen === true) {
@@ -128,6 +131,7 @@ export class Project {
     exportSchema(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Save): IPublicTypeProjectSchema {
         return {
             ...this.data,
+            css: this.css,
             componentsMap: this.getComponentsMap(),
             componentsTree: this.documents.map(doc => doc.exportSchema(stage)),
         };
@@ -209,10 +213,22 @@ export class Project {
             | string,
         value: any,
     ): void {
-        if (key === 'config')
+        if (key === 'config') {
             this.config = value;
+        }
+        else if (key === 'css') {
+            this.css = value;
+            this.emitter.emit('onCssChange', this);
+        }
 
         Object.assign(this.data, { [key]: value });
+    }
+
+    onCssChange(fn: (doc: DocumentModel) => void): () => void {
+        this.emitter.on('onCssChange', fn);
+        return () => {
+            this.emitter.off('onCssChange', fn);
+        };
     }
 
     /**
@@ -233,6 +249,8 @@ export class Project {
     ): any {
         if (key === 'config')
             return this.config;
+        if (key === 'css')
+            return this.css;
 
         return Reflect.get(this.data, key);
     }

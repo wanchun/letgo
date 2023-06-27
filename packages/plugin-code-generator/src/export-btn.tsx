@@ -107,11 +107,9 @@ export default defineComponent({
         };
         return () => {
             return (
-                <div class="logo-wrapper">
-                    <FButton type="primary" onClick={genCode}>
-                        出码
-                    </FButton>
-                </div>
+                <FButton type="primary" onClick={genCode}>
+                    出码
+                </FButton>
             );
         };
     },

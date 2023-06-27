@@ -16,10 +16,13 @@ import { markComputed, markShallowReactive } from '@webank/letgo-common';
 import { isDocumentModel } from '../types';
 import type { Designer } from '../designer';
 import { DocumentModel } from '../document';
+import { Code } from '../code/code';
 
 export class Project {
     css: string;
+    codesInstance: Record<string, any> = {};
     private emitter = new EventEmitter();
+    readonly code: Code;
 
     private data: IPublicTypeProjectSchema = {
         version: '1.0.0',
@@ -61,8 +64,17 @@ export class Project {
             css: '',
         });
         markComputed(this, ['currentDocument']);
-
+        this.code = new Code();
+        this.initCodesInstanceListen();
         this.importSchema(schema);
+    }
+
+    initCodesInstanceListen() {
+        // this.designer.onSimulatorReady(() => {
+        //     this.designer.simulator.onUpdateCodesInstance((codesInstance) => {
+        //         this.codesInstance = { ...codesInstance };
+        //     });
+        // });
     }
 
     private getComponentsMap(): IPublicTypeComponentsMap {
@@ -111,6 +123,7 @@ export class Project {
         };
         this.config = schema?.config || this.config;
         this.css = schema?.css;
+        this.code.initCode(schema?.code);
 
         if (autoOpen) {
             if (autoOpen === true) {

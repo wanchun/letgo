@@ -12,6 +12,7 @@ import { useHint } from './use';
 export const ExpressionEditor = defineComponent({
     props: {
         documentModel: Object as PropType<DocumentModel>,
+        hints: Object as PropType<Record<string, any>>,
         doc: String,
         onChangeDoc: Function as PropType<(doc: string) => void>,
     },

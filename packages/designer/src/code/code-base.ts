@@ -1,5 +1,5 @@
 import { CodeType } from '@webank/letgo-types';
-import type { CodeItem, IJavascriptComputed, IJavascriptQuery, ITemporaryState } from '@webank/letgo-types';
+import type { CodeItem, IJavascriptComputed, IJavascriptFunction, IJavascriptQuery, ITemporaryState } from '@webank/letgo-types';
 
 export interface CodeBaseEdit {
     addCode(id: string): CodeItem
@@ -25,6 +25,16 @@ class JavascriptComputedEdit implements CodeBaseEdit {
     }
 }
 
+class JavascriptFunctionEdit implements CodeBaseEdit {
+    addCode(id: string): IJavascriptFunction {
+        return {
+            id,
+            type: CodeType.JAVASCRIPT_FUNCTION,
+            funcBody: '// Tip: 函数 \n\n () => {\n    return 5;\n}',
+        };
+    }
+}
+
 class JavascriptQueryEdit implements CodeBaseEdit {
     addCode(id: string): IJavascriptQuery {
         return {
@@ -46,4 +56,5 @@ export const codeBaseEdit = {
     [CodeType.JAVASCRIPT_QUERY]: new JavascriptQueryEdit(),
     [CodeType.JAVASCRIPT_COMPUTED]: new JavascriptComputedEdit(),
     [CodeType.TEMPORARY_STATE]: new TemporaryStateEdit(),
+    [CodeType.JAVASCRIPT_FUNCTION]: new JavascriptFunctionEdit(),
 };

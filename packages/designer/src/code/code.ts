@@ -34,13 +34,16 @@ export class Code {
         return this.code.filter(item => item.type === CodeType.TEMPORARY_STATE);
     }
 
+    get temporaryFunctions() {
+        return this.code.filter(item => item.type === CodeType.JAVASCRIPT_FUNCTION);
+    }
+
     get code() {
         return this.codeStruct.code;
     }
 
     private genCodeMap(code: CodeStruct) {
         const codeMap = new Map<string, CodeItem>();
-
         code.code.forEach((item) => {
             codeMap.set(item.id, item);
         });
@@ -75,7 +78,7 @@ export class Code {
             directories: [],
             code: [],
         };
-        this.codeMap = this.genCodeMap(codeStruct);
+        this.codeMap = this.genCodeMap(this.codeStruct);
         this.emitter.emit('codesChanged', this.codeMap);
     }
 
@@ -90,7 +93,6 @@ export class Code {
     changeCodeId = (id: string, preId: string) => {
         const item = this.codeMap.get(preId);
         if (item) {
-            // TODO 所有 deps 依赖了该 code 的都需要变
             item.id = id;
             this.codeMap.delete(preId);
             this.codeMap.set(id, item);
@@ -177,7 +179,7 @@ export class Code {
                 initValue: replaceExpressionIdentifier(item.initValue, newVariable, oldVariable),
             });
         }
-        else if (item.type === CodeType.JAVASCRIPT_COMPUTED) {
+        else if (item.type === CodeType.JAVASCRIPT_COMPUTED || item.type === CodeType.JAVASCRIPT_FUNCTION) {
             this.changeCodeItemContent(id, {
                 funcBody: replaceExpressionIdentifier(item.funcBody, newVariable, oldVariable),
             });

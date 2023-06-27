@@ -18,7 +18,7 @@
     "@fesjs/fes": "^3.1.1",
     "@fesjs/fes-design": "^0.7.32",
     "@fesjs/plugin-request": "^3.0.0",
-    "@vueuse/core": "^9.6.0",
+    "@vueuse/core": "^10.1.2",
     "@webank/letgo-common": "workspace:*",
     "@webank/letgo-engine": "workspace:*",
     "@webank/letgo-plugin-code-generator": "workspace:*",

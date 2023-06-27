@@ -5,10 +5,11 @@ import type { DocumentModel } from '@webank/letgo-designer';
 import type { HintPathType } from './types';
 
 export function useHint(props: {
-    documentModel: DocumentModel
+    hints?: Record<string, any>
+    documentModel?: DocumentModel
 }) {
     const hintOptions = computed(() => {
-        const state = props.documentModel.state;
+        const state = props.hints || props.documentModel?.state || {};
         const result: HintPathType[] = [];
         Object.keys(state.codesInstance || {}).forEach((key) => {
             result.push({

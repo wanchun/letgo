@@ -187,6 +187,10 @@ export interface IPublicTypeProjectSchema {
      */
     css?: string
     /**
+     * 全局状态
+     */
+    code: CodeStruct
+    /**
      * 当前应用配置信息
      */
     config?: IPublicTypeAppConfig

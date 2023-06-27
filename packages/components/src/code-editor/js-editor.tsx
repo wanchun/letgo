@@ -14,6 +14,7 @@ import { useHint } from './use';
 export const JsEditor = defineComponent({
     props: {
         documentModel: Object as PropType<DocumentModel>,
+        hints: Object as PropType<Record<string, any>>,
         doc: String,
         changeDoc: Function as PropType<(doc: string) => void>,
     },

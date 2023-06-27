@@ -2,6 +2,7 @@ import type { IPublicTypeEventHandler } from './event-handler';
 
 export enum CodeType {
     JAVASCRIPT_QUERY = 'query',
+    JAVASCRIPT_FUNCTION = 'function',
     JAVASCRIPT_COMPUTED = 'computed',
     TEMPORARY_STATE = 'state',
 }
@@ -34,12 +35,18 @@ export interface IQueryResource {
     enableCaching?: boolean
     cacheDuration?: number
     queryTimeout?: number
-    transformer: string
+    transformer?: string
     successEvent?: IPublicTypeEventHandler[]
     failureEvent?: IPublicTypeEventHandler[]
 }
 export interface IJavascriptQuery extends IQueryResource {
     type: CodeType.JAVASCRIPT_QUERY
+}
+
+export interface IJavascriptFunction {
+    id: string
+    type: CodeType.JAVASCRIPT_FUNCTION
+    funcBody: string
 }
 
 export interface IJavascriptComputed {
@@ -54,7 +61,7 @@ export interface ITemporaryState {
     initValue: string
 }
 
-export type CodeItem = ITemporaryState | IJavascriptComputed | IJavascriptQuery;
+export type CodeItem = ITemporaryState | IJavascriptComputed | IJavascriptFunction | IJavascriptQuery;
 
 export interface CodeDirectory {
     name: string

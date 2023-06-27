@@ -5,7 +5,6 @@
  * component 实例
  * TODO utils key 校验
  */
-import type { IPublicTypeAppConfig } from '@webank/letgo-types';
 import { markReactive } from '@webank/letgo-common';
 import { debounce } from 'lodash-es';
 import type { Designer } from '../designer';
@@ -14,7 +13,6 @@ import type { Project } from '../project';
 
 export class State {
     private designer: Designer;
-    private config: IPublicTypeAppConfig;
     private nodeIdToRef = new Map<string, string>();
     componentsInstance: Record<string, any>;
     codesInstance: Record<string, any>;
@@ -24,15 +22,10 @@ export class State {
             componentsInstance: {},
         });
         this.designer = project.designer;
-        this.config = project.config;
 
         this.initComponentInstanceListen();
 
         this.initCodesInstanceListen();
-    }
-
-    get globalState() {
-        return this.config;
     }
 
     initCodesInstanceListen() {

@@ -81,7 +81,12 @@ export default defineComponent({
                     label: item.id,
                     value: item.id,
                 };
-            });
+            }).concat(props.documentModel.project.code.temporaryStates.map((item) => {
+                return {
+                    label: item.id,
+                    value: `${item.id}.value`,
+                };
+            }));
         });
         const renderSetTemporaryState = (data: ISetTemporaryStateAction) => {
             return <>

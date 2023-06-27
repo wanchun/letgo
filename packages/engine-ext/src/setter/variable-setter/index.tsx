@@ -23,7 +23,12 @@ const VariableSetterView = defineComponent({
                     label: item.id,
                     value: `${item.id}.value`,
                 };
-            });
+            }).concat(props.node.document.project.code.temporaryStates.map((item) => {
+                return {
+                    label: item.id,
+                    value: `${item.id}.value`,
+                };
+            }));
         });
         const currentValue = computed(() => {
             let val: string;

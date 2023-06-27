@@ -38,7 +38,14 @@ export default defineComponent({
         };
 
         const globalState = computed(() => {
-            return props.designer.project.config;
+            const instances = Object.keys(props.designer.project.codesInstance).reduce((acc, cur) => {
+                acc[cur] = props.designer.project.codesInstance[cur].view;
+                return acc;
+            }, {} as Record<string, any>);
+            return {
+                ...instances,
+                letgoContext: props.designer.project.config,
+            };
         });
         const currentDocument = computed(() => {
             return props.designer.currentDocument;

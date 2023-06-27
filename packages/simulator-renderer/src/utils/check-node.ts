@@ -1,3 +1,5 @@
+import { isObject } from 'lodash-es';
+
 export function isCommentNode(
     el: Element | Text | Comment | Node,
 ): el is Comment {
@@ -6,6 +8,14 @@ export function isCommentNode(
 
 export function isTextNode(el: Element | Text | Comment | Node): el is Text {
     return el.nodeType === 3;
+}
+
+export function isDomNode(el: unknown): el is Element | Text {
+    return (
+        isObject(el)
+      && 'nodeType' in el
+      && (el.nodeType === Node.ELEMENT_NODE || el.nodeType === Node.TEXT_NODE)
+    );
 }
 
 export function isEmptyNode(el: Element | Text | Comment | Node): boolean {

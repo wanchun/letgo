@@ -27,7 +27,23 @@ export interface CompRootData {
 
 export class ComponentRecord implements IPublicTypeComponentRecord {
     [SYMBOL_RECORD_FLAG] = true;
-    constructor(public did: string, public nid: string, public cid: number) {}
+    /**
+     * document id
+     */
+    public did: string;
+    /**
+     * node id
+     */
+    public nid: string;
+    /**
+     * component id
+     */
+    public cid: number;
+    constructor(did: string, nid: string, cid: number) {
+        this.did = did;
+        this.nid = nid;
+        this.cid = cid;
+    }
 }
 
 export function isVNodeHTMLElement(el: unknown): el is VNodeHTMLElement {

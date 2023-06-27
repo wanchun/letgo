@@ -512,6 +512,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
         );
         if (lockedNode)
             return null;
+
         if (
             !dropContainer
             || (nodes
@@ -968,6 +969,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
     ): IRect | null {
         const renderer = this.renderer;
         let elements = this.findDOMNodes(instance, selector);
+        // console.log('elements:', elements);
         if (!elements)
             return null;
 

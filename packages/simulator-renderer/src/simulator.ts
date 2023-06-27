@@ -5,7 +5,6 @@ import { buildComponents, cursor, getSubComponent, isElement, setNativeSelection
 import type {
     Component,
     Ref,
-
 } from 'vue';
 import {
     computed,
@@ -27,6 +26,9 @@ import type {
 import { RendererView, SimulatorRendererView } from './simulator-view';
 import { Icon, Leaf, Page, Slot } from './built-in-components';
 import { host } from './host';
+import type {
+    CompRootHTMLElement,
+} from './utils';
 import {
     ComponentRecord,
     findDOMNodes,
@@ -35,6 +37,7 @@ import {
     getClosestNodeInstanceByComponent,
     getCompRootData,
     isComponentRecord,
+    isVNodeHTMLElement,
     setCompRootData,
 } from './utils';
 import './simulator.css';
@@ -50,7 +53,7 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
     const timestamp = ref(Date.now());
 
     const checkInstanceMounted = (instance: IPublicTypeComponentInstance): boolean => {
-        return instance.$.isMounted;
+        return '$' in instance ? instance.$.isMounted : !!instance;
     };
 
     const setHostInstance = (
@@ -82,9 +85,9 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
         }
     };
 
-    const mountInstance = (id: string, instance: IPublicTypeComponentInstance) => {
+    const mountInstance = (id: string, instanceOrEl: IPublicTypeComponentInstance | HTMLElement) => {
         const docId = document.id;
-        if (instance == null) {
+        if (instanceOrEl == null) {
             let instances = instancesMap.get(id);
             if (instances) {
                 instances = instances.filter(checkInstanceMounted);
@@ -100,7 +103,20 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
             return;
         }
 
-        const el = instance.$el;
+        let el: CompRootHTMLElement;
+        let instance: IPublicTypeComponentInstance;
+
+        if ('$' in instanceOrEl) {
+            instance = instanceOrEl;
+            el = instance.$el;
+        }
+        else if (isVNodeHTMLElement(instanceOrEl)) {
+            instance = instanceOrEl.__vueParentComponent.proxy!;
+            el = (instanceOrEl as unknown) as CompRootHTMLElement;
+        }
+        else {
+            return;
+        }
 
         const origId = getCompRootData(el).nodeId;
 
@@ -116,7 +132,9 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
             docId,
             instance,
         });
+
         let instances = instancesMap.get(id);
+
         if (instances) {
             const l = instances.length;
             instances = instances.filter(checkInstanceMounted);
@@ -131,6 +149,7 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
         else {
             instances = [instance];
         }
+
         vueInstanceMap.set(instance.$.uid, instance);
         instancesMap.set(id, instances);
         setHostInstance(docId, id, instances);

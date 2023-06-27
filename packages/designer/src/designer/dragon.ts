@@ -488,9 +488,6 @@ export class Dragon {
             this.sensors.splice(i, 1);
     }
 
-    /**
-     * 创建插入位置，考虑放到 dragon 中
-     */
     createLocation(locationData: ILocationData): DropLocation {
         const loc = new DropLocation(locationData);
         this._dropLocation = loc;

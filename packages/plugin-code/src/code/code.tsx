@@ -1,20 +1,19 @@
 import { computed, defineComponent, h } from 'vue';
 import type { PropType } from 'vue';
 import { FDropdown } from '@fesjs/fes-design';
-import { PlusOutlined } from '@fesjs/fes-design/icon';
+import { MoreOutlined, PlusOutlined } from '@fesjs/fes-design/icon';
 import type { Designer } from '@webank/letgo-designer';
 import { type CodeItem } from '@webank/letgo-types';
-import { JAVASCRIPT_COMPUTED, JAVASCRIPT_QUERY, TEMPORARY_STATE } from '../constants';
+import { ComputedIcon, FolderIcon, JsIcon, StateIcon } from '@webank/letgo-components';
 
-import { codeCls, codeHeaderCls, codeItemActiveCls, codeItemCls, codeItemIdCls, codeWrapCls, headerIconCls } from './code.css';
+import { codeCls, codeHeaderCls, codeItemActiveCls, codeItemCls, codeItemIdCls, codeMoreIconCls, codeWrapCls, headerIconCls } from './code.css';
 
 import CodeId from './code-id';
-import FolderIcon from './folder-icon';
-import StateIcon from './state-icon';
-import JsIcon from './js-icon';
-import ComputedIcon from './computed-icon';
-import MoreIcon from './more-icon';
 import useCode from './useCode';
+
+const JAVASCRIPT_QUERY = 'query';
+const JAVASCRIPT_COMPUTED = 'computed';
+const TEMPORARY_STATE = 'state';
 
 const iconMap = {
     [JAVASCRIPT_QUERY]: JsIcon,
@@ -106,7 +105,7 @@ export default defineComponent({
                         <FolderIcon />
                         <span class={codeItemIdCls}>{item.name}</span>
                         <FDropdown appendToContainer={false} trigger="click" placement="bottom-end" options={commonOptions}>
-                            <MoreIcon />
+                            <MoreOutlined class={codeMoreIconCls} />
                         </FDropdown>
                     </li>;
             });
@@ -122,7 +121,7 @@ export default defineComponent({
                     {renderCodeIcon(item)}
                     <CodeId id={item.id} onChange={changeCodeId} />
                     <FDropdown onClick={value => onCommonAction(value, item)} appendToContainer={false} trigger="click" placement="bottom-end" options={commonOptions}>
-                        <MoreIcon />
+                        <MoreOutlined class={codeMoreIconCls} />
                     </FDropdown>
                 </li>;
             });

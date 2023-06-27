@@ -14,3 +14,15 @@ export const svgCls = style({
     height: '1em',
     fill: 'currentColor',
 });
+
+export const logicIconCls = style({
+    display: 'inline-flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: '#fff',
+    fontSize: '12px',
+    width: '15px',
+    height: '15px',
+    borderRadius: '4px',
+    backgroundColor: '#ffcc66',
+});

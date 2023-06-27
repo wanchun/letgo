@@ -39,26 +39,28 @@ export default defineComponent({
         initCodesInstance(code.value.codeMap, executeCtx);
 
         const offCodeChangedEvent: (() => void)[] = [];
-        offCodeChangedEvent.push(code.value.onCodesChanged((currentCodeMap: Map<string, CodeItem>) => {
-            initCodesInstance(currentCodeMap, executeCtx);
-        }));
-        offCodeChangedEvent.push(code.value.onCodeItemAdd((item: CodeItem) => {
-            createCodeInstance(item, executeCtx);
-            executeCtx[item.id] = codesInstance[item.id];
-        }));
-        offCodeChangedEvent.push(code.value.onCodeItemDelete((id: string) => {
-            // TODO 有依赖的时候删除给提示
-            deleteCodeInstance(id);
-            delete executeCtx[id];
-        }));
-        offCodeChangedEvent.push(code.value.onCodeItemChanged((id: string, content: Record<string, any>) => {
-            changeCodeInstance(id, content, executeCtx);
-        }));
-        offCodeChangedEvent.push(code.value.onCodeIdChanged((id: string, preId: string) => {
-            changeCodeInstanceId(id, preId);
-            executeCtx[id] = codesInstance[id];
-            delete executeCtx[preId];
-        }));
+        offCodeChangedEvent.push(
+            code.value.onCodesChanged((currentCodeMap: Map<string, CodeItem>) => {
+                initCodesInstance(currentCodeMap, executeCtx);
+            }),
+            code.value.onCodeItemAdd((item: CodeItem) => {
+                createCodeInstance(item, executeCtx);
+                executeCtx[item.id] = codesInstance[item.id];
+            }),
+            code.value.onCodeItemDelete((id: string) => {
+                // TODO 有依赖的时候删除给提示
+                deleteCodeInstance(id);
+                delete executeCtx[id];
+            }),
+            code.value.onCodeItemChanged((id: string, content: Record<string, any>) => {
+                changeCodeInstance(id, content, executeCtx);
+            }),
+            code.value.onCodeIdChanged((id: string, preId: string) => {
+                changeCodeInstanceId(id, preId);
+                executeCtx[id] = codesInstance[id];
+                delete executeCtx[preId];
+            }),
+        );
 
         const offNodeRefChange = props.documentInstance.document.onNodeRefChange((ref: string, preRef: string) => {
             executeCtx[ref] = executeCtx[preRef];

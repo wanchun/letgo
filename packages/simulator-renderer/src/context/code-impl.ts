@@ -4,10 +4,8 @@ import { isNil } from 'lodash-es';
 import type { CodeItem } from '@webank/letgo-types';
 import { CodeType } from '@webank/letgo-types';
 import type { CodeImplType } from '@webank/letgo-designer';
-import { ComputedImpl, JavascriptQueryImpl, TemporaryStateImpl } from '@webank/letgo-renderer';
+import { ComputedImpl, JavascriptFunctionImpl, JavascriptQueryImpl, TemporaryStateImpl } from '@webank/letgo-renderer';
 import { calcDependencies, sortState } from '@webank/letgo-common';
-
-// TODO 修改 change id
 
 export function useCodesInstance() {
     const dependencyMap = new Map<string, string[]>();
@@ -26,6 +24,9 @@ export function useCodesInstance() {
 
         else if (item.type === CodeType.JAVASCRIPT_QUERY)
             codesInstance[item.id] = new JavascriptQueryImpl(item, dependencyMap.get(item.id), ctx);
+
+        else if (item.type === CodeType.JAVASCRIPT_FUNCTION)
+            codesInstance[item.id] = new JavascriptFunctionImpl(item, dependencyMap.get(item.id), ctx);
     };
 
     const deleteCodeInstance = (id: string) => {

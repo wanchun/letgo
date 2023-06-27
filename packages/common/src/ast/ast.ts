@@ -35,7 +35,7 @@ export function calcDependencies(item: CodeItem, ctx?: Record<string, any>) {
         if (item.type === CodeType.TEMPORARY_STATE)
             return calcJSCodeDependencies(item.initValue, ctx);
 
-        else if (item.type === CodeType.JAVASCRIPT_COMPUTED)
+        else if (item.type === CodeType.JAVASCRIPT_COMPUTED || item.type === CodeType.JAVASCRIPT_FUNCTION)
             return calcJSCodeDependencies(item.funcBody, ctx);
 
         else if (item.type === CodeType.JAVASCRIPT_QUERY)

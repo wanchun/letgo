@@ -12,17 +12,26 @@ export interface RendererContext {
     onCompGetCtx(schema: IPublicTypeNodeSchema, val: IPublicTypeComponentInstance): void
 }
 
-export function contextFactory(): InjectionKey<RendererContext> {
+export function getGlobalContextKey(): InjectionKey<Record<string, any>> {
     let context = (window as any).__appContext;
     if (!context) {
-        context = Symbol('__appContext');
+        context = Symbol('__globalContext');
+        (window as any).__appContext = context;
+    }
+    return context;
+}
+
+export function getPageContextKey(): InjectionKey<RendererContext> {
+    let context = (window as any).__appContext;
+    if (!context) {
+        context = Symbol('__pageContext');
         (window as any).__appContext = context;
     }
     return context;
 }
 
 export function provideRenderContext(props: RendererProps) {
-    const contextKey = contextFactory();
+    const contextKey = getPageContextKey();
 
     const componentsRef = computed(() => props.__components);
     const externalContext = inject(contextKey, () => {
@@ -38,6 +47,6 @@ export function provideRenderContext(props: RendererProps) {
 }
 
 export function useRendererContext() {
-    const key = contextFactory();
+    const key = getPageContextKey();
     return inject(key);
 }

@@ -1055,7 +1055,9 @@ export class Simulator implements ISimulator<ISimulatorProps> {
         this.renderer?.clearState();
     }
 
-    pure() {}
+    pure() {
+        this.emitter.removeAllListeners();
+    }
 }
 
 function getMatched(

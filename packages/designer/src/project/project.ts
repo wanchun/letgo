@@ -61,12 +61,19 @@ export class Project {
     constructor(readonly designer: Designer, schema?: IPublicTypeProjectSchema) {
         markShallowReactive(this, {
             _currentDocument: null,
+            codesInstance: {},
             css: '',
         });
         markComputed(this, ['currentDocument']);
         this.code = new Code();
         this.initCodesInstanceListen();
         this.importSchema(schema);
+    }
+
+    updateGlobalCodesInstance(codesInstance: Record<string, any>) {
+        this.codesInstance = {
+            ...codesInstance,
+        };
     }
 
     initCodesInstanceListen() {

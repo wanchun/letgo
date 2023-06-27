@@ -22,4 +22,9 @@ export interface IJavascriptQueryImpl extends ICodeBaseImpl {
     trigger(): void
 }
 
-export type CodeImplType = ITemporaryStateImpl | IJavascriptComputedImpl | IJavascriptQueryImpl;
+export interface IJavascriptFunctionImpl extends ICodeBaseImpl {
+    type: CodeType.JAVASCRIPT_FUNCTION
+    trigger(): void
+}
+
+export type CodeImplType = ITemporaryStateImpl | IJavascriptComputedImpl | IJavascriptQueryImpl | IJavascriptFunctionImpl;

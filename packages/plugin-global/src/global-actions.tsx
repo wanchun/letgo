@@ -5,6 +5,7 @@ import { MoreOutlined } from '@fesjs/fes-design/icon';
 import type { Designer } from '@webank/letgo-designer';
 import { iconCls } from './global-actions.css';
 import { GlobalCSS } from './global-css';
+import { GlobalCode } from './global-code/code';
 
 export default defineComponent({
     name: 'GlobalActions',
@@ -17,13 +18,17 @@ export default defineComponent({
         const options = [{
             label: '全局样式配置',
             value: 'globalCss',
+        }, {
+            label: '全局状态',
+            value: 'globalCode',
         }];
 
         const setting = reactive({
             globalCss: false,
+            globalCode: false,
         });
         const selectConfig = (value: string) => {
-            if (['config', 'globalCss', 'globalJs'].includes(value))
+            if (['globalCss', 'globalCode'].includes(value))
                 setting[value as keyof typeof setting] = true;
         };
 
@@ -32,8 +37,8 @@ export default defineComponent({
                 <FDropdown onClick={selectConfig} trigger='click' options={options}>
                     <MoreOutlined class={iconCls} />
                 </FDropdown>
-                {/* <GlobalConfig v-model={setting.config} /> */}
                 <GlobalCSS project={props.designer.project} v-model={setting.globalCss} />
+                <GlobalCode project={props.designer.project} v-model={setting.globalCode} />
             </>;
         };
     },

@@ -4,7 +4,7 @@ import { isNil } from 'lodash-es';
 import type { CodeItem } from '@webank/letgo-types';
 import { CodeType } from '@webank/letgo-types';
 import type { CodeImplType } from '@webank/letgo-designer';
-import { ComputedImpl, JavascriptFunctionImpl, JavascriptQueryImpl, TemporaryStateImpl } from '@webank/letgo-renderer';
+import { ComputedImpl, JavascriptFunctionImpl, JavascriptQueryImpl } from '@webank/letgo-renderer';
 import { calcDependencies, sortState } from '@webank/letgo-common';
 import { SimulatorTemporaryState } from './temporary-state';
 
@@ -40,8 +40,9 @@ export function useCodesInstance() {
         const item = codeMap.get(id);
         const currentInstance = codesInstance[id];
 
-        if ((currentInstance instanceof TemporaryStateImpl && !isNil(content.initValue))
+        if ((currentInstance instanceof SimulatorTemporaryState && !isNil(content.initValue))
             || (currentInstance instanceof ComputedImpl && !isNil(content.funcBody))
+            || (currentInstance instanceof JavascriptFunctionImpl && !isNil(content.funcBody))
             || (currentInstance instanceof JavascriptQueryImpl && !isNil(content.query))
         ) {
             const deps = calcDependencies(item, ctx);

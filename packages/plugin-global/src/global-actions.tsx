@@ -38,7 +38,7 @@ export default defineComponent({
                     <MoreOutlined class={iconCls} />
                 </FDropdown>
                 <GlobalCSS project={props.designer.project} v-model={setting.globalCss} />
-                <GlobalCode project={props.designer.project} v-model={setting.globalCode} />
+                <GlobalCode designer={props.designer} v-model={setting.globalCode} />
             </>;
         };
     },

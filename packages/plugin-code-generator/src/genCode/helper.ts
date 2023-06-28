@@ -1,13 +1,20 @@
 import type {
+    CodeItem,
+    CodeStruct,
+    IPublicTypeEventHandler,
     IPublicTypeNodeData,
     IPublicTypeNodeSchema,
 } from '@webank/letgo-types';
 import {
+    CodeType,
     isJSSlot,
     isNodeSchema,
 } from '@webank/letgo-types';
-import type { ImportSource } from './types';
+import { eventHandlersToJsFunction, sortState } from '@webank/letgo-common';
+import type { ImportSource, SetupCode } from './types';
 import { ImportType } from './types';
+
+import { funcSchemaToFunc } from './events';
 
 export function genSingleImport(imports: ImportSource[]) {
     if (!imports.length)
@@ -126,4 +133,104 @@ export function traverseNodeSchema(
         if (nodeData.children)
             traverseNodeSchema(nodeData.children, callback);
     }
+}
+
+export function genCodeMap(code: CodeStruct) {
+    const codeMap = new Map<string, CodeItem>();
+    code.code.forEach((item) => {
+        codeMap.set(item.id, item);
+    });
+
+    code.directories.forEach((directory) => {
+        directory.code.forEach((item) => {
+            codeMap.set(item.id, item);
+        });
+    });
+    return codeMap;
+}
+
+function eventSchemaToFunc(events: IPublicTypeEventHandler[] = []) {
+    if (!events.length)
+        return [];
+    const jsFunctionMap = eventHandlersToJsFunction(events);
+    const jsFunctions = Object.keys(jsFunctionMap).reduce((acc, cur) => {
+        acc = acc.concat(jsFunctionMap[cur]);
+        return acc;
+    }, []);
+    return jsFunctions.map(item => funcSchemaToFunc(item));
+}
+
+export function genCode(codeStruct: CodeStruct): SetupCode {
+    if (!codeStruct)
+        return null;
+
+    const codeMap = genCodeMap(codeStruct);
+    const sortResult = sortState(codeMap);
+    const codeStr: string[] = [];
+    const importSourceMap = new Map<string, ImportSource>();
+    sortResult.forEach((codeId) => {
+        const item = codeMap.get(codeId);
+        if (item.type === CodeType.TEMPORARY_STATE) {
+            importSourceMap.set('useTemporaryState', {
+                imported: 'useTemporaryState',
+                type: ImportType.ImportSpecifier,
+                source: '@/use/useTemporaryState',
+            });
+            codeStr.push(`
+            const ${item.id} = useTemporaryState({
+                id: '${item.id}',
+                initValue: ${item.initValue.trim()},
+            });
+            `);
+        }
+        else if (item.type === CodeType.JAVASCRIPT_COMPUTED) {
+            importSourceMap.set('useComputed', {
+                imported: 'useComputed',
+                type: ImportType.ImportSpecifier,
+                source: '@/use/useComputed',
+            });
+            codeStr.push(`
+            const ${item.id} = useComputed({
+                id: '${item.id}',
+                func: () => {
+                    ${item.funcBody}
+                },
+            });
+            `);
+        }
+        else if (item.type === CodeType.JAVASCRIPT_FUNCTION) {
+            codeStr.push(`const ${item.id} = ${item.funcBody}`);
+        }
+        else if (item.type === CodeType.JAVASCRIPT_QUERY) {
+            importSourceMap.set('useJSQuery', {
+                imported: 'useJSQuery',
+                type: ImportType.ImportSpecifier,
+                source: '@/use/useJSQuery',
+            });
+            codeStr.push(`
+            const ${item.id} = useJSQuery({
+                id: '${item.id}',
+                async query() {
+                    ${item.query}
+                },
+                ${item.enableTransformer ? `enableTransformer: ${item.enableTransformer},` : ''}
+                ${item.transformer ? `transformer: '${item.transformer}',` : ''}
+                ${item.showFailureToaster ? `showFailureToaster: ${item.showFailureToaster},` : ''}
+                ${item.showSuccessToaster ? `showSuccessToaster: ${item.showSuccessToaster},` : ''}
+                ${item.successMessage ? `successMessage: '${item.successMessage}',` : ''}
+                ${item.queryTimeout ? `queryTimeout: ${item.queryTimeout},` : ''}
+                ${item.runCondition ? `runCondition: ${item.runCondition},` : ''}
+                ${item.runWhenPageLoads ? `runWhenPageLoads: ${item.runWhenPageLoads},` : ''}
+                ${(item.queryFailureCondition && item.queryFailureCondition.length) ? `queryFailureCondition: ${item.queryFailureCondition},` : ''}
+                ${item.successEvent ? `successEvent: ${eventSchemaToFunc(item.successEvent)}},` : ''}
+                ${item.failureEvent ? `failureEvent: ${eventSchemaToFunc(item.failureEvent)},` : ''}
+            });
+            `);
+        }
+    });
+
+    return {
+        importSources: Array.from(importSourceMap.values()),
+        code: codeStr.join('\n'),
+    };
 }

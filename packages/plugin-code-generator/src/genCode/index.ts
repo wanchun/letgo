@@ -8,10 +8,10 @@ import type {
 
 import { genPageTemplate } from './gen-template';
 import { genScript } from './script';
-import { setGlobalConfig } from './compiler-context';
 import { traverseNodeSchema } from './helper';
 import { formatFileName, formatPageName, formatPageTitle } from './page-meta';
 import type { PageMeta } from './types';
+import { genGlobalStateCode } from './global-state';
 
 function getComponentRefs(
     nodeData: IPublicTypeNodeData | IPublicTypeNodeData[],
@@ -89,7 +89,8 @@ function getUseComponents(
 }
 
 export function schemaToCode(schema: IPublicTypeProjectSchema) {
-    setGlobalConfig(schema.config);
+    // 必须先执行，初始化 global 代码生成的上下文
+    const globalState = genGlobalStateCode(schema);
 
     const rootComponents = schema.componentsTree.map((rootSchema) => {
         return compileRootSchema(
@@ -98,5 +99,8 @@ export function schemaToCode(schema: IPublicTypeProjectSchema) {
         );
     });
 
-    return rootComponents;
+    return {
+        globalState,
+        pages: rootComponents,
+    };
 }

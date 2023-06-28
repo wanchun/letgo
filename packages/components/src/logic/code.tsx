@@ -30,6 +30,7 @@ export const CodeList = defineComponent({
         },
         hasQuery: Boolean,
         hasFunction: Boolean,
+        onCodeIdChange: Function as PropType<((id: string, preId: string) => void)>,
     },
     setup(props) {
         const options = [
@@ -85,11 +86,14 @@ export const CodeList = defineComponent({
         const changeCodeId = (id: string, preId: string) => {
             props.code?.changeCodeId(id, preId);
             if (props.codesInstance) {
-                Object.keys(props.codesInstance).forEach((currentId) => {
-                    if (props.codesInstance[currentId].deps.includes(preId))
+                const codesInstance = props.codesInstance as Record<string, any>;
+                Object.keys(codesInstance).forEach((currentId) => {
+                    if (codesInstance[currentId].deps.includes(preId))
                         props.code.scopeVariableChange(currentId, id, preId);
                 });
             }
+            if (props.onCodeIdChange)
+                props.onCodeIdChange(id, preId);
         };
 
         const renderFolders = () => {

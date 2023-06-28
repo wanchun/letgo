@@ -19,7 +19,7 @@
     "@webank/letgo-types": "workspace:*",
     "acorn": "^8.8.2",
     "acorn-walk": "^8.2.0",
-    "astring": "^1.8.4",
+    "astring": "^1.8.6",
     "lodash-es": "^4.17.21",
     "zen-logger": "^1.1.0"
   },

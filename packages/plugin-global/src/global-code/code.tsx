@@ -1,7 +1,7 @@
 import { computed, defineComponent, ref } from 'vue';
 import type { PropType } from 'vue';
 import { FDrawer } from '@fesjs/fes-design';
-import type { Project } from '@webank/letgo-designer';
+import type { Designer } from '@webank/letgo-designer';
 import { CodeList } from '@webank/letgo-components';
 import type { CodeItem } from '@webank/letgo-types';
 import { useModel } from '@webank/letgo-common';
@@ -13,17 +13,26 @@ export const GlobalCode = defineComponent({
     name: 'GlobalCode',
     props: {
         modelValue: Boolean,
-        project: Object as PropType<Project>,
+        designer: Object as PropType<Designer>,
     },
     setup(props, { emit }) {
         const [innerVisible] = useModel(props, emit);
 
         const code = computed(() => {
-            return props.project.code;
+            return props.designer.project.code;
         });
         const codesInstance = computed(() => {
-            return props.project.codesInstance;
+            return props.designer.project.codesInstance;
         });
+        const changeCodeId = (id: string, preId: string) => {
+            const codesInstance = props.designer.currentDocument.state.codesInstance;
+            if (codesInstance) {
+                Object.keys(codesInstance).forEach((currentId) => {
+                    if (codesInstance[currentId].deps.includes(preId))
+                        props.designer.currentDocument.code.scopeVariableChange(currentId, id, preId);
+                });
+            }
+        };
 
         const currentCodeItem = ref<CodeItem>();
         const changeCurrentCodeItem = (item: CodeItem | null) => {
@@ -44,8 +53,9 @@ export const GlobalCode = defineComponent({
                         currentCodeItem={currentCodeItem.value}
                         onChangeCurrentCodeItem={changeCurrentCodeItem}
                         codesInstance={codesInstance.value}
+                        onCodeIdChange={changeCodeId}
                     />
-                    <CodeEdit class={rightPanelCls} project={props.project} codeItem={currentCodeItem.value} />
+                    <CodeEdit class={rightPanelCls} project={props.designer.project} codeItem={currentCodeItem.value} />
                 </div>
             </FDrawer>;
         };

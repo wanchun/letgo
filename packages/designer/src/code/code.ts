@@ -175,9 +175,14 @@ export class Code {
                 initValue: replaceExpressionIdentifier(item.initValue, newVariable, oldVariable),
             });
         }
-        else if (item.type === CodeType.JAVASCRIPT_COMPUTED || item.type === CodeType.JAVASCRIPT_FUNCTION) {
+        else if (item.type === CodeType.JAVASCRIPT_COMPUTED) {
             this.changeCodeItemContent(id, {
                 funcBody: replaceExpressionIdentifier(item.funcBody, newVariable, oldVariable),
+            });
+        }
+        else if (item.type === CodeType.JAVASCRIPT_FUNCTION) {
+            this.changeCodeItemContent(id, {
+                funcBody: replaceJSFunctionIdentifier(item.funcBody, newVariable, oldVariable),
             });
         }
         else if (item.type === CodeType.JAVASCRIPT_QUERY) {

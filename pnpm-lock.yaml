@@ -123,8 +123,8 @@ importers:
         specifier: ^8.2.0
         version: 8.2.0
       astring:
-        specifier: ^1.8.4
-        version: 1.8.4
+        specifier: ^1.8.6
+        version: 1.8.6
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -3606,8 +3606,8 @@ packages:
     resolution: {integrity: sha512-jgsaNduz+ndvGyFt3uSuWqvy4lCnIJiovtouQN5JZHOKCS2QuhEdbcQHFhVksz2N2U9hXJo8odG7ETyWlEeuDw==}
     dev: true
 
-  /astring@1.8.4:
-    resolution: {integrity: sha512-97a+l2LBU3Op3bBQEff79i/E4jMD2ZLFD8rHx9B6mXyB2uQwhJQYfiDqUwtfjF4QA1F2qs//N6Cw8LetMbQjcw==}
+  /astring@1.8.6:
+    resolution: {integrity: sha512-ISvCdHdlTDlH5IpxQJIex7BWBywFWgjJSVdwst+/iQCoEYnyOaQ95+X1JGshuBjGp6nxKUy1jMgE3zPqN7fQdg==}
     hasBin: true
     dev: false
 

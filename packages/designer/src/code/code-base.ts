@@ -30,7 +30,7 @@ class JavascriptFunctionEdit implements CodeBaseEdit {
         return {
             id,
             type: CodeType.JAVASCRIPT_FUNCTION,
-            funcBody: '// Tip: 函数 \n\n () => {\n    return 5;\n}',
+            funcBody: '// Tip: 函数 \n\n function func() {\n    return 5;\n}',
         };
     }
 }

@@ -260,6 +260,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
 
     onCodeIdChanged(func: (id: string, preId: string) => void) {
         this.offCodeIdChange.push(this.document.code.onCodeIdChanged(func));
+        this.offCodeIdChange.push(this.document.project.code.onCodeIdChanged(func));
     }
 
     onNodeRefChanged(func: (ref: string, preRef: string) => void) {

@@ -123,13 +123,13 @@ export class Project {
         this.css = schema?.css;
         this.code.initCode(schema?.code);
 
+        const documentInstances = this.data.componentsTree.map(data =>
+            this.createDocument(data),
+        );
+
         if (autoOpen) {
             if (autoOpen === true) {
                 // auto open first document or open a blank page
-                // this.openDocument(this.data.componentsTree[0]);
-                const documentInstances = this.data.componentsTree.map(data =>
-                    this.createDocument(data),
-                );
                 this.openDocument(documentInstances[0]);
             }
             else {

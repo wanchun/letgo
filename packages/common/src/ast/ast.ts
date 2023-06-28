@@ -83,7 +83,7 @@ export function eventHandlerToJsFunction(item: IPublicTypeEventHandler): IPublic
     return {
         type: 'JSFunction',
         // 需要传下入参
-        value: /^\s*function/.test(expression) ? expression : `function(){${expression}}`,
+        value: /^\s*function\s+/.test(expression) ? expression : `function(){${expression}}`,
         params,
     };
 }

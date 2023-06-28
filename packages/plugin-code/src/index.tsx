@@ -1,5 +1,6 @@
 import type { IPluginConfig } from '@webank/letgo-engine-plugin';
 import { Code } from '@icon-park/vue-next';
+import { FTooltip } from '@fesjs/fes-design';
 import Panel from './panel';
 import { iconCls } from './icon.css';
 
@@ -10,7 +11,7 @@ export default {
             area: 'leftArea',
             name: 'CodeWidget',
             type: 'Widget',
-            render: () => <Code theme="outline" size={20} class={iconCls} />,
+            render: () => <FTooltip content="逻辑编排" placement="right"><Code theme="outline" size={20} class={iconCls} /></FTooltip>,
         }).link(
             skeleton.add({
                 type: 'Panel',

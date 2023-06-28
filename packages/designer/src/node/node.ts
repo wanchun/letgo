@@ -254,6 +254,8 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
 
         if (!this.props.hasExtra('loop'))
             this.props.addExtra('loop', undefined);
+
+        this.props.hasExtra('title') || this.props.addExtra('title', '');
     }
 
     onCodeIdChanged(func: (id: string, preId: string) => void) {

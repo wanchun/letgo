@@ -9,7 +9,7 @@ import {
 } from 'vue';
 import type { Designer, INode } from '@webank/letgo-designer';
 import type { Editor } from '@webank/letgo-editor-core';
-import { FTree } from '@fesjs/fes-design';
+import { FTooltip, FTree } from '@fesjs/fes-design';
 import { iconCls, nodeIconCls } from './index.css';
 import { SuffixView } from './suffix';
 
@@ -24,7 +24,7 @@ interface Option {
 export function transformNode(node: INode, isSlot = false): Option {
     const option: Option = {
         value: node.id,
-        label: `${node.title || node.componentName} - ${node.id}`,
+        label: `${node.title || node.componentName}`,
     };
     option.children = [...node.slots.map(node => transformNode(node, true)), ...node.children.getNodes().map(node => transformNode(node))];
     option.prefix = () => {
@@ -37,7 +37,7 @@ export function transformNode(node: INode, isSlot = false): Option {
         return <FigmaComponent class={nodeIconCls} theme="outline" />;
     };
     option.suffix = () => {
-        return <SuffixView></SuffixView>;
+        return <SuffixView node={node}></SuffixView>;
     };
 
     return option;
@@ -99,7 +99,7 @@ export default {
             area: 'leftArea',
             type: 'Widget',
             name: 'PluginComponentTreeWidget',
-            render: () => <TreeList theme="outline" class={iconCls} />,
+            render: () => <FTooltip content="大纲树" placement="right"><TreeList theme="outline" class={iconCls} /></FTooltip>,
         }).link(
             skeleton.add({
                 type: 'Panel',
@@ -108,7 +108,7 @@ export default {
                 render: () => <ComponentTreeView editor={editor} designer={designer} />,
                 props: {
                     width: 300,
-                    title: '组件树',
+                    title: '大纲树',
                 },
             }),
         );

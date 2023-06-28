@@ -6,9 +6,11 @@ export const wrapperCls = style({
 });
 
 export const iconCls = style({
+    display: 'inline-block',
     color: '#333',
     fontSize: '20px',
     cursor: 'pointer',
+    lineHeight: 0,
 });
 
 export const isActiveCls = style([{

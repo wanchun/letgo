@@ -500,7 +500,7 @@ const assets: IPublicTypeAssetsJson = {
                 },
             ],
             group: '原子组件',
-            category: '布局组件',
+            category: '信息展示',
             priority: 0,
         },
         {
@@ -5472,7 +5472,7 @@ const assets: IPublicTypeAssetsJson = {
             },
             snippets: [
                 {
-                    title: '图片预览组',
+                    title: '图片组',
                     schema: {
                         componentName: 'FPreviewGroup',
                         children: [],
@@ -6406,7 +6406,7 @@ const assets: IPublicTypeAssetsJson = {
                 },
             ],
             group: '原子组件',
-            category: '信息展示',
+            category: '导航组件',
             priority: 0,
         },
         {

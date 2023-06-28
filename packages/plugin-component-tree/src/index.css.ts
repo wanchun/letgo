@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
 export const iconCls = style({
+    display: 'inline-block',
     cursor: 'pointer',
     fontSize: '20px',
     color: 'inherit',
@@ -13,4 +14,7 @@ export const nodeIconCls = style([iconCls, {
 
 export const suffixWrapperCls = style({
     marginRight: '12px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
 });

@@ -6278,7 +6278,7 @@ const assets: IPublicTypeAssetsJson = {
                                     },
                                     {
                                         name: 'value',
-                                        title: 'key',
+                                        title: '页签key',
                                         setter: 'StringSetter',
                                     },
                                 ],
@@ -6401,7 +6401,18 @@ const assets: IPublicTypeAssetsJson = {
                     title: 'Tab页',
                     schema: {
                         componentName: 'FTabs',
-                        props: {},
+                        props: {
+                            panes: [
+                                {
+                                    name: '标题',
+                                    value: '1',
+                                    render: {
+                                        type: 'JSSlot',
+                                        value: [],
+                                    },
+                                },
+                            ],
+                        },
                     },
                 },
             ],

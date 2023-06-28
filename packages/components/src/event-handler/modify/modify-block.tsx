@@ -22,9 +22,6 @@ const actions = [{
     value: InnerEventHandlerAction.SET_LOCAL_STORAGE,
     label: '设置本地存储',
 }, {
-    value: InnerEventHandlerAction.SET_LOCAL_STORAGE,
-    label: '设置本地存储',
-}, {
     value: InnerEventHandlerAction.RUN_FUNCTION,
     label: '执行函数',
 }];

@@ -5,6 +5,8 @@ import { CodeType } from '@webank/letgo-types';
 import type { CodeItem, CodeStruct } from '@webank/letgo-types';
 import { codeBaseEdit } from './code-base';
 
+const idCount: Record<string, number> = {};
+
 export class Code {
     private emitter = new EventEmitter();
     codeStruct: CodeStruct;
@@ -101,14 +103,8 @@ export class Code {
     };
 
     genCodeId = (type: CodeType) => {
-        const reg = new RegExp(`^${type}(\\d+)$`);
-        let idSuffix = 0;
-        for (const key of this.codeMap.keys()) {
-            const matchResult = key.match(reg);
-            if (matchResult && Number(matchResult[1]) > idSuffix)
-                idSuffix = Number(matchResult[1]);
-        }
-        return `${type}${idSuffix + 1}`;
+        idCount[type] = (idCount[type] || 0) + 1;
+        return `${type}${idCount[type]}`;
     };
 
     emitCodeItemAdd(codeItem: CodeItem) {

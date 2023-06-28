@@ -43,7 +43,9 @@ export default defineComponent({
             changeCodeInstanceId,
         } = useCodesInstance();
 
-        const globalContext: Record<string, any> = reactive({});
+        const globalContext: Record<string, any> = reactive({
+            letgoContext: host.project.config || {},
+        });
 
         initCodesInstance(code.codeMap, globalContext);
 

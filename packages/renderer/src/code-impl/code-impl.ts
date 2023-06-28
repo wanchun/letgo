@@ -7,6 +7,7 @@ import { calcDependencies, sortState } from '@webank/letgo-common';
 import { TemporaryStateImpl } from './temporary-state';
 import { ComputedImpl } from './computed';
 import { JavascriptQueryImpl } from './javascript-query';
+import { JavascriptFunctionImpl } from './javascript-function';
 
 function genCodeMap(code: CodeStruct, codeMap: Map<string, CodeItem>) {
     code.code.forEach((item) => {
@@ -45,6 +46,8 @@ export function useCodesInstance({
 
         else if (item.type === CodeType.JAVASCRIPT_QUERY)
             instance = new JavascriptQueryImpl(item, dependencyMap.get(item.id), ctx);
+        else if (item.type === CodeType.JAVASCRIPT_FUNCTION)
+            instance = new JavascriptFunctionImpl(item, dependencyMap.get(item.id), ctx);
 
         if (instance)
             onSet(item.id, instance);

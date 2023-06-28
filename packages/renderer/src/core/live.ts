@@ -17,6 +17,7 @@ export const Live = defineComponent({
     props: leafProps,
     setup(props) {
         const { executeCtx } = useRendererContext();
+
         const { renderComp } = useLeaf(props, executeCtx);
 
         const { show } = buildShow(props.scope, executeCtx, props.schema);

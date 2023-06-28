@@ -66,7 +66,6 @@ export class Project {
         });
         markComputed(this, ['currentDocument']);
         this.code = new Code();
-        this.initCodesInstanceListen();
         this.importSchema(schema);
     }
 
@@ -74,14 +73,6 @@ export class Project {
         this.codesInstance = {
             ...codesInstance,
         };
-    }
-
-    initCodesInstanceListen() {
-        // this.designer.onSimulatorReady(() => {
-        //     this.designer.simulator.onUpdateCodesInstance((codesInstance) => {
-        //         this.codesInstance = { ...codesInstance };
-        //     });
-        // });
     }
 
     private getComponentsMap(): IPublicTypeComponentsMap {
@@ -152,6 +143,7 @@ export class Project {
         return {
             ...this.data,
             css: this.css,
+            code: this.code.codeStruct,
             componentsMap: this.getComponentsMap(),
             componentsTree: this.documents.map(doc => doc.exportSchema(stage)),
         };

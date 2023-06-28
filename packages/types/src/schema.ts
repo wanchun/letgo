@@ -189,7 +189,7 @@ export interface IPublicTypeProjectSchema {
     /**
      * 全局状态
      */
-    code: CodeStruct
+    code?: CodeStruct
     /**
      * 当前应用配置信息
      */

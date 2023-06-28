@@ -22,10 +22,10 @@ export function getGlobalContextKey(): InjectionKey<Record<string, any>> {
 }
 
 export function getPageContextKey(): InjectionKey<RendererContext> {
-    let context = (window as any).__appContext;
+    let context = (window as any).__pageContext;
     if (!context) {
         context = Symbol('__pageContext');
-        (window as any).__appContext = context;
+        (window as any).__pageContext = context;
     }
     return context;
 }

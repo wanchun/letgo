@@ -54,7 +54,6 @@ const Renderer = defineComponent({
                     key: schema.id,
                     __schema: schema,
                     __components: components,
-                    __config: props.config,
                 } as any)
                 : null;
         };

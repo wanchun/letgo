@@ -1,6 +1,6 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
-import VueRenderer from '@webank/letgo-renderer';
+import { defineComponent, onMounted, ref, shallowRef } from 'vue';
+import VueRenderer, { RendererApp } from '@webank/letgo-renderer';
 import { AssetLoader, buildComponents } from '@webank/letgo-common';
 import type { IPublicTypeAsset, IPublicTypePackage } from '@webank/letgo-types';
 
@@ -31,15 +31,10 @@ export function getProjectSchemaFromLocalStorage(scenarioName: string) {
     return undefined;
 }
 
-function cssHandler(css: string) {
-    const styleDom = document.createElement('style');
-    document.getElementsByTagName('head')[0].appendChild(styleDom);
-    styleDom.innerText = css.replace(/\\n/g, '');
-}
-
 export default defineComponent({
     components: {
         VueRenderer,
+        RendererApp,
     },
     setup() {
         const scenarioName = getScenarioName();
@@ -52,8 +47,6 @@ export default defineComponent({
             componentsMap: componentsMapArray,
             componentsTree,
         } = projectSchema;
-
-        cssHandler(projectSchema.css);
 
         const componentsMap: any = {};
         componentsMapArray.forEach((component: any) => {
@@ -70,7 +63,7 @@ export default defineComponent({
 
         const pageSchema = componentsTree[0];
 
-        const components = ref([]);
+        const components = shallowRef([]);
 
         const isReady = ref(false);
 
@@ -88,6 +81,7 @@ export default defineComponent({
         });
 
         return {
+            projectSchema,
             pageSchema,
             components,
             isReady,
@@ -97,7 +91,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <VueRenderer v-if="isReady" class="engine" :schema="pageSchema" :components="components" />
+  <RendererApp v-if="isReady" :project-schema="projectSchema">
+    <VueRenderer class="engine" :schema="pageSchema" :components="components" />
+  </RendererApp>
   <div v-else>
     正在加载中....
   </div>

@@ -1,15 +1,19 @@
-import { computed, onUnmounted, reactive, watch } from 'vue';
+import { computed, inject, onUnmounted, reactive, watch } from 'vue';
 import type { IPublicTypeComponentInstance, IPublicTypeNodeSchema } from '@webank/letgo-types';
 import type { CodeImplType } from '@webank/letgo-designer';
 import type { RendererProps } from '../core';
 import { useCodesInstance } from '../code-impl/code-impl';
+import { getGlobalContextKey } from './context';
 
 export function createExecuteContext(props: RendererProps) {
-    const executeCtx = reactive({ ...props.__config });
-    watch(() => props.__config, () => {
-        Object.assign(executeCtx, props.__config);
+    const executeCtx: Record<string, any> = reactive({ });
+
+    const globalContext = inject(getGlobalContextKey(), {});
+
+    watch(globalContext, () => {
+        Object.assign(executeCtx, globalContext);
     }, {
-        deep: true,
+        immediate: true,
     });
 
     const onCompGetCtx = (schema: IPublicTypeNodeSchema, ref: IPublicTypeComponentInstance) => {

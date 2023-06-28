@@ -6,6 +6,7 @@ import { CodeType } from '@webank/letgo-types';
 import type { CodeImplType } from '@webank/letgo-designer';
 import { ComputedImpl, JavascriptFunctionImpl, JavascriptQueryImpl, TemporaryStateImpl } from '@webank/letgo-renderer';
 import { calcDependencies, sortState } from '@webank/letgo-common';
+import { SimulatorTemporaryState } from './temporary-state';
 
 export function useCodesInstance() {
     const dependencyMap = new Map<string, string[]>();
@@ -17,7 +18,7 @@ export function useCodesInstance() {
             dependencyMap.set(item.id, calcDependencies(item, ctx));
 
         if (item.type === CodeType.TEMPORARY_STATE)
-            codesInstance[item.id] = new TemporaryStateImpl(item, dependencyMap.get(item.id), ctx);
+            codesInstance[item.id] = new SimulatorTemporaryState(item, dependencyMap.get(item.id), ctx);
 
         else if (item.type === CodeType.JAVASCRIPT_COMPUTED)
             codesInstance[item.id] = new ComputedImpl(item, dependencyMap.get(item.id), ctx);
@@ -49,13 +50,6 @@ export function useCodesInstance() {
         }
 
         codesInstance[id].changeContent(content);
-
-        if (currentInstance instanceof TemporaryStateImpl && !isNil(content.initValue)) {
-            for (const [key, deps] of dependencyMap) {
-                if (deps.includes(id) && codesInstance[key] instanceof TemporaryStateImpl)
-                    (codesInstance[key] as TemporaryStateImpl).recalculateValue();
-            }
-        }
     };
 
     const changeCodeInstanceId = (id: string, preId: string) => {

@@ -19,26 +19,16 @@ const horizontalCenter = style([
 
 const horizontalRight = style([horizontal]);
 
-globalStyle('html, body', {
-    height: '100%',
-    width: '100%',
-    overflow: 'hidden',
-    padding: 0,
-    margin: 0,
-    position: 'relative',
-    fontFamily: themeVars.font.family,
-    fontSize: themeVars.font.size.normal,
-    color: themeVars.color.text.normal,
-    backgroundColor: '#edeff3',
-});
-
 export const workbenchCls = style({
+    position: 'relative',
     height: '100%',
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: '#edeff3',
-    position: 'relative',
+    fontFamily: themeVars.font.family,
+    fontSize: themeVars.font.size.normal,
+    color: themeVars.color.text.normal,
 });
 
 globalStyle(`${workbenchCls} *`, {

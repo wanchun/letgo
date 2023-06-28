@@ -33,7 +33,7 @@ export function replaceExpressionIdentifier(code: string, newName: string, preNa
         if (identifier.name === preName)
             identifier.name = newName;
     });
-    return generate(ast);
+    return generate((ast as any).body[0]).replace(';', '');
 }
 
 export function attachContext(code: string, isInclude: (name: string) => boolean) {

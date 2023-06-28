@@ -65,6 +65,7 @@ export class DocumentModel {
     private nodes = new Set<INode>();
 
     private offNodeRefChange: () => void;
+    private offGlobalStateIdChange: () => void;
 
     private emitter = new EventEmitter();
 
@@ -145,14 +146,21 @@ export class DocumentModel {
 
         this.offNodeRefChange = this.onNodeRefChange((ref: string, preRef: string) => {
             this.state.changeNodeRef(ref, preRef);
-            const codesInstance = this.state.codesInstance;
-            if (codesInstance) {
-                Object.keys(codesInstance).forEach((currentId) => {
-                    if (codesInstance[currentId].deps.includes(preRef))
-                        this.code.scopeVariableChange(currentId, ref, preRef);
-                });
-            }
+            this.scopeVariableChange(ref, preRef);
         });
+        this.offGlobalStateIdChange = this.project.code.onCodeIdChanged((id: string, preId: string) => {
+            this.code.changeDepStateId(id, preId);
+        });
+    }
+
+    scopeVariableChange(id: string, preId: string) {
+        const codesInstance = this.state.codesInstance;
+        if (codesInstance) {
+            Object.keys(codesInstance).forEach((currentId) => {
+                if (codesInstance[currentId].deps.includes(preId))
+                    this.code.scopeVariableChange(currentId, id, preId);
+            });
+        }
     }
 
     private onEvent(name: string, func: (...args: any[]) => void) {
@@ -164,11 +172,11 @@ export class DocumentModel {
     }
 
     emitNodeRefChange(ref: string, preRef: string) {
-        this.emitter.emit('codeItemAdd', ref, preRef);
+        this.emitter.emit('nodeRefChange', ref, preRef);
     }
 
     onNodeRefChange = (func: (ref: string, preRef: string) => void) => {
-        return this.onEvent('codeItemAdd', func);
+        return this.onEvent('nodeRefChange', func);
     };
 
     importSchema(schema: IPublicTypeRootSchema) {
@@ -403,6 +411,7 @@ export class DocumentModel {
         this._nodesMap.clear();
         this.code.purge();
         this.offNodeRefChange();
+        this.offGlobalStateIdChange();
     }
 
     checkDropTarget(

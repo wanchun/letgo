@@ -24,15 +24,6 @@ export const GlobalCode = defineComponent({
         const codesInstance = computed(() => {
             return props.designer.project.codesInstance;
         });
-        const changeCodeId = (id: string, preId: string) => {
-            const codesInstance = props.designer.currentDocument.state.codesInstance;
-            if (codesInstance) {
-                Object.keys(codesInstance).forEach((currentId) => {
-                    if (codesInstance[currentId].deps.includes(preId))
-                        props.designer.currentDocument.code.scopeVariableChange(currentId, id, preId);
-                });
-            }
-        };
 
         const currentCodeItem = ref<CodeItem>();
         const changeCurrentCodeItem = (item: CodeItem | null) => {
@@ -53,7 +44,6 @@ export const GlobalCode = defineComponent({
                         currentCodeItem={currentCodeItem.value}
                         onChangeCurrentCodeItem={changeCurrentCodeItem}
                         codesInstance={codesInstance.value}
-                        onCodeIdChange={changeCodeId}
                     />
                     <CodeEdit class={rightPanelCls} project={props.designer.project} codeItem={currentCodeItem.value} />
                 </div>

@@ -167,29 +167,50 @@ export class Code {
         this.emitCodeItemChange(id, content);
     };
 
+    _changeDepStateId(newVariable: string, oldVariable: string) {
+        for (const item of this.codeMap.values())
+            this.scopeVariableChange(item.id, newVariable, oldVariable);
+    }
+
+    changeDepStateId(newVariable: string, oldVariable: string) {
+        requestIdleCallback(this._changeDepStateId.bind(this, newVariable, oldVariable));
+    }
+
     scopeVariableChange(id: string, newVariable: string, oldVariable: string) {
         const item = this.codeMap.get(id);
 
         if (item.type === CodeType.TEMPORARY_STATE) {
-            this.changeCodeItemContent(id, {
-                initValue: replaceExpressionIdentifier(item.initValue, newVariable, oldVariable),
-            });
+            const initValue = replaceExpressionIdentifier(item.initValue, newVariable, oldVariable);
+            if (item.initValue !== initValue) {
+                this.changeCodeItemContent(item.id, {
+                    initValue,
+                });
+            }
         }
         else if (item.type === CodeType.JAVASCRIPT_COMPUTED) {
-            this.changeCodeItemContent(id, {
-                funcBody: replaceExpressionIdentifier(item.funcBody, newVariable, oldVariable),
-            });
+            const funcBody = replaceExpressionIdentifier(item.funcBody, newVariable, oldVariable);
+            if (item.funcBody !== funcBody) {
+                this.changeCodeItemContent(item.id, {
+                    funcBody,
+                });
+            }
         }
         else if (item.type === CodeType.JAVASCRIPT_FUNCTION) {
-            this.changeCodeItemContent(id, {
-                funcBody: replaceJSFunctionIdentifier(item.funcBody, newVariable, oldVariable),
-            });
+            const funcBody = replaceJSFunctionIdentifier(item.funcBody, newVariable, oldVariable);
+            if (item.funcBody !== funcBody) {
+                this.changeCodeItemContent(item.id, {
+                    funcBody,
+                });
+            }
         }
         else if (item.type === CodeType.JAVASCRIPT_QUERY) {
             // TODO 以后有变量依赖的不仅仅是 query 属性
-            this.changeCodeItemContent(id, {
-                query: replaceJSFunctionIdentifier(item.query, newVariable, oldVariable),
-            });
+            const query = replaceJSFunctionIdentifier(item.query, newVariable, oldVariable);
+            if (item.query !== query) {
+                this.changeCodeItemContent(item.id, {
+                    query,
+                });
+            }
         }
     }
 

@@ -1,5 +1,13 @@
 import { globalStyle, style } from '@vanilla-extract/css';
 
+export const iconCls = style({
+    display: 'inline-block',
+    cursor: 'pointer',
+    fontSize: '14px',
+    color: 'inherit',
+    lineHeight: 0,
+});
+
 export const mainCls = style({
     position: 'relative',
     height: '100%',
@@ -60,4 +68,22 @@ export const paneWrapperCls = style({
     paddingBottom: '24px',
     overflowY: 'auto',
     overflowX: 'hidden',
+});
+
+export const popupWrapperCls = style({
+    position: 'absolute',
+    top: '0',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1,
+    background: '#fff',
+});
+
+export const popupHeader = style({
+    height: '36px',
+    display: 'flex',
+    alignItems: 'center',
+    padding: '0 16px',
+    gap: '16px',
 });

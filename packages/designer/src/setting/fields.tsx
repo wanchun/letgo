@@ -1,5 +1,5 @@
 import type { PropType } from 'vue';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, inject, ref } from 'vue';
 import type { IPublicTypeDisplay, IPublicTypeNpmInfo } from '@webank/letgo-types';
 import { EditOutlined, RightOutlined } from '@fesjs/fes-design/icon';
 import { FDrawer } from '@fesjs/fes-design';
@@ -58,10 +58,17 @@ export const PopupFieldView = defineComponent({
     setup(props, { slots }) {
         const id = useId(props);
 
+        const popup: any = inject('popup');
+
         const showRef = ref(false);
 
         const toggle = () => {
             showRef.value = !showRef.value;
+            if (showRef.value && popup.openPopup)
+                popup.openPopup(props.title, slots.default?.());
+
+            if (!showRef.value && popup.closePopup)
+                popup.closePopup();
         };
 
         return () => {
@@ -71,17 +78,21 @@ export const PopupFieldView = defineComponent({
                     <div class={bodyCls}>
                         <EditOutlined class={iconCls} onClick={toggle}/>
                     </div>
-                    <FDrawer
-                        show={showRef.value}
-                        title={props.title}
-                        displayDirective="if"
-                        mask={false}
-                        width={400}
-                        contentClass={popupContentCls}
-                        onCancel={toggle}
-                    >
-                        {slots.default?.()}
-                    </FDrawer>
+                    {
+                        !popup.openPopup && (
+                            <FDrawer
+                                show={showRef.value}
+                                title={props.title}
+                                displayDirective="if"
+                                mask={false}
+                                width={400}
+                                contentClass={popupContentCls}
+                                onCancel={toggle}
+                            >
+                                {slots.default?.()}
+                            </FDrawer>
+                        )
+                    }
                 </div>
             );
         };

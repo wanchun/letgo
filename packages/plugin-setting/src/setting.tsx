@@ -1,19 +1,32 @@
-import type { PropType } from 'vue';
-import { defineComponent, onBeforeUnmount } from 'vue';
+import type { PropType, VNodeChild } from 'vue';
+import { defineComponent, onBeforeUnmount, provide, shallowRef, triggerRef } from 'vue';
 import { FScrollbar, FTabPane, FTabs } from '@fesjs/fes-design';
 import type { SettingField } from '@webank/letgo-designer';
 import {
     createSettingFieldView,
 } from '@webank/letgo-designer';
+import { Return } from '@icon-park/vue-next';
 import type { IPluginContext } from '@webank/letgo-engine-plugin';
 import { SettingsMain } from './main';
 import Breadcrumb from './breadcrumb';
 import {
     bodyCls,
+    iconCls,
     mainCls,
     noticeCls,
     paneWrapperCls,
+    popupHeader,
+    popupWrapperCls,
 } from './setting.css';
+
+interface Popup {
+    id: number
+    title: string
+    nodes: VNodeChild
+    zIndex: number
+}
+
+let zIndex = 1;
 
 export default defineComponent({
     name: 'PluginSetterPanelView',
@@ -29,6 +42,31 @@ export default defineComponent({
 
         onBeforeUnmount(() => {
             main?.purge();
+        });
+
+        const popupList = shallowRef<Popup[]>([]);
+
+        const popupTitle = shallowRef();
+
+        const openPopup = (title: string, nodes: VNodeChild) => {
+            popupList.value.push({
+                id: Date.now(),
+                title,
+                nodes,
+                zIndex: zIndex++,
+
+            });
+            triggerRef(popupList);
+        };
+
+        const closePopup = () => {
+            popupList.value.splice(popupList.value.length - 1, 1);
+            triggerRef(popupList);
+        };
+
+        provide('popup', {
+            openPopup,
+            closePopup,
         });
 
         return () => {
@@ -102,6 +140,21 @@ export default defineComponent({
                         <FTabs key={currentNode.id} modelValue={items[0].id}>
                             {renderTabs()}
                         </FTabs>
+                        {popupList.value.length > 0 && (
+                            popupList.value.map(popup => (
+                                <div class={popupWrapperCls} style={{ zIndex: popup.zIndex }}>
+                                    <FScrollbar>
+                                        <div class={popupHeader}>
+                                            <Return theme="outline" class={iconCls} onClick={closePopup}></Return>
+                                            <span>
+                                                {popup.title}
+                                            </span>
+                                        </div>
+                                        {popup.nodes}
+                                    </FScrollbar>
+                                </div>
+                            ))
+                        )}
                     </div>
                 </div>
             );

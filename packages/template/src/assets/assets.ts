@@ -5835,7 +5835,7 @@ const assets: IPublicTypeAssetsJson = {
                                                         },
                                                         {
                                                             name: 'colStyle',
-                                                            title: '列样式类名称',
+                                                            title: '列样式',
                                                             setter: 'StyleSetter',
                                                             display: 'popup',
                                                         },

@@ -5,6 +5,7 @@ import type {
 import {
     computed,
     defineComponent,
+    inject,
     onBeforeMount,
     onMounted,
     reactive,
@@ -51,6 +52,8 @@ const ArraySetterView = defineComponent({
     },
     setup(props) {
         const { field } = props;
+
+        const popup: any = inject('popup');
 
         const propsRef = computed(() => {
             if (!props.infinite)
@@ -201,6 +204,11 @@ const ArraySetterView = defineComponent({
             if (hasCol) {
                 const toggle = () => {
                     drawerShowList[rowIndex] = !drawerShowList[rowIndex];
+                    if (drawerShowList[rowIndex] && popup.openPopup)
+                        popup.openPopup(`${field.name}.${item.name}`, createSettingFieldView(item));
+
+                    if (!drawerShowList[rowIndex] && popup.closePopup)
+                        popup.closePopup();
                 };
                 return (
                     <>
@@ -224,17 +232,21 @@ const ArraySetterView = defineComponent({
                                 );
                             })
                         }
-                        <FDrawer
-                            show={drawerShowList[rowIndex]}
-                            title={`${field.name}.${item.name}`}
-                            displayDirective="if"
-                            mask={false}
-                            width={400}
-                            contentClass={popupContentCls}
-                            onCancel={toggle}
-                        >
-                            {createSettingFieldView(item)}
-                        </FDrawer>
+                        {
+                            !popup.openPopup && (
+                                <FDrawer
+                                    show={drawerShowList[rowIndex]}
+                                    title={`${field.name}.${item.name}`}
+                                    displayDirective="if"
+                                    mask={false}
+                                    width={400}
+                                    contentClass={popupContentCls}
+                                    onCancel={toggle}
+                                >
+                                    {createSettingFieldView(item)}
+                                </FDrawer>
+                            )
+                        }
                     </>
                 );
             }

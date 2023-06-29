@@ -32,3 +32,7 @@ export const inputCls = style({
     backgroundColor: '#fff',
     width: '100%',
 });
+
+export const inputErrorCls = style({
+    border: '1px solid #f5222d',
+});

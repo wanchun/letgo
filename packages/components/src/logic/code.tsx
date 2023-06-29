@@ -28,6 +28,7 @@ export const CodeList = defineComponent({
         codesInstance: {
             type: Object as PropType<Record<string, any>>,
         },
+        hasCodeId: Function as PropType<(id: string) => boolean>,
         hasQuery: Boolean,
         hasFunction: Boolean,
         onCodeIdChange: Function as PropType<((id: string, preId: string) => void)>,
@@ -116,7 +117,7 @@ export const CodeList = defineComponent({
             return props.code?.code.map((item) => {
                 return <li onClick={() => props.onChangeCurrentCodeItem(item)} class={[codeItemCls, props.currentCodeItem?.id === item.id ? codeItemActiveCls : '']}>
                     {renderCodeIcon(item)}
-                    <CodeId id={item.id} onChange={changeCodeId} />
+                    <CodeId id={item.id} hasCodeId={props.hasCodeId} onChange={changeCodeId} />
                     <FDropdown onClick={value => onCommonAction(value, item)} appendToContainer={false} trigger="click" placement="bottom-end" options={commonOptions}>
                         <MoreOutlined class={codeMoreIconCls} />
                     </FDropdown>

@@ -28,6 +28,10 @@ export class State {
         this.initCodesInstanceListen();
     }
 
+    hasStateId(id: string) {
+        return this.codesInstance[id] || this.componentsInstance[id];
+    }
+
     initCodesInstanceListen() {
         this.designer.onSimulatorReady(() => {
             this.designer.simulator.onUpdateCodesInstance((codesInstance) => {
@@ -41,6 +45,10 @@ export class State {
     }
 
     changeNodeRef(ref: string, preRef: string) {
+        this.nodeIdToRef.forEach((currentRef, id) => {
+            if (currentRef === preRef)
+                this.nodeIdToRef.set(id, ref);
+        });
         this.componentsInstance[ref] = this.componentsInstance[preRef];
         delete this.componentsInstance[preRef];
     }

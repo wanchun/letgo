@@ -4,11 +4,10 @@ import { FDrawer } from '@fesjs/fes-design';
 import type { Designer } from '@webank/letgo-designer';
 import { CodeList } from '@webank/letgo-components';
 import type { CodeItem } from '@webank/letgo-types';
-import { useModel } from '@webank/letgo-common';
+import { innerGlobalVariable, useModel } from '@webank/letgo-common';
 import CodeEdit from './edit/code-edit';
 import { globalCodeCls, leftPanelCls, rightPanelCls } from './code.css';
 
-// TODO 拖拽交换 code 顺序
 export const GlobalCode = defineComponent({
     name: 'GlobalCode',
     props: {
@@ -30,6 +29,10 @@ export const GlobalCode = defineComponent({
             currentCodeItem.value = item;
         };
 
+        const hasCodeId = (id: string) => {
+            return props.designer.project.code.hasCodeId(id) || innerGlobalVariable.includes(id);
+        };
+
         return () => {
             return <FDrawer
                 width="1024px"
@@ -41,6 +44,7 @@ export const GlobalCode = defineComponent({
                         class={leftPanelCls}
                         hasFunction
                         code={code.value}
+                        hasCodeId={hasCodeId}
                         currentCodeItem={currentCodeItem.value}
                         onChangeCurrentCodeItem={changeCurrentCodeItem}
                         codesInstance={codesInstance.value}

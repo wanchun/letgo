@@ -5,11 +5,10 @@ import {
     isJSFunction,
     isProCodeComponentType,
 } from '@webank/letgo-types';
-import { genCode, genImportCode, traverseNodeSchema } from './helper';
+import { genCode, traverseNodeSchema } from './helper';
 import { ImportType } from './types';
 import type { ImportSource, PageMeta } from './types';
 import { funcSchemaToFunc, genEventName } from './events';
-import { genPageMetaCode } from './page-meta';
 import { applyGlobalState } from './global-state';
 
 function genComponentImports(componentMaps: IPublicTypeComponentMap[]) {
@@ -97,20 +96,22 @@ export function genScript({ componentMaps, rootSchema, componentRefs, meta }: {
     componentRefs: Set<string>
     meta: PageMeta
 },
-) {
+): [ImportSource[], string[]] {
     const codeImports = genComponentImports(componentMaps);
     const globalStateSnippet = applyGlobalState();
     const refCodeSnippet = genRefCode(componentRefs);
     const codesSnippet = genCode(rootSchema.code);
-    const pageMetaSnippet = genPageMetaCode(meta);
-    return `<script setup>
-            ${genImportCode(globalStateSnippet.importSources.concat(pageMetaSnippet.importSources, codeImports, refCodeSnippet.importSources, codesSnippet?.importSources).filter(Boolean))}
-            ${pageMetaSnippet.code}
-            ${globalStateSnippet.code}
-            ${refCodeSnippet.code}
-            ${codesSnippet?.code || ''}
 
-            ${genUseComponentEvents(rootSchema).join('\n')}
-        </script>`;
-    return '';
+    const codes = [
+        globalStateSnippet.code,
+        refCodeSnippet.code,
+        codesSnippet?.code,
+
+        genUseComponentEvents(rootSchema).join('\n'),
+    ].filter(Boolean);
+
+    return [
+        globalStateSnippet.importSources.concat(codeImports, refCodeSnippet.importSources, codesSnippet?.importSources).filter(Boolean),
+        codes,
+    ];
 }

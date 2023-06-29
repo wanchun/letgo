@@ -10,8 +10,8 @@ import { genPageTemplate } from './gen-template';
 import { genScript } from './script';
 import { traverseNodeSchema } from './helper';
 import { formatFileName, formatPageName, formatPageTitle } from './page-meta';
-import type { PageMeta } from './types';
-import { genGlobalStateCode } from './global-state';
+import { PageFileType } from './types';
+import type { FileStruct, PageMeta, VueFileStruct } from './types';
 
 function getComponentRefs(
     nodeData: IPublicTypeNodeData | IPublicTypeNodeData[],
@@ -38,7 +38,7 @@ function getUseComponentRefs(rootSchema: IPublicTypeRootSchema) {
 function compileRootSchema(
     componentMaps: IPublicTypeComponentMap[],
     rootSchema: IPublicTypeRootSchema,
-) {
+): VueFileStruct {
     if (rootSchema.componentName === 'Page') {
         const componentRefs = getUseComponentRefs(rootSchema);
         const fileName = formatFileName(rootSchema.fileName);
@@ -47,18 +47,24 @@ function compileRootSchema(
             name: formatPageName(fileName),
             title: formatPageTitle(rootSchema.title),
         };
-        return {
+        const [importSources, codes] = genScript({
+            componentMaps,
+            rootSchema,
+            componentRefs,
             meta,
+        });
+
+        return {
+            fileType: PageFileType.Vue,
+            filename: fileName,
+            routeName: formatPageName(fileName),
+            pageTitle: formatPageTitle(rootSchema.title),
+            importSources,
             template: genPageTemplate(rootSchema, componentRefs),
-            script: genScript({
-                componentMaps,
-                rootSchema,
-                componentRefs,
-                meta,
-            }),
+            codes,
         };
     }
-    return {};
+    return null;
 }
 
 function getUseComponentNames(
@@ -88,19 +94,11 @@ function getUseComponents(
     return useComponents;
 }
 
-export function schemaToCode(schema: IPublicTypeProjectSchema) {
-    // 必须先执行，初始化 global 代码生成的上下文
-    const globalState = genGlobalStateCode(schema);
-
-    const rootComponents = schema.componentsTree.map((rootSchema) => {
+export function schemaToCode(schema: IPublicTypeProjectSchema): FileStruct[] {
+    return schema.componentsTree.map((rootSchema) => {
         return compileRootSchema(
             getUseComponents(schema.componentsMap, rootSchema),
             rootSchema,
         );
-    });
-
-    return {
-        globalState,
-        pages: rootComponents,
-    };
+    }).filter(Boolean);
 }

@@ -1,3 +1,6 @@
+import {
+    markReactive,
+} from '@webank/letgo-common';
 import { ScrollTarget } from '../designer';
 import type { IPoint, IViewport, TypeAutoFit } from '../types';
 import { AutoFit } from '../types';
@@ -7,35 +10,52 @@ export class Viewport implements IViewport {
 
     private _bounds?: DOMRect;
 
-    get bounds(): DOMRect {
-        if (this._bounds)
-            return this._bounds;
-
-        this._bounds = this.viewportElement.getBoundingClientRect();
-        requestAnimationFrame(() => {
-            this._bounds = undefined;
-        });
-        return this._bounds;
-    }
-
-    get contentBounds(): DOMRect {
-        const { bounds, scale } = this;
-        return new DOMRect(0, 0, bounds.width / scale, bounds.height / scale);
-    }
-
     private viewportElement?: HTMLElement;
 
-    mount(viewportElement: HTMLElement | null) {
-        if (!viewportElement || this.viewportElement === viewportElement)
-            return;
+    private _scale = 1;
 
-        this.viewportElement = viewportElement;
-        this.touch();
+    private _contentWidth: number | TypeAutoFit = AutoFit;
+
+    private _contentHeight: number | TypeAutoFit = AutoFit;
+
+    private _scrollX = 0;
+
+    private _scrollY = 0;
+
+    private _scrollTarget?: ScrollTarget;
+
+    private _scrolling = false;
+
+    get contentHeight(): number | TypeAutoFit {
+        return this._contentHeight;
     }
 
-    touch() {
-        if (this.viewportElement)
-            this.rect = this.bounds;
+    set contentHeight(newContentHeight: number | TypeAutoFit) {
+        this._contentHeight = newContentHeight;
+    }
+
+    get contentWidth(): number | TypeAutoFit {
+        return this._contentWidth;
+    }
+
+    set contentWidth(val: number | TypeAutoFit) {
+        this._contentWidth = val;
+    }
+
+    /**
+     * 缩放比例
+     */
+    get scale(): number {
+        return this._scale;
+    }
+
+    set scale(newScale: number) {
+        if (isNaN(newScale) || newScale <= 0)
+            throw new Error(`invalid new scale "${newScale}"`);
+
+        this._scale = newScale;
+        this._contentWidth = this.width / this.scale;
+        this._contentHeight = this.height / this.scale;
     }
 
     get height(): number {
@@ -68,47 +88,21 @@ export class Viewport implements IViewport {
         }
     }
 
-    private _scale = 1;
+    get bounds(): DOMRect {
+        if (this._bounds)
+            return this._bounds;
 
-    /**
-     * 缩放比例
-     */
-    get scale(): number {
-        return this._scale;
+        this._bounds = this.viewportElement.getBoundingClientRect();
+        requestAnimationFrame(() => {
+            this._bounds = undefined;
+        });
+        return this._bounds;
     }
 
-    set scale(newScale: number) {
-        if (isNaN(newScale) || newScale <= 0)
-            throw new Error(`invalid new scale "${newScale}"`);
-
-        this._scale = newScale;
-        this._contentWidth = this.width / this.scale;
-        this._contentHeight = this.height / this.scale;
+    get contentBounds(): DOMRect {
+        const { bounds, scale } = this;
+        return new DOMRect(0, 0, bounds.width / scale, bounds.height / scale);
     }
-
-    private _contentWidth: number | TypeAutoFit = AutoFit;
-
-    private _contentHeight: number | TypeAutoFit = AutoFit;
-
-    get contentHeight(): number | TypeAutoFit {
-        return this._contentHeight;
-    }
-
-    set contentHeight(newContentHeight: number | TypeAutoFit) {
-        this._contentHeight = newContentHeight;
-    }
-
-    get contentWidth(): number | TypeAutoFit {
-        return this._contentWidth;
-    }
-
-    set contentWidth(val: number | TypeAutoFit) {
-        this._contentWidth = val;
-    }
-
-    private _scrollX = 0;
-
-    private _scrollY = 0;
 
     get scrollX() {
         return this._scrollX;
@@ -118,8 +112,6 @@ export class Viewport implements IViewport {
         return this._scrollY;
     }
 
-    private _scrollTarget?: ScrollTarget;
-
     /**
      * 滚动对象
      */
@@ -127,10 +119,28 @@ export class Viewport implements IViewport {
         return this._scrollTarget;
     }
 
-    private _scrolling = false;
-
     get scrolling(): boolean {
         return this._scrolling;
+    }
+
+    constructor() {
+        markReactive(this, {
+            rect: undefined,
+            _scale: 1,
+        });
+    }
+
+    private touch() {
+        if (this.viewportElement)
+            this.rect = this.bounds;
+    }
+
+    mount(viewportElement: HTMLElement | null) {
+        if (!viewportElement || this.viewportElement === viewportElement)
+            return;
+
+        this.viewportElement = viewportElement;
+        this.touch();
     }
 
     setScrollTarget(target: Window) {

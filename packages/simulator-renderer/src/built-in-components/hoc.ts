@@ -1,7 +1,8 @@
 import { isNil } from 'lodash-es';
-import type { Slot } from 'vue';
+import type { ComputedRef, Slot } from 'vue';
 import {
     Fragment,
+    computed,
     defineComponent,
     h,
     inject,
@@ -24,9 +25,12 @@ import {
     isJSSlot,
 } from '@webank/letgo-types';
 import { getConvertedExtraKey } from '@webank/letgo-designer';
-import type { ISlotNode } from '@webank/letgo-designer';
+import type { INode, ISlotNode } from '@webank/letgo-designer';
 import type {
     BlockScope,
+    LeafProps,
+    RuntimeScope,
+
     SlotSchemaMap,
 } from '@webank/letgo-renderer';
 import { BASE_COMP_CONTEXT } from '../constants';
@@ -50,6 +54,36 @@ function decorateDefaultSlot(slot?: Slot): Slot {
     };
 }
 
+function useSchema(props: LeafProps, node: INode) {
+    const compProps: {
+        [x: string]: unknown
+    } = reactive({});
+    const compSlots: SlotSchemaMap = reactive({});
+
+    const result = buildSchema(props, node);
+    Object.entries(props.schema.props ?? {}).forEach(([key, val]) => {
+        if (isJSSlot(val)) {
+            // 处理具名插槽
+            const prop = node?.getProp(key);
+            if (prop && prop.slotNode) {
+                // design 模式，从 prop 对象到处 schema
+                const slotSchema = prop.slotNode.exportSchema(
+                    IPublicEnumTransformStage.Render,
+                );
+                result.slots[slotSchema?.name || key] = slotSchema;
+            }
+        }
+    });
+
+    Object.assign(compProps, result.props);
+    Object.assign(compSlots, result.slots);
+
+    return {
+        compProps,
+        compSlots,
+    };
+}
+
 export const Hoc = defineComponent({
     name: 'Hoc',
     props: leafProps,
@@ -59,7 +93,23 @@ export const Hoc = defineComponent({
 
         const { renderComp } = useLeaf(props, executeCtx);
 
-        const { show, condition } = buildShow(props.scope, executeCtx, props.schema);
+        const { compProps, compSlots } = useSchema(props, node);
+
+        const innerScope: ComputedRef<RuntimeScope> = computed(() => {
+            if (props.schema.componentName === 'Slot') {
+                const result: RuntimeScope = {
+                    ...props.scope,
+                };
+                ensureArray(compProps.params).forEach((item, idx) => {
+                    result[item as string] = (props.scope.__slot_args as any[])[idx];
+                });
+                return result;
+            }
+            return props.scope;
+        });
+
+        const { show, condition } = buildShow(innerScope, executeCtx, props.schema);
+        // TODO build loop
         const { loop, updateLoop, updateLoopArg, buildLoopScope } = buildLoop(
             props.scope,
             props.schema,
@@ -75,30 +125,6 @@ export const Hoc = defineComponent({
 
             return result;
         };
-
-        const compProps: {
-            [x: string]: unknown
-        } = reactive({});
-        const compSlots: SlotSchemaMap = reactive({});
-
-        const result = buildSchema(props, node);
-
-        Object.entries(props.schema.props ?? {}).forEach(([key, val]) => {
-            if (isJSSlot(val)) {
-                // 处理具名插槽
-                const prop = node?.getProp(key);
-                if (prop && prop.slotNode) {
-                    // design 模式，从 prop 对象到处 schema
-                    const slotSchema = prop.slotNode.exportSchema(
-                        IPublicEnumTransformStage.Render,
-                    );
-                    result.slots[slotSchema?.name || key] = slotSchema;
-                }
-            }
-        });
-
-        Object.assign(compProps, result.props);
-        Object.assign(compSlots, result.slots);
 
         // hoc
         if (node) {
@@ -181,6 +207,7 @@ export const Hoc = defineComponent({
         };
 
         return {
+            innerScope,
             show,
             loop,
             compSlots,
@@ -203,7 +230,7 @@ export const Hoc = defineComponent({
             getRef,
             buildLoopScope,
             innerBuildSlots,
-            scope,
+            innerScope,
             executeCtx,
             node,
             renderComp,
@@ -217,14 +244,15 @@ export const Hoc = defineComponent({
         if (!loop) {
             const props = buildProps({
                 context: executeCtx,
-                scope,
+                scope: innerScope,
                 propsSchema: compProps,
                 blockScope: null,
                 extraProps: { ref: getRef },
                 node,
                 render: renderComp,
             });
-            const slots = innerBuildSlots(compSlots);
+            // slot 的 scope 是内建的，需要往后传
+            const slots = innerBuildSlots(compSlots, node.componentName === 'Slot' ? innerScope : null);
             return h(comp, props, slots);
         }
 
@@ -239,7 +267,7 @@ export const Hoc = defineComponent({
                 const blockScope = buildLoopScope(item, index, arr.length);
                 const props = buildProps({
                     context: executeCtx,
-                    scope,
+                    scope: innerScope,
                     propsSchema: compProps,
                     blockScope,
                     extraProps: {

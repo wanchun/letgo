@@ -208,13 +208,23 @@ function buildProp(
 
         // 返回 slot 函数
         return (...args: unknown[]) => {
-            const slotScope = parseSlotScope(args, slotParams);
-            const vnodes: VNode[] = [];
+            let slotScope: Record<string, any>;
+            // design 模式
+            if (prop) {
+                slotScope = {
+                    __slot_args: args,
+                };
+            }
+            else {
+                slotScope = parseSlotScope(args, slotParams);
+            }
+
+            const vNodes: VNode[] = [];
             ensureArray(slotSchema).forEach((item) => {
                 const vnode = render(item, [blockScope, slotScope]);
-                ensureArray(vnode).forEach(item => vnodes.push(item));
+                ensureArray(vnode).forEach(item => vNodes.push(item));
             });
-            return vnodes;
+            return vNodes;
         };
     }
     else if (isArray(schema)) {
@@ -511,14 +521,14 @@ export function buildLoop(scope: RuntimeScope, schema: IPublicTypeNodeSchema) {
     };
 }
 
-export function buildShow(scope: RuntimeScope, ctx: Record<string, any>, schema: IPublicTypeNodeSchema) {
+export function buildShow(scope: RuntimeScope | ComputedRef<RuntimeScope>, ctx: Record<string, any>, schema: IPublicTypeNodeSchema) {
     const condition = ref<unknown>(schema.condition ?? true);
 
     const show = computed(() => {
         const { value: showCondition } = condition;
         if (typeof showCondition === 'boolean')
             return showCondition;
-        return !!parseSchema(showCondition, { ...scope, ...ctx });
+        return !!parseSchema(showCondition, { ...toRaw(scope), ...ctx });
     });
 
     return {

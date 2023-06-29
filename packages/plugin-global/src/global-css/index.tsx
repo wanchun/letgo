@@ -3,7 +3,7 @@ import { defineComponent } from 'vue';
 import { FDrawer } from '@fesjs/fes-design';
 import { useModel } from '@webank/letgo-common';
 import { css } from '@codemirror/lang-css';
-import { CodeMirror } from '@webank/letgo-components';
+import { CodeEditor } from '@webank/letgo-components';
 import type { Project } from '@webank/letgo-designer';
 
 export const GlobalCSS = defineComponent({
@@ -24,13 +24,9 @@ export const GlobalCSS = defineComponent({
                     v-model={[innerVisible.value, 'show']}
                     title="全局样式CSS"
                 >
-                    <CodeMirror
-                        modelValue={props.project.css}
-                        onUpdate:modelValue={onStyleChange}
-                        basic={true}
-                        tab={true}
-                        tabSize={4}
-                        lang={css()}
+                    <CodeEditor
+                        doc={props.project.css}
+                        changeDoc={onStyleChange}
                         extensions={[css()]}
                     />
                 </FDrawer>;

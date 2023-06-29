@@ -3,7 +3,7 @@ import { defineComponent, ref } from 'vue';
 import { FButton } from '@fesjs/fes-design';
 import type { IJavascriptComputed } from '@webank/letgo-types';
 import type { DocumentModel } from '@webank/letgo-designer';
-import { JsEditor } from '../../code-editor';
+import { CodeEditor } from '../../code-editor';
 import { contentCls, headerCls } from './computed-edit.css';
 
 /**
@@ -42,7 +42,7 @@ export const ComputedEdit = defineComponent({
                     </div>
                 </div>
                 <div class={contentCls}>
-                    <JsEditor documentModel={props.documentModel} hints={props.hints} doc={props.codeItem.funcBody} changeDoc={changeFuncBody} />
+                    <CodeEditor documentModel={props.documentModel} hints={props.hints} doc={props.codeItem.funcBody} changeDoc={changeFuncBody} />
                 </div>
             </div>;
         };

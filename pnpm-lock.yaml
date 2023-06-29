@@ -148,6 +148,9 @@ importers:
       '@fesjs/fes-design':
         specifier: ^0.7.32
         version: 0.7.32(vue@3.3.4)
+      '@icon-park/vue-next':
+        specifier: ^1.4.2
+        version: 1.4.2(vue@3.3.4)
       '@webank/letgo-common':
         specifier: workspace:*
         version: link:../common

@@ -3,9 +3,9 @@ import { computed, defineComponent, onMounted } from 'vue';
 import { isJSFunction } from '@webank/letgo-types';
 import type { IPublicTypeJSFunction, IPublicTypeSetter } from '@webank/letgo-types';
 import type { SettingField } from '@webank/letgo-designer';
-import { javascript } from '@codemirror/lang-javascript';
 import { isFunction, isUndefined } from 'lodash-es';
-import { CodeMirror } from '@webank/letgo-components';
+import { javascript } from '@codemirror/lang-javascript';
+import { CodeEditor } from '@webank/letgo-components';
 import { commonProps } from '../../common';
 
 const FunctionSetterView = defineComponent({
@@ -38,15 +38,11 @@ const FunctionSetterView = defineComponent({
         };
         return () => {
             return (
-                <CodeMirror
-                    modelValue={currentValue.value}
-                    onUpdate:modelValue={onChange}
-                    basic={true}
-                    tab={true}
+                <CodeEditor
+                    doc={currentValue.value}
+                    changeDoc={onChange}
                     extensions={[javascript()]}
-                    tabSize={4}
-                    placeholder={props.placeholder || 'Type your code here'}
-                ></CodeMirror>
+                ></CodeEditor>
             );
         };
     },

@@ -4,7 +4,7 @@ import type { PropType } from 'vue';
 import { computed, defineComponent, ref } from 'vue';
 import { FInput, FOption, FSelect } from '@fesjs/fes-design';
 import type { DocumentModel } from '@webank/letgo-designer';
-import { JsEditor } from '../../code-editor';
+import { CodeEditor } from '../../code-editor';
 import Label from './label';
 
 export default defineComponent({
@@ -122,7 +122,7 @@ export default defineComponent({
         };
 
         const renderRunFunction = (data: IRunFunctionAction) => {
-            return <JsEditor documentModel={props.documentModel} doc={data.funcBody} changeDoc={changeFuncBody} />;
+            return <CodeEditor documentModel={props.documentModel} doc={data.funcBody} changeDoc={changeFuncBody} />;
         };
 
         return () => {

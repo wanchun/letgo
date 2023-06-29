@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { defineComponent, ref } from 'vue';
 import type { Designer } from '@webank/letgo-designer';
-import { CodeMirror } from '@webank/letgo-components';
+import { CodeEditor } from '@webank/letgo-components';
 import { json } from '@codemirror/lang-json';
 import { FButton } from '@fesjs/fes-design';
 import { actionCls, codeCls, wrapperCls } from './index.css';
@@ -36,17 +36,14 @@ export const SchemaView = defineComponent({
         return () => {
             return (
                 <div class={wrapperCls}>
-                    <CodeMirror
+                    <CodeEditor
                         class={codeCls}
-                        modelValue={JSON.stringify(project.currentDocument?.computedSchema ?? {}, null, 2)}
-                        onUpdate:modelValue={onChange}
-                        basic={true}
-                        tab={true}
-                        tabSize={4}
+                        doc={JSON.stringify(project.currentDocument?.computedSchema ?? {}, null, 2)}
+                        changeDoc={onChange}
                         extensions={[json()]}
-                        lang={json()}
                         bordered={false}
-                    ></CodeMirror>
+                        fullscreen={false}
+                    ></CodeEditor>
                     <div class={actionCls}>
                         <FButton type="info" size="small" onClick={onSave}>保存 Schema</FButton>
                     </div>

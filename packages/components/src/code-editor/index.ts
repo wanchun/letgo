@@ -1,2 +1,2 @@
 export * from './expression-editor';
-export * from './js-editor';
+export * from './code-editor';

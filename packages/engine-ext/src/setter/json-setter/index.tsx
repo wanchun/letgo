@@ -2,7 +2,7 @@ import { computed, defineComponent, onMounted } from 'vue';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { json } from '@codemirror/lang-json';
 import { isUndefined } from 'lodash-es';
-import { CodeMirror } from '@webank/letgo-components';
+import { CodeEditor } from '@webank/letgo-components';
 import { commonProps } from '../../common';
 
 const JsonSetterView = defineComponent({
@@ -31,16 +31,11 @@ const JsonSetterView = defineComponent({
         };
         return () => {
             return (
-                <CodeMirror
-                    modelValue={currentValue.value}
-                    onUpdate:modelValue={onChange}
-                    basic={true}
-                    tab={true}
-                    tabSize={4}
+                <CodeEditor
+                    doc={currentValue.value}
+                    changeDoc={onChange}
                     extensions={[json()]}
-                    lang={json()}
-                    placeholder={props.placeholder || ''}
-                ></CodeMirror>
+                ></CodeEditor>
             );
         };
     },

@@ -2,7 +2,7 @@ import type { PropType } from 'vue';
 import { defineComponent, ref } from 'vue';
 import { FButton } from '@fesjs/fes-design';
 import type { IJavascriptFunction } from '@webank/letgo-types';
-import { JsEditor } from '@webank/letgo-components';
+import { CodeEditor } from '@webank/letgo-components';
 import { contentCls, headerCls } from './function-edit.css';
 
 /**
@@ -40,7 +40,7 @@ export const FunctionEdit = defineComponent({
                     </div>
                 </div>
                 <div class={contentCls}>
-                    <JsEditor hints={props.hints} doc={props.codeItem.funcBody} changeDoc={changeFuncBody} />
+                    <CodeEditor hints={props.hints} doc={props.codeItem.funcBody} changeDoc={changeFuncBody} />
                 </div>
             </div>;
         };

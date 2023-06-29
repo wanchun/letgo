@@ -1,7 +1,7 @@
 import type { CSSProperties, PropType } from 'vue';
 import { computed, defineComponent } from 'vue';
 import { css } from '@codemirror/lang-css';
-import { CodeMirror } from '@webank/letgo-components';
+import { CodeEditor } from '@webank/letgo-components';
 import { parseToCssCode, parseToStyleData } from '../../../common';
 
 export const CodeView = defineComponent({
@@ -24,13 +24,9 @@ export const CodeView = defineComponent({
 
         return () => {
             return (
-                <CodeMirror
-                    modelValue={code.value}
-                    onUpdate:modelValue={onStyleChange}
-                    basic={true}
-                    tab={true}
-                    tabSize={4}
-                    lang={css()}
+                <CodeEditor
+                    doc={code.value}
+                    changeDoc={onStyleChange}
                     extensions={[css()]}
                 />
             );

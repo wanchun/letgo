@@ -8,7 +8,7 @@ export const mainCls = style({
 });
 
 export const navigatorCls = style({
-    height: '30px',
+    height: '36px',
     display: 'flex',
     alignItems: 'center',
     padding: '0 16px',
@@ -32,7 +32,7 @@ export const noticeCls = style({
 
 export const bodyCls = style({
     position: 'absolute',
-    top: '30px',
+    top: '36px',
     right: 0,
     left: 0,
     bottom: 0,

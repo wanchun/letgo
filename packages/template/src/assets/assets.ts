@@ -5783,6 +5783,11 @@ const assets: IPublicTypeAssetsJson = {
                                                             name: 'render',
                                                             title: '自定义渲染',
                                                             setter: 'SlotSetter',
+                                                            defaultValue: {
+                                                                type: 'JSSlot',
+                                                                params: ['slotProps'],
+                                                                value: [],
+                                                            },
                                                         },
                                                         {
                                                             name: 'renderHeader',

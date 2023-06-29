@@ -1,5 +1,5 @@
 import {
-    markReactive,
+    markComputed, markReactive,
 } from '@webank/letgo-common';
 import { ScrollTarget } from '../designer';
 import type { IPoint, IViewport, TypeAutoFit } from '../types';
@@ -8,9 +8,9 @@ import { AutoFit } from '../types';
 export class Viewport implements IViewport {
     private rect?: DOMRect;
 
-    private _bounds?: DOMRect;
-
     private viewportElement?: HTMLElement;
+
+    private _bounds?: DOMRect;
 
     private _scale = 1;
 
@@ -127,7 +127,12 @@ export class Viewport implements IViewport {
         markReactive(this, {
             rect: undefined,
             _scale: 1,
+            _scrollX: 0,
+            _scrollY: 0,
+            _contentHeight: AutoFit,
+            _contentWidth: AutoFit,
         });
+        markComputed(this, ['scrollX', 'scrollY']);
     }
 
     private touch() {

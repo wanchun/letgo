@@ -25,8 +25,8 @@ export const BorderDetectingInstance = defineComponent({
                 width: `${props.rect?.width * props.scale}px`,
                 height: `${props.rect?.height * props.scale}px`,
                 transform: `translate(${
-                    (scrollX + props.rect?.left) * props.scale
-                }px, ${(scrollY + props.rect?.top) * props.scale}px)`,
+                    (props.scrollX + props.rect?.left) * props.scale
+                }px, ${(props.scrollY + props.rect?.top) * props.scale}px)`,
             };
         });
 

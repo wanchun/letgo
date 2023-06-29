@@ -11,7 +11,8 @@ export const wrapperCls = style({
 
 export const contentCls = style({
     flex: 1,
-    overflow: 'auto',
+    // 避免超出宽度
+    overflow: 'hidden',
 });
 
 export const actionsCls = style({

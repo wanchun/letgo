@@ -2,6 +2,7 @@ import { computed, defineComponent } from 'vue';
 import type { PropType } from 'vue';
 import type { Designer } from '@webank/letgo-designer';
 import { CodeList } from '@webank/letgo-components';
+import { innerGlobalVariable } from '@webank/letgo-common';
 
 import useCode from './useCode';
 
@@ -23,6 +24,10 @@ export default defineComponent({
             return currentDocument.value?.state.codesInstance;
         });
 
+        const hasCodeId = (id: string) => {
+            return currentDocument.value?.state.hasStateId(id) || props.designer.project.code.hasCodeId(id) || innerGlobalVariable.includes(id);
+        };
+
         const {
             currentCodeItem,
             changeCurrentCodeItem,
@@ -32,6 +37,7 @@ export default defineComponent({
             return <CodeList
                 hasQuery
                 code={code.value}
+                hasCodeId={hasCodeId}
                 currentCodeItem={currentCodeItem.value}
                 onChangeCurrentCodeItem={changeCurrentCodeItem}
                 codesInstance={codesInstance.value}

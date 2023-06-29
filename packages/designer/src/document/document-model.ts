@@ -410,6 +410,7 @@ export class DocumentModel {
         this.nodes.clear();
         this._nodesMap.clear();
         this.code.purge();
+        this.state.purge();
         this.offNodeRefChange();
         this.offGlobalStateIdChange();
     }

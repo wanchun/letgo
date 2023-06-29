@@ -788,6 +788,9 @@ export class Simulator implements ISimulator<ISimulatorProps> {
 
     onUpdateCodesInstance(func: (codesInstance: Record<string, any>) => void) {
         this.emitter.on('updateCodesInstance', func);
+        return () => {
+            this.emitter.off('updateCodesInstance', func);
+        };
     }
 
     updateCodesInstance(codesInstance: Record<string, any>) {

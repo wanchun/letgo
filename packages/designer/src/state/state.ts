@@ -1,10 +1,3 @@
-/**
- * model 状态管理
- * 全局状态
- * code 实例
- * component 实例
- * TODO utils key 校验
- */
 import { markReactive } from '@webank/letgo-common';
 import { debounce } from 'lodash-es';
 import type { Designer } from '../designer';
@@ -16,6 +9,7 @@ export class State {
     private nodeIdToRef = new Map<string, string>();
     componentsInstance: Record<string, any>;
     codesInstance: Record<string, any>;
+    private offEvents: (() => void)[] = [];
     constructor(project: Project) {
         markReactive(this, {
             codesInstance: {},
@@ -33,11 +27,12 @@ export class State {
     }
 
     initCodesInstanceListen() {
-        this.designer.onSimulatorReady(() => {
-            this.designer.simulator.onUpdateCodesInstance((codesInstance) => {
-                this.codesInstance = { ...codesInstance };
-            });
-        });
+        this.offEvents.push(this.designer.onSimulatorReady(() => {
+            this.offEvents.push(
+                this.designer.simulator.onUpdateCodesInstance((codesInstance) => {
+                    this.codesInstance = { ...codesInstance };
+                }));
+        }));
     }
 
     getInstance(instances: IComponentInstance[]) {
@@ -55,8 +50,8 @@ export class State {
 
     initComponentInstanceListen() {
         // TODO: 清理
-        this.designer.onSimulatorReady(() => {
-            this.designer.simulator.onEvent('componentInstanceChange', (options: {
+        this.offEvents.push(this.designer.onSimulatorReady(() => {
+            this.offEvents.push(this.designer.simulator.onEvent('componentInstanceChange', (options: {
                 docId: string
                 id: string
                 instances: IComponentInstance[]
@@ -111,7 +106,11 @@ export class State {
                     if (refName)
                         delete this.componentsInstance[refName];
                 }
-            });
-        });
+            }));
+        }));
+    }
+
+    purge() {
+        this.offEvents.forEach(fn => fn());
     }
 }

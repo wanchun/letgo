@@ -81,12 +81,12 @@ export default defineComponent({
                 }
             }
             // console.log(schema);
-            // saveFile(schemaToCode(schema));
+            // saveFile(schemaToCode(schema).pages);
             // return;
-            const rootComponents = schemaToCode(schema);
+            const code = schemaToCode(schema);
             const defaultContent = await import('./template.json');
             const currentContent = cloneDeep(defaultContent.default);
-            const pages = rootComponents.reduce((acc, cur) => {
+            const pages = code.pages.reduce((acc, cur) => {
                 acc[cur.meta.fileName] = `
                 ${cur.template}
 
@@ -94,9 +94,11 @@ export default defineComponent({
                 `;
                 return acc;
             }, {} as Record<string, any>);
+            if (code.globalState)
+                (currentContent.src.use as Record<string, string>)[code.globalState.filename] = code.globalState.content;
 
             currentContent.src.pages = Object.assign(currentContent.src.pages, pages);
-            currentContent['.fes.js'] = defaultObjectConfig.replace('META', rootComponents.reduce((acc, cur) => {
+            currentContent['.fes.js'] = defaultObjectConfig.replace('META', code.pages.reduce((acc, cur) => {
                 return acc += `
                     {
                         name: '${cur.meta.name}'

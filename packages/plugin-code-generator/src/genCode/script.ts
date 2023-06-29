@@ -1,21 +1,16 @@
 import type {
-    CodeItem,
-    CodeStruct,
-    IPublicTypeComponentMap, IPublicTypeEventHandler, IPublicTypeJSFunction, IPublicTypeNodeData, IPublicTypeRootSchema,
+    IPublicTypeComponentMap, IPublicTypeJSFunction, IPublicTypeNodeData, IPublicTypeRootSchema,
 } from '@webank/letgo-types';
 import {
-    CodeType,
     isJSFunction,
     isProCodeComponentType,
 } from '@webank/letgo-types';
-import { eventHandlersToJsFunction, sortState } from '@webank/letgo-common';
-import { getCurrentContext } from './compiler-context';
-import { genGlobalConfig } from './global-config';
-import { genImportCode, traverseNodeSchema } from './helper';
+import { genCode, genImportCode, traverseNodeSchema } from './helper';
 import { ImportType } from './types';
-import type { ImportSource, PageMeta, SetupCode } from './types';
+import type { ImportSource, PageMeta } from './types';
 import { funcSchemaToFunc, genEventName } from './events';
 import { genPageMetaCode } from './page-meta';
+import { applyGlobalState } from './global-state';
 
 function genComponentImports(componentMaps: IPublicTypeComponentMap[]) {
     const importSources: ImportSource[] = [];
@@ -30,100 +25,6 @@ function genComponentImports(componentMaps: IPublicTypeComponentMap[]) {
     });
 
     return importSources;
-}
-
-function genCodeMap(code: CodeStruct) {
-    const codeMap = new Map<string, CodeItem>();
-    code.code.forEach((item) => {
-        codeMap.set(item.id, item);
-    });
-
-    code.directories.forEach((directory) => {
-        directory.code.forEach((item) => {
-            codeMap.set(item.id, item);
-        });
-    });
-    return codeMap;
-}
-
-function eventSchemaToFunc(events: IPublicTypeEventHandler[] = []) {
-    if (!events.length)
-        return [];
-    const jsFunctionMap = eventHandlersToJsFunction(events);
-    const jsFunctions = Object.keys(jsFunctionMap).reduce((acc, cur) => {
-        acc = acc.concat(jsFunctionMap[cur]);
-        return acc;
-    }, []);
-    return jsFunctions.map(item => funcSchemaToFunc(item));
-}
-
-function genCode(schema: IPublicTypeRootSchema): SetupCode {
-    const codeMap = genCodeMap(schema.code);
-    const sortResult = sortState(codeMap);
-    const codeStr: string[] = [];
-    const importSourceMap = new Map<string, ImportSource>();
-    sortResult.forEach((codeId) => {
-        const item = codeMap.get(codeId);
-        if (item.type === CodeType.TEMPORARY_STATE) {
-            importSourceMap.set('useTemporaryState', {
-                imported: 'useTemporaryState',
-                type: ImportType.ImportSpecifier,
-                source: '@/use/useTemporaryState',
-            });
-            codeStr.push(`
-            const ${item.id} = useTemporaryState({
-                id: '${item.id}',
-                initValue: ${item.initValue.trim()},
-            });
-            `);
-        }
-        else if (item.type === CodeType.JAVASCRIPT_COMPUTED) {
-            importSourceMap.set('useComputed', {
-                imported: 'useComputed',
-                type: ImportType.ImportSpecifier,
-                source: '@/use/useComputed',
-            });
-            codeStr.push(`
-            const ${item.id} = useComputed({
-                id: '${item.id}',
-                func: () => {
-                    ${item.funcBody}
-                },
-            });
-            `);
-        }
-        else if (item.type === CodeType.JAVASCRIPT_QUERY) {
-            importSourceMap.set('useJSQuery', {
-                imported: 'useJSQuery',
-                type: ImportType.ImportSpecifier,
-                source: '@/use/useJSQuery',
-            });
-            codeStr.push(`
-            const ${item.id} = useJSQuery({
-                id: '${item.id}',
-                async query() {
-                    ${item.query}
-                },
-                ${item.enableTransformer ? `enableTransformer: ${item.enableTransformer},` : ''}
-                ${item.transformer ? `transformer: '${item.transformer}',` : ''}
-                ${item.showFailureToaster ? `showFailureToaster: ${item.showFailureToaster},` : ''}
-                ${item.showSuccessToaster ? `showSuccessToaster: ${item.showSuccessToaster},` : ''}
-                ${item.successMessage ? `successMessage: '${item.successMessage}',` : ''}
-                ${item.queryTimeout ? `queryTimeout: ${item.queryTimeout},` : ''}
-                ${item.runCondition ? `runCondition: ${item.runCondition},` : ''}
-                ${item.runWhenPageLoads ? `runWhenPageLoads: ${item.runWhenPageLoads},` : ''}
-                ${(item.queryFailureCondition && item.queryFailureCondition.length) ? `queryFailureCondition: ${item.queryFailureCondition},` : ''}
-                ${item.successEvent ? `successEvent: ${eventSchemaToFunc(item.successEvent)}},` : ''}
-                ${item.failureEvent ? `failureEvent: ${eventSchemaToFunc(item.failureEvent)},` : ''}
-            });
-            `);
-        }
-    });
-
-    return {
-        importSources: Array.from(importSourceMap.values()),
-        code: codeStr.join('\n'),
-    };
 }
 
 function genRefCode(componentRefs: Set<string>) {
@@ -197,18 +98,17 @@ export function genScript({ componentMaps, rootSchema, componentRefs, meta }: {
     meta: PageMeta
 },
 ) {
-    const context = getCurrentContext();
     const codeImports = genComponentImports(componentMaps);
-    const configCodeSnippet = genGlobalConfig(context.config);
+    const globalStateSnippet = applyGlobalState();
     const refCodeSnippet = genRefCode(componentRefs);
-    const codesSnippet = genCode(rootSchema);
+    const codesSnippet = genCode(rootSchema.code);
     const pageMetaSnippet = genPageMetaCode(meta);
     return `<script setup>
-            ${genImportCode(configCodeSnippet.importSources.concat(pageMetaSnippet.importSources, codeImports, refCodeSnippet.importSources, codesSnippet.importSources))}
+            ${genImportCode(globalStateSnippet.importSources.concat(pageMetaSnippet.importSources, codeImports, refCodeSnippet.importSources, codesSnippet?.importSources).filter(Boolean))}
             ${pageMetaSnippet.code}
-            ${configCodeSnippet.code}
+            ${globalStateSnippet.code}
             ${refCodeSnippet.code}
-            ${codesSnippet.code}
+            ${codesSnippet?.code || ''}
 
             ${genUseComponentEvents(rootSchema).join('\n')}
         </script>`;

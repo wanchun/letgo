@@ -87,7 +87,7 @@ export interface ISimulator<P = object> extends ISensor {
 
     setProps(props: P): void
 
-    onEvent(eventName: string, callback: (...args: any[]) => void): void
+    onEvent(eventName: string, callback: (...args: any[]) => void): () => void
 
     /**
      * 设置拖拽态
@@ -102,7 +102,7 @@ export interface ISimulator<P = object> extends ISensor {
      */
     clearState(): void
 
-    onUpdateCodesInstance(func: (codesInstance: Record<string, any>) => void): void
+    onUpdateCodesInstance(func: (codesInstance: Record<string, any>) => void): () => void
 
     /**
      * 缓存节点id的实例

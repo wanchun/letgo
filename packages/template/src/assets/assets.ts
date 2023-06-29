@@ -968,7 +968,7 @@ const assets: IPublicTypeAssetsJson = {
                     {
                         name: 'model',
                         title: '表项值对象',
-                        setter: 'VariableSetter',
+                        setter: 'ExpressionSetter',
                     },
                     {
                         name: 'rules',

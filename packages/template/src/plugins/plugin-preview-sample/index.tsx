@@ -1,7 +1,8 @@
 import { material, project } from '@webank/letgo-engine';
 import type { IPluginConfig } from '@webank/letgo-engine';
 import { IPublicEnumTransformStage } from '@webank/letgo-types';
-import { FButton } from '@fesjs/fes-design';
+import { FTooltip } from '@fesjs/fes-design';
+import { EyeOutlined } from '@fesjs/fes-design/icon';
 
 export default {
     name: 'PluginPreview',
@@ -25,12 +26,12 @@ export default {
 
         skeleton.add({
             name: 'PluginPreviewSkeleton',
-            area: 'topArea',
+            area: 'toolbarArea',
             type: 'Widget',
             props: {
                 align: 'right',
             },
-            render: () => <FButton type="primary" onClick={() => doPreview()}>预览</FButton>,
+            render: () => <FTooltip content="预览" placement="top"><EyeOutlined size={20} onClick={() => doPreview()}></EyeOutlined></FTooltip>,
         });
     },
 } as IPluginConfig;

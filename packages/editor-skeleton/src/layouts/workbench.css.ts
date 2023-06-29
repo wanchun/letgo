@@ -144,7 +144,7 @@ export const toolbarCls = style({
     padding: '8px 16px',
     backgroundColor: '#fff',
     display: 'flex',
-    alignItems: 'center',
+    justifyContent: 'center',
     marginLeft: '2px',
 });
 

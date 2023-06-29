@@ -1,0 +1,66 @@
+import { cloneDeep } from 'lodash-es';
+import { exportZip } from '../export-zip';
+import { ImportType } from '../common/types';
+import { genFileName } from '../common/page-meta';
+import { toAssemble } from '../common/build';
+import type { FileStruct, GlobalStateCode } from '../common/types';
+
+const defaultObjectConfig = `
+import { defineBuildConfig } from '@fesjs/fes';
+
+export default defineBuildConfig({
+    proxy: {
+        '/rcs-mas': {
+            target: process.env.TEST_HOST,
+            secure: false,
+            changeOrigin: true,
+        },
+    },
+    layout: {
+        title: 'Fes.js',
+        navigation: 'mixin',
+        multiTabs: false,
+        footer: null,
+        menus: [
+            {
+                name: 'index',
+            },
+            META
+        ],
+    },
+});
+`;
+
+export async function genFesCode(fileStructs: FileStruct[], globalState?: GlobalStateCode) {
+    const defaultContent = await import('./template.json');
+    const currentContent = cloneDeep(defaultContent.default);
+
+    const pages = fileStructs.reduce((acc, cur) => {
+        cur.importSources.unshift({
+            imported: 'defineRouteMeta',
+            type: ImportType.ImportSpecifier,
+            source: '@fesjs/fes',
+        });
+        cur.codes.unshift(`defineRouteMeta({
+            name: '${cur.routeName}',
+            title: '${cur.pageTitle}',
+        })`);
+        acc[genFileName(cur)] = toAssemble(cur);
+        return acc;
+    }, {} as Record<string, any>);
+
+    currentContent.src.pages = Object.assign(currentContent.src.pages, pages);
+
+    if (globalState)
+        (currentContent.src.use as Record<string, string>)[globalState.filename] = globalState.content;
+
+    currentContent['.fes.js'] = defaultObjectConfig.replace('META', fileStructs.reduce((acc, cur) => {
+        return acc += `
+        {
+            name: '${cur.routeName}'
+        },
+    `;
+    }, ''));
+
+    exportZip(currentContent);
+}

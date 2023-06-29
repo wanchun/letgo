@@ -1,6 +1,5 @@
 import JSZip from 'jszip';
-import { isPlainObject, merge } from 'lodash-es';
-import defaultContent from './template';
+import { isPlainObject } from 'lodash-es';
 
 function writeContent(zip: JSZip, content: Record<string, any>) {
     Object.keys(content).forEach((key) => {
@@ -18,7 +17,7 @@ function writeContent(zip: JSZip, content: Record<string, any>) {
 
 export function exportZip(code: Record<string, any>) {
     const zip = new JSZip();
-    writeContent(zip, merge(defaultContent, code));
+    writeContent(zip, code);
 
     // 生成zip文件并下载
     zip.generateAsync({

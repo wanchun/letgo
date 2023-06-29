@@ -15,20 +15,12 @@ export enum IEnumSkeletonEvent {
  */
 export type IAreaPosition =
     | 'leftArea'
-    | 'left'
     | 'rightArea'
-    | 'right'
     | 'topArea'
-    | 'top'
-    | 'toolbar'
+    | 'toolbarArea'
     | 'mainArea'
-    | 'main'
-    | 'center'
-    | 'centerArea'
     | 'bottomArea'
-    | 'bottom'
     | 'leftFloatArea'
-    | 'global'
     | 'globalArea';
 
 export interface IRenderOption {

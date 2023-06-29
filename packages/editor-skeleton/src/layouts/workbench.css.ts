@@ -141,11 +141,11 @@ export const workbenchCenterCls = style({
 
 export const toolbarCls = style({
     height: '36px',
-    width: '100%',
     padding: '8px 16px',
     backgroundColor: '#fff',
     display: 'flex',
     alignItems: 'center',
+    marginLeft: '2px',
 });
 
 export const toolbarLeftCls = style([horizontalLeft]);

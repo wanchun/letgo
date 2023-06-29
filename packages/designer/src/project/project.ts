@@ -123,6 +123,7 @@ export class Project {
         this.css = schema?.css;
         this.code.initCode(schema?.code);
 
+        // TODO: 可以不用都初始化，导出时想办法用documents和componentsTree合并
         const documentInstances = this.data.componentsTree.map(data =>
             this.createDocument(data),
         );

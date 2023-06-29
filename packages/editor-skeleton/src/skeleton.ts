@@ -51,7 +51,7 @@ export class Skeleton {
         this.topArea = new Area(this, 'topArea', (config) => {
             return this.createWidget(config);
         });
-        this.toolbar = new Area(this, 'toolbar', (config) => {
+        this.toolbar = new Area(this, 'toolbarArea', (config) => {
             return this.createWidget(config);
         });
         this.bottomArea = new Area(this, 'bottomArea', (config) => {
@@ -96,25 +96,19 @@ export class Skeleton {
         const { area } = parsedConfig;
         switch (area) {
             case 'leftArea':
-            case 'left':
                 return this.leftArea.add(parsedConfig as IWidgetConfig);
             case 'topArea':
-            case 'top':
                 return this.topArea.add(parsedConfig as IWidgetConfig);
-            case 'global':
             case 'globalArea':
                 return this.globalArea.add(parsedConfig as IModalConfig);
-            case 'right':
             case 'rightArea':
                 return this.rightArea.add(parsedConfig as IPanelConfig);
-            case 'toolbar':
+            case 'toolbarArea':
                 return this.toolbar.add(parsedConfig as IWidgetConfig);
-            case 'bottom':
             case 'bottomArea':
                 return this.bottomArea.add(parsedConfig as IWidgetConfig);
             case 'leftFloatArea':
                 return this.leftFloatArea.add(parsedConfig as IPanelConfig);
-            case 'main':
             case 'mainArea':
                 return this.mainArea.add(
                     parsedConfig as IWidgetConfig | IPanelConfig,

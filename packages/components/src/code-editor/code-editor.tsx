@@ -63,7 +63,7 @@ export const CodeEditor = defineComponent({
             ...HintTheme,
         });
 
-        const genState = () => {
+        const genState = (state = true) => {
             return EditorState.create({
                 doc: currentDoc,
                 extensions: [
@@ -77,12 +77,12 @@ export const CodeEditor = defineComponent({
                         icons: false,
                     }),
                     placeholder('Type your code here'),
-                    EditorView.updateListener.of((v: ViewUpdate) => {
+                    state && EditorView.updateListener.of((v: ViewUpdate) => {
                         if (v.docChanged) {
                             currentDoc = v.state.sliceDoc();
                             props.changeDoc(currentDoc);
                         }
-                    })],
+                    })].filter(Boolean),
             });
         };
 
@@ -106,9 +106,9 @@ export const CodeEditor = defineComponent({
 
             isFullScreen.value = !isFullScreen.value;
             if (isFullScreen.value) {
+                editorView?.setState(genState(false));
+                fullScreenView?.setState(genState());
                 nextTick(() => {
-                    editorView?.destroy();
-                    editorView = null;
                     if (!fullScreenView) {
                         fullScreenView = new EditorView({
                             state: genState(),
@@ -118,14 +118,8 @@ export const CodeEditor = defineComponent({
                 });
             }
             else {
-                nextTick(() => {
-                    fullScreenView?.destroy();
-                    fullScreenView = null;
-                    editorView = new EditorView({
-                        state: genState(),
-                        parent: editorRefEl.value,
-                    });
-                });
+                fullScreenView?.setState(genState(false));
+                editorView?.setState(genState());
             }
         };
 

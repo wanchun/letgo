@@ -1,5 +1,5 @@
 import type { InjectionKey } from 'vue';
 
 export const styleKey: InjectionKey<{
-    style: CSSStyleDeclaration | null
+    style: Record<string, any> | null
 }> = Symbol('style');

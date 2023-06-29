@@ -35,8 +35,8 @@ export function getComputeStyle(node: INode): Record<string, any> | null {
    * @param cssStyle
    * @param property
    */
-export function getPlaceholderPropertyValue(cssStyle: Record<string, any>, property: string) {
-    const propertyValue = cssStyle[toLine(property)];
+export function getPlaceholderPropertyValue(cssStyle: Record<string, any> | null, property: string) {
+    const propertyValue = cssStyle?.[toLine(property)];
 
     if (propertyValue !== 'auto' && propertyValue) {
         if (property !== 'backgroundColor')

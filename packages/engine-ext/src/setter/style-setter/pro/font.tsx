@@ -62,6 +62,7 @@ export const FontView = defineComponent({
         };
 
         return () => {
+            const defaultOpacity = getPlaceholderPropertyValue(provideStyle.style, 'opacity') || 1;
             return (
                 <FCollapseItem name="font" title="文字">
                     <Row label="字体大小">
@@ -145,7 +146,7 @@ export const FontView = defineComponent({
                         <FInputNumber
                             style={{ width: '100%' }}
                             modelValue={clearUnit(currentValue.value.opacity)}
-                            placeholder={`${Number(getPlaceholderPropertyValue(provideStyle.style, 'opacity')) * 100 ?? '透明度'}`}
+                            placeholder={`${Number(defaultOpacity) * 100 ?? '透明度'}`}
                             onChange={(val) => {
                                 onStyleChange({
                                     opacity: addUnit(val, '%'),

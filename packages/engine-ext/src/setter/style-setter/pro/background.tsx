@@ -61,6 +61,9 @@ export const BackgroundView = defineComponent({
         onMounted(() => {
             const defaultBackgroundSize = getPlaceholderPropertyValue(provideStyle.style, 'backgroundSize') as string;
 
+            if (!defaultBackgroundSize)
+                return;
+
             if (['cover', 'contain'].includes(defaultBackgroundSize)) {
                 backgroundSizeRef.value = defaultBackgroundSize;
             }
@@ -95,6 +98,7 @@ export const BackgroundView = defineComponent({
         };
 
         return () => {
+            const defaultOpacity = getPlaceholderPropertyValue(provideStyle.style, 'opacity') || 1;
             return (
                 <FCollapseItem name="background" title="背景">
                     <Row label="背景">
@@ -120,7 +124,7 @@ export const BackgroundView = defineComponent({
                                 <FInputNumber
                                     style={{ width: '100%' }}
                                     modelValue={clearUnit(currentValue.value.opacity)}
-                                    placeholder={`${Number(getPlaceholderPropertyValue(provideStyle.style, 'opacity')) * 100 ?? '请选择透明度'}`}
+                                    placeholder={`${Number(defaultOpacity) * 100 ?? '请选择透明度'}`}
                                     onChange={(val) => {
                                         onStyleChange({
                                             opacity: addUnit(val, '%'),

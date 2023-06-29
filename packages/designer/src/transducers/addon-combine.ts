@@ -183,7 +183,7 @@ export default function (
                     },
                     {
                         name: 'key',
-                        title: '循环标识（Key）',
+                        title: '循环标识',
                         setter: [
                             {
                                 componentName: 'StringSetter',

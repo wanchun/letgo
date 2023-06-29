@@ -45,6 +45,7 @@ export const SchemaView = defineComponent({
                         tabSize={4}
                         extensions={[json()]}
                         lang={json()}
+                        bordered={false}
                     ></CodeMirror>
                     <div class={actionCls}>
                         <FButton type="info" size="small" onClick={onSave}>保存 Schema</FButton>

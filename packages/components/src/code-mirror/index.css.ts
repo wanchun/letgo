@@ -7,13 +7,16 @@ export const wrapCls = style({
 });
 
 globalStyle(`${wrapCls} .cm-editor`, {
-    border: '1px solid #cfd0d3',
-    borderRadius: '4px',
     height: '100px',
+    outline: 'none',
 });
 
-globalStyle(`${wrapCls} .cm-editor.cm-focused`, {
+globalStyle(`${wrapCls}.is-bordered .cm-editor`, {
+    border: '1px solid #cfd0d3',
+    borderRadius: '4px',
+});
+
+globalStyle(`${wrapCls}.is-bordered .cm-editor.cm-focused`, {
     border: '1px solid #5384ff',
-    outline: 'none',
     boxShadow: '0 0 0 2px #dde6ff',
 });

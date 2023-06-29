@@ -56,9 +56,13 @@ export const SuffixView = defineComponent({
 
         const title = ref(props.node.title);
 
+        const nodeRef = ref(props.node.ref);
+
         const onOk = () => {
             isEdit.value = false;
+            // TODO: 检验
             props.node.props.getExtraProp('title').setValue(title.value);
+            props.node.changeRef(nodeRef.value);
         };
 
         const onCancel = () => {
@@ -67,20 +71,21 @@ export const SuffixView = defineComponent({
 
         return () => {
             return (
-                <>
-                    <div class={suffixWrapperCls}>
-                        <FDropdown options={options.value} onClick={onClick}>
-                            <MoreOne class={nodeIconCls} theme="outline" />
-                        </FDropdown>
-                    </div>
+                <div class={suffixWrapperCls}>
+                    <FDropdown options={options.value} onClick={onClick}>
+                        <MoreOne class={nodeIconCls} theme="outline" />
+                    </FDropdown>
                     <FModal v-model:show={isEdit.value} title="编辑" width={400} onOk={onOk} onCancel={onCancel}>
-                        <FForm>
-                            <FFormItem label='标题' prop='title'>
+                        <FForm labelWidth={50}>
+                            <FFormItem label='名称' prop='title'>
                                 <FInput v-model={title.value} placeholder='请输入'/ >
+                            </FFormItem>
+                            <FFormItem label='英文名' prop='ref'>
+                                <FInput v-model={nodeRef.value} placeholder='请输入'/ >
                             </FFormItem>
                         </FForm>
                     </FModal>
-                </>
+                </div>
             );
         };
     },

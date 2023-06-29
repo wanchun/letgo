@@ -1,7 +1,29 @@
-import { style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
+
+export const wrapperCls = style({
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    height: '100%',
+});
 
 export const searchCls = style({
     padding: '8px 16px',
+});
+
+export const tabsCls = style({
+    flex: 1,
+    overflow: 'hidden',
+});
+
+// 为了滚动
+globalStyle(`${tabsCls} .fes-tabs-tab-pane`, {
+    height: '100%',
+});
+
+export const categoryCls = style({
+    width: '100%',
+    overflow: 'hidden',
 });
 
 export const categoryTitleCls = style({

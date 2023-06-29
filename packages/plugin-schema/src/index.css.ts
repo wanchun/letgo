@@ -24,5 +24,7 @@ export const actionCls = style({
 globalStyle(`${codeCls} .cm-editor`, {
     border: '1px solid #cfd0d3',
     borderRadius: 0,
+    borderRight: 'none',
+    borderLeft: 'none',
     height: '100%',
 });

@@ -9,8 +9,9 @@ import {
 } from 'vue';
 import type { Designer, INode } from '@webank/letgo-designer';
 import type { Editor } from '@webank/letgo-editor-core';
-import { FTooltip, FTree } from '@fesjs/fes-design';
-import { iconCls, nodeIconCls } from './index.css';
+import { FInput, FScrollbar, FTooltip, FTree } from '@fesjs/fes-design';
+import { SearchOutlined } from '@fesjs/fes-design/icon';
+import { iconCls, nodeIconCls, searchCls, treeCls, wrapperCls } from './index.css';
 import { SuffixView } from './suffix';
 
 interface Option {
@@ -81,13 +82,41 @@ const ComponentTreeView = defineComponent({
             props.designer.currentSelection.select(node.value);
         };
 
+        const refTree = ref();
+
+        const onSearch = (val: string) => {
+            refTree.value.filter(val);
+        };
+
+        const filterMethod = (value: string, node: { label: string }) => {
+            return node.label.includes(value);
+        };
+
         return () => {
-            return <FTree
-                data={data.value}
-                selectedKeys={selectedIds.value}
-                onSelect={onSelectNode}
-                defaultExpandAll
-            />;
+            return (
+                <div class={wrapperCls}>
+                    <div class={searchCls}>
+                        <FInput
+                            placeholder="请输入"
+                            clearable
+                            onInput={onSearch}
+                            v-slots={{
+                                suffix: () => <SearchOutlined />,
+                            }}
+                        ></FInput>
+                    </div>
+                    <FScrollbar class={treeCls} contentStyle={{ marginTop: '8px' }}>
+                        <FTree
+                            ref={refTree}
+                            data={data.value}
+                            selectedKeys={selectedIds.value}
+                            onSelect={onSelectNode}
+                            filterMethod={filterMethod}
+                            defaultExpandAll
+                        />
+                    </FScrollbar>
+                </div>
+            );
         };
     },
 });

@@ -31,10 +31,13 @@ import type { Designer } from '@webank/letgo-designer';
 import type { Editor } from '@webank/letgo-editor-core';
 import {
     categoryBodyCls,
+    categoryCls,
     categoryItemCls,
     categoryItemIconCls,
     categoryTitleCls,
     searchCls,
+    tabsCls,
+    wrapperCls,
 } from './panel.css';
 
 interface CategoryType {
@@ -187,7 +190,7 @@ export default defineComponent({
         const renderCategory = (group: string) => {
             return categoryListRef.value[group].map((item) => {
                 return (
-                    <>
+                    <div class={categoryCls}>
                         <div class={categoryTitleCls}>{item.category}</div>
                         <FGrid
                             wrap
@@ -197,14 +200,14 @@ export default defineComponent({
                         >
                             {renderSnippet(item.snippets)}
                         </FGrid>
-                    </>
+                    </div>
                 );
             });
         };
 
         return () => {
             return (
-                <FScrollbar>
+                <div class={wrapperCls}>
                     <div class={searchCls}>
                         <FInput
                             placeholder="请输入"
@@ -215,7 +218,7 @@ export default defineComponent({
                             }}
                         ></FInput>
                     </div>
-                    <FTabs>
+                    <FTabs class={tabsCls}>
                         {groupListRef.value.map((group) => {
                             return (
                                 <FTabPane
@@ -223,12 +226,14 @@ export default defineComponent({
                                     value={group}
                                     displayDirective="show"
                                 >
-                                    {renderCategory(group)}
+                                    <FScrollbar>
+                                        {renderCategory(group)}
+                                    </FScrollbar>
                                 </FTabPane>
                             );
                         })}
                     </FTabs>
-                </FScrollbar>
+                </div>
             );
         };
     },

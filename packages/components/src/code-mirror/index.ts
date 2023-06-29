@@ -259,6 +259,10 @@ export const CodeMirror = defineComponent({
             type: String,
             default: 'div',
         },
+        bordered: {
+            type: Boolean,
+            default: true,
+        },
     },
     /** Emits */
     emits: {
@@ -684,7 +688,7 @@ export const CodeMirror = defineComponent({
             this.$props.tag,
             {
                 ref: 'editor',
-                class: wrapCls,
+                class: [wrapCls, this.$props.bordered && 'is-bordered'],
             },
             this.$slots.default // Hide original content
                 ? h(

@@ -46,7 +46,7 @@ const ExpressionSetterView = defineComponent({
         });
         return () => {
             return (
-                <ExpressionEditor documentModel={documentModel.value} doc={currentValue.value} onChangeDoc={changeValue} />
+                <ExpressionEditor style="padding: 2px" documentModel={documentModel.value} doc={currentValue.value} onChangeDoc={changeValue} />
             );
         };
     },

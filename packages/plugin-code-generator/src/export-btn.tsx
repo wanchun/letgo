@@ -80,9 +80,9 @@ export default defineComponent({
                     usedPackages.push(pkg);
                 }
             }
-            // console.log(schema);
-            // saveFile(schemaToCode(schema).pages);
-            // return;
+            console.log(schema);
+            saveFile(schemaToCode(schema).pages);
+            return;
             const code = schemaToCode(schema);
             const defaultContent = await import('./template.json');
             const currentContent = cloneDeep(defaultContent.default);

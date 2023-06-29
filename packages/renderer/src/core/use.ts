@@ -442,8 +442,8 @@ export function buildProps({
     return parsedProps;
 }
 
-export function buildLoop(scope: RuntimeScope, schema: IPublicTypeNodeSchema) {
-    const loop = ref() as Ref<IPublicTypeCompositeValue>;
+export function buildLoop(scope: RuntimeScope, ctx: Record<string, any>, schema: IPublicTypeNodeSchema) {
+    const loop = ref<IPublicTypeCompositeValue>();
     const loopArgs = ref(['item', 'index']) as Ref<[string, string]>;
 
     if (schema.loop)
@@ -458,66 +458,9 @@ export function buildLoop(scope: RuntimeScope, schema: IPublicTypeNodeSchema) {
         loop: computed(() => {
             if (!loop.value)
                 return null;
-            return parseSchema(loop.value, scope);
+            return parseSchema(loop.value, { ...ctx, ...scope });
         }),
         loopArgs,
-        updateLoop(value: IPublicTypeCompositeValue): void {
-            loop.value = value;
-        },
-        updateLoopArg(value: string | [string, string], idx?: number): void {
-            if (Array.isArray(value)) {
-                value.forEach((v, i) => {
-                    loopArgs.value[i] = v;
-                });
-            }
-            else if (!isNil(idx)) {
-                loopArgs.value[idx] = value;
-            }
-        },
-        buildLoopScope(item, index, len): BlockScope {
-            const offset = scope.__loopRefOffset ?? 0;
-            const [itemKey, indexKey] = loopArgs.value;
-            return {
-                [itemKey]: item,
-                [indexKey]: index,
-                __loopScope: true,
-                __loopRefIndex: offset + index,
-                __loopRefOffset: len * index,
-            };
-        },
-    } as {
-        loop: ComputedRef<unknown>
-        loopArgs: Ref<[string, string]>
-        updateLoop(value: IPublicTypeCompositeValue): void
-        /**
-         * 更新所有循环参数
-         *
-         * @example
-         *
-         * updateLoopArg(['item', 'index'])
-         *
-         * @param value - 新的参数
-         */
-        updateLoopArg(value: [string, string]): void
-        /**
-         * 更新指定参数
-         *
-         * @example
-         *
-         * updateLoopArg('item', 0);
-         *
-         * @param value - 新的参数
-         * @param idx - 参数的位置
-         */
-        updateLoopArg(value: string, idx?: number | string): void
-        /**
-         * 构建循环局部作用域
-         *
-         * @param item - 循环项
-         * @param index - 循环索引
-         * @param len - 循环目标数组长度
-         */
-        buildLoopScope(item: unknown, index: number, len: number): BlockScope
     };
 }
 

@@ -47,13 +47,30 @@ function handleComponentRef(nodeSchema: IPublicTypeNodeSchema, componentRefs: Se
     return '';
 }
 
+function compileLoop(nodeSchema: IPublicTypeNodeData) {
+    if (isNodeSchema(nodeSchema) && nodeSchema.loop) {
+        const keyProp = nodeSchema.props?.key || 'index';
+        const item = nodeSchema.loopArgs?.[0] || 'item';
+        const index = nodeSchema.loopArgs?.[1] || 'index';
+        let loopVariable: string;
+        if (isJSExpression(nodeSchema.loop))
+            loopVariable = nodeSchema.loop.value;
+
+        else
+            loopVariable = JSON.stringify(nodeSchema.loop).replace(/\"/g, '\'');
+
+        return `v-for="(${item}, ${index}) in ${loopVariable}" :key="${keyProp}" `;
+    }
+    return '';
+}
+
 // TODO 支持 loop loopArgs
 function compileNodeSchema(nodeSchema: IPublicTypeNodeData, componentRefs: Set<string>) {
     if (isNodeSchema(nodeSchema)) {
         const children = genNodeSchemaChildren(nodeSchema);
         return `<${nodeSchema.componentName} ${handleComponentRef(nodeSchema, componentRefs)} ${compileDirectives(
             getDirectives(nodeSchema),
-        ).join(' ')} ${compileProps(nodeSchema.props, nodeSchema.ref).join(' ')} ${
+        ).join(' ')} ${compileLoop(nodeSchema)} ${compileProps(nodeSchema.props, nodeSchema.ref).join(' ')} ${
             !isEmpty(children)
                 ? `>
                     ${children
@@ -72,7 +89,7 @@ function compileNodeSchema(nodeSchema: IPublicTypeNodeData, componentRefs: Set<s
 }
 
 function compileJSExpression(expression: IPublicTypeJSExpression) {
-    return expression.value;
+    return `{{${expression.value}}}`;
 }
 
 function compileDOMText(domText: IPublicTypeDOMText) {

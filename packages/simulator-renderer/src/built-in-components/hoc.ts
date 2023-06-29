@@ -8,18 +8,19 @@ import {
     inject,
     onUnmounted,
     reactive,
+    ref,
 } from 'vue';
 import {
-    buildLoop,
     buildProps,
     buildSchema,
     buildShow,
     buildSlots,
     ensureArray,
     leafProps,
+    parseSchema,
     useLeaf,
 } from '@webank/letgo-renderer';
-import type { IPublicTypeComponentInstance } from '@webank/letgo-types';
+import type { IPublicTypeComponentInstance, IPublicTypeCompositeValue } from '@webank/letgo-types';
 import {
     IPublicEnumTransformStage,
     isJSSlot,
@@ -84,6 +85,52 @@ function useSchema(props: LeafProps, node: INode) {
     };
 }
 
+function useLoop(props: LeafProps, ctx: Record<string, any>) {
+    const loop = ref<IPublicTypeCompositeValue>();
+    const loopArgs = ref<[string, string]>(['item', 'index']);
+
+    if (props.schema.loop)
+        loop.value = props.schema.loop;
+    if (props.schema.loopArgs) {
+        props.schema.loopArgs.forEach((v, i) => {
+            loopArgs.value[i] = v;
+        });
+    }
+
+    return {
+        loop: computed(() => {
+            if (!loop.value)
+                return null;
+            return parseSchema(loop.value, { ...ctx, ...props.scope });
+        }),
+        loopArgs,
+        updateLoop(value: IPublicTypeCompositeValue): void {
+            loop.value = value;
+        },
+        updateLoopArg(value: string | [string, string], idx?: number): void {
+            if (Array.isArray(value)) {
+                value.forEach((v, i) => {
+                    loopArgs.value[i] = v;
+                });
+            }
+            else if (!isNil(idx)) {
+                loopArgs.value[idx] = value;
+            }
+        },
+        buildLoopScope(item: unknown, index: number, len: number): BlockScope {
+            const offset = props.scope.__loopRefOffset ?? 0;
+            const [itemKey, indexKey] = loopArgs.value;
+            return {
+                [itemKey]: item,
+                [indexKey]: index,
+                __loopScope: true,
+                __loopRefIndex: offset + index,
+                __loopRefOffset: len * index,
+            };
+        },
+    };
+}
+
 export const Hoc = defineComponent({
     name: 'Hoc',
     props: leafProps,
@@ -109,11 +156,8 @@ export const Hoc = defineComponent({
         });
 
         const { show, condition } = buildShow(innerScope, executeCtx, props.schema);
-        // TODO build loop
-        const { loop, updateLoop, updateLoopArg, buildLoopScope } = buildLoop(
-            props.scope,
-            props.schema,
-        );
+
+        const { loop, updateLoop, updateLoopArg, buildLoopScope } = useLoop(props, executeCtx);
 
         const innerBuildSlots = (
             slots: SlotSchemaMap,
@@ -192,7 +236,7 @@ export const Hoc = defineComponent({
                     }
                     else if (rootPropKey === getConvertedExtraKey('loopArgs')) {
                         // 循环参数初始化 (item, index)
-                        updateLoopArg(newValue, key);
+                        updateLoopArg(newValue, +key);
                     }
                     else if (rootPropKey) {
                         // 普通非根属性更新

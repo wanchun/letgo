@@ -21,7 +21,7 @@ export const Live = defineComponent({
         const { renderComp } = useLeaf(props, executeCtx);
 
         const { show } = buildShow(props.scope, executeCtx, props.schema);
-        const { loop, loopArgs } = buildLoop(props.scope, props.schema);
+        const { loop, loopArgs } = buildLoop(props.scope, executeCtx, props.schema);
         const { props: compProps, slots: compSlots } = buildSchema(props);
         const innerBuildSlots = (
             slots: SlotSchemaMap,

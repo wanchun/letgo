@@ -1,6 +1,6 @@
 import type { ComponentPublicInstance } from 'vue';
 import { isProxy, reactive } from 'vue';
-import { isPlainObject } from 'lodash-es';
+import { isNil } from 'lodash-es';
 import type { MaybeArray } from './array';
 import { ensureArray } from './array';
 
@@ -19,9 +19,13 @@ function isRuntimeScope(scope: any): scope is RuntimeScope {
     return '$' in scope;
 }
 
+function isObject(val: unknown): val is Record<string, unknown> {
+    return !isNil(val) && typeof val === 'object';
+}
+
 function isValidScope(scope: unknown): scope is BlockScope | RuntimeScope {
     // 为 null、undefined，或者不是对象
-    if (!scope || !isPlainObject(scope))
+    if (!scope || !isObject(scope))
         return false;
 
     // runtime scope

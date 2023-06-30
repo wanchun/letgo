@@ -95,6 +95,7 @@ export const CodeEditor = defineComponent({
 
         watch(() => props.doc, () => {
             if (props.doc !== currentDoc) {
+                currentDoc = props.doc;
                 editorView?.setState(genState());
                 fullScreenView?.setState(genState());
             }

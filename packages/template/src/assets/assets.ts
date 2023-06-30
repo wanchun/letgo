@@ -3,6 +3,13 @@ import type { IPublicTypeAssetsJson } from '@webank/letgo-types';
 const assets: IPublicTypeAssetsJson = {
     packages: [
         {
+            package: 'lodash',
+            library: '_',
+            urls: [
+                'https://g.alicdn.com/platform/c/lodash/4.6.1/lodash.min.js',
+            ],
+        },
+        {
             package: '@fesjs/fes-design',
             version: '0.7.31',
             urls: [

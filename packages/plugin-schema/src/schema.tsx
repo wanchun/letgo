@@ -1,5 +1,5 @@
 import type { PropType } from 'vue';
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import type { Designer } from '@webank/letgo-designer';
 import { CodeEditor } from '@webank/letgo-components';
 import { json } from '@codemirror/lang-json';
@@ -33,12 +33,16 @@ export const SchemaView = defineComponent({
             }
         };
 
+        const currentSchema = computed(() => {
+            return JSON.stringify(project.currentDocument?.computedSchema ?? {}, null, 2);
+        });
+
         return () => {
             return (
                 <div class={wrapperCls}>
                     <CodeEditor
                         class={codeCls}
-                        doc={JSON.stringify(project.currentDocument?.computedSchema ?? {}, null, 2)}
+                        doc={currentSchema.value}
                         changeDoc={onChange}
                         extensions={[json()]}
                         bordered={false}

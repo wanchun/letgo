@@ -15,12 +15,6 @@ export interface SetupCode {
     code: string
 }
 
-export interface PageMeta {
-    fileName: string
-    title: string
-    name: string
-}
-
 export enum PageFileType {
     Vue = 'vue',
     Jsx = 'jsx',

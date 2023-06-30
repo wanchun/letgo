@@ -7,7 +7,7 @@ import {
 } from '@webank/letgo-types';
 import { genCode, traverseNodeSchema } from './helper';
 import { ImportType } from './types';
-import type { ImportSource, PageMeta } from './types';
+import type { ImportSource } from './types';
 import { funcSchemaToFunc, genEventName } from './events';
 import { applyGlobalState } from './global-state';
 
@@ -90,11 +90,10 @@ function genUseComponentEvents(rootSchema: IPublicTypeRootSchema) {
     return eventFuncs;
 }
 
-export function genScript({ componentMaps, rootSchema, componentRefs, meta }: {
+export function genScript({ componentMaps, rootSchema, componentRefs }: {
     componentMaps: IPublicTypeComponentMap[]
     rootSchema: IPublicTypeRootSchema
     componentRefs: Set<string>
-    meta: PageMeta
 },
 ): [ImportSource[], string[]] {
     const codeImports = genComponentImports(componentMaps);

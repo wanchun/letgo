@@ -5,17 +5,95 @@ import type {
     IPublicTypeJSSlot,
     IPublicTypeNodeData,
     IPublicTypeNodeSchema,
+    IPublicTypePropsMap,
     IPublicTypeRootSchema,
 } from '@webank/letgo-types';
 import {
     isDOMText,
     isJSExpression,
+    isJSFunction,
     isJSSlot,
     isNodeSchema,
 } from '@webank/letgo-types';
-import { isArray, isEmpty, isNil, merge } from 'lodash-es';
+import { camelCase, isArray, isEmpty, isNil, isPlainObject, merge } from 'lodash-es';
 import { compileDirectives } from './directives';
-import { compileProps } from './props';
+
+import { genEventName } from './events';
+
+function formatProps(value: any): any {
+    if (isJSExpression(value))
+        return value.value;
+
+    if (isJSFunction(value)) {
+        return value.value;
+    }
+    else if (Array.isArray(value)) {
+        return value.map(item => formatProps(item));
+    }
+    else if (isPlainObject(value)) {
+        return Object.keys(value).reduce((acc, cur) => {
+            acc[cur] = formatProps(acc[cur]);
+            return acc;
+        }, {} as Record<string, any>);
+    }
+
+    return value;
+}
+
+function normalProps(key: string, value: any) {
+    if (typeof value === 'number')
+        return `:${key}="${value}"`;
+
+    if (typeof value === 'boolean') {
+        if (value)
+            return key;
+
+        return `:${key}="false"`;
+    }
+    if (value == null)
+        return '';
+
+    if (typeof value === 'string')
+        return `${key}="${value}"`;
+
+    if (value)
+        return `:${key}="${JSON.stringify(formatProps(value)).replace(/\"/g, '\'')}"`;
+
+    return '';
+}
+
+function compileProps(props?: IPublicTypePropsMap, refName = '') {
+    if (!props)
+        return [];
+
+    return Object.keys(props)
+        .filter((key) => {
+            // children 走 components 编辑
+            return key !== 'children';
+        })
+        .map((key) => {
+            const propValue = props[key];
+            if (key.startsWith('v-model')) {
+                if (isJSExpression(propValue))
+                    return `${key}="${propValue.value}"`;
+
+                else
+                    return `${key}="${propValue}"`;
+            }
+            if (isJSExpression(propValue))
+                return `:${key}="${propValue.value?.trim()}"`;
+
+            if (key.match(/^on[A-Z]/)) {
+                const eventName = camelCase(key.replace(/^on/, ''));
+                return `@${eventName}="${genEventName(key, refName)}"`;
+            }
+
+            if (isJSFunction(propValue))
+                return `:${key}="${propValue.value}"`;
+
+            return normalProps(key, propValue);
+        }).filter(Boolean);
+}
 
 function genNodeSchemaChildren(nodeSchema: IPublicTypeNodeSchema): IPublicTypeNodeData[] {
     if (nodeSchema.props?.children) {
@@ -64,7 +142,6 @@ function compileLoop(nodeSchema: IPublicTypeNodeData) {
     return '';
 }
 
-// TODO 支持 loop loopArgs
 function compileNodeSchema(nodeSchema: IPublicTypeNodeData, componentRefs: Set<string>) {
     if (isNodeSchema(nodeSchema)) {
         const children = genNodeSchemaChildren(nodeSchema);

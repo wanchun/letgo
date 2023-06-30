@@ -1,5 +1,5 @@
 import type { PropType } from 'vue';
-import { computed, defineComponent, ref } from 'vue';
+import { computed, defineComponent, reactive, ref } from 'vue';
 import { FDropdown, FForm, FFormItem, FInput, FModal } from '@fesjs/fes-design';
 import type { INode } from '@webank/letgo-designer';
 import { Delete, Edit, Lock, MoreOne, Unlock } from '@icon-park/vue-next';
@@ -54,19 +54,34 @@ export const SuffixView = defineComponent({
                 node.setExtraPropValue('isLocked', false);
         };
 
-        const title = ref(props.node.title);
-
-        const nodeRef = ref(props.node.ref);
-
-        const onOk = () => {
-            isEdit.value = false;
-            // TODO: 检验
-            props.node.props.getExtraProp('title').setValue(title.value);
-            props.node.changeRef(nodeRef.value);
+        const formModel = reactive({
+            title: props.node.title,
+            ref: props.node.ref,
+        });
+        const formRef = ref();
+        const onOk = async () => {
+            if (await formRef.value.validate()) {
+                isEdit.value = false;
+                props.node.props.getExtraProp('title').setValue(formModel.title);
+                props.node.changeRef(formModel.ref);
+            }
         };
 
         const onCancel = () => {
             isEdit.value = false;
+        };
+
+        const formRules = {
+            ref: {
+                required: true,
+                asyncValidator(rule: any, value: string) {
+                    if (!/^[a-zA-Z_][a-zA-Z_0-9]*$/.test(value))
+                        // eslint-disable-next-line prefer-promise-reject-errors
+                        return Promise.reject('必须英文字母开头，只能包含字母、数字');
+
+                    return Promise.resolve();
+                },
+            },
         };
 
         return () => {
@@ -76,12 +91,12 @@ export const SuffixView = defineComponent({
                         <MoreOne class={nodeIconCls} theme="outline" />
                     </FDropdown>
                     <FModal v-model:show={isEdit.value} title="编辑" width={400} onOk={onOk} onCancel={onCancel}>
-                        <FForm labelWidth={50}>
+                        <FForm ref={formRef} model={formModel} labelWidth={60} rules={formRules} >
                             <FFormItem label='名称' prop='title'>
-                                <FInput v-model={title.value} placeholder='请输入'/ >
+                                <FInput v-model={formModel.title} placeholder='请输入'/ >
                             </FFormItem>
                             <FFormItem label='英文名' prop='ref'>
-                                <FInput v-model={nodeRef.value} placeholder='请输入'/ >
+                                <FInput v-model={formModel.ref} placeholder='请输入'/ >
                             </FFormItem>
                         </FForm>
                     </FModal>

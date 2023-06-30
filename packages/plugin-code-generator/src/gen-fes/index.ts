@@ -41,7 +41,7 @@ export async function genFesCode(fileStructs: FileStruct[], globalState?: Global
             type: ImportType.ImportSpecifier,
             source: '@fesjs/fes',
         });
-        cur.codes.unshift(`defineRouteMeta({
+        cur.afterImports.push(`defineRouteMeta({
             name: '${cur.routeName}',
             title: '${cur.pageTitle}',
         })`);

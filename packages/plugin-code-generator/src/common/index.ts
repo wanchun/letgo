@@ -6,12 +6,13 @@ import type {
     IPublicTypeRootSchema,
 } from '@webank/letgo-types';
 
-import { genPageTemplate } from './gen-template';
+import { genPageTemplate } from './vue/gen-template';
 import { genScript } from './script';
 import { traverseNodeSchema } from './helper';
 import { formatFileName, formatPageName, formatPageTitle } from './page-meta';
 import { PageFileType } from './types';
-import type { FileStruct, VueFileStruct } from './types';
+import type { FileStruct, JsxFileStruct, VueFileStruct } from './types';
+import { genPageJsx, genSlots } from './jsx/gen-jsx';
 
 function getComponentRefs(
     nodeData: IPublicTypeNodeData | IPublicTypeNodeData[],
@@ -61,21 +62,23 @@ function compileRootSchema(
         });
 
         if (isCompilerToJsx(rootSchema)) {
-            // TODO jsx 编译
             return {
                 fileType: PageFileType.Jsx,
                 filename: fileName,
                 routeName: formatPageName(fileName),
                 pageTitle: formatPageTitle(rootSchema.title),
+                afterImports: [],
                 importSources,
-                codes,
-            };
+                codes: codes.concat(genSlots(rootSchema, componentRefs)),
+                jsx: genPageJsx(rootSchema, componentRefs),
+            } as JsxFileStruct;
         }
 
         return {
             fileType: PageFileType.Vue,
             filename: fileName,
             routeName: formatPageName(fileName),
+            afterImports: [],
             pageTitle: formatPageTitle(rootSchema.title),
             importSources,
             template: genPageTemplate(rootSchema, componentRefs),

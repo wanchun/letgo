@@ -16,9 +16,8 @@ import {
     isNodeSchema,
 } from '@webank/letgo-types';
 import { camelCase, isArray, isEmpty, isNil, isPlainObject, merge } from 'lodash-es';
+import { genEventName } from '../events';
 import { compileDirectives } from './directives';
-
-import { genEventName } from './events';
 
 function formatProps(value: any): any {
     if (isJSExpression(value))
@@ -28,13 +27,23 @@ function formatProps(value: any): any {
         return value.value;
     }
     else if (Array.isArray(value)) {
-        return value.map(item => formatProps(item));
+        return `
+        [
+            ${value.map(item => formatProps(item)).join(',')}
+        ]
+        `;
     }
     else if (isPlainObject(value)) {
-        return Object.keys(value).reduce((acc, cur) => {
-            acc[cur] = formatProps(acc[cur]);
-            return acc;
-        }, {} as Record<string, any>);
+        return `
+        {
+            ${Object.keys(value).map((key) => {
+                return `${key}: ${formatProps(value[key])}`;
+            }).join(', ')}
+        }
+        `;
+    }
+    else if (typeof value === 'string') {
+        return JSON.stringify(value);
     }
 
     return value;
@@ -57,7 +66,7 @@ function normalProps(key: string, value: any) {
         return `${key}="${value}"`;
 
     if (value)
-        return `:${key}="${JSON.stringify(formatProps(value)).replace(/\"/g, '\'')}"`;
+        return `:${key}="${formatProps(value)}"`;
 
     return '';
 }
@@ -108,10 +117,10 @@ function genNodeSchemaChildren(nodeSchema: IPublicTypeNodeSchema): IPublicTypeNo
 
 function getDirectives(nodeSchema: IPublicTypeNodeSchema): IPublicTypeDirective[] {
     const directives: IPublicTypeDirective[] = nodeSchema.directives || [];
-    if (isNil(nodeSchema.condition)) {
+    if (!isNil(nodeSchema.condition) && isJSExpression(nodeSchema.condition)) {
         directives.unshift({
             name: 'v-if',
-            value: nodeSchema.condition,
+            value: nodeSchema.condition.value,
             modifiers: [],
         });
     }
@@ -142,9 +151,15 @@ function compileLoop(nodeSchema: IPublicTypeNodeData) {
     return '';
 }
 
+function compileJSExpression(expression: IPublicTypeJSExpression) {
+    return `{{${expression.value}}}`;
+}
+
 function compileNodeSchema(nodeSchema: IPublicTypeNodeData, componentRefs: Set<string>) {
     if (isNodeSchema(nodeSchema)) {
         const children = genNodeSchemaChildren(nodeSchema);
+        if (nodeSchema.condition === false)
+            return '';
         return `<${nodeSchema.componentName} ${handleComponentRef(nodeSchema, componentRefs)} ${compileDirectives(
             getDirectives(nodeSchema),
         ).join(' ')} ${compileLoop(nodeSchema)} ${compileProps(nodeSchema.props, nodeSchema.ref).join(' ')} ${
@@ -160,13 +175,9 @@ function compileNodeSchema(nodeSchema: IPublicTypeNodeData, componentRefs: Set<s
         }`;
     }
     if (isJSExpression(nodeSchema))
-        return nodeSchema.value;
+        return compileJSExpression(nodeSchema);
 
     return nodeSchema;
-}
-
-function compileJSExpression(expression: IPublicTypeJSExpression) {
-    return `{{${expression.value}}}`;
 }
 
 function compileDOMText(domText: IPublicTypeDOMText) {

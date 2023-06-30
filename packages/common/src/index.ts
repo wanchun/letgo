@@ -18,3 +18,4 @@ export * from './event-id';
 export * from './build-components';
 export * from './get-var-type';
 export * from './global';
+export * from './ensure-array';

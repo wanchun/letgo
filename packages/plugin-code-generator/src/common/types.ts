@@ -25,6 +25,7 @@ export interface FileStruct {
     filename: string
     routeName: string
     pageTitle: string
+    afterImports: string[]
     importSources?: ImportSource[]
     codes?: string[]
 }
@@ -34,8 +35,17 @@ export interface VueFileStruct extends FileStruct {
     template: string
 }
 
+export interface JsxFileStruct extends FileStruct {
+    fileType: PageFileType.Jsx
+    jsx: string
+}
+
 export function isVueFile(data: FileStruct): data is VueFileStruct {
     return data.fileType === PageFileType.Vue;
+}
+
+export function isJsxFile(data: FileStruct): data is JsxFileStruct {
+    return data.fileType === PageFileType.Jsx;
 }
 
 export interface GlobalStateCode {

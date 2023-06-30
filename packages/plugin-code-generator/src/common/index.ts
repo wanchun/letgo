@@ -11,7 +11,7 @@ import { genScript } from './script';
 import { traverseNodeSchema } from './helper';
 import { formatFileName, formatPageName, formatPageTitle } from './page-meta';
 import { PageFileType } from './types';
-import type { FileStruct, PageMeta, VueFileStruct } from './types';
+import type { FileStruct, VueFileStruct } from './types';
 
 function getComponentRefs(
     nodeData: IPublicTypeNodeData | IPublicTypeNodeData[],
@@ -35,24 +35,42 @@ function getUseComponentRefs(rootSchema: IPublicTypeRootSchema) {
     return usedComponents;
 }
 
+function isCompilerToJsx(
+    nodeData: IPublicTypeNodeData | IPublicTypeNodeData[],
+) {
+    let flag = false;
+    traverseNodeSchema(nodeData, (item) => {
+        if (JSON.stringify(item.props).includes('JSSlot'))
+            flag = true;
+    });
+    return flag;
+}
+
 function compileRootSchema(
     componentMaps: IPublicTypeComponentMap[],
     rootSchema: IPublicTypeRootSchema,
-): VueFileStruct {
+): FileStruct {
     if (rootSchema.componentName === 'Page') {
         const componentRefs = getUseComponentRefs(rootSchema);
         const fileName = formatFileName(rootSchema.fileName);
-        const meta: PageMeta = {
-            fileName,
-            name: formatPageName(fileName),
-            title: formatPageTitle(rootSchema.title),
-        };
+
         const [importSources, codes] = genScript({
             componentMaps,
             rootSchema,
             componentRefs,
-            meta,
         });
+
+        if (isCompilerToJsx(rootSchema)) {
+            // TODO jsx 编译
+            return {
+                fileType: PageFileType.Jsx,
+                filename: fileName,
+                routeName: formatPageName(fileName),
+                pageTitle: formatPageTitle(rootSchema.title),
+                importSources,
+                codes,
+            };
+        }
 
         return {
             fileType: PageFileType.Vue,
@@ -62,7 +80,7 @@ function compileRootSchema(
             importSources,
             template: genPageTemplate(rootSchema, componentRefs),
             codes,
-        };
+        } as VueFileStruct;
     }
     return null;
 }

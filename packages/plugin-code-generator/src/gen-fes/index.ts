@@ -31,7 +31,7 @@ export default defineBuildConfig({
 });
 `;
 
-export async function genFesCode(fileStructs: FileStruct[], globalState?: GlobalStateCode) {
+export async function genFesCode(fileStructs: FileStruct[], globalState?: GlobalStateCode, globalCss?: string) {
     const defaultContent = await import('./template.json');
     const currentContent = cloneDeep(defaultContent.default);
 
@@ -53,6 +53,13 @@ export async function genFesCode(fileStructs: FileStruct[], globalState?: Global
 
     if (globalState)
         (currentContent.src.use as Record<string, string>)[globalState.filename] = globalState.content;
+
+    if (globalCss) {
+        currentContent.src['global.less'] = `
+        ${currentContent.src['global.less']}
+        ${globalCss}
+        `;
+    }
 
     currentContent['.fes.js'] = defaultObjectConfig.replace('META', fileStructs.reduce((acc, cur) => {
         return acc += `

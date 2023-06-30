@@ -51,12 +51,13 @@ export default defineComponent({
 
             // 必须先执行，初始化 global 代码生成的上下文
             const globalState = genGlobalStateCode(schema);
+            const globalCss = schema.css;
 
             // console.log(schema);
             // saveFile(schemaToCode(schema));
             // return;
             const code = schemaToCode(schema);
-            genFesCode(code, globalState);
+            genFesCode(code, globalState, globalCss);
         };
         return () => {
             return (

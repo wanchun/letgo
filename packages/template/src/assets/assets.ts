@@ -5,6 +5,7 @@ const assets: IPublicTypeAssetsJson = {
         {
             package: 'lodash',
             library: '_',
+            version: '4.6.1',
             urls: [
                 'https://g.alicdn.com/platform/c/lodash/4.6.1/lodash.min.js',
             ],

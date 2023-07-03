@@ -35,9 +35,9 @@ export default defineComponent({
             });
         };
 
-        const changeTransformer = () => {
+        const changeTransformer = (code: string) => {
             props.changeCodeItem({
-                transformer: '',
+                transformer: code,
             });
         };
 
@@ -67,7 +67,7 @@ export default defineComponent({
                 <ContentItem label="数据转换" labelStyle="width: 64px" v-slots={{
                     content: () => {
                         return <div style="width: 100%">
-                            <FCheckbox v-model={props.codeItem.enableTransformer} onChange={changeTransformer}>开启数据转换</FCheckbox>
+                            <FCheckbox v-model={props.codeItem.enableTransformer}>开启数据转换</FCheckbox>
                             {!props.codeItem.enableTransformer && <p class={tipCls}>开始数据转换，将请求数据转换成不同的格式</p>}
                             {props.codeItem.enableTransformer && <CodeEditor documentModel={props.documentModel} doc={props.codeItem.transformer} changeDoc={changeTransformer} /> }
                         </div>;

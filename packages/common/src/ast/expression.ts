@@ -12,13 +12,27 @@ interface Identifier {
 
 type Callback = (identifier: Identifier) => void;
 
-export function transformExpression(code: string, callback: Callback) {
-    const ast = parse(code, {
+function innerParse(code: string) {
+    return parse(code, {
         allowReturnOutsideFunction: true,
         allowImportExportEverywhere: true,
         allowHashBang: true,
         ecmaVersion: 2022,
     });
+}
+
+export function isSyntaxError(code: string): boolean {
+    try {
+        innerParse(code);
+        return false;
+    }
+    catch (_) {
+        return true;
+    }
+}
+
+export function transformExpression(code: string, callback: Callback) {
+    const ast = innerParse(code);
 
     simple(ast, {
         Identifier(node) {

@@ -17,6 +17,8 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
     api: string;
     params: string;
     method: string;
+    enableTransformer: boolean;
+    transformer: string;
 
     showFailureToaster: boolean;
     showSuccessToaster: boolean;
@@ -35,6 +37,10 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
     constructor(data: IJavascriptQuery, deps: string[], ctx: Record<string, any>) {
         markShallowReactive(this, {
             id: data.id,
+
+            enableTransformer: data.enableTransformer,
+            transformer: data.transformer,
+
             query: data.query,
             enableCaching: false,
             cacheDuration: null,
@@ -165,6 +171,23 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
                     this.data = await Promise.race([this.timeoutPromise(this.queryTimeout), fn(this.ctx)]);
                 else
                     this.data = await fn(this.ctx);
+
+                if (this.enableTransformer && this.transformer) {
+                    // eslint-disable-next-line no-new-func
+                    const fn = new Function('_ctx', `
+                        let result;
+                        with(_ctx) {
+                            result = (async () => {
+                                ${this.transformer}
+                            })();
+                        }
+                        return result;
+                    `);
+                    this.data = await fn({
+                        ...this.ctx,
+                        data: this.data,
+                    });
+                }
 
                 this.cacheTime = Date.now();
                 this.successEventInstances.forEach((eventHandler) => {

@@ -27,6 +27,8 @@ export interface QueryResourceBase {
     type: CodeType.JAVASCRIPT_QUERY
     id: string
     resourceType: ResourceType
+    enableTransformer?: boolean
+    transformer?: string
     query: string
     queryFailureCondition: IFailureCondition[]
     showFailureToaster: boolean
@@ -46,8 +48,6 @@ export interface IRestQueryResource extends QueryResourceBase {
     method: string
     api: string
     params?: string
-    enableTransformer?: boolean
-    transformer?: string
 }
 
 export type IJavascriptQuery = QueryResourceBase | IRestQueryResource;

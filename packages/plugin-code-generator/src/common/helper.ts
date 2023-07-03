@@ -13,8 +13,9 @@ import {
     isJSFunction,
     isJSSlot,
     isNodeSchema,
+    isRestQueryResource,
 } from '@webank/letgo-types';
-import { eventHandlersToJsFunction, sortState } from '@webank/letgo-common';
+import { eventHandlersToJsFunction, isSyntaxError, sortState } from '@webank/letgo-common';
 import { isPlainObject } from 'lodash-es';
 import type { ImportSource, SetupCode } from './types';
 import { ImportType } from './types';
@@ -235,23 +236,53 @@ export function genCode(codeStruct: CodeStruct): SetupCode {
                 type: ImportType.ImportSpecifier,
                 source: '@/use/useJSQuery',
             });
-            codeStr.push(`
-            const ${item.id} = useJSQuery({
-                id: '${item.id}',
-                async query() {
-                    ${item.query}
-                },
-                ${item.showFailureToaster ? `showFailureToaster: ${item.showFailureToaster},` : ''}
-                ${item.showSuccessToaster ? `showSuccessToaster: ${item.showSuccessToaster},` : ''}
-                ${item.successMessage ? `successMessage: '${item.successMessage}',` : ''}
-                ${item.queryTimeout ? `queryTimeout: ${item.queryTimeout},` : ''}
-                ${item.runCondition ? `runCondition: ${item.runCondition},` : ''}
-                ${item.runWhenPageLoads ? `runWhenPageLoads: ${item.runWhenPageLoads},` : ''}
-                ${(item.queryFailureCondition && item.queryFailureCondition.length) ? `queryFailureCondition: ${item.queryFailureCondition},` : ''}
-                ${item.successEvent ? `successEvent: ${eventSchemaToFunc(item.successEvent)}},` : ''}
-                ${item.failureEvent ? `failureEvent: ${eventSchemaToFunc(item.failureEvent)},` : ''}
-            });
-            `);
+            if (isRestQueryResource(item)) {
+                importSourceMap.set('useJSQuery', {
+                    type: ImportType.ImportSpecifier,
+                    source: '@/common/letgoRequest',
+                    imported: 'letgoRequest',
+                });
+                const api = isSyntaxError(item.api) ? JSON.stringify(item.api) : item.api;
+                const params = item.params ? `, ${item.params}` : '';
+                codeStr.push(`
+                const ${item.id} = useJSQuery({
+                    id: '${item.id}',
+                    query() {
+                        return letgoRequest(${api}${params})
+                    },
+                    ${item.enableTransformer ? `enableTransformer: ${item.enableTransformer},` : ''}
+                    ${(item.enableTransformer && item.transformer) ? `transformer(data) {${item.transformer}},` : ''}
+                    ${item.showSuccessToaster ? `showSuccessToaster: ${item.showSuccessToaster},` : ''}
+                    ${item.showSuccessToaster ? `showSuccessToaster: ${item.showSuccessToaster},` : ''}
+                    ${item.successMessage ? `successMessage: '${item.successMessage}',` : ''}
+                    ${item.queryTimeout ? `queryTimeout: ${item.queryTimeout},` : ''}
+                    ${item.runCondition ? `runCondition: ${item.runCondition},` : ''}
+                    ${item.runWhenPageLoads ? `runWhenPageLoads: ${item.runWhenPageLoads},` : ''}
+                    ${(item.queryFailureCondition && item.queryFailureCondition.length) ? `queryFailureCondition: ${item.queryFailureCondition},` : ''}
+                    ${item.successEvent ? `successEvent: ${eventSchemaToFunc(item.successEvent)}},` : ''}
+                    ${item.failureEvent ? `failureEvent: ${eventSchemaToFunc(item.failureEvent)},` : ''}
+                });
+                `);
+            }
+            else {
+                codeStr.push(`
+                const ${item.id} = useJSQuery({
+                    id: '${item.id}',
+                    async query() {
+                        ${item.query}
+                    },
+                    ${item.showFailureToaster ? `showFailureToaster: ${item.showFailureToaster},` : ''}
+                    ${item.showSuccessToaster ? `showSuccessToaster: ${item.showSuccessToaster},` : ''}
+                    ${item.successMessage ? `successMessage: '${item.successMessage}',` : ''}
+                    ${item.queryTimeout ? `queryTimeout: ${item.queryTimeout},` : ''}
+                    ${item.runCondition ? `runCondition: ${item.runCondition},` : ''}
+                    ${item.runWhenPageLoads ? `runWhenPageLoads: ${item.runWhenPageLoads},` : ''}
+                    ${(item.queryFailureCondition && item.queryFailureCondition.length) ? `queryFailureCondition: ${item.queryFailureCondition},` : ''}
+                    ${item.successEvent ? `successEvent: ${eventSchemaToFunc(item.successEvent)}},` : ''}
+                    ${item.failureEvent ? `failureEvent: ${eventSchemaToFunc(item.failureEvent)},` : ''}
+                });
+                `);
+            }
         }
     });
 

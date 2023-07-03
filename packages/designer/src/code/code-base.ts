@@ -41,6 +41,7 @@ class JavascriptQueryEdit implements CodeBaseEdit {
         if (resourceType === ResourceType.RESTQuery) {
             otherFields.method = 'POST';
             otherFields.enableTransformer = false;
+            otherFields.transformer = '\n return data;';
         }
 
         return {

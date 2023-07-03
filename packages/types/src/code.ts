@@ -8,7 +8,8 @@ export enum CodeType {
 }
 
 export enum ResourceType {
-    RESTQuery,
+    Query = 'query',
+    RESTQuery = 'rest',
 }
 
 export interface IFailureCondition {
@@ -22,9 +23,10 @@ export enum RunCondition {
     PageLoads,
 }
 
-export interface IQueryResource {
+export interface QueryResourceBase {
+    type: CodeType.JAVASCRIPT_QUERY
     id: string
-    enableTransformer: boolean
+    resourceType: ResourceType
     query: string
     queryFailureCondition: IFailureCondition[]
     showFailureToaster: boolean
@@ -35,12 +37,23 @@ export interface IQueryResource {
     enableCaching?: boolean
     cacheDuration?: number
     queryTimeout?: number
-    transformer?: string
     successEvent?: IPublicTypeEventHandler[]
     failureEvent?: IPublicTypeEventHandler[]
 }
-export interface IJavascriptQuery extends IQueryResource {
-    type: CodeType.JAVASCRIPT_QUERY
+
+export interface IRestQueryResource extends QueryResourceBase {
+    resourceType: ResourceType.RESTQuery
+    method: string
+    api: string
+    params?: string
+    enableTransformer?: boolean
+    transformer?: string
+}
+
+export type IJavascriptQuery = QueryResourceBase | IRestQueryResource;
+
+export function isRestQueryResource(obj: any): obj is IRestQueryResource {
+    return obj && obj.resourceType === ResourceType.RESTQuery;
 }
 
 export interface IJavascriptFunction {

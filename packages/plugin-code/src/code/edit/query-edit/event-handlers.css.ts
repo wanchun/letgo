@@ -3,7 +3,7 @@ import { style } from '@vanilla-extract/css';
 export const eventHandlersCls = style({
     marginTop: '12px',
     paddingTop: '12px',
-    borderTop: '1px solid #ebebeb',
+    borderTop: '1px solid #cfd0d3',
 });
 
 export const titleCls = style({
@@ -17,7 +17,7 @@ export const eventListCls = style({
 });
 
 export const contentCls = style({
-    border: '1px solid #ebebeb',
+    border: '1px solid #cfd0d3',
     borderRadius: '4px',
 });
 

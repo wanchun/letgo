@@ -74,7 +74,7 @@ export const codeMoreIconCls = style({
     height: '18px',
     borderRadius: '4px',
     backgroundColor: '#fff',
-    border: '1px solid #ebebeb',
+    border: '1px solid #cfd0d3',
     selectors: {
         [`${codeItemCls}:hover &`]: {
             display: 'inline-flex',

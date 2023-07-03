@@ -241,8 +241,6 @@ export function genCode(codeStruct: CodeStruct): SetupCode {
                 async query() {
                     ${item.query}
                 },
-                ${item.enableTransformer ? `enableTransformer: ${item.enableTransformer},` : ''}
-                ${item.transformer ? `transformer: '${item.transformer}',` : ''}
                 ${item.showFailureToaster ? `showFailureToaster: ${item.showFailureToaster},` : ''}
                 ${item.showSuccessToaster ? `showSuccessToaster: ${item.showSuccessToaster},` : ''}
                 ${item.successMessage ? `successMessage: '${item.successMessage}',` : ''}

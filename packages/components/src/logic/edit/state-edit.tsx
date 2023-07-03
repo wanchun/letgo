@@ -33,7 +33,13 @@ export const StateEdit = defineComponent({
                 <div class={contentCls}>
                     <div class={inputItemCls}>
                         <label class={inputLabelCls}>初始值</label>
-                        <ExpressionEditor documentModel={props.documentModel} hints={props.hints} doc={props.codeItem.initValue} onChangeDoc={changeInitValue} />
+                        <ExpressionEditor
+                            placeholder="temporary state"
+                            documentModel={props.documentModel}
+                            hints={props.hints}
+                            doc={props.codeItem.initValue}
+                            onChangeDoc={changeInitValue}
+                        />
                     </div>
                 </div>
             </div>;

@@ -2,11 +2,13 @@ import type { PropType } from 'vue';
 import { computed, defineComponent, ref, watch } from 'vue';
 import { FButton } from '@fesjs/fes-design';
 import { cloneDeep, isEqual } from 'lodash-es';
+import { isRestQueryResource } from '@webank/letgo-types';
 import type { IJavascriptQuery } from '@webank/letgo-types';
 import type { DocumentModel } from '@webank/letgo-designer';
 import { contentCls, headerCls } from './query-edit.css';
 import LeftTabs from './left-tabs';
 import General from './general';
+import RestGeneral from './rest/general';
 import ResponseEdit from './response';
 import Advance from './advance';
 
@@ -42,11 +44,16 @@ export default defineComponent({
         };
 
         const renderContent = () => {
-            if (currentTab.value === 'general')
-                return <General documentModel={props.documentModel} codeItem={tmpCodeItem.value} changeCodeItem={changeCodeItem} />;
+            if (currentTab.value === 'general') {
+                if (isRestQueryResource(tmpCodeItem.value))
+                    return <RestGeneral documentModel={props.documentModel} codeItem={tmpCodeItem.value} changeCodeItem={changeCodeItem} />;
 
-            else if (currentTab.value === 'response')
+                return <General documentModel={props.documentModel} codeItem={tmpCodeItem.value} changeCodeItem={changeCodeItem} />;
+            }
+
+            else if (currentTab.value === 'response') {
                 return <ResponseEdit codeItem={tmpCodeItem.value} changeCodeItem={changeCodeItem} />;
+            }
 
             return <Advance codeItem={tmpCodeItem.value} />;
         };

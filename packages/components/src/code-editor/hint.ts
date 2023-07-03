@@ -7,7 +7,7 @@ import type { HintPathType } from './types';
 
 export const HintTheme = {
     '& .cm-tooltip-autocomplete': {
-        border: '1px solid #ebebeb',
+        border: '1px solid #cfd0d3',
         borderRadius: '4px',
         backgroundColor: '#fff',
     },

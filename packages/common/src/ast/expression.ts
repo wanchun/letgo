@@ -41,10 +41,10 @@ export function attachContext(code: string, isInclude: (name: string) => boolean
         if (isInclude(identifier.name))
             identifier.name = `_ctx.${identifier.name}`;
     });
-    return generate(ast);
+    return generate((ast as any).body[0]).replace(';', '');
 }
 
-export function executeExpression(text: string | null, ctx: Record<string, any> = {}) {
+export function executeExpression(text: string | null, ctx: Record<string, any> = {}, whenErrorReturnRaw = false) {
     if (isNil(text))
         return null;
     try {
@@ -54,6 +54,8 @@ export function executeExpression(text: string | null, ctx: Record<string, any> 
         return fn(ctx);
     }
     catch (_) {
+        if (whenErrorReturnRaw)
+            return text;
         return null;
     }
 }

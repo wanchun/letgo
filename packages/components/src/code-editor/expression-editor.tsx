@@ -4,6 +4,9 @@ import { EditorState } from '@codemirror/state';
 import type { DocumentModel } from '@webank/letgo-designer';
 import { autocompletion } from '@codemirror/autocomplete';
 import type { ViewUpdate } from '@codemirror/view';
+import {
+    placeholder,
+} from '@codemirror/view';
 import type { PropType } from 'vue';
 import { editorCls } from './index.css';
 import { HintTheme, hintPlugin } from './hint';
@@ -15,6 +18,7 @@ export const ExpressionEditor = defineComponent({
         hints: Object as PropType<Record<string, any>>,
         doc: String,
         onChangeDoc: Function as PropType<(doc: string) => void>,
+        placeholder: String,
     },
     setup(props) {
         const editorRefEl = ref();
@@ -26,10 +30,11 @@ export const ExpressionEditor = defineComponent({
         const Theme = EditorView.theme({
             '&': {
                 borderRadius: '4px',
-                border: '1px solid #ebebeb',
+                border: '1px solid #cfd0d3',
             },
             '&.cm-focused': {
-                outline: '1px solid #4096ff',
+                outline: '0',
+                border: '1px solid #52c41a',
             },
             '& .cm-gutters': {
                 borderRight: 0,
@@ -46,6 +51,7 @@ export const ExpressionEditor = defineComponent({
                     EditorState.transactionFilter.of((tr) => {
                         return tr.newDoc.lines > 1 ? [] : [tr];
                     }),
+                    placeholder(props.placeholder || '表达式'),
                     autocompletion({
                         override: [hintPlugin(hintOptions)],
                         icons: false,

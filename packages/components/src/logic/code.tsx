@@ -3,19 +3,23 @@ import type { PropType } from 'vue';
 import { FDropdown } from '@fesjs/fes-design';
 import { MoreOutlined, PlusOutlined } from '@fesjs/fes-design/icon';
 import type { Code } from '@webank/letgo-designer';
-import { CodeType } from '@webank/letgo-types';
+import { CodeType, ResourceType } from '@webank/letgo-types';
 import type { CodeItem } from '@webank/letgo-types';
-import { ComputedIcon, FolderIcon, JsIcon, StateIcon } from '../icons';
+import { ComputedIcon, FolderIcon, JsIcon, RestIcon, StateIcon } from '../icons';
 
 import { codeCls, codeHeaderCls, codeItemActiveCls, codeItemCls, codeItemIdCls, codeMoreIconCls, codeWrapCls, headerIconCls } from './code.css';
 
 import CodeId from './code-id';
 
 const iconMap = {
-    [CodeType.JAVASCRIPT_QUERY]: JsIcon,
     [CodeType.JAVASCRIPT_FUNCTION]: JsIcon,
     [CodeType.JAVASCRIPT_COMPUTED]: ComputedIcon,
     [CodeType.TEMPORARY_STATE]: StateIcon,
+};
+
+const resourceTypeIcon = {
+    [ResourceType.Query]: JsIcon,
+    [ResourceType.RESTQuery]: RestIcon,
 };
 
 // TODO 拖拽交换 code 顺序
@@ -36,9 +40,16 @@ export const CodeList = defineComponent({
     setup(props) {
         const options = [
             props.hasQuery && {
-                value: CodeType.JAVASCRIPT_QUERY,
-                label: '逻辑',
-                icon: () => h(iconMap[CodeType.JAVASCRIPT_QUERY]),
+                value: ResourceType.Query,
+                codeType: CodeType.JAVASCRIPT_QUERY,
+                label: '查询逻辑',
+                icon: () => h(resourceTypeIcon[ResourceType.Query]),
+            },
+            props.hasQuery && {
+                value: ResourceType.RESTQuery,
+                label: 'REST接口',
+                codeType: CodeType.JAVASCRIPT_QUERY,
+                icon: () => h(resourceTypeIcon[ResourceType.RESTQuery]),
             },
             props.hasFunction && {
                 value: CodeType.JAVASCRIPT_FUNCTION,
@@ -110,6 +121,9 @@ export const CodeList = defineComponent({
         };
 
         const renderCodeIcon = (item: CodeItem) => {
+            if (item.type === CodeType.JAVASCRIPT_QUERY)
+                return h(resourceTypeIcon[item.resourceType]);
+
             if (iconMap[item.type])
                 return h(iconMap[item.type]);
         };
@@ -125,10 +139,18 @@ export const CodeList = defineComponent({
             });
         };
 
+        const addCodeItem = (val: string) => {
+            const option = options.find(item => item.value === val);
+            if (option.codeType)
+                props.code?.addCodeItem(option.codeType, val as ResourceType);
+            else
+                props.code?.addCodeItem(val as CodeType);
+        };
+
         return () => {
             return <div class={codeCls}>
                 <div class={codeHeaderCls}>
-                    <FDropdown trigger="click" onClick={props.code?.addCodeItem} placement="bottom-start" options={options}>
+                    <FDropdown trigger="click" onClick={addCodeItem} placement="bottom-start" options={options}>
                         <PlusOutlined class={headerIconCls} />
                     </FDropdown>
                 </div>

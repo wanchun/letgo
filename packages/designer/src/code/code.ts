@@ -2,7 +2,7 @@ import { EventEmitter } from 'eventemitter3';
 import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
 import { markComputed, markReactive, replaceExpressionIdentifier, replaceJSFunctionIdentifier } from '@webank/letgo-common';
 import { CodeType } from '@webank/letgo-types';
-import type { CodeItem, CodeStruct } from '@webank/letgo-types';
+import type { CodeItem, CodeStruct, ResourceType } from '@webank/letgo-types';
 import { codeBaseEdit } from './code-base';
 
 const idCount: Record<string, number> = {};
@@ -115,9 +115,9 @@ export class Code {
         return this.onEvent('codeItemAdd', func);
     };
 
-    addCodeItem = (type: CodeType) => {
+    addCodeItem = (type: CodeType, resourceType?: ResourceType) => {
         const id = this.genCodeId(type);
-        const item = codeBaseEdit[type].addCode(id);
+        const item = codeBaseEdit[type].addCode(id, resourceType);
 
         this.codeStruct.code.push(item);
         const newCodeItem = this.codeStruct.code[this.codeStruct.code.length - 1];

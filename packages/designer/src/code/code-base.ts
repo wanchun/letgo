@@ -1,8 +1,8 @@
-import { CodeType } from '@webank/letgo-types';
+import { CodeType, ResourceType } from '@webank/letgo-types';
 import type { CodeItem, IJavascriptComputed, IJavascriptFunction, IJavascriptQuery, ITemporaryState } from '@webank/letgo-types';
 
 export interface CodeBaseEdit {
-    addCode(id: string): CodeItem
+    addCode(id: string, resourceType?: ResourceType): CodeItem
 }
 
 class TemporaryStateEdit implements CodeBaseEdit {
@@ -36,11 +36,17 @@ class JavascriptFunctionEdit implements CodeBaseEdit {
 }
 
 class JavascriptQueryEdit implements CodeBaseEdit {
-    addCode(id: string): IJavascriptQuery {
+    addCode(id: string, resourceType?: ResourceType): IJavascriptQuery {
+        const otherFields: Record<string, any> = {};
+        if (resourceType === ResourceType.RESTQuery) {
+            otherFields.method = 'POST';
+            otherFields.enableTransformer = false;
+        }
+
         return {
             id,
+            resourceType: resourceType || ResourceType.Query,
             type: CodeType.JAVASCRIPT_QUERY,
-            enableTransformer: false,
             query: '',
             queryFailureCondition: [],
             showFailureToaster: false,
@@ -48,6 +54,7 @@ class JavascriptQueryEdit implements CodeBaseEdit {
             successMessage: '',
             enableCaching: false,
             queryTimeout: 10000,
+            ...otherFields,
         };
     }
 }

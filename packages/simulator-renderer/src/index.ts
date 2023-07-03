@@ -1,10 +1,13 @@
+import { request } from '@webank/letgo-renderer';
 import simulator from './simulator';
 import { warn } from './utils';
 
 const win = window as any;
 
-if (typeof win !== 'undefined')
+if (typeof win !== 'undefined') {
     win.LETGO_SimulatorRenderer = simulator;
+    win.letgoRequest = request;
+}
 
 win.addEventListener('load', () => {
     if (!win.__VUE_HMR_RUNTIME__) {

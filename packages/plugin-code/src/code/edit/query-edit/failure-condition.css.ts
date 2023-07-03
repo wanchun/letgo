@@ -4,18 +4,18 @@ export const failureConditionCls = style({
     padding: 0,
     margin: 0,
     borderRadius: '4px',
-    border: '1px solid #ebebeb',
+    border: '1px solid #cfd0d3',
 });
 
 export const failureItemCls = style({
     display: 'flex',
     listStyleType: 'none',
-    borderBottom: '1px solid #ebebeb',
+    borderBottom: '1px solid #cfd0d3',
 });
 
 export const conditionCls = style({
     width: '140px',
-    borderRight: '1px solid #ebebeb',
+    borderRight: '1px solid #cfd0d3',
 });
 
 globalStyle(`${failureItemCls} .fes-input-inner`, {
@@ -35,7 +35,7 @@ export const addBtnCls = style({
 
 export const actionCls = style({
     width: '24px',
-    borderLeft: '1px solid #ebebeb',
+    borderLeft: '1px solid #cfd0d3',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

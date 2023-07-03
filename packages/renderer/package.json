@@ -18,6 +18,7 @@
     "vue": "^3.3.4"
   },
   "dependencies": {
+    "@qlin/request": "^0.1.4",
     "@webank/letgo-common": "workspace:*",
     "@webank/letgo-designer": "workspace:*",
     "@webank/letgo-types": "workspace:*",

@@ -3,7 +3,7 @@ import { defineComponent } from 'vue';
 import type { IJavascriptQuery } from '@webank/letgo-types';
 import type { DocumentModel } from '@webank/letgo-designer';
 import { CodeEditor } from '@webank/letgo-components';
-import EventHandlers from './event-handlers';
+import CommonGeneral from './common-general';
 
 export default defineComponent({
     name: 'JSQueryGeneral',
@@ -19,10 +19,9 @@ export default defineComponent({
             });
         };
         return () => {
-            return <div>
-                <CodeEditor documentModel={props.documentModel} doc={props.codeItem.query} changeDoc={changeQuery} />
-                <EventHandlers documentModel={props.documentModel} codeItem={props.codeItem} changeCodeItem={props.changeCodeItem} />
-            </div>;
+            return <CommonGeneral documentModel={props.documentModel} codeItem={props.codeItem} changeCodeItem={props.changeCodeItem}>
+                        <CodeEditor documentModel={props.documentModel} doc={props.codeItem.query} changeDoc={changeQuery} />
+                </CommonGeneral>;
         };
     },
 });

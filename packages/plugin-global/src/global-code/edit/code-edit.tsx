@@ -3,8 +3,7 @@ import type { PropType } from 'vue';
 import type { Project } from '@webank/letgo-designer';
 import type { CodeItem } from '@webank/letgo-types';
 import { CodeType } from '@webank/letgo-types';
-import { ComputedEdit, StateEdit } from '@webank/letgo-components';
-import { FunctionEdit } from './function-edit';
+import { ComputedEdit, FunctionEdit, StateEdit } from '@webank/letgo-components';
 
 export default defineComponent({
     props: {

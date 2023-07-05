@@ -1,5 +1,6 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
+import { InnerEventHandlerAction } from '@webank/letgo-types';
 import type { IPublicTypeEventHandler } from '@webank/letgo-types';
 import { DeleteOutlined } from '@fesjs/fes-design/icon';
 import { activeEventCls, callExpressionCls, deleteIconCls, selectedEventCls, selectedEventListCls } from './event-handler-list.css';
@@ -21,6 +22,9 @@ export default defineComponent({
     },
     setup(props) {
         const getMethodCall = (item: IPublicTypeEventHandler) => {
+            if (item.namespace && item.action === InnerEventHandlerAction.RUN_FUNCTION)
+                return `${item.namespace}()`;
+
             if (item.namespace && item.method)
                 return `${item.namespace}.${item.method}()`;
 

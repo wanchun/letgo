@@ -1,5 +1,5 @@
 import { generate } from 'astring';
-import type { CodeItem, IPublicTypeEventHandler, IPublicTypeJSFunction, IRunFunctionAction } from '@webank/letgo-types';
+import type { CodeItem, IPublicTypeEventHandler, IPublicTypeJSFunction } from '@webank/letgo-types';
 import {
     CodeType,
     InnerEventHandlerAction,
@@ -52,7 +52,7 @@ export function eventHandlerToJsFunction(item: IPublicTypeEventHandler): IPublic
     let expression: string;
     const params: any[] = [];
     if (item.action === InnerEventHandlerAction.RUN_FUNCTION) {
-        expression = (item as IRunFunctionAction).funcBody;
+        expression = `${item.namespace}(...Array.prototype.slice.call(arguments))`;
     }
     else if (item.action === InnerEventHandlerAction.CONTROL_QUERY) {
         expression = `${item.namespace}.${item.method}.apply(${item.namespace}, Array.prototype.slice.call(arguments))`;

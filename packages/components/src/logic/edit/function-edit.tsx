@@ -1,18 +1,16 @@
 import type { PropType } from 'vue';
 import { defineComponent, ref } from 'vue';
 import { FButton } from '@fesjs/fes-design';
+import { javascript } from '@codemirror/lang-javascript';
 import type { IJavascriptFunction } from '@webank/letgo-types';
-import { CodeEditor } from '@webank/letgo-components';
+import type { DocumentModel } from '@webank/letgo-designer';
+import { CodeEditor } from '../../code-editor';
 import { contentCls, headerCls } from './function-edit.css';
 
-/**
- * TODO 待实现功能
- * header 区域可编辑 id
- * header 区域可删除/复制
- */
 export const FunctionEdit = defineComponent({
     name: 'FunctionEdit',
     props: {
+        documentModel: Object as PropType<DocumentModel>,
         hints: Object as PropType<Record<string, any>>,
         codeItem: Object as PropType<IJavascriptFunction>,
         changeContent: Function as PropType<(id: string, content: Partial<IJavascriptFunction>) => void>,
@@ -40,7 +38,7 @@ export const FunctionEdit = defineComponent({
                     </div>
                 </div>
                 <div class={contentCls}>
-                    <CodeEditor hints={props.hints} doc={props.codeItem.funcBody} changeDoc={changeFuncBody} />
+                    <CodeEditor documentModel={props.documentModel} hints={props.hints} doc={props.codeItem.funcBody} extensions={[javascript()]} changeDoc={changeFuncBody} />
                 </div>
             </div>;
         };

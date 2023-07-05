@@ -70,5 +70,5 @@ export interface ISetLocalStorageAction extends IPublicTypeEventHandler {
 
 export interface IRunFunctionAction extends IPublicTypeEventHandler {
     action: InnerEventHandlerAction.RUN_FUNCTION
-    funcBody: string
+    namespace: string
 }

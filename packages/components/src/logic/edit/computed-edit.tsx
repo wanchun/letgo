@@ -1,6 +1,7 @@
 import type { PropType } from 'vue';
 import { defineComponent, ref } from 'vue';
 import { FButton } from '@fesjs/fes-design';
+import { javascript } from '@codemirror/lang-javascript';
 import type { IJavascriptComputed } from '@webank/letgo-types';
 import type { DocumentModel } from '@webank/letgo-designer';
 import { CodeEditor } from '../../code-editor';
@@ -42,7 +43,7 @@ export const ComputedEdit = defineComponent({
                     </div>
                 </div>
                 <div class={contentCls}>
-                    <CodeEditor documentModel={props.documentModel} hints={props.hints} doc={props.codeItem.funcBody} changeDoc={changeFuncBody} />
+                    <CodeEditor documentModel={props.documentModel} extensions={[javascript()]} hints={props.hints} doc={props.codeItem.funcBody} changeDoc={changeFuncBody} />
                 </div>
             </div>;
         };

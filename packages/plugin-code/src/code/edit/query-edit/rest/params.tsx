@@ -4,6 +4,7 @@ import type { IRestQueryResource } from '@webank/letgo-types';
 import type { DocumentModel } from '@webank/letgo-designer';
 import { FCheckbox, FSelect } from '@fesjs/fes-design';
 import { CodeEditor, ExpressionEditor } from '@webank/letgo-components';
+import { javascript } from '@codemirror/lang-javascript';
 import ContentItem from '../content-item';
 import { apiCls, contentCls, methodCls, tipCls, wrapCls } from './params.css';
 
@@ -69,7 +70,7 @@ export default defineComponent({
                         return <div style="width: 100%">
                             <FCheckbox v-model={props.codeItem.enableTransformer}>开启数据转换</FCheckbox>
                             {!props.codeItem.enableTransformer && <p class={tipCls}>开始数据转换，将请求数据转换成不同的格式</p>}
-                            {props.codeItem.enableTransformer && <CodeEditor documentModel={props.documentModel} doc={props.codeItem.transformer} changeDoc={changeTransformer} /> }
+                            {props.codeItem.enableTransformer && <CodeEditor extensions={[javascript()]} documentModel={props.documentModel} doc={props.codeItem.transformer} changeDoc={changeTransformer} /> }
                         </div>;
                     },
                 }} />

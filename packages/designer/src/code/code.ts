@@ -36,7 +36,7 @@ export class Code {
         return this.code.filter(item => item.type === CodeType.TEMPORARY_STATE);
     }
 
-    get temporaryFunctions() {
+    get functions() {
         return this.code.filter(item => item.type === CodeType.JAVASCRIPT_FUNCTION);
     }
 

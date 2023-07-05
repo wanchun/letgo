@@ -2,9 +2,9 @@ import type { IControlComponentAction, IControlQueryAction, IPublicTypeEventHand
 import { InnerEventHandlerAction } from '@webank/letgo-types';
 import type { PropType } from 'vue';
 import { computed, defineComponent, ref } from 'vue';
+
 import { FInput, FOption, FSelect } from '@fesjs/fes-design';
 import type { DocumentModel } from '@webank/letgo-designer';
-import { CodeEditor } from '../../code-editor';
 import Label from './label';
 
 export default defineComponent({
@@ -115,14 +115,18 @@ export default defineComponent({
             </>;
         };
 
-        const changeFuncBody = (doc: string) => {
-            props.onChange({
-                funcBody: doc,
+        const functionOptions = computed(() => {
+            return props.documentModel.code.functions.map((item) => {
+                return {
+                    label: item.id,
+                    value: item.id,
+                };
             });
-        };
-
+        });
         const renderRunFunction = (data: IRunFunctionAction) => {
-            return <CodeEditor documentModel={props.documentModel} doc={data.funcBody} changeDoc={changeFuncBody} />;
+            return <Label label="function">
+                <FSelect v-model={data.namespace} appendToContainer={false} options={functionOptions.value} />
+            </Label>;
         };
 
         return () => {

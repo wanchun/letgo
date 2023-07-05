@@ -2,6 +2,7 @@ import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
 import type { IJavascriptQuery } from '@webank/letgo-types';
 import type { DocumentModel } from '@webank/letgo-designer';
+import { javascript } from '@codemirror/lang-javascript';
 import { CodeEditor } from '@webank/letgo-components';
 import CommonGeneral from './common-general';
 
@@ -20,7 +21,7 @@ export default defineComponent({
         };
         return () => {
             return <CommonGeneral documentModel={props.documentModel} codeItem={props.codeItem} changeCodeItem={props.changeCodeItem}>
-                        <CodeEditor documentModel={props.documentModel} doc={props.codeItem.query} changeDoc={changeQuery} />
+                        <CodeEditor documentModel={props.documentModel} extensions={[javascript()]} doc={props.codeItem.query} changeDoc={changeQuery} />
                 </CommonGeneral>;
         };
     },

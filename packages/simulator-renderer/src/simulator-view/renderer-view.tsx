@@ -1,7 +1,8 @@
 import { computed, defineComponent, h, onUnmounted, provide, watch } from 'vue';
 import type { PropType } from 'vue';
+import type { JavascriptFunctionImpl } from '@webank/letgo-renderer';
 import LowCodeRenderer from '@webank/letgo-renderer';
-import type { CodeItem, IPublicTypeComponentInstance, IPublicTypeNodeSchema } from '@webank/letgo-types';
+import { type CodeItem, CodeType, type IPublicTypeComponentInstance, type IPublicTypeNodeSchema } from '@webank/letgo-types';
 import type { DocumentInstance, VueSimulatorRenderer } from '../interface';
 import { BASE_COMP_CONTEXT } from '../constants';
 import { Hoc } from '../built-in-components/hoc';
@@ -45,7 +46,11 @@ export default defineComponent({
             }),
             code.value.onCodeItemAdd((item: CodeItem) => {
                 createCodeInstance(item, executeCtx);
-                executeCtx[item.id] = codesInstance[item.id];
+                if (codesInstance[item.id].type === CodeType.JAVASCRIPT_FUNCTION)
+                    executeCtx[item.id] = (codesInstance[item.id] as JavascriptFunctionImpl).trigger.bind(codesInstance[item.id]);
+
+                else
+                    executeCtx[item.id] = codesInstance[item.id];
             }),
             code.value.onCodeItemDelete((id: string) => {
                 // TODO 有依赖的时候删除给提示

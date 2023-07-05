@@ -34,21 +34,24 @@ export const CodeList = defineComponent({
         },
         hasCodeId: Function as PropType<(id: string) => boolean>,
         hasQuery: Boolean,
-        hasFunction: Boolean,
+        hasFunction: {
+            type: Boolean,
+            default: true,
+        },
         onCodeIdChange: Function as PropType<((id: string, preId: string) => void)>,
     },
     setup(props) {
         const options = [
-            props.hasQuery && {
-                value: ResourceType.Query,
-                codeType: CodeType.JAVASCRIPT_QUERY,
-                label: '查询逻辑',
-                icon: () => h(resourceTypeIcon[ResourceType.Query]),
-            },
+            // props.hasQuery && {
+            //     value: ResourceType.RESTQuery,
+            //     label: 'REST接口',
+            //     codeType: CodeType.JAVASCRIPT_QUERY,
+            //     icon: () => h(resourceTypeIcon[ResourceType.RESTQuery]),
+            // },
             props.hasQuery && {
                 value: ResourceType.RESTQuery,
-                label: 'REST接口',
                 codeType: CodeType.JAVASCRIPT_QUERY,
+                label: '查询',
                 icon: () => h(resourceTypeIcon[ResourceType.RESTQuery]),
             },
             props.hasFunction && {

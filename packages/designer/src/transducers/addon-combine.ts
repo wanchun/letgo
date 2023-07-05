@@ -255,20 +255,20 @@ export default function (
             if (supportVariableGlobally) {
                 const setter = field.setter;
                 if (isArray(setter)) {
-                    if (!setter.includes('ExpressionSetter') && !setter.includes('VariableSetter'))
+                    if (!setter.includes('ExpressionSetter'))
                         setter.push('ExpressionSetter');
                 }
                 else if (typeof setter === 'string') {
-                    if (setter !== 'ExpressionSetter' && setter !== 'VariableSetter')
+                    if (setter !== 'ExpressionSetter')
                         field.setter = [setter, 'ExpressionSetter'];
                 }
                 else if (setter) {
                     const setters = (setter.props as any)?.setters;
                     if (setter.componentName === 'MixedSetter') {
-                        if (!setters?.includes('ExpressionSetter') && !setters?.includes('VariableSetter'))
+                        if (!setters?.includes('ExpressionSetter'))
                             setters?.push('ExpressionSetter');
                     }
-                    else if (setter.componentName !== 'ExpressionSetter' && setter.componentName !== 'VariableSetter') {
+                    else if (setter.componentName !== 'ExpressionSetter') {
                         field.setter = [setter, 'ExpressionSetter'];
                     }
                 }

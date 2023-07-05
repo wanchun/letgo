@@ -151,7 +151,6 @@ export const SettingFieldView = defineComponent({
         const supportVariable = field.extraProps?.supportVariable;
         if (supportVariable) {
             if (setterType === 'MixedSetter') {
-                // VariableSetter 不单独使用
                 if (
                     Array.isArray(setterProps.setters)
                     && !setterProps.setters.includes('ExpressionSetter')

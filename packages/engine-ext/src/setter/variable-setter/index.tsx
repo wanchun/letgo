@@ -68,6 +68,6 @@ export const VariableSetter: IPublicTypeSetter = {
     Component: VariableSetterView,
     condition: (field) => {
         const v = field.getValue() ?? (field as SettingField).getDefaultValue();
-        return isJSExpression(v);
+        return isJSExpression(v) && v.value.endsWith('.value');
     },
 };

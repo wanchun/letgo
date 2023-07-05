@@ -29,7 +29,6 @@ export const addBtnCls = style({
     minWidth: '120px',
     paddingLeft: '12px',
     color: '#5384ff',
-    fontSize: '12px',
     listStyleType: 'none',
 });
 

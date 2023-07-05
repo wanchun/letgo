@@ -10,7 +10,6 @@ export const categoryCls = style({
 });
 
 export const titleCls = style({
-    fontSize: '12px',
     padding: 0,
     margin: 0,
     color: '#222',

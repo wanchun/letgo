@@ -28,4 +28,5 @@ export const tipCls = style({
     background: '#f0f0f0',
     borderRadius: '4px',
     padding: '6px 8px',
+    fontSize: '12px',
 });

@@ -3,10 +3,10 @@ import { style } from '@vanilla-extract/css';
 export const categoryTitleCls = style({
     display: 'flex',
     justifyContent: 'space-between',
-    fontSize: '12px',
     color: '#222',
     fontWeight: '600',
     cursor: 'pointer',
+    fontSize: '12px',
 });
 
 export const titleIconCls = style({

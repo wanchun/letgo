@@ -23,7 +23,7 @@ export default defineComponent({
 
         return () => {
             return <>
-                <Category title="其他配置" v-slots={{
+                <Category v-slots={{
                     default: () => {
                         return <>
                             <ContentItem label="超时时间" v-slots={{

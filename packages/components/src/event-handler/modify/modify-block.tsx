@@ -80,7 +80,7 @@ export default defineComponent({
         });
         const renderEvent = () => {
             return props.events.length
-                ? <Label label="Event">
+                ? <Label label="事件">
                 <FSelect v-model={innerEditEvent.value.name} options={props.events} />
             </Label>
                 : null;
@@ -98,7 +98,7 @@ export default defineComponent({
             };
         };
         const renderAction = () => {
-            return <Label label="Action">
+            return <Label label="动作">
                     <FSelect appendToContainer={false} v-model={innerEditEvent.value.action} onChange={changeAction} >
                         {actions.map(action => <FOption value={action.value}>{action.label}</FOption>)}
                     </FSelect>
@@ -129,7 +129,7 @@ export default defineComponent({
                 <Label label="执行条件">
                     <FInput v-model={innerEditEvent.value.onlyRunWhen} />
                 </Label>
-                <Label label="Debounce">
+                <Label label="延迟">
                     <FInputNumber v-model={innerEditEvent.value.waitMs} />
                 </Label>
                 <FSpace justify="end">

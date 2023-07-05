@@ -25,10 +25,10 @@ export default defineComponent({
         });
         const renderQuery = (data: IControlQueryAction) => {
             return <>
-                <Label label="Query">
+                <Label label="查询">
                     <FSelect v-model={data.namespace} appendToContainer={false} options={queryOptions.value} />
                 </Label>
-                <Label label="Method">
+                <Label label="方法">
                     <FSelect v-model={data.method} appendToContainer={false}>
                         <FOption value="trigger">Trigger</FOption>
                         <FOption value="reset">Reset</FOption>

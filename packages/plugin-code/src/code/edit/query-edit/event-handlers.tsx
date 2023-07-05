@@ -91,7 +91,7 @@ export default defineComponent({
 
         return () => {
             return <div class={eventHandlersCls}>
-                <h5 class={titleCls}>事件绑定</h5>
+                <div class={titleCls}>事件绑定</div>
                 <div>
                     <EventHeader
                         ref={successPopperRef}

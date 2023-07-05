@@ -44,7 +44,7 @@ export default defineComponent({
 
         return () => {
             return <div class={wrapCls}>
-                <ContentItem label="请求方法" labelStyle="width: 64px" v-slots={{
+                <ContentItem label="请求方法" labelStyle="width: 80px" v-slots={{
                     content: () => {
                         return <div class={contentCls}>
                                 <FSelect class={methodCls} placeholder='' v-model={props.codeItem.method} options={MethodOptions} />
@@ -59,13 +59,13 @@ export default defineComponent({
                     },
                 }} />
 
-                <ContentItem label="请求参数" labelStyle="width: 64px" v-slots={{
+                <ContentItem label="请求参数" labelStyle="width: 80px" v-slots={{
                     content: () => {
                         return <ExpressionEditor style="font-size: 14px" placeholder="params" documentModel={props.documentModel} doc={props.codeItem.params} onChangeDoc={changeParams} />;
                     },
                 }} />
 
-                <ContentItem label="数据转换" labelStyle="width: 64px" v-slots={{
+                <ContentItem label="数据转换" labelStyle="width: 80px" v-slots={{
                     content: () => {
                         return <div style="width: 100%">
                             <FCheckbox v-model={props.codeItem.enableTransformer}>开启数据转换</FCheckbox>

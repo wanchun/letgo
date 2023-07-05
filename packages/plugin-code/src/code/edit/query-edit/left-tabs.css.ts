@@ -14,7 +14,6 @@ export const tabCls = style({
     height: '24px',
     borderRadius: '24px',
     padding: '2px 12px',
-    fontSize: '12px',
     backgroundColor: 'transparent',
     cursor: 'pointer',
 });

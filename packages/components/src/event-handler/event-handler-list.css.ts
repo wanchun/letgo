@@ -4,7 +4,6 @@ export const selectedEventListCls = style({
     listStyleType: 'none',
     margin: 0,
     padding: 0,
-    fontSize: '12px',
 });
 
 export const selectedEventCls = style({

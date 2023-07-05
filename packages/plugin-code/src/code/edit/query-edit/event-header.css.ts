@@ -2,7 +2,6 @@ import { style } from '@vanilla-extract/css';
 
 export const eventListTitle = style({
     color: '#8c8c8c',
-    fontSize: '12px',
 });
 
 export const popperWrapCls = style({

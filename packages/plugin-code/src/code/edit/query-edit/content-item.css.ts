@@ -2,7 +2,6 @@ import { style } from '@vanilla-extract/css';
 
 export const contentItemCls = style({
     display: 'flex',
-    fontSize: '12px',
     marginTop: '8px',
 });
 

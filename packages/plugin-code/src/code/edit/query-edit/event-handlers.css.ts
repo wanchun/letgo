@@ -9,7 +9,6 @@ export const eventHandlersCls = style({
 export const titleCls = style({
     margin: 0,
     padding: '0 0 8px 0',
-    fontSize: '12px',
 });
 
 export const eventListCls = style({

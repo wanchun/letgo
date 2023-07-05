@@ -57,7 +57,6 @@ export const codeCommonIconCls = style({
     justifyContent: 'center',
     alignItems: 'center',
     color: '#fff',
-    fontSize: '12px',
     width: '15px',
     height: '15px',
     borderRadius: '4px',

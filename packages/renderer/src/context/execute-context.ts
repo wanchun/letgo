@@ -3,6 +3,7 @@ import type { IPublicTypeComponentInstance, IPublicTypeNodeSchema } from '@weban
 import type { CodeImplType } from '@webank/letgo-designer';
 import type { RendererProps } from '../core';
 import { useCodesInstance } from '../code-impl/code-impl';
+import { JavascriptFunctionImpl } from '../code-impl';
 import { getGlobalContextKey } from './context';
 
 export function createExecuteContext(props: RendererProps) {
@@ -29,7 +30,11 @@ export function createExecuteContext(props: RendererProps) {
     useCodesInstance({
         codeStruct: computed(() => props.__schema.code),
         onSet(key: string, value: CodeImplType) {
-            executeCtx[key] = value;
+            if (value instanceof JavascriptFunctionImpl)
+                executeCtx[key] = value.trigger.bind(value);
+
+            else
+                executeCtx[key] = value;
         },
         onClear(keys: string[]) {
             keys.forEach((key) => {

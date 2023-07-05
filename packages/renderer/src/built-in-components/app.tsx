@@ -5,6 +5,7 @@ import type { CodeImplType } from '@webank/letgo-designer';
 import { getGlobalContextKey } from '../context';
 
 import { useCodesInstance } from '../code-impl/code-impl';
+import { JavascriptFunctionImpl } from '../code-impl';
 
 function useCssHandler(css?: string) {
     if (css) {
@@ -29,7 +30,11 @@ export default defineComponent({
         useCodesInstance({
             codeStruct: computed(() => props.projectSchema.code),
             onSet(key: string, value: CodeImplType) {
-                globalContext[key] = value;
+                if (value instanceof JavascriptFunctionImpl)
+                    globalContext[key] = value.trigger.bind(value);
+
+                else
+                    globalContext[key] = value;
             },
             onClear(keys: string[]) {
                 keys.forEach((key) => {

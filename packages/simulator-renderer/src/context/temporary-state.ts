@@ -8,6 +8,20 @@ export class SimulatorTemporaryState extends TemporaryStateImpl {
     constructor(data: ITemporaryState, deps: string[], ctx: Record<string, any>) {
         super(data, deps, ctx);
         this.changeDeps(deps || []);
+        this.watchValue();
+    }
+
+    watchValue() {
+        watch(() => this.value, (val, oldVal) => {
+            // 强刷 editor 的 state 状态
+            if (val === oldVal) {
+                this.value = {
+                    ...val,
+                };
+            }
+        }, {
+            deep: true,
+        });
     }
 
     changeDeps(deps: string[]): void {

@@ -11,9 +11,13 @@ export const contentCls = style({
 });
 
 export const methodCls = style({
-    width: '80px',
-    height: '30px',
-    minHeight: '30px',
+    selectors: {
+        [`${contentCls} &`]: {
+            width: '80px',
+            height: '30px',
+            minHeight: '30px',
+        },
+    },
 });
 
 export const apiCls = style({

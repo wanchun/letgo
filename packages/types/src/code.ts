@@ -30,10 +30,10 @@ export interface QueryResourceBase {
     enableTransformer?: boolean
     transformer?: string
     query: string
-    queryFailureCondition: IFailureCondition[]
-    showFailureToaster: boolean
-    showSuccessToaster: boolean
-    successMessage: string
+    queryFailureCondition?: IFailureCondition[]
+    showFailureToaster?: boolean
+    showSuccessToaster?: boolean
+    successMessage?: string
     runCondition?: RunCondition
     runWhenPageLoads?: boolean
     enableCaching?: boolean

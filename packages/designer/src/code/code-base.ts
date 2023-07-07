@@ -1,4 +1,4 @@
-import { CodeType, ResourceType } from '@webank/letgo-types';
+import { CodeType, ResourceType, RunCondition } from '@webank/letgo-types';
 import type { CodeItem, IJavascriptComputed, IJavascriptFunction, IJavascriptQuery, ITemporaryState } from '@webank/letgo-types';
 
 export interface CodeBaseEdit {
@@ -48,6 +48,7 @@ class JavascriptQueryEdit implements CodeBaseEdit {
             id,
             resourceType: resourceType || ResourceType.Query,
             type: CodeType.JAVASCRIPT_QUERY,
+            runCondition: RunCondition.Manual,
             query: '',
             queryFailureCondition: [],
             showFailureToaster: false,

@@ -48,7 +48,7 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
             showSuccessToaster: data.showSuccessToaster || false,
             successMessage: data.successMessage || '',
             queryTimeout: data.queryTimeout,
-            runCondition: data.runCondition || RunCondition.MANUAL,
+            runCondition: data.runCondition || RunCondition.Manual,
             queryFailureCondition: data.queryFailureCondition || [],
             successEvent: data.successEvent,
             failureEvent: data.failureEvent,
@@ -161,7 +161,7 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
         }
     }
 
-    async trigger() {
+    trigger = async () => {
         if (this.enableCaching && this.cacheTime && (Date.now() - this.cacheTime) < this.cacheDuration * 1000)
             return;
         const fn = this.genQueryFn(this.ctx);
@@ -202,7 +202,7 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
                     this.error = err.message;
             }
         }
-    }
+    };
 
     clearCache() {
         this.cacheTime = null;

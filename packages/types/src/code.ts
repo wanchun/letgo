@@ -19,8 +19,8 @@ export interface IFailureCondition {
 }
 
 export enum RunCondition {
-    MANUAL,
-    PageLoads,
+    Manual = 'manual',
+    // DependStateChange = 'dependStateChange',
 }
 
 export interface QueryResourceBase {
@@ -34,7 +34,7 @@ export interface QueryResourceBase {
     showFailureToaster?: boolean
     showSuccessToaster?: boolean
     successMessage?: string
-    runCondition?: RunCondition
+    runCondition: RunCondition
     runWhenPageLoads?: boolean
     enableCaching?: boolean
     cacheDuration?: number

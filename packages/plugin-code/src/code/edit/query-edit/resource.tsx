@@ -4,7 +4,7 @@ import { FSelect } from '@fesjs/fes-design';
 import type { IJavascriptQuery } from '@webank/letgo-types';
 import { ResourceType } from '@webank/letgo-types';
 import ContentItem from './content-item';
-import { wrapCls } from './resource.css';
+import { contentCls, wrapCls } from './resource.css';
 
 const Options = [{
     value: ResourceType.RESTQuery,
@@ -14,6 +14,14 @@ const Options = [{
     label: '自定义查询逻辑',
 }];
 
+// const RunOptions = [{
+//     value: RunCondition.Manual,
+//     label: '手动触发 trigger 执行',
+// }, {
+//     value: RunCondition.DependStateChange,
+//     label: '依赖状态变更自动执行',
+// }];
+
 export default defineComponent({
     name: 'Resource',
     props: {
@@ -22,9 +30,12 @@ export default defineComponent({
     setup(props) {
         return () => {
             return <div class={wrapCls}>
-                <ContentItem label="类型" labelStyle="width: 80px" v-slots={{
+                <ContentItem label="类型" labelStyle="width: 72px" v-slots={{
                     content: () => {
-                        return <FSelect v-model={props.codeItem.resourceType} options={Options} />;
+                        return <div class={contentCls}>
+                            <FSelect style="width: 130px" v-model={props.codeItem.resourceType} options={Options} />
+                            {/* <FSelect style="flex: 1" v-model={props.codeItem.runCondition} options={RunOptions} /> */}
+                        </div>;
                     },
                 }} />
             </div>;

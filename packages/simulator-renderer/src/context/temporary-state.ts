@@ -1,4 +1,5 @@
 import { TemporaryStateImpl } from '@webank/letgo-renderer';
+import { clone } from 'lodash-es';
 import { CodeType, type ITemporaryState } from '@webank/letgo-types';
 import type { WatchStopHandle } from 'vue';
 import { watch } from 'vue';
@@ -14,11 +15,8 @@ export class SimulatorTemporaryState extends TemporaryStateImpl {
     watchValue() {
         watch(() => this.value, (val, oldVal) => {
             // 强刷 editor 的 state 状态
-            if (val === oldVal) {
-                this.value = {
-                    ...val,
-                };
-            }
+            if (val === oldVal)
+                this.value = clone(val);
         }, {
             deep: true,
         });

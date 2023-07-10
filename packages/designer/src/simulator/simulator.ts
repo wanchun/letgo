@@ -14,6 +14,7 @@ import * as Vue from 'vue';
 import type {
     IPublicTypeAsset,
     IPublicTypeAssetList,
+    IPublicTypeAssetUtil,
     IPublicTypeComponentMetadata,
     IPublicTypeDevice,
     IPublicTypePackage,
@@ -76,6 +77,7 @@ export interface ISimulatorProps {
     deviceStyle?: IDeviceStyleProps
     deviceClassName?: string
     library?: IPublicTypePackage[]
+    utilsMetadata?: IPublicTypeAssetUtil[]
     simulatorUrl?: IPublicTypeAsset
     [key: string]: any
 }
@@ -972,7 +974,6 @@ export class Simulator implements ISimulator<ISimulatorProps> {
     ): IRect | null {
         const renderer = this.renderer;
         let elements = this.findDOMNodes(instance, selector);
-        // console.log('elements:', elements);
         if (!elements)
             return null;
 

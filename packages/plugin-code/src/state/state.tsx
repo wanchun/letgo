@@ -44,7 +44,7 @@ export default defineComponent({
             }, {} as Record<string, any>);
             return {
                 ...instances,
-                letgoContext: props.designer.project.config,
+                ...props.designer.project.extraGlobalState,
             };
         });
         const currentDocument = computed(() => {

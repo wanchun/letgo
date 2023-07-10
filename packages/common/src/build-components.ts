@@ -66,17 +66,18 @@ export function getSubComponent(library: any, paths: string[]) {
     return component;
 }
 
-export function findComponent(
+export function findLibExport(
     libraryMap: Record<string, string>,
-    componentName: string,
+    exportName: string,
     npm?: IPublicTypeNpmInfo,
 ) {
     if (!npm)
-        return accessLibrary(componentName);
+        return accessLibrary(exportName);
 
-    const exportName = npm.exportName || componentName;
+    exportName = npm.exportName || exportName;
     const libraryName = libraryMap[npm.package] || exportName;
     const library = accessLibrary(libraryName);
+
     const paths = (npm.exportName && npm.subName) ? npm.subName.split('.') : [];
     if (npm.destructuring)
         paths.unshift(exportName);
@@ -106,7 +107,7 @@ export function buildComponents(
             components[componentName] = component;
         }
         else {
-            component = findComponent(
+            component = findLibExport(
                 libraryMap,
                 componentName,
                 component as IPublicTypeNpmInfo,

@@ -41,10 +41,11 @@ export { editor, config, designer, plugins, skeleton, material, project, hotkey,
     innerPlugins.register({
         name: 'component_meta_parser',
         init(ctx) {
-            const { editor, designer } = ctx;
+            const { editor, designer, project } = ctx;
             editor.onGot('assets', (assets: any) => {
                 const { components = [] } = assets;
                 designer.buildComponentMetaMap(components);
+                project.setUtils(assets.utils);
             });
         },
     });

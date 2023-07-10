@@ -1,6 +1,7 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, onUnmounted, provide, reactive, watch } from 'vue';
 import { type CodeItem, CodeType } from '@webank/letgo-types';
+import { buildGlobalUtils } from '@webank/letgo-renderer';
 import type { JavascriptFunctionImpl } from '@webank/letgo-renderer';
 import { BASE_GLOBAL_CONTEXT } from '../constants';
 
@@ -43,9 +44,13 @@ export default defineComponent({
             changeCodeInstanceId,
         } = useCodesInstance();
 
+        const globalUtils = buildGlobalUtils(props.simulator.libraryMap, host.project.utils);
         const globalContext: Record<string, any> = reactive({
+            utils: globalUtils,
             letgoContext: host.project.config || {},
         });
+
+        host.project.updateUtilsInstance(globalUtils);
 
         initCodesInstance(code.codeMap, globalContext);
 
@@ -91,7 +96,7 @@ export default defineComponent({
         watch(viewState, () => {
             host.project.updateGlobalCodesInstance(codesInstance);
         }, {
-            deep: true,
+            immediate: true,
         });
 
         provide(BASE_GLOBAL_CONTEXT, globalContext);

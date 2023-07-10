@@ -81,6 +81,7 @@ export default defineComponent({
         });
 
         return {
+            libraryMap,
             projectSchema,
             pageSchema,
             components,
@@ -91,7 +92,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <RendererApp v-if="isReady" :project-schema="projectSchema">
+  <RendererApp v-if="isReady" :library-map="libraryMap" :project-schema="projectSchema">
     <VueRenderer class="engine" :schema="pageSchema" :components="components" />
   </RendererApp>
   <div v-else>

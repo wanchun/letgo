@@ -6,6 +6,7 @@ import type {
     IPublicTypeComponentsMap,
     IPublicTypeProjectSchema,
     IPublicTypeRootSchema,
+    IPublicTypeUtilsMap,
 } from '@webank/letgo-types';
 import {
     IPublicEnumTransformStage,
@@ -21,6 +22,7 @@ import { Code } from '../code/code';
 export class Project {
     css: string;
     codesInstance: Record<string, any> = {};
+    utilsInstance: Record<string, any>;
     private emitter = new EventEmitter();
     readonly code: Code;
 
@@ -62,17 +64,38 @@ export class Project {
         markShallowReactive(this, {
             _currentDocument: null,
             codesInstance: {},
+            utilsInstance: {},
             css: '',
         });
-        markComputed(this, ['currentDocument']);
+        markComputed(this, ['currentDocument', 'extraGlobalState']);
         this.code = new Code();
         this.importSchema(schema);
+    }
+
+    get extraGlobalState() {
+        return {
+            utils: this.utilsInstance,
+            letgoContext: this.config,
+        };
+    }
+
+    updateUtilsInstance(utils: Record<string, any>) {
+        this.utilsInstance = utils;
     }
 
     updateGlobalCodesInstance(codesInstance: Record<string, any>) {
         this.codesInstance = {
             ...codesInstance,
         };
+    }
+
+    setUtils(utils: IPublicTypeUtilsMap) {
+        // TODO，兼容内置 utils
+        this.data.utils = utils;
+    }
+
+    get utils() {
+        return this.data.utils;
     }
 
     private getComponentsMap(): IPublicTypeComponentsMap {

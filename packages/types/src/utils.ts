@@ -1,10 +1,10 @@
 import type { IPublicTypeNpmInfo } from './npm';
-import type { IPublicTypeJSExpression, IPublicTypeJSFunction } from './value-type';
+import type { IPublicTypeJSFunction } from './value-type';
 
 export interface IPublicTypeInternalUtils {
     name: string
     type: 'function'
-    content: IPublicTypeJSFunction | IPublicTypeJSExpression
+    content: IPublicTypeJSFunction
 }
 
 export interface IPublicTypeExternalUtils {

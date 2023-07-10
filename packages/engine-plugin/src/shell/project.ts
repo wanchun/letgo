@@ -1,5 +1,5 @@
 import type { Project as InnerProject } from '@webank/letgo-designer';
-import type { IPublicTypeProjectSchema, IPublicTypeRootSchema } from '@webank/letgo-types';
+import type { IPublicTypeProjectSchema, IPublicTypeRootSchema, IPublicTypeUtilsMap } from '@webank/letgo-types';
 import { IPublicEnumTransformStage } from '@webank/letgo-types';
 
 import { projectSymbol } from './symbols';
@@ -13,6 +13,10 @@ export class Project {
 
     static create(project: InnerProject) {
         return new Project(project);
+    }
+
+    setUtils(utils: IPublicTypeUtilsMap) {
+        this[projectSymbol].setUtils(utils);
     }
 
     /**

@@ -23,10 +23,12 @@ function genCodeMap(code: CodeStruct, codeMap: Map<string, CodeItem>) {
 
 export function useCodesInstance({
     codeStruct,
+    executeCtx,
     onSet,
     onClear,
 }: {
     codeStruct: ComputedRef<CodeStruct>
+    executeCtx: Record<string, any>
     onSet: (key: string, value: CodeImplType) => void
     onClear: (keys: string[]) => void
 }) {
@@ -77,7 +79,7 @@ export function useCodesInstance({
     };
 
     watch(codeStruct, () => {
-        initCodesInstance({});
+        initCodesInstance(executeCtx);
     }, {
         immediate: true,
     });

@@ -10,7 +10,6 @@ export function createExecuteContext(props: RendererProps) {
     const executeCtx: Record<string, any> = reactive({ });
 
     const globalContext = inject(getGlobalContextKey(), {});
-
     watch(globalContext, () => {
         Object.assign(executeCtx, globalContext);
     }, {
@@ -29,6 +28,7 @@ export function createExecuteContext(props: RendererProps) {
 
     useCodesInstance({
         codeStruct: computed(() => props.__schema.code),
+        executeCtx,
         onSet(key: string, value: CodeImplType) {
             if (value instanceof JavascriptFunctionImpl)
                 executeCtx[key] = value.trigger.bind(value);

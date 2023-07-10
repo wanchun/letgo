@@ -6,6 +6,7 @@ import { getGlobalContextKey } from '../context';
 
 import { useCodesInstance } from '../code-impl/code-impl';
 import { JavascriptFunctionImpl } from '../code-impl';
+import { buildGlobalUtils } from '../parse';
 
 function useCssHandler(css?: string) {
     if (css) {
@@ -18,6 +19,7 @@ function useCssHandler(css?: string) {
 export default defineComponent({
     name: 'RendererApp',
     props: {
+        libraryMap: Object as PropType<Record<string, any>>,
         projectSchema: Object as PropType<IPublicTypeProjectSchema>,
     },
     setup(props, { slots }) {
@@ -25,9 +27,11 @@ export default defineComponent({
 
         const globalContext: Record<string, any> = reactive({
             letgoContext: props.projectSchema.config || {},
+            utils: buildGlobalUtils(props.libraryMap as Record<string, any>, props.projectSchema.utils),
         });
 
         useCodesInstance({
+            executeCtx: globalContext,
             codeStruct: computed(() => props.projectSchema.code),
             onSet(key: string, value: CodeImplType) {
                 if (value instanceof JavascriptFunctionImpl)

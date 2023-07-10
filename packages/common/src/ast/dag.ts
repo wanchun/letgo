@@ -21,7 +21,7 @@ export function topologicalSort(dependencyMap: Map<string, string[]>) {
         const deps = dependencyMap.get(cur);
         for (const dep of deps) {
             indegree.set(dep, indegree.get(dep) - 1);
-            if (indegree.get(dep) === 0)
+            if (indegree.get(dep) === 0 && dependencyMap.has(dep))
                 queue.push(dep);
         }
     }

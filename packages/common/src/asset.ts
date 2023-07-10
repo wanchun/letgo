@@ -3,7 +3,6 @@ import type {
     IPublicTypeAssetBundle,
     IPublicTypeAssetItem,
     IPublicTypeAssetList,
-    IPublicTypeAssetsJson,
 } from '@webank/letgo-types';
 import {
     AssetLevels,
@@ -59,27 +58,6 @@ export function assetItem(
         level,
         id,
     };
-}
-
-export function mergeAssets(
-    assets: IPublicTypeAssetsJson,
-    incrementalAssets: IPublicTypeAssetsJson,
-): IPublicTypeAssetsJson {
-    if (incrementalAssets.packages) {
-        assets.packages = [
-            ...(assets.packages || []),
-            ...incrementalAssets.packages,
-        ];
-    }
-
-    if (incrementalAssets.components) {
-        assets.components = [
-            ...assets.components,
-            ...incrementalAssets.components,
-        ];
-    }
-
-    return assets;
 }
 
 export class StylePoint {

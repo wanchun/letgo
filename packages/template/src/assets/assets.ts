@@ -9334,6 +9334,16 @@ const assets: IPublicTypeAssetsJson = {
             priority: 0,
         },
     ],
+    utils: [{
+        name: 'FMessage',
+        type: 'npm',
+        content: {
+            package: '@fesjs/fes-design',
+            version: '0.7.31',
+            exportName: 'FMessage',
+            destructuring: true,
+        },
+    }],
     sort: {
         groupList: ['原子组件', '精选组件'],
         categoryList: [

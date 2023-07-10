@@ -1,5 +1,6 @@
 import type { IPublicTypeProjectSchema } from './schema';
 import type { IPublicTypeComponentMetadata } from './metadata';
+import type { IPublicTypeUtilsMap } from './utils';
 
 export enum IPublicEnumAssetLevel {
     // 环境依赖库 比如 react, react-dom
@@ -70,6 +71,8 @@ export interface IPublicTypeAssetsJson {
      */
     components?: Array<IPublicTypeComponentDescription | IPublicTypeRemoteComponentDescription>
     sort?: IPublicTypeComponentSort
+
+    utils?: IPublicTypeUtilsMap
 }
 
 /**

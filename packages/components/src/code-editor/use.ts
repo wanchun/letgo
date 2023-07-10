@@ -18,7 +18,7 @@ export function useHint(props: {
             return {
                 codesInstance: Object.assign({}, state?.codesInstance, currentDocument.project.codesInstance),
                 componentsInstance: state?.componentsInstance,
-                letgoContext: currentDocument.project.config || {},
+                ...currentDocument.project.extraGlobalState,
             };
         }
         else {

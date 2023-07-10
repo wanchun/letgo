@@ -47,6 +47,12 @@ export class Material {
                 ...incrementalAssets.components,
             ];
         }
+        if (incrementalAssets.utils) {
+            assets.utils = [
+                ...(assets.utils || []),
+                ...incrementalAssets.utils,
+            ];
+        }
         if (incrementalAssets.sort) {
             assets.sort = {
                 groupList: [

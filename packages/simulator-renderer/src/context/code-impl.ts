@@ -3,7 +3,7 @@ import { reactive } from 'vue';
 import { isNil } from 'lodash-es';
 import type { CodeItem } from '@webank/letgo-types';
 import { CodeType } from '@webank/letgo-types';
-import type { CodeImplType } from '@webank/letgo-designer';
+import { type CodeImplType } from '@webank/letgo-designer';
 import { ComputedImpl, JavascriptFunctionImpl, JavascriptQueryImpl } from '@webank/letgo-renderer';
 import { calcDependencies, sortState } from '@webank/letgo-common';
 import { SimulatorTemporaryState } from './temporary-state';
@@ -77,7 +77,11 @@ export function useCodesInstance() {
                 const item = codeMap.get(codeId);
                 createCodeInstance(item, ctx);
                 Object.keys(codesInstance).forEach((key) => {
-                    ctx[key] = codesInstance[key];
+                    if (codesInstance[key].type === CodeType.JAVASCRIPT_FUNCTION)
+                        ctx[key] = (codesInstance[key] as JavascriptFunctionImpl).trigger;
+
+                    else
+                        ctx[key] = codesInstance[key];
                 });
             });
         }

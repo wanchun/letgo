@@ -1,6 +1,6 @@
-import type { CodeStruct, IPublicTypeProjectSchema } from '@webank/letgo-types';
+import type { CodeStruct, IPublicTypeNpmInfo, IPublicTypeProjectSchema, IPublicTypeUtilsMap } from '@webank/letgo-types';
 import { genCode, genCodeMap, genImportCode } from './helper';
-import type { SetupCode } from './types';
+import type { ImportSource, SetupCode } from './types';
 import { ImportType } from './types';
 
 const TEMPLATE = `import { useSharedComposable } from '@vueuse/core';
@@ -42,19 +42,66 @@ function getGlobalFlag() {
     return hasGlobal;
 }
 
+function compilerNpmImports(npm: IPublicTypeNpmInfo): ImportSource {
+    return {
+        source: npm.package,
+        imported: npm.exportName,
+        type: ImportType.ImportSpecifier,
+    };
+}
+
+function genUtilsImports(utils: IPublicTypeUtilsMap): ImportSource[] {
+    return utils.filter(item => item.type !== 'function').map((item) => {
+        return compilerNpmImports(item.content as IPublicTypeNpmInfo);
+    });
+}
+
+export function compilerUtils(utils: IPublicTypeUtilsMap) {
+    const importSources = genUtilsImports(utils);
+    const code = utils.map((item) => {
+        if (item.type === 'function')
+            return `${item.name}: ${item.content.value}`;
+        else
+            return `${item.name},`;
+    }).join(',');
+
+    return {
+        code: `
+        const utils = {
+            ${code}
+        };
+        `,
+        importSources,
+    };
+}
+
 export function genGlobalStateCode(schema: IPublicTypeProjectSchema) {
     hasGlobal = !!(schema.code || schema.config);
     if (!hasGlobal)
         return null;
 
     let tmp = TEMPLATE.replace('CONFIG', JSON.stringify(schema.config || {}));
+
+    const importSources: ImportSource[] = [];
+    let code = '';
+    const codeKeys: string[] = [];
+
+    if (schema.utils) {
+        const result = compilerUtils(schema.utils);
+        importSources.push(...result.importSources);
+        code += result.code;
+        codeKeys.push('utils');
+    }
+
     if (schema.code) {
-        const { importSources, code } = genCode(schema.code);
-        tmp = tmp.replace('IMPORTS', genImportCode(importSources)).replace('STATE_CODE', code).replace('CODE_KEYS', genGlobalStateKeys(schema.code).join(','));
+        const result = genCode(schema.code);
+        importSources.push(...result.importSources);
+        codeKeys.push(...genGlobalStateKeys(schema.code));
+        code += result.code;
     }
-    else {
-        tmp = tmp.replace('IMPORTS', '').replace('STATE_CODE', '').replace('CODE_KEYS', '');
-    }
+    tmp = tmp.replace('IMPORTS', importSources.length ? genImportCode(importSources) : '');
+    tmp = tmp.replace('STATE_CODE', code);
+    tmp = tmp.replace('CODE_KEYS', codeKeys.length ? codeKeys.join(',') : '');
 
     return {
         filename: `${GLOBAL_STATE_FILE_NAME}.js`,

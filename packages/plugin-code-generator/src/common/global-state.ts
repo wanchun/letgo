@@ -3,7 +3,7 @@ import { genCode, genCodeMap, genImportCode } from './helper';
 import type { ImportSource, SetupCode } from './types';
 import { ImportType } from './types';
 
-const TEMPLATE = `import { useSharedComposable } from '@vueuse/core';
+const TEMPLATE = `import { createSharedComposable } from '@vueuse/core';
 import { reactive } from 'vue';
 IMPORTS
 
@@ -18,7 +18,7 @@ function useLetgoGlobal() {
     };
 }
 
-export const useSharedLetgoGlobal = useLetgoGlobal();
+export const useSharedLetgoGlobal = createSharedComposable(useLetgoGlobal);
 `;
 
 export const GLOBAL_STATE_FILE_NAME = 'useLetgoGlobal';

@@ -4,7 +4,7 @@ import type {
     IPublicTypeNodeSchema,
     IPublicTypeRootSchema,
     IPublicTypeSlotSchema,
-} from '@webank/letgo-types';
+} from '@fesjs/letgo-types';
 import type { RuntimeScope } from '../utils';
 
 export const rendererProps = {

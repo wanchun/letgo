@@ -1,5 +1,5 @@
 {
-  "name": "@webank/letgo-common",
+  "name": "@fesjs/letgo-common",
   "version": "0.0.0-beta.1",
   "description": "",
   "author": "",
@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@fesjs/fes-design": "^0.7.32",
-    "@webank/letgo-types": "workspace:*",
+    "@fesjs/letgo-types": "workspace:*",
     "acorn": "^8.8.2",
     "acorn-walk": "^8.2.0",
     "astring": "^1.8.6",

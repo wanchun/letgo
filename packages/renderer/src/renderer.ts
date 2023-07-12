@@ -1,6 +1,6 @@
 import type { Component, PropType } from 'vue';
 import { computed, defineComponent, h } from 'vue';
-import type { IPublicTypeAppConfig, IPublicTypeRootSchema } from '@webank/letgo-types';
+import type { IPublicTypeAppConfig, IPublicTypeRootSchema } from '@fesjs/letgo-types';
 import config from './config';
 import { RENDERER_COMPS } from './renderers';
 

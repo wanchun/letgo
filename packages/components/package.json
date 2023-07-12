@@ -1,5 +1,5 @@
 {
-  "name": "@webank/letgo-components",
+  "name": "@fesjs/letgo-components",
   "version": "0.0.0-beta.1",
   "description": "",
   "author": "",
@@ -25,9 +25,9 @@
     "@codemirror/state": "^6.2.0",
     "@codemirror/view": "^6.11.0",
     "@fesjs/fes-design": "^0.7.32",
-    "@webank/letgo-common": "workspace:*",
-    "@webank/letgo-designer": "workspace:*",
-    "@webank/letgo-types": "workspace:*",
+    "@fesjs/letgo-common": "workspace:*",
+    "@fesjs/letgo-designer": "workspace:*",
+    "@fesjs/letgo-types": "workspace:*",
     "codemirror": "^6.0.1",
     "lodash-es": "^4.17.21"
   },

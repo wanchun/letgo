@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, onBeforeUnmount, onMounted, ref } from 'vue';
-import { destroy, init, project } from '@webank/letgo-engine';
+import { destroy, init, project } from '@fesjs/letgo-engine';
 
 export default defineComponent({
     setup() {

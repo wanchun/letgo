@@ -9,11 +9,11 @@ import {
     onBeforeUnmount,
 } from 'vue';
 import { FTooltip } from '@fesjs/fes-design';
-import type { IPublicTypeComponentActionContent } from '@webank/letgo-types';
+import type { IPublicTypeComponentActionContent } from '@fesjs/letgo-types';
 import {
     isActionContentObject,
-} from '@webank/letgo-types';
-import { createIcon } from '@webank/letgo-common';
+} from '@fesjs/letgo-types';
+import { createIcon } from '@fesjs/letgo-common';
 import type { Simulator } from '../simulator';
 import NodeSelectorView from '../node-selector';
 import type { INode } from '../../types';

@@ -1,4 +1,4 @@
-import type { IPluginConfig } from '@webank/letgo-engine';
+import type { IPluginConfig } from '@fesjs/letgo-engine';
 import Logo from '../../components/logo.vue';
 
 export default {

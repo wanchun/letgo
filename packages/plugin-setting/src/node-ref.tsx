@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { defineComponent, nextTick, ref } from 'vue';
-import { EditIcon } from '@webank/letgo-components';
+import { EditIcon } from '@fesjs/letgo-components';
 import { codeIdCls, editIconCls, idContentCls, inputCls } from './node-ref.css';
 
 export default defineComponent({

@@ -1,7 +1,7 @@
 import type { Component } from 'vue';
 import { defineComponent, h } from 'vue';
 import { isFunction, isObject } from 'lodash-es';
-import type { IPublicTypeComponentSchema, IPublicTypeNpmInfo } from '@webank/letgo-types';
+import type { IPublicTypeComponentSchema, IPublicTypeNpmInfo } from '@fesjs/letgo-types';
 import { isESModule } from './is-es-module';
 
 export function isVueComponent(val: unknown): val is Component {

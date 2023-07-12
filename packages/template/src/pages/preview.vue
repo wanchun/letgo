@@ -1,8 +1,8 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, shallowRef } from 'vue';
-import VueRenderer, { RendererApp } from '@webank/letgo-renderer';
-import { AssetLoader, buildComponents } from '@webank/letgo-common';
-import type { IPublicTypeAsset, IPublicTypePackage } from '@webank/letgo-types';
+import VueRenderer, { RendererApp } from '@fesjs/letgo-renderer';
+import { AssetLoader, buildComponents } from '@fesjs/letgo-common';
+import type { IPublicTypeAsset, IPublicTypePackage } from '@fesjs/letgo-types';
 
 const getScenarioName = function () {
     if (location.search)

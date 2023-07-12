@@ -2,7 +2,7 @@ import type {
     IPublicTypeCompositeValue,
     IPublicTypeJSSlot,
     IPublicTypeSlotSchema,
-} from '@webank/letgo-types';
+} from '@fesjs/letgo-types';
 import {
     GlobalEvent,
     IPublicEnumTransformStage,
@@ -10,8 +10,8 @@ import {
     isJSFunction,
     isJSSlot,
     isSlotSchema,
-} from '@webank/letgo-types';
-import { markComputed, markShallowReactive, uniqueId, valueToSource } from '@webank/letgo-common';
+} from '@fesjs/letgo-types';
+import { markComputed, markShallowReactive, uniqueId, valueToSource } from '@fesjs/letgo-common';
 import { isNil, isPlainObject } from 'lodash-es';
 import type { INode, ISlotNode } from '../types';
 import type { Props } from './props';

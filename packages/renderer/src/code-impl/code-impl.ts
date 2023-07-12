@@ -1,9 +1,9 @@
 import type { ComputedRef } from 'vue';
 import { watch } from 'vue';
-import type { CodeItem, CodeStruct } from '@webank/letgo-types';
-import { CodeType } from '@webank/letgo-types';
-import type { CodeImplType } from '@webank/letgo-designer';
-import { calcDependencies, sortState } from '@webank/letgo-common';
+import type { CodeItem, CodeStruct } from '@fesjs/letgo-types';
+import { CodeType } from '@fesjs/letgo-types';
+import type { CodeImplType } from '@fesjs/letgo-designer';
+import { calcDependencies, sortState } from '@fesjs/letgo-common';
 import { TemporaryStateImpl } from './temporary-state';
 import { ComputedImpl } from './computed';
 import { JavascriptQueryImpl } from './javascript-query';

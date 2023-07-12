@@ -1,10 +1,10 @@
-import type { IControlComponentAction, IControlQueryAction, IPublicTypeEventHandler, IRunFunctionAction, ISetLocalStorageAction, ISetTemporaryStateAction } from '@webank/letgo-types';
-import { InnerEventHandlerAction } from '@webank/letgo-types';
+import type { IControlComponentAction, IControlQueryAction, IPublicTypeEventHandler, IRunFunctionAction, ISetLocalStorageAction, ISetTemporaryStateAction } from '@fesjs/letgo-types';
+import { InnerEventHandlerAction } from '@fesjs/letgo-types';
 import type { PropType } from 'vue';
 import { computed, defineComponent, ref } from 'vue';
 
 import { FInput, FOption, FSelect } from '@fesjs/fes-design';
-import type { DocumentModel } from '@webank/letgo-designer';
+import type { DocumentModel } from '@fesjs/letgo-designer';
 import Label from './label';
 
 export default defineComponent({

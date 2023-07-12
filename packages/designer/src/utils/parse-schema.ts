@@ -1,5 +1,5 @@
 import type { Component } from 'vue';
-import type { IPublicTypeComponentMetadata } from '@webank/letgo-types';
+import type { IPublicTypeComponentMetadata } from '@fesjs/letgo-types';
 
 /**
  * 转换

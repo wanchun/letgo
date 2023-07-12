@@ -2,8 +2,8 @@ import type { PropType } from 'vue';
 import { defineComponent, ref } from 'vue';
 import { FButton } from '@fesjs/fes-design';
 import { javascript } from '@codemirror/lang-javascript';
-import type { IJavascriptComputed } from '@webank/letgo-types';
-import type { DocumentModel } from '@webank/letgo-designer';
+import type { IJavascriptComputed } from '@fesjs/letgo-types';
+import type { DocumentModel } from '@fesjs/letgo-designer';
 import { CodeEditor } from '../../code-editor';
 import { contentCls, headerCls } from './computed-edit.css';
 

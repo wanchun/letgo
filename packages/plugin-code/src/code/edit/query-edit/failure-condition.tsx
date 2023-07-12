@@ -2,7 +2,7 @@ import { FInput } from '@fesjs/fes-design';
 import { CloseOutlined, PlusOutlined } from '@fesjs/fes-design/icon';
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
-import type { IFailureCondition } from '@webank/letgo-types';
+import type { IFailureCondition } from '@fesjs/letgo-types';
 import { actionCls, addBtnCls, conditionCls, failureConditionCls, failureItemCls, iconCls } from './failure-condition.css';
 
 export default defineComponent({

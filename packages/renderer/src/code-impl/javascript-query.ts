@@ -1,7 +1,7 @@
-import { eventHandlersToJsFunction, executeExpression, markComputed, markShallowReactive } from '@webank/letgo-common';
-import type { IFailureCondition, IJavascriptQuery, IPublicTypeEventHandler } from '@webank/letgo-types';
-import { CodeType, ResourceType, RunCondition } from '@webank/letgo-types';
-import type { IJavascriptQueryImpl } from '@webank/letgo-designer';
+import { eventHandlersToJsFunction, executeExpression, markComputed, markShallowReactive } from '@fesjs/letgo-common';
+import type { IFailureCondition, IJavascriptQuery, IPublicTypeEventHandler } from '@fesjs/letgo-types';
+import { CodeType, ResourceType, RunCondition } from '@fesjs/letgo-types';
+import type { IJavascriptQueryImpl } from '@fesjs/letgo-designer';
 import { funcSchemaToFunc } from '../parse';
 
 // 解析执行

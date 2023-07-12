@@ -5,7 +5,7 @@ import {
     reactive,
 } from 'vue';
 
-import type { Designer } from '@webank/letgo-designer';
+import type { Designer } from '@fesjs/letgo-designer';
 import FadeInExpandTransition from '../fade-in-expand-transition';
 import Tree from '../tree/tree';
 import StateHeader from './state-header';

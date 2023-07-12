@@ -2,7 +2,7 @@ import type { PropType } from 'vue';
 import { defineComponent, reactive } from 'vue';
 import { FDropdown } from '@fesjs/fes-design';
 import { MoreOutlined } from '@fesjs/fes-design/icon';
-import type { Designer } from '@webank/letgo-designer';
+import type { Designer } from '@fesjs/letgo-designer';
 import { iconCls } from './global-actions.css';
 import { GlobalCSS } from './global-css';
 import { GlobalCode } from './global-code/code';

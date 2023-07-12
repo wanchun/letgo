@@ -1,4 +1,4 @@
-import type { CodeType } from '@webank/letgo-types';
+import type { CodeType } from '@fesjs/letgo-types';
 
 export interface ICodeBaseImpl {
     id: string

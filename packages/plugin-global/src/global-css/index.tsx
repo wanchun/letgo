@@ -1,10 +1,10 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
 import { FDrawer } from '@fesjs/fes-design';
-import { useModel } from '@webank/letgo-common';
+import { useModel } from '@fesjs/letgo-common';
 import { css } from '@codemirror/lang-css';
-import { CodeEditor } from '@webank/letgo-components';
-import type { Project } from '@webank/letgo-designer';
+import { CodeEditor } from '@fesjs/letgo-components';
+import type { Project } from '@fesjs/letgo-designer';
 
 export const GlobalCSS = defineComponent({
     name: 'GlobalCSS',

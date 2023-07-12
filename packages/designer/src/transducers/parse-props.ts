@@ -8,7 +8,7 @@ import type {
     IPublicTypePropConfig,
     IPublicTypeSetterConfig,
     IPublicTypeTransformedComponentMetadata,
-} from '@webank/letgo-types';
+} from '@fesjs/letgo-types';
 import { isArray } from 'lodash-es';
 
 function propConfigToFieldConfig(propConfig: IPublicTypePropConfig): IPublicTypeFieldConfig {

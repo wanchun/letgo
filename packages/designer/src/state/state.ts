@@ -1,4 +1,4 @@
-import { markReactive } from '@webank/letgo-common';
+import { markReactive } from '@fesjs/letgo-common';
 import { debounce } from 'lodash-es';
 import type { Designer } from '../designer';
 import type { IComponentInstance } from '../types';

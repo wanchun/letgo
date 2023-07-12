@@ -1,10 +1,10 @@
 import { computed, defineComponent, ref } from 'vue';
 import type { PropType } from 'vue';
 import { FDrawer } from '@fesjs/fes-design';
-import type { Designer } from '@webank/letgo-designer';
-import { CodeList } from '@webank/letgo-components';
-import type { CodeItem } from '@webank/letgo-types';
-import { innerGlobalVariable, useModel } from '@webank/letgo-common';
+import type { Designer } from '@fesjs/letgo-designer';
+import { CodeList } from '@fesjs/letgo-components';
+import type { CodeItem } from '@fesjs/letgo-types';
+import { innerGlobalVariable, useModel } from '@fesjs/letgo-common';
 import CodeEdit from './edit/code-edit';
 import { globalCodeCls, leftPanelCls, rightPanelCls } from './code.css';
 

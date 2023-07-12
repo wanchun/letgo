@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue';
 import type { PropType } from 'vue';
-import type { IJavascriptQuery } from '@webank/letgo-types';
+import type { IJavascriptQuery } from '@fesjs/letgo-types';
 import { FCheckbox, FInputNumber } from '@fesjs/fes-design';
 import Category from './category';
 import ContentItem from './content-item';

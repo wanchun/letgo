@@ -1,4 +1,4 @@
-import type { IPublicTypeRootSchema } from '@webank/letgo-types';
+import type { IPublicTypeRootSchema } from '@fesjs/letgo-types';
 
 export const schema: IPublicTypeRootSchema = {
     componentName: 'Page',

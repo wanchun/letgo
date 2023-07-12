@@ -23,12 +23,12 @@ import { SearchOutlined } from '@fesjs/fes-design/icon';
 import type {
     IPublicTypeAssetsJson,
     IPublicTypeSnippet,
-} from '@webank/letgo-types';
+} from '@fesjs/letgo-types';
 import {
     isComponentDescription,
-} from '@webank/letgo-types';
-import type { Designer } from '@webank/letgo-designer';
-import type { Editor } from '@webank/letgo-editor-core';
+} from '@fesjs/letgo-types';
+import type { Designer } from '@fesjs/letgo-designer';
+import type { Editor } from '@fesjs/letgo-editor-core';
 import {
     categoryBodyCls,
     categoryCls,

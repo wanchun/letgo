@@ -3,12 +3,12 @@ import type {
     IPublicTypeAssetBundle,
     IPublicTypeAssetItem,
     IPublicTypeAssetList,
-} from '@webank/letgo-types';
+} from '@fesjs/letgo-types';
 import {
     AssetLevels,
     IPublicEnumAssetLevel,
     IPublicEnumAssetType,
-} from '@webank/letgo-types';
+} from '@fesjs/letgo-types';
 import { isCSSUrl } from './is-css-url';
 import { createDefer } from './create-defer';
 import { evaluate, load } from './script';

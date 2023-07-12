@@ -7,13 +7,13 @@ import type {
     IPublicTypeProjectSchema,
     IPublicTypeRootSchema,
     IPublicTypeUtilsMap,
-} from '@webank/letgo-types';
+} from '@fesjs/letgo-types';
 import {
     IPublicEnumTransformStage,
     isLowCodeComponentType,
     isProCodeComponentType,
-} from '@webank/letgo-types';
-import { markComputed, markShallowReactive } from '@webank/letgo-common';
+} from '@fesjs/letgo-types';
+import { markComputed, markShallowReactive } from '@fesjs/letgo-common';
 import { isDocumentModel } from '../types';
 import type { Designer } from '../designer';
 import { DocumentModel } from '../document';

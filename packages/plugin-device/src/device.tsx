@@ -1,8 +1,8 @@
 import type { PropType, ShallowRef } from 'vue';
 import { defineComponent, onBeforeUnmount, shallowRef } from 'vue';
 import { Computer, Phone } from '@icon-park/vue-next';
-import type { Designer, Simulator } from '@webank/letgo-designer';
-import type { IPublicTypeDevice } from '@webank/letgo-types';
+import type { Designer, Simulator } from '@fesjs/letgo-designer';
+import type { IPublicTypeDevice } from '@fesjs/letgo-types';
 import { iconCls, isActiveCls, wrapperCls } from './device.css';
 
 export const DeviceView = defineComponent({

@@ -1,8 +1,8 @@
 import { EventEmitter } from 'eventemitter3';
-import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
-import { markComputed, markReactive, replaceExpressionIdentifier, replaceJSFunctionIdentifier } from '@webank/letgo-common';
-import { CodeType } from '@webank/letgo-types';
-import type { CodeItem, CodeStruct, ResourceType } from '@webank/letgo-types';
+import { wrapWithEventSwitch } from '@fesjs/letgo-editor-core';
+import { markComputed, markReactive, replaceExpressionIdentifier, replaceJSFunctionIdentifier } from '@fesjs/letgo-common';
+import { CodeType } from '@fesjs/letgo-types';
+import type { CodeItem, CodeStruct, ResourceType } from '@fesjs/letgo-types';
 import { codeBaseEdit } from './code-base';
 
 const idCount: Record<string, number> = {};

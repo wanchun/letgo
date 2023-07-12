@@ -1,9 +1,9 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, ref, watch } from 'vue';
 import { FButton, FInput, FInputNumber, FOption, FSelect, FSpace } from '@fesjs/fes-design';
-import type { IPublicTypeEventHandler } from '@webank/letgo-types';
-import { InnerEventHandlerAction } from '@webank/letgo-types';
-import type { DocumentModel } from '@webank/letgo-designer';
+import type { IPublicTypeEventHandler } from '@fesjs/letgo-types';
+import { InnerEventHandlerAction } from '@fesjs/letgo-types';
+import type { DocumentModel } from '@fesjs/letgo-designer';
 import Label from './label';
 import Separator from './separator';
 import RenderOptions from './render-options';

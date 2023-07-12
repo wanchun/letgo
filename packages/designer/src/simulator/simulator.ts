@@ -18,19 +18,19 @@ import type {
     IPublicTypeComponentMetadata,
     IPublicTypeDevice,
     IPublicTypePackage,
-} from '@webank/letgo-types';
+} from '@fesjs/letgo-types';
 import {
     IPublicEnumAssetLevel,
     IPublicEnumAssetType,
-} from '@webank/letgo-types';
+} from '@fesjs/letgo-types';
 import {
     assetBundle,
     assetItem,
     hasOwnProperty,
     isElement,
     markComputed,
-} from '@webank/letgo-common';
-import { engineConfig } from '@webank/letgo-editor-core';
+} from '@fesjs/letgo-common';
+import { engineConfig } from '@fesjs/letgo-editor-core';
 import type {
     IComponentInstance,
     IDropContainer,

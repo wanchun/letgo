@@ -1,8 +1,8 @@
 import { computed, defineComponent } from 'vue';
 import type { PropType } from 'vue';
-import type { Designer } from '@webank/letgo-designer';
-import { CodeList } from '@webank/letgo-components';
-import { innerGlobalVariable } from '@webank/letgo-common';
+import type { Designer } from '@fesjs/letgo-designer';
+import { CodeList } from '@fesjs/letgo-components';
+import { innerGlobalVariable } from '@fesjs/letgo-common';
 
 import useCode from './useCode';
 

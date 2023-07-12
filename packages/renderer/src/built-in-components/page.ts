@@ -1,5 +1,5 @@
 import { defineComponent, h } from 'vue';
-import type { IPublicTypeComponentMetadata } from '@webank/letgo-types';
+import type { IPublicTypeComponentMetadata } from '@fesjs/letgo-types';
 
 const Page = defineComponent((props, { slots }) => {
     return () => h('div', { class: 'letgo-page', ...props }, slots);

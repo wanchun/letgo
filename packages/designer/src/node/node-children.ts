@@ -1,7 +1,7 @@
 import { EventEmitter } from 'eventemitter3';
-import type { IPublicTypeNodeData } from '@webank/letgo-types';
-import { IPublicEnumTransformStage, isNodeSchema } from '@webank/letgo-types';
-import { markComputed, markShallowReactive } from '@webank/letgo-common';
+import type { IPublicTypeNodeData } from '@fesjs/letgo-types';
+import { IPublicEnumTransformStage, isNodeSchema } from '@fesjs/letgo-types';
+import { markComputed, markShallowReactive } from '@fesjs/letgo-common';
 import type { INode } from '../types';
 
 interface IOnChangeOptions {

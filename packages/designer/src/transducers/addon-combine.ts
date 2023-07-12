@@ -3,10 +3,10 @@ import type {
     IPublicTypeSettingTarget,
 
     IPublicTypeTransformedComponentMetadata,
-} from '@webank/letgo-types';
-import { engineConfig } from '@webank/letgo-editor-core';
+} from '@fesjs/letgo-types';
+import { engineConfig } from '@fesjs/letgo-editor-core';
 import { isArray } from 'lodash-es';
-import { eventHandlersToJsFunction } from '@webank/letgo-common';
+import { eventHandlersToJsFunction } from '@fesjs/letgo-common';
 import { getConvertedExtraKey } from '../node';
 
 export default function (

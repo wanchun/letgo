@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { defineComponent, inject, ref } from 'vue';
-import type { IPublicTypeDisplay, IPublicTypeNpmInfo } from '@webank/letgo-types';
+import type { IPublicTypeDisplay, IPublicTypeNpmInfo } from '@fesjs/letgo-types';
 import { EditOutlined, RightOutlined } from '@fesjs/fes-design/icon';
 import { FDrawer } from '@fesjs/fes-design';
 

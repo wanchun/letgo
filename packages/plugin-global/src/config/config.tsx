@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue';
 import { FDrawer } from '@fesjs/fes-design';
-import { useModel } from '@webank/letgo-common';
+import { useModel } from '@fesjs/letgo-common';
 
 export const GlobalConfig = defineComponent({
     name: 'GlobalConfig',

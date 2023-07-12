@@ -5,14 +5,14 @@ import type {
     IPublicTypeNodeSchema,
     IPublicTypePropsList,
     IPublicTypePropsMap,
-} from '@webank/letgo-types';
+} from '@fesjs/letgo-types';
 import {
     IPublicEnumTransformStage,
     isDOMText,
     isJSExpression,
-} from '@webank/letgo-types';
-import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
-import { markComputed, markShallowReactive } from '@webank/letgo-common';
+} from '@fesjs/letgo-types';
+import { wrapWithEventSwitch } from '@fesjs/letgo-editor-core';
+import { markComputed, markShallowReactive } from '@fesjs/letgo-common';
 import type { ComponentMeta } from '../component-meta';
 import type { DocumentModel } from '../document';
 import type { IBaseNode, INode, IRootNode } from '../types';

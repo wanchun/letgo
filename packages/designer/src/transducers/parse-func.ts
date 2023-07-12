@@ -1,7 +1,7 @@
-import type { IPublicTypeTransformedComponentMetadata } from '@webank/letgo-types';
+import type { IPublicTypeTransformedComponentMetadata } from '@fesjs/letgo-types';
 import {
     isJSFunction,
-} from '@webank/letgo-types';
+} from '@fesjs/letgo-types';
 import { isPlainObject } from 'lodash-es';
 
 const leadingFnRe = /^function/;

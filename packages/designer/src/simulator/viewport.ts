@@ -1,6 +1,6 @@
 import {
     markComputed, markReactive,
-} from '@webank/letgo-common';
+} from '@fesjs/letgo-common';
 import { ScrollTarget } from '../designer';
 import type { IPoint, IViewport, TypeAutoFit } from '../types';
 import { AutoFit } from '../types';

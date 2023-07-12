@@ -7,7 +7,7 @@ import type {
     IPublicTypeNodeSchema,
     IPublicTypeNpmInfo,
     IPublicTypeTransformedComponentMetadata,
-} from '@webank/letgo-types';
+} from '@fesjs/letgo-types';
 import { h } from 'vue';
 import { isRegExp } from 'lodash-es';
 import { Copy, Delete, FileHidingOne, Lock, Unlock } from '@icon-park/vue-next';

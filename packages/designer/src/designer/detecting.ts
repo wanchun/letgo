@@ -1,5 +1,5 @@
 import { EventEmitter } from 'eventemitter3';
-import { markComputed, markShallowReactive } from '@webank/letgo-common';
+import { markComputed, markShallowReactive } from '@fesjs/letgo-common';
 import type { DocumentModel } from '../document';
 import type { INode } from '../types';
 

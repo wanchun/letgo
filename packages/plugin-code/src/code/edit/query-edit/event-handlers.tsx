@@ -1,10 +1,10 @@
 import { defineComponent, ref } from 'vue';
 import type { PropType } from 'vue';
-import { genEventId } from '@webank/letgo-common';
-import { EventHandlerList } from '@webank/letgo-components';
-import type { DocumentModel } from '@webank/letgo-designer';
-import type { IPublicTypeEventHandler, QueryResourceBase } from '@webank/letgo-types';
-import { InnerEventHandlerAction } from '@webank/letgo-types';
+import { genEventId } from '@fesjs/letgo-common';
+import { EventHandlerList } from '@fesjs/letgo-components';
+import type { DocumentModel } from '@fesjs/letgo-designer';
+import type { IPublicTypeEventHandler, QueryResourceBase } from '@fesjs/letgo-types';
+import { InnerEventHandlerAction } from '@fesjs/letgo-types';
 import { contentCls, eventHandlersCls, eventListCls, failureCls, titleCls } from './event-handlers.css';
 import EventHeader from './event-header';
 

@@ -2,9 +2,9 @@ import { defineComponent, h } from 'vue';
 import type { PropType } from 'vue';
 import { FDropdown } from '@fesjs/fes-design';
 import { MoreOutlined, PlusOutlined } from '@fesjs/fes-design/icon';
-import type { Code } from '@webank/letgo-designer';
-import { CodeType, ResourceType } from '@webank/letgo-types';
-import type { CodeItem } from '@webank/letgo-types';
+import type { Code } from '@fesjs/letgo-designer';
+import { CodeType, ResourceType } from '@fesjs/letgo-types';
+import type { CodeItem } from '@fesjs/letgo-types';
 import { ComputedIcon, FolderIcon, JsIcon, RestIcon, StateIcon } from '../icons';
 
 import { codeCls, codeHeaderCls, codeItemActiveCls, codeItemCls, codeItemIdCls, codeMoreIconCls, codeWrapCls, headerIconCls } from './code.css';

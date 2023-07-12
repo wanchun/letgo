@@ -1,8 +1,8 @@
 import { isNil } from 'lodash-es';
-import { attachContext, markComputed, markReactive } from '@webank/letgo-common';
-import type { ITemporaryState } from '@webank/letgo-types';
-import { CodeType } from '@webank/letgo-types';
-import type { ITemporaryStateImpl } from '@webank/letgo-designer';
+import { attachContext, markComputed, markReactive } from '@fesjs/letgo-common';
+import type { ITemporaryState } from '@fesjs/letgo-types';
+import { CodeType } from '@fesjs/letgo-types';
+import type { ITemporaryStateImpl } from '@fesjs/letgo-designer';
 
 // 解析执行
 export class TemporaryStateImpl implements ITemporaryStateImpl {

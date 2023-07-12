@@ -1,9 +1,9 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
-import type { IRestQueryResource } from '@webank/letgo-types';
-import type { DocumentModel } from '@webank/letgo-designer';
+import type { IRestQueryResource } from '@fesjs/letgo-types';
+import type { DocumentModel } from '@fesjs/letgo-designer';
 import { FCheckbox, FSelect } from '@fesjs/fes-design';
-import { CodeEditor, ExpressionEditor } from '@webank/letgo-components';
+import { CodeEditor, ExpressionEditor } from '@fesjs/letgo-components';
 import { javascript } from '@codemirror/lang-javascript';
 import ContentItem from '../content-item';
 import { apiCls, contentCls, methodCls, tipCls, wrapCls } from './params.css';

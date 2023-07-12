@@ -1,6 +1,6 @@
 import type { VNodeChild } from 'vue';
 import { watch } from 'vue';
-import { markComputed, markShallowReactive, uniqueId } from '@webank/letgo-common';
+import { markComputed, markShallowReactive, uniqueId } from '@fesjs/letgo-common';
 import type { Skeleton } from '../skeleton';
 import type { IBaseConfig, IBaseWidget } from '../types';
 import { IEnumSkeletonEvent } from '../types';

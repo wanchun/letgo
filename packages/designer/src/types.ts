@@ -5,7 +5,7 @@ import type {
     IPublicTypeNodeSchema,
     IPublicTypePageSchema,
     IPublicTypeSlotSchema,
-} from '@fesjs/letgo-types';
+} from '@harrywan/letgo-types';
 import type { Component } from 'vue';
 import type { Node, NodeChildren } from './node';
 import type { DocumentModel } from './document';

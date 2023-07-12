@@ -1,6 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
-import { wrapWithEventSwitch } from '@fesjs/letgo-editor-core';
-import { markComputed, uniqueId } from '@fesjs/letgo-common';
+import { wrapWithEventSwitch } from '@harrywan/letgo-editor-core';
+import { markComputed, uniqueId } from '@harrywan/letgo-common';
 import type {
     IPublicTypeComponentsMap,
     IPublicTypeNodeData,
@@ -8,13 +8,13 @@ import type {
     IPublicTypePageSchema,
 
     IPublicTypeRootSchema,
-} from '@fesjs/letgo-types';
+} from '@harrywan/letgo-types';
 import {
     IPublicEnumTransformStage,
     isDOMText,
     isJSExpression,
     isNodeSchema,
-} from '@fesjs/letgo-types';
+} from '@harrywan/letgo-types';
 import { camelCase } from 'lodash-es';
 import type { INode, IRootNode, ISimulator } from '../types';
 import type {

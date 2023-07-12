@@ -1,23 +1,23 @@
 import type { App } from 'vue';
 import { createApp } from 'vue';
 import { isPlainObject } from 'lodash-es';
-import { Designer } from '@fesjs/letgo-designer';
-import type { IEngineOptions } from '@fesjs/letgo-editor-core';
-import { editor, engineConfig } from '@fesjs/letgo-editor-core';
-import { Skeleton, WorkbenchView } from '@fesjs/letgo-editor-skeleton';
-import engineExt from '@fesjs/letgo-engine-ext';
+import { Designer } from '@harrywan/letgo-designer';
+import type { IEngineOptions } from '@harrywan/letgo-editor-core';
+import { editor, engineConfig } from '@harrywan/letgo-editor-core';
+import { Skeleton, WorkbenchView } from '@harrywan/letgo-editor-skeleton';
+import engineExt from '@harrywan/letgo-engine-ext';
 import type {
     IPluginPreference,
-} from '@fesjs/letgo-engine-plugin';
+} from '@harrywan/letgo-engine-plugin';
 import {
     PluginContext,
     PluginManager,
-} from '@fesjs/letgo-engine-plugin';
-import PluginDesigner from '@fesjs/letgo-plugin-designer';
-import PluginSetting from '@fesjs/letgo-plugin-setting';
-import PluginCodeView from '@fesjs/letgo-plugin-code';
+} from '@harrywan/letgo-engine-plugin';
+import PluginDesigner from '@harrywan/letgo-plugin-designer';
+import PluginSetting from '@harrywan/letgo-plugin-setting';
+import PluginCodeView from '@harrywan/letgo-plugin-code';
 
-export type { IPluginConfig } from '@fesjs/letgo-engine-plugin';
+export type { IPluginConfig } from '@harrywan/letgo-engine-plugin';
 
 const innerDesigner = new Designer({ editor });
 

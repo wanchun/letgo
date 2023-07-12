@@ -1,4 +1,4 @@
-import type { CodeItem } from '@fesjs/letgo-types';
+import type { CodeItem } from '@harrywan/letgo-types';
 import { calcDependencies } from './ast';
 
 export function topologicalSort(dependencyMap: Map<string, string[]>) {

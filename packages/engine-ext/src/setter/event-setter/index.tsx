@@ -1,12 +1,12 @@
 import type { PropType, Ref } from 'vue';
 import { defineComponent, onMounted, ref, watch } from 'vue';
-import type { IPublicTypeEventHandler, IPublicTypeSetter } from '@fesjs/letgo-types';
+import type { IPublicTypeEventHandler, IPublicTypeSetter } from '@harrywan/letgo-types';
 import {
     FButton,
 } from '@fesjs/fes-design';
-import { genEventId } from '@fesjs/letgo-common';
-import { InnerEventHandlerAction } from '@fesjs/letgo-types';
-import { EventHandlerList, EventHandlerModify } from '@fesjs/letgo-components';
+import { genEventId } from '@harrywan/letgo-common';
+import { InnerEventHandlerAction } from '@harrywan/letgo-types';
+import { EventHandlerList, EventHandlerModify } from '@harrywan/letgo-components';
 import { PlusOutlined } from '@fesjs/fes-design/icon';
 import { commonProps } from '../../common';
 import type { EventOptionList } from './interface';

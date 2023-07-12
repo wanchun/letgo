@@ -1,5 +1,5 @@
 {
-  "name": "@fesjs/letgo-plugin-code-generator",
+  "name": "@harrywan/letgo-plugin-code-generator",
   "version": "0.0.0-beta.1",
   "description": "",
   "files": [
@@ -13,11 +13,11 @@
   },
   "dependencies": {
     "@fesjs/fes-design": "^0.7.32",
-    "@fesjs/letgo-common": "workspace:*",
-    "@fesjs/letgo-designer": "workspace:*",
-    "@fesjs/letgo-engine": "workspace:*",
-    "@fesjs/letgo-engine-plugin": "workspace:*",
-    "@fesjs/letgo-types": "workspace:*",
+    "@harrywan/letgo-common": "workspace:*",
+    "@harrywan/letgo-designer": "workspace:*",
+    "@harrywan/letgo-engine": "workspace:*",
+    "@harrywan/letgo-engine-plugin": "workspace:*",
+    "@harrywan/letgo-types": "workspace:*",
     "jszip": "^3.10.1",
     "lodash-es": "^4.17.21"
   },

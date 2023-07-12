@@ -1,6 +1,6 @@
 import type { CSSProperties, PropType, Ref } from 'vue';
 import { computed, defineComponent, inject, onMounted, ref, watch } from 'vue';
-import { useModel } from '@fesjs/letgo-common';
+import { useModel } from '@harrywan/letgo-common';
 import { FCollapseItem, FGrid, FGridItem, FRadioButton, FRadioGroup, FSelect } from '@fesjs/fes-design';
 import { InputColor, InputUnit, Row } from '../../../component';
 import { styleKey } from '../const';

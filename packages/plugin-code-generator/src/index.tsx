@@ -1,4 +1,4 @@
-import type { IPluginConfig } from '@fesjs/letgo-engine-plugin';
+import type { IPluginConfig } from '@harrywan/letgo-engine-plugin';
 import ExportBtn from './export-btn';
 
 export default {

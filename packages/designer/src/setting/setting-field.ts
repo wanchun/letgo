@@ -3,10 +3,10 @@ import type {
     IPublicTypeFieldConfig,
     IPublicTypeFieldExtraProps,
     IPublicTypeSetterType,
-} from '@fesjs/letgo-types';
+} from '@harrywan/letgo-types';
 import { EventEmitter } from 'eventemitter3';
-import { markComputed, markShallowReactive, uniqueId } from '@fesjs/letgo-common';
-import { GlobalEvent, isJSExpression } from '@fesjs/letgo-types';
+import { markComputed, markShallowReactive, uniqueId } from '@harrywan/letgo-common';
+import { GlobalEvent, isJSExpression } from '@harrywan/letgo-types';
 import type { INode } from '../types';
 import type { Designer } from '../designer';
 import type { ComponentMeta } from '../component-meta';

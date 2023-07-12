@@ -21,7 +21,7 @@ import {
 import { javascriptLanguage } from '@codemirror/lang-javascript';
 import { FullScreen } from '@icon-park/vue-next';
 import { FDrawer } from '@fesjs/fes-design';
-import type { DocumentModel } from '@fesjs/letgo-designer';
+import type { DocumentModel } from '@harrywan/letgo-designer';
 import { autocompletion } from '@codemirror/autocomplete';
 import { HintTheme, hintPlugin } from './hint';
 import { useHint } from './use';

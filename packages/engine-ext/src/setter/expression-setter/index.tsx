@@ -1,9 +1,9 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
-import { isJSExpression } from '@fesjs/letgo-types';
-import type { SettingField } from '@fesjs/letgo-designer';
-import { ExpressionEditor } from '@fesjs/letgo-components';
-import type { IPublicTypeCompositeValue, IPublicTypeSetter } from '@fesjs/letgo-types';
+import { isJSExpression } from '@harrywan/letgo-types';
+import type { SettingField } from '@harrywan/letgo-designer';
+import { ExpressionEditor } from '@harrywan/letgo-components';
+import type { IPublicTypeCompositeValue, IPublicTypeSetter } from '@harrywan/letgo-types';
 import { commonProps } from '../../common';
 
 const ExpressionSetterView = defineComponent({

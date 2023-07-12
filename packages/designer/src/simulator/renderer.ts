@@ -1,5 +1,5 @@
 import type { Component } from 'vue';
-import type { IPublicTypeNodeSchema } from '@fesjs/letgo-types';
+import type { IPublicTypeNodeSchema } from '@harrywan/letgo-types';
 import type { IComponentInstance, INodeInstance } from '../types';
 
 export interface ISimulatorRenderer {

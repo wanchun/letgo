@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent } from 'vue';
-import type { IPublicTypeSetter } from '@fesjs/letgo-types';
+import type { IPublicTypeSetter } from '@harrywan/letgo-types';
 import { isUndefined } from 'lodash-es';
 import { FRadio, FRadioGroup } from '@fesjs/fes-design';
 import { commonProps } from '../../common';

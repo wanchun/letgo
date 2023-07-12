@@ -1,5 +1,5 @@
 import { EventEmitter } from 'eventemitter3';
-import type { IPublicEditor } from '@fesjs/letgo-types';
+import type { IPublicEditor } from '@harrywan/letgo-types';
 import type { ComponentMeta } from '../component-meta';
 import type { Designer } from '../designer';
 import type { INode } from '../types';

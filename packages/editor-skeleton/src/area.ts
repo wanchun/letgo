@@ -1,4 +1,4 @@
-import { markComputed, markShallowReactive } from '@fesjs/letgo-common';
+import { markComputed, markShallowReactive } from '@harrywan/letgo-common';
 import type { IBaseConfig, IBaseWidget } from './types';
 import { isPanel } from './types';
 import type { Skeleton } from './skeleton';

@@ -1,5 +1,5 @@
 {
-  "name": "@fesjs/letgo-plugin-device",
+  "name": "@harrywan/letgo-plugin-device",
   "version": "0.0.0-beta.1",
   "description": "",
   "author": "",
@@ -21,9 +21,9 @@
   "dependencies": {
     "@vanilla-extract/css": "^1.11.0",
     "@icon-park/vue-next": "^1.4.2",
-    "@fesjs/letgo-engine-plugin": "workspace:*",
-    "@fesjs/letgo-designer": "workspace:*",
-    "@fesjs/letgo-types": "workspace:*"
+    "@harrywan/letgo-engine-plugin": "workspace:*",
+    "@harrywan/letgo-designer": "workspace:*",
+    "@harrywan/letgo-types": "workspace:*"
   },
   "devDependencies": {
     "vue": "^3.3.4"

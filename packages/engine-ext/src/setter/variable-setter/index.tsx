@@ -1,8 +1,8 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
-import { isJSExpression } from '@fesjs/letgo-types';
-import type { SettingField } from '@fesjs/letgo-designer';
-import type { IPublicTypeCompositeValue, IPublicTypeSetter } from '@fesjs/letgo-types';
+import { isJSExpression } from '@harrywan/letgo-types';
+import type { SettingField } from '@harrywan/letgo-designer';
+import type { IPublicTypeCompositeValue, IPublicTypeSetter } from '@harrywan/letgo-types';
 import { FSelect } from '@fesjs/fes-design';
 import { commonProps } from '../../common';
 

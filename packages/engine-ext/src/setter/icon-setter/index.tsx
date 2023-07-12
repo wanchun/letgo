@@ -1,8 +1,8 @@
 import type { Component, PropType } from 'vue';
 import { computed, defineComponent, onMounted, ref } from 'vue';
 import { isArray, isUndefined } from 'lodash-es';
-import { isJSSlot } from '@fesjs/letgo-types';
-import type { IPublicTypeJSSlot, IPublicTypeSetter } from '@fesjs/letgo-types';
+import { isJSSlot } from '@harrywan/letgo-types';
+import type { IPublicTypeJSSlot, IPublicTypeSetter } from '@harrywan/letgo-types';
 import { FGrid, FGridItem, FTooltip } from '@fesjs/fes-design';
 import { CloseCircleFilled } from '@fesjs/fes-design/icon';
 import { commonProps } from '../../common';

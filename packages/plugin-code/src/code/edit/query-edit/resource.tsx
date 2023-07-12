@@ -1,8 +1,8 @@
 import { defineComponent } from 'vue';
 import type { PropType } from 'vue';
 import { FSelect } from '@fesjs/fes-design';
-import type { IJavascriptQuery } from '@fesjs/letgo-types';
-import { ResourceType } from '@fesjs/letgo-types';
+import type { IJavascriptQuery } from '@harrywan/letgo-types';
+import { ResourceType } from '@harrywan/letgo-types';
 import ContentItem from './content-item';
 import { contentCls, wrapCls } from './resource.css';
 

@@ -1,6 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
-import type { IPublicTypeNodeSchema } from '@fesjs/letgo-types';
-import { cursor, markComputed, markShallowReactive } from '@fesjs/letgo-common';
+import type { IPublicTypeNodeSchema } from '@harrywan/letgo-types';
+import { cursor, markComputed, markShallowReactive } from '@harrywan/letgo-common';
 import type { DocumentModel } from '../document';
 import type { INode, ISensor, ISimulator } from '../types';
 import { isSimulator } from '../types';

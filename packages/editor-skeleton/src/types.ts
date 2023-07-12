@@ -1,5 +1,5 @@
 import type { VNodeChild } from 'vue';
-import type { IPublicEditor } from '@fesjs/letgo-types';
+import type { IPublicEditor } from '@harrywan/letgo-types';
 import type { Area } from './area';
 import type { Skeleton } from './skeleton';
 

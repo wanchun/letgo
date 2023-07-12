@@ -1,5 +1,5 @@
 {
-  "name": "@fesjs/letgo-simulator-renderer",
+  "name": "@harrywan/letgo-simulator-renderer",
   "version": "0.0.0-beta.1",
   "description": "",
   "author": "",
@@ -15,10 +15,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@fesjs/letgo-common": "workspace:*",
-    "@fesjs/letgo-designer": "workspace:*",
-    "@fesjs/letgo-renderer": "workspace:*",
-    "@fesjs/letgo-types": "workspace:*",
+    "@harrywan/letgo-common": "workspace:*",
+    "@harrywan/letgo-designer": "workspace:*",
+    "@harrywan/letgo-renderer": "workspace:*",
+    "@harrywan/letgo-types": "workspace:*",
     "lodash-es": "^4.17.21",
     "vue-router": "^4.2.2"
   },

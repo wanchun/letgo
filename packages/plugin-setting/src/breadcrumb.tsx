@@ -1,5 +1,5 @@
 import type { PropType } from 'vue';
-import type { INode } from '@fesjs/letgo-designer';
+import type { INode } from '@harrywan/letgo-designer';
 import { RightOutlined } from '@fesjs/fes-design/icon';
 import { defineComponent } from 'vue';
 import NodeRef from './node-ref';

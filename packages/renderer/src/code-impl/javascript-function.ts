@@ -1,7 +1,7 @@
-import { markComputed, markShallowReactive } from '@fesjs/letgo-common';
-import type { IJavascriptFunction } from '@fesjs/letgo-types';
-import type { IJavascriptFunctionImpl } from '@fesjs/letgo-designer';
-import { CodeType } from '@fesjs/letgo-types';
+import { markComputed, markShallowReactive } from '@harrywan/letgo-common';
+import type { IJavascriptFunction } from '@harrywan/letgo-types';
+import type { IJavascriptFunctionImpl } from '@harrywan/letgo-designer';
+import { CodeType } from '@harrywan/letgo-types';
 
 // 解析执行
 export class JavascriptFunctionImpl implements IJavascriptFunctionImpl {

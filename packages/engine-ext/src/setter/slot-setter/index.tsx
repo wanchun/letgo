@@ -1,8 +1,8 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
-import { isJSSlot } from '@fesjs/letgo-types';
-import type { IPublicTypeJSSlot, IPublicTypeSetter } from '@fesjs/letgo-types';
-import type { SettingField } from '@fesjs/letgo-designer';
+import { isJSSlot } from '@harrywan/letgo-types';
+import type { IPublicTypeJSSlot, IPublicTypeSetter } from '@harrywan/letgo-types';
+import type { SettingField } from '@harrywan/letgo-designer';
 import { isNil, isUndefined } from 'lodash-es';
 import { FSwitch } from '@fesjs/fes-design';
 import { commonProps } from '../../common';

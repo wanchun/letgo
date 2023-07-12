@@ -1,6 +1,6 @@
 import type { CSSProperties, PropType, Ref } from 'vue';
 import { defineComponent, inject, onMounted, ref, watch } from 'vue';
-import { useModel } from '@fesjs/letgo-common';
+import { useModel } from '@harrywan/letgo-common';
 import { AlignmentBottomCenter, AlignmentBottomLeft, AlignmentBottomRight, AlignmentTopCenter, AlignmentTopLeft, AlignmentTopRight, AlignmentVerticalCenter, AlignmentVerticalLeft, AlignmentVerticalRight, Close, DistributeHorizontally, DistributeVertically, GridNine } from '@icon-park/vue-next';
 import { FCollapseItem, FGrid, FGridItem, FInput, FInputNumber, FRadioButton, FRadioGroup, FTooltip } from '@fesjs/fes-design';
 import { InputColor, InputUnit, Row } from '../../../component';

@@ -1,5 +1,5 @@
 {
-  "name": "@fesjs/letgo-engine-plugin",
+  "name": "@harrywan/letgo-engine-plugin",
   "version": "0.0.0-beta.1",
   "description": "",
   "author": "",
@@ -15,11 +15,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@fesjs/letgo-common": "workspace:*",
-    "@fesjs/letgo-designer": "workspace:*",
-    "@fesjs/letgo-editor-core": "workspace:*",
-    "@fesjs/letgo-editor-skeleton": "workspace:*",
-    "@fesjs/letgo-types": "workspace:*",
+    "@harrywan/letgo-common": "workspace:*",
+    "@harrywan/letgo-designer": "workspace:*",
+    "@harrywan/letgo-editor-core": "workspace:*",
+    "@harrywan/letgo-editor-skeleton": "workspace:*",
+    "@harrywan/letgo-types": "workspace:*",
     "lodash-es": "^4.17.21",
     "semver": "^7.3.5"
   },

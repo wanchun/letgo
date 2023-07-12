@@ -1,7 +1,7 @@
 import { EditorView, minimalSetup } from 'codemirror';
 import { defineComponent, onMounted, ref, watch } from 'vue';
 import { EditorState } from '@codemirror/state';
-import type { DocumentModel } from '@fesjs/letgo-designer';
+import type { DocumentModel } from '@harrywan/letgo-designer';
 import { autocompletion } from '@codemirror/autocomplete';
 import type { ViewUpdate } from '@codemirror/view';
 import {

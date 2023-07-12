@@ -1,7 +1,7 @@
 import type { CSSProperties, PropType } from 'vue';
 import { computed, defineComponent } from 'vue';
 import { css } from '@codemirror/lang-css';
-import { CodeEditor } from '@fesjs/letgo-components';
+import { CodeEditor } from '@harrywan/letgo-components';
 import { parseToCssCode, parseToStyleData } from '../../../common';
 
 export const CodeView = defineComponent({

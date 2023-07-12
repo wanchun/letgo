@@ -1,4 +1,4 @@
-import { request } from '@fesjs/letgo-renderer';
+import { request } from '@harrywan/letgo-renderer';
 import simulator from './simulator';
 import { warn } from './utils';
 
@@ -24,9 +24,9 @@ win.addEventListener('beforeunload', () => {
 });
 
 export default simulator;
-export * from '@fesjs/letgo-renderer';
+export * from '@harrywan/letgo-renderer';
 export {
     config as vueRendererConfig,
     default as VueRenderer,
-} from '@fesjs/letgo-renderer';
+} from '@harrywan/letgo-renderer';
 export * from './interface';

@@ -1,5 +1,5 @@
 {
-  "name": "@fesjs/letgo-engine",
+  "name": "@harrywan/letgo-engine",
   "version": "0.0.0-beta.1",
   "description": "",
   "author": "",
@@ -18,16 +18,16 @@
     "vue": "^3.3.4"
   },
   "dependencies": {
-    "@fesjs/letgo-common": "workspace:*",
-    "@fesjs/letgo-designer": "workspace:*",
-    "@fesjs/letgo-editor-core": "workspace:*",
-    "@fesjs/letgo-editor-skeleton": "workspace:*",
-    "@fesjs/letgo-engine-ext": "workspace:*",
-    "@fesjs/letgo-engine-plugin": "workspace:*",
-    "@fesjs/letgo-plugin-code": "workspace:*",
-    "@fesjs/letgo-plugin-designer": "workspace:*",
-    "@fesjs/letgo-plugin-setting": "workspace:*",
-    "@fesjs/letgo-types": "workspace:*",
+    "@harrywan/letgo-common": "workspace:*",
+    "@harrywan/letgo-designer": "workspace:*",
+    "@harrywan/letgo-editor-core": "workspace:*",
+    "@harrywan/letgo-editor-skeleton": "workspace:*",
+    "@harrywan/letgo-engine-ext": "workspace:*",
+    "@harrywan/letgo-engine-plugin": "workspace:*",
+    "@harrywan/letgo-plugin-code": "workspace:*",
+    "@harrywan/letgo-plugin-designer": "workspace:*",
+    "@harrywan/letgo-plugin-setting": "workspace:*",
+    "@harrywan/letgo-types": "workspace:*",
     "eventemitter3": "^4.0.0",
     "lodash-es": "^4.17.21",
     "semver": "^7.3.5"

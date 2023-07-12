@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue';
 import { NColorPicker, NConfigProvider } from 'naive-ui';
-import { useModel } from '@fesjs/letgo-common';
+import { useModel } from '@harrywan/letgo-common';
 import { inputWrapCls } from './input-color.css';
 
 export default defineComponent({

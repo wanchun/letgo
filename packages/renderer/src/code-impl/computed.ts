@@ -1,10 +1,10 @@
 import { isNil } from 'lodash-es';
 import type { WatchStopHandle } from 'vue';
 import { watch } from 'vue';
-import { attachContext, markComputed, markShallowReactive } from '@fesjs/letgo-common';
-import type { IJavascriptComputed } from '@fesjs/letgo-types';
-import { CodeType } from '@fesjs/letgo-types';
-import type { IJavascriptComputedImpl } from '@fesjs/letgo-designer';
+import { attachContext, markComputed, markShallowReactive } from '@harrywan/letgo-common';
+import type { IJavascriptComputed } from '@harrywan/letgo-types';
+import { CodeType } from '@harrywan/letgo-types';
+import type { IJavascriptComputedImpl } from '@harrywan/letgo-designer';
 
 export class ComputedImpl implements IJavascriptComputedImpl {
     id: string;

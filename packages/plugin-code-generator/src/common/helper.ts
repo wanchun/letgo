@@ -6,7 +6,7 @@ import type {
     IPublicTypeJSSlot,
     IPublicTypeNodeData,
     IPublicTypeNodeSchema,
-} from '@fesjs/letgo-types';
+} from '@harrywan/letgo-types';
 import {
     CodeType,
     isJSExpression,
@@ -14,8 +14,8 @@ import {
     isJSSlot,
     isNodeSchema,
     isRestQueryResource,
-} from '@fesjs/letgo-types';
-import { eventHandlersToJsFunction, isSyntaxError, sortState } from '@fesjs/letgo-common';
+} from '@harrywan/letgo-types';
+import { eventHandlersToJsFunction, isSyntaxError, sortState } from '@harrywan/letgo-common';
 import { isPlainObject } from 'lodash-es';
 import type { ImportSource, SetupCode } from './types';
 import { ImportType } from './types';

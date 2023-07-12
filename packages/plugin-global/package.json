@@ -1,5 +1,5 @@
 {
-  "name": "@fesjs/letgo-plugin-global",
+  "name": "@harrywan/letgo-plugin-global",
   "version": "0.0.0-beta.1",
   "description": "",
   "author": "",
@@ -23,12 +23,12 @@
     "@fesjs/fes-design": "^0.7.32",
     "@vanilla-extract/css": "^1.11.0",
     "@vueuse/core": "^10.1.2",
-    "@fesjs/letgo-common": "workspace:*",
-    "@fesjs/letgo-components": "workspace:*",
-    "@fesjs/letgo-designer": "workspace:*",
-    "@fesjs/letgo-engine": "workspace:*",
-    "@fesjs/letgo-engine-plugin": "workspace:*",
-    "@fesjs/letgo-types": "workspace:*",
+    "@harrywan/letgo-common": "workspace:*",
+    "@harrywan/letgo-components": "workspace:*",
+    "@harrywan/letgo-designer": "workspace:*",
+    "@harrywan/letgo-engine": "workspace:*",
+    "@harrywan/letgo-engine-plugin": "workspace:*",
+    "@harrywan/letgo-types": "workspace:*",
     "lodash-es": "^4.17.21"
   },
   "publishConfig": {

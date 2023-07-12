@@ -1,13 +1,13 @@
-import { eventHandlersToJsFunction, replaceExpressionIdentifier, replaceJSFunctionIdentifier, uniqueId } from '@fesjs/letgo-common';
+import { eventHandlersToJsFunction, replaceExpressionIdentifier, replaceJSFunctionIdentifier, uniqueId } from '@harrywan/letgo-common';
 import type {
     IPublicTypeCompositeValue,
     IPublicTypeEventHandler,
     IPublicTypePropsList,
     IPublicTypePropsMap,
-} from '@fesjs/letgo-types';
+} from '@harrywan/letgo-types';
 import {
     IPublicEnumTransformStage, isJSExpression, isJSFunction,
-} from '@fesjs/letgo-types';
+} from '@harrywan/letgo-types';
 import type { ShallowRef } from 'vue';
 import { shallowRef, triggerRef } from 'vue';
 import type { INode } from '../types';

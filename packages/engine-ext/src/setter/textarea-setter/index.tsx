@@ -1,6 +1,6 @@
 import { defineComponent, onMounted } from 'vue';
-import type { IPublicTypeSetter } from '@fesjs/letgo-types';
-import type { SettingField } from '@fesjs/letgo-designer';
+import type { IPublicTypeSetter } from '@harrywan/letgo-types';
+import type { SettingField } from '@harrywan/letgo-designer';
 import { isUndefined } from 'lodash-es';
 import { FInput } from '@fesjs/fes-design';
 import { commonProps } from '../../common';

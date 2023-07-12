@@ -4,7 +4,7 @@ import type {
     IPublicTypeNodeData,
     IPublicTypeProjectSchema,
     IPublicTypeRootSchema,
-} from '@fesjs/letgo-types';
+} from '@harrywan/letgo-types';
 
 import { genPageTemplate } from './vue/gen-template';
 import { genScript } from './script';

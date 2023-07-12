@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue';
-import { material, project } from '@fesjs/letgo-engine';
-import { IPublicEnumTransformStage, isProCodeComponentType } from '@fesjs/letgo-types';
+import { material, project } from '@harrywan/letgo-engine';
+import { IPublicEnumTransformStage, isProCodeComponentType } from '@harrywan/letgo-types';
 import { FButton, FMessage } from '@fesjs/fes-design';
 import { genFesCode } from './gen-fes';
 import { schemaToCode } from './common';

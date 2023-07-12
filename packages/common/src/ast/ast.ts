@@ -1,9 +1,9 @@
 import { generate } from 'astring';
-import type { CodeItem, IPublicTypeEventHandler, IPublicTypeJSFunction } from '@fesjs/letgo-types';
+import type { CodeItem, IPublicTypeEventHandler, IPublicTypeJSFunction } from '@harrywan/letgo-types';
 import {
     CodeType,
     InnerEventHandlerAction,
-} from '@fesjs/letgo-types';
+} from '@harrywan/letgo-types';
 import { isNil } from 'lodash-es';
 import { findGlobals, reallyParse } from './find-globals';
 

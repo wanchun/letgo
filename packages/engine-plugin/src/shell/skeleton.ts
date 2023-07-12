@@ -3,7 +3,7 @@ import type {
     IUnionConfig,
     Skeleton as InnerSkeleton,
     ReturnTypeOfCreateWidget,
-} from '@fesjs/letgo-editor-skeleton';
+} from '@harrywan/letgo-editor-skeleton';
 import { skeletonSymbol } from './symbols';
 
 export class Skeleton {

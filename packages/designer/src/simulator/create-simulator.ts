@@ -4,13 +4,13 @@ import {
     isAssetBundle,
     isAssetItem,
     isCSSUrl,
-} from '@fesjs/letgo-common';
-import type { IPublicTypeAssetList } from '@fesjs/letgo-types';
+} from '@harrywan/letgo-common';
+import type { IPublicTypeAssetList } from '@harrywan/letgo-types';
 import {
     AssetLevels,
     IPublicEnumAssetLevel,
     IPublicEnumAssetType,
-} from '@fesjs/letgo-types';
+} from '@harrywan/letgo-types';
 import type { Simulator } from './simulator';
 import type { ISimulatorRenderer } from './renderer';
 

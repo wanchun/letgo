@@ -1,4 +1,4 @@
-import type { IPublicTypeTransformedComponentMetadata } from '@fesjs/letgo-types';
+import type { IPublicTypeTransformedComponentMetadata } from '@harrywan/letgo-types';
 
 export default function componentDefaults(
     metadata: IPublicTypeTransformedComponentMetadata,

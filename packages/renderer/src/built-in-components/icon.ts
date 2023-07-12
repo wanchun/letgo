@@ -1,7 +1,7 @@
 import type { CSSProperties, ComputedRef } from 'vue';
 import { computed, defineComponent, h } from 'vue';
 import { isNil } from 'lodash-es';
-import type { IPublicTypeComponentMetadata } from '@fesjs/letgo-types';
+import type { IPublicTypeComponentMetadata } from '@harrywan/letgo-types';
 
 const Icon = defineComponent({
     name: 'Icon',

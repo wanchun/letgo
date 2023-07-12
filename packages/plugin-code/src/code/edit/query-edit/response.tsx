@@ -1,7 +1,7 @@
 import { defineComponent } from 'vue';
 import type { PropType } from 'vue';
-import type { IFailureCondition, IJavascriptQuery } from '@fesjs/letgo-types';
-import { uniqueId } from '@fesjs/letgo-common';
+import type { IFailureCondition, IJavascriptQuery } from '@harrywan/letgo-types';
+import { uniqueId } from '@harrywan/letgo-common';
 
 function genFailureConditionId() {
     return uniqueId('fc_');

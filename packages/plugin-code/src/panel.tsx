@@ -10,8 +10,8 @@ import {
     FTabs,
 } from '@fesjs/fes-design';
 
-import type { Designer } from '@fesjs/letgo-designer';
-import type { Editor } from '@fesjs/letgo-editor-core';
+import type { Designer } from '@harrywan/letgo-designer';
+import type { Editor } from '@harrywan/letgo-editor-core';
 import State from './state/state';
 import CodeSetting from './code/code';
 import CodeEdit from './code/edit/code-edit';

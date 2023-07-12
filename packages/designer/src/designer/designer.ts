@@ -9,12 +9,12 @@ import type {
     IPublicTypeNpmInfo,
     IPublicTypeProjectSchema,
     IPublicTypePropsList,
-} from '@fesjs/letgo-types';
+} from '@harrywan/letgo-types';
 import {
     isNodeSchema,
-} from '@fesjs/letgo-types';
+} from '@harrywan/letgo-types';
 import type { Component } from 'vue';
-import { markComputed } from '@fesjs/letgo-common';
+import { markComputed } from '@harrywan/letgo-common';
 import type { INode, INodeSelector, ISimulator } from '../types';
 import { Project } from '../project';
 import { ComponentMeta } from '../component-meta';

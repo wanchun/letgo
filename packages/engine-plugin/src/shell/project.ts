@@ -1,6 +1,6 @@
-import type { Project as InnerProject } from '@fesjs/letgo-designer';
-import type { IPublicTypeProjectSchema, IPublicTypeRootSchema, IPublicTypeUtilsMap } from '@fesjs/letgo-types';
-import { IPublicEnumTransformStage } from '@fesjs/letgo-types';
+import type { Project as InnerProject } from '@harrywan/letgo-designer';
+import type { IPublicTypeProjectSchema, IPublicTypeRootSchema, IPublicTypeUtilsMap } from '@harrywan/letgo-types';
+import { IPublicEnumTransformStage } from '@harrywan/letgo-types';
 
 import { projectSymbol } from './symbols';
 

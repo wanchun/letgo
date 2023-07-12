@@ -1,4 +1,4 @@
-import type { IPublicTypeIcon } from '@fesjs/letgo-types';
+import type { IPublicTypeIcon } from '@harrywan/letgo-types';
 
 const URL_RE = /^(https?:)\/\//i;
 

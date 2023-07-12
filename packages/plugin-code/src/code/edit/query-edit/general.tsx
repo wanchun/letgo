@@ -1,9 +1,9 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
-import type { IJavascriptQuery } from '@fesjs/letgo-types';
-import type { DocumentModel } from '@fesjs/letgo-designer';
+import type { IJavascriptQuery } from '@harrywan/letgo-types';
+import type { DocumentModel } from '@harrywan/letgo-designer';
 import { javascript } from '@codemirror/lang-javascript';
-import { CodeEditor } from '@fesjs/letgo-components';
+import { CodeEditor } from '@harrywan/letgo-components';
 import CommonGeneral from './common-general';
 
 export default defineComponent({

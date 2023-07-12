@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'vue';
-import type { IPublicTypeDevice } from '@fesjs/letgo-types';
+import type { IPublicTypeDevice } from '@harrywan/letgo-types';
 import { isPlainObject, get as lodashGet } from 'lodash-es';
 
 export interface IEngineOptions {

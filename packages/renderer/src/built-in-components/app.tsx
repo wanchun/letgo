@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, provide, reactive } from 'vue';
-import type { IPublicTypeProjectSchema } from '@fesjs/letgo-types';
-import type { CodeImplType } from '@fesjs/letgo-designer';
+import type { IPublicTypeProjectSchema } from '@harrywan/letgo-types';
+import type { CodeImplType } from '@harrywan/letgo-designer';
 import { getGlobalContextKey } from '../context';
 
 import { useCodesInstance } from '../code-impl/code-impl';

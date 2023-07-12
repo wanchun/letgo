@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue';
-import type { IPublicEditor, IPublicTypeComponentMetadata, IPublicTypeProjectSchema } from '@fesjs/letgo-types';
+import type { IPublicEditor, IPublicTypeComponentMetadata, IPublicTypeProjectSchema } from '@harrywan/letgo-types';
 import { FSpin } from '@fesjs/fes-design';
 import { SimulatorView } from '../simulator';
 import type { Project } from '../project';

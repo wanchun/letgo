@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
-import type { IJavascriptQuery, IRestQueryResource } from '@fesjs/letgo-types';
-import type { DocumentModel } from '@fesjs/letgo-designer';
+import type { IJavascriptQuery, IRestQueryResource } from '@harrywan/letgo-types';
+import type { DocumentModel } from '@harrywan/letgo-designer';
 import CommonGeneral from '../common-general';
 import ParamsConfig from './params';
 

@@ -1,7 +1,7 @@
 import type { Component, ComputedRef, InjectionKey } from 'vue';
 import { computed, inject, provide } from 'vue';
-import type { INode } from '@fesjs/letgo-designer';
-import type { IPublicTypeComponentInstance, IPublicTypeNodeSchema } from '@fesjs/letgo-types';
+import type { INode } from '@harrywan/letgo-designer';
+import type { IPublicTypeComponentInstance, IPublicTypeNodeSchema } from '@harrywan/letgo-types';
 import type { RendererProps } from '../core/base';
 import { createExecuteContext } from './execute-context';
 

@@ -1,4 +1,4 @@
-import type { IPluginConfig } from '@fesjs/letgo-engine-plugin';
+import type { IPluginConfig } from '@harrywan/letgo-engine-plugin';
 import { Code } from '@icon-park/vue-next';
 import { FTooltip } from '@fesjs/fes-design';
 import Panel from './panel';

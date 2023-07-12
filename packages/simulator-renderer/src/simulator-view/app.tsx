@@ -1,8 +1,8 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, onUnmounted, provide, reactive, watch } from 'vue';
-import { type CodeItem, CodeType } from '@fesjs/letgo-types';
-import { buildGlobalUtils } from '@fesjs/letgo-renderer';
-import type { JavascriptFunctionImpl } from '@fesjs/letgo-renderer';
+import { type CodeItem, CodeType } from '@harrywan/letgo-types';
+import { buildGlobalUtils } from '@harrywan/letgo-renderer';
+import type { JavascriptFunctionImpl } from '@harrywan/letgo-renderer';
 import { BASE_GLOBAL_CONTEXT } from '../constants';
 
 import type { VueSimulatorRenderer } from '../interface';

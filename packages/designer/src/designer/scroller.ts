@@ -1,4 +1,4 @@
-import { isElement } from '@fesjs/letgo-common';
+import { isElement } from '@harrywan/letgo-common';
 import type { IScrollable } from '../types';
 
 export class ScrollTarget {

@@ -15,14 +15,14 @@ import {
 import { get, isArray, isNil, isUndefined } from 'lodash-es';
 import {
     isSetterConfig,
-} from '@fesjs/letgo-types';
+} from '@harrywan/letgo-types';
 import type {
     IPublicTypeFieldConfig, IPublicTypeSetter,
     IPublicTypeSetterConfig, IPublicTypeSetterType,
     IPublicTypeSettingTarget,
-} from '@fesjs/letgo-types';
-import { createSettingFieldView } from '@fesjs/letgo-designer';
-import type { SettingField } from '@fesjs/letgo-designer';
+} from '@harrywan/letgo-types';
+import { createSettingFieldView } from '@harrywan/letgo-designer';
+import type { SettingField } from '@harrywan/letgo-designer';
 import { FButton, FDrawer } from '@fesjs/fes-design';
 import { AddOne, Config, DeleteOne } from '@icon-park/vue-next';
 import { commonProps } from '../../common';

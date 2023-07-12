@@ -2,7 +2,7 @@ import type { CompletionContext } from '@codemirror/autocomplete';
 import { snippetCompletion } from '@codemirror/autocomplete';
 import type { ComputedRef } from 'vue';
 import { get, isObject } from 'lodash-es';
-import { getVarType } from '@fesjs/letgo-common';
+import { getVarType } from '@harrywan/letgo-common';
 import type { HintPathType } from './types';
 
 export const HintTheme = {

@@ -6,8 +6,8 @@ import type {
     IPublicTypeEditorGetResult,
     IPublicTypeEditorValueKey,
     IPublicTypeRemoteComponentDescription,
-} from '@fesjs/letgo-types';
-import { AssetLoader } from '@fesjs/letgo-common';
+} from '@harrywan/letgo-types';
+import { AssetLoader } from '@harrywan/letgo-common';
 
 export class Editor extends EventEmitter implements IPublicEditor {
     private context = new Map<IPublicTypeEditorValueKey, any>();

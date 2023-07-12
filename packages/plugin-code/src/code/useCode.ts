@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 import { createSharedComposable } from '@vueuse/core';
-import type { CodeItem } from '@fesjs/letgo-types';
+import type { CodeItem } from '@harrywan/letgo-types';
 
 function useCode() {
     const currentCodeItem = ref<CodeItem>();

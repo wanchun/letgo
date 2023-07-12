@@ -1,8 +1,8 @@
 import { computed, defineComponent, h, onUnmounted, provide, watch } from 'vue';
 import type { PropType } from 'vue';
-import type { JavascriptFunctionImpl } from '@fesjs/letgo-renderer';
-import LowCodeRenderer from '@fesjs/letgo-renderer';
-import { type CodeItem, CodeType, type IPublicTypeComponentInstance, type IPublicTypeNodeSchema } from '@fesjs/letgo-types';
+import type { JavascriptFunctionImpl } from '@harrywan/letgo-renderer';
+import LowCodeRenderer from '@harrywan/letgo-renderer';
+import { type CodeItem, CodeType, type IPublicTypeComponentInstance, type IPublicTypeNodeSchema } from '@harrywan/letgo-types';
 import type { DocumentInstance, VueSimulatorRenderer } from '../interface';
 import { BASE_COMP_CONTEXT } from '../constants';
 import { Hoc } from '../built-in-components/hoc';

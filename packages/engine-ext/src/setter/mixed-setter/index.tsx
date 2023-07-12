@@ -5,15 +5,15 @@ import type {
     IPublicTypeDynamicProps,
     IPublicTypeSetter,
     IPublicTypeSetterType,
-} from '@webank/letgo-types';
+} from '@fesjs/letgo-types';
 import {
     isSetterConfig,
-} from '@webank/letgo-types';
-import type { SettingField } from '@webank/letgo-designer';
+} from '@fesjs/letgo-types';
+import type { SettingField } from '@fesjs/letgo-designer';
 import {
     SetterManager,
     createSetterContent,
-} from '@webank/letgo-designer';
+} from '@fesjs/letgo-designer';
 import { FDropdown, FTooltip } from '@fesjs/fes-design';
 import { CodeBrackets, Transform } from '@icon-park/vue-next';
 import { commonProps } from '../../common';

@@ -1,6 +1,6 @@
 {
-  "name": "@webank/letgo-engine-plugin",
-  "version": "1.0.0",
+  "name": "@fesjs/letgo-engine-plugin",
+  "version": "0.0.0-beta.1",
   "description": "",
   "author": "",
   "license": "ISC",
@@ -15,11 +15,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@webank/letgo-common": "workspace:*",
-    "@webank/letgo-designer": "workspace:*",
-    "@webank/letgo-editor-core": "workspace:*",
-    "@webank/letgo-editor-skeleton": "workspace:*",
-    "@webank/letgo-types": "workspace:*",
+    "@fesjs/letgo-common": "workspace:*",
+    "@fesjs/letgo-designer": "workspace:*",
+    "@fesjs/letgo-editor-core": "workspace:*",
+    "@fesjs/letgo-editor-skeleton": "workspace:*",
+    "@fesjs/letgo-types": "workspace:*",
     "lodash-es": "^4.17.21",
     "semver": "^7.3.5"
   },

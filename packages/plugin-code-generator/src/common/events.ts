@@ -1,4 +1,4 @@
-import type { IPublicTypeJSFunction } from '@webank/letgo-types';
+import type { IPublicTypeJSFunction } from '@fesjs/letgo-types';
 import { camelCase } from 'lodash-es';
 
 export function genEventName(prop: string, refName: string) {

@@ -1,6 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
-import type { Logger } from '@webank/letgo-common';
-import { getLogger } from '@webank/letgo-common';
+import type { Logger } from '@fesjs/letgo-common';
+import { getLogger } from '@fesjs/letgo-common';
 import { invariant } from '../utils';
 import type {
     IPlugin,

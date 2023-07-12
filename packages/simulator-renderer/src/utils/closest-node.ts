@@ -1,4 +1,4 @@
-import type { INodeInstance } from '@webank/letgo-designer';
+import type { INodeInstance } from '@fesjs/letgo-designer';
 import type { ComponentInternalInstance } from 'vue';
 import {
     ComponentRecord,

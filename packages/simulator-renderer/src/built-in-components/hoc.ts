@@ -19,21 +19,21 @@ import {
     leafProps,
     parseSchema,
     useLeaf,
-} from '@webank/letgo-renderer';
-import type { IPublicTypeComponentInstance, IPublicTypeCompositeValue } from '@webank/letgo-types';
+} from '@fesjs/letgo-renderer';
+import type { IPublicTypeComponentInstance, IPublicTypeCompositeValue } from '@fesjs/letgo-types';
 import {
     IPublicEnumTransformStage,
     isJSSlot,
-} from '@webank/letgo-types';
-import { getConvertedExtraKey } from '@webank/letgo-designer';
-import type { INode, ISlotNode } from '@webank/letgo-designer';
+} from '@fesjs/letgo-types';
+import { getConvertedExtraKey } from '@fesjs/letgo-designer';
+import type { INode, ISlotNode } from '@fesjs/letgo-designer';
 import type {
     BlockScope,
     LeafProps,
     RuntimeScope,
 
     SlotSchemaMap,
-} from '@webank/letgo-renderer';
+} from '@fesjs/letgo-renderer';
 import { BASE_COMP_CONTEXT } from '../constants';
 
 /**

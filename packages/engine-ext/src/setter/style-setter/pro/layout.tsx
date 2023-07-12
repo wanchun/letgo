@@ -1,7 +1,7 @@
 import type { CSSProperties, PropType } from 'vue';
 import { computed, defineComponent, inject } from 'vue';
 import { FCollapseItem, FGrid, FGridItem, FSelect, FSpace } from '@fesjs/fes-design';
-import { useModel } from '@webank/letgo-common';
+import { useModel } from '@fesjs/letgo-common';
 import { InputUnit, Row } from '../../../component';
 import { lightCls } from '../index.css';
 import { getPlaceholderPropertyValue } from '../../../common';

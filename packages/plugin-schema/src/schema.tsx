@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, ref } from 'vue';
-import type { Designer } from '@webank/letgo-designer';
-import { CodeEditor } from '@webank/letgo-components';
+import type { Designer } from '@fesjs/letgo-designer';
+import { CodeEditor } from '@fesjs/letgo-components';
 import { json } from '@codemirror/lang-json';
 import { FButton } from '@fesjs/fes-design';
 import { actionCls, codeCls, wrapperCls } from './index.css';

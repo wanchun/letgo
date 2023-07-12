@@ -1,5 +1,5 @@
-import type { IPublicTypeSetter } from '@webank/letgo-types';
-import { SetterManager } from '@webank/letgo-designer';
+import type { IPublicTypeSetter } from '@fesjs/letgo-types';
+import { SetterManager } from '@fesjs/letgo-designer';
 
 export class Setters {
     /**

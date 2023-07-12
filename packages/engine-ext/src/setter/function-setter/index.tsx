@@ -1,11 +1,11 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
-import { isJSFunction } from '@webank/letgo-types';
-import type { IPublicTypeJSFunction, IPublicTypeSetter } from '@webank/letgo-types';
-import type { SettingField } from '@webank/letgo-designer';
+import { isJSFunction } from '@fesjs/letgo-types';
+import type { IPublicTypeJSFunction, IPublicTypeSetter } from '@fesjs/letgo-types';
+import type { SettingField } from '@fesjs/letgo-designer';
 import { isFunction, isUndefined } from 'lodash-es';
 import { javascript } from '@codemirror/lang-javascript';
-import { CodeEditor } from '@webank/letgo-components';
+import { CodeEditor } from '@fesjs/letgo-components';
 import { commonProps } from '../../common';
 
 const FunctionSetterView = defineComponent({

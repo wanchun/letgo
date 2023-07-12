@@ -1,5 +1,5 @@
 // 构建运行时 context
-import type { CodeImplType } from '@webank/letgo-designer';
+import type { CodeImplType } from '@fesjs/letgo-designer';
 import { inject, watch } from 'vue';
 import { BASE_GLOBAL_CONTEXT } from '../constants';
 

@@ -1,9 +1,9 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
-import type { IPublicTypeFieldConfig, IPublicTypeSetter, IPublicTypeSetterType } from '@webank/letgo-types';
-import type { SettingField } from '@webank/letgo-designer';
+import type { IPublicTypeFieldConfig, IPublicTypeSetter, IPublicTypeSetterType } from '@fesjs/letgo-types';
+import type { SettingField } from '@fesjs/letgo-designer';
 import { isUndefined } from 'lodash-es';
-import { createSettingFieldView } from '@webank/letgo-designer';
+import { createSettingFieldView } from '@fesjs/letgo-designer';
 import { commonProps } from '../../common';
 import { wrapperCls } from './index.css';
 

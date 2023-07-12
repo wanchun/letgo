@@ -1,6 +1,6 @@
-import { TemporaryStateImpl } from '@webank/letgo-renderer';
+import { TemporaryStateImpl } from '@fesjs/letgo-renderer';
 import { clone } from 'lodash-es';
-import { CodeType, type ITemporaryState } from '@webank/letgo-types';
+import { CodeType, type ITemporaryState } from '@fesjs/letgo-types';
 import type { WatchStopHandle } from 'vue';
 import { watch } from 'vue';
 

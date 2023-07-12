@@ -7,14 +7,14 @@ import type {
     IPublicTypeNodeSchema,
     IPublicTypePropsMap,
     IPublicTypeRootSchema,
-} from '@webank/letgo-types';
+} from '@fesjs/letgo-types';
 import {
     isDOMText,
     isJSExpression,
     isJSFunction,
     isJSSlot,
     isNodeSchema,
-} from '@webank/letgo-types';
+} from '@fesjs/letgo-types';
 import { camelCase, isArray, isEmpty, isNil, isPlainObject, merge } from 'lodash-es';
 import { genEventName } from '../events';
 import { compileDirectives } from './directives';

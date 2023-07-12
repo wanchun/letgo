@@ -1,6 +1,6 @@
 import { isVNode } from 'vue';
 import type { ComponentInternalInstance, VNode } from 'vue';
-import type { IPublicTypeComponentInstance } from '@webank/letgo-types';
+import type { IPublicTypeComponentInstance } from '@fesjs/letgo-types';
 import { isArray } from 'lodash-es';
 import { isVNodeHTMLElement } from './comp-node';
 import { isDomNode, isEmptyNode } from './check-node';

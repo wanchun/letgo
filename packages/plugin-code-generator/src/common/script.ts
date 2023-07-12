@@ -1,10 +1,10 @@
 import type {
     IPublicTypeComponentMap, IPublicTypeJSFunction, IPublicTypeNodeData, IPublicTypeRootSchema,
-} from '@webank/letgo-types';
+} from '@fesjs/letgo-types';
 import {
     isJSFunction,
     isProCodeComponentType,
-} from '@webank/letgo-types';
+} from '@fesjs/letgo-types';
 import { genCode, traverseNodeSchema } from './helper';
 import { ImportType } from './types';
 import type { ImportSource } from './types';

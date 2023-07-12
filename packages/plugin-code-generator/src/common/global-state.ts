@@ -1,4 +1,4 @@
-import type { CodeStruct, IPublicTypeNpmInfo, IPublicTypeProjectSchema, IPublicTypeUtilsMap } from '@webank/letgo-types';
+import type { CodeStruct, IPublicTypeNpmInfo, IPublicTypeProjectSchema, IPublicTypeUtilsMap } from '@fesjs/letgo-types';
 import { genCode, genCodeMap, genImportCode } from './helper';
 import type { ImportSource, SetupCode } from './types';
 import { ImportType } from './types';

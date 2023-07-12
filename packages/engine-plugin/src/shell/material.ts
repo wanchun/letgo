@@ -1,6 +1,6 @@
-import type { Editor } from '@webank/letgo-editor-core';
-import type { Designer } from '@webank/letgo-designer';
-import type { IPublicTypeAssetsJson } from '@webank/letgo-types';
+import type { Editor } from '@fesjs/letgo-editor-core';
+import type { Designer } from '@fesjs/letgo-designer';
+import type { IPublicTypeAssetsJson } from '@fesjs/letgo-types';
 import { designerSymbol, editorSymbol } from './symbols';
 
 export class Material {

@@ -1,6 +1,6 @@
 import type { PropType, Ref } from 'vue';
 import { defineComponent, ref, watch } from 'vue';
-import { useModel } from '@webank/letgo-common';
+import { useModel } from '@fesjs/letgo-common';
 import { FDropdown, FInput, FInputNumber } from '@fesjs/fes-design';
 import { addUnit, clearUnit, clearUnit2 } from '../common';
 

@@ -1,5 +1,5 @@
-import type { IPublicTypeCompositeValue, IPublicTypeDirective } from '@webank/letgo-types';
-import { isJSExpression } from '@webank/letgo-types';
+import type { IPublicTypeCompositeValue, IPublicTypeDirective } from '@fesjs/letgo-types';
+import { isJSExpression } from '@fesjs/letgo-types';
 
 function getCompileArg(arg?: IPublicTypeCompositeValue) {
     if (arg) {

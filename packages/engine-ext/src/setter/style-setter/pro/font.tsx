@@ -1,6 +1,6 @@
 import type { CSSProperties, PropType } from 'vue';
 import { defineComponent, inject } from 'vue';
-import { useModel } from '@webank/letgo-common';
+import { useModel } from '@fesjs/letgo-common';
 import { FCollapseItem, FInputNumber, FRadioButton, FRadioGroup, FSelect, FTooltip } from '@fesjs/fes-design';
 import { AlignLeft, AlignRight, AlignTextBoth, AlignTextCenter } from '@icon-park/vue-next';
 import { InputColor, InputUnit, Row } from '../../../component';

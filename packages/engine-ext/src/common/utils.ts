@@ -1,4 +1,4 @@
-import type { INode } from '@webank/letgo-designer';
+import type { INode } from '@fesjs/letgo-designer';
 import { isElement, isNaN, isNil, isNumber, isString } from 'lodash-es';
 import type { CssAttributes, JSONNode } from './css-json';
 import { toCSS, toJSON } from './css-json';

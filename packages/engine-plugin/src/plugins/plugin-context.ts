@@ -1,8 +1,8 @@
-import type { Logger } from '@webank/letgo-common';
-import { getLogger } from '@webank/letgo-common';
-import type { Editor, EngineConfig } from '@webank/letgo-editor-core';
-import { engineConfig } from '@webank/letgo-editor-core';
-import type { Designer } from '@webank/letgo-designer';
+import type { Logger } from '@fesjs/letgo-common';
+import { getLogger } from '@fesjs/letgo-common';
+import type { Editor, EngineConfig } from '@fesjs/letgo-editor-core';
+import { engineConfig } from '@fesjs/letgo-editor-core';
+import type { Designer } from '@fesjs/letgo-designer';
 import { Hotkey, Material, Project, Setters, Skeleton } from '../shell';
 import type {
     IPluginContext,

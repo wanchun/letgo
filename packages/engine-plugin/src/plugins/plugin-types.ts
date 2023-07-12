@@ -1,8 +1,8 @@
-import type { Logger } from '@webank/letgo-common';
-import type { Editor, EngineConfig } from '@webank/letgo-editor-core';
-import type { Designer } from '@webank/letgo-designer';
-import type { Skeleton as InnerSkeleton } from '@webank/letgo-editor-skeleton';
-import type { IPublicTypeCompositeObject } from '@webank/letgo-types';
+import type { Logger } from '@fesjs/letgo-common';
+import type { Editor, EngineConfig } from '@fesjs/letgo-editor-core';
+import type { Designer } from '@fesjs/letgo-designer';
+import type { Skeleton as InnerSkeleton } from '@fesjs/letgo-editor-skeleton';
+import type { IPublicTypeCompositeObject } from '@fesjs/letgo-types';
 import type { Hotkey, Material, Project, Setters, Skeleton } from '../shell';
 
 export type IPreferenceValueType = string | number | boolean;

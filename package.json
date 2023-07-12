@@ -20,7 +20,10 @@
     "build": "cross-env NODE_ENV=production npm-run-all -s build:esm build:sr",
     "clear": "node scripts/clear.js",
     "tpl": "cd packages/template & npm run dev",
-    "test": "vitest"
+    "test": "vitest",
+    "ver": "changeset && changeset version",
+    "release": "pnpm build && pnpm release:only",
+    "release:only": "changeset publish --tag=beta --registry=https://registry.npmjs.com/"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.38.5",
@@ -30,6 +33,7 @@
     "@babel/preset-env": "^7.21.5",
     "@babel/preset-typescript": "^7.21.5",
     "@betit/rollup-plugin-rename-extensions": "^0.1.0",
+    "@changesets/cli": "^2.26.2",
     "@rollup/plugin-babel": "^6.0.0",
     "@rollup/plugin-commonjs": "^23.0.2",
     "@rollup/plugin-json": "^5.0.1",

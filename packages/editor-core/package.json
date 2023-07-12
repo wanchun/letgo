@@ -1,6 +1,6 @@
 {
   "name": "@harrywan/letgo-editor-core",
-  "version": "0.0.0-beta.1",
+  "version": "0.0.0-beta.2",
   "description": "",
   "author": "",
   "license": "ISC",
@@ -21,8 +21,7 @@
     "lodash-es": "^4.17.21",
     "strict-event-emitter-types": "^2.0.0"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "typings": "./es/index.d.ts",
   "publishConfig": {
     "access": "public"

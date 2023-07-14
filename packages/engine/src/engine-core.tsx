@@ -1,6 +1,5 @@
-import type { App } from 'vue';
-import { createApp } from 'vue';
-import { isPlainObject } from 'lodash-es';
+import type { PropType } from 'vue';
+import { defineComponent, onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import { Designer } from '@harrywan/letgo-designer';
 import type { IEngineOptions } from '@harrywan/letgo-editor-core';
 import { editor, engineConfig } from '@harrywan/letgo-editor-core';
@@ -63,45 +62,39 @@ export { editor, config, designer, plugins, skeleton, material, project, hotkey,
     innerPlugins.register(PluginSetting);
 })();
 
-let app: App;
-
-export async function init(
-    container?: HTMLElement,
-    options?: IEngineOptions,
-    pluginPreference?: IPluginPreference,
-): Promise<() => void> {
-    if (app)
-        return;
-    let engineOptions = null;
-    let engineContainer = null;
-    if (isPlainObject(container)) {
-        engineOptions = container as IEngineOptions;
-        engineContainer = document.createElement('div');
-        document.body.appendChild(engineContainer);
-    }
-    else {
-        engineOptions = options;
-        engineContainer = container;
-        if (!container) {
-            engineContainer = document.createElement('div');
-            document.body.appendChild(engineContainer);
-        }
-    }
-    engineContainer.id = 'engine';
-    engineConfig.setEngineOptions(engineOptions);
-    await plugins.init(pluginPreference);
-
-    app = createApp(WorkbenchView, {
-        skeleton: innerSkeleton,
-    });
-    app.mount(engineContainer);
-}
-
-export async function destroy() {
-    app.unmount();
-    app = null;
+export function destroy() {
     const { project } = designer;
     const { documents } = project;
     if (Array.isArray(documents) && documents.length > 0)
         documents.forEach(doc => project.removeDocument(doc));
 }
+
+export const LetgoEngine = defineComponent({
+    name: 'LetgoEngine',
+    props: {
+        options: Object as PropType<IEngineOptions>,
+        pluginPreference: Object as PropType<IPluginPreference>,
+        onReady: Function,
+    },
+    setup(props) {
+        const isReady = ref(false);
+
+        onBeforeMount(async () => {
+            if (props.options)
+                engineConfig.setEngineOptions(props.options);
+
+            await plugins.init(props.pluginPreference);
+
+            isReady.value = true;
+            props.onReady?.();
+        });
+
+        onBeforeUnmount(destroy);
+
+        return () => {
+            if (!isReady.value)
+                return null;
+            return <WorkbenchView skeleton={innerSkeleton}></WorkbenchView>;
+        };
+    },
+});

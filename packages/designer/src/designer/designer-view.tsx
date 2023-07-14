@@ -4,7 +4,7 @@ import type { IPublicEditor, IPublicTypeComponentMetadata, IPublicTypeProjectSch
 import { FSpin } from '@fesjs/fes-design';
 import { SimulatorView } from '../simulator';
 import type { Project } from '../project';
-import { Designer } from './designer';
+import type { Designer } from './designer';
 import { DragHostView } from './drag-host';
 import {
     designerCls,
@@ -64,6 +64,7 @@ export const DesignerView = defineComponent({
     props: {
         designer: {
             type: Object as PropType<Designer>,
+            required: true,
         },
         onMount: {
             type: Function as PropType<(designer: Designer) => void>,
@@ -84,9 +85,8 @@ export const DesignerView = defineComponent({
         },
     },
     setup(props) {
-        const { designer: _designer, ...designerProps } = props;
+        const { designer, ...designerProps } = props;
 
-        const designer: Designer = _designer ?? new Designer(designerProps);
         designer.setProps(designerProps);
 
         watch(

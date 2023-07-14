@@ -1,13 +1,16 @@
 <script lang="ts">
-import { defineComponent, onBeforeUnmount, onMounted, ref } from 'vue';
-import { destroy, init, project } from '@harrywan/letgo-engine';
+import { defineComponent } from 'vue';
+import { LetgoEngine, project } from '@harrywan/letgo-engine';
 
 export default defineComponent({
+    components: { LetgoEngine },
     setup() {
-        const containerRef = ref(null);
+        const onReady = () => {
+            project.openDocument();
+        };
 
-        onMounted(async () => {
-            await init(containerRef.value, {
+        return {
+            options: {
                 vueRuntimeUrl:
                     'https://unpkg.com/vue/dist/vue.runtime.global.js',
                 simulatorUrl: [
@@ -15,23 +18,15 @@ export default defineComponent({
                     `${process.env.FES_APP_SIMULATOR_PATH}/index.umd.js`,
                     `${process.env.FES_APP_SIMULATOR_PATH}/style.css`,
                 ],
-            });
-            project.openDocument();
-        });
-
-        onBeforeUnmount(() => {
-            destroy();
-        });
-
-        return {
-            containerRef,
+            },
+            onReady,
         };
     },
 });
 </script>
 
 <template>
-  <div ref="containerRef" class="engine" />
+  <LetgoEngine class="engine" :options="options" :on-ready="onReady" />
 </template>
 
 <style>

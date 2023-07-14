@@ -21,9 +21,9 @@
     "clear": "node scripts/clear.js",
     "tpl": "cd packages/template & npm run dev",
     "test": "vitest",
-    "ver": "changeset pre enter beta && changeset && changeset version",
+    "ver": "changeset pre exit && changeset pre enter beta && changeset && changeset version",
     "release": "pnpm build && pnpm release:only && changeset pre exit",
-    "release:only": "pnpm changeset publish --registry=https://registry.npmjs.com/"
+    "release:only": "cross-env npm_config_registry=https://registry.npmjs.com changeset publish"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.38.5",

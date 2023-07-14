@@ -1,5 +1,16 @@
 # @harrywan/letgo-plugin-schema
 
+## 0.0.0-beta.5
+
+### Patch Changes
+
+- hello world
+- Updated dependencies
+  - @harrywan/letgo-components@0.0.0-beta.5
+  - @harrywan/letgo-designer@0.0.0-beta.5
+  - @harrywan/letgo-engine-plugin@0.0.0-beta.5
+  - @harrywan/letgo-types@0.0.0-beta.5
+
 ## 0.0.0-beta.3
 
 ### Patch Changes

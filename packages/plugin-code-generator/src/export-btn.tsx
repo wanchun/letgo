@@ -2,6 +2,7 @@ import { defineComponent } from 'vue';
 import { material, project } from '@harrywan/letgo-engine';
 import { IPublicEnumTransformStage, isProCodeComponentType } from '@harrywan/letgo-types';
 import { FButton, FMessage } from '@fesjs/fes-design';
+import { DownloadOutlined } from '@fesjs/fes-design/icon';
 import { genFesCode } from './gen-fes';
 import { schemaToCode } from './common';
 import type { FileStruct } from './common/types';
@@ -61,7 +62,7 @@ export default defineComponent({
         };
         return () => {
             return (
-                <FButton type="primary" onClick={genCode}>
+                <FButton type="primary" onClick={genCode} v-slots={{ icon: () => <DownloadOutlined /> }}>
                     出码
                 </FButton>
             );

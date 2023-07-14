@@ -1,5 +1,11 @@
 # @harrywan/letgo-designer
 
+## 0.0.0-beta.3
+
+### Patch Changes
+
+- 111
+
 ## 0.0.0-beta.2
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @harrywan/letgo-engine
 
+## 0.0.0-beta.3
+
+### Patch Changes
+
+- 111
+- Updated dependencies
+  - @harrywan/letgo-designer@0.0.0-beta.3
+  - @harrywan/letgo-editor-skeleton@0.0.0-beta.3
+  - @harrywan/letgo-engine-ext@0.0.0-beta.3
+  - @harrywan/letgo-engine-plugin@0.0.0-beta.3
+  - @harrywan/letgo-plugin-code@0.0.0-beta.3
+  - @harrywan/letgo-plugin-designer@0.0.0-beta.3
+  - @harrywan/letgo-plugin-setting@0.0.0-beta.3
+
 ## 0.0.0-beta.2
 
 ### Patch Changes

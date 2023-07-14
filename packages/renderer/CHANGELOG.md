@@ -1,5 +1,12 @@
 # @harrywan/letgo-renderer
 
+## 0.0.0-beta.3
+
+### Patch Changes
+
+- Updated dependencies
+  - @harrywan/letgo-designer@0.0.0-beta.3
+
 ## 0.0.0-beta.2
 
 ### Patch Changes

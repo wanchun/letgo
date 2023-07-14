@@ -1059,7 +1059,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
         this.renderer?.clearState();
     }
 
-    pure() {
+    purge() {
         this.emitter.removeAllListeners();
     }
 }

@@ -111,10 +111,6 @@ export const DesignerView = defineComponent({
             designer.editor.emit('designer.mount', designer);
         });
 
-        onBeforeUnmount(() => {
-            designer.purge();
-        });
-
         return () => {
             return (
                 <div class={designerCls}>

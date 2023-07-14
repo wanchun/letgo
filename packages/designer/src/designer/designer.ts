@@ -360,7 +360,6 @@ export class Designer {
 
     private mountSimulator(simulator: ISimulator) {
         this._simulator = simulator;
-        this.editor.set('simulator', simulator);
         this.emitter.emit('letgo_engine_simulator_ready', simulator);
     }
 

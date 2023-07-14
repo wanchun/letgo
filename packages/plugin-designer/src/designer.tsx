@@ -31,9 +31,6 @@ export default defineComponent({
 
         const onDesignerMount = (designer: Designer): void => {
             editor.emit('designer.ready', designer);
-            editor.onGot('schema', (schema) => {
-                designer.project.openDocument(schema);
-            });
         };
 
         onBeforeMount(async () => {

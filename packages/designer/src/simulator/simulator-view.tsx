@@ -23,8 +23,8 @@ import {
     simulatorCls,
 } from './simulator-view.css';
 
-const ContentView = defineComponent({
-    name: 'ContentView',
+const IframeView = defineComponent({
+    name: 'IframeView',
     props: {
         host: {
             type: Object as PropType<Simulator>,
@@ -101,7 +101,7 @@ export const SimulatorView = defineComponent({
         );
 
         onUnmounted(() => {
-            host.pure();
+            host.purge();
         });
 
         return {
@@ -132,7 +132,7 @@ export const SimulatorView = defineComponent({
                         style={deviceStyle?.viewport}
                     >
                         <BemToolsView host={host} />
-                        <ContentView host={host} />
+                        <IframeView host={host} />
                     </div>
                 </div>
             </div>

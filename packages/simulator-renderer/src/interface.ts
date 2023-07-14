@@ -37,6 +37,7 @@ export interface VueSimulatorRenderer extends ISimulatorRenderer {
     dispose(): void
     rerender(): void
     getCurrentDocument(): DocumentInstance | undefined
+    initDocument(): void
 }
 
 export interface DocumentInstance {

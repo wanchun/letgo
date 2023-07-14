@@ -1,4 +1,4 @@
-import type { Project as InnerProject } from '@harrywan/letgo-designer';
+import type { DocumentModel, Project as InnerProject } from '@harrywan/letgo-designer';
 import type { IPublicTypeProjectSchema, IPublicTypeRootSchema, IPublicTypeUtilsMap } from '@harrywan/letgo-types';
 import { IPublicEnumTransformStage } from '@harrywan/letgo-types';
 
@@ -6,6 +6,10 @@ import { projectSymbol } from './symbols';
 
 export class Project {
     private readonly [projectSymbol]: InnerProject;
+
+    get currentDocument(): DocumentModel | null {
+        return this[projectSymbol].currentDocument;
+    }
 
     constructor(project: InnerProject) {
         this[projectSymbol] = project;
@@ -29,6 +33,10 @@ export class Project {
         if (!documentModel)
             return null;
         return documentModel;
+    }
+
+    importSchema(schema?: IPublicTypeProjectSchema, autoOpen?: boolean | string) {
+        return this[projectSymbol].importSchema(schema, autoOpen);
     }
 
     exportSchema(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Save): IPublicTypeProjectSchema {

@@ -7,6 +7,35 @@ export default defineComponent({
     setup() {
         const onReady = () => {
             project.openDocument();
+            setTimeout(() => {
+                project.openDocument({
+                    componentName: 'Page',
+                    id: 'root',
+                    ref: 'root',
+                    props: {},
+                    code: {
+                        code: [],
+                        directories: [],
+                    },
+                    title: '首页',
+                    fileName: '/home',
+                    isLocked: false,
+                    condition: true,
+                    children: [
+                        {
+                            componentName: 'FButton',
+                            id: 'fButton1',
+                            ref: 'fButton1',
+                            props: {
+                                children: '按钮',
+                            },
+                            title: '',
+                            isLocked: false,
+                            condition: true,
+                        },
+                    ],
+                });
+            }, 5000);
         };
 
         return {

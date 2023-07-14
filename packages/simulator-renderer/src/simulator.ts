@@ -334,8 +334,6 @@ function createSimulatorRenderer() {
             ),
         };
 
-        console.log('components:', components.value);
-
         // sync device
         device.value = host.device;
 
@@ -345,7 +343,7 @@ function createSimulatorRenderer() {
 
     syncHostProps();
 
-    const initDocument = () => {
+    simulator.initDocument = () => {
         const router = simulator.router;
         documentInstances.value = host.project.documents.map((doc) => {
             let documentInstance = documentInstanceMap.get(doc.id);
@@ -378,7 +376,7 @@ function createSimulatorRenderer() {
             router.replace({ name: inst.id });
     };
 
-    initDocument();
+    simulator.initDocument();
 
     return simulator;
 }

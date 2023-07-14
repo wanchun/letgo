@@ -4,7 +4,6 @@ import { type CodeItem, CodeType } from '@harrywan/letgo-types';
 import { buildGlobalUtils } from '@harrywan/letgo-renderer';
 import type { JavascriptFunctionImpl } from '@harrywan/letgo-renderer';
 import { BASE_GLOBAL_CONTEXT } from '../constants';
-
 import type { VueSimulatorRenderer } from '../interface';
 import { host } from '../host';
 import { useCodesInstance } from '../context/code-impl';
@@ -23,6 +22,14 @@ function useCssHandler() {
     onUnmounted(offEvent);
 }
 
+function useDocumentChange(simulator: VueSimulatorRenderer) {
+    const offEvent = host.project.onCurrentDocumentChange(() => {
+        simulator.initDocument();
+    });
+
+    onUnmounted(offEvent);
+}
+
 export default defineComponent({
     name: 'SimulatorApp',
     props: {
@@ -33,6 +40,8 @@ export default defineComponent({
     },
     setup(props) {
         useCssHandler();
+
+        useDocumentChange(props.simulator);
 
         const code = host.project.code;
         const {

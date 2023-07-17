@@ -270,8 +270,8 @@ export class DocumentModel {
      */
     remove() {
         this.designer.editor.emit('document.remove', { id: this.id });
-        this.purge();
         this.project.removeDocument(this);
+        this.purge();
     }
 
     /**
@@ -411,8 +411,10 @@ export class DocumentModel {
         this._nodesMap.clear();
         this.code.purge();
         this.state.purge();
+        this.selection.purge();
         this.offNodeRefChange();
         this.offGlobalStateIdChange();
+        this.emitter.removeAllListeners();
     }
 
     checkDropTarget(

@@ -382,8 +382,8 @@ export class Designer {
     }
 
     purge() {
-        this._componentMetaMap.clear();
-        this._lostComponentMetaMap.clear();
+        // 只清掉要换的部分
+        this._simulator = null;
         this.clearOffsetObserverList(true);
     }
 

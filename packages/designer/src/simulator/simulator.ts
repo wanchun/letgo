@@ -1060,6 +1060,9 @@ export class Simulator implements ISimulator<ISimulatorProps> {
     }
 
     purge() {
+        this._iframe = null;
+        this._contentWindow = null;
+        this._renderer = null;
         this.emitter.removeAllListeners();
     }
 }

@@ -113,18 +113,18 @@ function processDetail({ target, detail, document }: DropLocation): InsertionDat
 export const InsertionView = defineComponent({
     name: 'InsertionView',
     props: {
-        host: {
+        simulator: {
             type: Object as PropType<Simulator>,
         },
     },
     setup(props) {
         return () => {
-            const { host } = props;
-            const loc = host.designer.dropLocation;
+            const { simulator } = props;
+            const loc = simulator.designer.dropLocation;
             if (!loc)
                 return null;
 
-            const { scale, scrollX, scrollY } = host.viewport;
+            const { scale, scrollX, scrollY } = simulator.viewport;
             const { edge, insertType, coverRect, nearRect, vertical } = processDetail(loc);
 
             if (!edge)

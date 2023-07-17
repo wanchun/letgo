@@ -28,7 +28,7 @@ import {
 export function createAction(content: IPublicTypeComponentActionContent,
     key: string,
     node: INode,
-    host: Simulator) {
+    simulator: Simulator) {
     if (typeof content === 'string')
         return content;
 
@@ -41,7 +41,7 @@ export function createAction(content: IPublicTypeComponentActionContent,
             if (action)
                 action(node);
 
-            const editor = host.designer.editor;
+            const editor = simulator.designer.editor;
             const npm = node?.componentMeta?.npm;
             const selected
                 = [npm?.package, npm?.exportName]
@@ -72,7 +72,7 @@ export const Toolbar = defineComponent({
         observed: {
             type: Object as PropType<OffsetObserver>,
         },
-        host: {
+        simulator: {
             type: Object as PropType<Simulator>,
         },
     },
@@ -132,7 +132,7 @@ export const Toolbar = defineComponent({
                         ? condition(node) !== false
                         : condition !== false)
                 )
-                    actions.push(createAction(content, name, node, props.host));
+                    actions.push(createAction(content, name, node, props.simulator));
             });
             return (
                 <div class={borderActionsCls} style={style}>
@@ -153,7 +153,7 @@ export const BorderSelectingInstance = defineComponent({
         observed: {
             type: Object as PropType<OffsetObserver>,
         },
-        host: {
+        simulator: {
             type: Object as PropType<Simulator>,
         },
     },
@@ -186,7 +186,7 @@ export const BorderSelectingInstance = defineComponent({
                     style={style}
                 >
                     {!dragging && (
-                        <Toolbar observed={observed} host={props.host} />
+                        <Toolbar observed={observed} simulator={props.simulator} />
                     )}
                 </div>
             );
@@ -197,7 +197,7 @@ export const BorderSelectingInstance = defineComponent({
 export const BorderSelectingForNode = defineComponent({
     name: 'BorderSelectingForNode',
     props: {
-        host: {
+        simulator: {
             type: Object as PropType<Simulator>,
         },
         node: {
@@ -205,11 +205,11 @@ export const BorderSelectingForNode = defineComponent({
         },
     },
     setup(props) {
-        const { host, node } = props;
-        const { designer } = host;
+        const { simulator, node } = props;
+        const { designer } = simulator;
 
         return () => {
-            const instances = host.getComponentInstances(node);
+            const instances = simulator.getComponentInstances(node);
             if (!instances || instances.length < 1)
                 return;
 
@@ -229,7 +229,7 @@ export const BorderSelectingForNode = defineComponent({
                                 key={observed.id}
                                 dragging={dragging}
                                 observed={observed}
-                                host={host}
+                                simulator={simulator}
                             />
                         );
                     })}
@@ -242,16 +242,16 @@ export const BorderSelectingForNode = defineComponent({
 export const BorderSelectingView = defineComponent({
     name: 'BorderSelectingView',
     props: {
-        host: {
+        simulator: {
             type: Object as PropType<Simulator>,
         },
     },
     setup(props) {
-        const { host } = props;
+        const { simulator } = props;
 
         const selecting = computed(() => {
-            const dragging = host.designer.dragon.dragging;
-            const doc = host.project.currentDocument;
+            const dragging = simulator.designer.dragon.dragging;
+            const doc = simulator.project.currentDocument;
             if (!doc)
                 return null;
 
@@ -268,7 +268,7 @@ export const BorderSelectingView = defineComponent({
                     {selecting.value.map(node => (
                         <BorderSelectingForNode
                             key={node.id}
-                            host={host}
+                            simulator={simulator}
                             node={node}
                         />
                     ))}

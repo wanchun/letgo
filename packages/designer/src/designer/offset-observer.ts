@@ -128,10 +128,10 @@ export class OffsetObserver {
         const { node, instance } = nodeInstance;
         this.node = node;
         const doc = node.document;
-        const host = doc.simulator;
+        const simulator = doc.simulator;
         const focusNode = doc.focusNode;
         this.isRoot = node.contains(focusNode);
-        this.viewport = host.viewport;
+        this.viewport = simulator.viewport;
         if (this.isRoot) {
             this.hasOffset = true;
             return;
@@ -144,7 +144,7 @@ export class OffsetObserver {
             if (pid !== this.pid)
                 return;
 
-            const rect = host.computeComponentInstanceRect(
+            const rect = simulator.computeComponentInstanceRect(
                 instance,
                 node.componentMeta.rootSelector,
             );

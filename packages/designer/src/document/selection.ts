@@ -159,4 +159,8 @@ export class Selection {
             this.emitter.off('selectionchange', fn);
         };
     }
+
+    purge() {
+        this.emitter.removeAllListeners();
+    }
 }

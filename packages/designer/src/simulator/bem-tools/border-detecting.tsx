@@ -58,20 +58,20 @@ export const BorderDetectingInstance = defineComponent({
 export const BorderDetectingView = defineComponent({
     name: 'BorderDetectingView',
     props: {
-        host: {
+        simulator: {
             type: Object as PropType<Simulator>,
         },
     },
     setup(props) {
-        const { host } = props;
+        const { simulator } = props;
 
         const currentNodeRef = computed(() => {
-            const doc = host.project.currentDocument;
+            const doc = simulator.project.currentDocument;
             if (!doc)
                 return null;
 
             const { selection } = doc;
-            const { current } = host.designer.detecting;
+            const { current } = simulator.designer.detecting;
 
             if (
                 !current
@@ -96,7 +96,7 @@ export const BorderDetectingView = defineComponent({
                     ? canHoverHook(currentNode)
                     : true;
 
-            if (!canHover || !currentNode || host.viewport.scrolling)
+            if (!canHover || !currentNode || simulator.viewport.scrolling)
                 return null;
 
             // rootNode, hover whole viewport
@@ -104,7 +104,7 @@ export const BorderDetectingView = defineComponent({
             if (!focusNode.contains(currentNode))
                 return null;
 
-            const { scrollX, scrollY, scale, bounds } = host.viewport;
+            const { scrollX, scrollY, scale, bounds } = simulator.viewport;
 
             if (currentNode.contains(focusNode)) {
                 return (
@@ -118,12 +118,12 @@ export const BorderDetectingView = defineComponent({
                 );
             }
 
-            const instances = host.getComponentInstances(currentNode);
+            const instances = simulator.getComponentInstances(currentNode);
             if (!instances || instances.length < 1)
                 return null;
 
             const getReact = (inst: IComponentInstance) => {
-                return host.computeComponentInstanceRect(
+                return simulator.computeComponentInstanceRect(
                     inst,
                     currentNode.componentMeta.rootSelector,
                 );

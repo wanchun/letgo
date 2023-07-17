@@ -64,9 +64,7 @@ export { editor, config, designer, plugins, skeleton, material, project, hotkey,
 
 export function destroy() {
     const { project } = designer;
-    const { documents } = project;
-    if (Array.isArray(documents) && documents.length > 0)
-        documents.forEach(doc => project.removeDocument(doc));
+    project.purge();
 }
 
 export const LetgoEngine = defineComponent({

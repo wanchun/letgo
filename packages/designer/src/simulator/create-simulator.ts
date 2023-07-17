@@ -22,8 +22,8 @@ export function createSimulator(
     const win: any = iframe.contentWindow;
     const doc = iframe.contentDocument;
 
-    // 注入host
-    win.LETGO_Simulator = simulator;
+    // 注入 simulator
+    win.Letgo_Simulator = simulator;
 
     const styles: any = {};
     const scripts: any = {};
@@ -112,12 +112,12 @@ export function createSimulator(
     doc.close();
 
     return new Promise((resolve) => {
-        const renderer = win.LETGO_SimulatorRenderer || simulator.renderer;
+        const renderer = win.Letgo_SimulatorRenderer || simulator.renderer;
         if (renderer)
             return resolve(renderer);
 
         const loaded = () => {
-            resolve(win.LETGO_SimulatorRenderer || simulator.renderer);
+            resolve(win.Letgo_SimulatorRenderer || simulator.renderer);
             win.removeEventListener('load', loaded);
         };
         win.addEventListener('load', loaded);

@@ -26,14 +26,14 @@ import {
 const IframeView = defineComponent({
     name: 'IframeView',
     props: {
-        host: {
+        simulator: {
             type: Object as PropType<Simulator>,
         },
     },
     setup(props) {
-        const { host } = props;
+        const { simulator } = props;
         return () => {
-            const { viewport } = host;
+            const { viewport } = simulator;
             const frameStyle: CSSProperties = {
                 transform: `scale(${viewport.scale})`,
                 height: viewport.contentHeight,
@@ -47,7 +47,7 @@ const IframeView = defineComponent({
                         style={frameStyle}
                         onLoad={(e) => {
                             if (e.target instanceof HTMLIFrameElement)
-                                host.mountContentFrame(e.target);
+                                simulator.mountContentFrame(e.target);
                         }}
                     />
                 </div>
@@ -71,16 +71,16 @@ export const SimulatorView = defineComponent({
     setup(props) {
         const { designer, onMount } = props.simulatorProps;
 
-        const host
+        const simulator
             = (designer.simulator as Simulator) || new Simulator(designer);
 
-        const { deviceStyle } = host;
+        const { deviceStyle } = simulator;
 
         const innerDeviceCls = computed(() => {
-            if (host.deviceClassName)
-                return host.deviceClassName;
+            if (simulator.deviceClassName)
+                return simulator.deviceClassName;
 
-            if (host.device === 'mobile')
+            if (simulator.device === 'mobile')
                 return deviceMobileCls;
 
             return deviceDefaultCls;
@@ -88,12 +88,12 @@ export const SimulatorView = defineComponent({
 
         console.log('componentMetaMap:', designer.componentMetaMap);
 
-        onMount?.(host);
+        onMount?.(simulator);
 
         watch(
             () => props.simulatorProps,
             () => {
-                host.setProps(props.simulatorProps);
+                simulator.setProps(props.simulatorProps);
             },
             {
                 immediate: true,
@@ -101,17 +101,17 @@ export const SimulatorView = defineComponent({
         );
 
         onUnmounted(() => {
-            host.purge();
+            simulator.purge();
         });
 
         return {
             innerDeviceCls,
             deviceStyle,
-            host,
+            simulator,
         };
     },
     render() {
-        const { deviceStyle, host, innerDeviceCls } = this;
+        const { deviceStyle, simulator, innerDeviceCls } = this;
 
         return (
             <div class={simulatorCls}>
@@ -124,15 +124,15 @@ export const SimulatorView = defineComponent({
                             if (el instanceof HTMLElement) {
                                 // 等el渲染后再执行 mountViewport
                                 nextTick(() => {
-                                    host.mountViewport(el);
+                                    simulator.mountViewport(el);
                                 });
                             }
                         }}
                         class={canvasViewportCls}
                         style={deviceStyle?.viewport}
                     >
-                        <BemToolsView host={host} />
-                        <IframeView host={host} />
+                        <BemToolsView simulator={simulator} />
+                        <IframeView simulator={simulator} />
                     </div>
                 </div>
             </div>

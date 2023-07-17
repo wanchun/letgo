@@ -5,7 +5,7 @@ import { warn } from './utils';
 const win = window as any;
 
 if (typeof win !== 'undefined') {
-    win.LETGO_SimulatorRenderer = simulator;
+    win.Letgo_SimulatorRenderer = simulator;
     win.letgoRequest = request;
 }
 
@@ -18,8 +18,8 @@ win.addEventListener('load', () => {
 });
 
 win.addEventListener('beforeunload', () => {
-    win.LETGO_Simulator = null;
-    win.LETGO_SimulatorRenderer = null;
+    win.Letgo_Simulator = null;
+    win.Letgo_SimulatorRenderer = null;
     simulator.dispose();
 });
 

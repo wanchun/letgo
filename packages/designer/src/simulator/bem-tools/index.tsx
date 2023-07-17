@@ -9,18 +9,18 @@ import { toolsCls } from './tools.css';
 export const BemToolsView = defineComponent({
     name: 'BemToolsView',
     props: {
-        host: {
+        simulator: {
             type: Object as PropType<Simulator>,
         },
     },
     setup(props) {
-        const { host } = props;
+        const { simulator } = props;
 
         return () => {
-            if (host.designMode === 'live')
+            if (simulator.designMode === 'live')
                 return null;
 
-            const { scrollX, scrollY, scale } = host.viewport;
+            const { scrollX, scrollY, scale } = simulator.viewport;
 
             return (
                 <div
@@ -31,9 +31,9 @@ export const BemToolsView = defineComponent({
                         }px)`,
                     }}
                 >
-                    <BorderDetectingView key="hovering" host={host} />
-                    <BorderSelectingView key="selecting" host={host} />
-                    <InsertionView key="insert" host={host}/>
+                    <BorderDetectingView key="hovering" simulator={simulator} />
+                    <BorderSelectingView key="selecting" simulator={simulator} />
+                    <InsertionView key="insert" simulator={simulator}/>
                 </div>
             );
         };

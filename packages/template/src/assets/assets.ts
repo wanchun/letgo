@@ -214,8 +214,8 @@ const assets: IPublicTypeAssetsJson = {
             snippets: [
                 {
                     title: '文本',
-                    screenshot:
-                        'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/text.svg',
+                    // screenshot:
+                    //     'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/text.svg',
                     schema: {
                         componentName: 'NText',
                         props: {
@@ -325,8 +325,8 @@ const assets: IPublicTypeAssetsJson = {
             snippets: [
                 {
                     title: '头像',
-                    screenshot:
-                        'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/avatar.png',
+                    // screenshot:
+                    //     'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/avatar.png',
                     schema: {
                         componentName: 'NAvatar',
                         props: {
@@ -498,8 +498,8 @@ const assets: IPublicTypeAssetsJson = {
             },
             snippets: [
                 {
-                    screenshot:
-                        'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/card.png',
+                    // screenshot:
+                    //     'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/card.png',
                     title: '卡片',
                     schema: {
                         componentName: 'FCard',
@@ -680,8 +680,8 @@ const assets: IPublicTypeAssetsJson = {
             },
             snippets: [
                 {
-                    screenshot:
-                        'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/space.svg',
+                    // screenshot:
+                    //     'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/space.svg',
                     title: '间距',
                     schema: {
                         componentName: 'FSpace',
@@ -894,8 +894,8 @@ const assets: IPublicTypeAssetsJson = {
             snippets: [
                 {
                     title: '按钮',
-                    screenshot:
-                        'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/button.png',
+                    // screenshot:
+                    //     'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/button.png',
                     schema: {
                         componentName: 'FButton',
                         props: {
@@ -1076,8 +1076,8 @@ const assets: IPublicTypeAssetsJson = {
             },
             snippets: [
                 {
-                    screenshot:
-                        'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/form.png',
+                    // screenshot:
+                    //     'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/form.png',
                     title: '表单容器',
                     schema: {
                         componentName: 'FForm',
@@ -1238,8 +1238,8 @@ const assets: IPublicTypeAssetsJson = {
             },
             snippets: [
                 {
-                    screenshot:
-                        'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/form.png',
+                    // screenshot:
+                    //     'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/form.png',
                     title: '表单项',
                     schema: {
                         componentName: 'FFormItem',

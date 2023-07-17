@@ -8,48 +8,69 @@ import type {
     IPublicTypeRemoteComponentDescription,
 } from '@harrywan/letgo-types';
 import { AssetLoader } from '@harrywan/letgo-common';
+import { get, isArray } from 'lodash-es';
 
 export class Editor extends EventEmitter implements IPublicEditor {
     private context = new Map<IPublicTypeEditorValueKey, any>();
 
-    async setAssets(assets: IPublicTypeAssetsJson) {
-        const { components } = assets;
-        if (components && components.length) {
-            const componentDescriptions: IPublicTypeComponentDescription[] = [];
-            const remoteComponentDescriptions: IPublicTypeRemoteComponentDescription[]
-                = [];
-            components.forEach((component: any) => {
-                if (!component)
-                    return;
+    async setAssets(asset: IPublicTypeAssetsJson | IPublicTypeAssetsJson[]) {
+        const assets: IPublicTypeAssetsJson[] = isArray(asset) ? asset : [asset];
+        const resultAsset: IPublicTypeAssetsJson = {
+            packages: [],
+            components: [],
+            utils: [],
+            sort: {
+                groupList: [],
+                categoryList: [],
+            },
+        };
+        await Promise.all(assets.map(async (asset) => {
+            const { packages, components, utils, sort } = asset;
+            if (packages?.length)
+                resultAsset.packages = [...resultAsset.packages, ...packages];
 
-                if (component.exportName && component.url)
-                    remoteComponentDescriptions.push(component);
+            if (utils?.length)
+                resultAsset.utils = [...resultAsset.utils, ...utils];
 
-                else
-                    componentDescriptions.push(component);
-            });
-            assets.components = componentDescriptions;
+            if (sort?.groupList.length)
+                resultAsset.sort.groupList = [...resultAsset.sort.groupList, ...sort?.groupList];
 
-            // 如果有远程组件描述协议，则自动加载并补充到资产包中，同时出发 designer.incrementalAssetsReady 通知组件面板更新数据
-            if (
-                remoteComponentDescriptions
+            if (sort?.categoryList.length)
+                resultAsset.sort.categoryList = [...resultAsset.sort.categoryList, ...sort?.categoryList];
+
+            if (components?.length) {
+                let componentDescriptions: IPublicTypeComponentDescription[] = [];
+                const remoteComponentDescriptions: IPublicTypeRemoteComponentDescription[] = [];
+                components.forEach((component: any) => {
+                    if (!component)
+                        return;
+
+                    if (component.exportName && component.url)
+                        remoteComponentDescriptions.push(component);
+
+                    else
+                        componentDescriptions.push(component);
+                });
+                // 如果有远程组件描述协议，则自动加载并补充到资产包中，同时出发 designer.incrementalAssetsReady 通知组件面板更新数据
+                if (
+                    remoteComponentDescriptions
                 && remoteComponentDescriptions.length
-            ) {
-                await Promise.all(
-                    remoteComponentDescriptions.map(async (component: any) => {
-                        const { exportName, url } = component;
-                        await new AssetLoader().load(url);
-                        if (window[exportName]) {
-                            assets.components = assets.components.concat(
-                                window[exportName].components || [],
-                            );
-                        }
-                        return window[exportName];
-                    }),
-                );
+                ) {
+                    await Promise.all(
+                        remoteComponentDescriptions.map(async (component: IPublicTypeRemoteComponentDescription) => {
+                            const { exportName, url } = component;
+                            await new AssetLoader().load(url);
+                            const remoteMeta = get(window, exportName) as IPublicTypeAssetsJson | null;
+                            if (remoteMeta)
+                                componentDescriptions = componentDescriptions.concat((remoteMeta.components as IPublicTypeComponentDescription[]) || []);
+                        }),
+                    );
+                }
+                resultAsset.components = [...resultAsset.components, ...componentDescriptions];
             }
-        }
-        this.set('assets', assets);
+        }));
+
+        this.set('assets', resultAsset);
     }
 
     get<T = undefined, KeyOrType = any>(

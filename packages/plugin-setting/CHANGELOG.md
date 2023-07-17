@@ -1,5 +1,18 @@
 # @harrywan/letgo-plugin-setting
 
+## 0.0.0-beta.6
+
+### Patch Changes
+
+- 优化清理逻辑
+- Updated dependencies
+  - @harrywan/letgo-common@0.0.0-beta.6
+  - @harrywan/letgo-components@0.0.0-beta.6
+  - @harrywan/letgo-designer@0.0.0-beta.6
+  - @harrywan/letgo-editor-core@0.0.0-beta.6
+  - @harrywan/letgo-engine-plugin@0.0.0-beta.6
+  - @harrywan/letgo-types@0.0.0-beta.6
+
 ## 0.0.0-beta.5
 
 ### Patch Changes

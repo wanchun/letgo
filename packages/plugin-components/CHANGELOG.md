@@ -1,5 +1,16 @@
 # @harrywan/letgo-plugin-components
 
+## 0.0.0-beta.7
+
+### Patch Changes
+
+- 清理 project 需删除\_currentDocument
+- Updated dependencies
+  - @harrywan/letgo-designer@0.0.0-beta.7
+  - @harrywan/letgo-editor-core@0.0.0-beta.7
+  - @harrywan/letgo-engine-plugin@0.0.0-beta.7
+  - @harrywan/letgo-types@0.0.0-beta.7
+
 ## 0.0.0-beta.6
 
 ### Patch Changes

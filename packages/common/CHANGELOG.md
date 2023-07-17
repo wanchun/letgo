@@ -1,5 +1,13 @@
 # @harrywan/letgo-common
 
+## 0.0.0-beta.7
+
+### Patch Changes
+
+- 清理 project 需删除\_currentDocument
+- Updated dependencies
+  - @harrywan/letgo-types@0.0.0-beta.7
+
 ## 0.0.0-beta.6
 
 ### Patch Changes

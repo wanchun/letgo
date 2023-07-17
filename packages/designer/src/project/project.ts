@@ -299,6 +299,8 @@ export class Project {
     }
 
     purge() {
+        this._currentDocument = null;
+
         if (this.documents.length < 1)
             return;
 

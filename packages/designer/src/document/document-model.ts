@@ -195,7 +195,9 @@ export class DocumentModel {
 
     exportSchema(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Serialize) {
         const currentSchema = this.rootNode?.exportSchema(stage);
-        currentSchema.code = this.code.codeStruct;
+        if (currentSchema)
+            currentSchema.code = this.code.codeStruct;
+
         return currentSchema;
     }
 

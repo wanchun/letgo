@@ -1,4 +1,5 @@
 import EventEmitter from 'eventemitter3';
+
 import type {
     IPublicEditor,
     IPublicTypeAssetsJson,
@@ -26,17 +27,37 @@ export class Editor extends EventEmitter implements IPublicEditor {
         };
         await Promise.all(assets.map(async (asset) => {
             const { packages, components, utils, sort } = asset;
-            if (packages?.length)
-                resultAsset.packages = [...resultAsset.packages, ...packages];
+            if (packages?.length) {
+                packages.forEach((_package) => {
+                    if (!resultAsset.packages.some((res) => {
+                        return res.package === _package.package;
+                    }))
+                        resultAsset.packages.push(_package);
+                });
+            }
 
-            if (utils?.length)
-                resultAsset.utils = [...resultAsset.utils, ...utils];
+            if (utils?.length) {
+                utils.forEach((_util) => {
+                    if (!resultAsset.utils.some((res) => {
+                        return res.name === _util.name;
+                    }))
+                        resultAsset.utils.push(_util);
+                });
+            }
 
-            if (sort?.groupList.length)
-                resultAsset.sort.groupList = [...resultAsset.sort.groupList, ...sort?.groupList];
+            if (sort?.groupList.length) {
+                sort?.groupList.forEach((_group) => {
+                    if (!resultAsset.sort.groupList.includes(_group))
+                        resultAsset.sort.groupList.push(_group);
+                });
+            }
 
-            if (sort?.categoryList.length)
-                resultAsset.sort.categoryList = [...resultAsset.sort.categoryList, ...sort?.categoryList];
+            if (sort?.categoryList.length) {
+                sort?.categoryList.forEach((category) => {
+                    if (!resultAsset.sort.categoryList.includes(category))
+                        resultAsset.sort.categoryList.push(category);
+                });
+            }
 
             if (components?.length) {
                 let componentDescriptions: IPublicTypeComponentDescription[] = [];
@@ -66,7 +87,12 @@ export class Editor extends EventEmitter implements IPublicEditor {
                         }),
                     );
                 }
-                resultAsset.components = [...resultAsset.components, ...componentDescriptions];
+                componentDescriptions.forEach((_component) => {
+                    if (!resultAsset.components.some((res) => {
+                        return (res as IPublicTypeComponentDescription).componentName === _component.componentName;
+                    }))
+                        resultAsset.components.push(_component);
+                });
             }
         }));
 

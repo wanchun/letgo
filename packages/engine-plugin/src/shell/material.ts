@@ -17,7 +17,7 @@ export class Material {
      * @param assets
      * @returns
      */
-    async setAssets(assets: IPublicTypeAssetsJson) {
+    async setAssets(assets: IPublicTypeAssetsJson[] | IPublicTypeAssetsJson) {
         return await this[editorSymbol].setAssets(assets);
     }
 
@@ -27,45 +27,6 @@ export class Material {
      */
     getAssets(): IPublicTypeAssetsJson {
         return this[editorSymbol].get('assets');
-    }
-
-    /**
-     * 添加资产包
-     * @returns
-     */
-    addAssets(incrementalAssets: IPublicTypeAssetsJson) {
-        const assets = this.getAssets();
-        if (incrementalAssets.packages) {
-            assets.packages = [
-                ...(assets.packages || []),
-                ...incrementalAssets.packages,
-            ];
-        }
-        if (incrementalAssets.components) {
-            assets.components = [
-                ...(assets.components || []),
-                ...incrementalAssets.components,
-            ];
-        }
-        if (incrementalAssets.utils) {
-            assets.utils = [
-                ...(assets.utils || []),
-                ...incrementalAssets.utils,
-            ];
-        }
-        if (incrementalAssets.sort) {
-            assets.sort = {
-                groupList: [
-                    ...(assets.sort?.groupList || []),
-                    ...(incrementalAssets.sort?.groupList || []),
-                ],
-                categoryList: [
-                    ...(assets.sort?.categoryList || []),
-                    ...(incrementalAssets.sort?.categoryList || []),
-                ],
-            };
-        }
-        this.setAssets(assets);
     }
 
     /**

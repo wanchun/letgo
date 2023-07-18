@@ -8,16 +8,15 @@ import PluginSchema from '@harrywan/letgo-plugin-schema';
 import PluginCodeGenerator from '@harrywan/letgo-plugin-code-generator';
 import PluginGlobalConfig from '@harrywan/letgo-plugin-global';
 import type { App } from 'vue';
-import assets from './assets/assets';
 import PluginLogo from './plugins/plugin-logo';
 import PluginPreview from './plugins/plugin-preview-sample';
 
-plugins.register({
-    name: 'editor-init',
-    init({ material }) {
-        material.setAssets(assets);
-    },
-});
+// plugins.register({
+//     name: 'editor-init',
+//     init({ material }) {
+//         material.setAssets(assets);
+//     },
+// });
 
 plugins.register(PluginComponents);
 plugins.register(PluginComponentTree);

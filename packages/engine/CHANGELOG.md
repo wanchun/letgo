@@ -1,5 +1,22 @@
 # @harrywan/letgo-engine
 
+## 0.0.0-beta.9
+
+### Patch Changes
+
+- 重新设计内置组件
+- Updated dependencies
+  - @harrywan/letgo-common@0.0.0-beta.9
+  - @harrywan/letgo-designer@0.0.0-beta.9
+  - @harrywan/letgo-editor-core@0.0.0-beta.9
+  - @harrywan/letgo-editor-skeleton@0.0.0-beta.9
+  - @harrywan/letgo-engine-ext@0.0.0-beta.9
+  - @harrywan/letgo-engine-plugin@0.0.0-beta.9
+  - @harrywan/letgo-plugin-code@0.0.0-beta.9
+  - @harrywan/letgo-plugin-designer@0.0.0-beta.9
+  - @harrywan/letgo-plugin-setting@0.0.0-beta.9
+  - @harrywan/letgo-types@0.0.0-beta.9
+
 ## 0.0.0-beta.8
 
 ### Patch Changes

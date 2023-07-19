@@ -202,12 +202,7 @@ export class DocumentModel {
     }
 
     getComponentMeta(componentName: string): ComponentMeta {
-        return this.designer.getComponentMeta(
-            componentName,
-            () =>
-                this.simulator?.generateComponentMetadata(componentName)
-                || null,
-        );
+        return this.designer.getComponentMeta(componentName);
     }
 
     getComponentsMap(extraComps?: string[]) {

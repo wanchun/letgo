@@ -19,6 +19,7 @@
     "@harrywan/letgo-designer": "workspace:*",
     "@harrywan/letgo-renderer": "workspace:*",
     "@harrywan/letgo-types": "workspace:*",
+    "@harrywan/letgo-components": "workspace:*",
     "lodash-es": "^4.17.21",
     "vue-router": "^4.2.2"
   },

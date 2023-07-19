@@ -1,13 +1,13 @@
 import { defineComponent, h } from 'vue';
 import type { IPublicTypeComponentMetadata } from '@harrywan/letgo-types';
 
-const Slot = defineComponent({
+export const Slot = defineComponent({
     render() {
         return h('div', { class: 'letgo-container' }, this.$slots);
     },
 });
 
-const componentMetadata: IPublicTypeComponentMetadata = {
+export const SlotMeta: IPublicTypeComponentMetadata = {
     title: '插槽',
     componentName: 'Slot',
     configure: {
@@ -34,9 +34,3 @@ const componentMetadata: IPublicTypeComponentMetadata = {
         },
     },
 };
-
-Object.assign(Slot, {
-    componentMetadata,
-});
-
-export default Slot;

@@ -3,7 +3,7 @@ import { computed, defineComponent, h } from 'vue';
 import { isNil } from 'lodash-es';
 import type { IPublicTypeComponentMetadata } from '@harrywan/letgo-types';
 
-const Icon = defineComponent({
+export const Icon = defineComponent({
     name: 'Icon',
     props: {
         type: String,
@@ -52,7 +52,7 @@ const Icon = defineComponent({
     },
 });
 
-const componentMetadata: IPublicTypeComponentMetadata = {
+export const IconMeta: IPublicTypeComponentMetadata = {
     title: '图标',
     componentName: 'Icon',
     configure: {
@@ -78,11 +78,21 @@ const componentMetadata: IPublicTypeComponentMetadata = {
                 setter: 'NumberSetter',
             },
         ],
+        supports: {
+            style: true,
+        },
     },
+    snippets: [
+        {
+            title: '图标',
+            schema: {
+                componentName: 'Icon',
+                props: {
+                },
+            },
+        },
+    ],
+    group: '原子组件',
+    category: '基础元素',
+    priority: 0,
 };
-
-Object.assign(Icon, {
-    componentMetadata,
-});
-
-export default Icon;

@@ -16,6 +16,7 @@ import {
     shallowRef,
 } from 'vue';
 import { config } from '@harrywan/letgo-renderer';
+import { builtinComponents } from '@harrywan/letgo-components';
 import { createMemoryHistory, createRouter } from 'vue-router';
 import type {
     DocumentInstance,
@@ -24,7 +25,6 @@ import type {
     VueSimulatorRenderer,
 } from './interface';
 import { RendererView, SimulatorApp } from './simulator-view';
-import { Icon, Leaf, Page, Slot } from './built-in-components';
 import { host } from './host';
 import type {
     CompRootHTMLElement,
@@ -41,8 +41,6 @@ import {
     setCompRootData,
 } from './utils';
 import './simulator.css';
-
-const builtinComponents = { Slot, Leaf, Page, Icon };
 
 function createDocumentInstance(document: DocumentModel): DocumentInstance {
     /** 记录单个节点的组件实例列表 */

@@ -24,6 +24,14 @@ export interface IPublicTypeSnippet {
      * 待插入的 schema
      */
     schema: IPublicTypeNodeSchema
+    /**
+     * 一级分组
+     */
+    group?: string
+    /**
+      * 二级分组
+      */
+    category?: string
 }
 
 /**

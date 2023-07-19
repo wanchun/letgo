@@ -30,28 +30,6 @@ const assets: IPublicTypeAssetsJson = {
     ],
     components: [
         {
-            componentName: '',
-            title: '',
-            snippets: [
-                {
-                    title: '图标',
-                    schema: {
-                        componentName: 'Icon',
-                        props: {
-                        },
-                    },
-                },
-            ],
-            configure: {
-                supports: {
-                    style: true,
-                },
-            },
-            group: '原子组件',
-            category: '基础元素',
-            priority: 0,
-        },
-        {
             title: '文本',
             componentName: 'NText',
             npm: {
@@ -2659,80 +2637,6 @@ const assets: IPublicTypeAssetsJson = {
             priority: 0,
         },
         {
-            componentName: '',
-            title: '',
-            snippets: [
-                {
-                    title: '混合布局',
-                    schema: {
-                        componentName: 'FLayout',
-                        props: {
-                            fixed: true,
-                        },
-                        children: [
-                            {
-                                componentName: 'FAside',
-                            },
-                            {
-                                componentName: 'FLayout',
-                                children: [
-                                    {
-                                        componentName: 'FHeader',
-                                    },
-                                    {
-                                        componentName: 'FMain',
-                                    },
-                                    {
-                                        componentName: 'FFooter',
-                                    },
-                                ],
-                            },
-                        ],
-                    },
-                },
-                {
-                    title: '左右布局',
-                    schema: {
-                        componentName: 'FLayout',
-                        props: {
-                            fixed: true,
-                        },
-                        children: [
-                            {
-                                componentName: 'FAside',
-                            },
-                            {
-                                componentName: 'FMain',
-                            },
-                        ],
-                    },
-                },
-                {
-                    title: '上下布局',
-                    schema: {
-                        componentName: 'FLayout',
-                        props: {
-                            fixed: true,
-                        },
-                        children: [
-                            {
-                                componentName: 'FHeader',
-                            },
-                            {
-                                componentName: 'FMain',
-                            },
-                            {
-                                componentName: 'FFooter',
-                            },
-                        ],
-                    },
-                },
-            ],
-            group: '精选组件',
-            category: '布局组件',
-            priority: 0,
-        },
-        {
             title: '布局容器',
             componentName: 'FLayout',
             npm: {
@@ -2802,6 +2706,77 @@ const assets: IPublicTypeAssetsJson = {
                     schema: {
                         componentName: 'FLayout',
                     },
+                },
+                {
+                    title: '混合布局',
+                    schema: {
+                        componentName: 'FLayout',
+                        props: {
+                            fixed: true,
+                        },
+                        children: [
+                            {
+                                componentName: 'FAside',
+                            },
+                            {
+                                componentName: 'FLayout',
+                                children: [
+                                    {
+                                        componentName: 'FHeader',
+                                    },
+                                    {
+                                        componentName: 'FMain',
+                                    },
+                                    {
+                                        componentName: 'FFooter',
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                    group: '精选组件',
+                    category: '布局组件',
+                },
+                {
+                    title: '左右布局',
+                    schema: {
+                        componentName: 'FLayout',
+                        props: {
+                            fixed: true,
+                        },
+                        children: [
+                            {
+                                componentName: 'FAside',
+                            },
+                            {
+                                componentName: 'FMain',
+                            },
+                        ],
+                    },
+                    group: '精选组件',
+                    category: '布局组件',
+                },
+                {
+                    title: '上下布局',
+                    schema: {
+                        componentName: 'FLayout',
+                        props: {
+                            fixed: true,
+                        },
+                        children: [
+                            {
+                                componentName: 'FHeader',
+                            },
+                            {
+                                componentName: 'FMain',
+                            },
+                            {
+                                componentName: 'FFooter',
+                            },
+                        ],
+                    },
+                    group: '精选组件',
+                    category: '布局组件',
                 },
             ],
             group: '原子组件',

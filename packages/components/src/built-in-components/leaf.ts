@@ -1,14 +1,14 @@
 import { defineComponent } from 'vue';
 import type { IPublicTypeComponentMetadata } from '@harrywan/letgo-types';
 
-const Leaf = defineComponent({
+export const Leaf = defineComponent({
     name: 'Leaf',
     render() {
         return this.$slots.default?.();
     },
 });
 
-const componentMetadata: IPublicTypeComponentMetadata = {
+export const LeafMeta: IPublicTypeComponentMetadata = {
     title: '叶子节点',
     componentName: 'Leaf',
     configure: {
@@ -21,9 +21,3 @@ const componentMetadata: IPublicTypeComponentMetadata = {
         ],
     },
 };
-
-Object.assign(Leaf, {
-    componentMetadata,
-});
-
-export default Leaf;

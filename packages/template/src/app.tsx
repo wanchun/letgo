@@ -10,13 +10,14 @@ import PluginGlobalConfig from '@harrywan/letgo-plugin-global';
 import type { App } from 'vue';
 import PluginLogo from './plugins/plugin-logo';
 import PluginPreview from './plugins/plugin-preview-sample';
+import assets from './assets/assets';
 
-// plugins.register({
-//     name: 'editor-init',
-//     init({ material }) {
-//         material.setAssets(assets);
-//     },
-// });
+plugins.register({
+    name: 'editor-init',
+    init({ material }) {
+        material.setAssets(assets);
+    },
+});
 
 plugins.register(PluginComponents);
 plugins.register(PluginComponentTree);

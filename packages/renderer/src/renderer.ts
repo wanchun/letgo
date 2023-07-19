@@ -48,7 +48,6 @@ const Renderer = defineComponent({
                 || components[`${componentName}Renderer`];
             if (Comp && !(Comp as any).__renderer__)
                 Comp = RENDERER_COMPS[`${componentName}Renderer`];
-
             return Comp
                 ? h(Comp, {
                     key: schema.id,

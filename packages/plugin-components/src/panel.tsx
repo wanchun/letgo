@@ -22,6 +22,7 @@ import {
 import { SearchOutlined } from '@fesjs/fes-design/icon';
 import type {
     IPublicTypeAssetsJson,
+    IPublicTypeComponentDescription,
     IPublicTypeSnippet,
 } from '@harrywan/letgo-types';
 import {
@@ -60,6 +61,25 @@ export default defineComponent({
 
         const searchText: Ref<string> = ref();
 
+        const snippetsRef = computed(() => {
+            let arr: Array<IPublicTypeSnippet & { component: IPublicTypeComponentDescription; title: string; screenshot?: string; group?: string; category: string }> = [];
+            assetsRef.value.components.forEach((component) => {
+                if (!isComponentDescription(component))
+                    return;
+                arr = arr.concat((component.snippets ?? []).map((snippet) => {
+                    return {
+                        component,
+                        title: component.title,
+                        screenshot: component.screenshot,
+                        group: component.group,
+                        category: component.category,
+                        ...snippet,
+                    };
+                }));
+            });
+            return arr;
+        });
+
         const groupListRef: Ref<string[]> = computed(() => {
             return assetsRef.value.sort?.groupList ?? [];
         });
@@ -77,34 +97,20 @@ export default defineComponent({
                         snippets: [],
                         show: ref(true),
                     };
-                    assetsRef.value.components.forEach((component) => {
-                        if (!isComponentDescription(component))
-                            return;
-                        if (
-                            component.group === group
-                            && component.category === category
-                        ) {
-                            categoryObj.snippets = categoryObj.snippets.concat(
-                                component.snippets
-                                    .map((snippet) => {
-                                        return {
-                                            component,
-                                            title: component.title,
-                                            screenshot: component.screenshot,
-                                            ...snippet,
-                                        };
-                                    })
-                                    .filter((snippet) => {
-                                        if (!searchText.value)
-                                            return true;
+                    categoryObj.snippets = categoryObj.snippets.concat(
+                        snippetsRef.value
+                            .filter((snippet) => {
+                                return snippet.group === group && snippet.category === category;
+                            })
+                            .filter((snippet) => {
+                                if (!searchText.value)
+                                    return true;
 
-                                        return (
-                                            snippet.title.includes(searchText.value)
-                                        );
-                                    }),
-                            );
-                        }
-                    });
+                                return (
+                                    snippet.title.includes(searchText.value)
+                                );
+                            }),
+                    );
                     if (categoryObj.snippets.length)
                         res[group].push(categoryObj);
                 });

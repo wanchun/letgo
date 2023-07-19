@@ -1,11 +1,11 @@
 import { defineComponent, h } from 'vue';
 import type { IPublicTypeComponentMetadata } from '@harrywan/letgo-types';
 
-const Page = defineComponent((props, { slots }) => {
+export const Page = defineComponent((props, { slots }) => {
     return () => h('div', { class: 'letgo-page', ...props }, slots);
 });
 
-const componentMetadata: IPublicTypeComponentMetadata = {
+export const PageMeta: IPublicTypeComponentMetadata = {
     title: '页面',
     componentName: 'Page',
     configure: {
@@ -19,9 +19,3 @@ const componentMetadata: IPublicTypeComponentMetadata = {
         },
     },
 };
-
-Object.assign(Page, {
-    componentMetadata,
-});
-
-export default Page;

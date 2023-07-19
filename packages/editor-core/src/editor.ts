@@ -9,6 +9,7 @@ import type {
     IPublicTypeRemoteComponentDescription,
 } from '@harrywan/letgo-types';
 import { AssetLoader } from '@harrywan/letgo-common';
+import { builtinComponentsMeta } from '@harrywan/letgo-components';
 import { get, isArray } from 'lodash-es';
 
 export class Editor extends EventEmitter implements IPublicEditor {
@@ -18,11 +19,21 @@ export class Editor extends EventEmitter implements IPublicEditor {
         const assets: IPublicTypeAssetsJson[] = isArray(asset) ? asset : [asset];
         const resultAsset: IPublicTypeAssetsJson = {
             packages: [],
-            components: [],
+            components: [...builtinComponentsMeta],
             utils: [],
             sort: {
-                groupList: [],
-                categoryList: [],
+                groupList: builtinComponentsMeta.reduce((accumulator, currentValue) => {
+                    if (currentValue.group)
+                        accumulator.push(currentValue.group);
+
+                    return accumulator;
+                }, []),
+                categoryList: builtinComponentsMeta.reduce((accumulator, currentValue) => {
+                    if (currentValue.category)
+                        accumulator.push(currentValue.category);
+
+                    return accumulator;
+                }, []),
             },
         };
         await Promise.all(assets.map(async (asset) => {
@@ -30,7 +41,7 @@ export class Editor extends EventEmitter implements IPublicEditor {
             if (packages?.length) {
                 packages.forEach((_package) => {
                     if (!resultAsset.packages.some((res) => {
-                        return res.package === _package.package;
+                        return res.library === _package.library;
                     }))
                         resultAsset.packages.push(_package);
                 });
@@ -88,10 +99,7 @@ export class Editor extends EventEmitter implements IPublicEditor {
                     );
                 }
                 componentDescriptions.forEach((_component) => {
-                    if (!resultAsset.components.some((res) => {
-                        return (res as IPublicTypeComponentDescription).componentName === _component.componentName;
-                    }))
-                        resultAsset.components.push(_component);
+                    resultAsset.components.push(_component);
                 });
             }
         }));

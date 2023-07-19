@@ -1,5 +1,4 @@
 import type {
-    IPublicTypeComponentMetadata,
     IPublicTypeComponentRecord,
     IPublicTypeComponentSchema,
     IPublicTypeNodeSchema,
@@ -151,10 +150,10 @@ export interface ISimulator<P = object> extends ISensor {
         instance: IComponentInstance,
         selector?: string,
     ): DOMRect | null
-    /**
-     * 生成组件schema
-     */
-    generateComponentMetadata(componentName: string): IPublicTypeComponentMetadata
+    // /**
+    //  * 生成组件schema
+    //  */
+    // generateComponentMetadata(componentName: string): IPublicTypeComponentMetadata
     /**
      * 查找组件
      */

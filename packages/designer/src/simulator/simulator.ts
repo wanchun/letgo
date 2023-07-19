@@ -14,10 +14,9 @@ import * as Vue from 'vue';
 import type {
     IPublicTypeAsset,
     IPublicTypeAssetList,
-    IPublicTypeAssetUtil,
-    IPublicTypeComponentMetadata,
     IPublicTypeDevice,
     IPublicTypePackage,
+    IPublicTypeUtilItem,
 } from '@harrywan/letgo-types';
 import {
     IPublicEnumAssetLevel,
@@ -60,7 +59,7 @@ import {
     isRowContainer,
     isShaken,
 } from '../designer';
-import { getClosestClickableNode, getClosestNode, parseMetadata } from '../utils';
+import { getClosestClickableNode, getClosestNode } from '../utils';
 import { contains, isRootNode } from '../node';
 import { Viewport } from './viewport';
 import type { ISimulatorRenderer } from './renderer';
@@ -77,7 +76,7 @@ export interface ISimulatorProps {
     deviceStyle?: IDeviceStyleProps
     deviceClassName?: string
     library?: IPublicTypePackage[]
-    utilsMetadata?: IPublicTypeAssetUtil[]
+    utilsMetadata?: IPublicTypeUtilItem[]
     simulatorUrl?: IPublicTypeAsset
     [key: string]: any
 }
@@ -884,25 +883,6 @@ export class Simulator implements ISimulator<ISimulatorProps> {
     deActiveSensor(): void {
         this.sensing = false;
         this.scroller.cancel();
-    }
-
-    /**
-   * @see ISimulator
-   */
-    generateComponentMetadata(componentName: string): IPublicTypeComponentMetadata {
-        const component = this.getComponent(componentName);
-
-        if (!component) {
-            return {
-                title: componentName,
-                componentName,
-            };
-        }
-
-        return {
-            componentName,
-            ...parseMetadata(component),
-        };
     }
 
     /**

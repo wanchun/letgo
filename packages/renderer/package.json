@@ -1,6 +1,6 @@
 {
   "name": "@harrywan/letgo-renderer",
-  "version": "0.0.0-beta.9",
+  "version": "0.0.0-beta.10",
   "description": "",
   "author": "",
   "license": "ISC",
@@ -18,10 +18,11 @@
     "vue": "^3.3.4"
   },
   "dependencies": {
-    "@qlin/request": "^0.1.4",
     "@harrywan/letgo-common": "workspace:*",
+    "@harrywan/letgo-components": "workspace:*",
     "@harrywan/letgo-designer": "workspace:*",
     "@harrywan/letgo-types": "workspace:*",
+    "@qlin/request": "^0.1.4",
     "lodash-es": "^4.17.21"
   },
   "publishConfig": {

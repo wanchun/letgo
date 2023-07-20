@@ -1,5 +1,13 @@
 # @harrywan/letgo-engine-ext
 
+## 0.0.0-beta.10
+
+### Patch Changes
+
+- Updated dependencies
+  - @harrywan/letgo-components@0.0.0-beta.10
+  - @harrywan/letgo-designer@0.0.0-beta.10
+
 ## 0.0.0-beta.9
 
 ### Patch Changes

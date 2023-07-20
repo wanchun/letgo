@@ -1,4 +1,5 @@
 import { defineComponent } from 'vue';
+import { Page } from '@harrywan/letgo-components';
 import { rendererProps, useRenderer } from '../core';
 
 export const PageRenderer = defineComponent({
@@ -8,7 +9,7 @@ export const PageRenderer = defineComponent({
         const { renderComp } = useRenderer(props);
         return () => {
             const { __schema: schema } = props;
-            return renderComp(schema, props.__components.Page);
+            return renderComp(schema, props.__components.Page || Page);
         };
     },
 });

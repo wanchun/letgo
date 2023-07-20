@@ -1,5 +1,13 @@
 # @harrywan/letgo-plugin-code-generator
 
+## 0.0.0-beta.10
+
+### Patch Changes
+
+- @harrywan/letgo-designer@0.0.0-beta.10
+- @harrywan/letgo-engine@0.0.0-beta.10
+- @harrywan/letgo-engine-plugin@0.0.0-beta.10
+
 ## 0.0.0-beta.9
 
 ### Patch Changes

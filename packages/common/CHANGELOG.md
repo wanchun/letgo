@@ -1,5 +1,11 @@
 # @harrywan/letgo-common
 
+## 0.0.0-beta.11
+
+### Patch Changes
+
+- update component style
+
 ## 0.0.0-beta.9
 
 ### Patch Changes

@@ -5,7 +5,7 @@ import LowCodeRenderer from '@harrywan/letgo-renderer';
 import { type CodeItem, CodeType, type IPublicTypeComponentInstance, type IPublicTypeNodeSchema } from '@harrywan/letgo-types';
 import type { DocumentInstance, VueSimulatorRenderer } from '../interface';
 import { BASE_COMP_CONTEXT } from '../constants';
-import { useCodesInstance } from '../context/code-impl';
+import { useCodesInstance } from '../code-impl/code-impl';
 import { useContext } from '../context/context';
 import { host } from '../host';
 import { Hoc } from './hoc';

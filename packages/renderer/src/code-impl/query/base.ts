@@ -1,11 +1,9 @@
-import { eventHandlersToJsFunction, executeExpression, markComputed, markShallowReactive } from '@harrywan/letgo-common';
-import type { IFailureCondition, IJavascriptQuery, IPublicTypeEventHandler } from '@harrywan/letgo-types';
-import { CodeType, ResourceType, RunCondition } from '@harrywan/letgo-types';
-import type { IJavascriptQueryImpl } from '@harrywan/letgo-designer';
-import { funcSchemaToFunc } from '../parse';
+import { eventHandlersToJsFunction } from '@harrywan/letgo-common';
+import type { IFailureCondition, IJavascriptQuery, IPublicTypeEventHandler, ResourceType } from '@harrywan/letgo-types';
+import { CodeType, RunCondition } from '@harrywan/letgo-types';
+import { funcSchemaToFunc } from '../../parse';
 
-// 解析执行
-export class JavascriptQueryImpl implements IJavascriptQueryImpl {
+export class JavascriptQueryBase {
     id: string;
     resourceType: ResourceType;
     type: CodeType.JAVASCRIPT_QUERY = CodeType.JAVASCRIPT_QUERY;
@@ -14,9 +12,6 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
     error: string = null;
     deps: string[];
 
-    api: string;
-    params: string;
-    method: string;
     enableTransformer: boolean;
     transformer: string;
 
@@ -25,8 +20,8 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
     successMessage: string;
     queryTimeout: number;
     query: string;
-    enableCaching: boolean;
-    cacheDuration: number;
+    enableCaching = false;
+    cacheDuration: number = null;
     runCondition: RunCondition;
     failureEvent: IPublicTypeEventHandler[];
     successEventInstances: (() => void)[];
@@ -35,29 +30,20 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
     queryFailureCondition: IFailureCondition[];
     cacheTime: number;
     constructor(data: IJavascriptQuery, deps: string[], ctx: Record<string, any>) {
-        markShallowReactive(this, {
-            id: data.id,
+        this.id = data.id;
 
-            enableTransformer: data.enableTransformer,
-            transformer: data.transformer,
+        this.enableTransformer = data.enableTransformer;
+        this.transformer = data.transformer;
 
-            query: data.query,
-            enableCaching: false,
-            cacheDuration: null,
-            showFailureToaster: data.showFailureToaster || false,
-            showSuccessToaster: data.showSuccessToaster || false,
-            successMessage: data.successMessage || '',
-            queryTimeout: data.queryTimeout,
-            runCondition: data.runCondition || RunCondition.Manual,
-            queryFailureCondition: data.queryFailureCondition || [],
-            successEvent: data.successEvent,
-            failureEvent: data.failureEvent,
-
-            data: null,
-            error: null,
-        });
-        markComputed(this, ['view']);
-
+        this.query = data.query;
+        this.showFailureToaster = data.showFailureToaster || false;
+        this.showSuccessToaster = data.showSuccessToaster || false;
+        this.successMessage = data.successMessage || '';
+        this.queryTimeout = data.queryTimeout;
+        this.runCondition = data.runCondition || RunCondition.Manual;
+        this.queryFailureCondition = data.queryFailureCondition || [];
+        this.successEvent = data.successEvent;
+        this.failureEvent = data.failureEvent;
         this.resourceType = data.resourceType;
         this.ctx = ctx;
         this.deps = deps;
@@ -84,43 +70,6 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
         return jsExpressions.map(item => funcSchemaToFunc(item, this.ctx));
     }
 
-    get view() {
-        return {
-            id: this.id,
-            query: this.query,
-            enableCaching: this.enableCaching,
-            cacheDuration: this.cacheDuration,
-            showFailureToaster: this.showFailureToaster,
-            showSuccessToaster: this.showSuccessToaster,
-            successMessage: this.successMessage,
-            queryTimeout: this.queryTimeout,
-            runCondition: this.runCondition,
-            queryFailureCondition: this.queryFailureCondition,
-            successEvent: this.successEvent,
-            failureEvent: this.failureEvent,
-
-            data: this.data,
-            error: this.error,
-        };
-    }
-
-    changeId(id: string) {
-        this.id = id;
-    }
-
-    changeContent(content: Partial<IJavascriptQuery>) {
-        if (content.successEvent)
-            this.successEventInstances = this.eventSchemaToFunc(content.successEvent);
-
-        if (content.failureEvent)
-            this.failureEventInstances = this.eventSchemaToFunc(content.failureEvent);
-
-        Object.assign(this, content);
-
-        if (content.runWhenPageLoads)
-            this.trigger();
-    }
-
     timeoutPromise(timeout: number) {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
@@ -133,41 +82,25 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
         });
     }
 
-    genQueryFn(ctx: Record<string, any>) {
-        if (this.resourceType === ResourceType.RESTQuery && this.api) {
-            // eslint-disable-next-line no-new-func
-            const fn = new Function('_ctx', 'params', `
-                    let result;
-                    with(_ctx) {
-                        result = letgoRequest(...params)
-                    }
-                    return result;
-                `);
-            return () => {
-                const params = [executeExpression(this.api, ctx, true), executeExpression(this.params, ctx), {
-                    method: this.method,
-                }];
-                return fn(ctx, params);
-            };
-        }
-        else if (this.query) {
+    genQueryFn() {
+        if (this.query) {
             // eslint-disable-next-line no-new-func
             return new Function('_ctx', `
-                        let result;
-                        with(_ctx) {
-                            result = (async () => {
-                                ${this.query}
-                            })();
-                        }
-                        return result;
-                    `);
+                let result;
+                with(_ctx) {
+                    result = (async () => {
+                        ${this.query}
+                    })();
+                }
+                return result;
+            `);
         }
     }
 
     trigger = async () => {
         if (this.enableCaching && this.cacheTime && (Date.now() - this.cacheTime) < this.cacheDuration * 1000)
             return;
-        const fn = this.genQueryFn(this.ctx);
+        const fn = this.genQueryFn();
         if (fn) {
             try {
                 if (this.queryTimeout)

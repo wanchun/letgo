@@ -1,50 +1,27 @@
 import { isNil } from 'lodash-es';
-import { attachContext, markComputed, markReactive } from '@harrywan/letgo-common';
+import { attachContext } from '@harrywan/letgo-common';
 import type { ITemporaryState } from '@harrywan/letgo-types';
 import { CodeType } from '@harrywan/letgo-types';
-import type { ITemporaryStateImpl } from '@harrywan/letgo-designer';
 
 // 解析执行
-export class TemporaryStateImpl implements ITemporaryStateImpl {
+export class TemporaryStateLive {
     id: string;
     type: CodeType.TEMPORARY_STATE = CodeType.TEMPORARY_STATE;
     deps: string[];
     ctx: Record<string, any>;
-    value: any;
+    value: any = null;
     initValue: string;
     constructor(data: ITemporaryState, deps: string[], ctx: Record<string, any>) {
-        markReactive(this, {
-            id: data.id,
-            value: null,
-        });
-        markComputed(this, ['view']);
+        this.id = data.id;
         this.deps = deps || [];
         this.ctx = ctx;
         this.initValue = data.initValue;
 
-        this.value = this.executeInput(this.initValue);
+        this.value = this.initValue ? this.executeInput(this.initValue) : null;
     }
 
     changeDeps(deps: string[]) {
         this.deps = deps;
-    }
-
-    get view() {
-        return {
-            id: this.id,
-            value: this.value,
-        };
-    }
-
-    changeId(id: string) {
-        this.id = id;
-    }
-
-    changeContent(content: Record<string, any>) {
-        if (content.initValue) {
-            this.initValue = content.initValue;
-            this.value = this.executeInput(content.initValue);
-        }
     }
 
     recalculateValue() {

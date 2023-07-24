@@ -1,12 +1,11 @@
 import { isNil } from 'lodash-es';
 import type { WatchStopHandle } from 'vue';
 import { watch } from 'vue';
-import { attachContext, markComputed, markShallowReactive } from '@harrywan/letgo-common';
+import { attachContext } from '@harrywan/letgo-common';
 import type { IJavascriptComputed } from '@harrywan/letgo-types';
 import { CodeType } from '@harrywan/letgo-types';
-import type { IJavascriptComputedImpl } from '@harrywan/letgo-designer';
 
-export class ComputedImpl implements IJavascriptComputedImpl {
+export class ComputedLive {
     id: string;
     type: CodeType.JAVASCRIPT_COMPUTED = CodeType.JAVASCRIPT_COMPUTED;
     deps: string[];
@@ -15,16 +14,11 @@ export class ComputedImpl implements IJavascriptComputedImpl {
     funcBody: string;
     unwatch: WatchStopHandle;
     constructor(data: IJavascriptComputed, deps: string[], ctx: Record<string, any>) {
-        markShallowReactive(this, {
-            id: data.id,
-            value: null,
-        });
-        markComputed(this, ['view']);
-
+        this.id = data.id;
         this.ctx = ctx;
         this.funcBody = data.funcBody;
 
-        this.value = this.executeInput(this.funcBody);
+        this.value = this.funcBody ? this.executeInput(this.funcBody) : null;
         this.changeDeps(deps || []);
     }
 
@@ -48,17 +42,6 @@ export class ComputedImpl implements IJavascriptComputedImpl {
         });
     }
 
-    changeId(id: string) {
-        this.id = id;
-    }
-
-    changeContent(content: Record<string, any>) {
-        if (content.funcBody) {
-            this.funcBody = content.funcBody;
-            this.value = this.executeInput(content.funcBody);
-        }
-    }
-
     recalculateValue() {
         this.value = this.executeInput(this.funcBody);
     }
@@ -76,12 +59,5 @@ export class ComputedImpl implements IJavascriptComputedImpl {
             console.error(_);
             return null;
         }
-    }
-
-    get view() {
-        return {
-            id: this.id,
-            value: this.value,
-        };
     }
 }

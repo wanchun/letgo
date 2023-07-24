@@ -2,11 +2,11 @@ import type { PropType } from 'vue';
 import { computed, defineComponent, onUnmounted, provide, reactive, watch } from 'vue';
 import { type CodeItem, CodeType } from '@harrywan/letgo-types';
 import { buildGlobalUtils } from '@harrywan/letgo-renderer';
-import type { JavascriptFunctionImpl } from '@harrywan/letgo-renderer';
 import { BASE_GLOBAL_CONTEXT } from '../constants';
+import type { JavascriptFunctionImpl } from '../code-impl/javascript-function';
 import type { VueSimulatorRenderer } from '../interface';
 import { host } from '../host';
-import { useCodesInstance } from '../context/code-impl';
+import { useCodesInstance } from '../code-impl/code-impl';
 import SimulatorView from './simulator-view';
 
 function useCssHandler() {

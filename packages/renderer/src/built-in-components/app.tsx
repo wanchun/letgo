@@ -1,11 +1,11 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, provide, reactive } from 'vue';
 import type { IPublicTypeProjectSchema } from '@harrywan/letgo-types';
-import type { CodeImplType } from '@harrywan/letgo-designer';
 import { getGlobalContextKey } from '../context';
 
+import type { CodeImplType } from '../code-impl/code-impl';
 import { useCodesInstance } from '../code-impl/code-impl';
-import { JavascriptFunctionImpl } from '../code-impl';
+import { JavascriptFunctionLive } from '../code-impl';
 import { buildGlobalUtils } from '../parse';
 
 function useCssHandler(css?: string) {
@@ -34,7 +34,7 @@ export default defineComponent({
             executeCtx: globalContext,
             codeStruct: computed(() => props.projectSchema.code),
             onSet(key: string, value: CodeImplType) {
-                if (value instanceof JavascriptFunctionImpl)
+                if (value instanceof JavascriptFunctionLive)
                     globalContext[key] = value.trigger.bind(value);
 
                 else

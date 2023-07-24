@@ -18,11 +18,12 @@
     "vue": "^3.3.4"
   },
   "dependencies": {
-    "@fesjs/fes-design": "^0.7.32",
+    "@fesjs/fes-design": "^0.8.0",
     "@vanilla-extract/css": "^1.11.0",
     "@harrywan/letgo-designer": "workspace:*",
     "@harrywan/letgo-types": "workspace:*",
-    "@harrywan/letgo-common": "workspace:*"
+    "@harrywan/letgo-common": "workspace:*",
+    "@vueuse/core": "^9.6.0"
   },
   "publishConfig": {
     "access": "public"

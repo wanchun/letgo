@@ -19,7 +19,7 @@
     "vue": "^3.3.4"
   },
   "dependencies": {
-    "@fesjs/fes-design": "^0.7.32",
+    "@fesjs/fes-design": "^0.8.0",
     "@icon-park/vue-next": "^1.4.2",
     "@vanilla-extract/css": "^1.11.0",
     "@harrywan/letgo-components": "workspace:*",

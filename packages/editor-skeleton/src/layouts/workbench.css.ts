@@ -178,4 +178,34 @@ export const rightAreaCls = style({
     flexShrink: 0,
     marginLeft: '2px',
     position: 'relative',
+    minWidth: '60px',
 });
+
+export const rightDividerCls = style({
+    'position': 'absolute',
+    'width': '8px',
+    'left': '-4px',
+    'top': 0,
+    'bottom': 0,
+    'cursor': 'col-resize',
+    'userSelect': 'none',
+    '::after': {
+        width: '4px',
+        height: '100%',
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: '50%',
+        transform: 'translate(-50%)',
+        backgroundColor: '#f1f1f2',
+        transition: 'background-color 300ms cubic-bezier(0.645, 0.045, 0.355, 1)',
+        zIndex: 1,
+        content: '',
+    },
+});
+
+export const rightActiveDividerCls = style([rightDividerCls, {
+    '::after': {
+        backgroundColor: '#5384ff',
+    },
+}]);

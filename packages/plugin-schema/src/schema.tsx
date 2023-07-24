@@ -42,6 +42,15 @@ export const SchemaView = defineComponent({
                 <div class={wrapperCls}>
                     <CodeEditor
                         class={codeCls}
+                        theme={{
+                            '&': {
+                                border: '1px solid #cfd0d3',
+                                borderRadius: 0,
+                                borderRight: 'none',
+                                borderLeft: 'none',
+                                height: '100%',
+                            },
+                        }}
                         doc={currentSchema.value}
                         changeDoc={onChange}
                         extensions={[json()]}

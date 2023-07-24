@@ -64,6 +64,9 @@ export class JavascriptQueryImpl implements IJavascriptQueryImpl {
 
         this.successEventInstances = this.eventSchemaToFunc(this.successEvent);
         this.failureEventInstances = this.eventSchemaToFunc(this.successEvent);
+
+        if (data.runWhenPageLoads)
+            this.trigger();
     }
 
     changeDeps(deps: string[]) {

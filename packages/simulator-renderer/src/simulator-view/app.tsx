@@ -86,7 +86,7 @@ export default defineComponent({
             }),
             code.onCodeIdChanged((id: string, preId: string) => {
                 changeCodeInstanceId(id, preId);
-                globalContext[id] = codesInstance[id];
+                globalContext[id] = globalContext[preId];
                 delete globalContext[preId];
             }),
         );

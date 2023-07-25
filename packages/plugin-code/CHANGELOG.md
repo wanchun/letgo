@@ -1,5 +1,16 @@
 # @harrywan/letgo-plugin-code
 
+## 0.0.0-beta.11
+
+### Patch Changes
+
+- Updated dependencies
+  - @harrywan/letgo-common@0.0.0-beta.11
+  - @harrywan/letgo-components@0.0.0-beta.11
+  - @harrywan/letgo-designer@0.0.0-beta.11
+  - @harrywan/letgo-editor-core@0.0.0-beta.11
+  - @harrywan/letgo-engine-plugin@0.0.0-beta.11
+
 ## 0.0.0-beta.10
 
 ### Patch Changes

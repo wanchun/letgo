@@ -1,9 +1,9 @@
 import { computed, inject, onUnmounted, reactive, watch } from 'vue';
 import type { IPublicTypeComponentInstance, IPublicTypeNodeSchema } from '@harrywan/letgo-types';
-import type { CodeImplType } from '@harrywan/letgo-designer';
 import type { RendererProps } from '../core';
+import type { CodeImplType } from '../code-impl/code-impl';
 import { useCodesInstance } from '../code-impl/code-impl';
-import { JavascriptFunctionImpl } from '../code-impl';
+import { JavascriptFunctionLive } from '../code-impl';
 import { getGlobalContextKey } from './context';
 
 export function createExecuteContext(props: RendererProps) {
@@ -30,7 +30,7 @@ export function createExecuteContext(props: RendererProps) {
         codeStruct: computed(() => props.__schema.code),
         executeCtx,
         onSet(key: string, value: CodeImplType) {
-            if (value instanceof JavascriptFunctionImpl)
+            if (value instanceof JavascriptFunctionLive)
                 executeCtx[key] = value.trigger.bind(value);
 
             else

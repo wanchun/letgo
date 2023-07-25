@@ -4,9 +4,11 @@ import { isNil } from 'lodash-es';
 import type { CodeItem } from '@harrywan/letgo-types';
 import { CodeType } from '@harrywan/letgo-types';
 import { type CodeImplType } from '@harrywan/letgo-designer';
-import { ComputedImpl, JavascriptFunctionImpl, JavascriptQueryImpl } from '@harrywan/letgo-renderer';
 import { calcDependencies, sortState } from '@harrywan/letgo-common';
-import { SimulatorTemporaryState } from './temporary-state';
+import { JavascriptQueryImpl, createQueryImpl } from './query';
+import { JavascriptFunctionImpl } from './javascript-function';
+import { ComputedImpl } from './computed';
+import { TemporaryStateImpl } from './temporary-state';
 
 export function useCodesInstance() {
     const dependencyMap = new Map<string, string[]>();
@@ -18,13 +20,13 @@ export function useCodesInstance() {
             dependencyMap.set(item.id, calcDependencies(item, ctx));
 
         if (item.type === CodeType.TEMPORARY_STATE)
-            codesInstance[item.id] = new SimulatorTemporaryState(item, dependencyMap.get(item.id), ctx);
+            codesInstance[item.id] = new TemporaryStateImpl(item, dependencyMap.get(item.id), ctx);
 
         else if (item.type === CodeType.JAVASCRIPT_COMPUTED)
             codesInstance[item.id] = new ComputedImpl(item, dependencyMap.get(item.id), ctx);
 
         else if (item.type === CodeType.JAVASCRIPT_QUERY)
-            codesInstance[item.id] = new JavascriptQueryImpl(item, dependencyMap.get(item.id), ctx);
+            codesInstance[item.id] = createQueryImpl(item, dependencyMap.get(item.id), ctx);
 
         else if (item.type === CodeType.JAVASCRIPT_FUNCTION)
             codesInstance[item.id] = new JavascriptFunctionImpl(item, dependencyMap.get(item.id), ctx);
@@ -40,7 +42,7 @@ export function useCodesInstance() {
         const item = codeMap.get(id);
         const currentInstance = codesInstance[id];
 
-        if ((currentInstance instanceof SimulatorTemporaryState && !isNil(content.initValue))
+        if ((currentInstance instanceof TemporaryStateImpl && !isNil(content.initValue))
             || (currentInstance instanceof ComputedImpl && !isNil(content.funcBody))
             || (currentInstance instanceof JavascriptFunctionImpl && !isNil(content.funcBody))
             || (currentInstance instanceof JavascriptQueryImpl && !isNil(content.query))

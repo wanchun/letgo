@@ -1,15 +1,42 @@
-import { TemporaryStateImpl } from '@harrywan/letgo-renderer';
+import { TemporaryStateLive } from '@harrywan/letgo-renderer';
+import { markComputed, markReactive } from '@harrywan/letgo-common';
 import { clone } from 'lodash-es';
 import { CodeType, type ITemporaryState } from '@harrywan/letgo-types';
+import type { ITemporaryStateImpl } from '@harrywan/letgo-designer';
 import type { WatchStopHandle } from 'vue';
 import { watch } from 'vue';
 
-export class SimulatorTemporaryState extends TemporaryStateImpl {
+export class TemporaryStateImpl extends TemporaryStateLive implements ITemporaryStateImpl {
     unwatch: WatchStopHandle;
     constructor(data: ITemporaryState, deps: string[], ctx: Record<string, any>) {
         super(data, deps, ctx);
+
+        markReactive(this, {
+            id: data.id,
+            value: null,
+        });
+        markComputed(this, ['view']);
+
         this.changeDeps(deps || []);
         this.watchValue();
+    }
+
+    get view() {
+        return {
+            id: this.id,
+            value: this.value,
+        };
+    }
+
+    changeId(id: string) {
+        this.id = id;
+    }
+
+    changeContent(content: Record<string, any>) {
+        if (content.initValue) {
+            this.initValue = content.initValue;
+            this.value = this.executeInput(content.initValue);
+        }
     }
 
     watchValue() {

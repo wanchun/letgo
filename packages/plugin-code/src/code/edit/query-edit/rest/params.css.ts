@@ -21,11 +21,16 @@ export const methodCls = style({
 });
 
 export const apiCls = style({
-    flex: 1,
-    marginLeft: '12px',
-    fontSize: '14px',
-    lineHeight: 1.6,
-    width: 0,
+    selectors: {
+        [`${contentCls} &`]: {
+            flex: 1,
+            marginLeft: '12px',
+            fontSize: '14px',
+            lineHeight: 1.6,
+            width: 0,
+        },
+    },
+
 });
 
 export const tipCls = style({

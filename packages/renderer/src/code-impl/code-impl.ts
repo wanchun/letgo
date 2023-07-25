@@ -2,12 +2,14 @@ import type { ComputedRef } from 'vue';
 import { watch } from 'vue';
 import type { CodeItem, CodeStruct } from '@harrywan/letgo-types';
 import { CodeType } from '@harrywan/letgo-types';
-import type { CodeImplType } from '@harrywan/letgo-designer';
 import { calcDependencies, sortState } from '@harrywan/letgo-common';
-import { TemporaryStateImpl } from './temporary-state';
-import { ComputedImpl } from './computed';
-import { JavascriptQueryImpl } from './javascript-query';
-import { JavascriptFunctionImpl } from './javascript-function';
+import { TemporaryStateLive } from './temporary-state';
+import { ComputedLive } from './computed';
+import type { JavascriptQueryBase } from './query/base';
+import { createQueryImpl } from './query';
+import { JavascriptFunctionLive } from './javascript-function';
+
+export type CodeImplType = ComputedLive | TemporaryStateLive | JavascriptQueryBase | JavascriptFunctionLive;
 
 function genCodeMap(code: CodeStruct, codeMap: Map<string, CodeItem>) {
     code.code.forEach((item) => {
@@ -41,15 +43,15 @@ export function useCodesInstance({
 
         let instance: CodeImplType;
         if (item.type === CodeType.TEMPORARY_STATE)
-            instance = new TemporaryStateImpl(item, dependencyMap.get(item.id), ctx);
+            instance = new TemporaryStateLive(item, dependencyMap.get(item.id), ctx);
 
         else if (item.type === CodeType.JAVASCRIPT_COMPUTED)
-            instance = new ComputedImpl(item, dependencyMap.get(item.id), ctx);
+            instance = new ComputedLive(item, dependencyMap.get(item.id), ctx);
 
         else if (item.type === CodeType.JAVASCRIPT_QUERY)
-            instance = new JavascriptQueryImpl(item, dependencyMap.get(item.id), ctx);
+            instance = createQueryImpl(item, dependencyMap.get(item.id), ctx);
         else if (item.type === CodeType.JAVASCRIPT_FUNCTION)
-            instance = new JavascriptFunctionImpl(item, dependencyMap.get(item.id), ctx);
+            instance = new JavascriptFunctionLive(item, dependencyMap.get(item.id), ctx);
 
         if (instance)
             onSet(item.id, instance);

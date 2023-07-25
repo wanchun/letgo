@@ -47,6 +47,10 @@ export const CodeEditor = defineComponent({
             type: Boolean,
             default: true,
         },
+        theme: {
+            type: Object,
+            default: () => ({}),
+        },
     },
     setup(props, { attrs }) {
         const editorRefEl = ref<HTMLElement>();
@@ -61,6 +65,11 @@ export const CodeEditor = defineComponent({
 
         const theme = EditorView.theme({
             ...HintTheme,
+            '&': {
+                height: '100px',
+                outline: 'none',
+            },
+            ...props.theme,
         });
 
         const genState = (state = true) => {

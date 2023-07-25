@@ -1,6 +1,5 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
-import { isNil } from 'lodash-es';
 import type { IPanel } from '../types';
 import { panelCls } from './panel.css';
 
@@ -17,26 +16,12 @@ export default defineComponent({
     },
     setup(props) {
         return () => {
-            const { widget, width, height, maxWidth, maxHeight } = props;
-
-            const style = [];
-            if (!isNil(width))
-                style.push({ width: `${width}px` });
-
-            if (!isNil(height))
-                style.push({ height: `${height}px` });
-
-            if (!isNil(maxWidth))
-                style.push({ maxWidth: `${maxWidth}px` });
-
-            if (!isNil(maxHeight))
-                style.push({ maxHeight: `${maxHeight}px` });
+            const { widget } = props;
 
             return (
                 <div
                     v-show={widget.visible}
                     class={panelCls}
-                    style={style}
                 >
                     {widget.body}
                 </div>

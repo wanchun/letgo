@@ -1,5 +1,4 @@
 import type {
-    IAreaPosition,
     IUnionConfig,
     Skeleton as InnerSkeleton,
     ReturnTypeOfCreateWidget,
@@ -37,39 +36,6 @@ export class Skeleton {
     remove(config: IUnionConfig) {
         const { area, name } = config;
         const skeleton = this[skeletonSymbol];
-        if (!normalizeArea(area))
-            return;
-        skeleton[normalizeArea(area)].remove(name);
-    }
-}
-
-function normalizeArea(area: IAreaPosition | undefined) {
-    switch (area) {
-        case 'leftArea':
-        case 'left':
-            return 'leftArea';
-        case 'globalArea':
-        case 'global':
-            return 'globalArea';
-        case 'rightArea':
-        case 'right':
-            return 'rightArea';
-        case 'topArea':
-        case 'top':
-            return 'topArea';
-        case 'toolbar':
-            return 'toolbar';
-        case 'mainArea':
-        case 'main':
-        case 'center':
-        case 'centerArea':
-            return 'mainArea';
-        case 'bottomArea':
-        case 'bottom':
-            return 'bottomArea';
-        case 'leftFloatArea':
-            return 'leftFloatArea';
-        default:
-            throw new Error(`${area} not supported`);
+        skeleton[area].remove(name);
     }
 }

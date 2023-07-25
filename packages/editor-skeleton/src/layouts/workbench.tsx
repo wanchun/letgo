@@ -32,7 +32,7 @@ export default defineComponent({
                         <LeftArea area={skeleton.leftArea} />
                         <LeftFloatArea area={skeleton.leftFloatArea} />
                         <div class={workbenchCenterCls}>
-                            <Toolbar area={skeleton.toolbar} />
+                            <Toolbar area={skeleton.toolbarArea} />
                             <MainArea area={skeleton.mainArea} />
                             <BottomArea area={skeleton.bottomArea} />
                         </div>

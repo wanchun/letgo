@@ -20,5 +20,9 @@
             "ESNext",
             "DOM"
         ]
-    }
+    },
+    "include": [
+        "global.d.ts",
+        "packages/**/src/"
+    ]
 }

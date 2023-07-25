@@ -15,6 +15,7 @@
     "sr:dev": "node scripts/build-sr.js --watch",
     "sr:server": "http-server packages/simulator-renderer/lib --cors -p 8082",
     "sr": "npm-run-all -p sr:dev sr:server",
+    "build:ts": "cross-env NODE_ENV=production node scripts/build.js --types",
     "build:esm": "cross-env NODE_ENV=production node scripts/build.js --esm --types",
     "build:sr": "cross-env NODE_ENV=production node scripts/build-sr.js",
     "build": "cross-env NODE_ENV=production npm-run-all -s build:esm build:sr",

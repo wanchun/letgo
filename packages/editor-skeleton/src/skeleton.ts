@@ -30,7 +30,7 @@ export class Skeleton {
 
     readonly topArea: Area<IWidgetConfig, Widget>;
 
-    readonly toolbar: Area<IWidgetConfig, Widget>;
+    readonly toolbarArea: Area<IWidgetConfig, Widget>;
 
     readonly bottomArea: Area<IWidgetConfig, Widget>;
 
@@ -51,7 +51,7 @@ export class Skeleton {
         this.topArea = new Area(this, 'topArea', (config) => {
             return this.createWidget(config);
         });
-        this.toolbar = new Area(this, 'toolbarArea', (config) => {
+        this.toolbarArea = new Area(this, 'toolbarArea', (config) => {
             return this.createWidget(config);
         });
         this.bottomArea = new Area(this, 'bottomArea', (config) => {
@@ -104,7 +104,7 @@ export class Skeleton {
             case 'rightArea':
                 return this.rightArea.add(parsedConfig as IPanelConfig);
             case 'toolbarArea':
-                return this.toolbar.add(parsedConfig as IWidgetConfig);
+                return this.toolbarArea.add(parsedConfig as IWidgetConfig);
             case 'bottomArea':
                 return this.bottomArea.add(parsedConfig as IWidgetConfig);
             case 'leftFloatArea':

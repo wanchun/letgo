@@ -5,29 +5,27 @@ import { FButton, FMessage } from '@fesjs/fes-design';
 import { DownloadOutlined } from '@fesjs/fes-design/icon';
 import { genFesCode } from './gen-fes';
 import { schemaToCode } from './common';
-import type { FileStruct } from './common/types';
-import { toAssemble } from './common/build';
 import { genGlobalStateCode } from './common/global-state';
 
-// debug func
-async function saveFile(rootComponents: FileStruct[]) {
-    const content = toAssemble(rootComponents[0]);
-    const options = {
-        types: [
-            {
-                description: 'vue',
-                accept: {
-                    'text/plain': ['.vue', '.jsx'],
-                },
-            },
-        ],
-    };
-    const handle = await window.showSaveFilePicker(options);
-    const writable = await handle.createWritable();
-    await writable.write(content);
-    await writable.close();
-    return handle;
-}
+// // debug func
+// async function saveFile(rootComponents: FileStruct[]) {
+//     const content = toAssemble(rootComponents[0]);
+//     const options = {
+//         types: [
+//             {
+//                 description: 'vue',
+//                 accept: {
+//                     'text/plain': ['.vue', '.jsx'],
+//                 },
+//             },
+//         ],
+//     };
+//     const handle = await window.showSaveFilePicker(options);
+//     const writable = await handle.createWritable();
+//     await writable.write(content);
+//     await writable.close();
+//     return handle;
+// }
 
 export default defineComponent({
     setup() {
@@ -54,9 +52,6 @@ export default defineComponent({
             const globalState = genGlobalStateCode(schema);
             const globalCss = schema.css;
 
-            // console.log(schema);
-            // saveFile(schemaToCode(schema));
-            // return;
             const code = schemaToCode(schema);
             genFesCode(code, globalState, globalCss);
         };

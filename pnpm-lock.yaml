@@ -110,8 +110,8 @@ importers:
   packages/common:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.0
-        version: 0.8.0(vue@3.3.4)
+        specifier: ^0.8.2
+        version: 0.8.2(vue@3.3.4)
       '@harrywan/letgo-types':
         specifier: workspace:*
         version: link:../types
@@ -149,8 +149,8 @@ importers:
         specifier: ^6.11.0
         version: 6.11.0
       '@fesjs/fes-design':
-        specifier: ^0.8.0
-        version: 0.8.0(vue@3.3.4)
+        specifier: ^0.8.2
+        version: 0.8.2(vue@3.3.4)
       '@harrywan/letgo-common':
         specifier: workspace:*
         version: link:../common
@@ -177,8 +177,8 @@ importers:
   packages/designer:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.0
-        version: 0.8.0(vue@3.3.4)
+        specifier: ^0.8.2
+        version: 0.8.2(vue@3.3.4)
       '@harrywan/letgo-common':
         specifier: workspace:*
         version: link:../common
@@ -225,8 +225,8 @@ importers:
   packages/editor-skeleton:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.0
-        version: 0.8.0(vue@3.3.4)
+        specifier: ^0.8.2
+        version: 0.8.2(vue@3.3.4)
       '@harrywan/letgo-common':
         specifier: workspace:*
         version: link:../common
@@ -304,8 +304,8 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
       '@fesjs/fes-design':
-        specifier: ^0.8.0
-        version: 0.8.0(vue@3.3.4)
+        specifier: ^0.8.2
+        version: 0.8.2(vue@3.3.4)
       '@harrywan/letgo-common':
         specifier: workspace:*
         version: link:../common
@@ -371,8 +371,8 @@ importers:
         specifier: ^6.11.0
         version: 6.11.0
       '@fesjs/fes-design':
-        specifier: ^0.8.0
-        version: 0.8.0(vue@3.3.4)
+        specifier: ^0.8.2
+        version: 0.8.2(vue@3.3.4)
       '@harrywan/letgo-common':
         specifier: workspace:*
         version: link:../common
@@ -417,8 +417,8 @@ importers:
   packages/plugin-code-generator:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.0
-        version: 0.8.0(vue@3.3.4)
+        specifier: ^0.8.2
+        version: 0.8.2(vue@3.3.4)
       '@harrywan/letgo-common':
         specifier: workspace:*
         version: link:../common
@@ -447,8 +447,8 @@ importers:
   packages/plugin-component-tree:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.0
-        version: 0.8.0(vue@3.3.4)
+        specifier: ^0.8.2
+        version: 0.8.2(vue@3.3.4)
       '@harrywan/letgo-designer':
         specifier: workspace:*
         version: link:../designer
@@ -474,8 +474,8 @@ importers:
   packages/plugin-components:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.0
-        version: 0.8.0(vue@3.3.4)
+        specifier: ^0.8.2
+        version: 0.8.2(vue@3.3.4)
       '@harrywan/letgo-designer':
         specifier: workspace:*
         version: link:../designer
@@ -501,8 +501,8 @@ importers:
   packages/plugin-designer:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.7.32
-        version: 0.7.32(vue@3.3.4)
+        specifier: ^0.8.2
+        version: 0.8.2(vue@3.3.4)
       '@harrywan/letgo-designer':
         specifier: workspace:*
         version: link:../designer
@@ -547,8 +547,8 @@ importers:
         specifier: ^6.1.7
         version: 6.1.7
       '@fesjs/fes-design':
-        specifier: ^0.8.0
-        version: 0.8.0(vue@3.3.4)
+        specifier: ^0.8.2
+        version: 0.8.2(vue@3.3.4)
       '@harrywan/letgo-common':
         specifier: workspace:*
         version: link:../common
@@ -586,8 +586,8 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
       '@fesjs/fes-design':
-        specifier: ^0.8.0
-        version: 0.8.0(vue@3.3.4)
+        specifier: ^0.8.2
+        version: 0.8.2(vue@3.3.4)
       '@harrywan/letgo-components':
         specifier: workspace:*
         version: link:../components
@@ -613,8 +613,8 @@ importers:
   packages/plugin-setting:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.0
-        version: 0.8.0(vue@3.3.4)
+        specifier: ^0.8.2
+        version: 0.8.2(vue@3.3.4)
       '@harrywan/letgo-common':
         specifier: workspace:*
         version: link:../common
@@ -712,8 +712,8 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1(vue@3.3.4)
       '@fesjs/fes-design':
-        specifier: ^0.8.0
-        version: 0.8.0(vue@3.3.4)
+        specifier: ^0.8.2
+        version: 0.8.2(vue@3.3.4)
       '@fesjs/plugin-request':
         specifier: 4.0.0-beta.1
         version: 4.0.0-beta.1(@fesjs/fes@3.1.1)(vue@3.3.4)
@@ -2804,29 +2804,8 @@ packages:
       - supports-color
     dev: false
 
-  /@fesjs/fes-design@0.7.32(vue@3.3.4):
-    resolution: {integrity: sha512-EYneDcAeL5fsHkoFYo7Ik4Dwo59In/YUkeWoDl28plD+vDRncyRmzkTrVQRV+tk6YI+ev/aBX+Ao/b8ye839Bw==}
-    peerDependencies:
-      vue: ^3.2.24
-    dependencies:
-      '@babel/runtime': 7.21.5
-      '@floating-ui/dom': 1.4.1
-      '@juggle/resize-observer': 3.4.0
-      '@types/lodash-es': 4.17.6
-      '@vue/shared': 3.3.4
-      '@vueuse/core': 9.6.0(vue@3.3.4)
-      async-validator: 4.2.5
-      csstype: 3.1.2
-      date-fns: 2.30.0
-      lodash-es: 4.17.21
-      stickybits: 3.7.11
-      vue: 3.3.4
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-    dev: false
-
-  /@fesjs/fes-design@0.8.0(vue@3.3.4):
-    resolution: {integrity: sha512-M/6o8bazVcSMAOHpqCqCIXxBAx8mUVv/T3TlN46iYr5WoRPe2KuF6J3Gvl5xzLBJzRKFFDEXXZV/7GUk6GPPcA==}
+  /@fesjs/fes-design@0.8.2(vue@3.3.4):
+    resolution: {integrity: sha512-FMm21N8UysvRPfrfbXqtu9s7X2TgaWXiexqC8Yr9ShbUbsTQoM9mmWjQqnITyu65aFIyD+bE8EFQxUhw4lUg/w==}
     peerDependencies:
       vue: ^3.2.24
     dependencies:

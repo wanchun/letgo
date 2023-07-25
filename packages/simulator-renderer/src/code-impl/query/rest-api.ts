@@ -11,9 +11,9 @@ export class RestApiQueryImpl extends JavascriptQueryImpl {
     constructor(data: IRestQueryResource, deps: string[], ctx: Record<string, any>) {
         super(data, deps, ctx);
         markShallowReactive(this, {
-            api: this.api,
-            params: this.params,
-            method: this.method,
+            api: data.api,
+            params: data.params,
+            method: data.method,
         });
     }
 

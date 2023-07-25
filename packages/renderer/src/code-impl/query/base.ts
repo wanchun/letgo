@@ -20,6 +20,7 @@ export class JavascriptQueryBase {
     successMessage: string;
     queryTimeout: number;
     query: string;
+    runWhenPageLoads = false;
     enableCaching = false;
     cacheDuration: number = null;
     runCondition: RunCondition;
@@ -45,14 +46,12 @@ export class JavascriptQueryBase {
         this.successEvent = data.successEvent;
         this.failureEvent = data.failureEvent;
         this.resourceType = data.resourceType;
+        this.runWhenPageLoads = data.runWhenPageLoads;
         this.ctx = ctx;
         this.deps = deps;
 
         this.successEventInstances = this.eventSchemaToFunc(this.successEvent);
         this.failureEventInstances = this.eventSchemaToFunc(this.successEvent);
-
-        if (data.runWhenPageLoads)
-            this.trigger();
     }
 
     changeDeps(deps: string[]) {

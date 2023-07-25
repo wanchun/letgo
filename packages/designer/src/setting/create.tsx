@@ -14,7 +14,7 @@ export function createFieldContent(
     type?: IPublicTypeDisplay,
 ) {
     if (type === 'plain' || !props.title)
-        return h(PlainFieldView, {}, () => children);
+        return h(PlainFieldView, props, () => children);
 
     if (type === 'popup')
         return h(PopupFieldView, props, () => children);
@@ -191,7 +191,7 @@ export const SettingFieldView = defineComponent({
                     // TODO
                 },
             }),
-            extraProps.forceInline ? 'plain' : extraProps.display,
+            extraProps.display,
         );
     },
 });

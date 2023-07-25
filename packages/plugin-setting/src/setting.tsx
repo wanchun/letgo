@@ -1,9 +1,10 @@
 import type { PropType, VNodeChild } from 'vue';
-import { defineComponent, onBeforeUnmount, provide, shallowRef, triggerRef } from 'vue';
+import { defineComponent, onBeforeUnmount } from 'vue';
 import { FScrollbar, FTabPane, FTabs } from '@fesjs/fes-design';
 import type { SettingField } from '@harrywan/letgo-designer';
 import {
     createSettingFieldView,
+    usePopup,
 } from '@harrywan/letgo-designer';
 import { Return } from '@icon-park/vue-next';
 import type { IPluginContext } from '@harrywan/letgo-engine-plugin';
@@ -26,7 +27,7 @@ interface Popup {
     zIndex: number
 }
 
-let zIndex = 1;
+const zIndex = 1;
 
 export default defineComponent({
     name: 'PluginSetterPanelView',
@@ -44,30 +45,7 @@ export default defineComponent({
             main?.purge();
         });
 
-        const popupList = shallowRef<Popup[]>([]);
-
-        const popupTitle = shallowRef();
-
-        const openPopup = (title: string, nodes: VNodeChild) => {
-            popupList.value.push({
-                id: Date.now(),
-                title,
-                nodes,
-                zIndex: zIndex++,
-
-            });
-            triggerRef(popupList);
-        };
-
-        const closePopup = () => {
-            popupList.value.splice(popupList.value.length - 1, 1);
-            triggerRef(popupList);
-        };
-
-        provide('popup', {
-            openPopup,
-            closePopup,
-        });
+        const { popupList, closePopup } = usePopup();
 
         return () => {
             const { settings, currentNode } = main;

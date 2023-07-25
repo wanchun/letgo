@@ -277,9 +277,14 @@ export class Props implements IPropParent {
         if (i > -1) {
             this.items.value.splice(i, 1);
             this.itemMap.delete(prop.key);
-            prop.purge();
             triggerRef(this.items);
+            prop.purge();
         }
+    }
+
+    changePropKey(oldKey: number | string, newKey: number | string, prop: Prop) {
+        this.itemMap.delete(oldKey);
+        this.itemMap.set(newKey, prop);
     }
 
     purge() {

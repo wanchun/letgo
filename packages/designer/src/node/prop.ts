@@ -17,6 +17,7 @@ import type { INode, ISlotNode } from '../types';
 import type { Props } from './props';
 
 export interface IPropParent {
+    changePropKey(oldKey: number | string, newKey: number | string, prop: Prop): void
     delete(prop: Prop): void
     readonly props: Props
     readonly owner: INode
@@ -33,17 +34,19 @@ type IValueTypes =
     | 'slot';
 
 export class Prop implements IPropParent {
+    private _key: string | number;
+
     private _value: any;
 
     private _type: IValueTypes;
 
     private _items: Prop[] | null;
 
-    private purged = false;
-
     private _maps: Map<string | number, Prop> | null = null;
 
     private _slotNode?: ISlotNode;
+
+    private purged = false;
 
     readonly isProp = true;
 
@@ -55,12 +58,10 @@ export class Prop implements IPropParent {
 
     readonly options: any;
 
-    key: string | number;
-
     spread: boolean;
 
-    get slotNode() {
-        return this._slotNode;
+    get key() {
+        return this._key;
     }
 
     get path(): string[] {
@@ -89,6 +90,10 @@ export class Prop implements IPropParent {
         return this._maps;
     }
 
+    get slotNode() {
+        return this._slotNode;
+    }
+
     /**
      * 元素个数
      */
@@ -107,18 +112,22 @@ export class Prop implements IPropParent {
             _value: undefined,
             _type: 'unset',
             _items: null,
-
         });
         markComputed(this, ['type', 'value', 'items', 'size']);
         this.owner = parent.owner;
         this.props = parent.props;
-        this.key = key;
+        this._key = key;
         this.spread = spread;
         this.options = options;
         if (!isNil(value))
             this.setValue(value);
 
         this.setupItems();
+    }
+
+    setKey(key: string | number) {
+        this.parent.changePropKey(this._key, key, this);
+        this._key = key;
     }
 
     setupItems() {
@@ -311,19 +320,6 @@ export class Prop implements IPropParent {
         }
     }
 
-    private dispose() {
-        const items = this._items;
-        if (items)
-            items.forEach(prop => prop.purge());
-
-        this._items = null;
-        this._maps = null;
-        if (this._type !== 'slot' && this._slotNode) {
-            this._slotNode.remove();
-            this._slotNode = undefined;
-        }
-    }
-
     private _code: string | null = null;
 
     /**
@@ -501,30 +497,36 @@ export class Prop implements IPropParent {
      * 删除项
      */
     delete(prop: Prop): void {
-        /* istanbul ignore else */
-        if (this._items) {
-            const items = [...this._items];
-            const i = items.indexOf(prop);
-            if (i > -1) {
-                items.splice(i, 1);
-                this._items = items;
-                prop.purge();
-            }
-            if (this._maps && prop.key)
-                this._maps.delete(String(prop.key));
+        if (!this._items)
+            return;
+
+        const oldValue = this.getValue();
+
+        const items = [...this._items];
+        const i = items.indexOf(prop);
+        if (i > -1) {
+            items.splice(i, 1);
+            this._items = items;
+            prop.purge();
+        }
+        if (this._maps && prop.key)
+            this._maps.delete(String(prop.key));
+
+        const newValue = this.getValue();
+        if (oldValue !== newValue) {
+            const propsInfo = {
+                key: this.key,
+                prop: this,
+                oldValue,
+                newValue,
+            };
+            this.owner?.emitPropChange?.(propsInfo);
         }
     }
 
-    /**
-     * 删除 key
-     */
-    deleteKey(key: string): void {
-        /* istanbul ignore else */
-        if (this.maps) {
-            const prop = this.maps.get(key);
-            if (prop)
-                this.delete(prop);
-        }
+    changePropKey(oldKey: number | string, newKey: number | string, prop: Prop) {
+        this._maps.delete(oldKey);
+        this._maps.set(newKey, prop);
     }
 
     /**
@@ -532,6 +534,7 @@ export class Prop implements IPropParent {
      */
     unset() {
         this._type = undefined;
+        this._value = undefined;
     }
 
     /**
@@ -545,7 +548,20 @@ export class Prop implements IPropParent {
      * 从父级移除本身
      */
     remove() {
-        this.props.delete(this);
+        this.parent.delete(this);
+    }
+
+    private dispose() {
+        const items = this._items;
+        if (items)
+            items.forEach(prop => prop.purge());
+
+        this._items = null;
+        this._maps = null;
+        if (this._type !== 'slot' && this._slotNode) {
+            this._slotNode.remove();
+            this._slotNode = undefined;
+        }
     }
 
     /**
@@ -556,15 +572,7 @@ export class Prop implements IPropParent {
             return;
 
         this.purged = true;
-        if (this._items)
-            this._items.forEach(item => item.purge());
-
-        this._items = null;
-        this._maps = null;
-        if (this._slotNode && this._slotNode.slotFor === this) {
-            this._slotNode.remove();
-            this._slotNode = undefined;
-        }
+        this.dispose();
     }
 }
 

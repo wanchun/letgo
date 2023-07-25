@@ -5,7 +5,6 @@ import type {
 import {
     computed,
     defineComponent,
-    inject,
     onBeforeMount,
     onMounted,
     reactive,
@@ -21,16 +20,18 @@ import type {
     IPublicTypeSetterConfig, IPublicTypeSetterType,
     IPublicTypeSettingTarget,
 } from '@harrywan/letgo-types';
-import { createSettingFieldView } from '@harrywan/letgo-designer';
+import { createSettingFieldView, usePopupManage } from '@harrywan/letgo-designer';
 import type { SettingField } from '@harrywan/letgo-designer';
-import { FButton, FDrawer } from '@fesjs/fes-design';
+import { FButton } from '@fesjs/fes-design';
 import { AddOne, Config, DeleteOne } from '@icon-park/vue-next';
 import { commonProps } from '../../common';
 import {
     addWrapperCls, bigBodyWrapperCls, bodyCls, bodyWrapperCls,
-    iconCls, popupContentCls, titleCls, titleWrapperCls,
+    iconCls, titleCls, titleWrapperCls,
     wrapperCls,
 } from './index.css';
+
+interface ItemType { main: SettingField; cols: SettingField[] }
 
 const ArraySetterView = defineComponent({
     name: 'ArraySetterView',
@@ -53,7 +54,7 @@ const ArraySetterView = defineComponent({
     setup(props) {
         const { field } = props;
 
-        const popup: any = inject('popup');
+        const popup = usePopupManage();
 
         const propsRef = computed(() => {
             if (!props.infinite)
@@ -79,7 +80,9 @@ const ArraySetterView = defineComponent({
             return propsRef.value?.columns ?? props.columns;
         });
 
-        const items: ShallowRef<SettingField[]> = shallowRef([]);
+        const hasCol = columnsRef.value && columnsRef.value.length;
+
+        const items: ShallowRef<Array<ItemType>> = shallowRef([]);
 
         const onItemChange = (target: IPublicTypeSettingTarget) => {
             const targetPath: Array<string | number> = target?.path;
@@ -101,7 +104,7 @@ const ArraySetterView = defineComponent({
             try {
                 const index = +targetPath[targetPath.length - 2];
                 if (typeof index === 'number' && !isNaN(index)) {
-                    fieldValue[index] = items.value[index].getValue();
+                    fieldValue[index] = items.value[index].main.getValue();
                     field?.extraProps?.setValue?.call(field, field, fieldValue);
                 }
             }
@@ -110,65 +113,73 @@ const ArraySetterView = defineComponent({
             }
         };
 
-        // const onSort = () => {};
-
-        // TODO: 处理defaultValue
-        const onAdd = () => {
-            const item = field.createField({
-                name: items.value.length,
+        const createItem = (name: string | number): ItemType => {
+            const value = isNil(props.value) ? props.defaultValue : props.value;
+            const colField = field.createField({
+                name,
                 setter: itemSetterRef.value,
-                forceInline: 1,
+                display: 'plain',
                 extraProps: {
                     setValue: onItemChange,
                 },
             });
+            let cols: SettingField[];
+            if (hasCol) {
+                cols = columnsRef.value.map((item) => {
+                    const colName = `${name}.${item.name}`;
+                    const itemField = field.createField({
+                        ...item,
+                        name: colName,
+                        display: 'plain',
+                        extraProps: {
+                            defaultValue: get(value, colName),
+                            setValue: onItemChange,
+                        },
+                    });
+                    return itemField;
+                });
+            }
+            return {
+                main: colField,
+                cols: cols ?? [],
+            };
+        };
+
+        // const onSort = () => {};
+
+        // TODO: 处理defaultValue
+        const onAdd = () => {
+            const item = createItem(items.value.length);
             items.value.push(item);
             triggerRef(items);
         };
 
-        const onRemove = (removed: SettingField, index: number) => {
-            const { field } = props;
-            const values = field.getValue() || [];
-            values.splice(index, 1);
+        const onRemove = (removed: ItemType, index: number) => {
+            const { main } = removed;
             items.value.splice(index, 1);
+            main.remove();
             const l = items.value.length;
             let i = index;
             while (i < l) {
-                items.value[i].setKey(i);
+                items.value[i].main.setKey(i);
+                items.value[i].cols.forEach((col, index) => {
+                    col.setKey(`${i}.${columnsRef.value[index].name}`);
+                });
                 i++;
             }
-            removed.remove();
-            const pureValues = values.map((item: any) =>
-                typeof item === 'object' ? Object.assign({}, item) : item,
-            );
-            field?.setValue(pureValues);
             triggerRef(items);
         };
 
         const init = () => {
-            const _items: SettingField[] = [];
-
             const value = isNil(props.value) ? props.defaultValue : props.value;
 
             const valueLength = isArray(value) ? value.length : 0;
 
-            for (let i = 0; i < valueLength; i++) {
-                const item = field.createField({
-                    name: i,
-                    setter: itemSetterRef.value,
-                    forceInline: 1,
-                    extraProps: {
-                        defaultValue: value[i],
-                        setValue: onItemChange,
-                    },
-                });
-                _items.push(item);
-            }
-
-            return _items;
+            for (let i = 0; i < valueLength; i++)
+                onAdd();
         };
 
-        items.value = init();
+        init();
 
         onMounted(() => {
             props.onMounted?.();
@@ -176,7 +187,7 @@ const ArraySetterView = defineComponent({
 
         onBeforeMount(() => {
             items.value.forEach((field) => {
-                field.purge();
+                field.main.purge();
             });
         });
 
@@ -197,34 +208,25 @@ const ArraySetterView = defineComponent({
 
         const drawerShowList = reactive<Record<number, boolean>>({});
 
-        const hasCol = columnsRef.value && columnsRef.value.length;
-
-        const renderField = (item: SettingField, rowIndex: number) => {
-            const value = isNil(props.value) ? props.defaultValue : props.value;
+        const renderField = (item: ItemType, rowIndex: number) => {
+            const { main, cols } = item;
             if (hasCol) {
                 const toggle = () => {
                     drawerShowList[rowIndex] = !drawerShowList[rowIndex];
-                    if (drawerShowList[rowIndex] && popup.openPopup)
-                        popup.openPopup(`${field.name}.${item.name}`, createSettingFieldView(item));
-
-                    if (!drawerShowList[rowIndex] && popup.closePopup)
-                        popup.closePopup();
+                    if (drawerShowList[rowIndex] && popup.openPopup) {
+                        popup.openPopup(`${field.name}.${main.name}`, createSettingFieldView(main), () => {
+                            drawerShowList[rowIndex] = !drawerShowList[rowIndex];
+                        });
+                    }
                 };
                 return (
                     <>
                         <Config onClick={() => toggle()} class={iconCls} theme="outline" />
                         {
-                            columnsRef.value.map((item) => {
-                                const name = `${rowIndex}.${item.name}`;
-                                const itemField = field.createField({
-                                    ...item,
-                                    name,
-                                    forceInline: 1,
-                                    extraProps: {
-                                        defaultValue: get(value, name),
-                                        setValue: onItemChange,
-                                    },
-                                });
+                            columnsRef.value.map((_item, index) => {
+                                const itemField = cols[index];
+                                if (!itemField)
+                                    return null;
                                 return (
                                     <div class={bodyCls}>
                                         {createSettingFieldView(itemField)}
@@ -232,27 +234,12 @@ const ArraySetterView = defineComponent({
                                 );
                             })
                         }
-                        {
-                            !popup.openPopup && (
-                                <FDrawer
-                                    show={drawerShowList[rowIndex]}
-                                    title={`${field.name}.${item.name}`}
-                                    displayDirective="if"
-                                    mask={false}
-                                    width={400}
-                                    contentClass={popupContentCls}
-                                    onCancel={toggle}
-                                >
-                                    {createSettingFieldView(item)}
-                                </FDrawer>
-                            )
-                        }
                     </>
                 );
             }
             return (
                 <div class={bodyCls}>
-                    {createSettingFieldView(item)}
+                    {createSettingFieldView(main)}
                 </div>
             );
         };

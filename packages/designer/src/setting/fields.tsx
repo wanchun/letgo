@@ -1,8 +1,8 @@
 import type { PropType } from 'vue';
-import { defineComponent, inject, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import type { IPublicTypeDisplay, IPublicTypeNpmInfo } from '@harrywan/letgo-types';
 import { EditOutlined, RightOutlined } from '@fesjs/fes-design/icon';
-import { FDrawer } from '@fesjs/fes-design';
+import { usePopupManage } from './usePopup';
 
 import {
     accordionFieldCls,
@@ -13,7 +13,6 @@ import {
     iconShowCls,
     inlineFieldCls,
     plainFieldCls,
-    popupContentCls,
     popupFieldCls,
 } from './fields.css';
 
@@ -58,17 +57,17 @@ export const PopupFieldView = defineComponent({
     setup(props, { slots }) {
         const id = useId(props);
 
-        const popup: any = inject('popup');
+        const popup = usePopupManage();
 
         const showRef = ref(false);
 
         const toggle = () => {
             showRef.value = !showRef.value;
-            if (showRef.value && popup.openPopup)
-                popup.openPopup(props.title, slots.default?.());
-
-            if (!showRef.value && popup.closePopup)
-                popup.closePopup();
+            if (showRef.value && popup.openPopup) {
+                popup.openPopup(props.title, slots.default?.(), () => {
+                    showRef.value = !showRef.value;
+                });
+            }
         };
 
         return () => {
@@ -78,21 +77,6 @@ export const PopupFieldView = defineComponent({
                     <div class={bodyCls}>
                         <EditOutlined class={iconCls} onClick={toggle}/>
                     </div>
-                    {
-                        !popup.openPopup && (
-                            <FDrawer
-                                show={showRef.value}
-                                title={props.title}
-                                displayDirective="if"
-                                mask={false}
-                                width={400}
-                                contentClass={popupContentCls}
-                                onCancel={toggle}
-                            >
-                                {slots.default?.()}
-                            </FDrawer>
-                        )
-                    }
                 </div>
             );
         };

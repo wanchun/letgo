@@ -39,20 +39,15 @@ export interface IPublicTypeFieldExtraProps {
      */
     defaultExpanded?: boolean
     /**
-     * important field
-     * TODO
+     * TODO important field
      */
     important?: boolean
-    /**
-     * internal use
-     */
-    forceInline?: number
     /**
      * 是否支持变量配置
      */
     supportVariable?: boolean
     /**
-     * compatiable vision display
+     *  display
      */
     display?: IPublicTypeDisplay
 }

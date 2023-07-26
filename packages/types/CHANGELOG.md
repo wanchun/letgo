@@ -1,5 +1,11 @@
 # @harrywan/letgo-types
 
+## 0.0.0-beta.12
+
+### Patch Changes
+
+- 优化
+
 ## 0.0.0-beta.9
 
 ### Patch Changes

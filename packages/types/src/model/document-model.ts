@@ -1,6 +1,7 @@
 import type {
     IPublicEnumTransformStage, IPublicModelNode,
     IPublicModelProject, IPublicModelSelection,
+    IPublicTypeDragNodeDataObject, IPublicTypeDragNodeObject,
     IPublicTypeNodeData, IPublicTypeNodeSchema,
     IPublicTypeRootSchema,
 } from '../';

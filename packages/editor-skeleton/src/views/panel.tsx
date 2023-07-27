@@ -9,10 +9,6 @@ export default defineComponent({
         widget: {
             type: Object as PropType<IPanel>,
         },
-        width: Number,
-        height: Number,
-        maxWidth: Number,
-        maxHeight: Number,
     },
     setup(props) {
         return () => {

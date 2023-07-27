@@ -57,10 +57,10 @@ export interface IModalProps {
 export interface IPanelProps {
     title?: string
     description?: string
-    width?: number
-    height?: number
-    maxWidth?: number
-    maxHeight?: number
+    width?: number | string
+    height?: number | string
+    maxWidth?: number | string
+    maxHeight?: number | string
 }
 
 export interface IBaseConfig {

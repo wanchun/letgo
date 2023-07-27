@@ -8,15 +8,18 @@ export const iconCls = style({
 });
 
 export const wrapperCls = style({
+    position: 'relative',
     height: '100%',
 });
 
 export const codeCls = style({
-    height: 'calc(100% - 36px)',
+    height: '100%',
     overflow: 'auto',
 });
 
 export const actionCls = style({
-    padding: '6px 0',
-    textAlign: 'right',
+    position: 'absolute',
+    right: '70px',
+    top: '-40px',
+    zIndex: 100,
 });

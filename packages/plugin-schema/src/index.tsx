@@ -22,7 +22,7 @@ export default {
                 name: 'PluginSchemaPanel',
                 render: () => <SchemaView designer={designer} />,
                 props: {
-                    width: 800,
+                    width: 'calc(100% - 48px)',
                     title: 'Schema',
                 },
             }),

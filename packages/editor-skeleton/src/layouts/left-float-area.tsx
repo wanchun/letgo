@@ -10,6 +10,7 @@ import {
     ref,
 } from 'vue';
 import { CloseOutlined, PasswordOutlined } from '@fesjs/fes-design/icon';
+import { addUnit } from '@harrywan/letgo-common';
 import type { Area } from '../area';
 import type { IPanelConfig } from '../types';
 import type { Panel } from '../widget';
@@ -41,19 +42,19 @@ export default defineComponent({
             const currentProps = current?.props || {};
             if (isFixedRef.value) {
                 return {
-                    width: `${currentProps.width}px`,
-                    height: `${currentProps.height}px`,
-                    maxHeight: `${currentProps.maxHeight}px`,
-                    maxWidth: `${currentProps.maxWidth}px`,
+                    width: addUnit(currentProps.width),
+                    height: addUnit(currentProps.height),
+                    maxHeight: addUnit(currentProps.maxHeight),
+                    maxWidth: addUnit(currentProps.maxWidth),
                 };
             }
             return {
                 position: 'relative',
                 left: 0,
-                width: `${currentProps.width}px`,
-                height: `${currentProps.height}px`,
-                maxHeight: `${currentProps.maxHeight}px`,
-                maxWidth: `${currentProps.maxWidth}px`,
+                width: addUnit(currentProps.width),
+                height: addUnit(currentProps.height),
+                maxHeight: addUnit(currentProps.maxHeight),
+                maxWidth: addUnit(currentProps.maxWidth),
                 marginLeft: '1px',
                 boxShadow: 'none',
             };

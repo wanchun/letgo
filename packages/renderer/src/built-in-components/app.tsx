@@ -16,7 +16,7 @@ function useCssHandler(css?: string) {
     }
 }
 
-export default defineComponent({
+export const RendererApp = defineComponent({
     name: 'RendererApp',
     props: {
         libraryMap: Object as PropType<Record<string, any>>,

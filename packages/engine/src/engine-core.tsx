@@ -14,7 +14,9 @@ import {
 } from '@harrywan/letgo-engine-plugin';
 import PluginDesigner from '@harrywan/letgo-plugin-designer';
 import PluginSetting from '@harrywan/letgo-plugin-setting';
-import PluginCodeView from '@harrywan/letgo-plugin-code';
+import PluginComponents from '@harrywan/letgo-plugin-components';
+import PluginComponentTree from '@harrywan/letgo-plugin-component-tree';
+import PluginCode from '@harrywan/letgo-plugin-code';
 
 export type { IPluginConfig } from '@harrywan/letgo-engine-plugin';
 
@@ -56,8 +58,10 @@ export { editor, config, designer, plugins, skeleton, material, project, hotkey,
             setters.register(engineExt.setters);
         },
     });
-    innerPlugins.register(PluginCodeView);
-    // 注册默认的面板
+    // 注册默认插件
+    innerPlugins.register(PluginComponentTree);
+    innerPlugins.register(PluginComponents);
+    innerPlugins.register(PluginCode);
     innerPlugins.register(PluginDesigner);
     innerPlugins.register(PluginSetting);
 })();

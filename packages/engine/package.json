@@ -27,6 +27,8 @@
     "@harrywan/letgo-plugin-code": "workspace:*",
     "@harrywan/letgo-plugin-designer": "workspace:*",
     "@harrywan/letgo-plugin-setting": "workspace:*",
+    "@harrywan/letgo-plugin-component-tree": "workspace:*",
+    "@harrywan/letgo-plugin-components": "workspace:*",
     "@harrywan/letgo-types": "workspace:*",
     "eventemitter3": "^4.0.0",
     "lodash-es": "^4.17.21",

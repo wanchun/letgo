@@ -1,8 +1,6 @@
 import { defineRuntimeConfig } from '@fesjs/fes';
 import { FConfigProvider } from '@fesjs/fes-design';
 import { plugins } from '@harrywan/letgo-engine';
-import PluginComponents from '@harrywan/letgo-plugin-components';
-import PluginComponentTree from '@harrywan/letgo-plugin-component-tree';
 import PluginDevice from '@harrywan/letgo-plugin-device';
 import PluginSchema from '@harrywan/letgo-plugin-schema';
 import PluginCodeGenerator from '@harrywan/letgo-plugin-code-generator';
@@ -19,8 +17,6 @@ plugins.register({
     },
 });
 
-plugins.register(PluginComponents);
-plugins.register(PluginComponentTree);
 plugins.register(PluginCodeGenerator);
 plugins.register(PluginDevice);
 plugins.register(PluginSchema);

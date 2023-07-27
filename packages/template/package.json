@@ -22,8 +22,6 @@
     "@harrywan/letgo-common": "workspace:*",
     "@harrywan/letgo-engine": "workspace:*",
     "@harrywan/letgo-plugin-code-generator": "workspace:*",
-    "@harrywan/letgo-plugin-component-tree": "workspace:*",
-    "@harrywan/letgo-plugin-components": "workspace:*",
     "@harrywan/letgo-plugin-device": "workspace:*",
     "@harrywan/letgo-plugin-global": "workspace:*",
     "@harrywan/letgo-plugin-schema": "workspace:*",

@@ -269,6 +269,12 @@ importers:
       '@harrywan/letgo-plugin-code':
         specifier: workspace:*
         version: link:../plugin-code
+      '@harrywan/letgo-plugin-component-tree':
+        specifier: workspace:*
+        version: link:../plugin-component-tree
+      '@harrywan/letgo-plugin-components':
+        specifier: workspace:*
+        version: link:../plugin-components
       '@harrywan/letgo-plugin-designer':
         specifier: workspace:*
         version: link:../plugin-designer
@@ -726,12 +732,6 @@ importers:
       '@harrywan/letgo-plugin-code-generator':
         specifier: workspace:*
         version: link:../plugin-code-generator
-      '@harrywan/letgo-plugin-component-tree':
-        specifier: workspace:*
-        version: link:../plugin-component-tree
-      '@harrywan/letgo-plugin-components':
-        specifier: workspace:*
-        version: link:../plugin-components
       '@harrywan/letgo-plugin-device':
         specifier: workspace:*
         version: link:../plugin-device

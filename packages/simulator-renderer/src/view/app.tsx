@@ -2,12 +2,13 @@ import type { PropType } from 'vue';
 import { computed, defineComponent, onUnmounted, provide, reactive, watch } from 'vue';
 import { type CodeItem, CodeType } from '@harrywan/letgo-types';
 import { buildGlobalUtils } from '@harrywan/letgo-renderer';
+import { RouterView } from 'vue-router';
 import { BASE_GLOBAL_CONTEXT } from '../constants';
 import type { JavascriptFunctionImpl } from '../code-impl/javascript-function';
 import type { VueSimulatorRenderer } from '../interface';
 import { host } from '../host';
 import { useCodesInstance } from '../code-impl/code-impl';
-import SimulatorView from './simulator-view';
+import LayoutView from './layout';
 
 function useCssHandler() {
     const css = host.project.get('css') || '';
@@ -111,7 +112,11 @@ export default defineComponent({
         provide(BASE_GLOBAL_CONTEXT, globalContext);
 
         return () => {
-            return <SimulatorView simulator={props.simulator} />;
+            return (
+                <LayoutView simulator={props.simulator}>
+                    <RouterView></RouterView>
+                </LayoutView>
+            );
         };
     },
 });

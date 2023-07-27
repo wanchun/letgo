@@ -1,4 +1,4 @@
-import { material, project } from '@harrywan/letgo-engine';
+import { project } from '@harrywan/letgo-engine';
 import type { IPluginConfig } from '@harrywan/letgo-engine';
 import { IPublicEnumTransformStage } from '@harrywan/letgo-types';
 import { FTooltip } from '@fesjs/fes-design';
@@ -12,11 +12,6 @@ export default {
             window.localStorage.setItem(
                 scenarioName,
                 JSON.stringify(project.exportSchema(IPublicEnumTransformStage.Save)),
-            );
-            const packages = material.getAssets().packages;
-            window.localStorage.setItem(
-                `${scenarioName}_packages`,
-                JSON.stringify(packages),
             );
             setTimeout(() => {
                 const search = location.search ? `${location.search}&scenarioName=${scenarioName}` : `?scenarioName=${scenarioName}`;

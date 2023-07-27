@@ -1,8 +1,7 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref, shallowRef } from 'vue';
-import VueRenderer, { RendererApp } from '@harrywan/letgo-renderer';
-import { AssetLoader, buildComponents } from '@harrywan/letgo-common';
-import type { IPublicTypeAsset, IPublicTypePackage } from '@harrywan/letgo-types';
+import { defineComponent } from 'vue';
+import RendererApp from '@harrywan/letgo-renderer';
+import type { IPublicTypeAsset } from '@harrywan/letgo-types';
 
 const getScenarioName = function () {
     if (location.search)
@@ -33,71 +32,34 @@ export function getProjectSchemaFromLocalStorage(scenarioName: string) {
 
 export default defineComponent({
     components: {
-        VueRenderer,
         RendererApp,
     },
     setup() {
         const scenarioName = getScenarioName();
 
-        const packages: IPublicTypePackage[] = getPackagesFromLocalStorage(scenarioName);
-
         const projectSchema = getProjectSchemaFromLocalStorage(scenarioName);
 
-        const {
-            componentsMap: componentsMapArray,
-            componentsTree,
-        } = projectSchema;
+        const { componentsTree } = projectSchema;
 
-        const componentsMap: any = {};
-        componentsMapArray.forEach((component: any) => {
-            componentsMap[component.componentName] = component;
-        });
-
-        const libraryMap: Record<string, string> = {};
-        const libraryAsset: IPublicTypeAsset = [];
-        packages.forEach(({ package: _package, library, urls }) => {
-            libraryMap[_package] = library;
-            if (urls)
-                libraryAsset.push(urls);
-        });
+        const libraryAsset: IPublicTypeAsset = ['https://lf1-cdn-tos.bytegoofy.com/obj/iconpark/svg_25753_22.ce2d9ec2f0a0485d535c374cb4d448a5.js'];
 
         const pageSchema = componentsTree[0];
 
-        const components = shallowRef([]);
-
-        const isReady = ref(false);
-
-        onMounted(async () => {
-            libraryAsset.push('https://lf1-cdn-tos.bytegoofy.com/obj/iconpark/svg_25753_22.ce2d9ec2f0a0485d535c374cb4d448a5.js');
-            const assetLoader = new AssetLoader();
-            await assetLoader.load(libraryAsset);
-
-            components.value = buildComponents(
-                libraryMap,
-                componentsMap,
-            );
-
-            isReady.value = true;
-        });
-
         return {
-            libraryMap,
+            libraryAsset,
             projectSchema,
             pageSchema,
-            components,
-            isReady,
         };
     },
 });
 </script>
 
 <template>
-  <RendererApp v-if="isReady" :library-map="libraryMap" :project-schema="projectSchema">
-    <VueRenderer class="engine" :schema="pageSchema" :components="components" />
+  <RendererApp class="engine" :assets="libraryAsset" :page-schema="pageSchema" :project-schema="projectSchema">
+    <template #loading>
+      正在加载中...
+    </template>
   </RendererApp>
-  <div v-else>
-    正在加载中....
-  </div>
 </template>
 
 <style>

@@ -3,7 +3,7 @@ import type { DefineComponent, PropType } from 'vue';
 import type { VueSimulatorRenderer } from '../interface';
 
 export default defineComponent({
-    name: 'LayoutView',
+    name: 'SimulatorLayout',
     props: {
         simulator: {
             type: Object as PropType<VueSimulatorRenderer>,

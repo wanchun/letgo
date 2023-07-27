@@ -24,7 +24,7 @@ import type {
     SimulatorViewLayout,
     VueSimulatorRenderer,
 } from './interface';
-import { RendererView, SimulatorApp } from './simulator-view';
+import { SimulatorApp, SimulatorPage } from './view';
 import { host } from './host';
 import type {
     CompRootHTMLElement,
@@ -351,7 +351,7 @@ function createSimulatorRenderer() {
                 router.addRoute({
                     name: documentInstance.id,
                     path: documentInstance.path,
-                    component: RendererView,
+                    component: SimulatorPage,
                     props: () => ({
                         key: documentInstance?.key,
                         documentInstance,

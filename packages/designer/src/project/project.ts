@@ -3,6 +3,7 @@ import type { ShallowReactive } from 'vue';
 import { shallowReactive } from 'vue';
 import type {
     IPublicTypeAppConfig,
+    IPublicTypeAssetsJson,
     IPublicTypeComponentsMap,
     IPublicTypeProjectSchema,
     IPublicTypeRootSchema,
@@ -14,6 +15,7 @@ import {
     isProCodeComponentType,
 } from '@harrywan/letgo-types';
 import { markComputed, markShallowReactive } from '@harrywan/letgo-common';
+import { editor } from '@harrywan/letgo-editor-core';
 import { isDocumentModel } from '../types';
 import type { Designer } from '../designer';
 import { DocumentModel } from '../document';
@@ -170,6 +172,7 @@ export class Project {
             code: this.code.codeStruct,
             componentsMap: this.getComponentsMap(),
             componentsTree: this.documents.map(doc => doc.exportSchema(stage)),
+            packages: (editor.get('assets') as IPublicTypeAssetsJson)?.packages,
         };
     }
 

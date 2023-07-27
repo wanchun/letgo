@@ -1,1 +1,0 @@
-export { RendererApp } from './app';

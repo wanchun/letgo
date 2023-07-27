@@ -9,6 +9,7 @@ import type { IPublicTypeUtilsMap } from './utils';
 import type { IPublicTypeAppConfig } from './app-config';
 import type { CodeStruct } from './code';
 import type { IPublicTypeEventHandler } from './event-handler';
+import type { IPublicTypePackage } from './assets';
 
 export interface IPublicTypeDirective {
     name: string
@@ -198,6 +199,10 @@ export interface IPublicTypeProjectSchema {
      * 当前应用元数据信息
      */
     meta?: Record<string, any>
+    /**
+     * 大包列表
+     */
+    packages?: IPublicTypePackage[]
 }
 
 export function isNodeSchema(data: any): data is IPublicTypeNodeSchema {

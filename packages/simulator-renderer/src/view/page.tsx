@@ -1,6 +1,6 @@
 import { computed, defineComponent, h, onUnmounted, provide, watch } from 'vue';
 import type { PropType } from 'vue';
-import LowCodeRenderer from '@harrywan/letgo-renderer';
+import { Renderer } from '@harrywan/letgo-renderer';
 import { type CodeItem, CodeType, type IPublicTypeComponentInstance, type IPublicTypeNodeSchema } from '@harrywan/letgo-types';
 import type { DocumentInstance, VueSimulatorRenderer } from '../interface';
 import { BASE_COMP_CONTEXT } from '../constants';
@@ -11,7 +11,7 @@ import { host } from '../host';
 import { Hoc } from './hoc';
 
 export default defineComponent({
-    name: 'RendererView',
+    name: 'SimulatorPage',
     props: {
         simulator: {
             type: Object as PropType<VueSimulatorRenderer>,
@@ -114,7 +114,7 @@ export default defineComponent({
         if (!simulator.autoRender)
             return null;
 
-        return h(LowCodeRenderer, {
+        return h(Renderer, {
             schema,
             components,
             device,

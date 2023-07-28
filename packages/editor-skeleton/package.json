@@ -23,6 +23,7 @@
     "@harrywan/letgo-designer": "workspace:*",
     "@harrywan/letgo-types": "workspace:*",
     "@harrywan/letgo-common": "workspace:*",
+    "@harrywan/letgo-editor-core": "workspace:*",
     "@vueuse/core": "^9.6.0"
   },
   "publishConfig": {

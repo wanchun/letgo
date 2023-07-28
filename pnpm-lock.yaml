@@ -233,6 +233,9 @@ importers:
       '@harrywan/letgo-designer':
         specifier: workspace:*
         version: link:../designer
+      '@harrywan/letgo-editor-core':
+        specifier: workspace:*
+        version: link:../editor-core
       '@harrywan/letgo-types':
         specifier: workspace:*
         version: link:../types

@@ -1,5 +1,14 @@
 # @harrywan/letgo-plugin-designer
 
+## 0.0.0-beta.15
+
+### Patch Changes
+
+- add letgoRequest config
+- Updated dependencies
+  - @harrywan/letgo-designer@0.0.0-beta.15
+  - @harrywan/letgo-engine-plugin@0.0.0-beta.15
+
 ## 0.0.0-beta.14
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @harrywan/letgo-types
 
+## 0.0.0-beta.15
+
+### Patch Changes
+
+- add letgoRequest config
+
 ## 0.0.0-beta.14
 
 ### Patch Changes

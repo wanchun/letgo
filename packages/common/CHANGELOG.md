@@ -1,5 +1,11 @@
 # @harrywan/letgo-common
 
+## 0.0.0-beta.16
+
+### Patch Changes
+
+- fix letgo expression edit"
+
 ## 0.0.0-beta.15
 
 ### Patch Changes

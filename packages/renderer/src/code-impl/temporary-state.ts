@@ -37,7 +37,6 @@ export class TemporaryStateLive {
             return fn(this.ctx);
         }
         catch (_) {
-            console.error('init state error', _);
             return null;
         }
     }

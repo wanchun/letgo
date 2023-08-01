@@ -18,16 +18,16 @@
     "vue": "^3.3.4"
   },
   "dependencies": {
-    "@icon-park/vue-next": "^1.4.2",
-    "@codemirror/autocomplete": "^6.7.1",
-    "@codemirror/lang-javascript": "^6.1.7",
-    "@codemirror/language": "^6.7.0",
-    "@codemirror/state": "^6.2.0",
-    "@codemirror/view": "^6.11.0",
+    "@codemirror/autocomplete": "^6.9.0",
+    "@codemirror/lang-javascript": "^6.1.9",
+    "@codemirror/language": "^6.8.0",
+    "@codemirror/state": "^6.2.1",
+    "@codemirror/view": "^6.16.0",
     "@fesjs/fes-design": "^0.8.2",
     "@harrywan/letgo-common": "workspace:*",
     "@harrywan/letgo-designer": "workspace:*",
     "@harrywan/letgo-types": "workspace:*",
+    "@icon-park/vue-next": "^1.4.2",
     "codemirror": "^6.0.1",
     "lodash-es": "^4.17.21"
   },

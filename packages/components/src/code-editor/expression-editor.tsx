@@ -48,9 +48,6 @@ export const ExpressionEditor = defineComponent({
                 extensions: [
                     minimalSetup,
                     Theme,
-                    EditorState.transactionFilter.of((tr) => {
-                        return tr.newDoc.lines > 1 ? [] : [tr];
-                    }),
                     placeholder(props.placeholder || '表达式'),
                     autocompletion({
                         override: [hintPlugin(hintOptions)],

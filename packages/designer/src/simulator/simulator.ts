@@ -101,7 +101,9 @@ export class Simulator implements ISimulator<ISimulatorProps> {
 
     private props: ShallowReactive<ISimulatorProps> = shallowReactive({});
 
-    private _contentWindow?: Window;
+    private _contentWindow?: Window & {
+        letgoRequest?: (...args: any[]) => Promise<any>
+    };
 
     private _contentDocument?: Document;
 
@@ -205,6 +207,9 @@ export class Simulator implements ISimulator<ISimulatorProps> {
         this._iframe = iframe;
         this._contentWindow = iframe.contentWindow;
         this._contentDocument = this._contentWindow.document;
+
+        if (this.get('letgoRequest'))
+            this._contentWindow.letgoRequest = this.get('letgoRequest');
 
         const libraryAsset: IPublicTypeAssetList = this.buildLibrary();
 

@@ -49,6 +49,7 @@ export default defineComponent({
                 library: packages || [],
                 utilsMetadata: utils || [],
                 simulatorUrl,
+                letgoRequest: config.get('letgoRequest'),
                 device,
                 deviceClassName,
                 deviceStyle,

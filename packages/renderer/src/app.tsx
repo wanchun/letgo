@@ -8,6 +8,7 @@ import { buildGlobalUtils } from './parse';
 import { useCodesInstance } from './code-impl/code-impl';
 import type { CodeImplType } from './code-impl/code-impl';
 import { getGlobalContextKey } from './context';
+import { request } from './utils/request';
 
 function useCssHandler(css?: string) {
     if (css) {
@@ -36,6 +37,9 @@ export const RendererApp = defineComponent({
         },
     },
     setup(props, { slots }) {
+        if (!window.letgoRequest)
+            window.letgoRequest = request as typeof window.letgoRequest;
+
         useCssHandler(props.projectSchema.css);
 
         const {

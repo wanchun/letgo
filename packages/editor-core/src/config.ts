@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'vue';
 import type { IPublicTypeDevice } from '@harrywan/letgo-types';
 import { isPlainObject, get as lodashGet } from 'lodash-es';
+import type { createRequest } from '@qlin/request';
 
 export interface IEngineOptions {
     vueRuntimeUrl?: string
@@ -8,6 +9,9 @@ export interface IEngineOptions {
      * 设置 simulator 相关的 url
      */
     simulatorUrl?: string[]
+
+    letgoRequest?: ReturnType<typeof createRequest>
+
     /**
      *
      * 设计模式，live 模式将会实时展示变量值，默认值：'design'

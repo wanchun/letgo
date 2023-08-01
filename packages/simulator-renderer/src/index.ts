@@ -6,7 +6,8 @@ const win = window as any;
 
 if (typeof win !== 'undefined') {
     win.Letgo_SimulatorRenderer = simulator;
-    win.letgoRequest = request;
+    if (!win.letgoRequest)
+        win.letgoRequest = request;
 }
 
 win.addEventListener('load', () => {

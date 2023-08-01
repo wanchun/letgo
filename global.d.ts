@@ -7,4 +7,7 @@ declare global {
             onClick?: (event: MouseEvent) => void
         }
     }
+    interface Window {
+        letgoRequest<T>(url: string, params: string | Record<string, any> | Blob | File | FormData | ArrayBuffer | URLSearchParams | DataView): Promise<T>
+    }
 }

@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { LetgoEngine, project } from '@harrywan/letgo-engine';
+import { createRequest } from '@qlin/request';
 
 export default defineComponent({
     components: { LetgoEngine },
@@ -18,6 +19,14 @@ export default defineComponent({
                     `${process.env.FES_APP_SIMULATOR_PATH}/index.umd.js`,
                     `${process.env.FES_APP_SIMULATOR_PATH}/style.css`,
                 ],
+                letgoRequest: createRequest({
+                    mode: 'cors',
+                    credentials: 'same-origin',
+                    requestInterceptor(config) {
+                        console.log(config.url);
+                        return config;
+                    },
+                }),
             },
             onReady,
         };

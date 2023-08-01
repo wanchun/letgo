@@ -8,8 +8,8 @@ export class ComputedImpl extends ComputedLive implements IJavascriptComputedImp
         super(data, deps, ctx);
 
         markShallowReactive(this, {
-            id: data.id,
-            value: null,
+            id: this.id,
+            value: this.value,
         });
         markComputed(this, ['view']);
     }

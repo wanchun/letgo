@@ -12,8 +12,8 @@ export class TemporaryStateImpl extends TemporaryStateLive implements ITemporary
         super(data, deps, ctx);
 
         markReactive(this, {
-            id: data.id,
-            value: null,
+            id: this.id,
+            value: this.value,
         });
         markComputed(this, ['view']);
 

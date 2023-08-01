@@ -16,7 +16,6 @@ export class TemporaryStateLive {
         this.deps = deps || [];
         this.ctx = ctx;
         this.initValue = data.initValue;
-
         this.value = this.initValue ? this.executeInput(this.initValue) : null;
     }
 
@@ -38,6 +37,7 @@ export class TemporaryStateLive {
             return fn(this.ctx);
         }
         catch (_) {
+            console.error('init state error', _);
             return null;
         }
     }

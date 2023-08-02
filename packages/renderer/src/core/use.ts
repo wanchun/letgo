@@ -2,6 +2,7 @@ import type { INode, Prop } from '@harrywan/letgo-designer';
 import type {
     Component,
     ComputedRef,
+    Fragment,
     Ref,
     Slot,
     VNode,
@@ -572,7 +573,7 @@ export function useRenderer(props: RendererProps) {
 
     const renderComp = (
         nodeSchema: IPublicTypeRootSchema,
-        comp: Component,
+        comp: Component | typeof Fragment,
     ): VNode => {
         return h(props.__components.__BASE_COMP || Live, {
             key: nodeSchema.id,

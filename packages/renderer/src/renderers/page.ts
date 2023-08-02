@@ -3,6 +3,7 @@ import { Page } from '@harrywan/letgo-components';
 import { rendererProps, useRenderer } from '../core';
 
 export const PageRenderer = defineComponent({
+    name: 'PageRenderer',
     props: rendererProps,
     __renderer__: true,
     setup(props) {

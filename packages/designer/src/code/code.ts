@@ -102,9 +102,13 @@ export class Code {
         }
     };
 
-    genCodeId = (type: CodeType) => {
+    genCodeId = (type: CodeType): string => {
         idCount[type] = (idCount[type] || 0) + 1;
-        return `${type}${idCount[type]}`;
+        const newId = `${type}${idCount[type]}`;
+        if (this.hasCodeId(newId))
+            return this.genCodeId(type);
+
+        return newId;
     };
 
     emitCodeItemAdd(codeItem: CodeItem) {

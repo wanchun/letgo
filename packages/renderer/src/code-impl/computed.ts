@@ -1,7 +1,6 @@
 import { isNil } from 'lodash-es';
 import type { WatchStopHandle } from 'vue';
 import { watch } from 'vue';
-import { attachContext } from '@harrywan/letgo-common';
 import type { IJavascriptComputed } from '@harrywan/letgo-types';
 import { CodeType } from '@harrywan/letgo-types';
 
@@ -50,9 +49,14 @@ export class ComputedLive {
         if (isNil(text))
             return null;
         try {
-            const codeStr = attachContext(text, name => this.deps.includes(name));
             // eslint-disable-next-line no-new-func
-            const fn = new Function('_ctx', codeStr);
+            const fn = new Function('_ctx', `
+            let result;
+            with(_ctx) {
+                result = (() => {${text}})();
+            }
+            return result;
+        `);
             return fn(this.ctx);
         }
         catch (_) {

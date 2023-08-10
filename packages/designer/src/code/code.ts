@@ -192,7 +192,7 @@ export class Code {
             }
         }
         else if (item.type === CodeType.JAVASCRIPT_COMPUTED) {
-            const funcBody = replaceExpressionIdentifier(item.funcBody, newVariable, oldVariable);
+            const funcBody = replaceJSFunctionIdentifier(item.funcBody, newVariable, oldVariable);
             if (item.funcBody !== funcBody) {
                 this.changeCodeItemContent(item.id, {
                     funcBody,

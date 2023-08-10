@@ -43,6 +43,8 @@ export function transformExpression(code: string, callback: Callback) {
 }
 
 export function replaceExpressionIdentifier(code: string, newName: string, preName: string) {
+    if (!code)
+        return code;
     const ast = transformExpression(code, (identifier) => {
         if (identifier.name === preName)
             identifier.name = newName;

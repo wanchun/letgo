@@ -45,7 +45,7 @@ export function calcDependencies(item: CodeItem, ctx?: Record<string, any>) {
         return [];
     }
 
-    throw new Error('[letgo]: unknown code item: ', item);
+    throw new Error(`[letgo]: unknown code item: ${JSON.stringify(item)}`);
 }
 
 export function eventHandlerToJsFunction(item: IPublicTypeEventHandler): IPublicTypeJSFunction {

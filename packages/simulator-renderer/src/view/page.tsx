@@ -86,6 +86,7 @@ export default defineComponent({
         watch(viewState, () => {
             host.updateCodesInstance(codesInstance);
         }, {
+            immediate: true,
             deep: true,
         });
 

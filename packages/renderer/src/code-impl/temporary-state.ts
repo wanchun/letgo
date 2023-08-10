@@ -31,7 +31,7 @@ export class TemporaryStateLive {
         if (isNil(text))
             return null;
         try {
-            const exp = attachContext(text, name => this.deps.includes(name));
+            const exp = attachContext(`(${text})`, name => this.deps.includes(name));
             // eslint-disable-next-line no-new-func
             const fn = new Function('_ctx', `return ${exp}`);
             return fn(this.ctx);

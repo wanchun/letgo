@@ -1,4 +1,5 @@
 import type { CodeItem } from '@harrywan/letgo-types';
+import { isNil } from 'lodash-es';
 import { calcDependencies } from './ast';
 
 export function topologicalSort(dependencyMap: Map<string, string[]>) {
@@ -40,8 +41,15 @@ export function checkCycleDependency(dependencyMap: Map<string, string[]>) {
 }
 
 export function sortState(codeMap: Map<string, CodeItem>, dependencyMap = new Map<string, string[]>(), ctx?: Record<string, any>) {
+    const innerCtx = {
+        ...ctx,
+    };
+    codeMap.forEach((_, key: string) => {
+        if (isNil(innerCtx[key]))
+            innerCtx[key] = true;
+    });
     for (const [codeId, item] of codeMap)
-        dependencyMap.set(codeId, calcDependencies(item, ctx));
+        dependencyMap.set(codeId, calcDependencies(item, innerCtx));
 
     const sortResult = checkCycleDependency(dependencyMap);
     // 最底层的依赖最先被实例化

@@ -18,8 +18,8 @@ export class ComputedLive {
         this.ctx = ctx;
         this.funcBody = data.funcBody;
 
-        this.value = this.funcBody ? this.executeInput(this.funcBody) : null;
         this.changeDeps(deps || []);
+        this.value = this.funcBody ? this.executeInput(this.funcBody) : null;
     }
 
     changeDeps(deps: string[]): void {

@@ -1,5 +1,15 @@
 # @harrywan/letgo-plugin-device
 
+## 0.0.0-beta.17
+
+### Patch Changes
+
+- fix some bug
+- Updated dependencies
+  - @harrywan/letgo-designer@0.0.0-beta.17
+  - @harrywan/letgo-engine-plugin@0.0.0-beta.17
+  - @harrywan/letgo-types@0.0.0-beta.17
+
 ## 0.0.0-beta.16
 
 ### Patch Changes

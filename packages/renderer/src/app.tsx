@@ -64,6 +64,11 @@ export const RendererApp = defineComponent({
                 libraryAsset.push(urls);
         });
 
+        const globalContext: Record<string, any> = reactive({
+            letgoContext: props.projectSchema.config || {},
+            utils: {},
+        });
+
         onMounted(async () => {
             const assetLoader = new AssetLoader();
             await assetLoader.load(libraryAsset);
@@ -74,11 +79,7 @@ export const RendererApp = defineComponent({
             );
 
             isReady.value = true;
-        });
-
-        const globalContext: Record<string, any> = reactive({
-            letgoContext: props.projectSchema.config || {},
-            utils: buildGlobalUtils(libraryMap, props.projectSchema.utils),
+            globalContext.utils = buildGlobalUtils(libraryMap, props.projectSchema.utils);
         });
 
         useCodesInstance({

@@ -49,8 +49,7 @@ export default defineComponent({
                 if (codesInstance[item.id].type === CodeType.JAVASCRIPT_FUNCTION)
                     executeCtx[item.id] = (codesInstance[item.id] as JavascriptFunctionImpl).trigger.bind(codesInstance[item.id]);
 
-                else
-                    executeCtx[item.id] = codesInstance[item.id];
+                else executeCtx[item.id] = codesInstance[item.id];
             }),
             code.value.onCodeItemDelete((id: string) => {
                 // TODO 有依赖的时候删除给提示

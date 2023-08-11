@@ -28,23 +28,4 @@ export class JavascriptFunctionImpl extends JavascriptFunctionLive implements IJ
     changeContent(content: Partial<IJavascriptFunction>) {
         Object.assign(this, content);
     }
-
-    async trigger() {
-        if (this.funcBody) {
-            try {
-                // eslint-disable-next-line no-new-func
-                const fn = new Function('_ctx', `
-            let result;
-            with(_ctx) {
-                result = (${this.funcBody})();
-            }
-            return result;
-        `);
-                return await fn(this.ctx);
-            }
-            catch (err) {
-                console.log(err);
-            }
-        }
-    }
 }

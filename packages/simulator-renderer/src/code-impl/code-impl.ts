@@ -80,7 +80,7 @@ export function useCodesInstance() {
                 createCodeInstance(item, ctx);
                 Object.keys(codesInstance).forEach((key) => {
                     if (codesInstance[key].type === CodeType.JAVASCRIPT_FUNCTION)
-                        ctx[key] = (codesInstance[key] as JavascriptFunctionImpl).trigger;
+                        ctx[key] = (codesInstance[key] as JavascriptFunctionImpl).trigger.bind(codesInstance[key]);
 
                     else
                         ctx[key] = codesInstance[key];

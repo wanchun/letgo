@@ -9314,7 +9314,7 @@ const assets: IPublicTypeAssetsJson = {
         type: 'npm',
         content: {
             package: '@fesjs/fes-design',
-            version: '0.7.31',
+            version: '0.8.4',
             exportName: 'FMessage',
             destructuring: true,
         },

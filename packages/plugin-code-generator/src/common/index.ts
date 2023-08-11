@@ -6,12 +6,11 @@ import type {
     IPublicTypeRootSchema,
 } from '@harrywan/letgo-types';
 
-import { genPageTemplate } from './vue/gen-template';
 import { genScript } from './script';
 import { traverseNodeSchema } from './helper';
 import { formatFileName, formatPageName, formatPageTitle } from './page-meta';
 import { PageFileType } from './types';
-import type { FileStruct, JsxFileStruct, VueFileStruct } from './types';
+import type { JsxFileStruct } from './types';
 import { genPageJsx, genSlots } from './jsx/gen-jsx';
 
 function getComponentRefs(
@@ -36,21 +35,10 @@ function getUseComponentRefs(rootSchema: IPublicTypeRootSchema) {
     return usedComponents;
 }
 
-function isCompilerToJsx(
-    nodeData: IPublicTypeNodeData | IPublicTypeNodeData[],
-) {
-    let flag = false;
-    traverseNodeSchema(nodeData, (item) => {
-        if (JSON.stringify(item.props).includes('JSSlot'))
-            flag = true;
-    });
-    return flag;
-}
-
 function compileRootSchema(
     componentMaps: IPublicTypeComponentMap[],
     rootSchema: IPublicTypeRootSchema,
-): FileStruct {
+): JsxFileStruct {
     if (rootSchema.componentName === 'Page') {
         const componentRefs = getUseComponentRefs(rootSchema);
         const fileName = formatFileName(rootSchema.fileName);
@@ -61,29 +49,16 @@ function compileRootSchema(
             componentRefs,
         });
 
-        if (isCompilerToJsx(rootSchema)) {
-            return {
-                fileType: PageFileType.Jsx,
-                filename: fileName,
-                routeName: formatPageName(fileName),
-                pageTitle: formatPageTitle(rootSchema.title),
-                afterImports: [],
-                importSources,
-                codes: codes.concat(genSlots(rootSchema, componentRefs)),
-                jsx: genPageJsx(rootSchema, componentRefs),
-            } as JsxFileStruct;
-        }
-
         return {
-            fileType: PageFileType.Vue,
+            fileType: PageFileType.Jsx,
             filename: fileName,
             routeName: formatPageName(fileName),
-            afterImports: [],
             pageTitle: formatPageTitle(rootSchema.title),
+            afterImports: [],
             importSources,
-            template: genPageTemplate(rootSchema, componentRefs),
-            codes,
-        } as VueFileStruct;
+            codes: codes.concat(genSlots(rootSchema, componentRefs)),
+            jsx: genPageJsx(rootSchema, componentRefs),
+        };
     }
     return null;
 }
@@ -115,7 +90,7 @@ function getUseComponents(
     return useComponents;
 }
 
-export function schemaToCode(schema: IPublicTypeProjectSchema): FileStruct[] {
+export function schemaToCode(schema: IPublicTypeProjectSchema): JsxFileStruct[] {
     return schema.componentsTree.map((rootSchema) => {
         return compileRootSchema(
             getUseComponents(schema.componentsMap, rootSchema),

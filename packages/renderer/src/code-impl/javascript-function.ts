@@ -20,18 +20,18 @@ export class JavascriptFunctionLive {
         this.deps = deps;
     }
 
-    async trigger() {
+    async trigger(...args: any[]) {
         if (this.funcBody) {
             try {
                 // eslint-disable-next-line no-new-func
-                const fn = new Function('_ctx', `
+                const fn = new Function('_ctx', 'params', `
             let result;
             with(_ctx) {
-                result = (${this.funcBody})();
+                result = (${this.funcBody})(...params);
             }
             return result;
         `);
-                return await fn(this.ctx);
+                return await fn(this.ctx, args);
             }
             catch (err) {
                 console.log(err);

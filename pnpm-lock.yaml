@@ -114,8 +114,8 @@ importers:
   packages/common:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.2
-        version: 0.8.2(vue@3.3.4)
+        specifier: ^0.8.4
+        version: 0.8.4(vue@3.3.4)
       '@harrywan/letgo-types':
         specifier: workspace:*
         version: link:../types
@@ -153,8 +153,8 @@ importers:
         specifier: ^6.16.0
         version: 6.16.0
       '@fesjs/fes-design':
-        specifier: ^0.8.2
-        version: 0.8.2(vue@3.3.4)
+        specifier: ^0.8.4
+        version: 0.8.4(vue@3.3.4)
       '@harrywan/letgo-common':
         specifier: workspace:*
         version: link:../common
@@ -181,8 +181,8 @@ importers:
   packages/designer:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.2
-        version: 0.8.2(vue@3.3.4)
+        specifier: ^0.8.4
+        version: 0.8.4(vue@3.3.4)
       '@harrywan/letgo-common':
         specifier: workspace:*
         version: link:../common
@@ -232,8 +232,8 @@ importers:
   packages/editor-skeleton:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.2
-        version: 0.8.2(vue@3.3.4)
+        specifier: ^0.8.4
+        version: 0.8.4(vue@3.3.4)
       '@harrywan/letgo-common':
         specifier: workspace:*
         version: link:../common
@@ -320,8 +320,8 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
       '@fesjs/fes-design':
-        specifier: ^0.8.2
-        version: 0.8.2(vue@3.3.4)
+        specifier: ^0.8.4
+        version: 0.8.4(vue@3.3.4)
       '@harrywan/letgo-common':
         specifier: workspace:*
         version: link:../common
@@ -387,8 +387,8 @@ importers:
         specifier: ^6.11.0
         version: 6.11.0
       '@fesjs/fes-design':
-        specifier: ^0.8.2
-        version: 0.8.2(vue@3.3.4)
+        specifier: ^0.8.4
+        version: 0.8.4(vue@3.3.4)
       '@harrywan/letgo-common':
         specifier: workspace:*
         version: link:../common
@@ -433,8 +433,8 @@ importers:
   packages/plugin-code-generator:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.2
-        version: 0.8.2(vue@3.3.4)
+        specifier: ^0.8.4
+        version: 0.8.4(vue@3.3.4)
       '@harrywan/letgo-common':
         specifier: workspace:*
         version: link:../common
@@ -463,8 +463,8 @@ importers:
   packages/plugin-component-tree:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.2
-        version: 0.8.2(vue@3.3.4)
+        specifier: ^0.8.4
+        version: 0.8.4(vue@3.3.4)
       '@harrywan/letgo-designer':
         specifier: workspace:*
         version: link:../designer
@@ -490,8 +490,8 @@ importers:
   packages/plugin-components:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.2
-        version: 0.8.2(vue@3.3.4)
+        specifier: ^0.8.4
+        version: 0.8.4(vue@3.3.4)
       '@harrywan/letgo-designer':
         specifier: workspace:*
         version: link:../designer
@@ -517,8 +517,8 @@ importers:
   packages/plugin-designer:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.2
-        version: 0.8.2(vue@3.3.4)
+        specifier: ^0.8.4
+        version: 0.8.4(vue@3.3.4)
       '@harrywan/letgo-designer':
         specifier: workspace:*
         version: link:../designer
@@ -563,8 +563,8 @@ importers:
         specifier: ^6.1.7
         version: 6.1.7
       '@fesjs/fes-design':
-        specifier: ^0.8.2
-        version: 0.8.2(vue@3.3.4)
+        specifier: ^0.8.4
+        version: 0.8.4(vue@3.3.4)
       '@harrywan/letgo-common':
         specifier: workspace:*
         version: link:../common
@@ -602,8 +602,8 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
       '@fesjs/fes-design':
-        specifier: ^0.8.2
-        version: 0.8.2(vue@3.3.4)
+        specifier: ^0.8.4
+        version: 0.8.4(vue@3.3.4)
       '@harrywan/letgo-components':
         specifier: workspace:*
         version: link:../components
@@ -629,8 +629,8 @@ importers:
   packages/plugin-setting:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.2
-        version: 0.8.2(vue@3.3.4)
+        specifier: ^0.8.4
+        version: 0.8.4(vue@3.3.4)
       '@harrywan/letgo-common':
         specifier: workspace:*
         version: link:../common
@@ -728,11 +728,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1(vue@3.3.4)
       '@fesjs/fes-design':
-        specifier: ^0.8.2
-        version: 0.8.2(vue@3.3.4)
+        specifier: ^0.8.4
+        version: 0.8.4(vue@3.3.4)
       '@fesjs/plugin-request':
-        specifier: 4.0.0-beta.1
-        version: 4.0.0-beta.1(@fesjs/fes@3.1.1)(vue@3.3.4)
+        specifier: 4.0.0-beta.2
+        version: 4.0.0-beta.2(@fesjs/fes@3.1.1)(vue@3.3.4)
       '@harrywan/letgo-common':
         specifier: workspace:*
         version: link:../common
@@ -2838,8 +2838,8 @@ packages:
       - supports-color
     dev: false
 
-  /@fesjs/fes-design@0.8.2(vue@3.3.4):
-    resolution: {integrity: sha512-FMm21N8UysvRPfrfbXqtu9s7X2TgaWXiexqC8Yr9ShbUbsTQoM9mmWjQqnITyu65aFIyD+bE8EFQxUhw4lUg/w==}
+  /@fesjs/fes-design@0.8.4(vue@3.3.4):
+    resolution: {integrity: sha512-Am+yZ8dDCv9rxrLmEkYju3akZKvds8tRJlpmSurHYTRArawKMFbn3gMBmwLfJYMw7T11CRiWT7//i0bpjIRdgA==}
     peerDependencies:
       vue: ^3.2.24
     dependencies:
@@ -2876,14 +2876,14 @@ packages:
       - vue
     dev: false
 
-  /@fesjs/plugin-request@4.0.0-beta.1(@fesjs/fes@3.1.1)(vue@3.3.4):
-    resolution: {integrity: sha512-45eW90cOXFw8/GLdZbcbc9Rv8dcE82EOYOgRk8l2/l9GLlfU0AwjUk+PndOUptaOId8PCUHfDsd3WYEzvZ42xw==}
+  /@fesjs/plugin-request@4.0.0-beta.2(@fesjs/fes@3.1.1)(vue@3.3.4):
+    resolution: {integrity: sha512-g09M1/yseAH8wPgQZkvvnCc3jHFi+Wb6H4qE+hrfn9y7dy+ChEoRGiek9jsxsmvJ9Vig1renILixoXTmO5Ljng==}
     peerDependencies:
-      '@fesjs/fes': 3.0.0-rc.5
+      '@fesjs/fes': ^3.0.0
       vue: ^3.2.37
     dependencies:
       '@fesjs/fes': 3.1.1(vue@3.3.4)
-      '@fesjs/utils': 3.0.0-rc.2
+      '@fesjs/utils': 3.0.0
       '@qlin/request': 0.1.4
       vue: 3.3.4
     transitivePeerDependencies:
@@ -2935,33 +2935,8 @@ packages:
       portfinder: 1.0.32
       resolve: 1.22.2
       rimraf: 4.4.1
-      semver: 7.5.0
+      semver: 7.5.4
       yargs-parser: 21.1.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /@fesjs/utils@3.0.0-rc.2:
-    resolution: {integrity: sha512-kZlFvKZtuw77Xd4gru0uHMWB13lTWvpSQzMhfD4UnPBQQhtpGZrDWX/7ik/qafdxPkZ3ovwPbirScrCMHdPvNw==}
-    dependencies:
-      '@babel/generator': 7.21.5
-      '@babel/parser': 7.21.8
-      '@babel/traverse': 7.21.5
-      chalk: 4.1.2
-      chokidar: 3.5.3
-      crequire: 1.8.1
-      debug: 4.3.4
-      deepmerge: 4.3.1
-      glob: 7.2.3
-      lodash: 4.17.21
-      mkdirp: 1.0.4
-      mustache: 4.2.0
-      pkg-up: 3.1.0
-      portfinder: 1.0.32
-      resolve: 1.22.2
-      rimraf: 3.0.2
-      semver: 7.5.0
-      yargs-parser: 20.2.9
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -3378,7 +3353,7 @@ packages:
       grapheme-splitter: 1.0.4
       ignore: 5.2.4
       natural-compare-lite: 1.4.0
-      semver: 7.5.0
+      semver: 7.5.4
       tsutils: 3.21.0(typescript@5.0.4)
       typescript: 5.0.4
     transitivePeerDependencies:
@@ -3452,7 +3427,7 @@ packages:
       debug: 4.3.4
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.5.0
+      semver: 7.5.4
       tsutils: 3.21.0(typescript@5.0.4)
       typescript: 5.0.4
     transitivePeerDependencies:
@@ -3473,7 +3448,7 @@ packages:
       '@typescript-eslint/typescript-estree': 5.59.2(typescript@5.0.4)
       eslint: 8.39.0
       eslint-scope: 5.1.1
-      semver: 7.5.0
+      semver: 7.5.4
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -4121,7 +4096,7 @@ packages:
   /builtins@5.0.1:
     resolution: {integrity: sha512-qwVpFEHNfhYJIzNRBvd2C1kyo6jz3ZSMPyyuR47OPdiKWlbYnZNyDWuyR175qDnAJLiCo5fBBqPb3RiXgWlkOQ==}
     dependencies:
-      semver: 7.5.0
+      semver: 7.5.4
     dev: true
 
   /bytes@3.1.2:
@@ -4375,7 +4350,7 @@ packages:
       js-string-escape: 1.0.1
       lodash: 4.17.21
       md5-hex: 3.0.1
-      semver: 7.5.0
+      semver: 7.5.4
       well-known-symbols: 2.0.0
     dev: true
 
@@ -5197,7 +5172,7 @@ packages:
       is-core-module: 2.12.0
       minimatch: 3.1.2
       resolve: 1.22.2
-      semver: 7.5.0
+      semver: 7.5.4
     dev: true
 
   /eslint-plugin-no-only-tests@3.1.0:
@@ -5235,7 +5210,7 @@ packages:
       regexp-tree: 0.1.27
       regjsparser: 0.9.1
       safe-regex: 2.1.1
-      semver: 7.5.0
+      semver: 7.5.4
       strip-indent: 3.0.0
     dev: true
 
@@ -5265,7 +5240,7 @@ packages:
       natural-compare: 1.4.0
       nth-check: 2.1.1
       postcss-selector-parser: 6.0.12
-      semver: 7.5.0
+      semver: 7.5.4
       vue-eslint-parser: 9.2.1(eslint@8.39.0)
       xml-name-validator: 4.0.0
     transitivePeerDependencies:
@@ -5767,6 +5742,7 @@ packages:
       minimatch: 3.1.2
       once: 1.4.0
       path-is-absolute: 1.0.1
+    dev: true
 
   /glob@8.1.0:
     resolution: {integrity: sha512-r8hpEjiQEYlF2QU0df3dS+nxxSIreXQS1qRhMJM0Q5NDdR386C7jb7Hwwod8Fgiuex+k0GFjgft18yvxm5XoCQ==}
@@ -6051,6 +6027,7 @@ packages:
     dependencies:
       once: 1.4.0
       wrappy: 1.0.2
+    dev: true
 
   /inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
@@ -6396,7 +6373,7 @@ packages:
       acorn: 8.8.2
       eslint-visitor-keys: 3.4.1
       espree: 9.5.2
-      semver: 7.5.0
+      semver: 7.5.4
     dev: true
 
   /jsonc-parser@3.2.0:
@@ -6800,6 +6777,7 @@ packages:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
     engines: {node: '>=10'}
     hasBin: true
+    dev: true
 
   /mkdirp@2.1.6:
     resolution: {integrity: sha512-+hEnITedc8LAtIP9u3HJDFIdcLV2vXP33sqLLIzkv1Db1zO/1OxbvYf0Y1OC/S/Qo5dxHXepofhmxL02PsKe+A==}
@@ -6997,6 +6975,7 @@ packages:
     resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
     dependencies:
       wrappy: 1.0.2
+    dev: true
 
   /open@8.4.2:
     resolution: {integrity: sha512-7x81NCL719oNbsq/3mh+hVrAWmFuEYUqrq/Iw3kUzH8ReypT9QQ0BLoJS7/G9k6N81XjW4qHWtjWwe/9eLy1EQ==}
@@ -7193,6 +7172,7 @@ packages:
   /path-is-absolute@1.0.1:
     resolution: {integrity: sha512-AVbw3UJ2e9bq64vSaS9Am0fje1Pa8pbGqTTsmXfaIiMpnr5DlDhfJOuLj9Sf95ZPVDAUerDfEk88MPmPe7UCQg==}
     engines: {node: '>=0.10.0'}
+    dev: true
 
   /path-key@2.0.1:
     resolution: {integrity: sha512-fEHGKCSmUSDPv4uoj8AlD+joPlq3peND+HRYyxFz4KPw4z926S/b8rIuFs2FYJg3BwsxJf6A9/3eIdLaYC+9Dw==}
@@ -8025,6 +8005,7 @@ packages:
     hasBin: true
     dependencies:
       glob: 7.2.3
+    dev: true
 
   /rimraf@4.4.1:
     resolution: {integrity: sha512-Gk8NlF062+T9CqNGn6h4tls3k6T1+/nXdOcSZVikNVtlRdYpA7wRJJMoXmuvOnLW844rPjdQ7JgXCYM6PPC/og==}
@@ -8156,20 +8137,12 @@ packages:
       lru-cache: 6.0.0
     dev: false
 
-  /semver@7.5.0:
-    resolution: {integrity: sha512-+XC0AD/R7Q2mPSRuy2Id0+CGTZ98+8f+KvwirxOKIEyid+XSx6HbC63p+O4IndTHuX5Z+JxQ0TghCkO5Cg/2HA==}
-    engines: {node: '>=10'}
-    hasBin: true
-    dependencies:
-      lru-cache: 6.0.0
-
   /semver@7.5.4:
     resolution: {integrity: sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
-    dev: true
 
   /send@0.18.0:
     resolution: {integrity: sha512-qqWzuOjSFOuqPjFe4NOsMLafToQQwBSOEpS+FwEt3A2V3vKubTquT3vmLTQpFgMXp8AlFWFuP1qKaJZOtPpVXg==}
@@ -9098,7 +9071,7 @@ packages:
       espree: 9.5.2
       esquery: 1.5.0
       lodash: 4.17.21
-      semver: 7.5.0
+      semver: 7.5.4
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -9240,6 +9213,7 @@ packages:
 
   /wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
+    dev: true
 
   /xml-name-validator@4.0.0:
     resolution: {integrity: sha512-ICP2e+jsHvAj2E2lIHxa5tjXRlKDJo4IdvPvCXbXQGdzSfmSpNVyIKMvoZHjDY9DP0zV17iI85o90vRFXNccRw==}
@@ -9290,11 +9264,6 @@ packages:
       camelcase: 5.3.1
       decamelize: 1.2.0
     dev: true
-
-  /yargs-parser@20.2.9:
-    resolution: {integrity: sha512-y11nGElTIV+CT3Zv9t7VKl+Q3hTQoT9a1Qzezhhl6Rp21gJ/IVTW7Z3y9EWXhuUBC2Shnf+DX0antecpAwSP8w==}
-    engines: {node: '>=10'}
-    dev: false
 
   /yargs-parser@21.1.1:
     resolution: {integrity: sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==}

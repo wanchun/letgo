@@ -16,9 +16,8 @@
   "dependencies": {
     "@fesjs/builder-vite": "^3.0.0",
     "@fesjs/fes": "^3.1.1",
-    "@fesjs/fes-design": "^0.8.2",
-    "@fesjs/plugin-request": "4.0.0-beta.1",
-    "@vueuse/core": "^10.1.2",
+    "@fesjs/fes-design": "^0.8.4",
+    "@fesjs/plugin-request": "4.0.0-beta.2",
     "@harrywan/letgo-common": "workspace:*",
     "@harrywan/letgo-engine": "workspace:*",
     "@harrywan/letgo-plugin-code-generator": "workspace:*",
@@ -27,6 +26,7 @@
     "@harrywan/letgo-plugin-schema": "workspace:*",
     "@harrywan/letgo-renderer": "workspace:*",
     "@harrywan/letgo-types": "workspace:*",
+    "@vueuse/core": "^10.1.2",
     "core-js": "^3.31.0",
     "lodash-es": "^4.17.21",
     "vue": "^3.3.4"

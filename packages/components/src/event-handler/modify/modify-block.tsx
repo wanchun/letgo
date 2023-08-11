@@ -54,6 +54,7 @@ const initOptions: any = {
         namespace: null,
         method: null,
         funcBody: '',
+        params: [],
     },
 };
 

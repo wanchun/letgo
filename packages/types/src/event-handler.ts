@@ -17,7 +17,7 @@ export interface IPublicTypeEventHandler {
     waitType: string
     params?: {
         [key: string]: unknown
-    }
+    } | string[]
 }
 
 export interface IEventHandlerMetaParam {
@@ -71,4 +71,17 @@ export interface ISetLocalStorageAction extends IPublicTypeEventHandler {
 export interface IRunFunctionAction extends IPublicTypeEventHandler {
     action: InnerEventHandlerAction.RUN_FUNCTION
     namespace: string
+    params: string[]
+}
+
+export function isRunFunctionEventHandler(data: IPublicTypeEventHandler): data is IRunFunctionAction {
+    return data.action === InnerEventHandlerAction.RUN_FUNCTION;
+}
+
+export function isSetTemporaryStateEventHandler(data: IPublicTypeEventHandler): data is ISetTemporaryStateAction {
+    return data.action === InnerEventHandlerAction.SET_TEMPORARY_STATE;
+}
+
+export function isSetLocalStorageEventHandler(data: IPublicTypeEventHandler): data is ISetLocalStorageAction {
+    return data.action === InnerEventHandlerAction.SET_LOCAL_STORAGE;
 }

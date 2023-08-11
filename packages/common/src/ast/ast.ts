@@ -1,9 +1,12 @@
 import { generate } from 'astring';
-import type { CodeItem, IPublicTypeEventHandler, IPublicTypeJSFunction } from '@harrywan/letgo-types';
 import {
     CodeType,
     InnerEventHandlerAction,
+    isRunFunctionEventHandler,
+    isSetLocalStorageEventHandler,
+    isSetTemporaryStateEventHandler,
 } from '@harrywan/letgo-types';
+import type { CodeItem, IPublicTypeEventHandler, IPublicTypeJSFunction } from '@harrywan/letgo-types';
 import { isNil } from 'lodash-es';
 import { findGlobals, reallyParse } from './find-globals';
 
@@ -51,8 +54,9 @@ export function calcDependencies(item: CodeItem, ctx?: Record<string, any>) {
 export function eventHandlerToJsFunction(item: IPublicTypeEventHandler): IPublicTypeJSFunction {
     let expression: string;
     const params: any[] = [];
-    if (item.action === InnerEventHandlerAction.RUN_FUNCTION) {
+    if (isRunFunctionEventHandler(item)) {
         expression = `${item.namespace}(...Array.prototype.slice.call(arguments))`;
+        params.push(...item.params.filter(item => item));
     }
     else if (item.action === InnerEventHandlerAction.CONTROL_QUERY) {
         expression = `${item.namespace}.${item.method}.apply(${item.namespace}, Array.prototype.slice.call(arguments))`;
@@ -61,12 +65,12 @@ export function eventHandlerToJsFunction(item: IPublicTypeEventHandler): IPublic
         // TODO 支持参数
         expression = `${item.namespace}.${item.method}()`;
     }
-    else if (item.action === InnerEventHandlerAction.SET_TEMPORARY_STATE) {
+    else if (isSetTemporaryStateEventHandler(item)) {
         // TODO 支持其他方法
         params.push(item.params.value);
         expression = `${item.namespace}.${item.method}.apply(${item.namespace}, Array.prototype.slice.call(arguments))`;
     }
-    else if (item.action === InnerEventHandlerAction.SET_LOCAL_STORAGE) {
+    else if (isSetLocalStorageEventHandler(item)) {
         // TODO 支持其他方法
         if (item.method === 'setValue') {
             params.push(item.params.key, item.params.value);

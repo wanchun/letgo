@@ -2,6 +2,7 @@ import type {
     IPublicTypeCompositeValue,
     IPublicTypeDOMText,
     IPublicTypeJSExpression,
+    IPublicTypeJSFunction,
     IPublicTypeJSSlot,
     IPublicTypeNodeData,
     IPublicTypeNodeSchema,
@@ -16,7 +17,7 @@ import {
     isNodeSchema,
 } from '@harrywan/letgo-types';
 import { camelCase, isArray, isEmpty, isNil, isPlainObject, merge } from 'lodash-es';
-import { genEventName } from '../events';
+import { funcSchemaToFunc } from '../events';
 import { traverseNodePropsSlot, traverseNodeSchema } from '../helper';
 import { compileDirectives } from './directives';
 
@@ -101,7 +102,7 @@ function compileProps(props?: IPublicTypePropsMap, refName = '') {
                 return `${key}={${propValue.value?.trim()}}`;
 
             if (key.match(/^on[A-Z]/))
-                return `${key}={${genEventName(key, refName)}}`;
+                return `${key}={[${((propValue || []) as IPublicTypeJSFunction[]).map(funcSchemaToFunc).join(',')}]}`;
 
             if (isJSFunction(propValue))
                 return `${key}={${propValue.value}`;

@@ -5,7 +5,9 @@ import { computed, defineComponent, ref } from 'vue';
 
 import { FInput, FOption, FSelect } from '@fesjs/fes-design';
 import type { DocumentModel } from '@harrywan/letgo-designer';
+import { DeleteOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
 import Label from './label';
+import { paramIconCls, paramsCls } from './render-options.css';
 
 export default defineComponent({
     name: 'RenderOptions',
@@ -123,10 +125,34 @@ export default defineComponent({
                 };
             });
         });
+
+        const addFunctionParam = (data: IRunFunctionAction) => {
+            data.params.push('');
+        };
+        const deleteFunctionParam = (data: IRunFunctionAction, index: number) => {
+            data.params.splice(index, 1);
+        };
         const renderRunFunction = (data: IRunFunctionAction) => {
-            return <Label label="function">
-                <FSelect v-model={data.namespace} appendToContainer={false} options={functionOptions.value} />
-            </Label>;
+            return <>
+                <Label label="function">
+                    <FSelect v-model={data.namespace} appendToContainer={false} options={functionOptions.value} />
+                </Label>
+                <Label label="参数">
+                    <div class={paramsCls}>
+                        <span>
+                            <FInput v-model={data.params[0]} placeholder='参数1' />
+                            <PlusCircleOutlined class={paramIconCls} onClick={() => addFunctionParam(data)} />
+                        </span>
+                        {data.params.slice(1).map((_, index) => {
+                            return <span>
+                                <FInput v-model={data.params[index + 1]} placeholder={`参数${index + 2}`} />
+                                <PlusCircleOutlined class={paramIconCls} onClick={() => addFunctionParam(data)} />
+                                <DeleteOutlined class={paramIconCls} onClick={() => deleteFunctionParam(data, index + 1)} />
+                            </span>;
+                        })}
+                    </div>
+                </Label>
+            </>;
         };
 
         return () => {

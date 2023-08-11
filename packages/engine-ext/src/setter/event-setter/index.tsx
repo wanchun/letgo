@@ -5,7 +5,7 @@ import {
     FButton,
 } from '@fesjs/fes-design';
 import { genEventId } from '@harrywan/letgo-common';
-import { InnerEventHandlerAction } from '@harrywan/letgo-types';
+import { InnerEventHandlerAction, isRunFunctionEventHandler } from '@harrywan/letgo-types';
 import { EventHandlerList, EventHandlerModify } from '@harrywan/letgo-components';
 import { PlusOutlined } from '@fesjs/fes-design/icon';
 import { commonProps } from '../../common';
@@ -93,6 +93,8 @@ const EventSetterView = defineComponent({
 
         const onEdit = (data: IPublicTypeEventHandler) => {
             currentEditEvent.value = { ...data };
+            if (isRunFunctionEventHandler(data) && !currentEditEvent.value.params)
+                currentEditEvent.value.params = [];
         };
         const emitChangeEventData = () => {
             props.onChange({

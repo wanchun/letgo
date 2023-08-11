@@ -1,5 +1,13 @@
 # @harrywan/letgo-common
 
+## 0.0.0-beta.18
+
+### Patch Changes
+
+- add function params
+- Updated dependencies
+  - @harrywan/letgo-types@0.0.0-beta.18
+
 ## 0.0.0-beta.17
 
 ### Patch Changes

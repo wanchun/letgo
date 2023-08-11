@@ -1,5 +1,11 @@
 # @harrywan/letgo-types
 
+## 0.0.0-beta.18
+
+### Patch Changes
+
+- add function params
+
 ## 0.0.0-beta.17
 
 ### Patch Changes

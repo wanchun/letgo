@@ -1,7 +1,6 @@
 import type { VNodeChild } from 'vue';
 import { h } from 'vue';
 import WidgetView from '../views/widget';
-import { isModal, isPanel } from '../types';
 import type { IWidget, IWidgetConfig } from '../types';
 import type { Skeleton } from '../skeleton';
 import { BaseWidget } from './base';
@@ -19,30 +18,23 @@ export class Widget extends BaseWidget implements IWidget {
 
     readonly onInit?: (widget: IWidget) => void;
 
-    private _modal?: Modal;
-
-    private _panel?: Panel;
+    private _linked?: Modal | Panel;
 
     get content(): VNodeChild {
         return h(WidgetView, {
             widget: this,
             key: this.id,
-            onClick: (this.onClick || this._modal || this._panel)
+            onClick: (this.onClick || this._linked)
                 ? () => {
-                        this._modal?.toggle();
-                        this._panel?.toggle();
+                        this._linked?.toggle();
                         this.onClick?.(this);
                     }
                 : undefined,
         });
     }
 
-    get modal(): Modal | null {
-        return this._modal;
-    }
-
-    get panel(): Panel | null {
-        return this._panel;
+    get linked(): Modal | Panel | undefined {
+        return this._linked;
     }
 
     constructor(readonly skeleton: Skeleton, readonly config: IWidgetConfig) {
@@ -58,10 +50,6 @@ export class Widget extends BaseWidget implements IWidget {
     }
 
     link(widget: Modal | Panel) {
-        if (isModal(widget))
-            this._modal = widget;
-
-        if (isPanel(widget))
-            this._panel = widget;
+        this._linked = widget;
     }
 }

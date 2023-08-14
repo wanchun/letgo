@@ -23,6 +23,7 @@ export class BaseWidget implements IBaseWidget {
             return this._body;
         const { render } = this.config;
         this._body = render({
+            widget: this,
             config: this.config,
             editor: this.skeleton.editor,
         });

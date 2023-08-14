@@ -24,6 +24,7 @@ export type IAreaPosition =
     | 'globalArea';
 
 export interface IRenderOption {
+    widget: IBaseWidget
     config: IBaseConfig
     editor: IPublicEditor
 }
@@ -143,10 +144,10 @@ export interface IWidget extends IBaseWidget {
 
     readonly align?: string
     readonly title: string
+    readonly linked?: IModal | IPanel
     readonly onClick?: (widget: IWidget) => void
     readonly onInit?: (widget: IWidget) => void
-    readonly modal?: IModal
-    readonly panel?: IPanel
+
 }
 
 export interface IModal extends IBaseWidget {

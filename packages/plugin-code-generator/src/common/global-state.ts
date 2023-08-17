@@ -23,14 +23,10 @@ export const useSharedLetgoGlobal = createSharedComposable(useLetgoGlobal);
 
 export const GLOBAL_STATE_FILE_NAME = 'useLetgoGlobal';
 
-let globalStateKeys: string[];
+const globalStateKeys: string[] = [];
 function genGlobalStateKeys(codeStruct: CodeStruct) {
-    if (!globalStateKeys) {
-        const codeMap = genCodeMap(codeStruct);
-        globalStateKeys = Array.from(codeMap.keys());
-    }
-
-    return globalStateKeys;
+    const codeMap = genCodeMap(codeStruct);
+    return Array.from(codeMap.keys());
 }
 
 function getGlobalContextKey() {
@@ -62,7 +58,7 @@ export function compilerUtils(utils: IPublicTypeUtilsMap) {
         if (item.type === 'function')
             return `${item.name}: ${item.content.value}`;
         else
-            return `${item.name},`;
+            return `${item.name}`;
     }).join(',');
 
     return {
@@ -84,24 +80,23 @@ export function genGlobalStateCode(schema: IPublicTypeProjectSchema) {
 
     const importSources: ImportSource[] = [];
     let code = '';
-    const codeKeys: string[] = [];
 
     if (schema.utils) {
         const result = compilerUtils(schema.utils);
         importSources.push(...result.importSources);
         code += result.code;
-        codeKeys.push('utils');
+        globalStateKeys.push('utils');
     }
 
     if (schema.code) {
         const result = genCode(schema.code);
         importSources.push(...result.importSources);
-        codeKeys.push(...genGlobalStateKeys(schema.code));
+        globalStateKeys.push(...genGlobalStateKeys(schema.code));
         code += result.code;
     }
     tmp = tmp.replace('IMPORTS', importSources.length ? genImportCode(importSources) : '');
     tmp = tmp.replace('STATE_CODE', code);
-    tmp = tmp.replace('CODE_KEYS', codeKeys.length ? codeKeys.join(',') : '');
+    tmp = tmp.replace('CODE_KEYS', globalStateKeys.length ? globalStateKeys.join(',') : '');
 
     return {
         filename: `${GLOBAL_STATE_FILE_NAME}.js`,

@@ -1,7 +1,7 @@
-import { parse } from 'acorn';
 import { generate } from 'astring';
 import { simple } from 'acorn-walk';
 import { isNil, isUndefined } from 'lodash-es';
+import { innerParse } from './ast';
 
 interface Identifier {
     type: 'Identifier'
@@ -11,15 +11,6 @@ interface Identifier {
 }
 
 type Callback = (identifier: Identifier) => void;
-
-function innerParse(code: string) {
-    return parse(code, {
-        allowReturnOutsideFunction: true,
-        allowImportExportEverywhere: true,
-        allowHashBang: true,
-        ecmaVersion: 2022,
-    });
-}
 
 export function isSyntaxError(code: string): boolean {
     try {

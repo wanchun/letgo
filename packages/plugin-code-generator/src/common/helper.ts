@@ -7,6 +7,7 @@ import type {
     IPublicTypeNodeData,
     IPublicTypeNodeSchema,
 } from '@harrywan/letgo-types';
+import { eventHandlersToJsFunction, isSyntaxError, replaceFunctionName, sortState } from '@harrywan/letgo-common';
 import {
     CodeType,
     isJSExpression,
@@ -15,7 +16,6 @@ import {
     isNodeSchema,
     isRestQueryResource,
 } from '@harrywan/letgo-types';
-import { eventHandlersToJsFunction, isSyntaxError, sortState } from '@harrywan/letgo-common';
 import { isPlainObject } from 'lodash-es';
 import type { ImportSource, SetupCode } from './types';
 import { ImportType } from './types';
@@ -228,7 +228,7 @@ export function genCode(codeStruct: CodeStruct): SetupCode {
             `);
         }
         else if (item.type === CodeType.JAVASCRIPT_FUNCTION) {
-            codeStr.push(`const ${item.id} = ${item.funcBody}`);
+            codeStr.push(replaceFunctionName(item.funcBody, item.id));
         }
         else if (item.type === CodeType.JAVASCRIPT_QUERY) {
             importSourceMap.set('useJSQuery', {
@@ -237,7 +237,7 @@ export function genCode(codeStruct: CodeStruct): SetupCode {
                 source: '@/use/useJSQuery',
             });
             if (isRestQueryResource(item)) {
-                importSourceMap.set('useJSQuery', {
+                importSourceMap.set('letgoRequest', {
                     type: ImportType.ImportSpecifier,
                     source: '@/common/letgoRequest',
                     imported: 'letgoRequest',
@@ -256,10 +256,10 @@ export function genCode(codeStruct: CodeStruct): SetupCode {
                     ${item.showSuccessToaster ? `showSuccessToaster: ${item.showSuccessToaster},` : ''}
                     ${item.successMessage ? `successMessage: '${item.successMessage}',` : ''}
                     ${item.queryTimeout ? `queryTimeout: ${item.queryTimeout},` : ''}
-                    ${item.runCondition ? `runCondition: ${item.runCondition},` : ''}
+                    ${item.runCondition ? `runCondition: '${item.runCondition}',` : ''}
                     ${item.runWhenPageLoads ? `runWhenPageLoads: ${item.runWhenPageLoads},` : ''}
                     ${(item.queryFailureCondition && item.queryFailureCondition.length) ? `queryFailureCondition: ${item.queryFailureCondition},` : ''}
-                    ${item.successEvent ? `successEvent: ${eventSchemaToFunc(item.successEvent)}},` : ''}
+                    ${item.successEvent ? `successEvent: ${eventSchemaToFunc(item.successEvent)},` : ''}
                     ${item.failureEvent ? `failureEvent: ${eventSchemaToFunc(item.failureEvent)},` : ''}
                 });
                 `);
@@ -275,7 +275,7 @@ export function genCode(codeStruct: CodeStruct): SetupCode {
                     ${item.showSuccessToaster ? `showSuccessToaster: ${item.showSuccessToaster},` : ''}
                     ${item.successMessage ? `successMessage: '${item.successMessage}',` : ''}
                     ${item.queryTimeout ? `queryTimeout: ${item.queryTimeout},` : ''}
-                    ${item.runCondition ? `runCondition: ${item.runCondition},` : ''}
+                    ${item.runCondition ? `runCondition: '${item.runCondition}',` : ''}
                     ${item.runWhenPageLoads ? `runWhenPageLoads: ${item.runWhenPageLoads},` : ''}
                     ${(item.queryFailureCondition && item.queryFailureCondition.length) ? `queryFailureCondition: ${item.queryFailureCondition},` : ''}
                     ${item.successEvent ? `successEvent: ${eventSchemaToFunc(item.successEvent)}},` : ''}

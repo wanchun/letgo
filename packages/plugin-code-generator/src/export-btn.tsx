@@ -3,29 +3,31 @@ import { material, project } from '@harrywan/letgo-engine';
 import { IPublicEnumTransformStage, isProCodeComponentType } from '@harrywan/letgo-types';
 import { FButton, FMessage } from '@fesjs/fes-design';
 import { DownloadOutlined } from '@fesjs/fes-design/icon';
+import { toAssemble } from './common/build';
 import { genFesCode } from './gen-fes';
 import { schemaToCode } from './common';
 import { genGlobalStateCode } from './common/global-state';
+import type { FileStruct } from './common/type';
 
-// // debug func
-// async function saveFile(rootComponents: FileStruct[]) {
-//     const content = toAssemble(rootComponents[0]);
-//     const options = {
-//         types: [
-//             {
-//                 description: 'vue',
-//                 accept: {
-//                     'text/plain': ['.vue', '.jsx'],
-//                 },
-//             },
-//         ],
-//     };
-//     const handle = await window.showSaveFilePicker(options);
-//     const writable = await handle.createWritable();
-//     await writable.write(content);
-//     await writable.close();
-//     return handle;
-// }
+// debug func
+async function saveFile(rootComponents: FileStruct[]) {
+    const content = toAssemble(rootComponents[0]);
+    const options = {
+        types: [
+            {
+                description: 'vue jsx',
+                accept: {
+                    'text/plain': ['.jsx'],
+                },
+            },
+        ],
+    };
+    const handle = await window.showSaveFilePicker(options);
+    const writable = await handle.createWritable();
+    await writable.write(content);
+    await writable.close();
+    return handle;
+}
 
 export default defineComponent({
     setup() {
@@ -53,6 +55,8 @@ export default defineComponent({
             const globalCss = schema.css;
 
             const code = schemaToCode(schema);
+            await saveFile(code);
+            return;
             genFesCode(code, globalState, globalCss);
         };
         return () => {

@@ -1,7 +1,9 @@
 import { generate } from 'astring';
+import { parse } from 'acorn';
 import {
     CodeType,
     InnerEventHandlerAction,
+    isRestQueryResource,
     isRunFunctionEventHandler,
     isSetLocalStorageEventHandler,
     isSetTemporaryStateEventHandler,
@@ -9,6 +11,15 @@ import {
 import type { CodeItem, IPublicTypeEventHandler, IPublicTypeJSFunction } from '@harrywan/letgo-types';
 import { isNil } from 'lodash-es';
 import { findGlobals, reallyParse } from './find-globals';
+
+export function innerParse(code: string) {
+    return parse(code, {
+        allowReturnOutsideFunction: true,
+        allowImportExportEverywhere: true,
+        allowHashBang: true,
+        ecmaVersion: 2022,
+    });
+}
 
 export function replaceJSFunctionIdentifier(code: string, newName: string, preName: string) {
     const ast = reallyParse(code);
@@ -24,6 +35,8 @@ export function replaceJSFunctionIdentifier(code: string, newName: string, preNa
 }
 
 export function calcJSCodeDependencies(code: string, ctx?: Record<string, any>) {
+    if (!code)
+        return [];
     const globalNodes = findGlobals(code);
     const dependencies: string[] = [];
     globalNodes.forEach((item) => {
@@ -35,20 +48,25 @@ export function calcJSCodeDependencies(code: string, ctx?: Record<string, any>) 
 
 export function calcDependencies(item: CodeItem, ctx?: Record<string, any>) {
     try {
+        let result: string[];
         if (item.type === CodeType.TEMPORARY_STATE)
-            return calcJSCodeDependencies(item.initValue, ctx);
+            result = calcJSCodeDependencies(item.initValue, ctx);
 
         else if (item.type === CodeType.JAVASCRIPT_COMPUTED || item.type === CodeType.JAVASCRIPT_FUNCTION)
-            return calcJSCodeDependencies(item.funcBody, ctx);
+            result = calcJSCodeDependencies(item.funcBody, ctx);
 
-        else if (item.type === CodeType.JAVASCRIPT_QUERY)
-            return calcJSCodeDependencies(item.query, ctx);
+        if (item.type === CodeType.JAVASCRIPT_QUERY) {
+            if (isRestQueryResource(item))
+                result = calcJSCodeDependencies(item.params, ctx);
+
+            else
+                result = calcJSCodeDependencies(item.query, ctx);
+        }
+        return Array.from(new Set(result));
     }
     catch (_) {
         return [];
     }
-
-    throw new Error(`[letgo]: unknown code item: ${JSON.stringify(item)}`);
 }
 
 export function eventHandlerToJsFunction(item: IPublicTypeEventHandler): IPublicTypeJSFunction {

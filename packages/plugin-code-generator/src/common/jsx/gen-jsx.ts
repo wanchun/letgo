@@ -235,9 +235,7 @@ function compileDOMText(domText: IPublicTypeDOMText) {
     return domText;
 }
 
-function compileNodeData(nodeData: IPublicTypeNodeData | IPublicTypeNodeData[], componentRefs: Set<string>, isRoot = false): string {
-    if (isArray(nodeData))
-        return nodeData.map(item => compileNodeData(item, componentRefs)).join('\n');
+function compileSingleNodeData(nodeData: IPublicTypeNodeData, componentRefs: Set<string>, isRoot = false) {
     if (isNodeSchema(nodeData))
         return compileNodeSchema(nodeData, componentRefs, isRoot);
 
@@ -248,6 +246,12 @@ function compileNodeData(nodeData: IPublicTypeNodeData | IPublicTypeNodeData[], 
         return compileDOMText(nodeData);
 
     return '';
+}
+
+function compileNodeData(nodeData: IPublicTypeNodeData | IPublicTypeNodeData[], componentRefs: Set<string>, isRoot = false): string | string[] {
+    if (isArray(nodeData))
+        return nodeData.map(item => compileSingleNodeData(item, componentRefs, isRoot));
+    return compileSingleNodeData(nodeData, componentRefs, isRoot);
 }
 
 function wrapFragment(children: string | string[]) {

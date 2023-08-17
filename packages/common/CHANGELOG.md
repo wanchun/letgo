@@ -1,5 +1,11 @@
 # @harrywan/letgo-common
 
+## 0.0.0-beta.19
+
+### Patch Changes
+
+- fix gen code
+
 ## 0.0.0-beta.18
 
 ### Patch Changes

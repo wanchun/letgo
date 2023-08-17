@@ -1,5 +1,16 @@
 # @harrywan/letgo-plugin-setting
 
+## 0.0.0-beta.19
+
+### Patch Changes
+
+- Updated dependencies
+  - @harrywan/letgo-common@0.0.0-beta.19
+  - @harrywan/letgo-components@0.0.0-beta.19
+  - @harrywan/letgo-designer@0.0.0-beta.19
+  - @harrywan/letgo-editor-core@0.0.0-beta.19
+  - @harrywan/letgo-engine-plugin@0.0.0-beta.19
+
 ## 0.0.0-beta.18
 
 ### Patch Changes

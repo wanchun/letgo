@@ -1,5 +1,15 @@
 # @harrywan/letgo-renderer
 
+## 0.0.0-beta.19
+
+### Patch Changes
+
+- fix gen code
+- Updated dependencies
+  - @harrywan/letgo-common@0.0.0-beta.19
+  - @harrywan/letgo-components@0.0.0-beta.19
+  - @harrywan/letgo-designer@0.0.0-beta.19
+
 ## 0.0.0-beta.18
 
 ### Patch Changes

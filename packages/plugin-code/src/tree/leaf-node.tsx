@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue';
 
-import { isArray, isBoolean, isNil, isNumber, isPlainObject, isString } from 'lodash-es';
+import { isArray, isBoolean, isFunction, isNil, isNumber, isPlainObject, isString } from 'lodash-es';
 import { leafCls, leafValueCls } from './leaf-node.css';
 import LabelTip from './label-tip';
 
@@ -10,7 +10,7 @@ export default defineComponent({
     name: 'LeafNode',
     props: {
         label: [String, Number],
-        value: [Object, Array, String, Number, Boolean],
+        value: [Object, Array, String, Number, Boolean, Function],
         level: {
             type: Number,
             default: 0,
@@ -27,7 +27,10 @@ export default defineComponent({
             return <span class={leafValueCls} style={`color: ${color}`}>{value}</span>;
         };
         const renderCommonValue = (value: CommonType) => {
-            if (isString(value))
+            if (isFunction(value))
+                return attachColorToValue('#b37feb', 'function');
+
+            else if (isString(value))
                 return attachColorToValue('#f759ab', `"${value}"`);
 
             else if (isNumber(value))

@@ -259,8 +259,8 @@ export function genCode(codeStruct: CodeStruct): SetupCode {
                     ${item.runCondition ? `runCondition: '${item.runCondition}',` : ''}
                     ${item.runWhenPageLoads ? `runWhenPageLoads: ${item.runWhenPageLoads},` : ''}
                     ${(item.queryFailureCondition && item.queryFailureCondition.length) ? `queryFailureCondition: ${item.queryFailureCondition},` : ''}
-                    ${item.successEvent ? `successEvent: ${eventSchemaToFunc(item.successEvent)},` : ''}
-                    ${item.failureEvent ? `failureEvent: ${eventSchemaToFunc(item.failureEvent)},` : ''}
+                    ${item.successEvent ? `successEvent: [${eventSchemaToFunc(item.successEvent).join(',')}],` : ''}
+                    ${item.failureEvent ? `failureEvent: [${eventSchemaToFunc(item.failureEvent).join(',')}],` : ''}
                 });
                 `);
             }
@@ -278,8 +278,8 @@ export function genCode(codeStruct: CodeStruct): SetupCode {
                     ${item.runCondition ? `runCondition: '${item.runCondition}',` : ''}
                     ${item.runWhenPageLoads ? `runWhenPageLoads: ${item.runWhenPageLoads},` : ''}
                     ${(item.queryFailureCondition && item.queryFailureCondition.length) ? `queryFailureCondition: ${item.queryFailureCondition},` : ''}
-                    ${item.successEvent ? `successEvent: ${eventSchemaToFunc(item.successEvent)}},` : ''}
-                    ${item.failureEvent ? `failureEvent: ${eventSchemaToFunc(item.failureEvent)},` : ''}
+                    ${item.successEvent ? `successEvent: [${eventSchemaToFunc(item.successEvent).join(',')}],` : ''}
+                    ${item.failureEvent ? `failureEvent: [${eventSchemaToFunc(item.failureEvent).join(',')}],` : ''}
                 });
                 `);
             }

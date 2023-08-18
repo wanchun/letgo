@@ -1,3 +1,4 @@
+import { computed } from 'vue';
 import { markComputed, markShallowReactive } from '@harrywan/letgo-common';
 import type { IJavascriptComputed } from '@harrywan/letgo-types';
 import { ComputedLive } from '@harrywan/letgo-renderer';
@@ -9,7 +10,6 @@ export class ComputedImpl extends ComputedLive implements IJavascriptComputedImp
 
         markShallowReactive(this, {
             id: this.id,
-            value: this.value,
         });
         markComputed(this, ['view']);
     }
@@ -21,7 +21,7 @@ export class ComputedImpl extends ComputedLive implements IJavascriptComputedImp
     changeContent(content: Record<string, any>) {
         if (content.funcBody) {
             this.funcBody = content.funcBody;
-            this.value = this.executeInput(content.funcBody);
+            this.value = computed(() => this.executeInput(content.funcBody));
         }
     }
 

@@ -1,6 +1,7 @@
 import { isNil } from 'lodash-es';
+import { computed } from 'vue';
 import type { WatchStopHandle } from 'vue';
-import { watch } from 'vue';
+import { markShallowReactive } from '@harrywan/letgo-common';
 import type { IJavascriptComputed } from '@harrywan/letgo-types';
 import { CodeType } from '@harrywan/letgo-types';
 
@@ -18,31 +19,13 @@ export class ComputedLive {
         this.funcBody = data.funcBody;
 
         this.changeDeps(deps || []);
-        this.value = this.funcBody ? this.executeInput(this.funcBody) : null;
+        markShallowReactive(this, {
+            value: this.funcBody ? computed(() => this.executeInput(this.funcBody)) : null,
+        });
     }
 
     changeDeps(deps: string[]): void {
         this.deps = deps;
-        this.toWatch(deps);
-    }
-
-    toWatch(deps: string[]) {
-        if (this.unwatch)
-            this.unwatch();
-        if (!deps || deps.length === 0)
-            return;
-        this.unwatch = watch(() => deps.map((dep) => {
-            if (this.ctx[dep].type === CodeType.JAVASCRIPT_QUERY)
-                return this.ctx[dep].data;
-            else
-                return this.ctx[dep].value;
-        }), () => {
-            this.value = this.executeInput(this.funcBody);
-        });
-    }
-
-    recalculateValue() {
-        this.value = this.executeInput(this.funcBody);
     }
 
     executeInput(text?: string) {

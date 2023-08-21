@@ -41,6 +41,7 @@
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-replace": "^5.0.2",
     "@vanilla-extract/rollup-plugin": "^1.2.2",
+    "@vanilla-extract/vite-plugin": "^3.8.2",
     "@vue/babel-plugin-jsx": "^1.1.1",
     "autoprefixer": "^10.4.12",
     "chalk": "4.1.2",

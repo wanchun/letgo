@@ -20,7 +20,10 @@ import {
     parseSchema,
     useLeaf,
 } from '@harrywan/letgo-renderer';
-import type { IPublicTypeComponentInstance, IPublicTypeCompositeValue } from '@harrywan/letgo-types';
+import type {
+    IPublicTypeComponentAction, IPublicTypeComponentInstance,
+    IPublicTypeCompositeValue,
+} from '@harrywan/letgo-types';
 import {
     IPublicEnumTransformStage,
     isJSSlot,
@@ -35,6 +38,7 @@ import type {
     SlotSchemaMap,
 } from '@harrywan/letgo-renderer';
 import { BASE_COMP_CONTEXT } from '../constants';
+import { createAction } from './centerAction';
 
 /**
  * 装饰默认插槽，当插槽为空时，渲染插槽占位符，便于拖拽
@@ -53,6 +57,15 @@ function decorateDefaultSlot(slot?: Slot): Slot {
         }
         return vNodes;
     };
+}
+function buildCenterAction(node: INode, action?: IPublicTypeComponentAction) {
+    const { important = true, condition, content, name } = action;
+    if (important && (typeof condition === 'function'
+        ? condition(node) !== false
+        : condition !== false))
+        return createAction(content, name, node);
+
+    return null;
 }
 
 function useSchema(props: LeafProps, node: INode) {
@@ -297,7 +310,7 @@ export const Hoc = defineComponent({
             });
             // slot 的 scope 是内建的，需要往后传
             const slots = innerBuildSlots(compSlots, node.componentName === 'Slot' ? innerScope : null);
-            return h(comp, props, slots);
+            return h(comp, props, node.componentMeta.centerAction ? buildCenterAction(node, node.componentMeta.centerAction) : slots);
         }
 
         if (!Array.isArray(loop)) {

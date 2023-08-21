@@ -9320,7 +9320,7 @@ const assets: IPublicTypeAssetsJson = {
         },
     }],
     sort: {
-        groupList: ['原子组件', '精选组件'],
+        groupList: ['原子组件', '智能推导', '精选组件'],
         categoryList: [
             '基础元素',
             '通用组件',
@@ -9330,6 +9330,7 @@ const assets: IPublicTypeAssetsJson = {
             '信息展示',
             '信息反馈',
             '对话框类',
+            '表单组件',
         ],
     },
 };

@@ -190,6 +190,10 @@ export interface IPublicTypeComponentConfigure {
      */
     disableBehaviors?: string[] | string
     /**
+     * 覆盖在整个组件上的操作
+     */
+    centerAction?: IPublicTypeComponentAction
+    /**
      * 用于详细配置上述操作项的内容
      */
     actions?: IPublicTypeComponentAction[]

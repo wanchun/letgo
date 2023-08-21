@@ -209,6 +209,7 @@ export class ComponentMeta {
 
     private disableBehaviors?: string[];
 
+    private _centerAction?: IPublicTypeComponentAction;
     private actions?: IPublicTypeComponentAction[];
 
     parentWhitelist?: IPublicTypeNestingFilter | null;
@@ -313,6 +314,7 @@ export class ComponentMeta {
                     ? [component.disableBehaviors]
                     : component.disableBehaviors;
             this.actions = component.actions;
+            this._centerAction = component.centerAction;
             if (component.nestingRule) {
                 const { parentWhitelist, childWhitelist }
                     = component.nestingRule;
@@ -337,6 +339,10 @@ export class ComponentMeta {
             || this.componentName === 'Component'
             || (includeBlock && this.componentName === 'Block')
         );
+    }
+
+    get centerAction() {
+        return this._centerAction;
     }
 
     get availableActions() {

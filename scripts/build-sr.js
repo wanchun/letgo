@@ -1,6 +1,7 @@
 const path = require('node:path');
 const { build } = require('vite');
 const vueJsx = require('@vitejs/plugin-vue-jsx');
+const vanillaExtract = require('@vanilla-extract/vite-plugin');
 const { getResourcePath, getLibOutputPath, isWatch } = require('./build-shard');
 
 async function compiler(source, outDir, name) {
@@ -30,7 +31,7 @@ async function compiler(source, outDir, name) {
             },
             watch: isWatch(),
         },
-        plugins: [vueJsx()],
+        plugins: [vueJsx(), vanillaExtract.vanillaExtractPlugin({})],
     });
 }
 

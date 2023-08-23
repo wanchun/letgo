@@ -16,18 +16,6 @@ export default defineBuildConfig({
             changeOrigin: true,
         },
     },
-    layout: {
-        title: 'Fes.js',
-        navigation: 'mixin',
-        multiTabs: false,
-        footer: null,
-        menus: [
-            {
-                name: 'index',
-            },
-            META
-        ],
-    },
 });
 `;
 
@@ -61,13 +49,7 @@ export async function genFesCode(fileStructs: FileStruct[], globalState?: Global
         `;
     }
 
-    currentContent['.fes.js'] = defaultObjectConfig.replace('META', fileStructs.reduce((acc, cur) => {
-        return acc += `
-        {
-            name: '${cur.routeName}'
-        },
-    `;
-    }, ''));
+    currentContent['.fes.js'] = defaultObjectConfig;
 
     exportZip(currentContent);
 }

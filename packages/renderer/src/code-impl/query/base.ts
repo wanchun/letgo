@@ -25,8 +25,8 @@ export class JavascriptQueryBase {
     cacheDuration: number = null;
     runCondition: RunCondition;
     failureEvent: IPublicTypeEventHandler[];
-    successEventInstances: (() => void)[];
-    failureEventInstances: (() => void)[];
+    successEventInstances: ((...args: any[]) => void)[];
+    failureEventInstances: ((...args: any[]) => void)[];
     successEvent: IPublicTypeEventHandler[];
     queryFailureCondition: IFailureCondition[];
     cacheTime: number;
@@ -51,7 +51,7 @@ export class JavascriptQueryBase {
         this.deps = deps;
 
         this.successEventInstances = this.eventSchemaToFunc(this.successEvent);
-        this.failureEventInstances = this.eventSchemaToFunc(this.successEvent);
+        this.failureEventInstances = this.eventSchemaToFunc(this.failureEvent);
     }
 
     changeDeps(deps: string[]) {
@@ -126,12 +126,12 @@ export class JavascriptQueryBase {
 
                 this.cacheTime = Date.now();
                 this.successEventInstances.forEach((eventHandler) => {
-                    eventHandler();
+                    eventHandler(this.data);
                 });
             }
             catch (err) {
                 this.failureEventInstances.forEach((eventHandler) => {
-                    eventHandler();
+                    eventHandler(err);
                 });
                 if (err instanceof Error)
                     this.error = err.message;

@@ -8,5 +8,5 @@ export function replaceFunctionName(code: string, name: string) {
     if (ast.body[0].type === 'FunctionDeclaration')
         ast.body[0].id.name = name;
 
-    return generate((ast as any).body[0]).replace(';', '');
+    return generate(ast);
 }

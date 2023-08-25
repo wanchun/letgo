@@ -98,8 +98,12 @@ function compileProps(props?: IPublicTypePropsMap, refName = '') {
                 const value = isJSExpression(propValue) ? propValue.value : propValue;
                 return `${name}={${arg ? `[${value}, '${arg}']` : value}}`;
             }
-            if (isJSExpression(propValue))
-                return `${key}={${propValue.value?.trim()}}`;
+            if (isJSExpression(propValue)) {
+                const value = propValue.value?.trim();
+                if (!value)
+                    return null;
+                return `${key}={${value}}`;
+            }
 
             if (key.match(/^on[A-Z]/))
                 return `${key}={[${((propValue || []) as IPublicTypeJSFunction[]).map(funcSchemaToFunc).join(',')}]}`;

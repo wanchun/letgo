@@ -1,3 +1,5 @@
+import type { IPublicTypeProjectSchema } from '@harrywan/letgo-types';
+
 export enum ImportType {
     ImportDefaultSpecifier = 'ImportDefaultSpecifier',
     ImportSpecifier = 'ImportSpecifier',
@@ -28,27 +30,19 @@ export interface FileStruct {
     afterImports: string[]
     importSources?: ImportSource[]
     codes?: string[]
-}
-
-export interface VueFileStruct extends FileStruct {
-    fileType: PageFileType.Vue
-    template: string
-}
-
-export interface JsxFileStruct extends FileStruct {
-    fileType: PageFileType.Jsx
     jsx: string
-}
-
-export function isVueFile(data: FileStruct): data is VueFileStruct {
-    return data.fileType === PageFileType.Vue;
-}
-
-export function isJsxFile(data: FileStruct): data is JsxFileStruct {
-    return data.fileType === PageFileType.Jsx;
 }
 
 export interface GlobalStateCode {
     filename: string
     content: string
+}
+
+export interface GenCodeOptions {
+    template?: Record<string, any>
+    package: Record<string, any>
+    globalCssFile: string
+    transformFileStruct?: (filesStruct: FileStruct[]) => FileStruct[]
+    transformSchema?: (schema: IPublicTypeProjectSchema) => IPublicTypeProjectSchema
+    formattedCode?: (code: Record<string, any>) => Record<string, any>
 }

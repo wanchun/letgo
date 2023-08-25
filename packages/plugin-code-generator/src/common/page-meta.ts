@@ -1,5 +1,4 @@
 import type { FileStruct } from './types';
-import { isVueFile } from './types';
 
 let pageFlag = 1;
 
@@ -11,7 +10,8 @@ export function formatFileName(fileName?: string) {
 }
 
 export function formatPageName(fileName: string) {
-    return fileName.replace('.vue', '');
+    const arr = fileName.split('/');
+    return arr[arr.length - 1].replace('.vue', '');
 }
 
 let titleFlag = 1;
@@ -20,8 +20,5 @@ export function formatPageTitle(title: string) {
 }
 
 export function genFileName(fileStruct: FileStruct) {
-    if (isVueFile(fileStruct))
-        return `${fileStruct.filename}.vue`;
-
     return `${fileStruct.filename}.jsx`;
 }

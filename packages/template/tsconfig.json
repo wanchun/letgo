@@ -5,11 +5,8 @@
         "target": "es2015",
         "declarationDir": "./lib"
     },
-    "files": [
-        "./src/index.ts"
-    ],
     "include": [
-        "src/**/*.ts",
-        "src/.fes/configType.d.ts"
+        "src",
+        "src/**/*.json"
     ]
 }

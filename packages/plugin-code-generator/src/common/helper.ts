@@ -39,7 +39,7 @@ export function genSingleImport(imports: ImportSource[]) {
             importNames.add(imp.imported);
     }
 
-    if (defaultImport && importNames.size)
+    if (defaultImport && !importNames.size)
         return `import ${defaultImport}} from '${source}';`;
 
     if (!defaultImport && importNames.size) {

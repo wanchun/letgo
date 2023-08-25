@@ -40,7 +40,7 @@ export function genSingleImport(imports: ImportSource[]) {
     }
 
     if (defaultImport && !importNames.size)
-        return `import ${defaultImport}} from '${source}';`;
+        return `import ${defaultImport} from '${source}';`;
 
     if (!defaultImport && importNames.size) {
         return `import {${Array.from(importNames).join(

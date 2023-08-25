@@ -1,5 +1,11 @@
 # @harrywan/letgo-common
 
+## 0.0.0-beta.21
+
+### Patch Changes
+
+- 优化出码
+
 ## 0.0.0-beta.20
 
 ### Patch Changes

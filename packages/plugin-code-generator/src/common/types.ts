@@ -2,6 +2,7 @@ import type { IPublicTypeProjectSchema } from '@harrywan/letgo-types';
 
 export enum ImportType {
     ImportDefaultSpecifier = 'ImportDefaultSpecifier',
+    ImportAll = 'ImportAll',
     ImportSpecifier = 'ImportSpecifier',
 }
 

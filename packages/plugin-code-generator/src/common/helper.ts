@@ -29,7 +29,7 @@ export function genSingleImport(imports: ImportSource[]) {
     const importNames = new Set<string>();
     let defaultImport: string;
     for (const imp of imports) {
-        if (imp.type === ImportType.ImportDefaultSpecifier)
+        if ([ImportType.ImportDefaultSpecifier, ImportType.ImportAll].includes(imp.type))
             defaultImport = imp.alias || imp.imported;
 
         else if (imp.alias && imp.alias !== imp.imported)
@@ -38,6 +38,9 @@ export function genSingleImport(imports: ImportSource[]) {
         else
             importNames.add(imp.imported);
     }
+
+    if (imports.find(item => item.type === ImportType.ImportAll))
+        return `import * as ${defaultImport} from '${source}';`;
 
     if (defaultImport && !importNames.size)
         return `import ${defaultImport} from '${source}';`;

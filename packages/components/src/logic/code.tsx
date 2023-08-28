@@ -145,9 +145,9 @@ export const CodeList = defineComponent({
         const addCodeItem = (val: string) => {
             const option = options.find(item => item.value === val);
             if (option.codeType)
-                props.code?.addCodeItem(option.codeType, val as ResourceType);
+                props.code?.addCodeItemWithType(option.codeType, val as ResourceType);
             else
-                props.code?.addCodeItem(val as CodeType);
+                props.code?.addCodeItemWithType(val as CodeType);
         };
 
         return () => {

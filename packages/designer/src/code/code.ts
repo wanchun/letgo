@@ -119,13 +119,23 @@ export class Code {
         return this.onEvent('codeItemAdd', func);
     };
 
-    addCodeItem = (type: CodeType, resourceType?: ResourceType) => {
+    addCodeStruct(code: CodeStruct) {
+        // TODO 处理目录
+        code.code.forEach((item) => {
+            this.addCodeItem(item);
+        });
+    }
+
+    addCodeItemWithType = (type: CodeType, resourceType?: ResourceType) => {
         const id = this.genCodeId(type);
         const item = codeBaseEdit[type].addCode(id, resourceType);
+        this.addCodeItem(item);
+    };
 
+    addCodeItem = (item: CodeItem) => {
         this.codeStruct.code.push(item);
         const newCodeItem = this.codeStruct.code[this.codeStruct.code.length - 1];
-        this.codeMap.set(id, newCodeItem);
+        this.codeMap.set(item.id, newCodeItem);
         this.emitCodeItemAdd(newCodeItem);
     };
 

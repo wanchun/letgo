@@ -22,6 +22,7 @@ const packageJSON = {
         '@qlin/request': '0.1.6',
         'core-js': '3.32.1',
         'vue': '3.3.4',
+        '@vueuse/core': '10.4.1',
     },
 };
 

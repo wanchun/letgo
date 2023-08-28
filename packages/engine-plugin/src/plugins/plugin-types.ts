@@ -103,9 +103,9 @@ export interface IPluginManagerCore {
     editor: Editor
     designer: Designer
     skeleton: InnerSkeleton
-    register(
+    register<T>(
         pluginConfig: IPluginConfig,
-        pluginOptions?: any,
+        pluginOptions?: T,
         registerOptions?: IPublicTypeCompositeObject,
     ): Promise<void>
     init(

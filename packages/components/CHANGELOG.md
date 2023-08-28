@@ -1,5 +1,14 @@
 # @harrywan/letgo-components
 
+## 0.0.0-beta.21
+
+### Patch Changes
+
+- 优化出码
+- Updated dependencies
+  - @harrywan/letgo-common@0.0.0-beta.21
+  - @harrywan/letgo-designer@0.0.0-beta.21
+
 ## 0.0.0-beta.20
 
 ### Patch Changes

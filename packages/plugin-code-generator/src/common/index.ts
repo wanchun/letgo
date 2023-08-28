@@ -10,7 +10,7 @@ import { genScript } from './script';
 import { traverseNodeSchema } from './helper';
 import { formatFileName, formatPageName, formatPageTitle } from './page-meta';
 import { PageFileType } from './types';
-import type { JsxFileStruct } from './types';
+import type { FileStruct } from './types';
 import { genPageJsx, genSlots } from './jsx/gen-jsx';
 
 function getComponentRefs(
@@ -38,7 +38,7 @@ function getUseComponentRefs(rootSchema: IPublicTypeRootSchema) {
 function compileRootSchema(
     componentMaps: IPublicTypeComponentMap[],
     rootSchema: IPublicTypeRootSchema,
-): JsxFileStruct {
+): FileStruct {
     if (rootSchema.componentName === 'Page') {
         const componentRefs = getUseComponentRefs(rootSchema);
         const fileName = formatFileName(rootSchema.fileName);
@@ -90,7 +90,7 @@ function getUseComponents(
     return useComponents;
 }
 
-export function schemaToCode(schema: IPublicTypeProjectSchema): JsxFileStruct[] {
+export function schemaToCode(schema: IPublicTypeProjectSchema): FileStruct[] {
     return schema.componentsTree.map((rootSchema) => {
         return compileRootSchema(
             getUseComponents(schema.componentsMap, rootSchema),

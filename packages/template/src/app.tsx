@@ -3,12 +3,12 @@ import { FConfigProvider } from '@fesjs/fes-design';
 import { plugins } from '@harrywan/letgo-engine';
 import PluginDevice from '@harrywan/letgo-plugin-device';
 import PluginSchema from '@harrywan/letgo-plugin-schema';
-import PluginCodeGenerator from '@harrywan/letgo-plugin-code-generator';
 import PluginGlobalConfig from '@harrywan/letgo-plugin-global';
 import type { App } from 'vue';
 import PluginLogo from './plugins/plugin-logo';
 import PluginPreview from './plugins/plugin-preview-sample';
 import assets from './assets/assets';
+import { registerGenCode } from './registerGenCode';
 
 plugins.register({
     name: 'editor-init',
@@ -17,7 +17,7 @@ plugins.register({
     },
 });
 
-plugins.register(PluginCodeGenerator);
+registerGenCode();
 plugins.register(PluginDevice);
 plugins.register(PluginSchema);
 plugins.register(PluginLogo);

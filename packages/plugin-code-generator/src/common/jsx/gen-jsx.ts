@@ -90,13 +90,18 @@ function compileProps(props?: IPublicTypePropsMap, refName = '') {
         })
         .map((key) => {
             const propValue = props[key];
-            if (isJSSlot(propValue))
-                return `${key}={${genPropSlotName(key, refName)}}`;
+            if (isJSSlot(propValue)) {
+                // 顶层 slot props 走组件 slot 模式
+                return null;
+            }
 
             if (key.startsWith('v-model')) {
                 const [name, arg] = key.split(':');
                 const value = isJSExpression(propValue) ? propValue.value : propValue;
-                return `${name}={${arg ? `[${value}, '${arg}']` : value}}`;
+                if (value)
+                    return `${name}={${arg ? `[${value}, '${arg}']` : value}}`;
+
+                return null;
             }
             if (isJSExpression(propValue)) {
                 const value = propValue.value?.trim();
@@ -196,8 +201,10 @@ function genSlotName(nodeSchema: IPublicTypeNodeData) {
 }
 
 function genSlotDirective(nodeSchema: IPublicTypeNodeData, children: IPublicTypeNodeData[]) {
-    if (isNodeSchema(nodeSchema) && children.find(item => isJSSlot(item)))
-        return `v-slots={${genSlotName(nodeSchema)}}`;
+    if (isNodeSchema(nodeSchema)) {
+        if (children.find(item => isJSSlot(item)) || Object.keys(nodeSchema.props).find(key => isJSSlot(nodeSchema.props[key])))
+            return `v-slots={${genSlotName(nodeSchema)}}`;
+    }
 
     return '';
 }
@@ -271,13 +278,21 @@ function wrapFragment(children: string | string[]) {
     return children.length ? children[0] : '';
 }
 
+function findRootPropsSlot(node: IPublicTypeNodeSchema): IPublicTypeNodeData[] {
+    return Object.keys(node.props || {}).filter((key) => {
+        return isJSSlot(node.props[key]);
+    }).map((key) => {
+        return node.props[key] as IPublicTypeNodeData;
+    });
+}
+
 export function genSlots(
     nodeData: IPublicTypeNodeData | IPublicTypeNodeData[],
     componentRefs: Set<string>,
 ) {
     const slots: string[] = [];
     traverseNodeSchema(nodeData, (item) => {
-        const slotDefine = genNodeSchemaChildren(item).reduce((acc, cur) => {
+        const slotDefine = genNodeSchemaChildren(item).concat(findRootPropsSlot(item)).reduce((acc, cur) => {
             if (isJSSlot(cur)) {
                 const slotName = cur.name || 'default';
                 const params = cur.params ? cur.params.join(', ') : '';
@@ -299,7 +314,12 @@ export function genSlots(
             `);
         }
 
-        traverseNodePropsSlot(item.props, (key: string, value: IPublicTypeJSSlot) => {
+        traverseNodePropsSlot(Object.keys(item.props).reduce((acc, cur) => {
+            if (!isJSSlot(item.props[cur]))
+                acc[cur] = item.props[cur];
+
+            return acc;
+        }, {} as Record<string, any>), (key: string, value: IPublicTypeJSSlot) => {
             const params = value.params ? value.params.join(', ') : '';
             slots.push(`
             const ${genPropSlotName(key, item.ref)} = (${params}) => {

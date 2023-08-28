@@ -35,14 +35,16 @@ export function compileDirectives(directives?: IPublicTypeDirective[]): string[]
     return directives.map((directive) => {
         const arg = getCompileArg(directive.arg);
         let value = getDirectiveValue(directive.value);
-        if (arg) {
+        if (value && arg) {
             if (directive.modifiers?.length)
                 value = `[${value}, '${arg}', '${getModifiers(directive.modifiers)}']`;
 
             else
                 value = `[${value}, '${arg}']`;
         }
+        if (value)
+            return `${directive.name}={${value}}`;
 
-        return `${directive.name}={${value}}`;
-    });
+        return null;
+    }).filter(Boolean);
 }

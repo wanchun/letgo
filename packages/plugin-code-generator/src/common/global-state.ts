@@ -72,6 +72,7 @@ export function compilerUtils(utils: IPublicTypeUtilsMap) {
 }
 
 export function genGlobalStateCode(schema: IPublicTypeProjectSchema) {
+    globalStateKeys.length = 0;
     hasGlobal = !!(schema.code || schema.config);
     if (!hasGlobal)
         return null;

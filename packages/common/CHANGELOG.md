@@ -1,5 +1,11 @@
 # @harrywan/letgo-common
 
+## 0.0.0-beta.22
+
+### Patch Changes
+
+- fix some bug
+
 ## 0.0.0-beta.21
 
 ### Patch Changes

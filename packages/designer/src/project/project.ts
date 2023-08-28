@@ -248,7 +248,7 @@ export class Project {
             | 'constants'
             | 'i18n'
             | 'css'
-            | 'dataSource'
+            | 'code'
             | string,
         value: any,
     ): void {
@@ -258,6 +258,9 @@ export class Project {
         else if (key === 'css') {
             this.css = value;
             this.emitter.emit('onCssChange', this);
+        }
+        else if (key === 'code') {
+            this.code.initCode(value);
         }
 
         Object.assign(this.data, { [key]: value });
@@ -282,14 +285,16 @@ export class Project {
             | 'constants'
             | 'i18n'
             | 'css'
-            | 'dataSource'
             | 'config'
+            | 'code'
             | string,
     ): any {
         if (key === 'config')
             return this.config;
         if (key === 'css')
             return this.css;
+        if (key === 'code')
+            return this.code;
 
         return Reflect.get(this.data, key);
     }

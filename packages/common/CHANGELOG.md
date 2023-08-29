@@ -1,5 +1,11 @@
 # @harrywan/letgo-common
 
+## 0.0.0-beta.23
+
+### Patch Changes
+
+- 添加 addCodeStruct 接口
+
 ## 0.0.0-beta.22
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @harrywan/letgo-components
 
+## 0.0.0-beta.23
+
+### Patch Changes
+
+- 添加 addCodeStruct 接口
+- Updated dependencies
+  - @harrywan/letgo-common@0.0.0-beta.23
+  - @harrywan/letgo-designer@0.0.0-beta.23
+
 ## 0.0.0-beta.22
 
 ### Patch Changes

@@ -1,4 +1,4 @@
-import { eventHandlersToJsFunction } from '@harrywan/letgo-common';
+import { eventHandlersToJsFunction, markShallowReactive } from '@harrywan/letgo-common';
 import type { IFailureCondition, IJavascriptQuery, IPublicTypeEventHandler, ResourceType } from '@harrywan/letgo-types';
 import { CodeType, RunCondition } from '@harrywan/letgo-types';
 import { funcSchemaToFunc } from '../../parse';
@@ -10,6 +10,7 @@ export class JavascriptQueryBase {
     ctx: Record<string, any>;
     data: any = null;
     error: string = null;
+    loading = false;
     deps: string[];
 
     enableTransformer: boolean;
@@ -49,6 +50,12 @@ export class JavascriptQueryBase {
         this.runWhenPageLoads = data.runWhenPageLoads;
         this.ctx = ctx;
         this.deps = deps;
+
+        markShallowReactive(this, {
+            data: null,
+            error: null,
+            loading: false,
+        });
 
         this.successEventInstances = this.eventSchemaToFunc(this.successEvent);
         this.failureEventInstances = this.eventSchemaToFunc(this.failureEvent);
@@ -102,6 +109,7 @@ export class JavascriptQueryBase {
         const fn = this.genQueryFn();
         if (fn) {
             try {
+                this.loading = true;
                 if (this.queryTimeout)
                     this.data = await Promise.race([this.timeoutPromise(this.queryTimeout), fn(this.ctx)]);
                 else
@@ -135,6 +143,9 @@ export class JavascriptQueryBase {
                 });
                 if (err instanceof Error)
                     this.error = err.message;
+            }
+            finally {
+                this.loading = false;
             }
         }
     };

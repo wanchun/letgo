@@ -25,9 +25,6 @@ export class JavascriptQueryImpl extends JavascriptQueryBase implements IJavascr
             queryFailureCondition: data.queryFailureCondition || [],
             successEvent: data.successEvent,
             failureEvent: data.failureEvent,
-
-            data: null,
-            error: null,
         });
         markComputed(this, ['view']);
     }
@@ -49,6 +46,8 @@ export class JavascriptQueryImpl extends JavascriptQueryBase implements IJavascr
 
             data: this.data,
             error: this.error,
+
+            loading: this.loading,
         };
     }
 

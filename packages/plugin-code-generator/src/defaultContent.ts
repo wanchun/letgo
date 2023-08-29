@@ -143,6 +143,7 @@ class JSQuery {
 
             data: null,
             error: null,
+            loading: false,
         });
     }
 
@@ -163,6 +164,7 @@ class JSQuery {
 
         if (this.query) {
             try {
+                this.loading = true;
                 if (this.queryTimeout)
                     this.data = await Promise.race([this.timeoutPromise(this.queryTimeout), this.query()]);
                 else
@@ -181,6 +183,8 @@ class JSQuery {
                 });
                 if (err instanceof Error)
                     this.error = err.message;
+            } finally {
+                this.loading = false;
             }
         }
     }

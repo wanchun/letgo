@@ -1,5 +1,16 @@
 # @harrywan/letgo-plugin-code-generator
 
+## 0.0.0-beta.24
+
+### Patch Changes
+
+- Updated dependencies
+  - @harrywan/letgo-common@0.0.0-beta.24
+  - @harrywan/letgo-types@0.0.0-beta.24
+  - @harrywan/letgo-designer@0.0.0-beta.24
+  - @harrywan/letgo-engine@0.0.0-beta.24
+  - @harrywan/letgo-engine-plugin@0.0.0-beta.24
+
 ## 0.0.0-beta.23
 
 ### Patch Changes

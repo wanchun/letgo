@@ -1,5 +1,13 @@
 # @harrywan/letgo-common
 
+## 0.0.0-beta.24
+
+### Patch Changes
+
+- update events
+- Updated dependencies
+  - @harrywan/letgo-types@0.0.0-beta.24
+
 ## 0.0.0-beta.23
 
 ### Patch Changes

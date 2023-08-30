@@ -52,10 +52,7 @@ export interface IPublicTypeNodeSchema {
     /**
      * 事件
      */
-    events?: {
-        eventList: { value: string; label: string }[]
-        componentEvents: IPublicTypeEventHandler[]
-    }
+    events?: IPublicTypeEventHandler[]
     /**
      * 渲染条件
      */

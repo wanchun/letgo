@@ -17,7 +17,7 @@ import {
     isNodeSchema,
 } from '@harrywan/letgo-types';
 import { camelCase, isArray, isEmpty, isNil, isPlainObject, merge } from 'lodash-es';
-import { funcSchemaToFunc } from '../events';
+import { compilerEventHandlers, funcSchemaToFunc } from '../events';
 import { traverseNodePropsSlot, traverseNodeSchema } from '../helper';
 import { compileDirectives } from './directives';
 
@@ -215,11 +215,15 @@ function compileNodeSchema(nodeSchema: IPublicTypeNodeData, componentRefs: Set<s
             return '';
 
         const children = genNodeSchemaChildren(nodeSchema);
+        const events = compilerEventHandlers(nodeSchema.events || []);
         const excludeSlotChildren = children.filter(item => !isJSSlot(item));
         const code = `<${nodeSchema.componentName}
             ${handleComponentRef(nodeSchema, componentRefs)}
             ${compileDirectives(nodeSchema.directives || []).join(' ')}
             ${compileProps(nodeSchema.props, nodeSchema.ref).join(' ')} 
+            ${Object.keys(events).map((eventName) => {
+                return `${eventName}={[${events[eventName].join(', ')}]}`;
+            })}
             ${genSlotDirective(nodeSchema, children)} 
             ${!isEmpty(excludeSlotChildren)
                 ? `>

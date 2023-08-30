@@ -30,21 +30,19 @@ function transformList(list: EventList): EventOptionList {
     });
 }
 
-interface EventData { eventList: EventOptionList; componentEvents: IPublicTypeEventHandler[] }
-
 const EventSetterView = defineComponent({
     name: 'EventSetterView',
     props: {
         ...commonProps,
-        value: Object as PropType<EventData>,
-        defaultValue: Object as PropType<EventData>,
-        onChange: Function as PropType<({ eventList, componentEvents }: EventData) => void>,
+        value: Object as PropType<IPublicTypeEventHandler[]>,
+        defaultValue: Object as PropType<IPublicTypeEventHandler[]>,
+        onChange: Function as PropType<(componentEvents: IPublicTypeEventHandler[]) => void>,
         definition: Array as PropType<Array<EventDefinition>>,
     },
     setup(props) {
         const eventData: Ref<EventOptionList> = ref([]);
 
-        const selectedEventData = ref<IPublicTypeEventHandler[]>(props.value?.componentEvents || []);
+        const selectedEventData = ref<IPublicTypeEventHandler[]>(props.value || []);
 
         watch(
             () => props.definition,
@@ -53,7 +51,7 @@ const EventSetterView = defineComponent({
                 props.definition.forEach((item) => {
                     events = events.concat(transformList(item.list || []));
                 });
-                selectedEventData.value = props.value?.componentEvents || [];
+                selectedEventData.value = props.value || [];
                 eventData.value = events;
             },
             {
@@ -80,7 +78,7 @@ const EventSetterView = defineComponent({
         const currentEditEvent = ref<IPublicTypeEventHandler>(getInitComponentEvent());
 
         watch(() => props.value, () => {
-            selectedEventData.value = props.value?.componentEvents || [];
+            selectedEventData.value = props.value || [];
             if (currentEditEvent.value) {
                 const matchEvent = selectedEventData.value.find(item => item.id === currentEditEvent.value.id);
                 if (matchEvent)
@@ -97,10 +95,7 @@ const EventSetterView = defineComponent({
                 currentEditEvent.value.params = [];
         };
         const emitChangeEventData = () => {
-            props.onChange({
-                eventList: eventData.value,
-                componentEvents: selectedEventData.value,
-            });
+            props.onChange(selectedEventData.value);
         };
         const addEvent = () => {
             currentEditEvent.value = getInitComponentEvent();

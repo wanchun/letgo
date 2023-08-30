@@ -7,7 +7,7 @@ import type {
     IPublicTypeNodeData,
     IPublicTypeNodeSchema,
 } from '@harrywan/letgo-types';
-import { eventHandlersToJsFunction, isSyntaxError, replaceFunctionName, sortState } from '@harrywan/letgo-common';
+import { isSyntaxError, replaceFunctionName, sortState } from '@harrywan/letgo-common';
 import {
     CodeType,
     isJSExpression,
@@ -20,7 +20,7 @@ import { isPlainObject } from 'lodash-es';
 import type { ImportSource, SetupCode } from './types';
 import { ImportType } from './types';
 
-import { funcSchemaToFunc } from './events';
+import { compilerEventHandlers } from './events';
 
 export function genSingleImport(imports: ImportSource[]) {
     if (!imports.length)
@@ -184,12 +184,11 @@ export function genCodeMap(code: CodeStruct) {
 function eventSchemaToFunc(events: IPublicTypeEventHandler[] = []) {
     if (!events.length)
         return [];
-    const jsFunctionMap = eventHandlersToJsFunction(events);
-    const jsFunctions = Object.keys(jsFunctionMap).reduce((acc, cur) => {
+    const jsFunctionMap = compilerEventHandlers(events);
+    return Object.keys(jsFunctionMap).reduce((acc, cur) => {
         acc = acc.concat(jsFunctionMap[cur]);
         return acc;
-    }, []);
-    return jsFunctions.map(item => funcSchemaToFunc(item));
+    }, [] as string[]);
 }
 
 export function genCode(codeStruct: CodeStruct): SetupCode {

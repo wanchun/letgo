@@ -1,4 +1,4 @@
-import type { IPublicTypeJSFunction } from '@harrywan/letgo-types';
+import { type IPublicTypeEventHandler, type IPublicTypeJSFunction, InnerEventHandlerAction, isRunFunctionEventHandler, isSetLocalStorageEventHandler, isSetTemporaryStateEventHandler } from '@harrywan/letgo-types';
 import { camelCase } from 'lodash-es';
 
 export function genEventName(prop: string, refName: string) {
@@ -9,6 +9,45 @@ function handleParams(params: string[]) {
     return params.map((param) => {
         return param.trim();
     });
+}
+
+function compilerEventHandler(event: IPublicTypeEventHandler) {
+    if (isRunFunctionEventHandler(event)) {
+        const params = event.params.filter(Boolean).concat('...args');
+        return `(...args) => ${event.namespace}(${params.join(', ')})`;
+    }
+    else if (event.action === InnerEventHandlerAction.CONTROL_QUERY) {
+        return `(...args) => ${event.namespace}.${event.method}(...args)`;
+    }
+    else if (event.action === InnerEventHandlerAction.CONTROL_COMPONENT) {
+        return `(...args) => ${event.namespace}.${event.method}(...args)`;
+    }
+    else if (isSetTemporaryStateEventHandler(event)) {
+        return `${event.namespace}.${event.method}(${event.params.value})`;
+    }
+    else if (isSetLocalStorageEventHandler(event)) {
+        if (event.method === 'setValue')
+            return `${event.namespace}.${event.method}(${event.params.key}, ${event.params.value})`;
+
+        else
+            return `${event.namespace}.${event.method}()`;
+    }
+
+    return null;
+}
+
+export function compilerEventHandlers(events: IPublicTypeEventHandler[]) {
+    const result: {
+        [key: string]: string[]
+    } = {};
+    events.forEach((item: IPublicTypeEventHandler) => {
+        if ((item.namespace && item.method) || item.action === InnerEventHandlerAction.RUN_FUNCTION) {
+            const jsExpression = compilerEventHandler(item);
+            result[item.name] = (result[item.name] || []).concat(jsExpression);
+        }
+    });
+
+    return result;
 }
 
 export function funcSchemaToFunc(schema: IPublicTypeJSFunction) {

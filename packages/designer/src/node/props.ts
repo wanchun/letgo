@@ -1,4 +1,4 @@
-import { eventHandlersToJsFunction, replaceExpressionIdentifier, replaceJSFunctionIdentifier, uniqueId } from '@harrywan/letgo-common';
+import { replaceExpressionIdentifier, replaceJSFunctionIdentifier, uniqueId } from '@harrywan/letgo-common';
 import type {
     IPublicTypeCompositeValue,
     IPublicTypeEventHandler,
@@ -94,20 +94,13 @@ export class Props implements IPropParent {
             const value = item.getValue();
             if (typeof item.key === 'string' && value) {
                 if (item.key === getConvertedExtraKey('events')) {
-                    const componentEvents = (value as any).componentEvents.map((item: IPublicTypeEventHandler) => {
+                    const newValue = (value as []).map((item: IPublicTypeEventHandler) => {
                         if (item.namespace === preId)
                             item.namespace = id;
 
                         return item;
                     });
-                    const result = eventHandlersToJsFunction(componentEvents);
-                    Object.keys(result).forEach((name) => {
-                        this.getProp(name).setValue(result[name]);
-                    });
-                    item.setValue({
-                        eventList: (value as any).eventList,
-                        componentEvents,
-                    });
+                    item.setValue(newValue as any);
                 }
                 else if (!item.key.startsWith('on')) {
                     if (isJSExpression(value)) {

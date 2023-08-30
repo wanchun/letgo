@@ -18,6 +18,7 @@ import {
 } from 'vue';
 import type {
     IPublicTypeCompositeValue,
+    IPublicTypeEventHandler,
     IPublicTypeJSExpression,
     IPublicTypeJSFunction,
     IPublicTypeNodeData,
@@ -34,6 +35,7 @@ import {
     isSlotSchema,
 } from '@harrywan/letgo-types';
 import { camelCase, isArray, isFunction, isNil, isPlainObject, isString } from 'lodash-es';
+import { eventHandlersToJsFunction } from '@harrywan/letgo-common';
 import { provideRenderContext, useRendererContext } from '../context';
 import type { BlockScope, MaybeArray, RuntimeScope } from '../utils';
 import {
@@ -108,6 +110,10 @@ function render({
     } as any);
 }
 
+export function buildEvents(events: IPublicTypeEventHandler[] = []) {
+    return eventHandlersToJsFunction(events);
+}
+
 /**
  * 构建当前节点的 schema，获取 schema 的属性及插槽
  *
@@ -164,7 +170,13 @@ export function buildSchema(props: LeafProps, node?: INode) {
         }
     });
 
-    return { props: normalProps, slots: slotProps };
+    return {
+        props: {
+            ...normalProps,
+            ...buildEvents(schema.events),
+        },
+        slots: slotProps,
+    };
 }
 
 /**

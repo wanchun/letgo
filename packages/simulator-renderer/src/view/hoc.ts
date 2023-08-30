@@ -23,6 +23,7 @@ import {
 import type {
     IPublicTypeComponentAction, IPublicTypeComponentInstance,
     IPublicTypeCompositeValue,
+    IPublicTypeEventHandler,
 } from '@harrywan/letgo-types';
 import {
     IPublicEnumTransformStage,
@@ -37,6 +38,7 @@ import type {
 
     SlotSchemaMap,
 } from '@harrywan/letgo-renderer';
+import { eventHandlersToJsFunction } from '@harrywan/letgo-common';
 import { BASE_COMP_CONTEXT } from '../constants';
 import { createAction } from './centerAction';
 
@@ -92,9 +94,17 @@ function useSchema(props: LeafProps, node: INode) {
     Object.assign(compProps, result.props);
     Object.assign(compSlots, result.slots);
 
+    const updateEvents = (events: IPublicTypeEventHandler[], oldEvents?: IPublicTypeEventHandler[]) => {
+        (props.schema.events || []).concat(oldEvents).forEach((item) => {
+            delete compProps[item.name];
+        });
+        Object.assign(compProps, eventHandlersToJsFunction(events));
+    };
+
     return {
         compProps,
         compSlots,
+        updateEvents,
     };
 }
 
@@ -153,7 +163,7 @@ export const Hoc = defineComponent({
 
         const { renderComp } = useLeaf(props, executeCtx);
 
-        const { compProps, compSlots } = useSchema(props, node);
+        const { compProps, updateEvents, compSlots } = useSchema(props, node);
 
         const innerScope: ComputedRef<RuntimeScope> = computed(() => {
             if (props.schema.componentName === 'Slot') {
@@ -204,7 +214,10 @@ export const Hoc = defineComponent({
                     const rootPropKey: string = prop.path[0];
 
                     if (isRootProp && key) {
-                        if (key === getConvertedExtraKey('condition')) {
+                        if (key === getConvertedExtraKey('events')) {
+                            updateEvents(newValue, oldValue);
+                        }
+                        else if (key === getConvertedExtraKey('condition')) {
                             // 条件渲染更新 v-if
                             condition(newValue);
                         }

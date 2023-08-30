@@ -1,12 +1,10 @@
 import type {
     IPublicTypeFieldConfig,
-    IPublicTypeSettingTarget,
 
     IPublicTypeTransformedComponentMetadata,
 } from '@harrywan/letgo-types';
 import { engineConfig } from '@harrywan/letgo-editor-core';
 import { isArray } from 'lodash-es';
-import { eventHandlersToJsFunction } from '@harrywan/letgo-common';
 import { getConvertedExtraKey } from '../node';
 
 export default function (
@@ -95,26 +93,6 @@ export default function (
                     },
                     extraProps: {
                         display: 'block',
-                        getValue(field: IPublicTypeSettingTarget, val?: any[]) {
-                            return val;
-                        },
-                        setValue(field: IPublicTypeSettingTarget, eventData) {
-                            const { componentEvents, eventList } = eventData;
-
-                            if (Array.isArray(eventList)) {
-                                eventList.map((item) => {
-                                    field.parent.clearPropValue(item.value);
-                                    return item;
-                                });
-                            }
-
-                            if (Array.isArray(componentEvents)) {
-                                const result = eventHandlersToJsFunction(componentEvents);
-                                Object.keys(result).forEach((name) => {
-                                    field.parent.setPropValue(name, result[name]);
-                                });
-                            }
-                        },
                     },
                 },
             ],

@@ -15,10 +15,10 @@ export default defineComponent({
     },
     setup(props) {
         const isActive = computed(() => {
-            if (!props.widget.modal && !props.widget.panel)
+            if (!props.widget.linked)
                 return false;
 
-            return props.widget.modal?.visible || props.widget.panel?.visible;
+            return props.widget.linked?.visible;
         });
 
         return () => {

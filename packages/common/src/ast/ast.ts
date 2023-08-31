@@ -111,7 +111,7 @@ export function eventHandlerToJsFunction(item: IPublicTypeEventHandler): IPublic
     };
 }
 
-export function eventHandlersToJsFunction(handlers: IPublicTypeEventHandler[]) {
+export function eventHandlersToJsFunction(handlers: IPublicTypeEventHandler[] = []) {
     const result: {
         [key: string]: IPublicTypeJSFunction[]
     } = {};

@@ -1,5 +1,14 @@
 # @harrywan/letgo-plugin-designer
 
+## 0.0.0-beta.25
+
+### Patch Changes
+
+- 11
+- Updated dependencies
+  - @harrywan/letgo-designer@0.0.0-beta.25
+  - @harrywan/letgo-engine-plugin@0.0.0-beta.25
+
 ## 0.0.0-beta.24
 
 ### Patch Changes

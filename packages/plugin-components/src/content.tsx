@@ -6,7 +6,7 @@ import { iconCls } from './content.css';
 export default defineComponent({
     setup() {
         return () => {
-            return <FTooltip content="组件库" placement="right"><Components theme="outline" class={iconCls} /></FTooltip>;
+            return <FTooltip content="物料" placement="right"><Components theme="outline" class={iconCls} /></FTooltip>;
         };
     },
 });

@@ -18,7 +18,7 @@ export default {
                 render: () => <Panel editor={editor} designer={designer} />,
                 props: {
                     width: 300,
-                    title: '组件库',
+                    title: '物料',
                 },
             }),
         );

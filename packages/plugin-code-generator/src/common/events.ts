@@ -13,7 +13,7 @@ function handleParams(params: string[]) {
 
 function compilerEventHandler(event: IPublicTypeEventHandler) {
     if (isRunFunctionEventHandler(event)) {
-        const params = event.params.filter(Boolean).concat('...args');
+        const params = (event.params || []).filter(Boolean).concat('...args');
         return `(...args) => ${event.namespace}(${params.join(', ')})`;
     }
     else if (event.action === InnerEventHandlerAction.CONTROL_QUERY) {

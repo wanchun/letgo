@@ -74,7 +74,8 @@ export function eventHandlerToJsFunction(item: IPublicTypeEventHandler): IPublic
     const params: any[] = [];
     if (isRunFunctionEventHandler(item)) {
         expression = `${item.namespace}(...Array.prototype.slice.call(arguments))`;
-        params.push(...item.params.filter(item => item));
+        if (item.params)
+            params.push(...item.params.filter(item => item));
     }
     else if (item.action === InnerEventHandlerAction.CONTROL_QUERY) {
         expression = `${item.namespace}.${item.method}.apply(${item.namespace}, Array.prototype.slice.call(arguments))`;

@@ -136,6 +136,7 @@ export class JavascriptQueryBase {
                 this.successEventInstances.forEach((eventHandler) => {
                     eventHandler(this.data);
                 });
+                return this.data;
             }
             catch (err) {
                 this.failureEventInstances.forEach((eventHandler) => {
@@ -143,6 +144,10 @@ export class JavascriptQueryBase {
                 });
                 if (err instanceof Error)
                     this.error = err.message;
+                else
+                    this.error = err.toString();
+
+                return Promise.reject(err);
             }
             finally {
                 this.loading = false;

@@ -1,5 +1,11 @@
 # @harrywan/letgo-engine-plugin
 
+## 0.0.0-beta.26
+
+### Patch Changes
+
+- 优化出码
+
 ## 0.0.0-beta.25
 
 ### Patch Changes

@@ -26,6 +26,12 @@ export function genSingleImport(imports: ImportSource[]) {
     if (!imports.length)
         return '';
     const source = imports[0].source;
+    const mainPath = imports.reduce((acc, cur) => {
+        if (cur.main)
+            return cur.main;
+
+        return acc;
+    }, '');
     const importNames = new Set<string>();
     let defaultImport: string;
     for (const imp of imports) {
@@ -39,20 +45,22 @@ export function genSingleImport(imports: ImportSource[]) {
             importNames.add(imp.imported);
     }
 
+    const importPath = `'${source}${mainPath}'`;
+
     if (imports.find(item => item.type === ImportType.ImportAll))
-        return `import * as ${defaultImport} from '${source}';`;
+        return `import * as ${defaultImport} from ${importPath};`;
 
     if (defaultImport && !importNames.size)
-        return `import ${defaultImport} from '${source}';`;
+        return `import ${defaultImport} from ${importPath};`;
 
     if (!defaultImport && importNames.size) {
         return `import {${Array.from(importNames).join(
             ', ',
-        )}} from '${source}';`;
+        )}} from ${importPath};`;
     }
     return `import ${defaultImport}, {${Array.from(importNames).join(
         ', ',
-    )}} from '${source}';`;
+    )}} from ${importPath};`;
 }
 
 export function genImportCode(imports: ImportSource[]) {

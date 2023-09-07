@@ -11,6 +11,7 @@ export interface ImportSource {
     source: string
     type: ImportType
     alias?: string
+    main?: string
 }
 
 export interface SetupCode {

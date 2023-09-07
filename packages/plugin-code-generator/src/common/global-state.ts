@@ -42,7 +42,7 @@ function compilerNpmImports(npm: IPublicTypeNpmInfo): ImportSource {
     return {
         source: npm.package,
         imported: npm.exportName,
-        type: ImportType.ImportDefaultSpecifier,
+        type: npm.destructuring ? ImportType.ImportSpecifier : ImportType.ImportDefaultSpecifier,
         main: npm.main,
     };
 }

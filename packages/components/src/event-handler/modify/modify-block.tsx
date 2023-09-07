@@ -38,17 +38,12 @@ const initOptions: any = {
     [InnerEventHandlerAction.SET_TEMPORARY_STATE]: {
         namespace: null,
         method: 'setValue',
-        params: {
-            value: null,
-        },
+        params: [],
     },
     [InnerEventHandlerAction.SET_LOCAL_STORAGE]: {
         namespace: 'localStorage',
         method: 'setValue',
-        params: {
-            value: null,
-            key: null,
-        },
+        params: [],
     },
     [InnerEventHandlerAction.RUN_FUNCTION]: {
         namespace: null,

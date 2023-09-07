@@ -15,9 +15,7 @@ export interface IPublicTypeEventHandler {
     onlyRunWhen?: string
     waitMs?: number
     waitType: string
-    params?: {
-        [key: string]: unknown
-    } | string[]
+    params?: string[]
 }
 
 export interface IEventHandlerMetaParam {
@@ -52,20 +50,14 @@ export interface ISetTemporaryStateAction extends IPublicTypeEventHandler {
     action: InnerEventHandlerAction.SET_TEMPORARY_STATE
     namespace: string
     method: string
-    params: {
-        value: string
-        path?: string
-    }
+    params: [string, string]
 }
 
 export interface ISetLocalStorageAction extends IPublicTypeEventHandler {
     namespace: InnerEventHandlerAction.SET_LOCAL_STORAGE
     action: InnerEventHandlerAction.SET_LOCAL_STORAGE
     method: string
-    params: {
-        key: string
-        value: string
-    }
+    params: [string, string]
 }
 
 export interface IRunFunctionAction extends IPublicTypeEventHandler {

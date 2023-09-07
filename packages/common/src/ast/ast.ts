@@ -71,11 +71,9 @@ export function calcDependencies(item: CodeItem, ctx?: Record<string, any>) {
 
 export function eventHandlerToJsFunction(item: IPublicTypeEventHandler): IPublicTypeJSFunction {
     let expression: string;
-    const params: any[] = [];
+    const params: string[] = item.params ? item.params.filter(item => item) : [];
     if (isRunFunctionEventHandler(item)) {
         expression = `${item.namespace}(...Array.prototype.slice.call(arguments))`;
-        if (item.params)
-            params.push(...item.params.filter(item => item));
     }
     else if (item.action === InnerEventHandlerAction.CONTROL_QUERY) {
         expression = `${item.namespace}.${item.method}.apply(${item.namespace}, Array.prototype.slice.call(arguments))`;
@@ -86,18 +84,15 @@ export function eventHandlerToJsFunction(item: IPublicTypeEventHandler): IPublic
     }
     else if (isSetTemporaryStateEventHandler(item)) {
         // TODO 支持其他方法
-        params.push(item.params.value);
         expression = `${item.namespace}.${item.method}.apply(${item.namespace}, Array.prototype.slice.call(arguments))`;
     }
     else if (isSetLocalStorageEventHandler(item)) {
         // TODO 支持其他方法
-        if (item.method === 'setValue') {
-            params.push(item.params.key, item.params.value);
+        if (item.method === 'setValue')
             expression = `${item.namespace}.${item.method}.apply(null, Array.prototype.slice.call(arguments))`;
-        }
-        else {
+
+        else
             expression = `${item.namespace}.${item.method}()`;
-        }
     }
     else {
         // TODO 支持用户自定义方法

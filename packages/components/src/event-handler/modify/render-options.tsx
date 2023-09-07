@@ -96,7 +96,7 @@ export default defineComponent({
                     <FSelect appendToContainer={false} v-model={data.namespace} options={stateOptions.value} />
                 </Label>
                 <Label label="value">
-                    <FInput v-model={data.params.value} />
+                    <FInput v-model={data.params[0]} />
                 </Label>
             </>;
         };
@@ -109,10 +109,10 @@ export default defineComponent({
                     </FSelect>
                 </Label>
                 <Label label="key">
-                    <FInput v-model={data.params.key} />
+                    <FInput v-model={data.params[0]} />
                 </Label>
                 <Label label="value">
-                    <FInput v-model={data.params.value} />
+                    <FInput v-model={data.params[1]} />
                 </Label>
             </>;
         };

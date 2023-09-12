@@ -1,5 +1,11 @@
 # @harrywan/letgo-plugin-code-generator
 
+## 0.0.0-beta.27
+
+### Patch Changes
+
+- fix gen code bug
+
 ## 0.0.0-beta.26
 
 ### Patch Changes

@@ -55,7 +55,7 @@ export function executeExpression(text: string | null, ctx: Record<string, any> 
     if (isNil(text))
         return null;
     try {
-        const exp = attachContext(text, name => !isUndefined(ctx[name]));
+        const exp = attachContext(`(${text})`, name => !isUndefined(ctx[name]));
         // eslint-disable-next-line no-new-func
         const fn = new Function('_ctx', `return ${exp}`);
         return fn(ctx);

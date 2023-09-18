@@ -47,7 +47,7 @@ export function useCodesInstance() {
             || (currentInstance instanceof JavascriptFunctionImpl && !isNil(content.funcBody))
             || (currentInstance instanceof JavascriptQueryImpl && !isNil(content.query))
         ) {
-            const deps = calcDependencies(item, ctx);
+            const deps = calcDependencies({ ...item, ...content }, ctx);
             dependencyMap.set(id, deps);
             currentInstance.changeDeps(deps);
         }

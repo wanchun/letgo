@@ -35,7 +35,7 @@ export function replaceJSFunctionIdentifier(code: string, newName: string, preNa
 }
 
 export function calcJSCodeDependencies(code: string, ctx?: Record<string, any>) {
-    if (!code)
+    if (!code || code === '()')
         return [];
     const globalNodes = findGlobals(code);
     const dependencies: string[] = [];
@@ -48,16 +48,16 @@ export function calcJSCodeDependencies(code: string, ctx?: Record<string, any>) 
 
 export function calcDependencies(item: CodeItem, ctx?: Record<string, any>) {
     try {
-        let result: string[];
+        let result: string[] = [];
         if (item.type === CodeType.TEMPORARY_STATE)
-            result = calcJSCodeDependencies(item.initValue, ctx);
+            result = calcJSCodeDependencies(item.initValue ?? `(${item.initValue})`, ctx);
 
         else if (item.type === CodeType.JAVASCRIPT_COMPUTED || item.type === CodeType.JAVASCRIPT_FUNCTION)
             result = calcJSCodeDependencies(item.funcBody, ctx);
 
         if (item.type === CodeType.JAVASCRIPT_QUERY) {
             if (isRestQueryResource(item))
-                result = calcJSCodeDependencies(item.params, ctx);
+                result = calcJSCodeDependencies(item.params ?? `(${item.params})`, ctx);
 
             else
                 result = calcJSCodeDependencies(item.query, ctx);

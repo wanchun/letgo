@@ -11,7 +11,7 @@ export const RunCondition = {
 export const CodeType = {
     JAVASCRIPT_QUERY: 'query',
     JAVASCRIPT_COMPUTED: 'computed',
-    TEMPORARY_STATE: 'state',
+    TEMPORARY_STATE: 'temporaryState',
 };
             `,
             'reactive.js': `

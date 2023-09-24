@@ -4,7 +4,7 @@ export enum CodeType {
     JAVASCRIPT_QUERY = 'query',
     JAVASCRIPT_FUNCTION = 'function',
     JAVASCRIPT_COMPUTED = 'computed',
-    TEMPORARY_STATE = 'state',
+    TEMPORARY_STATE = 'temporaryState',
 }
 
 export enum ResourceType {

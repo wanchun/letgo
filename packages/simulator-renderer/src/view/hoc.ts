@@ -95,7 +95,7 @@ function useSchema(props: LeafProps, node: INode) {
     Object.assign(compSlots, result.slots);
 
     const updateEvents = (events: IPublicTypeEventHandler[], oldEvents?: IPublicTypeEventHandler[]) => {
-        (props.schema.events || []).concat(oldEvents).forEach((item) => {
+        (props.schema.events || []).concat(oldEvents || []).forEach((item) => {
             delete compProps[item.name];
         });
         Object.assign(compProps, eventHandlersToJsFunction(events));

@@ -50,14 +50,14 @@ export function calcDependencies(item: CodeItem, ctx?: Record<string, any>) {
     try {
         let result: string[] = [];
         if (item.type === CodeType.TEMPORARY_STATE)
-            result = calcJSCodeDependencies(item.initValue ?? `(${item.initValue})`, ctx);
+            result = calcJSCodeDependencies(item.initValue ? `(${item.initValue})` : null, ctx);
 
         else if (item.type === CodeType.JAVASCRIPT_COMPUTED || item.type === CodeType.JAVASCRIPT_FUNCTION)
             result = calcJSCodeDependencies(item.funcBody, ctx);
 
         if (item.type === CodeType.JAVASCRIPT_QUERY) {
             if (isRestQueryResource(item))
-                result = calcJSCodeDependencies(item.params ?? `(${item.params})`, ctx);
+                result = calcJSCodeDependencies(item.params ? `(${item.params})` : null, ctx);
 
             else
                 result = calcJSCodeDependencies(item.query, ctx);

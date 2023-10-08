@@ -78,13 +78,10 @@ export function useCodesInstance() {
             sortResult.forEach((codeId) => {
                 const item = codeMap.get(codeId);
                 createCodeInstance(item, ctx);
-                Object.keys(codesInstance).forEach((key) => {
-                    if (codesInstance[key].type === CodeType.JAVASCRIPT_FUNCTION)
-                        ctx[key] = (codesInstance[key] as JavascriptFunctionImpl).trigger.bind(codesInstance[key]);
-
-                    else
-                        ctx[key] = codesInstance[key];
-                });
+                if (codesInstance[item.id].type === CodeType.JAVASCRIPT_FUNCTION)
+                    ctx[item.id] = (codesInstance[item.id] as JavascriptFunctionImpl).trigger.bind(codesInstance[item.id]);
+                else
+                    ctx[item.id] = codesInstance[item.id];
             });
         }
         catch (err) {

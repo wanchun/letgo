@@ -13,8 +13,6 @@ function writeContent(zip: JSZip, content: Record<string, any>) {
     });
 }
 
-// TODO 全局状态的处理，fes.js 的解偶
-
 export function exportZip(code: Record<string, any>) {
     const zip = new JSZip();
     writeContent(zip, code);

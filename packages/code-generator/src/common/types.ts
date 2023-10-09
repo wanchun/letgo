@@ -1,5 +1,3 @@
-import type { IPublicTypeProjectSchema } from '@harrywan/letgo-types';
-
 export enum ImportType {
     ImportDefaultSpecifier = 'ImportDefaultSpecifier',
     ImportAll = 'ImportAll',
@@ -38,13 +36,4 @@ export interface FileStruct {
 export interface GlobalStateCode {
     filename: string
     content: string
-}
-
-export interface GenCodeOptions {
-    template?: Record<string, any>
-    package: Record<string, any>
-    globalCssFile: string
-    transformFileStruct?: (filesStruct: FileStruct[]) => FileStruct[]
-    transformSchema?: (schema: IPublicTypeProjectSchema) => IPublicTypeProjectSchema
-    formattedCode?: (code: Record<string, any>) => Record<string, any>
 }

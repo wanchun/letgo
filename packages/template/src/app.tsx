@@ -7,8 +7,8 @@ import PluginGlobalConfig from '@harrywan/letgo-plugin-global';
 import type { App } from 'vue';
 import PluginLogo from './plugins/plugin-logo';
 import PluginPreview from './plugins/plugin-preview-sample';
+import PluginCodeGenerator from './plugins/plugin-code-generator';
 import assets from './assets/assets';
-import { registerGenCode } from './registerGenCode';
 
 plugins.register({
     name: 'editor-init',
@@ -17,12 +17,12 @@ plugins.register({
     },
 });
 
-registerGenCode();
 plugins.register(PluginDevice);
 plugins.register(PluginSchema);
 plugins.register(PluginLogo);
 plugins.register(PluginPreview);
 plugins.register(PluginGlobalConfig);
+plugins.register(PluginCodeGenerator);
 
 export default defineRuntimeConfig({
     onAppCreated({ app }: { app: App }) {

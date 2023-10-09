@@ -1,5 +1,5 @@
 {
-  "name": "@harrywan/letgo-plugin-code-generator",
+  "name": "@harrywan/letgo-code-generator",
   "version": "0.0.0-beta.28",
   "description": "",
   "author": "",
@@ -18,11 +18,7 @@
     "vue": "^3.3.4"
   },
   "dependencies": {
-    "@fesjs/fes-design": "^0.8.4",
     "@harrywan/letgo-common": "workspace:*",
-    "@harrywan/letgo-designer": "workspace:*",
-    "@harrywan/letgo-engine": "workspace:*",
-    "@harrywan/letgo-engine-plugin": "workspace:*",
     "@harrywan/letgo-types": "workspace:*",
     "jszip": "^3.10.1",
     "lodash-es": "^4.17.21"

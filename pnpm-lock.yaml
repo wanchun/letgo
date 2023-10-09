@@ -114,6 +114,24 @@ importers:
         specifier: ^0.31.1
         version: 0.31.1
 
+  packages/code-generator:
+    dependencies:
+      '@harrywan/letgo-common':
+        specifier: workspace:*
+        version: link:../common
+      '@harrywan/letgo-types':
+        specifier: workspace:*
+        version: link:../types
+      jszip:
+        specifier: ^3.10.1
+        version: 3.10.1
+      lodash-es:
+        specifier: ^4.17.21
+        version: 4.17.21
+      vue:
+        specifier: ^3.3.4
+        version: 3.3.4
+
   packages/common:
     dependencies:
       '@fesjs/fes-design':
@@ -739,6 +757,9 @@ importers:
       '@fesjs/plugin-request':
         specifier: 4.0.0-beta.2
         version: 4.0.0-beta.2(@fesjs/fes@3.1.1)(vue@3.3.4)
+      '@harrywan/letgo-code-generator':
+        specifier: workspace:*
+        version: link:../code-generator
       '@harrywan/letgo-common':
         specifier: workspace:*
         version: link:../common
@@ -7820,6 +7841,7 @@ packages:
 
   /prr@1.0.1:
     resolution: {integrity: sha512-yPw4Sng1gWghHQWj0B3ZggWUm4qVbPwPFcRG8KyxiU7J2OHFSoEHKS+EZ3fv5l1t9CyCiop6l/ZYeWbrgoQejw==}
+    requiresBuild: true
     optional: true
 
   /pseudomap@1.0.2:
@@ -8155,6 +8177,7 @@ packages:
 
   /sax@1.2.4:
     resolution: {integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==}
+    requiresBuild: true
     optional: true
 
   /secure-compare@3.0.1:

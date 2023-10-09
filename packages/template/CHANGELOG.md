@@ -1,5 +1,12 @@
 # template
 
+## 0.0.0-beta.27
+
+### Patch Changes
+
+- Updated dependencies
+  - @harrywan/letgo-code-generator@0.0.0-beta.29
+
 ## 0.0.0-beta.26
 
 ### Patch Changes

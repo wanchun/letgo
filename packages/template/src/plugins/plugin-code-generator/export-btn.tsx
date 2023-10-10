@@ -2,7 +2,7 @@ import { defineComponent } from 'vue';
 import { material, project } from '@harrywan/letgo-engine';
 import type { IPublicTypePackage, IPublicTypeProjectSchema } from '@harrywan/letgo-types';
 import { DEFAULT_CONTENT, ImportType, exportZip, genGlobalStateCode, genPackageJSON, genPageCode } from '@harrywan/letgo-code-generator';
-import { IPublicEnumTransformStage, isProCodeComponentType } from '@harrywan/letgo-types';
+import { IPublicEnumTransformStage, isProCodeComponentType, isRestQueryResource } from '@harrywan/letgo-types';
 import { FButton, FMessage } from '@fesjs/fes-design';
 import { DownloadOutlined } from '@fesjs/fes-design/icon';
 import { forEach, get, isNil, isObject, isString, merge, set } from 'lodash-es';
@@ -22,6 +22,22 @@ function transform(codeTemplate: Template, params?: Record<string, any>) {
         else if (isObject(value))
             transform(value, params); // 递归遍历嵌套对象
     });
+}
+
+function findAPIPrefix(schema: IPublicTypeProjectSchema) {
+    if (schema.code) {
+        for (const code of schema.code.code) {
+            if (isRestQueryResource(code) && code.api)
+                return `/${code.api.split('/')[1]}`;
+        }
+    }
+    for (const compTree of schema.componentsTree) {
+        for (const code of compTree.code.code) {
+            if (isRestQueryResource(code) && code.api)
+                return `/${code.api.split('/')[1]}`;
+        }
+    }
+    return '';
 }
 
 async function genCode({ schema, packages, globalState, globalCss }: {
@@ -88,6 +104,27 @@ async function genCode({ schema, packages, globalState, globalCss }: {
             'typescript': '5.1.3',
         },
     }), null, 4);
+
+    const apiPrefix = findAPIPrefix(schema);
+    if (!apiPrefix) {
+        currentContent.src['app.jsx'] = `
+        import { defineRuntimeConfig } from '@fesjs/fes';
+
+        export default defineRuntimeConfig({
+        });
+    `;
+    }
+    else {
+        currentContent.src['app.jsx'] = `
+        import { defineRuntimeConfig } from '@fesjs/fes';
+
+        export default defineRuntimeConfig({
+            request: {
+                baseURL: '${apiPrefix}'
+            },
+        });
+    `;
+    }
 
     exportZip(currentContent);
 }

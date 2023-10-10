@@ -4,16 +4,13 @@ import type { ImportSource, SetupCode } from './types';
 import { ImportType } from './types';
 
 const TEMPLATE = `import { createSharedComposable } from '@vueuse/core';
-import { reactive } from 'vue';
 IMPORTS
 
 function useLetgoGlobal() {
-    const letgoContext = reactive(CONFIG);
 
     STATE_CODE
 
     return {
-        letgoContext,
         CODE_KEYS
     };
 }
@@ -64,41 +61,66 @@ export function compilerUtils(utils: IPublicTypeUtilsMap) {
 
     return {
         code: `
-        const utils = {
-            ${code}
-        };
+    const utils = {
+        ${code}
+    };
         `,
         importSources,
     };
 }
 
-export function genGlobalStateCode(schema: IPublicTypeProjectSchema) {
+interface CallBackParam {
+    import: ImportSource[]
+    code: string
+    export: string[]
+}
+
+export function genGlobalStateCode(schema: IPublicTypeProjectSchema, callback?: {
+    afterConfig?: (params: CallBackParam) => void
+}) {
     globalStateKeys.length = 0;
-    hasGlobal = !!(schema.code || schema.config);
+    hasGlobal = !!(schema.code || schema.config || schema.utils);
     if (!hasGlobal)
         return null;
 
-    let tmp = TEMPLATE.replace('CONFIG', JSON.stringify(schema.config || {}));
+    const result: CallBackParam = {
+        import: [],
+        code: '',
+        export: [],
+    };
 
-    const importSources: ImportSource[] = [];
-    let code = '';
+    if (schema.config) {
+        result.import.push({
+            type: ImportType.ImportSpecifier,
+            imported: 'reactive',
+            source: 'vue',
+        });
+        result.code += `
+    const letgoContext = ${JSON.stringify(schema.config || {})};
+        `;
+        result.export.push('letgoContext');
+        callback?.afterConfig?.(result);
+    }
 
     if (schema.utils) {
-        const result = compilerUtils(schema.utils);
-        importSources.push(...result.importSources);
-        code += result.code;
-        globalStateKeys.push('utils');
+        const _result = compilerUtils(schema.utils);
+        result.import.push(..._result.importSources);
+        result.code += _result.code;
+        result.export.push('utils');
     }
 
     if (schema.code) {
-        const result = genCode(schema.code);
-        importSources.push(...result.importSources);
-        globalStateKeys.push(...genGlobalStateKeys(schema.code));
-        code += result.code;
+        const _result = genCode(schema.code);
+        result.import.push(..._result.importSources);
+        result.code += _result.code;
+        result.export.push(...genGlobalStateKeys(schema.code));
     }
-    tmp = tmp.replace('IMPORTS', importSources.length ? genImportCode(importSources) : '');
-    tmp = tmp.replace('STATE_CODE', code);
-    tmp = tmp.replace('CODE_KEYS', globalStateKeys.length ? globalStateKeys.join(',') : '');
+
+    let tmp = TEMPLATE.replace('IMPORTS', result.import.length ? genImportCode(result.import) : '');
+    tmp = tmp.replace('STATE_CODE', result.code);
+    tmp = tmp.replace('CODE_KEYS', result.export.length ? result.export.join(',') : '');
+
+    globalStateKeys.push(...result.export);
 
     return {
         filename: `${GLOBAL_STATE_FILE_NAME}.js`,
@@ -119,6 +141,6 @@ export function applyGlobalState(): SetupCode {
             type: ImportType.ImportSpecifier,
             source: `@/use/${GLOBAL_STATE_FILE_NAME}`,
         }],
-        code: `const {${getGlobalContextKey().concat('letgoContext').join(',')}} = useSharedLetgoGlobal()`,
+        code: `const {${getGlobalContextKey().join(', ')}} = useSharedLetgoGlobal()`,
     };
 }

@@ -8,6 +8,13 @@ export default defineComponent({
     setup() {
         const onReady = () => {
             project.openDocument();
+            project.setConfig({
+                mainAppState: {
+                    a: 1,
+                    // eslint-disable-next-line no-new-func
+                    b: new Function('return function name(params) {\n  return 3\n}')(),
+                },
+            });
         };
 
         return {
@@ -23,7 +30,6 @@ export default defineComponent({
                     mode: 'cors',
                     credentials: 'same-origin',
                     requestInterceptor(config) {
-                        console.log(config.url);
                         return config;
                     },
                 }),

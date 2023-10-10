@@ -21,8 +21,8 @@ plugins.register(PluginDevice);
 plugins.register(PluginSchema);
 plugins.register(PluginLogo);
 plugins.register(PluginPreview);
-plugins.register(PluginGlobalConfig);
 plugins.register(PluginCodeGenerator);
+plugins.register(PluginGlobalConfig);
 
 export default defineRuntimeConfig({
     onAppCreated({ app }: { app: App }) {

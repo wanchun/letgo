@@ -216,10 +216,10 @@ export function genCode(codeStruct: CodeStruct): SetupCode {
                 source: '@/use/useTemporaryState',
             });
             codeStr.push(`
-            const ${item.id} = useTemporaryState({
-                id: '${item.id}',
-                initValue: ${item.initValue.trim()},
-            });
+    const ${item.id} = useTemporaryState({
+        id: '${item.id}',
+        initValue: ${item.initValue.trim()},
+    });
             `);
         }
         else if (item.type === CodeType.JAVASCRIPT_COMPUTED) {
@@ -229,12 +229,12 @@ export function genCode(codeStruct: CodeStruct): SetupCode {
                 source: '@/use/useComputed',
             });
             codeStr.push(`
-            const ${item.id} = useComputed({
-                id: '${item.id}',
-                func: () => {
-                    ${item.funcBody}
-                },
-            });
+    const ${item.id} = useComputed({
+        id: '${item.id}',
+        func: () => {
+            ${item.funcBody}
+        },
+    });
             `);
         }
         else if (item.type === CodeType.JAVASCRIPT_FUNCTION) {
@@ -255,42 +255,42 @@ export function genCode(codeStruct: CodeStruct): SetupCode {
                 const api = isSyntaxError(item.api) ? JSON.stringify(item.api) : item.api;
                 const params = item.params ? `, ${item.params}` : '';
                 codeStr.push(`
-                const ${item.id} = useJSQuery({
-                    id: '${item.id}',
-                    query() {
-                        return letgoRequest(${api}${params})
-                    },
-                    ${item.enableTransformer ? `enableTransformer: ${item.enableTransformer},` : ''}
-                    ${(item.enableTransformer && item.transformer) ? `transformer(data) {${item.transformer}},` : ''}
-                    ${item.showSuccessToaster ? `showSuccessToaster: ${item.showSuccessToaster},` : ''}
-                    ${item.showSuccessToaster ? `showSuccessToaster: ${item.showSuccessToaster},` : ''}
-                    ${item.successMessage ? `successMessage: '${item.successMessage}',` : ''}
-                    ${item.queryTimeout ? `queryTimeout: ${item.queryTimeout},` : ''}
-                    ${item.runCondition ? `runCondition: '${item.runCondition}',` : ''}
-                    ${item.runWhenPageLoads ? `runWhenPageLoads: ${item.runWhenPageLoads},` : ''}
-                    ${(item.queryFailureCondition && item.queryFailureCondition.length) ? `queryFailureCondition: ${item.queryFailureCondition},` : ''}
-                    ${item.successEvent ? `successEvent: [${eventSchemaToFunc(item.successEvent).join(',')}],` : ''}
-                    ${item.failureEvent ? `failureEvent: [${eventSchemaToFunc(item.failureEvent).join(',')}],` : ''}
-                });
+    const ${item.id} = useJSQuery({
+        id: '${item.id}',
+        query() {
+            return letgoRequest(${api}${params})
+        },
+        ${item.enableTransformer ? `enableTransformer: ${item.enableTransformer},` : ''}
+        ${(item.enableTransformer && item.transformer) ? `transformer(data) {${item.transformer}},` : ''}
+        ${item.showSuccessToaster ? `showSuccessToaster: ${item.showSuccessToaster},` : ''}
+        ${item.showSuccessToaster ? `showSuccessToaster: ${item.showSuccessToaster},` : ''}
+        ${item.successMessage ? `successMessage: '${item.successMessage}',` : ''}
+        ${item.queryTimeout ? `queryTimeout: ${item.queryTimeout},` : ''}
+        ${item.runCondition ? `runCondition: '${item.runCondition}',` : ''}
+        ${item.runWhenPageLoads ? `runWhenPageLoads: ${item.runWhenPageLoads},` : ''}
+        ${(item.queryFailureCondition && item.queryFailureCondition.length) ? `queryFailureCondition: ${item.queryFailureCondition},` : ''}
+        ${item.successEvent ? `successEvent: [${eventSchemaToFunc(item.successEvent).join(',')}],` : ''}
+        ${item.failureEvent ? `failureEvent: [${eventSchemaToFunc(item.failureEvent).join(',')}],` : ''}
+    });
                 `);
             }
             else {
                 codeStr.push(`
-                const ${item.id} = useJSQuery({
-                    id: '${item.id}',
-                    async query() {
-                        ${item.query}
-                    },
-                    ${item.showFailureToaster ? `showFailureToaster: ${item.showFailureToaster},` : ''}
-                    ${item.showSuccessToaster ? `showSuccessToaster: ${item.showSuccessToaster},` : ''}
-                    ${item.successMessage ? `successMessage: '${item.successMessage}',` : ''}
-                    ${item.queryTimeout ? `queryTimeout: ${item.queryTimeout},` : ''}
-                    ${item.runCondition ? `runCondition: '${item.runCondition}',` : ''}
-                    ${item.runWhenPageLoads ? `runWhenPageLoads: ${item.runWhenPageLoads},` : ''}
-                    ${(item.queryFailureCondition && item.queryFailureCondition.length) ? `queryFailureCondition: ${item.queryFailureCondition},` : ''}
-                    ${item.successEvent ? `successEvent: [${eventSchemaToFunc(item.successEvent).join(',')}],` : ''}
-                    ${item.failureEvent ? `failureEvent: [${eventSchemaToFunc(item.failureEvent).join(',')}],` : ''}
-                });
+    const ${item.id} = useJSQuery({
+        id: '${item.id}',
+        async query() {
+            ${item.query}
+        },
+        ${item.showFailureToaster ? `showFailureToaster: ${item.showFailureToaster},` : ''}
+        ${item.showSuccessToaster ? `showSuccessToaster: ${item.showSuccessToaster},` : ''}
+        ${item.successMessage ? `successMessage: '${item.successMessage}',` : ''}
+        ${item.queryTimeout ? `queryTimeout: ${item.queryTimeout},` : ''}
+        ${item.runCondition ? `runCondition: '${item.runCondition}',` : ''}
+        ${item.runWhenPageLoads ? `runWhenPageLoads: ${item.runWhenPageLoads},` : ''}
+        ${(item.queryFailureCondition && item.queryFailureCondition.length) ? `queryFailureCondition: ${item.queryFailureCondition},` : ''}
+        ${item.successEvent ? `successEvent: [${eventSchemaToFunc(item.successEvent).join(',')}],` : ''}
+        ${item.failureEvent ? `failureEvent: [${eventSchemaToFunc(item.failureEvent).join(',')}],` : ''}
+    });
                 `);
             }
         }

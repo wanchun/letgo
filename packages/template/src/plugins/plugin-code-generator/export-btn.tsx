@@ -5,9 +5,24 @@ import { DEFAULT_CONTENT, ImportType, exportZip, genGlobalStateCode, genPackageJ
 import { IPublicEnumTransformStage, isProCodeComponentType } from '@harrywan/letgo-types';
 import { FButton, FMessage } from '@fesjs/fes-design';
 import { DownloadOutlined } from '@fesjs/fes-design/icon';
-import { get, merge, set } from 'lodash-es';
+import { forEach, get, isNil, isObject, isString, merge, set } from 'lodash-es';
 import type { GlobalStateCode } from '@harrywan/letgo-code-generator';
-import codeTemplate from './template.json';
+import Mustache from 'mustache';
+import codeTemplate from './template';
+
+interface Template {
+    [key: string]: string | Template
+}
+
+function transform(codeTemplate: Template, params?: Record<string, any>) {
+    return forEach(codeTemplate, (value, key) => {
+        if (isString(value))
+            codeTemplate[key] = Mustache.render(value, params);
+
+        else if (isObject(value))
+            transform(value, params); // 递归遍历嵌套对象
+    });
+}
 
 async function genCode({ schema, packages, globalState, globalCss }: {
     schema: IPublicTypeProjectSchema
@@ -15,7 +30,10 @@ async function genCode({ schema, packages, globalState, globalCss }: {
     globalState?: GlobalStateCode
     globalCss?: string
 }) {
-    const currentContent: any = merge({}, DEFAULT_CONTENT, codeTemplate);
+    // 处理 codeTemplate
+    const code = transform(codeTemplate, { IS_MICRO: !isNil(schema.config.mainAppState) });
+
+    const currentContent: any = merge({}, DEFAULT_CONTENT, code);
     const pages = genPageCode(schema, (filesStruct) => {
         return filesStruct.map((item) => {
             item.importSources.unshift({
@@ -56,7 +74,9 @@ async function genCode({ schema, packages, globalState, globalCss }: {
             '@qlin/request': '0.1.8',
             'core-js': '3.33.0',
             '@fesjs/builder-vite': '3.0.2',
-            '@fesjs/fes': '3.1.2',
+            '@fesjs/fes': '3.1.4',
+            '@fesjs/plugin-model': '3.0.1',
+            '@fesjs/plugin-qiankun': '3.1.1',
             '@webank/fes-plugin-pmbank-um': '3.1.1',
             '@fesjs/plugin-request': '4.0.0-beta.5',
             '@fesjs/fes-design': '0.8.9',
@@ -94,7 +114,22 @@ export default defineComponent({
             }
 
             // 必须先执行，初始化 global 代码生成的上下文
-            const globalState = genGlobalStateCode(schema);
+            const globalState = genGlobalStateCode(schema, {
+                afterConfig: (params) => {
+                    if (schema.config.mainAppState) {
+                        params.import.push({
+                            type: ImportType.ImportSpecifier,
+                            imported: 'useModel',
+                            source: '@fesjs/fes',
+                        });
+                        params.code = `
+    const mainAppState = useModel('qiankunStateFromMain');
+    ${params.code}
+    letgoContext.mainAppState = mainAppState;
+    `;
+                    }
+                },
+            });
             const globalCss = schema.css;
 
             genCode({

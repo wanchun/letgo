@@ -1,5 +1,5 @@
 import type { DocumentModel, Project as InnerProject } from '@harrywan/letgo-designer';
-import type { IPublicTypeProjectSchema, IPublicTypeRootSchema, IPublicTypeUtilsMap } from '@harrywan/letgo-types';
+import type { IPublicTypeAppConfig, IPublicTypeProjectSchema, IPublicTypeRootSchema, IPublicTypeUtilsMap } from '@harrywan/letgo-types';
 import { IPublicEnumTransformStage } from '@harrywan/letgo-types';
 
 import { projectSymbol } from './symbols';
@@ -41,5 +41,9 @@ export class Project {
 
     exportSchema(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Save): IPublicTypeProjectSchema {
         return this[projectSymbol].exportSchema(stage);
+    }
+
+    setConfig(value: IPublicTypeAppConfig) {
+        this[projectSymbol].set('config', value);
     }
 }

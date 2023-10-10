@@ -2,12 +2,28 @@ import { defineComponent } from 'vue';
 import { material, project } from '@harrywan/letgo-engine';
 import type { IPublicTypePackage, IPublicTypeProjectSchema } from '@harrywan/letgo-types';
 import { DEFAULT_CONTENT, ImportType, exportZip, genGlobalStateCode, genPackageJSON, genPageCode } from '@harrywan/letgo-code-generator';
-import { IPublicEnumTransformStage, isProCodeComponentType } from '@harrywan/letgo-types';
+import { IPublicEnumTransformStage, isProCodeComponentType, isRestQueryResource } from '@harrywan/letgo-types';
 import { FButton, FMessage } from '@fesjs/fes-design';
 import { DownloadOutlined } from '@fesjs/fes-design/icon';
 import { get, merge, set } from 'lodash-es';
 import type { GlobalStateCode } from '@harrywan/letgo-code-generator';
 import codeTemplate from './template.json';
+
+function findAPIPrefix(schema: IPublicTypeProjectSchema) {
+    if (schema.code) {
+        for (const code of schema.code.code) {
+            if (isRestQueryResource(code) && code.api)
+                return `/${code.api.split('/')[1]}`;
+        }
+    }
+    for (const compTree of schema.componentsTree) {
+        for (const code of compTree.code.code) {
+            if (isRestQueryResource(code) && code.api)
+                return `/${code.api.split('/')[1]}`;
+        }
+    }
+    return '';
+}
 
 async function genCode({ schema, packages, globalState, globalCss }: {
     schema: IPublicTypeProjectSchema
@@ -56,7 +72,7 @@ async function genCode({ schema, packages, globalState, globalCss }: {
             '@qlin/request': '0.1.8',
             'core-js': '3.33.0',
             '@fesjs/builder-vite': '3.0.2',
-            '@fesjs/fes': '3.1.2',
+            '@fesjs/fes': '3.1.4',
             '@webank/fes-plugin-pmbank-um': '3.1.1',
             '@fesjs/plugin-request': '4.0.0-beta.5',
             '@fesjs/fes-design': '0.8.9',
@@ -68,6 +84,27 @@ async function genCode({ schema, packages, globalState, globalCss }: {
             'typescript': '5.1.3',
         },
     }), null, 4);
+
+    const apiPrefix = findAPIPrefix(schema);
+    if (!apiPrefix) {
+        currentContent.src['app.jsx'] = `
+        import { defineRuntimeConfig } from '@fesjs/fes';
+
+        export default defineRuntimeConfig({
+        });
+    `;
+    }
+    else {
+        currentContent.src['app.jsx'] = `
+        import { defineRuntimeConfig } from '@fesjs/fes';
+
+        export default defineRuntimeConfig({
+            request: {
+                baseURL: '${apiPrefix}'
+            },
+        });
+    `;
+    }
 
     exportZip(currentContent);
 }

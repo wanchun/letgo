@@ -224,13 +224,13 @@ export class AssetLoader {
         parseAsset(scripts, styles, asset);
         const styleQueue: IPublicTypeAssetItem[] = styles[IPublicEnumAssetLevel.Environment].concat(
             styles[IPublicEnumAssetLevel.Library],
-            styles[IPublicEnumAssetLevel.IPublicTypeTheme],
+            styles[IPublicEnumAssetLevel.Theme],
             styles[IPublicEnumAssetLevel.Runtime],
             styles[IPublicEnumAssetLevel.App],
         );
         const scriptQueue: IPublicTypeAssetItem[] = scripts[IPublicEnumAssetLevel.Environment].concat(
             scripts[IPublicEnumAssetLevel.Library],
-            scripts[IPublicEnumAssetLevel.IPublicTypeTheme],
+            scripts[IPublicEnumAssetLevel.Theme],
             scripts[IPublicEnumAssetLevel.Runtime],
             scripts[IPublicEnumAssetLevel.App],
         );

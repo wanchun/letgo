@@ -8,7 +8,7 @@ export enum IPublicEnumAssetLevel {
     // 基础类库，比如 lodash deep fusion antd
     Library = 2,
     // 主题
-    IPublicTypeTheme = 3,
+    Theme = 3,
     // 运行时
     Runtime = 4,
     // 业务组件
@@ -20,7 +20,7 @@ export enum IPublicEnumAssetLevel {
 export const AssetLevels = [
     IPublicEnumAssetLevel.Environment,
     IPublicEnumAssetLevel.Library,
-    IPublicEnumAssetLevel.IPublicTypeTheme,
+    IPublicEnumAssetLevel.Theme,
     IPublicEnumAssetLevel.Runtime,
     IPublicEnumAssetLevel.Components,
     IPublicEnumAssetLevel.App,

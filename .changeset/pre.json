@@ -2,7 +2,7 @@
   "mode": "exit",
   "tag": "beta",
   "initialVersions": {
-    "@harrywan/letgo-code-generator": "0.0.0-beta.27",
+    "@harrywan/letgo-code-generator": "0.0.0-beta.29",
     "@harrywan/letgo-common": "0.0.0-beta.28",
     "@harrywan/letgo-components": "0.0.0-beta.28",
     "@harrywan/letgo-designer": "0.0.0-beta.28",
@@ -21,7 +21,7 @@
     "@harrywan/letgo-plugin-setting": "0.0.0-beta.28",
     "@harrywan/letgo-renderer": "0.0.0-beta.28",
     "@harrywan/letgo-simulator-renderer": "0.0.0-beta.28",
-    "template": "0.0.0-beta.26",
+    "template": "0.0.0-beta.27",
     "@harrywan/letgo-types": "0.0.0-beta.28"
   },
   "changesets": [
@@ -48,6 +48,7 @@
     "purple-lobsters-smile",
     "rotten-trains-perform",
     "shaggy-parrots-peel",
+    "sharp-moles-kneel",
     "smart-apricots-care",
     "smart-cups-mate",
     "sour-tigers-yell",

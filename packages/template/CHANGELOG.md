@@ -1,5 +1,15 @@
 # template
 
+## 0.0.0-beta.29
+
+### Patch Changes
+
+- @harrywan/letgo-engine@0.0.0-beta.31
+- @harrywan/letgo-plugin-device@0.0.0-beta.31
+- @harrywan/letgo-plugin-global@0.0.0-beta.31
+- @harrywan/letgo-plugin-schema@0.0.0-beta.31
+- @harrywan/letgo-renderer@0.0.0-beta.31
+
 ## 0.0.0-beta.28
 
 ### Patch Changes

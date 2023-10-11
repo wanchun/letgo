@@ -1,5 +1,11 @@
 # @harrywan/letgo-editor-core
 
+## 0.0.0-beta.31
+
+### Patch Changes
+
+- @harrywan/letgo-components@0.0.0-beta.31
+
 ## 0.0.0-beta.30
 
 ### Patch Changes

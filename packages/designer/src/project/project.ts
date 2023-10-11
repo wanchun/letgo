@@ -173,6 +173,7 @@ export class Project {
             componentsMap: this.getComponentsMap(),
             componentsTree: this.documents.map(doc => doc.exportSchema(stage)),
             packages: (editor.get('assets') as IPublicTypeAssetsJson)?.packages,
+            config: this.config,
         };
     }
 

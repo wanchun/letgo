@@ -46,4 +46,8 @@ export class Project {
     setConfig(value: IPublicTypeAppConfig) {
         this[projectSymbol].set('config', value);
     }
+
+    getConfig() {
+        return this[projectSymbol].config;
+    }
 }

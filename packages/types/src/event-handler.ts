@@ -11,7 +11,7 @@ export interface IPublicTypeEventHandler {
     action: string
     name: string
     namespace: string
-    method: string
+    method?: string
     onlyRunWhen?: string
     waitMs?: number
     waitType: string

@@ -1,5 +1,11 @@
 # @harrywan/letgo-types
 
+## 0.0.0-beta.32
+
+### Patch Changes
+
+- 1
+
 ## 0.0.0-beta.30
 
 ### Patch Changes

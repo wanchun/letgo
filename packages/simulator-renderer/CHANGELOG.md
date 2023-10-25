@@ -1,5 +1,17 @@
 # @harrywan/letgo-simulator-renderer
 
+## 0.0.0-beta.32
+
+### Patch Changes
+
+- 1
+- Updated dependencies
+  - @harrywan/letgo-common@0.0.0-beta.32
+  - @harrywan/letgo-components@0.0.0-beta.32
+  - @harrywan/letgo-designer@0.0.0-beta.32
+  - @harrywan/letgo-renderer@0.0.0-beta.32
+  - @harrywan/letgo-types@0.0.0-beta.32
+
 ## 0.0.0-beta.31
 
 ### Patch Changes

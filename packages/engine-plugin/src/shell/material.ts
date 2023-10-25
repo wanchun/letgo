@@ -35,6 +35,6 @@ export class Material {
      */
     onChangeAssets(fn: () => void) {
         // 设置 assets，经过 setAssets 赋值
-        this[editorSymbol].onGot('assets', fn);
+        this[editorSymbol].onChange('assets', fn);
     }
 }

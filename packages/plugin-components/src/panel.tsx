@@ -124,7 +124,7 @@ export default defineComponent({
 
         let unwatch: () => void;
         onBeforeMount(() => {
-            unwatch = props.editor.onGot('assets', (assets) => {
+            unwatch = props.editor.onChange('assets', (assets) => {
                 assetsRef.value = assets;
             });
         });

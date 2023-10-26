@@ -59,18 +59,19 @@ export default defineComponent({
         };
 
         return () => {
-            return <div>
-                <div class={headerCls}>
-                    <LeftTabs tab={currentTab.value} changeTab={changeTab} />
-                    <span>{props.codeItem.id}</span>
-                    <div>
-                        <FButton type="primary" size="small" disabled={!isChange.value} onClick={onSave}>保存</FButton>
+            return (
+                <>
+                    <div class={headerCls}>
+                        <LeftTabs tab={currentTab.value} changeTab={changeTab} />
+                        <div>
+                            <FButton type="primary" size="small" disabled={!isChange.value} onClick={onSave}>保存</FButton>
+                        </div>
                     </div>
-                </div>
-                <div class={contentCls}>
-                    {renderContent()}
-                </div>
-            </div>;
+                    <div class={contentCls}>
+                        {renderContent()}
+                    </div>
+                </>
+            );
         };
     },
 });

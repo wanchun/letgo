@@ -31,8 +31,6 @@ export const FunctionEdit = defineComponent({
         return () => {
             return <div>
                 <div class={headerCls}>
-                    <span></span>
-                    <span>{props.codeItem.id}</span>
                     <div>
                         <FButton type="primary" size="small" disabled={tmpFuncBody.value === props.codeItem.funcBody} onClick={onSave}>保存</FButton>
                     </div>

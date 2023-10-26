@@ -15,7 +15,7 @@ import type { Editor } from '@harrywan/letgo-editor-core';
 import State from './state/state';
 import CodeSetting from './code/code';
 import CodeEdit from './code/edit/code-edit';
-import { leftPanelCls, panelCls, rightPanelCls } from './panel.css';
+import { editWrapper, leftPanelCls, panelCls, rightPanelCls, tabsCls } from './panel.css';
 
 export default defineComponent({
     props: {
@@ -30,29 +30,31 @@ export default defineComponent({
         return () => {
             return (
                 <div class={panelCls}>
-                    <div class={leftPanelCls}>
-                        <FScrollbar>
-                            <FTabs>
-                                <FTabPane
-                                    name="编辑"
-                                    value="code"
-                                    displayDirective="show"
-                                >
+                    <FTabs class={tabsCls}>
+                        <FTabPane
+                            name="编辑"
+                            value="code"
+                            displayDirective="show"
+                        >
+                            <div class={editWrapper}>
+                                <div class={leftPanelCls}>
                                     <CodeSetting designer={props.designer} />
-                                </FTabPane>
-                                <FTabPane
-                                    name="查看"
-                                    value="state"
-                                    displayDirective="show"
-                                >
-                                    <State designer={props.designer} />
-                                </FTabPane>
-                            </FTabs>
-                        </FScrollbar>
-                    </div>
-                    <div class={rightPanelCls}>
-                        <CodeEdit designer={props.designer} />
-                    </div>
+                                </div>
+                                <div class={rightPanelCls}>
+                                    <CodeEdit designer={props.designer} />
+                                </div>
+                            </div>
+                        </FTabPane>
+                        <FTabPane
+                            name="查看"
+                            value="state"
+                            displayDirective="show"
+                        >
+                            <FScrollbar>
+                                <State designer={props.designer} />
+                            </FScrollbar>
+                        </FTabPane>
+                    </FTabs>
                 </div>
             );
         };

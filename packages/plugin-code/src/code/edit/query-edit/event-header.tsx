@@ -40,7 +40,8 @@ export default defineComponent({
         });
 
         return () => {
-            return <div class={eventListTitle}>
+            return (
+                <div class={eventListTitle}>
                     <span>{props.title}</span>
                     <FPopper
                         v-model={popperVisible.value}
@@ -49,22 +50,23 @@ export default defineComponent({
                         v-slots={{
                             default: () => {
                                 return <div class={popperWrapCls}>
-                                        <div class={popperHeaderCls}>
-                                            <CloseOutlined onClick={closePopper} class={iconCls} />
-                                        </div>
-                                        <EventHandlerModify
-                                            onChange={changeEventHandler}
-                                            documentModel={props.documentModel}
-                                            editEvent={props.eventHandler}
-                                        />
-                                    </div>;
+                                    <div class={popperHeaderCls}>
+                                        <CloseOutlined onClick={closePopper} class={iconCls} />
+                                    </div>
+                                    <EventHandlerModify
+                                        onChange={changeEventHandler}
+                                        documentModel={props.documentModel}
+                                        editEvent={props.eventHandler}
+                                    />
+                                </div>;
                             },
                             trigger: () => {
                                 return <PlusOutlined class={iconCls} onClick={props.addEventHandler} />;
                             },
                         }}
                     />
-                </div>;
+                </div>
+            );
         };
     },
 });

@@ -12,10 +12,12 @@ export default defineComponent({
         const tabs = [{
             value: 'general',
             label: '通用',
-        }, {
-            value: 'response',
-            label: '响应',
-        }, {
+        },
+        // {
+        //     value: 'response',
+        //     label: '响应',
+        // },
+        {
             value: 'advanced',
             label: '高级',
         }];

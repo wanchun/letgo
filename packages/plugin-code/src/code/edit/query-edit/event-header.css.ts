@@ -1,7 +1,9 @@
 import { style } from '@vanilla-extract/css';
 
 export const eventListTitle = style({
-    color: '#8c8c8c',
+    display: 'flex',
+    alignItems: 'center',
+    color: '#555',
 });
 
 export const popperWrapCls = style({
@@ -15,7 +17,6 @@ export const popperHeaderCls = style({
 });
 
 export const iconCls = style({
-    'color': '#8c8c8c',
     'fontSize': '12px',
     'marginLeft': '8px',
     'cursor': 'pointer',

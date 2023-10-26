@@ -1,8 +1,11 @@
 import { style } from '@vanilla-extract/css';
 
+export const codeCls = style({
+});
+
 export const codeHeaderCls = style({
     display: 'flex',
-    height: '24px',
+    padding: '10px 12px',
     justifyContent: 'flex-end',
     alignItems: 'center',
 });
@@ -16,30 +19,19 @@ export const headerIconCls = style({
     },
 });
 
-export const codeCls = style({
-    padding: '4px 12px',
-});
-
 export const codeItemCls = style({
     'display': 'flex',
     'alignItems': 'center',
-    'height': '28px',
-    'padding': '4px 8px',
-    'marginBottom': '2px',
-    'color': '#222',
+    'padding': '6px 12px',
     'cursor': 'pointer',
-
-    'borderRadius': '4px',
     ':hover': {
-        backgroundColor: '#f0f0f0',
+        backgroundColor: '#f5f8ff',
     },
 });
 
 export const codeItemActiveCls = style({
-    'backgroundColor': '#e6f7ff',
-    ':hover': {
-        backgroundColor: '#e6f7ff',
-    },
+    color: '#5384ff',
+    backgroundColor: '#f5f8ff',
 });
 
 export const codeWrapCls = style({
@@ -71,9 +63,6 @@ export const codeMoreIconCls = style({
     fontSize: '15px',
     width: '22px',
     height: '18px',
-    borderRadius: '4px',
-    backgroundColor: '#fff',
-    border: '1px solid #cfd0d3',
     selectors: {
         [`${codeItemCls}:hover &`]: {
             display: 'inline-flex',

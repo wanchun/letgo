@@ -6,9 +6,7 @@ import type { Code } from '@harrywan/letgo-designer';
 import { CodeType, ResourceType } from '@harrywan/letgo-types';
 import type { CodeItem } from '@harrywan/letgo-types';
 import { ComputedIcon, FolderIcon, JsIcon, RestIcon, StateIcon } from '../icons';
-
 import { codeCls, codeHeaderCls, codeItemActiveCls, codeItemCls, codeItemIdCls, codeMoreIconCls, codeWrapCls, headerIconCls } from './code.css';
-
 import CodeId from './code-id';
 
 const iconMap = {
@@ -42,12 +40,6 @@ export const CodeList = defineComponent({
     },
     setup(props) {
         const options = [
-            // props.hasQuery && {
-            //     value: ResourceType.RESTQuery,
-            //     label: 'REST接口',
-            //     codeType: CodeType.JAVASCRIPT_QUERY,
-            //     icon: () => h(resourceTypeIcon[ResourceType.RESTQuery]),
-            // },
             props.hasQuery && {
                 value: ResourceType.RESTQuery,
                 codeType: CodeType.JAVASCRIPT_QUERY,
@@ -69,11 +61,6 @@ export const CodeList = defineComponent({
                 label: '临时状态',
                 icon: () => h(iconMap[CodeType.TEMPORARY_STATE]),
             },
-            // {
-            //     value: '4',
-            //     label: '目录',
-            //     icon: () => h(FolderIcon),
-            // },
         ].filter(Boolean);
 
         // TODO 复制的功能
@@ -113,13 +100,15 @@ export const CodeList = defineComponent({
 
         const renderFolders = () => {
             return props.code?.directories.map((item) => {
-                return <li class={codeItemCls}>
+                return (
+                    <li class={codeItemCls}>
                         <FolderIcon />
                         <span class={codeItemIdCls}>{item.name}</span>
                         <FDropdown appendToContainer={false} trigger="click" placement="bottom-end" options={commonOptions}>
                             <MoreOutlined class={codeMoreIconCls} />
                         </FDropdown>
-                    </li>;
+                    </li>
+                );
             });
         };
 
@@ -130,15 +119,18 @@ export const CodeList = defineComponent({
             if (iconMap[item.type])
                 return h(iconMap[item.type]);
         };
+
         const renderCode = () => {
             return props.code?.code.map((item) => {
-                return <li onClick={() => props.onChangeCurrentCodeItem(item)} class={[codeItemCls, props.currentCodeItem?.id === item.id ? codeItemActiveCls : '']}>
-                    {renderCodeIcon(item)}
-                    <CodeId id={item.id} hasCodeId={props.hasCodeId} onChange={changeCodeId} />
-                    <FDropdown onClick={value => onCommonAction(value, item)} appendToContainer={false} trigger="click" placement="bottom-end" options={commonOptions}>
-                        <MoreOutlined class={codeMoreIconCls} />
-                    </FDropdown>
-                </li>;
+                return (
+                    <li onClick={() => props.onChangeCurrentCodeItem(item)} class={[codeItemCls, props.currentCodeItem?.id === item.id ? codeItemActiveCls : '']}>
+                        {renderCodeIcon(item)}
+                        <CodeId id={item.id} hasCodeId={props.hasCodeId} onChange={changeCodeId} />
+                        <FDropdown onClick={value => onCommonAction(value, item)} appendToContainer={false} trigger="click" placement="bottom-end" options={commonOptions}>
+                            <MoreOutlined class={codeMoreIconCls} />
+                        </FDropdown>
+                    </li>
+                );
             });
         };
 
@@ -151,17 +143,19 @@ export const CodeList = defineComponent({
         };
 
         return () => {
-            return <div class={codeCls}>
-                <div class={codeHeaderCls}>
-                    <FDropdown trigger="click" onClick={addCodeItem} placement="bottom-start" options={options}>
-                        <PlusOutlined class={headerIconCls} />
-                    </FDropdown>
+            return (
+                <div class={codeCls}>
+                    <div class={codeHeaderCls}>
+                        <FDropdown trigger="click" onClick={addCodeItem} placement="bottom-start" options={options}>
+                            <PlusOutlined class={headerIconCls} />
+                        </FDropdown>
+                    </div>
+                    <ul class={codeWrapCls}>
+                        {renderFolders()}
+                        {renderCode()}
+                    </ul>
                 </div>
-                <ul class={codeWrapCls}>
-                    {renderFolders()}
-                    {renderCode()}
-                </ul>
-            </div>;
+            );
         };
     },
 });

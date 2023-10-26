@@ -2,7 +2,7 @@ import { style } from '@vanilla-extract/css';
 import { headerCommonCls } from './code-edit.css';
 
 export const headerCls = style([headerCommonCls, {
-    justifyContent: 'space-between',
+    justifyContent: 'end',
     alignItems: 'center',
 }]);
 

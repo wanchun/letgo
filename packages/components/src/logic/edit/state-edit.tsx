@@ -3,7 +3,7 @@ import { defineComponent } from 'vue';
 import type { ITemporaryState } from '@harrywan/letgo-types';
 import type { DocumentModel } from '@harrywan/letgo-designer';
 import { ExpressionEditor } from '../../code-editor';
-import { contentCls, headerCls, inputItemCls, inputLabelCls, stateCls } from './state-edit.css';
+import { contentCls, inputItemCls, inputLabelCls, stateCls } from './state-edit.css';
 
 /**
  * TODO 待实现功能
@@ -26,23 +26,22 @@ export const StateEdit = defineComponent({
         };
 
         return () => {
-            return <div class={stateCls}>
-                <div class={headerCls}>
-                    {props.codeItem.id}
-                </div>
-                <div class={contentCls}>
-                    <div class={inputItemCls}>
-                        <label class={inputLabelCls}>初始值</label>
-                        <ExpressionEditor
-                            placeholder="temporary state"
-                            documentModel={props.documentModel}
-                            hints={props.hints}
-                            doc={props.codeItem.initValue}
-                            onChangeDoc={changeInitValue}
-                        />
+            return (
+                <div class={stateCls}>
+                    <div class={contentCls}>
+                        <div class={inputItemCls}>
+                            <label class={inputLabelCls}>初始值</label>
+                            <ExpressionEditor
+                                placeholder="temporary state"
+                                documentModel={props.documentModel}
+                                hints={props.hints}
+                                doc={props.codeItem.initValue}
+                                onChangeDoc={changeInitValue}
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>;
+            );
         };
     },
 });

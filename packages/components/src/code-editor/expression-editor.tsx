@@ -8,7 +8,7 @@ import {
     placeholder,
 } from '@codemirror/view';
 import type { PropType } from 'vue';
-import { editorCls } from './index.css';
+import { editorCls } from './expression-editor.css';
 import { HintTheme, hintPlugin } from './hint';
 import { useHint } from './use';
 

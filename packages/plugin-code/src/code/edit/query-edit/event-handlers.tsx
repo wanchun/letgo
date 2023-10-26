@@ -95,7 +95,7 @@ export default defineComponent({
                 <div>
                     <EventHeader
                         ref={successPopperRef}
-                        title="Success"
+                        title="成功"
                         onClose={onClose}
                         documentModel={props.documentModel}
                         eventHandler={currentEditEvent.value}
@@ -116,7 +116,7 @@ export default defineComponent({
                 <div class={failureCls}>
                     <EventHeader
                         ref={failurePopperRef}
-                        title="Failure"
+                        title="失败"
                         onClose={onClose}
                         documentModel={props.documentModel}
                         eventHandler={currentEditEvent.value}

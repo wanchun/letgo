@@ -37,6 +37,8 @@ export class Editor extends EventEmitter implements IPublicEditor {
             },
         };
         await Promise.all(assets.map(async (asset) => {
+            if (!asset)
+                return;
             const { packages, components, utils, sort } = asset;
             if (packages?.length) {
                 packages.forEach((_package) => {

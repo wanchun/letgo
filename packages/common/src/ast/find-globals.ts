@@ -39,24 +39,24 @@ export function reallyParse(source: string, options?: Options) {
 
 function declarePattern(node: any, parent: any) {
     switch (node.type) {
-        case 'Identifier':
+        case 'Identifier': // a
             parent.locals[node.name] = true;
             break;
-        case 'ObjectPattern':
+        case 'ObjectPattern': // {a}
             node.properties.forEach((node: any) => {
                 declarePattern(node.value || node.argument, parent);
             });
             break;
-        case 'ArrayPattern':
+        case 'ArrayPattern': // [a]
             node.elements.forEach((node: any) => {
                 if (node)
                     declarePattern(node, parent);
             });
             break;
-        case 'RestElement':
+        case 'RestElement': // ...args
             declarePattern(node.argument, parent);
             break;
-        case 'AssignmentPattern':
+        case 'AssignmentPattern': // a = 1
             declarePattern(node.left, parent);
             break;
             // istanbul ignore next

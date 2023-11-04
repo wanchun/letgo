@@ -23,14 +23,14 @@ function compilerEventHandler(event: IPublicTypeEventHandler) {
         return `(...args) => ${event.namespace}.${event.method}(...args)`;
     }
     else if (isSetTemporaryStateEventHandler(event)) {
-        return `${event.namespace}.${event.method}(${event.params[0]})`;
+        return `(...args) => ${event.namespace}.${event.method}(${event.params[0]})`;
     }
     else if (isSetLocalStorageEventHandler(event)) {
         if (event.method === 'setValue')
-            return `${event.namespace}.${event.method}(${event.params[0]}, ${event.params[1]})`;
+            return `(...args) => ${event.namespace}.${event.method}(${event.params[0]}, ${event.params[1]})`;
 
         else
-            return `${event.namespace}.${event.method}()`;
+            return `()=> ${event.namespace}.${event.method}()`;
     }
 
     return null;

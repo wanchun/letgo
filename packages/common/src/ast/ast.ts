@@ -79,8 +79,7 @@ export function eventHandlerToJsFunction(item: IPublicTypeEventHandler): IPublic
         expression = `${item.namespace}.${item.method}.apply(${item.namespace}, Array.prototype.slice.call(arguments))`;
     }
     else if (item.action === InnerEventHandlerAction.CONTROL_COMPONENT) {
-        // TODO 支持参数
-        expression = `${item.namespace}.${item.method}()`;
+        expression = `${item.namespace}.${item.method}(Array.prototype.slice.call(arguments))`;
     }
     else if (isSetTemporaryStateEventHandler(item)) {
         // TODO 支持其他方法

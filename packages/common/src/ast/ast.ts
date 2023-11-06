@@ -46,6 +46,17 @@ export function calcJSCodeDependencies(code: string, ctx?: Record<string, any>) 
     return dependencies;
 }
 
+function handleEventDep(events: IPublicTypeEventHandler[]) {
+    const result: string[] = [];
+    if (events) {
+        events.forEach((event) => {
+            if ([InnerEventHandlerAction.SET_TEMPORARY_STATE, InnerEventHandlerAction.CONTROL_QUERY, InnerEventHandlerAction.RUN_FUNCTION].includes(event.action))
+                result.push(event.namespace);
+        });
+    }
+    return result;
+}
+
 export function calcDependencies(item: CodeItem, ctx?: Record<string, any>) {
     try {
         let result: string[] = [];
@@ -56,11 +67,13 @@ export function calcDependencies(item: CodeItem, ctx?: Record<string, any>) {
             result = calcJSCodeDependencies(item.funcBody, ctx);
 
         if (item.type === CodeType.JAVASCRIPT_QUERY) {
-            if (isRestQueryResource(item))
+            if (isRestQueryResource(item)) {
                 result = calcJSCodeDependencies(item.params ? `(${item.params})` : null, ctx);
+                result = result.concat(handleEventDep(item.failureEvent));
+                result = result.concat(handleEventDep(item.successEvent));
+            }
 
-            else
-                result = calcJSCodeDependencies(item.query, ctx);
+            else { result = calcJSCodeDependencies(item.query, ctx); }
         }
         return Array.from(new Set(result));
     }
@@ -79,8 +92,7 @@ export function eventHandlerToJsFunction(item: IPublicTypeEventHandler): IPublic
         expression = `${item.namespace}.${item.method}.apply(${item.namespace}, Array.prototype.slice.call(arguments))`;
     }
     else if (item.action === InnerEventHandlerAction.CONTROL_COMPONENT) {
-        // TODO 支持参数
-        expression = `${item.namespace}.${item.method}()`;
+        expression = `${item.namespace}.${item.method}(Array.prototype.slice.call(arguments))`;
     }
     else if (isSetTemporaryStateEventHandler(item)) {
         // TODO 支持其他方法

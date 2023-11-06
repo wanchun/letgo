@@ -12,7 +12,10 @@ export function funcSchemaToFunc(schema: IPublicTypeJSFunction, ctx: Record<stri
         return result;
 `);
         return (...args: any[]) => {
-            const params = (schema.params || []).map(param => executeExpression(param, ctx));
+            const params = (schema.params || []).map(param => executeExpression(param, {
+                ...ctx,
+                args,
+            }));
             return fn(ctx, [...params, ...args]);
         };
     }

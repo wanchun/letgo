@@ -8,7 +8,7 @@ export enum InnerEventHandlerAction {
 
 export interface IPublicTypeEventHandler {
     id: string
-    action: string
+    action: InnerEventHandlerAction
     name: string
     namespace: string
     method?: string

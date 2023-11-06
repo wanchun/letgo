@@ -1,5 +1,11 @@
 # @harrywan/letgo-types
 
+## 0.0.0-beta.34
+
+### Patch Changes
+
+- fix event args
+
 ## 0.0.0-beta.33
 
 ### Patch Changes

@@ -156,12 +156,12 @@ export function buildSchema(props: LeafProps, node?: INode) {
                 };
             }
         }
-        if (key === 'className') {
+        else if (key === 'className') {
             // 适配 react className
             normalProps.class = val;
         }
         else if (key === 'children' && isNodeData(val)) {
-            // 处理属性中的默认插槽，属性的重默认插槽会覆盖节点 chilren 插槽
+            // 处理属性中的默认插槽，属性的重默认插槽会覆盖节点 children 插槽
             slotProps.default = ensureArray(val);
         }
         else {

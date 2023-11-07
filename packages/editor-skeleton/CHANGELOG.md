@@ -1,5 +1,16 @@
 # @harrywan/letgo-editor-skeleton
 
+## 0.0.0-beta.35
+
+### Patch Changes
+
+- fix
+- Updated dependencies
+  - @harrywan/letgo-common@0.0.0-beta.35
+  - @harrywan/letgo-designer@0.0.0-beta.35
+  - @harrywan/letgo-editor-core@0.0.0-beta.35
+  - @harrywan/letgo-types@0.0.0-beta.35
+
 ## 0.0.0-beta.34
 
 ### Patch Changes

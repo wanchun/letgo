@@ -253,12 +253,14 @@ export function genCode(codeStruct: CodeStruct): SetupCode {
                     imported: 'letgoRequest',
                 });
                 const api = isSyntaxError(item.api) ? JSON.stringify(item.api) : item.api;
-                const params = item.params ? `, ${item.params}` : '';
+                const params = item.params ? `, ${item.params}` : ', null';
                 codeStr.push(`
     const ${item.id} = useJSQuery({
         id: '${item.id}',
         query() {
-            return letgoRequest(${api}${params})
+            return letgoRequest(${api}${params}, {
+                method: '${item.method || 'POST'}'  
+            })
         },
         ${item.enableTransformer ? `enableTransformer: ${item.enableTransformer},` : ''}
         ${(item.enableTransformer && item.transformer) ? `transformer(data) {${item.transformer}},` : ''}

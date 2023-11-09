@@ -16,7 +16,6 @@ export function genPackageJSON(packages: IPublicTypePackage[], extraPackageJSON?
         version: '1.0.0',
         license: 'MIT',
         dependencies: {
-            '@qlin/request': '0.1.8',
             'core-js': '3.32.1',
             'vue': '3.3.4',
             '@vueuse/core': '10.4.1',

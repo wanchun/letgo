@@ -110,10 +110,11 @@ export class JavascriptQueryBase {
         if (fn) {
             try {
                 this.loading = true;
+                let data;
                 if (this.queryTimeout)
-                    this.data = await Promise.race([this.timeoutPromise(this.queryTimeout), fn(this.ctx)]);
+                    data = await Promise.race([this.timeoutPromise(this.queryTimeout), fn(this.ctx)]);
                 else
-                    this.data = await fn(this.ctx);
+                    data = await fn(this.ctx);
 
                 if (this.enableTransformer && this.transformer) {
                     // eslint-disable-next-line no-new-func
@@ -126,12 +127,13 @@ export class JavascriptQueryBase {
                         }
                         return result;
                     `);
-                    this.data = await fn({
+                    data = await fn({
                         ...this.ctx,
                         data: this.data,
                     });
                 }
 
+                this.data = data;
                 this.cacheTime = Date.now();
                 this.successEventInstances.forEach((eventHandler) => {
                     eventHandler(this.data);

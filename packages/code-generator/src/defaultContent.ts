@@ -165,14 +165,16 @@ class JSQuery {
         if (this.query) {
             try {
                 this.loading = true;
+                let data;
                 if (this.queryTimeout)
-                    this.data = await Promise.race([this.timeoutPromise(this.queryTimeout), this.query()]);
+                    data = await Promise.race([this.timeoutPromise(this.queryTimeout), this.query()]);
                 else
-                    this.data = await this.query();
+                    data = await this.query();
 
                 if (this.enableTransformer && this.transformer)
-                    this.data = await this.transformer(this.data);
+                    data = await this.transformer(data);
 
+                this.data = data;
                 this.cacheTime = Date.now();
                 this.successEvent.forEach((eventHandler) => {
                     eventHandler();

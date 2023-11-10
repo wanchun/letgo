@@ -1,5 +1,14 @@
 # @harrywan/letgo-plugin-component-tree
 
+## 0.0.0-beta.36
+
+### Patch Changes
+
+- Updated dependencies
+  - @harrywan/letgo-designer@0.0.0-beta.36
+  - @harrywan/letgo-editor-core@0.0.0-beta.36
+  - @harrywan/letgo-engine-plugin@0.0.0-beta.36
+
 ## 0.0.0-beta.35
 
 ### Patch Changes

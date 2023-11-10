@@ -1,5 +1,18 @@
 # template
 
+## 0.0.0-beta.34
+
+### Patch Changes
+
+- Updated dependencies
+  - @harrywan/letgo-code-generator@0.0.0-beta.36
+  - @harrywan/letgo-common@0.0.0-beta.36
+  - @harrywan/letgo-engine@0.0.0-beta.36
+  - @harrywan/letgo-plugin-global@0.0.0-beta.36
+  - @harrywan/letgo-renderer@0.0.0-beta.36
+  - @harrywan/letgo-plugin-schema@0.0.0-beta.36
+  - @harrywan/letgo-plugin-device@0.0.0-beta.36
+
 ## 0.0.0-beta.33
 
 ### Patch Changes

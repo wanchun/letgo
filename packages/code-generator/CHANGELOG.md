@@ -1,5 +1,13 @@
 # @harrywan/letgo-code-generator
 
+## 0.0.0-beta.36
+
+### Patch Changes
+
+- fix some bug
+- Updated dependencies
+  - @harrywan/letgo-common@0.0.0-beta.36
+
 ## 0.0.0-beta.35
 
 ### Patch Changes

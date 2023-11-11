@@ -18,7 +18,7 @@ function getComponentRefs(
 ) {
     const componentRefs: Set<string> = new Set();
     traverseNodeSchema(nodeData, (item) => {
-        componentRefs.add(item.componentName);
+        componentRefs.add(item.ref);
     });
     return componentRefs;
 }

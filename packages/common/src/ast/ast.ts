@@ -72,8 +72,11 @@ export function calcDependencies(item: CodeItem, ctx?: Record<string, any>) {
                 result = result.concat(handleEventDep(item.failureEvent));
                 result = result.concat(handleEventDep(item.successEvent));
             }
-
-            else { result = calcJSCodeDependencies(item.query, ctx); }
+            else {
+                result = calcJSCodeDependencies(item.query, ctx);
+            }
+            if (item.transformer && item.enableTransformer)
+                result = result.concat(calcJSCodeDependencies(item.transformer, ctx));
         }
         return Array.from(new Set(result));
     }

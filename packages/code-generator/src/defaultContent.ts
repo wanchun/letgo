@@ -177,11 +177,11 @@ class JSQuery {
                 this.data = data;
                 this.cacheTime = Date.now();
                 this.successEvent.forEach((eventHandler) => {
-                    eventHandler();
+                    eventHandler(data);
                 });
             } catch (err) {
                 this.failureEvent.forEach((eventHandler) => {
-                    eventHandler();
+                    eventHandler(err);
                 });
                 if (err instanceof Error)
                     this.error = err.message;

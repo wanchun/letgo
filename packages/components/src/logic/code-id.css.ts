@@ -4,22 +4,31 @@ import { codeItemActiveCls } from './code.css';
 export const codeIdCls = style({
     margin: '0 6px',
     flex: 1,
+    overflow: 'hidden',
 });
 
 export const idContentCls = style({
     display: 'inline-flex',
     width: '100%',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    height: '26px',
+    lineHeight: '26px',
+});
+
+export const idContentTextCls = style({
+    maxWidth: 'calc(100% - 16px)',
+    marginRight: '2px',
 });
 
 export const editIconCls = style({
-    display: 'none',
+    opacity: 0,
     fontSize: '14px',
-    color: '#8c8c8c',
+    color: '#5384ff',
+    display: 'flex',
+    alignItems: 'center',
     selectors: {
         [`${codeItemActiveCls} ${idContentCls}:hover &`]: {
-            display: 'inline-block',
+            opacity: 1,
         },
     },
 });

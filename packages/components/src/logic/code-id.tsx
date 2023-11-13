@@ -1,7 +1,8 @@
 import type { PropType } from 'vue';
 import { defineComponent, nextTick, ref } from 'vue';
+import { FEllipsis } from '@fesjs/fes-design';
 import { EditIcon } from '../icons';
-import { codeIdCls, editIconCls, idContentCls, inputCls, inputErrorCls } from './code-id.css';
+import { codeIdCls, editIconCls, idContentCls, idContentTextCls, inputCls, inputErrorCls } from './code-id.css';
 
 export default defineComponent({
     props: {
@@ -46,21 +47,23 @@ export default defineComponent({
         };
 
         return () => {
-            return <div class={codeIdCls}>
-                <span v-show={!editing.value} class={idContentCls}>
-                    <span>{props.id}</span>
-                    <EditIcon onClick={goEdit} class={editIconCls} />
-                </span>
-                <input
-                    v-show={editing.value}
-                    ref={inputRefEl}
-                    class={[inputCls, hasRepeatIdError.value && inputErrorCls]}
-                    value={currentValue.value}
-                    onInput={checkError}
-                    onBlur={cancelEdit}
-                    onChange={changeId}
-                />
-            </div>;
+            return (
+                <div class={codeIdCls}>
+                    <span v-show={!editing.value} class={idContentCls}>
+                        <FEllipsis class={idContentTextCls} content={props.id}></FEllipsis>
+                        <EditIcon onClick={goEdit} class={editIconCls} />
+                    </span>
+                    <input
+                        v-show={editing.value}
+                        ref={inputRefEl}
+                        class={[inputCls, hasRepeatIdError.value && inputErrorCls]}
+                        value={currentValue.value}
+                        onInput={checkError}
+                        onBlur={cancelEdit}
+                        onChange={changeId}
+                    />
+                </div>
+            );
         };
     },
 });

@@ -1,6 +1,6 @@
 import { defineComponent, h } from 'vue';
 import type { PropType } from 'vue';
-import { FDropdown } from '@fesjs/fes-design';
+import { FDropdown, FScrollbar } from '@fesjs/fes-design';
 import { MoreOutlined, PlusOutlined } from '@fesjs/fes-design/icon';
 import type { Code } from '@harrywan/letgo-designer';
 import { CodeType, ResourceType } from '@harrywan/letgo-types';
@@ -121,7 +121,7 @@ export const CodeList = defineComponent({
         };
 
         const renderCode = () => {
-            return props.code?.code.map((item) => {
+            return props.code?.code.map((item: any) => {
                 return (
                     <li onClick={() => props.onChangeCurrentCodeItem(item)} class={[codeItemCls, props.currentCodeItem?.id === item.id ? codeItemActiveCls : '']}>
                         {renderCodeIcon(item)}
@@ -144,7 +144,7 @@ export const CodeList = defineComponent({
 
         return () => {
             return (
-                <div class={codeCls}>
+                <FScrollbar class={codeCls} contentStyle={{ width: '100%', overflow: 'hidden' }}>
                     <div class={codeHeaderCls}>
                         <FDropdown trigger="click" onClick={addCodeItem} placement="bottom-start" options={options}>
                             <PlusOutlined class={headerIconCls} />
@@ -154,7 +154,7 @@ export const CodeList = defineComponent({
                         {renderFolders()}
                         {renderCode()}
                     </ul>
-                </div>
+                </FScrollbar>
             );
         };
     },

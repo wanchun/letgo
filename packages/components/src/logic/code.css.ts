@@ -56,7 +56,7 @@ export const codeCommonIconCls = style({
 });
 
 export const codeMoreIconCls = style({
-    display: 'none',
+    opacity: 0,
     justifyContent: 'center',
     alignItems: 'center',
     color: '#8a8a8a',
@@ -65,10 +65,10 @@ export const codeMoreIconCls = style({
     height: '18px',
     selectors: {
         [`${codeItemCls}:hover &`]: {
-            display: 'inline-flex',
+            opacity: 1,
         },
         [`${codeItemActiveCls} &`]: {
-            display: 'inline-flex',
+            opacity: 1,
         },
     },
 });

@@ -1,6 +1,8 @@
 import { style } from '@vanilla-extract/css';
 
 export const codeCls = style({
+    width: '100%',
+    overflow: 'hidden',
 });
 
 export const codeHeaderCls = style({

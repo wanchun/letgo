@@ -1,5 +1,4 @@
 import { style } from '@vanilla-extract/css';
-import { codeItemActiveCls } from './code.css';
 
 export const codeIdCls = style({
     margin: '0 6px',
@@ -27,7 +26,7 @@ export const editIconCls = style({
     display: 'flex',
     alignItems: 'center',
     selectors: {
-        [`${codeItemActiveCls} ${idContentCls}:hover &`]: {
+        [`${idContentCls}:hover &`]: {
             opacity: 1,
         },
     },

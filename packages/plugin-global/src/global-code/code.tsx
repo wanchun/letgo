@@ -34,24 +34,26 @@ export const GlobalCode = defineComponent({
         };
 
         return () => {
-            return <FDrawer
-                width="1024px"
-                v-model={[innerVisible.value, 'show']}
-                title="全局状态"
-            >
-                <div class={globalCodeCls}>
-                    <CodeList
-                        class={leftPanelCls}
-                        hasFunction
-                        code={code.value}
-                        hasCodeId={hasCodeId}
-                        currentCodeItem={currentCodeItem.value}
-                        onChangeCurrentCodeItem={changeCurrentCodeItem}
-                        codesInstance={codesInstance.value}
-                    />
-                    <CodeEdit class={rightPanelCls} project={props.designer.project} codeItem={currentCodeItem.value} />
-                </div>
-            </FDrawer>;
+            return (
+                <FDrawer
+                    width="1024px"
+                    v-model={[innerVisible.value, 'show']}
+                    title="全局状态"
+                >
+                    <div class={globalCodeCls}>
+                        <CodeList
+                            class={leftPanelCls}
+                            hasFunction
+                            code={code.value}
+                            hasCodeId={hasCodeId}
+                            currentCodeItem={currentCodeItem.value}
+                            onChangeCurrentCodeItem={changeCurrentCodeItem}
+                            codesInstance={codesInstance.value}
+                        />
+                        <CodeEdit class={rightPanelCls} project={props.designer.project} codeItem={currentCodeItem.value} />
+                    </div>
+                </FDrawer>
+            );
         };
     },
 });

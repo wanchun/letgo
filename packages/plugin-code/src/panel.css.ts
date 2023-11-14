@@ -14,14 +14,23 @@ export const editWrapper = style({
 });
 
 export const leftPanelCls = style({
-    width: '240px',
-    height: '100%',
-    borderRight: '1px solid #f1f1f2',
+    selectors: {
+        [`${editWrapper} &`]: {
+            width: '240px',
+            height: '100%',
+            borderRight: '1px solid #f1f1f2',
+        },
+    },
 });
 
 export const rightPanelCls = style({
-    flex: 1,
-    overflow: 'hidden',
+    selectors: {
+        [`${editWrapper} &`]: {
+            flex: 1,
+            overflow: 'hidden',
+        },
+    },
+
 });
 
 export const tabsCls = style({

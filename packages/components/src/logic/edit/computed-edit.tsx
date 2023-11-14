@@ -34,16 +34,18 @@ export const ComputedEdit = defineComponent({
         };
 
         return () => {
-            return <div>
-                <div class={headerCls}>
-                    <div>
-                        <FButton type="primary" size="small" disabled={tmpFuncBody.value === props.codeItem.funcBody} onClick={onSave}>保存</FButton>
+            return (
+                <div>
+                    <div class={headerCls}>
+                        <div>
+                            <FButton type="primary" size="small" disabled={tmpFuncBody.value === props.codeItem.funcBody} onClick={onSave}>保存</FButton>
+                        </div>
+                    </div>
+                    <div class={contentCls}>
+                        <CodeEditor documentModel={props.documentModel} extensions={[javascript()]} hints={props.hints} doc={props.codeItem.funcBody} changeDoc={changeFuncBody} />
                     </div>
                 </div>
-                <div class={contentCls}>
-                    <CodeEditor documentModel={props.documentModel} extensions={[javascript()]} hints={props.hints} doc={props.codeItem.funcBody} changeDoc={changeFuncBody} />
-                </div>
-            </div>;
+            );
         };
     },
 });

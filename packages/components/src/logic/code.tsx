@@ -144,7 +144,7 @@ export const CodeList = defineComponent({
 
         return () => {
             return (
-                <div class={codeCls} style={{ width: '100%', overflow: 'hidden' }}>
+                <div class={codeCls}>
                     <div class={codeHeaderCls}>
                         <FDropdown trigger="click" onClick={addCodeItem} placement="bottom-start" options={options}>
                             <PlusOutlined class={headerIconCls} />

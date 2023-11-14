@@ -6,13 +6,21 @@ export const globalCodeCls = style({
 });
 
 export const leftPanelCls = style({
-    width: '280px',
-    flexShrink: 0,
-    height: '100%',
-    borderRight: '1px solid #ebebeb',
+    selectors: {
+        [`${globalCodeCls} &`]: {
+            width: '280px',
+            flexShrink: 0,
+            height: '100%',
+            borderRight: '1px solid #f1f1f2',
+        },
+    },
 });
 
 export const rightPanelCls = style({
-    flex: 1,
-    width: 0,
+    selectors: {
+        [`${globalCodeCls} &`]: {
+            flex: 1,
+            width: 0,
+        },
+    },
 });

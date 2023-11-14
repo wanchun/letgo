@@ -1,5 +1,18 @@
 # @harrywan/letgo-plugin-global
 
+## 0.0.0-beta.38
+
+### Patch Changes
+
+- 11
+- Updated dependencies
+  - @harrywan/letgo-common@0.0.0-beta.38
+  - @harrywan/letgo-components@0.0.0-beta.38
+  - @harrywan/letgo-designer@0.0.0-beta.38
+  - @harrywan/letgo-engine@0.0.0-beta.38
+  - @harrywan/letgo-engine-plugin@0.0.0-beta.38
+  - @harrywan/letgo-types@0.0.0-beta.38
+
 ## 0.0.0-beta.36
 
 ### Patch Changes

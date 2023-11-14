@@ -1,5 +1,15 @@
 # @harrywan/letgo-editor-core
 
+## 0.0.0-beta.38
+
+### Patch Changes
+
+- 11
+- Updated dependencies
+  - @harrywan/letgo-common@0.0.0-beta.38
+  - @harrywan/letgo-components@0.0.0-beta.38
+  - @harrywan/letgo-types@0.0.0-beta.38
+
 ## 0.0.0-beta.36
 
 ### Patch Changes

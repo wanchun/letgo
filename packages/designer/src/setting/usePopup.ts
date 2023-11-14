@@ -13,6 +13,7 @@ let zIndex = 1;
 export const INJECTION_KEY: InjectionKey<{
     openPopup: (title: string, nodes: VNodeChild, onClose?: () => void) => void
     closePopup: () => void
+    closeAllPopup: () => void
 }>
     = Symbol('popup');
 
@@ -36,14 +37,21 @@ export function usePopup() {
         triggerRef(popupList);
     };
 
+    const closeAllPopup = () => {
+        popupList.value = [];
+        triggerRef(popupList);
+    };
+
     provide(INJECTION_KEY, {
         openPopup,
         closePopup,
+        closeAllPopup,
     });
 
     return {
         popupList,
         closePopup,
+        closeAllPopup,
     };
 }
 

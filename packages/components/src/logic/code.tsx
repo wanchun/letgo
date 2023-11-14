@@ -99,7 +99,7 @@ export const CodeList = defineComponent({
         };
 
         const renderFolders = () => {
-            return props.code?.directories.map((item) => {
+            return props.code?.directories.map((item: any) => {
                 return (
                     <li class={codeItemCls}>
                         <FolderIcon />

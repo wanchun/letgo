@@ -1,5 +1,5 @@
-import type { PropType, VNodeChild } from 'vue';
-import { defineComponent, onBeforeUnmount } from 'vue';
+import type { PropType } from 'vue';
+import { defineComponent, onBeforeUnmount, watch } from 'vue';
 import { FScrollbar, FTabPane, FTabs } from '@fesjs/fes-design';
 import type { SettingField } from '@harrywan/letgo-designer';
 import {
@@ -20,15 +20,6 @@ import {
     popupWrapperCls,
 } from './setting.css';
 
-interface Popup {
-    id: number
-    title: string
-    nodes: VNodeChild
-    zIndex: number
-}
-
-const zIndex = 1;
-
 export default defineComponent({
     name: 'PluginSetterPanelView',
     props: {
@@ -45,7 +36,11 @@ export default defineComponent({
             main?.purge();
         });
 
-        const { popupList, closePopup } = usePopup();
+        const { popupList, closePopup, closeAllPopup } = usePopup();
+
+        watch(() => main.currentNode, () => {
+            closeAllPopup();
+        });
 
         return () => {
             const { settings, currentNode } = main;

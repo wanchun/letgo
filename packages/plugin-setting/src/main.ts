@@ -56,8 +56,6 @@ export class SettingsMain {
         this.disposeListener = () => {
             this.editor.off('designer.selection.change', setupSelection);
         };
-
-        console.log('settingMain:', this);
     }
 
     private setupSelection(selection?: Selection) {

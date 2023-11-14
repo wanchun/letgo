@@ -6,7 +6,7 @@ export const wrapperCls = style({
 
 export const titleWrapperCls = style({
     display: 'flex',
-    padding: '0 22px 8px 22px',
+    padding: '0 22px 8px 44px',
     gap: '8px',
 });
 

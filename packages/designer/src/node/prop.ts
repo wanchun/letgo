@@ -525,8 +525,8 @@ export class Prop implements IPropParent {
     }
 
     changePropKey(oldKey: number | string, newKey: number | string, prop: Prop) {
-        this._maps.delete(oldKey);
-        this._maps.set(newKey, prop);
+        this._maps?.delete(oldKey);
+        this._maps?.set(newKey, prop);
     }
 
     /**

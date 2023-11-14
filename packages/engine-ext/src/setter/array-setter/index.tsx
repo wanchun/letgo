@@ -8,6 +8,7 @@ import {
     onBeforeMount,
     onMounted,
     reactive,
+    ref,
     shallowRef,
     triggerRef,
 } from 'vue';
@@ -22,8 +23,8 @@ import type {
 } from '@harrywan/letgo-types';
 import { createSettingFieldView, usePopupManage } from '@harrywan/letgo-designer';
 import type { SettingField } from '@harrywan/letgo-designer';
-import { FButton } from '@fesjs/fes-design';
-import { AddOne, Config, DeleteOne } from '@icon-park/vue-next';
+import { FButton, FDraggable } from '@fesjs/fes-design';
+import { AddOne, Config, DeleteOne, Drag } from '@icon-park/vue-next';
 import { commonProps } from '../../common';
 import {
     addWrapperCls, bigBodyWrapperCls, bodyCls, bodyWrapperCls,
@@ -145,8 +146,6 @@ const ArraySetterView = defineComponent({
             };
         };
 
-        // const onSort = () => {};
-
         // TODO: 处理defaultValue
         const onAdd = () => {
             const item = createItem(items.value.length);
@@ -161,8 +160,9 @@ const ArraySetterView = defineComponent({
             const l = items.value.length;
             let i = index;
             while (i < l) {
-                items.value[i].main.setKey(i);
-                items.value[i].cols.forEach((col, index) => {
+                const item = items.value[i];
+                item.main.setKey(i);
+                item.cols.forEach((col, index) => {
                     col.setKey(`${i}.${columnsRef.value[index].name}`);
                 });
                 i++;
@@ -244,15 +244,48 @@ const ArraySetterView = defineComponent({
             );
         };
 
+        const draggable = ref(false);
+
+        const onMousedown = () => {
+            draggable.value = true;
+        };
+
+        const onDragend = () => {
+            draggable.value = false;
+            // 这时候items的值是正确顺序
+            props.onChange(items.value.map(item => item.main.getValue()));
+            let i = 0;
+            const l = items.value.length;
+            while (i < l) {
+                const item = items.value[i];
+                item.main.setKey(i);
+                item.cols.forEach((col, index) => {
+                    col.setKey(`${i}.${columnsRef.value[index].name}`);
+                });
+                i++;
+            }
+            triggerRef(items);
+        };
+
         const renderBody = () => {
-            return items.value.map((item, index) => {
-                return (
-                    <div class={[bodyWrapperCls, !hasCol && bigBodyWrapperCls]}>
-                        {renderField(item, index)}
-                        <DeleteOne onClick={() => onRemove(item, index)} class={iconCls} theme="outline" />
-                    </div>
-                );
-            });
+            return (
+                <FDraggable
+                    v-model={items.value}
+                    disabled={!draggable.value}
+                    onDragend={onDragend}
+                    v-slots={{
+                        default: ({ item, index }: { item: ItemType; index: number }) => {
+                            return (
+                                <div class={[bodyWrapperCls, !hasCol && bigBodyWrapperCls]}>
+                                    <Drag class={iconCls} theme="outline" onMousedown={onMousedown} />
+                                    {renderField(item, index)}
+                                    <DeleteOne onClick={() => onRemove(item, index)} class={iconCls} theme="outline" />
+                                </div>
+                            );
+                        },
+                    }}>
+                </FDraggable>
+            );
         };
 
         return () => {
@@ -260,7 +293,7 @@ const ArraySetterView = defineComponent({
                 <div class={wrapperCls}>
                     {renderTitle()}
                     {renderBody()}
-                    <div class={[hasCol && addWrapperCls] }>
+                    <div class={[hasCol && addWrapperCls]}>
                         <FButton
                             long
                             v-slots={{ icon: () => <AddOne style={{ marginRight: '8px' }} class={iconCls} theme="outline" ></AddOne> }}

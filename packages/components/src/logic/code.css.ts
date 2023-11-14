@@ -57,6 +57,7 @@ export const codeCommonIconCls = style({
 
 export const codeMoreIconCls = style({
     opacity: 0,
+    display: 'inline-flex',
     justifyContent: 'center',
     alignItems: 'center',
     color: '#8a8a8a',

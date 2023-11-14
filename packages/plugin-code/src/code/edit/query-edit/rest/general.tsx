@@ -14,9 +14,11 @@ export default defineComponent({
     },
     setup(props) {
         return () => {
-            return <CommonGeneral documentModel={props.documentModel} codeItem={props.codeItem} changeCodeItem={props.changeCodeItem}>
-                <ParamsConfig documentModel={props.documentModel} codeItem={props.codeItem} changeCodeItem={props.changeCodeItem} />
-            </CommonGeneral>;
+            return (
+                <CommonGeneral documentModel={props.documentModel} codeItem={props.codeItem} changeCodeItem={props.changeCodeItem}>
+                    <ParamsConfig documentModel={props.documentModel} codeItem={props.codeItem} changeCodeItem={props.changeCodeItem} />
+                </CommonGeneral>
+            );
         };
     },
 });

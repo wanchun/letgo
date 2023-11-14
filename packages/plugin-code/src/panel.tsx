@@ -9,7 +9,6 @@ import {
     FTabPane,
     FTabs,
 } from '@fesjs/fes-design';
-
 import type { Designer } from '@harrywan/letgo-designer';
 import type { Editor } from '@harrywan/letgo-editor-core';
 import State from './state/state';
@@ -37,12 +36,12 @@ export default defineComponent({
                             displayDirective="show"
                         >
                             <div class={editWrapper}>
-                                <div class={leftPanelCls}>
+                                <FScrollbar class={leftPanelCls}>
                                     <CodeSetting designer={props.designer} />
-                                </div>
-                                <div class={rightPanelCls}>
+                                </FScrollbar>
+                                <FScrollbar class={rightPanelCls}>
                                     <CodeEdit designer={props.designer} />
-                                </div>
+                                </FScrollbar>
                             </div>
                         </FTabPane>
                         <FTabPane

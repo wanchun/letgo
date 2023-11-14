@@ -14,11 +14,13 @@ export default defineComponent({
     },
     setup(props, { slots }) {
         return () => {
-            return <div>
-                <Resource codeItem={props.codeItem} />
-                {slots.default()}
-                <EventHandlers documentModel={props.documentModel} codeItem={props.codeItem} changeCodeItem={props.changeCodeItem} />
-            </div>;
+            return (
+                <div>
+                    <Resource codeItem={props.codeItem} />
+                    {slots.default()}
+                    <EventHandlers documentModel={props.documentModel} codeItem={props.codeItem} changeCodeItem={props.changeCodeItem} />
+                </div>
+            );
         };
     },
 });

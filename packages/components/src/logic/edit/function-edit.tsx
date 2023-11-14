@@ -29,16 +29,18 @@ export const FunctionEdit = defineComponent({
         };
 
         return () => {
-            return <div>
-                <div class={headerCls}>
-                    <div>
-                        <FButton type="primary" size="small" disabled={tmpFuncBody.value === props.codeItem.funcBody} onClick={onSave}>保存</FButton>
+            return (
+                <>
+                    <div class={headerCls}>
+                        <div>
+                            <FButton type="primary" size="small" disabled={tmpFuncBody.value === props.codeItem.funcBody} onClick={onSave}>保存</FButton>
+                        </div>
                     </div>
-                </div>
-                <div class={contentCls}>
-                    <CodeEditor documentModel={props.documentModel} hints={props.hints} doc={props.codeItem.funcBody} extensions={[javascript()]} changeDoc={changeFuncBody} />
-                </div>
-            </div>;
+                    <div class={contentCls}>
+                        <CodeEditor height='200px' documentModel={props.documentModel} hints={props.hints} doc={props.codeItem.funcBody} extensions={[javascript()]} changeDoc={changeFuncBody} />
+                    </div>
+                </>
+            );
         };
     },
 });

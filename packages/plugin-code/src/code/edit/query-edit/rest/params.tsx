@@ -43,38 +43,44 @@ export default defineComponent({
         };
 
         return () => {
-            return <div class={wrapCls}>
-                <ContentItem label="请求方法" labelStyle="width: 72px" v-slots={{
-                    content: () => {
-                        return <div class={contentCls}>
-                                <FSelect class={methodCls} placeholder='' v-model={props.codeItem.method} options={MethodOptions} />
-                                <ExpressionEditor
-                                    placeholder="/api/path/to/get/data"
-                                    class={apiCls}
-                                    documentModel={props.documentModel}
-                                    doc={props.codeItem.api}
-                                    onChangeDoc={changeApiPath}
-                                />
-                            </div>;
-                    },
-                }} />
+            return (
+                <div class={wrapCls}>
+                    <ContentItem label="请求方法" labelStyle="width: 72px" v-slots={{
+                        content: () => {
+                            return (
+                                <div class={contentCls}>
+                                    <FSelect class={methodCls} placeholder='' v-model={props.codeItem.method} options={MethodOptions} />
+                                    <ExpressionEditor
+                                        placeholder="/api/path/to/get/data"
+                                        class={apiCls}
+                                        documentModel={props.documentModel}
+                                        doc={props.codeItem.api}
+                                        onChangeDoc={changeApiPath}
+                                    />
+                                </div>
+                            );
+                        },
+                    }} />
 
-                <ContentItem label="请求参数" labelStyle="width: 72px" v-slots={{
-                    content: () => {
-                        return <ExpressionEditor style="font-size: 14px" placeholder="params" documentModel={props.documentModel} doc={props.codeItem.params} onChangeDoc={changeParams} />;
-                    },
-                }} />
+                    <ContentItem label="请求参数" labelStyle="width: 72px" v-slots={{
+                        content: () => {
+                            return <ExpressionEditor style="width: 0; flex: 1;" placeholder="params" documentModel={props.documentModel} doc={props.codeItem.params} onChangeDoc={changeParams} />;
+                        },
+                    }} />
 
-                <ContentItem label="数据转换" labelStyle="width: 72px" v-slots={{
-                    content: () => {
-                        return <div style="width: 0; flex: 1;">
-                            <FCheckbox v-model={props.codeItem.enableTransformer}>开启数据转换</FCheckbox>
-                            {!props.codeItem.enableTransformer && <p class={tipCls}>开始数据转换，将请求数据转换成不同的格式</p>}
-                            {props.codeItem.enableTransformer && <CodeEditor extensions={[javascript()]} documentModel={props.documentModel} doc={props.codeItem.transformer} changeDoc={changeTransformer} /> }
-                        </div>;
-                    },
-                }} />
-            </div>;
+                    <ContentItem label="数据转换" labelStyle="width: 72px" v-slots={{
+                        content: () => {
+                            return (
+                                <div style="width: 0; flex: 1;">
+                                    <FCheckbox v-model={props.codeItem.enableTransformer}>开启数据转换</FCheckbox>
+                                    {!props.codeItem.enableTransformer && <p class={tipCls}>开始数据转换，将请求数据转换成不同的格式</p>}
+                                    {props.codeItem.enableTransformer && <CodeEditor extensions={[javascript()]} documentModel={props.documentModel} doc={props.codeItem.transformer} changeDoc={changeTransformer} />}
+                                </div>
+                            );
+                        },
+                    }} />
+                </div>
+            );
         };
     },
 });

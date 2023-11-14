@@ -29,16 +29,19 @@ export default defineComponent({
     },
     setup(props) {
         return () => {
-            return <div class={wrapCls}>
-                <ContentItem label="类型" labelStyle="width: 72px" v-slots={{
-                    content: () => {
-                        return <div class={contentCls}>
-                            <FSelect style="width: 130px" v-model={props.codeItem.resourceType} options={Options} />
-                            {/* <FSelect style="flex: 1" v-model={props.codeItem.runCondition} options={RunOptions} /> */}
-                        </div>;
-                    },
-                }} />
-            </div>;
+            return (
+                <div class={wrapCls}>
+                    <ContentItem label="类型" labelStyle="width: 72px" v-slots={{
+                        content: () => {
+                            return (
+                                <div class={contentCls}>
+                                    <FSelect style="width: 130px" v-model={props.codeItem.resourceType} options={Options} />
+                                </div>
+                            );
+                        },
+                    }} />
+                </div>
+            );
         };
     },
 });

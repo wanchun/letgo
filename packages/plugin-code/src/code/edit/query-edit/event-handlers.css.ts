@@ -18,7 +18,7 @@ export const eventListCls = style({
 
 export const contentCls = style({
     border: '1px solid #cfd0d3',
-    height: '32px',
+    minHeight: '32px',
     borderRadius: '4px',
 });
 

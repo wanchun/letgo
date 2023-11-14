@@ -10,6 +10,7 @@ export const panelCls = style({
 export const editWrapper = style({
     display: 'flex',
     height: '100%',
+    width: '100%',
 });
 
 export const leftPanelCls = style({
@@ -20,6 +21,7 @@ export const leftPanelCls = style({
 
 export const rightPanelCls = style({
     flex: 1,
+    overflow: 'hidden',
 });
 
 export const tabsCls = style({

@@ -16,15 +16,15 @@
     "sr:server": "http-server packages/simulator-renderer/lib --cors -p 8082",
     "sr": "npm-run-all -p sr:dev sr:server",
     "build:ts": "cross-env NODE_ENV=production node scripts/build.js --types",
-    "build:esm": "cross-env NODE_ENV=production node scripts/build.js --esm --types",
+    "build:esm": "cross-env NODE_ENV=production node scripts/build.js --esm",
     "build:sr": "cross-env NODE_ENV=production node scripts/build-sr.js",
-    "build": "cross-env NODE_ENV=production npm-run-all -s build:esm build:sr",
+    "build": "npm-run-all -s build:ts build:esm build:sr",
     "clear": "node scripts/clear.js",
-    "tpl": "cd packages/template & npm run dev",
+    "tpl": "cd packages/template && npm run dev",
     "test": "vitest",
     "ver": "changeset pre exit && changeset pre enter beta && changeset && changeset version",
-    "release": "pnpm build && pnpm release:only && changeset pre exit",
-    "release:only": "cross-env npm_config_registry=https://registry.npmjs.com changeset publish"
+    "publish": "cross-env npm_config_registry=https://registry.npmjs.com changeset publish",
+    "release": "pnpm build && pnpm publish && changeset pre exit"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.38.5",

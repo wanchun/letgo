@@ -24,7 +24,7 @@
     "test": "vitest",
     "ver": "changeset pre exit && changeset pre enter beta && changeset && changeset version",
     "publish": "cross-env npm_config_registry=https://registry.npmjs.com changeset publish",
-    "release": "pnpm build && pnpm publish && changeset pre exit"
+    "release": "npm run build && npm run publish && changeset pre exit"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.38.5",

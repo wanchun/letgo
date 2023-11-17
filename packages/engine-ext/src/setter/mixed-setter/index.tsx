@@ -14,6 +14,7 @@ import {
     SetterManager,
     createSetterContent,
 } from '@harrywan/letgo-designer';
+import { cloneDeep } from 'lodash';
 import { FDropdown, FTooltip } from '@fesjs/fes-design';
 import { CodeBrackets, Transform } from '@icon-park/vue-next';
 import { commonProps } from '../../common';
@@ -171,6 +172,20 @@ const MixedSetterView = defineComponent({
             });
         };
 
+        const cache = new Map<string, unknown>();
+
+        const changeSetter = (value: string) => {
+            // 缓存
+            const setterName = currentSetterName.value;
+            cache.set(setterName, cloneDeep(props.value));
+            // 更改
+            currentSetterName.value = value;
+            // 变更
+            const cacheValue = cache.get(value);
+            if (cacheValue)
+                props.onChange(cacheValue);
+        };
+
         const renderSwitchAction = () => {
             const options = setters.value.map((setter) => {
                 return {
@@ -182,10 +197,10 @@ const MixedSetterView = defineComponent({
                 const otherName = options.filter(item => item.value !== 'ExpressionSetter')[0].value;
                 const onClick = () => {
                     if (currentSetterName.value !== 'ExpressionSetter')
-                        currentSetterName.value = 'ExpressionSetter';
+                        changeSetter('ExpressionSetter');
 
                     else
-                        currentSetterName.value = otherName;
+                        changeSetter(otherName);
                 };
                 return (
                     <FTooltip content={currentSetterName.value === 'ExpressionSetter' ? '关闭' : '启用表达式'}>
@@ -202,7 +217,7 @@ const MixedSetterView = defineComponent({
                 <FDropdown
                     options={options}
                     onClick={(val: string) => {
-                        currentSetterName.value = val;
+                        changeSetter(val);
                     }}
                 >
                     <Transform

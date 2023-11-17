@@ -14,6 +14,8 @@ export default defineComponent({
         },
     },
     setup(props) {
+        const { widget } = props;
+
         const isActive = computed(() => {
             if (!props.widget.linked)
                 return false;
@@ -22,7 +24,6 @@ export default defineComponent({
         });
 
         return () => {
-            const { widget } = props;
             if (!widget.visible)
                 return null;
 

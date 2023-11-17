@@ -8,6 +8,7 @@ export default defineComponent({
     setup() {
         const onReady = () => {
             project.openDocument();
+            console.log('project:', project);
         };
 
         return {

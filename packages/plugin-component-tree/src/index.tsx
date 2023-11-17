@@ -25,7 +25,7 @@ interface Option {
 export function transformNode(node: INode, isSlot = false): Option {
     const option: Option = {
         value: node.id,
-        label: `${node.title || node.componentName}`,
+        label: `${node.ref} - ${node.title || node.componentName}`,
     };
     option.children = [...node.slots.map(node => transformNode(node, true)), ...node.children.getNodes().map(node => transformNode(node))];
     option.prefix = () => {
@@ -38,7 +38,7 @@ export function transformNode(node: INode, isSlot = false): Option {
         return <FigmaComponent class={nodeIconCls} theme="outline" />;
     };
     option.suffix = () => {
-        return <SuffixView node={node}></SuffixView>;
+        return <SuffixView node={node} style={{ marginRight: '8px' }}></SuffixView>;
     };
 
     return option;
@@ -54,7 +54,7 @@ const ComponentTreeView = defineComponent({
         },
     },
     setup(props) {
-        const isSimulatorReady: Ref<boolean> = ref(false);
+        const isSimulatorReady: Ref<boolean> = ref(props.designer.isRendererReady);
 
         const clear = props.designer.onRendererReady(() => {
             isSimulatorReady.value = true;

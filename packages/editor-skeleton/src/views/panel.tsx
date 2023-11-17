@@ -11,14 +11,14 @@ export default defineComponent({
         },
     },
     setup(props) {
+        const { widget } = props;
+
         return () => {
-            const { widget } = props;
+            if (!widget.visible)
+                return;
 
             return (
-                <div
-                    v-show={widget.visible}
-                    class={panelCls}
-                >
+                <div class={panelCls}>
                     {widget.body}
                 </div>
             );

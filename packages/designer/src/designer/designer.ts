@@ -15,6 +15,7 @@ import {
 } from '@harrywan/letgo-types';
 import type { Component } from 'vue';
 import { markComputed } from '@harrywan/letgo-common';
+import { isNil } from 'lodash-es';
 import type { INode, INodeSelector, ISimulator } from '../types';
 import { Project } from '../project';
 import { ComponentMeta } from '../component-meta';
@@ -78,6 +79,8 @@ export class Designer {
 
     private _simulator?: ISimulator;
 
+    private _renderer: unknown;
+
     private _simulatorProps?:
     | ISimulatorProps
     | ((designer: Designer) => ISimulatorProps);
@@ -140,6 +143,10 @@ export class Designer {
 
     get dropLocation() {
         return this.dragon.dropLocation;
+    }
+
+    get isRendererReady() {
+        return !isNil(this._renderer);
     }
 
     constructor(props: IDesignerProps) {
@@ -371,6 +378,7 @@ export class Designer {
     }
 
     setRendererReady(renderer: unknown) {
+        this._renderer = renderer;
         this.emitter.emit('letgo_engine_renderer_ready', renderer);
     }
 

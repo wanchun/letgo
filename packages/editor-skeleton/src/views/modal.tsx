@@ -11,10 +11,14 @@ export default defineComponent({
         },
     },
     setup(props) {
+        const { widget } = props;
+
         return () => {
-            const { widget } = props;
+            if (widget.visible)
+                return;
+
             return (
-                <FModal {...widget.props} show={widget.visible}>
+                <FModal {...widget.props} show={true}>
                     {widget.body}
                 </FModal>
             );

@@ -12,7 +12,7 @@ import LayoutView from './layout';
 
 function useCssHandler() {
     const css = host.project.get('css') || '';
-    const styleDom = document.createElement('style');
+    let styleDom = document.createElement('style');
     document.getElementsByTagName('head')[0].appendChild(styleDom);
     styleDom.innerText = css.replace(/\n/g, '');
 
@@ -20,7 +20,10 @@ function useCssHandler() {
         styleDom.innerText = host.project.get('css')?.replace(/\n/g, '');
     });
 
-    onUnmounted(offEvent);
+    onUnmounted(() => {
+        offEvent();
+        styleDom = null;
+    });
 }
 
 function useDocumentChange(simulator: VueSimulatorRenderer) {

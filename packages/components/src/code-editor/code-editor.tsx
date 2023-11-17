@@ -5,6 +5,7 @@ import type {
 import {
     defineComponent,
     nextTick,
+    onBeforeUnmount,
     onMounted,
     ref, watch,
 } from 'vue';
@@ -136,6 +137,11 @@ export const CodeEditor = defineComponent({
                 editorView?.setState(genState());
             }
         };
+
+        onBeforeUnmount(() => {
+            editorView?.destroy();
+            fullScreenView?.destroy();
+        });
 
         return () => {
             return (

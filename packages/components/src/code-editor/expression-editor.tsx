@@ -1,5 +1,5 @@
 import { EditorView, minimalSetup } from 'codemirror';
-import { defineComponent, onMounted, ref, watch } from 'vue';
+import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { EditorState } from '@codemirror/state';
 import type { DocumentModel } from '@harrywan/letgo-designer';
 import { autocompletion } from '@codemirror/autocomplete';
@@ -74,6 +74,10 @@ export const ExpressionEditor = defineComponent({
                 const state = genState();
                 editorView.setState(state);
             }
+        });
+
+        onBeforeUnmount(() => {
+            editorView?.destroy();
         });
 
         return () => {

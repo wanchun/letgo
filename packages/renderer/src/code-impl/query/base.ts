@@ -129,7 +129,7 @@ export class JavascriptQueryBase {
                     `);
                     data = await fn({
                         ...this.ctx,
-                        data: this.data,
+                        data,
                     });
                 }
 

@@ -43,10 +43,12 @@ const SlotSetterView = defineComponent({
         const onChange = (checked: boolean) => {
             const { onChange, defaultValue, field } = props;
             if (checked) {
-                const value: IPublicTypeJSSlot = defaultValue ?? {
-                    type: 'JSSlot',
-                    value: null,
-                };
+                const value: IPublicTypeJSSlot = isJSSlot(defaultValue)
+                    ? defaultValue
+                    : {
+                            type: 'JSSlot',
+                            value: null,
+                        };
                 if (isNil(value.title))
                     value.title = field.title;
 
@@ -64,14 +66,19 @@ const SlotSetterView = defineComponent({
             props.onMounted?.();
         });
 
+        const current = computed(() => {
+            if (isNil(props.value))
+                return isOpenSlot.value;
+
+            return isJSSlot(props.value);
+        });
+
         return () => {
             return (
                 <div>
                     <FSwitch
                         modelValue={
-                            isUndefined(props.value)
-                                ? isOpenSlot.value
-                                : !!props.value
+                            current.value
                         }
                         onChange={(val: boolean) => {
                             onChange(val);

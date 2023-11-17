@@ -3448,13 +3448,13 @@ const assets: IPublicTypeAssetsJson = {
                     {
                         name: 'title',
                         title: '标题',
-                        setter: 'StringSetter',
+                        setter: ['StringSetter', 'SlotSetter'],
                         defaultValue: '我是标题',
                     },
                     {
                         name: 'description',
                         title: '描述',
-                        setter: 'StringSetter',
+                        setter: ['StringSetter', 'SlotSetter'],
                         defaultValue: '我是描述',
                     },
                     {

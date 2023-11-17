@@ -17,7 +17,6 @@ import type { INode, ISlotNode } from '../types';
 import type { Props } from './props';
 
 export interface IPropParent {
-    changePropKey(oldKey: number | string, newKey: number | string, prop: Prop): void
     delete(prop: Prop): void
     readonly props: Props
     readonly owner: INode
@@ -41,8 +40,6 @@ export class Prop implements IPropParent {
     private _type: IValueTypes;
 
     private _items: Prop[] | null;
-
-    private _maps: Map<string | number, Prop> | null = null;
 
     private _slotNode?: ISlotNode;
 
@@ -87,7 +84,14 @@ export class Prop implements IPropParent {
         if (!this.items)
             return null;
 
-        return this._maps;
+        const maps: Map<string | number, Prop> = new Map();
+        if (this.items.length > 0) {
+            this.items.forEach((prop) => {
+                if (!isNil(prop.key) && prop.key !== '')
+                    maps.set(prop.key, prop);
+            });
+        }
+        return maps;
     }
 
     get slotNode() {
@@ -113,7 +117,7 @@ export class Prop implements IPropParent {
             _type: 'unset',
             _items: null,
         });
-        markComputed(this, ['type', 'value', 'items', 'size']);
+        markComputed(this, ['key', 'type', 'value', 'items', 'maps', 'size']);
         this.owner = parent.owner;
         this.props = parent.props;
         this._key = key;
@@ -126,7 +130,6 @@ export class Prop implements IPropParent {
     }
 
     setKey(key: string | number) {
-        this.parent.changePropKey(this._key, key, this);
         this._key = key;
     }
 
@@ -139,22 +142,17 @@ export class Prop implements IPropParent {
                 items = items || [];
                 items.push(new Prop(this, item, idx));
             });
-            this._maps = null;
         }
         else if (type === 'map') {
-            const maps = new Map<string, Prop>();
             const keys = Object.keys(data);
             for (const key of keys) {
                 const prop = new Prop(this, data[key], key);
                 items = items || [];
                 items.push(prop);
-                maps.set(key, prop);
             }
-            this._maps = maps;
         }
         else {
             items = null;
-            this._maps = null;
         }
         this._items = items;
     }
@@ -188,7 +186,7 @@ export class Prop implements IPropParent {
             };
         }
         if (type === 'map') {
-            if (!this._items)
+            if (!this.items)
                 return this._value;
 
             let maps: any;
@@ -204,10 +202,10 @@ export class Prop implements IPropParent {
             return maps;
         }
         if (type === 'list') {
-            if (!this._items)
+            if (!this.items)
                 return this._value;
 
-            const values = this._items.map((prop) => {
+            const values = this.items.map((prop) => {
                 return prop.export(stage);
             });
             if (values.every(val => val === undefined))
@@ -300,7 +298,6 @@ export class Prop implements IPropParent {
         }
 
         this.dispose();
-
         this.setupItems();
 
         if (oldValue !== this._value) {
@@ -436,6 +433,7 @@ export class Prop implements IPropParent {
                 this.setValue({});
             }
         }
+
         const prop = isProp(value) ? value : new Prop(this, value, key);
         const items = [...(this._items || [])];
         if (this.type === 'list') {
@@ -443,31 +441,26 @@ export class Prop implements IPropParent {
                 return null;
 
             items[key] = prop;
-            this._items = items;
         }
         else if (this.type === 'map') {
-            const maps = this._maps || new Map<string, Prop>();
+            const maps = this.maps || new Map<string, Prop>();
             const orig = maps?.get(key);
             if (orig) {
                 // replace
                 const i = items.indexOf(orig);
                 if (i > -1)
                     items.splice(i, 1, prop)[0].purge();
-
-                maps?.set(key, prop);
             }
             else {
                 // push
                 items.push(prop);
-                this._items = items;
-
-                maps?.set(key, prop);
             }
-            this._maps = maps;
         }
-        /* istanbul ignore next */ else {
+        else {
             return null;
         }
+
+        this._items = items;
 
         return prop;
     }
@@ -502,15 +495,11 @@ export class Prop implements IPropParent {
 
         const oldValue = this.getValue();
 
-        const items = [...this._items];
-        const i = items.indexOf(prop);
+        const i = this._items.indexOf(prop);
         if (i > -1) {
-            items.splice(i, 1);
-            this._items = items;
+            this._items.splice(i, 1);
             prop.purge();
         }
-        if (this._maps && prop.key)
-            this._maps.delete(String(prop.key));
 
         const newValue = this.getValue();
         if (oldValue !== newValue) {
@@ -524,9 +513,11 @@ export class Prop implements IPropParent {
         }
     }
 
-    changePropKey(oldKey: number | string, newKey: number | string, prop: Prop) {
-        this._maps?.delete(oldKey);
-        this._maps?.set(newKey, prop);
+    /**
+     * 从父级移除本身
+     */
+    remove() {
+        this.parent.delete(this);
     }
 
     /**
@@ -544,20 +535,12 @@ export class Prop implements IPropParent {
         return this._type === undefined;
     }
 
-    /**
-     * 从父级移除本身
-     */
-    remove() {
-        this.parent.delete(this);
-    }
-
     private dispose() {
         const items = this._items;
         if (items)
             items.forEach(prop => prop.purge());
 
         this._items = null;
-        this._maps = null;
         if (this._type !== 'slot' && this._slotNode) {
             this._slotNode.remove();
             this._slotNode = undefined;

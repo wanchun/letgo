@@ -4,6 +4,7 @@ import type { IPublicTypeFieldConfig, IPublicTypeSetter, IPublicTypeSetterType }
 import type { SettingField } from '@harrywan/letgo-designer';
 import { isUndefined } from 'lodash-es';
 import { createSettingFieldView } from '@harrywan/letgo-designer';
+import { isJSExpression } from '@harrywan/letgo-types';
 import { commonProps } from '../../common';
 import { wrapperCls } from './index.css';
 
@@ -60,6 +61,8 @@ export const ObjectSetter: IPublicTypeSetter = {
     Component: ObjectSetterView,
     condition: (field) => {
         const v = field.getValue() ?? (field as SettingField).getDefaultValue();
+        if (isJSExpression(v))
+            return false;
         return isUndefined(v) || typeof v === 'object';
     },
 };

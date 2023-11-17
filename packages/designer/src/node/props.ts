@@ -1,4 +1,4 @@
-import { replaceExpressionIdentifier, replaceJSFunctionIdentifier, uniqueId } from '@harrywan/letgo-common';
+import { markComputed, markShallowReactive, replaceExpressionIdentifier, replaceJSFunctionIdentifier } from '@harrywan/letgo-common';
 import type {
     IPublicTypeCompositeValue,
     IPublicTypeEventHandler,
@@ -8,8 +8,7 @@ import type {
 import {
     IPublicEnumTransformStage, isJSExpression, isJSFunction,
 } from '@harrywan/letgo-types';
-import type { ShallowRef } from 'vue';
-import { shallowRef, triggerRef } from 'vue';
+import { isNil } from 'lodash-es';
 import type { INode } from '../types';
 import type { IPropParent } from './prop';
 import { Prop } from './prop';
@@ -36,14 +35,21 @@ export function getOriginalExtraKey(key: string): string {
 }
 
 export class Props implements IPropParent {
-    readonly id = uniqueId('props');
-
     /**
      * 响应式
      */
-    private items: ShallowRef<Prop[]> = shallowRef([]);
+    private items: Prop[] = [];
 
-    private itemMap: Map<string | number, Prop> = new Map();
+    get itemMap() {
+        const maps: Map<string | number, Prop> = new Map();
+        if (this.items.length > 0) {
+            this.items.forEach((prop) => {
+                if (!isNil(prop.key) && prop.key !== '')
+                    maps.set(prop.key, prop);
+            });
+        }
+        return maps;
+    }
 
     private purged = false;
 
@@ -66,6 +72,11 @@ export class Props implements IPropParent {
         value?: IPublicTypePropsMap | IPublicTypePropsList | null,
         extras?: ExtrasObject,
     ) {
+        markShallowReactive(this, {
+            items: [],
+        });
+        markComputed(this, ['itemMap', 'type']);
+
         this.owner = owner;
         if (Array.isArray(value)) {
             this._type = 'list';
@@ -90,7 +101,7 @@ export class Props implements IPropParent {
     }
 
     scopeVariableChanged = (id: string, preId: string) => {
-        this.items.value.forEach((item) => {
+        this.items.forEach((item) => {
             const value = item.getValue();
             if (typeof item.key === 'string' && value) {
                 if (item.key === getConvertedExtraKey('events')) {
@@ -128,9 +139,8 @@ export class Props implements IPropParent {
     };
 
     import(value?: IPublicTypePropsMap | IPublicTypePropsList | null, extras?: ExtrasObject) {
-        this.items.value.forEach(item => item.purge());
-        this.itemMap.clear();
-        this.items.value = [];
+        this.items.forEach(item => item.purge());
+        this.items = [];
         if (Array.isArray(value)) {
             this._type = 'list';
             value.forEach((item) => {
@@ -158,14 +168,14 @@ export class Props implements IPropParent {
         props?: IPublicTypePropsMap | IPublicTypePropsList
         extras?: ExtrasObject
     } {
-        if (this.items.value.length < 1)
+        if (this.items.length < 1)
             return {};
 
         let props: any = {};
         const extras: any = {};
         if (this._type === 'list') {
             props = [];
-            this.items.value.forEach((item) => {
+            this.items.forEach((item) => {
                 const value = item.export(stage);
                 let name = item.key as string;
                 if (
@@ -185,7 +195,7 @@ export class Props implements IPropParent {
             });
         }
         else {
-            this.items.value.forEach((item) => {
+            this.items.forEach((item) => {
                 const value = item.export(stage);
                 let name = item.key as string;
                 if (name == null || item.isUnset())
@@ -255,9 +265,9 @@ export class Props implements IPropParent {
 
     add(key: string | number, value: IPublicTypeCompositeValue | undefined): Prop {
         const prop = new Prop(this, value, key);
-        this.items.value.push(prop);
-        this.itemMap.set(prop.key, prop);
-        triggerRef(this.items);
+        const items = [...this.items];
+        items.push(prop);
+        this.items = items;
         return prop;
     }
 
@@ -266,18 +276,13 @@ export class Props implements IPropParent {
     }
 
     delete(prop: Prop): void {
-        const i = this.items.value.indexOf(prop);
+        const items = [...this.items];
+        const i = items.indexOf(prop);
         if (i > -1) {
-            this.items.value.splice(i, 1);
-            this.itemMap.delete(prop.key);
-            triggerRef(this.items);
+            items.splice(i, 1);
+            this.items = items;
             prop.purge();
         }
-    }
-
-    changePropKey(oldKey: number | string, newKey: number | string, prop: Prop) {
-        this.itemMap.delete(oldKey);
-        this.itemMap.set(newKey, prop);
     }
 
     purge() {
@@ -285,8 +290,7 @@ export class Props implements IPropParent {
             return;
 
         this.purged = true;
-        this.items.value.forEach(item => item.purge());
-        this.itemMap.clear();
-        this.items.value = [];
+        this.items.forEach(item => item.purge());
+        this.items = [];
     }
 }

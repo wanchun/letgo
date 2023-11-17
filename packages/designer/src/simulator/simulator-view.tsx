@@ -86,8 +86,6 @@ export const SimulatorView = defineComponent({
             return deviceDefaultCls;
         });
 
-        console.log('componentMetaMap:', designer.componentMetaMap);
-
         onMount?.(simulator);
 
         watch(

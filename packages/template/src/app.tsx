@@ -8,7 +8,7 @@ import type { App } from 'vue';
 import PluginLogo from './plugins/plugin-logo';
 import PluginPreview from './plugins/plugin-preview-sample';
 import PluginCodeGenerator from './plugins/plugin-code-generator';
-import assets from './assets/assets2';
+import assets from './assets/remoteAssets';
 
 plugins.register({
     name: 'editor-init',

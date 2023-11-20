@@ -1,7 +1,7 @@
 import { computed, defineComponent, onMounted } from 'vue';
 import type { IPublicTypeSetter } from '@harrywan/letgo-types';
 import { json } from '@codemirror/lang-json';
-import { isUndefined } from 'lodash-es';
+import { isEqual, isNil, isUndefined } from 'lodash-es';
 import { CodeEditor } from '@harrywan/letgo-components';
 import { commonProps } from '../../common';
 
@@ -17,18 +17,27 @@ const JsonSetterView = defineComponent({
             props.onMounted?.();
         });
 
+        let cache: string;
+
         const currentValue = computed(() => {
-            return JSON.stringify(isUndefined(props.value)
+            const val = isUndefined(props.value)
                 ? props.defaultValue
-                : props.value, null, 2);
+                : props.value;
+
+            if (!isNil(cache) && isEqual(val, JSON.parse(cache)))
+                return cache;
+
+            return JSON.stringify(val, null, 2);
         });
 
         const onChange = (val: string) => {
             try {
+                cache = val;
                 props.onChange(JSON.parse(val));
             }
             catch (e) {}
         };
+
         return () => {
             return (
                 <CodeEditor

@@ -327,7 +327,7 @@ export function genSlots(
             const params = value.params ? value.params.join(', ') : '';
             slots.push(`
             const ${genPropSlotName(key, item.ref)} = (${params}) => {
-                return ${wrapFragment(compileNodeData(value.value, componentRefs, true))}
+                return ${wrapFragment(compileNodeData(value.value, componentRefs, false))}
             }
             `);
         });

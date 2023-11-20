@@ -14,7 +14,7 @@ import {
     h,
     ref,
     toDisplayString,
-    toRaw,
+    toValue,
 } from 'vue';
 import type {
     IPublicTypeCompositeValue,
@@ -304,7 +304,7 @@ function buildRefProp(
                     const scopeTarget = scope[field];
                     if (
                         !Array.isArray(scopeTarget)
-                        || toRaw(scopeTarget) !== target
+                        || toValue(scopeTarget) !== target
                     )
                         target = scope[field] = target;
                     else
@@ -484,7 +484,7 @@ export function buildShow(scope: RuntimeScope | ComputedRef<RuntimeScope>, ctx: 
         const { value: showCondition } = condition;
         if (typeof showCondition === 'boolean')
             return showCondition;
-        return !!parseSchema(showCondition, { ...toRaw(scope), ...ctx });
+        return !!parseSchema(showCondition, { ...toValue(scope), ...ctx });
     });
 
     return {

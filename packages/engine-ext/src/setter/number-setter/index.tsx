@@ -20,7 +20,7 @@ const NumberSetterView = defineComponent({
             if (isNumber(props.value))
                 return props.value;
 
-            else if (isNumber(props.defaultValue))
+            if (isUndefined(props.value) && isNumber(props.defaultValue))
                 return props.defaultValue;
 
             return null;
@@ -30,7 +30,9 @@ const NumberSetterView = defineComponent({
                 <FInputNumber
                     modelValue={currentValue.value}
                     placeholder={props.placeholder || ''}
-                    onChange={(val: any) => props.onChange(val)}
+                    onChange={(val: any) => {
+                        props.onChange(val);
+                    }}
                     style={{ width: '100%' }}
                 />
             );

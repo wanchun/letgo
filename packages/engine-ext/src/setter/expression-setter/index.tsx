@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
-import { debounce } from 'lodash-es';
+import { debounce, isNil } from 'lodash-es';
 import { isJSExpression } from '@harrywan/letgo-types';
 import type { SettingField } from '@harrywan/letgo-designer';
 import { ExpressionEditor } from '@harrywan/letgo-components';
@@ -36,6 +36,10 @@ const ExpressionSetterView = defineComponent({
             return null;
         });
         const changeValue = (val: string) => {
+            if (isNil(val) || val === '') {
+                props.onChange(undefined);
+                return;
+            }
             props.onChange({
                 type: 'JSExpression',
                 value: val,
@@ -47,7 +51,7 @@ const ExpressionSetterView = defineComponent({
         });
         return () => {
             return (
-                <ExpressionEditor style="padding: 2px" documentModel={documentModel.value} doc={currentValue.value} onChangeDoc={debounce(changeValue, 500)} />
+                <ExpressionEditor documentModel={documentModel.value} doc={currentValue.value} onChangeDoc={debounce(changeValue, 500)} />
             );
         };
     },

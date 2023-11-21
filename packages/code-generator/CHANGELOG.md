@@ -1,5 +1,11 @@
 # @harrywan/letgo-code-generator
 
+## 0.0.0-beta.44
+
+### Patch Changes
+
+- 11
+
 ## 0.0.0-beta.43
 
 ### Patch Changes

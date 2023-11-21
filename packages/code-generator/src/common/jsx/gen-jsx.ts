@@ -175,7 +175,7 @@ function wrapLoop(code: string, nodeSchema: IPublicTypeNodeData, isRoot = false)
         else
             loopVariable = JSON.stringify(nodeSchema.loop).replace(/\"/g, '\'');
 
-        const result = `(${loopVariable}).map((${item}, ${index}) => ${code.replace(nodeSchema.componentName, `${nodeSchema.componentName} key={${keyProp}}`)}})`;
+        const result = `(${loopVariable}).map((${item}, ${index}) => ${code.replace(nodeSchema.componentName, `${nodeSchema.componentName} key={${keyProp}}`)})`;
 
         if (isJSExpression(nodeSchema.condition)) {
             if (isRoot) {

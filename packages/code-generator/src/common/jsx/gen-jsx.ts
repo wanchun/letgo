@@ -96,10 +96,9 @@ function compileProps(props?: IPublicTypePropsMap, refName = '') {
             }
 
             if (key.startsWith('v-model')) {
-                const [name, arg] = key.split(':');
                 const value = isJSExpression(propValue) ? propValue.value : propValue;
                 if (value)
-                    return `${name}={${arg ? `[${value}, '${arg}']` : value}}`;
+                    return `${key}={${value}}`;
 
                 return null;
             }

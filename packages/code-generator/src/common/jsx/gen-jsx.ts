@@ -165,9 +165,9 @@ function wrapCondition(code: string, condition: IPublicTypeCompositeValue, isRoo
 
 function wrapLoop(code: string, nodeSchema: IPublicTypeNodeData, isRoot = false) {
     if (isNodeSchema(nodeSchema) && nodeSchema.loop) {
-        const keyProp = nodeSchema.props?.key || 'index';
         const item = nodeSchema.loopArgs?.[0] || 'item';
         const index = nodeSchema.loopArgs?.[1] || 'index';
+        const keyProp = nodeSchema.props?.key || index;
         let loopVariable: string;
         if (isJSExpression(nodeSchema.loop))
             loopVariable = nodeSchema.loop.value;

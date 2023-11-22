@@ -1,5 +1,14 @@
 # @harrywan/letgo-code-generator
 
+## 0.0.0-beta.45
+
+### Patch Changes
+
+- 1
+- Updated dependencies
+  - @harrywan/letgo-common@0.0.0-beta.45
+  - @harrywan/letgo-types@0.0.0-beta.45
+
 ## 0.0.0-beta.44
 
 ### Patch Changes

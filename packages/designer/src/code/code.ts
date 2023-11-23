@@ -119,13 +119,6 @@ export class Code {
         return this.onEvent('codeItemAdd', func);
     };
 
-    addCodeStruct(code: CodeStruct) {
-        // TODO 处理目录
-        code.code.forEach((item) => {
-            this.addCodeItem(item);
-        });
-    }
-
     addCodeItemWithType = (type: CodeType, resourceType?: ResourceType) => {
         const id = this.genCodeId(type);
         const item = codeBaseEdit[type].addCode(id, resourceType);

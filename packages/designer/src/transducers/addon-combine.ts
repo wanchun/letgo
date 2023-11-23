@@ -17,8 +17,8 @@ export default function (
         return metadata;
 
     const { props, supports = {} } = configure;
-    const isRoot: boolean
-        = componentName === 'Page' || componentName === 'Component';
+    const isRoot: boolean = componentName === 'Page' || componentName === 'Component';
+    const isSlot: boolean = componentName === 'Slot';
     const eventsDefinition: any[] = [];
     if (supports.events) {
         eventsDefinition.push({
@@ -99,8 +99,24 @@ export default function (
         });
     }
 
-    if (!isRoot) {
-        if (supports.condition !== false) {
+    if (isRoot) {
+        advancedGroup.push(
+            {
+                name: getConvertedExtraKey('fileName'),
+                title: '页面路径',
+                setter: 'StringSetter',
+            },
+        );
+        advancedGroup.push(
+            {
+                name: getConvertedExtraKey('title'),
+                title: '页面中文名',
+                setter: 'StringSetter',
+            },
+        );
+    }
+    else {
+        if (!isSlot && supports.condition !== false) {
             advancedGroup.push({
                 name: getConvertedExtraKey('condition'),
                 title: '是否渲染',
@@ -118,7 +134,7 @@ export default function (
                 },
             });
         }
-        if (supports.loop !== false) {
+        if (!isSlot && supports.loop !== false) {
             advancedGroup.push({
                 name: '#loop',
                 title: '循环',
@@ -177,42 +193,8 @@ export default function (
                 },
             });
         }
+    }
 
-        // TODO: 貌似没用？
-        // if (supports.condition !== false || supports.loop !== false) {
-        //     advancedGroup.push({
-        //         name: 'key',
-        //         title: '渲染唯一标识（key）',
-        //         setter: [
-        //             {
-        //                 componentName: 'StringSetter',
-        //             },
-        //             {
-        //                 componentName: 'ExpressionSetter',
-        //             },
-        //         ],
-        //         extraProps: {
-        //             display: 'block',
-        //         },
-        //     });
-        // }
-    }
-    else {
-        advancedGroup.push(
-            {
-                name: getConvertedExtraKey('fileName'),
-                title: '页面路径',
-                setter: 'StringSetter',
-            },
-        );
-        advancedGroup.push(
-            {
-                name: getConvertedExtraKey('title'),
-                title: '页面中文名',
-                setter: 'StringSetter',
-            },
-        );
-    }
     if (advancedGroup.length > 0) {
         combined.push({
             name: '#advanced',

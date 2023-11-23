@@ -13,23 +13,27 @@ export const SuffixView = defineComponent({
     setup(props) {
         const options = computed(() => {
             const node = props.node;
+            const isRoot = (node.componentName === 'Page' || node.componentName === 'Component');
+            const isSlot = node.componentName === 'Slot';
+            const isContainer = node.isContainer();
+            const isLocked = node.isLocked;
             return [
                 {
                     value: 'change',
                     label: '修改',
                     icon: () => <Edit class={nodeIconCls} theme="outline"> </Edit>,
                 },
-                (node.componentName !== 'Page' && node.isContainer() && !node.isLocked) && {
+                (!isRoot && isContainer && !isLocked) && {
                     value: 'lock',
                     label: '锁定',
                     icon: () => <Lock class={nodeIconCls} theme="outline"> </Lock>,
                 },
-                (node.componentName !== 'Page' && node.isContainer() && node.isLocked) && {
+                (!isRoot && isContainer && isLocked) && {
                     value: 'unlock',
                     label: '解锁',
                     icon: () => <Unlock class={nodeIconCls} theme="outline"> </Unlock>,
                 },
-                node.componentName !== 'Page' && {
+                (!isRoot && !isSlot) && {
                     value: 'delete',
                     label: '删除',
                     icon: () => <Delete class={nodeIconCls} theme="outline"> </Delete>,

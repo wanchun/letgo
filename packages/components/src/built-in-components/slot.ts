@@ -14,7 +14,7 @@ export const SlotMeta: IPublicTypeComponentMetadata = {
         props: [
             {
                 name: 'params',
-                title: '插槽入参',
+                title: '插槽入参（不可变更）',
                 setter: {
                     componentName: 'ArraySetter',
                     props: {

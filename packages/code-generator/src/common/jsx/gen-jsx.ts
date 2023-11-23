@@ -265,29 +265,31 @@ function wrapFragment(children: string | string[]) {
     return children.length ? children[0] : '';
 }
 
-function findRootPropsSlot(node: IPublicTypeNodeSchema): IPublicTypeNodeData[] {
-    return Object.keys(node.props || {}).filter((key) => {
-        return isJSSlot(node.props[key]);
-    }).map((key) => {
-        return node.props[key] as IPublicTypeNodeData;
-    });
-}
-
 function genSlotDirective(item: IPublicTypeNodeSchema, componentRefs: Set<string>) {
     let result = '';
-    const slotDefine = genNodeSchemaChildren(item).concat(findRootPropsSlot(item)).reduce((acc, cur) => {
+    const slotDefine: Record<string, string> = {};
+    const slotChildren = genNodeSchemaChildren(item).filter(item => isJSSlot(item));
+    if (slotChildren.length) {
+        const hasMoreComp = slotChildren.length > 1;
+        slotDefine.default = `
+        () => {
+            return ${wrapFragment(compileNodeData(slotChildren, componentRefs, !hasMoreComp))}
+        }
+        `;
+    }
+    Object.keys(item.props).forEach((key) => {
+        const cur = item.props[key];
         if (isJSSlot(cur)) {
-            const slotName = cur.name || 'default';
+            const slotName = cur.name || key;
             const params = cur.params ? cur.params.join(', ') : '';
             const hasMoreComp = Array.isArray(cur.value) && cur.value.length > 1;
-            acc[slotName] = `
+            slotDefine[slotName] = `
             (${params}) => {
                 return ${wrapFragment(compileNodeData(cur.value, componentRefs, !hasMoreComp))}
             }
             `;
         }
-        return acc;
-    }, {} as Record<string, string>);
+    });
     if (Object.keys(slotDefine).length) {
         result = `
         v-slots={{

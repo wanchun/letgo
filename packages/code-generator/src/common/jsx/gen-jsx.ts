@@ -279,9 +279,10 @@ function genSlotDirective(item: IPublicTypeNodeSchema, componentRefs: Set<string
         if (isJSSlot(cur)) {
             const slotName = cur.name || 'default';
             const params = cur.params ? cur.params.join(', ') : '';
+            const hasMoreComp = Array.isArray(cur.value) && cur.value.length > 1;
             acc[slotName] = `
             (${params}) => {
-                return ${wrapFragment(compileNodeData(cur.value, componentRefs, true))}
+                return ${wrapFragment(compileNodeData(cur.value, componentRefs, !hasMoreComp))}
             }
             `;
         }
@@ -312,9 +313,10 @@ export function genSlots(
             return acc;
         }, {} as Record<string, any>), (key: string, value: IPublicTypeJSSlot) => {
             const params = value.params ? value.params.join(', ') : '';
+            const hasMoreComp = Array.isArray(value.value) && value.value.length > 1;
             slots.push(`
             const ${genPropSlotName(key, item.ref)} = (${params}) => {
-                return ${wrapFragment(compileNodeData(value.value, componentRefs, false))}
+                return ${wrapFragment(compileNodeData(value.value, componentRefs, !hasMoreComp))}
             }
             `);
         });

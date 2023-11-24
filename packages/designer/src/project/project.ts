@@ -5,6 +5,7 @@ import type {
     IPublicTypeAppConfig,
     IPublicTypeAssetsJson,
     IPublicTypeComponentsMap,
+    IPublicTypeIconSchema,
     IPublicTypeProjectSchema,
     IPublicTypeRootSchema,
     IPublicTypeUtilsMap,
@@ -23,10 +24,14 @@ import { Code } from '../code/code';
 
 export class Project {
     css: string;
+
     codesInstance: Record<string, any> = {};
+
     utilsInstance: Record<string, any>;
+
+    config: IPublicTypeAppConfig = {};
+
     private emitter = new EventEmitter();
-    readonly code: Code;
 
     private data: IPublicTypeProjectSchema = {
         version: '1.0.0',
@@ -34,7 +39,7 @@ export class Project {
         componentsTree: [],
     };
 
-    private _config: IPublicTypeAppConfig = {};
+    readonly code: Code;
 
     readonly documentsMap = new Map<string, DocumentModel>();
 
@@ -53,13 +58,19 @@ export class Project {
         return this.exportSchema();
     }
 
-    get config(): IPublicTypeAppConfig {
-        // TODO: parse layout Component
-        return this._config;
+    get extraGlobalState() {
+        return {
+            utils: this.utilsInstance,
+            letgoContext: this.config,
+        };
     }
 
-    set config(value: IPublicTypeAppConfig) {
-        this._config = value;
+    get utils() {
+        return this.data.utils;
+    }
+
+    get icons(): IPublicTypeIconSchema[] | undefined {
+        return this.data.icons;
     }
 
     constructor(readonly designer: Designer, schema?: IPublicTypeProjectSchema) {
@@ -74,13 +85,6 @@ export class Project {
         this.importSchema(schema);
     }
 
-    get extraGlobalState() {
-        return {
-            utils: this.utilsInstance,
-            letgoContext: this.config,
-        };
-    }
-
     updateUtilsInstance(utils: Record<string, any>) {
         this.utilsInstance = utils;
     }
@@ -92,12 +96,11 @@ export class Project {
     }
 
     setUtils(utils: IPublicTypeUtilsMap) {
-        // TODO，兼容内置 utils
         this.data.utils = utils;
     }
 
-    get utils() {
-        return this.data.utils;
+    setIcons(icons: IPublicTypeIconSchema[]) {
+        this.data.icons = icons;
     }
 
     private getComponentsMap(): IPublicTypeComponentsMap {
@@ -246,6 +249,7 @@ export class Project {
             | 'componentsTree'
             | 'componentsMap'
             | 'utils'
+            | 'icons'
             | 'constants'
             | 'i18n'
             | 'css'

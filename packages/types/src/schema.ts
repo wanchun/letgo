@@ -4,6 +4,7 @@ import type {
     IPublicTypeJSExpression,
     IPublicTypeJSONObject,
 } from './value-type';
+import type { IPublicTypeIconSchema } from './icon';
 import type { IPublicTypeComponentsMap } from './npm';
 import type { IPublicTypeUtilsMap } from './utils';
 import type { IPublicTypeAppConfig } from './app-config';
@@ -176,6 +177,10 @@ export interface IPublicTypeProjectSchema {
      * 应用范围内的全局自定义函数或第三方工具类扩展
      */
     utils?: IPublicTypeUtilsMap
+    /**
+     * 应用使用的Icon
+     */
+    icons?: IPublicTypeIconSchema[]
     /**
      * 应用范围内的全局常量
      */

@@ -11,6 +11,7 @@ import {
     IPublicEnumAssetLevel,
     IPublicEnumAssetType,
 } from '@harrywan/letgo-types';
+import { getIconSprite } from '@harrywan/letgo-common';
 import type { Simulator } from './simulator';
 import type { ISimulatorRenderer } from './renderer';
 
@@ -103,6 +104,7 @@ export function createSimulator(
     ${styleFrags}
   </head>
   <body>
+    ${simulator.project.icons ? getIconSprite(simulator.project.icons) : ''}
     ${scriptFrags}
     <script>
     window.dispatchEvent(new Event('load'));

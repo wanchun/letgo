@@ -1,8 +1,12 @@
 import { defineComponent } from 'vue';
 import { material, project } from '@harrywan/letgo-engine';
 import type { IPublicTypePackage, IPublicTypeProjectSchema } from '@harrywan/letgo-types';
-import { DEFAULT_CONTENT, ImportType, exportZip, genGlobalStateCode, genPackageJSON, genPageCode } from '@harrywan/letgo-code-generator';
+import {
+    DEFAULT_CONTENT, ImportType, exportZip,
+    genGlobalStateCode, genPackageJSON, genPageCode,
+} from '@harrywan/letgo-code-generator';
 import { IPublicEnumTransformStage, isProCodeComponentType, isRestQueryResource } from '@harrywan/letgo-types';
+import { getIconSprite } from '@harrywan/letgo-common';
 import { FButton, FMessage } from '@fesjs/fes-design';
 import { DownloadOutlined } from '@fesjs/fes-design/icon';
 import { forEach, get, isNil, isObject, isString, merge, set } from 'lodash-es';
@@ -47,7 +51,7 @@ async function genCode({ schema, packages, globalState, globalCss }: {
     globalCss?: string
 }) {
     // 处理 codeTemplate
-    const code = transform(codeTemplate, { IS_MICRO: !isNil(schema.config.mainAppState) });
+    const code = transform(codeTemplate, { SVG_SPRITE: getIconSprite(schema.icons ?? []), IS_MICRO: !isNil(schema.config.mainAppState) });
 
     const currentContent: any = merge({}, DEFAULT_CONTENT, code);
     const pages = genPageCode(schema, (filesStruct) => {
@@ -97,6 +101,7 @@ async function genCode({ schema, packages, globalState, globalCss }: {
             '@fesjs/plugin-request': '4.0.0-beta.5',
             '@fesjs/fes-design': '0.8.9',
             'vue': '3.3.4',
+            '@harrywan/letgo-components': '0.0.0-beta.45',
         },
         devDependencies: {
             '@webank/eslint-config-vue': '2.0.7',
@@ -104,27 +109,6 @@ async function genCode({ schema, packages, globalState, globalCss }: {
             'typescript': '5.1.3',
         },
     }), null, 4);
-
-    const apiPrefix = findAPIPrefix(schema);
-    if (!apiPrefix) {
-        currentContent.src['app.jsx'] = `
-        import { defineRuntimeConfig } from '@fesjs/fes';
-
-        export default defineRuntimeConfig({
-        });
-    `;
-    }
-    else {
-        currentContent.src['app.jsx'] = `
-        import { defineRuntimeConfig } from '@fesjs/fes';
-
-        export default defineRuntimeConfig({
-            request: {
-                baseURL: '${apiPrefix}'
-            },
-        });
-    `;
-    }
 
     exportZip(currentContent);
 }

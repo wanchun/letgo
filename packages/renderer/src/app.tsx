@@ -1,7 +1,7 @@
 import type { Component, PropType } from 'vue';
 import { computed, defineComponent, onMounted, provide, reactive, ref, shallowRef } from 'vue';
 import type { IPublicTypeAsset, IPublicTypePageSchema, IPublicTypeProjectSchema } from '@harrywan/letgo-types';
-import { AssetLoader, buildComponents } from '@harrywan/letgo-common';
+import { AssetLoader, buildComponents, insertIconSprite } from '@harrywan/letgo-common';
 import { builtinComponents } from '@harrywan/letgo-components';
 import { Renderer } from './renderer';
 import { JavascriptFunctionLive } from './code-impl';
@@ -48,7 +48,7 @@ export const RendererApp = defineComponent({
             packages = [],
         } = props.projectSchema;
 
-        const libraryAsset: IPublicTypeAsset = props.assets;
+        const libraryAsset: IPublicTypeAsset = [...props.assets];
 
         const componentsMap: any = {};
         const libraryMap: Record<string, string> = {};
@@ -71,6 +71,8 @@ export const RendererApp = defineComponent({
         });
 
         onMounted(async () => {
+            insertIconSprite(props.projectSchema.icons ?? []);
+
             const assetLoader = new AssetLoader();
             await assetLoader.load(libraryAsset);
 

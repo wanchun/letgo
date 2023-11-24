@@ -20,3 +20,4 @@ export * from './get-var-type';
 export * from './global';
 export * from './ensure-array';
 export * from './unit';
+export * from './createIconSprite';

@@ -1,10 +1,18 @@
 import type { DocumentModel, Project as InnerProject } from '@harrywan/letgo-designer';
-import type { IPublicTypeAppConfig, IPublicTypeProjectSchema, IPublicTypeRootSchema, IPublicTypeUtilsMap } from '@harrywan/letgo-types';
+import type {
+    IPublicTypeAppConfig, IPublicTypeIconSchema,
+    IPublicTypeProjectSchema, IPublicTypeRootSchema,
+    IPublicTypeUtilsMap,
+} from '@harrywan/letgo-types';
 import { IPublicEnumTransformStage } from '@harrywan/letgo-types';
 
 import { projectSymbol } from './symbols';
 
 export class Project {
+    static create(project: InnerProject) {
+        return new Project(project);
+    }
+
     private readonly [projectSymbol]: InnerProject;
 
     get currentDocument(): DocumentModel | null {
@@ -13,14 +21,6 @@ export class Project {
 
     constructor(project: InnerProject) {
         this[projectSymbol] = project;
-    }
-
-    static create(project: InnerProject) {
-        return new Project(project);
-    }
-
-    setUtils(utils: IPublicTypeUtilsMap) {
-        this[projectSymbol].setUtils(utils);
     }
 
     /**
@@ -49,5 +49,13 @@ export class Project {
 
     getConfig() {
         return this[projectSymbol].config;
+    }
+
+    setUtils(utils: IPublicTypeUtilsMap) {
+        this[projectSymbol].setUtils(utils);
+    }
+
+    setIcons(icons: IPublicTypeIconSchema[]) {
+        this[projectSymbol].setIcons(icons);
     }
 }

@@ -15,7 +15,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@fesjs/fes-design": "^0.8.4",
+    "@fesjs/fes-design": "^0.8.17",
+    "@vanilla-extract/css": "^1.11.0",
     "@harrywan/letgo-types": "workspace:*",
     "acorn": "^8.8.2",
     "acorn-walk": "^8.2.0",

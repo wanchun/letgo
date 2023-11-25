@@ -1,27 +1,33 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const path = require('path');
-const fse = require('fs-extra');
-const PACKAGE_PATH = path.join(process.cwd(), './packages');
+import path from 'path'
+import fse from 'fs-extra'
 
-const extensions = ['.js', '.vue', '.jsx', '.json', '.ts', '.tsx'];
+export const PACKAGE_PATH = path.join(process.cwd(), './packages');
 
-function getEsOutputPath(pkg) {
+export const extensions = ['.js', '.vue', '.jsx', '.json', '.ts', '.tsx'];
+
+export function getEsOutputPath(pkg) {
     return path.join(process.cwd(), 'packages', pkg, 'es');
 }
 
-function getLibOutputPath(pkg) {
+export function getLibOutputPath(pkg) {
     return path.join(process.cwd(), 'packages', pkg, 'lib');
 }
 
-function isWatch() {
+export function isWatch() {
     return process.argv.includes('--watch');
 }
 
-function getResourcePath(pkg) {
+
+export function includeTypeInBuild() {
+    return process.argv.includes('--types');
+}
+
+export function getResourcePath(pkg) {
     return path.join(process.cwd(), 'packages', pkg, 'src');
 }
 
-function getNeedCompilePkg() {
+export function getNeedCompileEsPkg() {
     const pkgs = fse.readdirSync(PACKAGE_PATH);
     return pkgs.filter(
         (item) =>
@@ -29,13 +35,12 @@ function getNeedCompilePkg() {
             !item.startsWith('_') &&
             ![
                 'template',
-                'simulator-renderer',
-                'plugin-components-panel',
+                'simulator-renderer'
             ].includes(item),
     );
 }
 
-function getNeedCompileTypePkg() {
+export function getNeedCompileTypePkg() {
     const pkgs = fse.readdirSync(PACKAGE_PATH);
     return pkgs.filter(
         (item) =>
@@ -45,14 +50,14 @@ function getNeedCompileTypePkg() {
     );
 }
 
-function getOutputDirFromFilePath(filePath) {
+export function getOutputDirFromFilePath(filePath) {
     return path
         .dirname(filePath)
         .replace('/src', '/es')
         .replace('\\src', '\\es');
 }
 
-function isFileChange(from, to) {
+export function isFileChange(from, to) {
     if (fse.existsSync(to)) {
         const stats = fse.lstatSync(from);
         const toStats = fse.lstatSync(to);
@@ -60,16 +65,3 @@ function isFileChange(from, to) {
     }
     return true;
 }
-
-module.exports = {
-    PACKAGE_PATH,
-    getEsOutputPath,
-    getResourcePath,
-    getNeedCompilePkg,
-    extensions,
-    isWatch,
-    getOutputDirFromFilePath,
-    isFileChange,
-    getLibOutputPath,
-    getNeedCompileTypePkg,
-};

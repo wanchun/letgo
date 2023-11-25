@@ -14,10 +14,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@fesjs/builder-vite": "^3.0.0",
-    "@fesjs/fes": "^3.1.1",
-    "@fesjs/fes-design": "^0.8.4",
-    "@fesjs/plugin-request": "4.0.0-beta.2",
+    "@fesjs/builder-vite": "^3.0.4",
+    "@fesjs/fes": "^3.1.5",
+    "@fesjs/fes-design": "^0.8.17",
+    "@fesjs/plugin-request": "4.0.0-beta.6",
     "@harrywan/letgo-code-generator": "workspace:*",
     "@harrywan/letgo-common": "workspace:*",
     "@harrywan/letgo-engine": "workspace:*",
@@ -29,7 +29,7 @@
     "@vueuse/core": "^10.1.2",
     "core-js": "^3.31.0",
     "lodash-es": "^4.17.21",
-    "vue": "^3.3.4",
-    "mustache": "^4.2.0"
+    "mustache": "^4.2.0",
+    "vue": "^3.3.4"
   }
 }

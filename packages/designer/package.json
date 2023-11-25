@@ -15,7 +15,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@fesjs/fes-design": "^0.8.4",
+    "@fesjs/fes-design": "^0.8.17",
     "@icon-park/vue-next": "^1.4.2",
     "@vanilla-extract/css": "^1.11.0",
     "@harrywan/letgo-editor-core": "workspace:*",

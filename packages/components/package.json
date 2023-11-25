@@ -23,7 +23,7 @@
     "@codemirror/language": "^6.8.0",
     "@codemirror/state": "^6.2.1",
     "@codemirror/view": "^6.16.0",
-    "@fesjs/fes-design": "^0.8.4",
+    "@fesjs/fes-design": "^0.8.17",
     "@harrywan/letgo-common": "workspace:*",
     "@harrywan/letgo-designer": "workspace:*",
     "@harrywan/letgo-types": "workspace:*",

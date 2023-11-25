@@ -1,4 +1,4 @@
-const winPath = function (path) {
+export const winPath = function (path) {
     const isExtendedLengthPath = /^\\\\\?\\/.test(path);
     if (isExtendedLengthPath) {
         return path;
@@ -6,5 +6,3 @@ const winPath = function (path) {
 
     return path.replace(/\\/g, '/');
 };
-
-module.exports = winPath;

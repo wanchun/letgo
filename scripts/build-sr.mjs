@@ -1,8 +1,9 @@
-const path = require('node:path');
-const { build } = require('vite');
-const vueJsx = require('@vitejs/plugin-vue-jsx');
-const vanillaExtract = require('@vanilla-extract/vite-plugin');
-const { getResourcePath, getLibOutputPath, isWatch } = require('./build-shard');
+import vanillaExtract from '@vanilla-extract/vite-plugin';
+import vueJsx from '@vitejs/plugin-vue-jsx';
+import path from 'path';
+import { build } from 'vite';
+import dts from 'vite-plugin-dts';
+import { getLibOutputPath, getResourcePath, isWatch } from './build-shard.mjs';
 
 async function compiler(source, outDir, name) {
     await build({
@@ -13,6 +14,7 @@ async function compiler(source, outDir, name) {
         build: {
             minify: false,
             outDir,
+            emptyOutDir: outDir,
             lib: {
                 entry: path.join(source, 'index.ts'),
                 name,
@@ -31,7 +33,10 @@ async function compiler(source, outDir, name) {
             },
             watch: isWatch(),
         },
-        plugins: [vueJsx(), vanillaExtract.vanillaExtractPlugin({})],
+        plugins: [vueJsx(), vanillaExtract.vanillaExtractPlugin({}), isWatch() ? null : dts({
+            rootDir: source,
+            outDir: outDir.replace('lib', 'es')
+        })],
     });
 }
 

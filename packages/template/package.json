@@ -27,7 +27,7 @@
     "@harrywan/letgo-renderer": "workspace:*",
     "@harrywan/letgo-types": "workspace:*",
     "@vueuse/core": "^10.1.2",
-    "core-js": "^3.31.0",
+    "core-js": "^3.33.3",
     "lodash-es": "^4.17.21",
     "mustache": "^4.2.0",
     "vue": "^3.3.4"

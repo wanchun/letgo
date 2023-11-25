@@ -21,7 +21,7 @@
     "@codemirror/lang-css": "^6.2.0",
     "@codemirror/lang-javascript": "^6.1.7",
     "@fesjs/fes-design": "^0.8.17",
-    "@vanilla-extract/css": "^1.11.0",
+    "@vanilla-extract/css": "^1.14.0",
     "@vueuse/core": "^10.1.2",
     "@harrywan/letgo-common": "workspace:*",
     "@harrywan/letgo-components": "workspace:*",

@@ -37,7 +37,9 @@ async function compiler(source, outDir, name) {
         plugins: [vueJsx(), vanillaExtract.vanillaExtractPlugin({}), isWatch()
             ? null
             : dts({
-                rootDir: source,
+                compilerOptions: {
+                    rootDir: source,
+                },
                 outDir: outDir.replace('lib', 'es'),
             })],
     })

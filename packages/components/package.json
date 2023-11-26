@@ -1,41 +1,41 @@
 {
-  "name": "@harrywan/letgo-components",
-  "version": "0.0.0-beta.45",
-  "description": "",
-  "author": "",
-  "license": "ISC",
-  "keywords": [],
-  "module": "es/index.js",
-  "files": [
-    "es",
-    "lib",
-    "src"
-  ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "peerDependencies": {
-    "vue": "^3.3.4"
-  },
-  "dependencies": {
-    "@codemirror/autocomplete": "^6.9.0",
-    "@codemirror/lang-javascript": "^6.1.9",
-    "@codemirror/language": "^6.8.0",
-    "@codemirror/state": "^6.2.1",
-    "@codemirror/view": "^6.16.0",
-    "@fesjs/fes-design": "^0.8.17",
-    "@harrywan/letgo-common": "workspace:*",
-    "@harrywan/letgo-designer": "workspace:*",
-    "@harrywan/letgo-types": "workspace:*",
-    "@icon-park/vue-next": "^1.4.2",
-    "codemirror": "^6.0.1",
-    "lodash-es": "^4.17.21"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "typings": "./es/index.d.ts",
-  "devDependencies": {
-    "vue": "^3.3.4"
-  }
+    "name": "@harrywan/letgo-components",
+    "version": "0.0.0-beta.45",
+    "description": "",
+    "author": "",
+    "license": "ISC",
+    "keywords": [],
+    "module": "es/index.js",
+    "files": [
+        "es",
+        "lib",
+        "src"
+    ],
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "peerDependencies": {
+        "vue": "^3.3.4"
+    },
+    "dependencies": {
+        "@codemirror/autocomplete": "^6.9.0",
+        "@codemirror/lang-javascript": "^6.1.9",
+        "@codemirror/language": "^6.8.0",
+        "@codemirror/state": "^6.2.1",
+        "@codemirror/view": "^6.16.0",
+        "@fesjs/fes-design": "^0.8.17",
+        "@harrywan/letgo-common": "workspace:*",
+        "@harrywan/letgo-designer": "workspace:*",
+        "@harrywan/letgo-types": "workspace:*",
+        "@icon-park/vue-next": "^1.4.2",
+        "codemirror": "^6.0.1",
+        "lodash-es": "^4.17.21"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "typings": "./es/index.d.ts",
+    "devDependencies": {
+        "vue": "^3.3.4"
+    }
 }

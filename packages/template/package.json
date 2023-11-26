@@ -1,35 +1,35 @@
 {
-  "name": "template",
-  "version": "0.0.0-beta.43",
-  "private": true,
-  "description": "",
-  "author": "",
-  "license": "ISC",
-  "keywords": [],
-  "scripts": {
-    "dev": "fes dev",
-    "build": "fes build",
-    "prod": "FES_ENV=prod fes build",
-    "analyze": "ANALYZE=1 fes build",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "@fesjs/builder-vite": "^3.0.4",
-    "@fesjs/fes": "^3.1.5",
-    "@fesjs/fes-design": "^0.8.17",
-    "@fesjs/plugin-request": "4.0.0-beta.6",
-    "@harrywan/letgo-code-generator": "workspace:*",
-    "@harrywan/letgo-common": "workspace:*",
-    "@harrywan/letgo-engine": "workspace:*",
-    "@harrywan/letgo-plugin-device": "workspace:*",
-    "@harrywan/letgo-plugin-global": "workspace:*",
-    "@harrywan/letgo-plugin-schema": "workspace:*",
-    "@harrywan/letgo-renderer": "workspace:*",
-    "@harrywan/letgo-types": "workspace:*",
-    "@vueuse/core": "^10.1.2",
-    "core-js": "^3.33.3",
-    "lodash-es": "^4.17.21",
-    "mustache": "^4.2.0",
-    "vue": "^3.3.9"
-  }
+    "name": "template",
+    "version": "0.0.0-beta.43",
+    "private": true,
+    "description": "",
+    "author": "",
+    "license": "ISC",
+    "keywords": [],
+    "scripts": {
+        "dev": "fes dev",
+        "build": "fes build",
+        "prod": "FES_ENV=prod fes build",
+        "analyze": "ANALYZE=1 fes build",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "@fesjs/builder-vite": "^3.0.4",
+        "@fesjs/fes": "^3.1.5",
+        "@fesjs/fes-design": "^0.8.17",
+        "@fesjs/plugin-request": "4.0.0-beta.6",
+        "@harrywan/letgo-code-generator": "workspace:*",
+        "@harrywan/letgo-common": "workspace:*",
+        "@harrywan/letgo-engine": "workspace:*",
+        "@harrywan/letgo-plugin-device": "workspace:*",
+        "@harrywan/letgo-plugin-global": "workspace:*",
+        "@harrywan/letgo-plugin-schema": "workspace:*",
+        "@harrywan/letgo-renderer": "workspace:*",
+        "@harrywan/letgo-types": "workspace:*",
+        "@vueuse/core": "^10.1.2",
+        "core-js": "^3.33.3",
+        "lodash-es": "^4.17.21",
+        "mustache": "^4.2.0",
+        "vue": "^3.3.9"
+    }
 }

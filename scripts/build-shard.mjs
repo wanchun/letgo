@@ -39,7 +39,7 @@ export function getNeedCompileEsPkg() {
     )
 }
 
-export function getNeedCompileTypePkg() {
+export function getNeedPubPkg() {
     const pkgs = fse.readdirSync(PACKAGE_PATH)
     return pkgs.filter(
         item =>

@@ -12,11 +12,11 @@
         "src"
     ],
     "dependencies": {
-        "@harrywan/letgo-common": "workspace:*",
-        "@harrywan/letgo-components": "workspace:*",
-        "@harrywan/letgo-designer": "workspace:*",
-        "@harrywan/letgo-renderer": "workspace:*",
-        "@harrywan/letgo-types": "workspace:*",
+        "@harrywan/letgo-common": "0.0.0-beta.45",
+        "@harrywan/letgo-components": "0.0.0-beta.45",
+        "@harrywan/letgo-designer": "0.0.0-beta.45",
+        "@harrywan/letgo-renderer": "0.0.0-beta.45",
+        "@harrywan/letgo-types": "0.0.0-beta.45",
         "@vanilla-extract/css": "^1.14.0",
         "lodash-es": "^4.17.21",
         "vue-router": "^4.2.2"

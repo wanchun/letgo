@@ -1,44 +1,44 @@
 {
-  "name": "@harrywan/letgo-engine",
-  "version": "0.0.0-beta.45",
-  "description": "",
-  "author": "",
-  "license": "ISC",
-  "keywords": [],
-  "module": "es/index.js",
-  "files": [
-    "es",
-    "lib",
-    "src"
-  ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "peerDependencies": {
-    "vue": "^3.3.9"
-  },
-  "dependencies": {
-    "@harrywan/letgo-common": "workspace:*",
-    "@harrywan/letgo-designer": "workspace:*",
-    "@harrywan/letgo-editor-core": "workspace:*",
-    "@harrywan/letgo-editor-skeleton": "workspace:*",
-    "@harrywan/letgo-engine-ext": "workspace:*",
-    "@harrywan/letgo-engine-plugin": "workspace:*",
-    "@harrywan/letgo-plugin-code": "workspace:*",
-    "@harrywan/letgo-plugin-designer": "workspace:*",
-    "@harrywan/letgo-plugin-setting": "workspace:*",
-    "@harrywan/letgo-plugin-component-tree": "workspace:*",
-    "@harrywan/letgo-plugin-components": "workspace:*",
-    "@harrywan/letgo-types": "workspace:*",
-    "eventemitter3": "^4.0.0",
-    "lodash-es": "^4.17.21",
-    "semver": "^7.3.5"
-  },
-  "devDependencies": {
-    "@types/semver": "7.3.9"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "typings": "./es/index.d.ts"
+    "name": "@harrywan/letgo-engine",
+    "version": "0.0.0-beta.45",
+    "description": "",
+    "author": "",
+    "license": "ISC",
+    "keywords": [],
+    "module": "es/index.js",
+    "files": [
+        "es",
+        "lib",
+        "src"
+    ],
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "peerDependencies": {
+        "vue": "^3.3.9"
+    },
+    "dependencies": {
+        "@harrywan/letgo-common": "0.0.0-beta.45",
+        "@harrywan/letgo-designer": "0.0.0-beta.45",
+        "@harrywan/letgo-editor-core": "0.0.0-beta.45",
+        "@harrywan/letgo-editor-skeleton": "0.0.0-beta.45",
+        "@harrywan/letgo-engine-ext": "0.0.0-beta.45",
+        "@harrywan/letgo-engine-plugin": "0.0.0-beta.45",
+        "@harrywan/letgo-plugin-code": "0.0.0-beta.45",
+        "@harrywan/letgo-plugin-component-tree": "0.0.0-beta.45",
+        "@harrywan/letgo-plugin-components": "0.0.0-beta.45",
+        "@harrywan/letgo-plugin-designer": "0.0.0-beta.45",
+        "@harrywan/letgo-plugin-setting": "0.0.0-beta.45",
+        "@harrywan/letgo-types": "0.0.0-beta.45",
+        "eventemitter3": "^4.0.0",
+        "lodash-es": "^4.17.21",
+        "semver": "^7.3.5"
+    },
+    "devDependencies": {
+        "@types/semver": "7.3.9"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "typings": "./es/index.d.ts"
 }

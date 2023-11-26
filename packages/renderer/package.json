@@ -1,36 +1,36 @@
 {
-  "name": "@harrywan/letgo-renderer",
-  "version": "0.0.0-beta.45",
-  "description": "",
-  "author": "",
-  "license": "ISC",
-  "keywords": [],
-  "module": "es/index.js",
-  "files": [
-    "es",
-    "lib",
-    "src"
-  ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "peerDependencies": {
-    "vue": "^3.3.9"
-  },
-  "dependencies": {
-    "@harrywan/letgo-common": "workspace:*",
-    "@harrywan/letgo-components": "workspace:*",
-    "@harrywan/letgo-designer": "workspace:*",
-    "@harrywan/letgo-types": "workspace:*",
-    "@qlin/request": "^0.1.4",
-    "lodash-es": "^4.17.21"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "devDependencies": {
-    "@types/lodash-es": "^4.17.6",
-    "vue": "^3.3.9"
-  },
-  "typings": "./es/index.d.ts"
+    "name": "@harrywan/letgo-renderer",
+    "version": "0.0.0-beta.45",
+    "description": "",
+    "author": "",
+    "license": "ISC",
+    "keywords": [],
+    "module": "es/index.js",
+    "files": [
+        "es",
+        "lib",
+        "src"
+    ],
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "peerDependencies": {
+        "vue": "^3.3.9"
+    },
+    "dependencies": {
+        "@harrywan/letgo-common": "0.0.0-beta.45",
+        "@harrywan/letgo-components": "0.0.0-beta.45",
+        "@harrywan/letgo-designer": "0.0.0-beta.45",
+        "@harrywan/letgo-types": "0.0.0-beta.45",
+        "@qlin/request": "^0.1.4",
+        "lodash-es": "^4.17.21"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "devDependencies": {
+        "@types/lodash-es": "^4.17.6",
+        "vue": "^3.3.9"
+    },
+    "typings": "./es/index.d.ts"
 }

@@ -1,30 +1,30 @@
 {
-  "name": "@harrywan/letgo-engine-plugin",
-  "version": "0.0.0-beta.45",
-  "description": "",
-  "author": "",
-  "license": "ISC",
-  "keywords": [],
-  "module": "es/index.js",
-  "files": [
-    "es",
-    "lib",
-    "src"
-  ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "@harrywan/letgo-common": "workspace:*",
-    "@harrywan/letgo-designer": "workspace:*",
-    "@harrywan/letgo-editor-core": "workspace:*",
-    "@harrywan/letgo-editor-skeleton": "workspace:*",
-    "@harrywan/letgo-types": "workspace:*",
-    "lodash-es": "^4.17.21",
-    "semver": "^7.3.5"
-  },
-  "typings": "./es/index.d.ts",
-  "publishConfig": {
-    "access": "public"
-  }
+    "name": "@harrywan/letgo-engine-plugin",
+    "version": "0.0.0-beta.45",
+    "description": "",
+    "author": "",
+    "license": "ISC",
+    "keywords": [],
+    "module": "es/index.js",
+    "files": [
+        "es",
+        "lib",
+        "src"
+    ],
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "@harrywan/letgo-common": "0.0.0-beta.45",
+        "@harrywan/letgo-designer": "0.0.0-beta.45",
+        "@harrywan/letgo-editor-core": "0.0.0-beta.45",
+        "@harrywan/letgo-editor-skeleton": "0.0.0-beta.45",
+        "@harrywan/letgo-types": "0.0.0-beta.45",
+        "lodash-es": "^4.17.21",
+        "semver": "^7.3.5"
+    },
+    "typings": "./es/index.d.ts",
+    "publishConfig": {
+        "access": "public"
+    }
 }

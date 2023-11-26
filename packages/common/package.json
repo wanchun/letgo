@@ -16,7 +16,7 @@
     },
     "dependencies": {
         "@fesjs/fes-design": "^0.8.17",
-        "@harrywan/letgo-types": "workspace:*",
+        "@harrywan/letgo-types": "0.0.0-beta.45",
         "@vanilla-extract/css": "^1.14.0",
         "acorn": "^8.8.2",
         "acorn-walk": "^8.2.0",

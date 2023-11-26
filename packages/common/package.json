@@ -1,31 +1,31 @@
 {
-  "name": "@harrywan/letgo-common",
-  "version": "0.0.0-beta.45",
-  "description": "",
-  "author": "",
-  "license": "ISC",
-  "keywords": [],
-  "module": "es/index.js",
-  "files": [
-    "es",
-    "lib",
-    "src"
-  ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "@fesjs/fes-design": "^0.8.17",
-    "@vanilla-extract/css": "^1.14.0",
-    "@harrywan/letgo-types": "workspace:*",
-    "acorn": "^8.8.2",
-    "acorn-walk": "^8.2.0",
-    "astring": "^1.8.6",
-    "lodash-es": "^4.17.21",
-    "zen-logger": "^1.1.0"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "typings": "./es/index.d.ts"
+    "name": "@harrywan/letgo-common",
+    "version": "0.0.0-beta.45",
+    "description": "",
+    "author": "",
+    "license": "ISC",
+    "keywords": [],
+    "module": "es/index.js",
+    "files": [
+        "es",
+        "lib",
+        "src"
+    ],
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "@fesjs/fes-design": "^0.8.17",
+        "@harrywan/letgo-types": "workspace:*",
+        "@vanilla-extract/css": "^1.14.0",
+        "acorn": "^8.8.2",
+        "acorn-walk": "^8.2.0",
+        "astring": "^1.8.6",
+        "lodash-es": "^4.17.21",
+        "zen-logger": "^1.1.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "typings": "./es/index.d.ts"
 }

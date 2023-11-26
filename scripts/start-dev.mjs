@@ -1,10 +1,11 @@
-import chalk from 'chalk';
-import path from 'path';
-import { Project } from 'ts-morph';
-import { compilePkg, compilerFile } from './build-es.mjs';
-import { getNeedCompileEsPkg, getOutputDirFromFilePath } from './build-shard.mjs';
-import { watch } from './watch.mjs';
-import { winPath } from './win-path.mjs';
+import path from 'node:path'
+import process from 'node:process'
+import chalk from 'chalk'
+import { Project } from 'ts-morph'
+import { compilePkg, compilerFile } from './build-es.mjs'
+import { getNeedCompileEsPkg, getOutputDirFromFilePath } from './build-shard.mjs'
+import { watch } from './watch.mjs'
+import { winPath } from './win-path.mjs'
 
 async function genPkgType(pkg) {
     // 这部分内容具体可以查阅 ts-morph 的文档
@@ -24,103 +25,102 @@ async function genPkgType(pkg) {
             `packages/${pkg}/tsconfig.json`,
         ),
         skipAddingFilesFromTsConfig: true,
-    });
+    })
 
     return {
         project,
         sourceFiles: {},
-    };
+    }
 }
 
 function getPkgNameFormFilePath(filePath) {
-    return winPath(filePath).split('packages/')[1].split('/')[0];
+    return winPath(filePath).split('packages/')[1].split('/')[0]
 }
 
-const projects = {};
+const projects = {}
 async function getPkgsTypeProject() {
-    const pkgs = getNeedCompileEsPkg();
+    const pkgs = getNeedCompileEsPkg()
     for (const pkg of pkgs)
-        projects[pkg] = await genPkgType(pkg);
+        projects[pkg] = await genPkgType(pkg)
 }
 
 async function handleFileUpdateType(filePath) {
-    const wFilePath = `packages${filePath.split('packages')[1]}`;
+    const wFilePath = `packages${filePath.split('packages')[1]}`
 
-    const pkg = getPkgNameFormFilePath(filePath);
+    const pkg = getPkgNameFormFilePath(filePath)
 
-    const project = projects[pkg];
+    const project = projects[pkg]
 
-
-    let sourceFile = project.sourceFiles[wFilePath];
+    let sourceFile = project.sourceFiles[wFilePath]
     if (sourceFile) {
-        await sourceFile.refreshFromFileSystem();
+        await sourceFile.refreshFromFileSystem()
     }
     else if (
         wFilePath.endsWith('.ts')
         || wFilePath.endsWith('.tsx')
     ) {
-        sourceFile = project.project.addSourceFileAtPath(wFilePath);
-        project.sourceFiles[wFilePath] = sourceFile;
+        sourceFile = project.project.addSourceFileAtPath(wFilePath)
+        project.sourceFiles[wFilePath] = sourceFile
     }
     try {
         if (sourceFile)
-            await genType(sourceFile);
+            await genType(sourceFile)
     }
     catch (e) {}
 }
 
 function handleFileRemoveType(filePath) {
-    const dir = getOutputDirFromFilePath(filePath);
-    fse.removeSync(`${dir}/${path.basename(filePath).replace(/\.tsx?/, '.d.ts')}`);
+    const dir = getOutputDirFromFilePath(filePath)
+    fse.removeSync(`${dir}/${path.basename(filePath).replace(/\.tsx?/, '.d.ts')}`)
 }
 
 async function handleFileUpdateEs(filePath) {
     try {
-        const pkg = getPkgNameFormFilePath(filePath);
+        const pkg = getPkgNameFormFilePath(filePath)
         if (filePath.endsWith('.css.ts')) {
-            await compilePkg(pkg);
-        } else {
+            await compilePkg(pkg)
+        }
+        else {
             await compilerFile(
                 filePath,
                 getOutputDirFromFilePath(filePath),
-            );
+            )
         }
 
-        const extname = path.extname(filePath);
+        const extname = path.extname(filePath)
         if (['.css', '.ts', '.tsx'].includes(extname)) {
             console.log(
                 chalk.dim(winPath(filePath).split('/letgo')[1]),
                 chalk.blue('updated'),
-            );
+            )
         }
     }
     catch (err) {
-        console.error(err);
+        console.error(err)
     }
 }
 
 function handleFileRemoveEs(filePath) {
-    const dir = getOutputDirFromFilePath(filePath);
-    const extname = path.extname(filePath);
+    const dir = getOutputDirFromFilePath(filePath)
+    const extname = path.extname(filePath)
     if (extname === '.json')
-        fse.removeSync(filePath);
+        fse.removeSync(filePath)
     else if (filePath.endsWith('.css.ts'))
-        fse.removeSync(`${filePath}.vanilla.css`);
+        fse.removeSync(`${filePath}.vanilla.css`)
     else if (['.ts', 'tsx'].includes(extname))
-        fse.removeSync(`${dir}/${path.basename(filePath).replace(/\.tsx?/, '.js')}`);
+        fse.removeSync(`${dir}/${path.basename(filePath).replace(/\.tsx?/, '.js')}`)
 }
-
 
 async function startDev() {
-    await getPkgsTypeProject();
+    await getPkgsTypeProject()
 
     watch(async (filePath) => {
-        handleFileUpdateEs(filePath);
-        handleFileUpdateType(filePath);
+        handleFileUpdateEs(filePath)
+        handleFileUpdateType(filePath)
     }, (filePath) => {
-        handleFileRemoveType(filePath);
-        handleFileRemoveEs(filePath);
-    });
+        handleFileRemoveType(filePath)
+        handleFileRemoveEs(filePath)
+    })
 }
 
-startDev();
+startDev()

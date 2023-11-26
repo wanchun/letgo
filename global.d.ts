@@ -1,5 +1,6 @@
-import { StyleValue, CSSProperties } from 'vue'
-export { };
+import { CSSProperties, StyleValue } from 'vue'
+
+export { }
 
 declare global {
     namespace JSX {

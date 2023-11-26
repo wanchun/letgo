@@ -6,4 +6,7 @@ export default await antfu({
         indent: 4, // 4, or 'tab'
         quotes: 'single', // or 'double'
     },
+    typescript: true,
+    vue: true
 });
+

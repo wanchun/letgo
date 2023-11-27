@@ -5,6 +5,7 @@ import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 import dts from 'vite-plugin-dts';
+import chalk from 'chalk';
 import enginePkg from '../packages/engine/package.json' assert { type: 'json' };
 import {
     getEsOutputPath,
@@ -28,6 +29,7 @@ function getTsConfigPath(filePath) {
 
 async function buildFile(filePath, outputDir) {
     const tsConfigPath = getTsConfigPath(filePath);
+    const startTime = Date.now();
     await build({
         define: {
             ENGINE_VERSION_PLACEHOLDER: JSON.stringify(enginePkg.version),
@@ -75,7 +77,12 @@ async function buildFile(filePath, outputDir) {
                 },
             },
         },
+        logLevel: 'warn'
     });
+    const endTime = Date.now();
+    console.log(
+        chalk.green(`✓ /packages${filePath.split('/packages')[1]} built in ${endTime-startTime}ms`),
+    );
 }
 
 export async function compilerFile(filePath, outputDir) {

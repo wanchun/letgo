@@ -22,9 +22,6 @@
         "forceConsistentCasingInFileNames": true,
         "skipLibCheck": true
     },
-    "include": [
-        "global.d.ts",
-        "packages/**/src/"
-    ],
+    "files": ["global.d.ts"],
     "exclude": ["**/tests/*", "**/*.test.ts", "**/lib", "**/es", "node_modules"]
 }

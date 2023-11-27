@@ -26,7 +26,7 @@ const innerSkeleton = new Skeleton(editor, innerDesigner);
 
 const innerPlugins = new PluginManager(innerDesigner, innerSkeleton).toProxy();
 
-export const version = 'ENGINE_VERSION_PLACEHOLDER';
+export const version = ENGINE_VERSION_PLACEHOLDER;
 
 engineConfig.set('ENGINE_VERSION', version);
 

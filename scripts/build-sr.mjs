@@ -1,10 +1,10 @@
-import process from 'node:process'
-import path from 'node:path'
-import vanillaExtract from '@vanilla-extract/vite-plugin'
-import vueJsx from '@vitejs/plugin-vue-jsx'
-import { build } from 'vite'
-import dts from 'vite-plugin-dts'
-import { getLibOutputPath, getResourcePath, isWatch } from './build-shard.mjs'
+import process from 'node:process';
+import path from 'node:path';
+import vanillaExtract from '@vanilla-extract/vite-plugin';
+import vueJsx from '@vitejs/plugin-vue-jsx';
+import { build } from 'vite';
+import dts from 'vite-plugin-dts';
+import { getLibOutputPath, getResourcePath, isWatch } from './build-shard.mjs';
 
 async function compiler(source, outDir, name) {
     await build({
@@ -42,7 +42,7 @@ async function compiler(source, outDir, name) {
                 },
                 outDir: outDir.replace('lib', 'es'),
             })],
-    })
+    });
 }
 
 async function buildSimulator() {
@@ -51,12 +51,12 @@ async function buildSimulator() {
             name: 'simulator-renderer',
             exportName: 'LETGO_SimulatorRenderer',
         },
-    ]
+    ];
     for (const pkg of pkgs) {
-        const source = getResourcePath(pkg.name)
-        const outputDir = getLibOutputPath(pkg.name)
-        await compiler(source, outputDir, pkg.exportName)
+        const source = getResourcePath(pkg.name);
+        const outputDir = getLibOutputPath(pkg.name);
+        await compiler(source, outputDir, pkg.exportName);
     }
 }
 
-buildSimulator()
+buildSimulator();

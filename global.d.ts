@@ -1,6 +1,5 @@
-import { CSSProperties, StyleValue } from 'vue'
-
-export { }
+declare const ENGINE_VERSION_PLACEHOLDER: string
+declare const ENGINE_EXT_VERSION_PLACEHOLDER: string
 
 declare global {
     namespace JSX {

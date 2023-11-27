@@ -1,34 +1,34 @@
 {
-  "name": "@harrywan/letgo-plugin-device",
-  "version": "0.0.0-beta.45",
-  "description": "",
-  "author": "",
-  "license": "ISC",
-  "keywords": [],
-  "module": "es/index.js",
-  "typings": "./es/index.d.ts",
-  "files": [
-    "es",
-    "lib",
-    "src"
-  ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "peerDependencies": {
-    "vue": "^3.3.4"
-  },
-  "dependencies": {
-    "@vanilla-extract/css": "^1.11.0",
-    "@icon-park/vue-next": "^1.4.2",
-    "@harrywan/letgo-engine-plugin": "workspace:*",
-    "@harrywan/letgo-designer": "workspace:*",
-    "@harrywan/letgo-types": "workspace:*"
-  },
-  "devDependencies": {
-    "vue": "^3.3.4"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+    "name": "@harrywan/letgo-plugin-device",
+    "version": "0.0.0-beta.45",
+    "description": "",
+    "author": "",
+    "license": "ISC",
+    "keywords": [],
+    "module": "es/index.js",
+    "typings": "./es/index.d.ts",
+    "files": [
+        "es",
+        "lib",
+        "src"
+    ],
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "peerDependencies": {
+        "vue": "^3.3.9"
+    },
+    "dependencies": {
+        "@harrywan/letgo-designer": "0.0.0-beta.45",
+        "@harrywan/letgo-engine-plugin": "0.0.0-beta.45",
+        "@harrywan/letgo-types": "0.0.0-beta.45",
+        "@icon-park/vue-next": "^1.4.2",
+        "@vanilla-extract/css": "^1.14.0"
+    },
+    "devDependencies": {
+        "vue": "^3.3.9"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
 }

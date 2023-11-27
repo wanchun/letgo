@@ -1,4 +1,4 @@
-function inlineToExtract() {
+export function inlineToExtract() {
     return {
         name: 'inline-to-extract',
         generateBundle(options_, bundle) {
@@ -22,5 +22,3 @@ function inlineToExtract() {
         },
     };
 }
-
-module.exports = inlineToExtract;

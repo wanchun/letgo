@@ -1,7 +1,7 @@
 import type { IPublicTypeSetter } from '@harrywan/letgo-types';
 import * as setters from './setter';
 
-export const version = 'ENGINE_EXT_VERSION_PLACEHOLDER';
+export const version = ENGINE_EXT_VERSION_PLACEHOLDER;
 
 const engineExt: {
     version: string
@@ -14,6 +14,7 @@ const engineExt: {
 const win = window as any;
 win.LetgoEngineExt = engineExt;
 
+// eslint-disable-next-line no-console
 console.log(
     '%c LetgoLowCodeExt %c v'.concat(version, ' '),
     'padding: 2px 1px; border-radius: 3px 0 0 3px; color: #fff; background: #5584ff; font-weight: bold;',

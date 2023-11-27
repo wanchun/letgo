@@ -1,11 +1,11 @@
-const chokidar = require('chokidar');
-const { getNeedCompilePkg, getResourcePath } = require('./build-shard');
+import chokidar from 'chokidar';
+import { getNeedCompileEsPkg, getResourcePath } from './build-shard.mjs';
 
 let watcher;
 
-function watch(callback, removeCallback) {
+export function watch(callback, removeCallback) {
     if (!watcher) {
-        const pkgs = getNeedCompilePkg();
+        const pkgs = getNeedCompileEsPkg();
 
         watcher = chokidar.watch(pkgs.map(getResourcePath), {
             interval: 200,
@@ -16,8 +16,3 @@ function watch(callback, removeCallback) {
     if (removeCallback)
         watcher.on('unlink', removeCallback);
 }
-
-module.exports = {
-    watcher,
-    watch,
-};

@@ -1,30 +1,30 @@
 {
-  "name": "@harrywan/letgo-plugin-designer",
-  "version": "0.0.0-beta.45",
-  "description": "",
-  "files": [
-    "es",
-    "lib",
-    "src"
-  ],
-  "module": "es/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "@vanilla-extract/css": "^1.11.0",
-    "@harrywan/letgo-engine-plugin": "workspace:*",
-    "@harrywan/letgo-designer": "workspace:*",
-    "@fesjs/fes-design": "^0.8.4"
-  },
-  "peerDependencies": {
-    "vue": "^3.3.4"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "publishConfig": {
-    "access": "public"
-  },
-  "typings": "./es/index.d.ts"
+    "name": "@harrywan/letgo-plugin-designer",
+    "version": "0.0.0-beta.45",
+    "description": "",
+    "author": "",
+    "license": "ISC",
+    "keywords": [],
+    "module": "es/index.js",
+    "files": [
+        "es",
+        "lib",
+        "src"
+    ],
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "peerDependencies": {
+        "vue": "^3.3.9"
+    },
+    "dependencies": {
+        "@fesjs/fes-design": "^0.8.17",
+        "@harrywan/letgo-designer": "0.0.0-beta.45",
+        "@harrywan/letgo-engine-plugin": "0.0.0-beta.45",
+        "@vanilla-extract/css": "^1.14.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "typings": "./es/index.d.ts"
 }

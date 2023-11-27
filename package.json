@@ -12,8 +12,8 @@
     "keywords": [],
     "main": "index.js",
     "scripts": {
-        "esm": "node scripts/start-dev.mjs",
-        "esm:dev": "pnpm build:esm && node scripts/start-dev.mjs",
+        "esm:dev": "node scripts/start-dev.mjs",
+        "esm": "pnpm build:esm && node scripts/start-dev.mjs",
         "sr:dev": "node scripts/build-sr.mjs --watch",
         "sr:server": "http-server packages/simulator-renderer/lib --cors -p 8082",
         "sr": "npm-run-all -p sr:dev sr:server",

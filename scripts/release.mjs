@@ -48,8 +48,8 @@ async function publishPackage(pkg, runIfNotDry) {
     step(`Publishing ${pkg.name}...`);
     try {
         let _releaseTag;
-        if (pkg.newVersion.includes('-'))
-            _releaseTag = 'next';
+        // if (pkg.newVersion.includes('-'))
+        //     _releaseTag = 'next';
 
         await runIfNotDry(
             // note: use of pnpm is intentional here as we rely on its publishing

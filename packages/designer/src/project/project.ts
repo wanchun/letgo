@@ -142,7 +142,7 @@ export class Project {
         this.purge();
         // importSchema new document
         this.data = {
-            version: '1.0.0',
+            ...this.data,
             componentsMap: [],
             componentsTree: [],
             ...schema,

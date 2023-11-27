@@ -137,7 +137,7 @@ importers:
         specifier: ^0.0.0-beta.46
         version: link:../common
       '@harrywan/letgo-designer':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../designer
       '@harrywan/letgo-types':
         specifier: ^0.0.0-beta.46
@@ -216,7 +216,7 @@ importers:
         specifier: ^0.0.0-beta.46
         version: link:../common
       '@harrywan/letgo-designer':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../designer
       '@harrywan/letgo-editor-core':
         specifier: ^0.0.0-beta.46
@@ -240,34 +240,34 @@ importers:
         specifier: ^0.0.0-beta.46
         version: link:../common
       '@harrywan/letgo-designer':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../designer
       '@harrywan/letgo-editor-core':
         specifier: ^0.0.0-beta.46
         version: link:../editor-core
       '@harrywan/letgo-editor-skeleton':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../editor-skeleton
       '@harrywan/letgo-engine-ext':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../engine-ext
       '@harrywan/letgo-engine-plugin':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../engine-plugin
       '@harrywan/letgo-plugin-code':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../plugin-code
       '@harrywan/letgo-plugin-component-tree':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../plugin-component-tree
       '@harrywan/letgo-plugin-components':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../plugin-components
       '@harrywan/letgo-plugin-designer':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../plugin-designer
       '@harrywan/letgo-plugin-setting':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../plugin-setting
       '@harrywan/letgo-types':
         specifier: ^0.0.0-beta.46
@@ -304,10 +304,10 @@ importers:
         specifier: ^0.0.0-beta.46
         version: link:../common
       '@harrywan/letgo-components':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../components
       '@harrywan/letgo-designer':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../designer
       '@harrywan/letgo-types':
         specifier: ^0.0.0-beta.46
@@ -335,13 +335,13 @@ importers:
         specifier: ^0.0.0-beta.46
         version: link:../common
       '@harrywan/letgo-designer':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../designer
       '@harrywan/letgo-editor-core':
         specifier: ^0.0.0-beta.46
         version: link:../editor-core
       '@harrywan/letgo-editor-skeleton':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../editor-skeleton
       '@harrywan/letgo-types':
         specifier: ^0.0.0-beta.46
@@ -371,16 +371,16 @@ importers:
         specifier: ^0.0.0-beta.46
         version: link:../common
       '@harrywan/letgo-components':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../components
       '@harrywan/letgo-designer':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../designer
       '@harrywan/letgo-editor-core':
         specifier: ^0.0.0-beta.46
         version: link:../editor-core
       '@harrywan/letgo-engine-plugin':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../engine-plugin
       '@harrywan/letgo-types':
         specifier: ^0.0.0-beta.46
@@ -414,13 +414,13 @@ importers:
         specifier: ^0.8.17
         version: 0.8.17(vue@3.3.9)
       '@harrywan/letgo-designer':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../designer
       '@harrywan/letgo-editor-core':
         specifier: ^0.0.0-beta.46
         version: link:../editor-core
       '@harrywan/letgo-engine-plugin':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../engine-plugin
       '@harrywan/letgo-types':
         specifier: ^0.0.0-beta.46
@@ -441,13 +441,13 @@ importers:
         specifier: ^0.8.17
         version: 0.8.17(vue@3.3.9)
       '@harrywan/letgo-designer':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../designer
       '@harrywan/letgo-editor-core':
         specifier: ^0.0.0-beta.46
         version: link:../editor-core
       '@harrywan/letgo-engine-plugin':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../engine-plugin
       '@harrywan/letgo-types':
         specifier: ^0.0.0-beta.46
@@ -468,10 +468,10 @@ importers:
         specifier: ^0.8.17
         version: 0.8.17(vue@3.3.9)
       '@harrywan/letgo-designer':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../designer
       '@harrywan/letgo-engine-plugin':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../engine-plugin
       '@vanilla-extract/css':
         specifier: ^1.14.0
@@ -483,10 +483,10 @@ importers:
   packages/plugin-device:
     dependencies:
       '@harrywan/letgo-designer':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../designer
       '@harrywan/letgo-engine-plugin':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../engine-plugin
       '@harrywan/letgo-types':
         specifier: ^0.0.0-beta.46
@@ -517,16 +517,16 @@ importers:
         specifier: ^0.0.0-beta.46
         version: link:../common
       '@harrywan/letgo-components':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../components
       '@harrywan/letgo-designer':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../designer
       '@harrywan/letgo-engine':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../engine
       '@harrywan/letgo-engine-plugin':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../engine-plugin
       '@harrywan/letgo-types':
         specifier: ^0.0.0-beta.46
@@ -553,13 +553,13 @@ importers:
         specifier: ^0.8.17
         version: 0.8.17(vue@3.3.9)
       '@harrywan/letgo-components':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../components
       '@harrywan/letgo-designer':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../designer
       '@harrywan/letgo-engine-plugin':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../engine-plugin
       '@harrywan/letgo-types':
         specifier: ^0.0.0-beta.46
@@ -583,16 +583,16 @@ importers:
         specifier: ^0.0.0-beta.46
         version: link:../common
       '@harrywan/letgo-components':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../components
       '@harrywan/letgo-designer':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../designer
       '@harrywan/letgo-editor-core':
         specifier: ^0.0.0-beta.46
         version: link:../editor-core
       '@harrywan/letgo-engine-plugin':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../engine-plugin
       '@harrywan/letgo-types':
         specifier: ^0.0.0-beta.46
@@ -617,10 +617,10 @@ importers:
         specifier: ^0.0.0-beta.46
         version: link:../common
       '@harrywan/letgo-components':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../components
       '@harrywan/letgo-designer':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../designer
       '@harrywan/letgo-types':
         specifier: ^0.0.0-beta.46
@@ -645,13 +645,13 @@ importers:
         specifier: ^0.0.0-beta.46
         version: link:../common
       '@harrywan/letgo-components':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../components
       '@harrywan/letgo-designer':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../designer
       '@harrywan/letgo-renderer':
-        specifier: ^0.0.0-beta.46
+        specifier: ^0.0.0-beta.47
         version: link:../renderer
       '@harrywan/letgo-types':
         specifier: ^0.0.0-beta.46

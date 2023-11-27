@@ -1,3 +1,13 @@
+# [0.0.0-beta.47](https://git.weoa.com/mumblefe/letgo/compare/v0.0.0-beta.46...v0.0.0-beta.47) (2023-11-27)
+
+
+### Bug Fixes
+
+* remove next tag ([8708f89](https://git.weoa.com/mumblefe/letgo/commits/8708f89d989f659dc5ec83ca532bbc892658679e))
+* 避免project.import后icons被清除 ([b24cbdc](https://git.weoa.com/mumblefe/letgo/commits/b24cbdc11cf9152c2bda3f134fb023d7c78394d1))
+
+
+
 # 0.0.0-beta.46 (2023-11-27)
 
 

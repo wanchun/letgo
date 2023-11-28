@@ -225,19 +225,21 @@ export default defineComponent({
                         ></FInput>
                     </div>
                     <FTabs class={tabsCls}>
-                        {groupListRef.value.map((group) => {
-                            return (
-                                <FTabPane
-                                    name={group}
-                                    value={group}
-                                    displayDirective="show"
-                                >
-                                    <FScrollbar>
-                                        {renderCategory(group)}
-                                    </FScrollbar>
-                                </FTabPane>
-                            );
-                        })}
+                        {{
+                            default: () => groupListRef.value.map((group) => {
+                                return (
+                                    <FTabPane
+                                        name={group}
+                                        value={group}
+                                        displayDirective="show"
+                                    >
+                                        <FScrollbar>
+                                            {renderCategory(group)}
+                                        </FScrollbar>
+                                    </FTabPane>
+                                );
+                            })
+                        }}
                     </FTabs>
                 </div>
             );

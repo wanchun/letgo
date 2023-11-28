@@ -1,6 +1,6 @@
 {
     "name": "@harrywan/letgo-engine",
-    "version": "0.0.0-beta.47",
+    "version": "0.0.0-beta.48",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -26,7 +26,7 @@
         "@harrywan/letgo-engine-plugin": "^0.0.0-beta.47",
         "@harrywan/letgo-plugin-code": "^0.0.0-beta.47",
         "@harrywan/letgo-plugin-component-tree": "^0.0.0-beta.47",
-        "@harrywan/letgo-plugin-components": "^0.0.0-beta.47",
+        "@harrywan/letgo-plugin-components": "^0.0.0-beta.48",
         "@harrywan/letgo-plugin-designer": "^0.0.0-beta.47",
         "@harrywan/letgo-plugin-setting": "^0.0.0-beta.47",
         "@harrywan/letgo-types": "^0.0.0-beta.46",

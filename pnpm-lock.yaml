@@ -261,7 +261,7 @@ importers:
         specifier: ^0.0.0-beta.47
         version: link:../plugin-component-tree
       '@harrywan/letgo-plugin-components':
-        specifier: ^0.0.0-beta.47
+        specifier: ^0.0.0-beta.48
         version: link:../plugin-components
       '@harrywan/letgo-plugin-designer':
         specifier: ^0.0.0-beta.47

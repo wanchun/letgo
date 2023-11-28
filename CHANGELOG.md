@@ -1,3 +1,12 @@
+# [0.0.0-beta.48](https://git.weoa.com/mumblefe/letgo/compare/v0.0.0-beta.47...v0.0.0-beta.48) (2023-11-28)
+
+
+### Bug Fixes
+
+* 修复物料面板不能切换问题 ([85abdac](https://git.weoa.com/mumblefe/letgo/commits/85abdacd0206fd0f538f965338cd85c079189249))
+
+
+
 # [0.0.0-beta.47](https://git.weoa.com/mumblefe/letgo/compare/v0.0.0-beta.46...v0.0.0-beta.47) (2023-11-27)
 
 

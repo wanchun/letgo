@@ -111,7 +111,9 @@ export default defineComponent({
                     <Breadcrumb node={currentNode}></Breadcrumb>
                     <div class={bodyCls}>
                         <FTabs key={currentNode.id} modelValue={items[0].id}>
-                            {renderTabs()}
+                            {{
+                                default: renderTabs
+                            }}
                         </FTabs>
                         {popupList.value.length > 0 && (
                             popupList.value.map(popup => (

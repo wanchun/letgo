@@ -1,3 +1,12 @@
+# [0.0.0-beta.49](https://git.weoa.com/mumblefe/letgo/compare/v0.0.0-beta.48...v0.0.0-beta.49) (2023-11-28)
+
+
+### Bug Fixes
+
+* 修复设置面板切换不了问题 ([064c873](https://git.weoa.com/mumblefe/letgo/commits/064c87337da9ee2cad85dac003e55138cd160b44))
+
+
+
 # [0.0.0-beta.48](https://git.weoa.com/mumblefe/letgo/compare/v0.0.0-beta.47...v0.0.0-beta.48) (2023-11-28)
 
 

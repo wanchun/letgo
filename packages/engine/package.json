@@ -1,6 +1,6 @@
 {
     "name": "@harrywan/letgo-engine",
-    "version": "0.0.0-beta.48",
+    "version": "0.0.0-beta.49",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -28,7 +28,7 @@
         "@harrywan/letgo-plugin-component-tree": "^0.0.0-beta.47",
         "@harrywan/letgo-plugin-components": "^0.0.0-beta.48",
         "@harrywan/letgo-plugin-designer": "^0.0.0-beta.47",
-        "@harrywan/letgo-plugin-setting": "^0.0.0-beta.47",
+        "@harrywan/letgo-plugin-setting": "^0.0.0-beta.48",
         "@harrywan/letgo-types": "^0.0.0-beta.46",
         "eventemitter3": "^4.0.0",
         "lodash-es": "^4.17.21",

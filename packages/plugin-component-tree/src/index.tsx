@@ -103,7 +103,8 @@ const ComponentTreeView = defineComponent({
                             v-slots={{
                                 suffix: () => <SearchOutlined />,
                             }}
-                        ></FInput>
+                        >
+                        </FInput>
                     </div>
                     <FScrollbar class={treeCls} contentStyle={{ marginTop: '8px' }}>
                         <FTree
@@ -128,7 +129,11 @@ export default {
             area: 'leftArea',
             type: 'Widget',
             name: 'PluginComponentTreeWidget',
-            render: () => <FTooltip content="大纲树" placement="right"><TreeList theme="outline" class={iconCls} /></FTooltip>,
+            render: () => (
+                <FTooltip content="大纲树" placement="right">
+                    <TreeList theme="outline" class={iconCls} />
+                </FTooltip>
+            ),
         }).link(
             skeleton.add({
                 type: 'Panel',

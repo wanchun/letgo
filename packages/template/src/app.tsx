@@ -3,7 +3,6 @@ import { FConfigProvider } from '@fesjs/fes-design';
 import { plugins } from '@harrywan/letgo-engine';
 import PluginDevice from '@harrywan/letgo-plugin-device';
 import PluginSchema from '@harrywan/letgo-plugin-schema';
-import PluginGlobalConfig from '@harrywan/letgo-plugin-global';
 import type { App } from 'vue';
 import PluginLogo from './plugins/plugin-logo';
 import PluginPreview from './plugins/plugin-preview-sample';
@@ -14,7 +13,6 @@ plugins.register(PluginSchema);
 plugins.register(PluginLogo);
 plugins.register(PluginPreview);
 plugins.register(PluginCodeGenerator);
-plugins.register(PluginGlobalConfig);
 
 export default defineRuntimeConfig({
     onAppCreated({ app }: { app: App }) {

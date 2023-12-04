@@ -2,7 +2,7 @@
 import { defineComponent } from 'vue';
 import { LetgoEngine, material, project } from '@harrywan/letgo-engine';
 import { createRequest } from '@qlin/request';
-import assets from '../assets/assets';
+import assets from '../assets/remoteAssets';
 import icons from '../assets/icones-bags';
 
 export default defineComponent({
@@ -39,7 +39,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <LetgoEngine class="engine" :options="options" :on-ready="onReady" />
+    <LetgoEngine class="engine" :options="options" :on-ready="onReady" />
 </template>
 
 <style>

@@ -17,6 +17,7 @@ import PluginSetting from '@harrywan/letgo-plugin-setting';
 import PluginComponents from '@harrywan/letgo-plugin-components';
 import PluginComponentTree from '@harrywan/letgo-plugin-component-tree';
 import PluginCode from '@harrywan/letgo-plugin-code';
+import PluginGlobalConfig from '@harrywan/letgo-plugin-global';
 
 export type { IPluginConfig } from '@harrywan/letgo-engine-plugin';
 
@@ -64,6 +65,7 @@ export { editor, config, designer, plugins, skeleton, material, project, hotkey,
     innerPlugins.register(PluginCode);
     innerPlugins.register(PluginDesigner);
     innerPlugins.register(PluginSetting);
+    innerPlugins.register(PluginGlobalConfig);
 })();
 
 export function destroy() {

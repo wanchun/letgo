@@ -18,10 +18,10 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="logo-wrapper" @click="go">
-    <img class="logo-image" src="@/images/logo.png">
-    Letgo 低代码平台
-  </div>
+    <div class="logo-wrapper" @click="go">
+        <img class="logo-image" src="@/images/logo.png">
+        Letgo 低代码平台
+    </div>
 </template>
 
 <style lang="less">

@@ -1,11 +1,7 @@
 import type { PropType } from 'vue';
-import { defineComponent, reactive } from 'vue';
-import { FDropdown } from '@fesjs/fes-design';
-import { MoreOutlined } from '@fesjs/fes-design/icon';
+import { defineComponent } from 'vue';
 import type { Designer } from '@harrywan/letgo-designer';
 import { iconCls } from './global-actions.css';
-import { GlobalCSS } from './global-css';
-import { GlobalCode } from './global-code/code';
 
 export default defineComponent({
     name: 'GlobalActions',
@@ -14,32 +10,18 @@ export default defineComponent({
             type: Object as PropType<Designer>,
         },
     },
-    setup(props) {
-        const options = [{
-            label: '全局样式配置',
-            value: 'globalCss',
-        }, {
-            label: '全局状态',
-            value: 'globalCode',
-        }];
-
-        const setting = reactive({
-            globalCss: false,
-            globalCode: false,
-        });
-        const selectConfig = (value: string) => {
-            if (['globalCss', 'globalCode'].includes(value))
-                setting[value as keyof typeof setting] = true;
-        };
-
+    setup() {
         return () => {
-            return <>
-                <FDropdown onClick={selectConfig} trigger='click' options={options}>
-                    <MoreOutlined class={iconCls} />
-                </FDropdown>
-                <GlobalCSS project={props.designer.project} v-model={setting.globalCss} />
-                <GlobalCode designer={props.designer} v-model={setting.globalCode} />
-            </>;
+            return (
+                <span class={iconCls}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 21 21">
+                        <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M10 19c4.438 0 8-3.526 8-7.964C18 6.598 14.438 3 10 3c-4.438 0-8 3.598-8 8.036S5.562 19 10 19M3 8h14M3 14h14" />
+                            <path d="M10 19c2.219 0 4-3.526 4-7.964C14 6.598 12.219 3 10 3c-2.219 0-4 3.598-4 8.036S7.781 19 10 19" />
+                        </g>
+                    </svg>
+                </span>
+            );
         };
     },
 });

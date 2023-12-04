@@ -266,6 +266,9 @@ importers:
       '@harrywan/letgo-plugin-designer':
         specifier: ^0.0.0-beta.47
         version: link:../plugin-designer
+      '@harrywan/letgo-plugin-global':
+        specifier: ^0.0.0-beta.47
+        version: link:../plugin-global
       '@harrywan/letgo-plugin-setting':
         specifier: ^0.0.0-beta.48
         version: link:../plugin-setting

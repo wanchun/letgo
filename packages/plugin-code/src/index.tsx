@@ -11,7 +11,7 @@ export default {
             area: 'leftArea',
             name: 'CodeWidget',
             type: 'Widget',
-            render: () => <FTooltip content="逻辑编排" placement="right"><Code theme="outline" size={20} class={iconCls} /></FTooltip>,
+            render: () => <FTooltip content="变量" placement="right"><Code theme="outline" size={20} class={iconCls} /></FTooltip>,
         }).link(
             skeleton.add({
                 type: 'Panel',
@@ -20,7 +20,7 @@ export default {
                 render: () => <Panel editor={editor} designer={designer} />,
                 props: {
                     width: 720,
-                    title: '逻辑编排',
+                    title: '变量',
                 },
             }),
         );

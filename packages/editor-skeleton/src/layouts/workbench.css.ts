@@ -39,7 +39,7 @@ export const topAreaCls = style({
     height: '48px',
     width: '100%',
     marginBottom: '2px',
-    padding: '8px 12px 8px 16px',
+    padding: '4px 8px',
     backgroundColor: '#fff',
     display: 'flex',
     alignItems: 'center',

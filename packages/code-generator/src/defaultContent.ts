@@ -1,7 +1,18 @@
-export const DEFAULT_CONTENT = {
-    src: {
-        common: {
-            'letgoConstants.js': `
+export const defaultPackageJSON: Record<string, any> = {
+    name: '@letgo/gen-code',
+    version: '1.0.0',
+    license: 'MIT',
+    dependencies: {
+        'core-js': '3.32.1',
+        'vue': '3.3.4',
+        '@vueuse/core': '10.4.1',
+        'lodash-es': '4.17.8',
+        '@qlin/request': '0.1.11',
+    },
+};
+
+export const defaultCodes = {
+    'letgoConstants.js': `
 export const RunCondition = {
     MANUAL: 0,
     PageLoads: 1,
@@ -11,9 +22,8 @@ export const CodeType = {
     JAVASCRIPT_QUERY: 'query',
     JAVASCRIPT_COMPUTED: 'computed',
     TEMPORARY_STATE: 'temporaryState',
-};
-            `,
-            'reactive.js': `
+};`,
+    'reactive.js': `
 import { computed, reactive, shallowReactive } from 'vue';
 
 export function markShallowReactive(target, properties) {
@@ -60,10 +70,8 @@ export function markComputed(target, properties) {
         }
     });
     return target;
-}
-
-    `,
-            'letgoRequest.js': `
+}`,
+    'letgoRequest.js': `
 import { createRequest } from '@qlin/request';
 import { isPlainObject } from 'lodash-es';
 
@@ -78,9 +86,7 @@ export const letgoRequest = createRequest({
     },
 });
 `,
-        },
-        use: {
-            'useComputed.js': `
+    'useComputed.js': `
 import { computed, reactive } from 'vue';
 
 export function useComputed({
@@ -97,9 +103,8 @@ export function useComputed({
             }
         }),
     });
-}
-`,
-            'useInstance.js': `
+}`,
+    'useInstance.js': `
 import { ref } from 'vue';
 
 export function useInstance() {
@@ -114,12 +119,10 @@ export function useInstance() {
         },
     });
     return [refEl, proxy];
-}
-        
-        `,
-            'useJSQuery.js': `
-import { markReactive } from '@/common/reactive';
-import { RunCondition } from '@/common/letgoConstants';
+}`,
+    'useJSQuery.js': `
+import { markReactive } from './reactive';
+import { RunCondition } from './letgoConstants';
 
 class JSQuery {
     constructor(data) {
@@ -208,10 +211,8 @@ export function useJSQuery(data) {
         result.trigger();
 
     return result;
-}
-
-        `,
-            'useTemporaryState.js': `
+}`,
+    'useTemporaryState.js': `
 import { reactive } from 'vue';
 
 export function useTemporaryState({ id, initValue }) {
@@ -224,9 +225,5 @@ export function useTemporaryState({ id, initValue }) {
         result.value = val;
     }
     return result;
-}
-
-        `,
-        },
-    },
+}`,
 };

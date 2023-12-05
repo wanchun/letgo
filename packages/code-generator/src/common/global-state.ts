@@ -1,12 +1,15 @@
-import type { CodeStruct, IPublicTypeNpmInfo, IPublicTypeProjectSchema, IPublicTypeUtilsMap } from '@harrywan/letgo-types';
+import type { CodeStruct, IPublicTypeNpmInfo, IPublicTypeUtilsMap } from '@harrywan/letgo-types';
+import { getOptions, relative } from '../options';
 import { genCode, genCodeMap, genImportCode } from './helper';
-import type { ImportSource, SetupCode } from './types';
+import type { CallBackParam, FileTree, GenOptions, ImportSource, SetupCode } from './types';
 import { ImportType } from './types';
+
+export const GLOBAL_STATE_FILE_NAME = 'useLetgoGlobal';
 
 const TEMPLATE = `import { createSharedComposable } from '@vueuse/core';
 IMPORTS
 
-function useLetgoGlobal() {
+function ${GLOBAL_STATE_FILE_NAME}() {
 
     STATE_CODE
 
@@ -15,10 +18,8 @@ function useLetgoGlobal() {
     };
 }
 
-export const useSharedLetgoGlobal = createSharedComposable(useLetgoGlobal);
+export const useSharedLetgoGlobal = createSharedComposable(${GLOBAL_STATE_FILE_NAME});
 `;
-
-export const GLOBAL_STATE_FILE_NAME = 'useLetgoGlobal';
 
 const globalStateKeys: string[] = [];
 function genGlobalStateKeys(codeStruct: CodeStruct) {
@@ -69,15 +70,8 @@ export function compilerUtils(utils: IPublicTypeUtilsMap) {
     };
 }
 
-interface CallBackParam {
-    import: ImportSource[]
-    code: string
-    export: string[]
-}
-
-export function genGlobalStateCode(schema: IPublicTypeProjectSchema, callback?: {
-    afterConfig?: (params: CallBackParam) => void
-}) {
+export function genGlobalStateCode(fileTree: FileTree, options: GenOptions): void {
+    const { schema, outDir, globalCallback } = options;
     globalStateKeys.length = 0;
     hasGlobal = !!(schema.code || schema.config || schema.utils);
     if (!hasGlobal)
@@ -90,16 +84,11 @@ export function genGlobalStateCode(schema: IPublicTypeProjectSchema, callback?: 
     };
 
     if (schema.config) {
-        result.import.push({
-            type: ImportType.ImportSpecifier,
-            imported: 'reactive',
-            source: 'vue',
-        });
         result.code += `
     const letgoContext = ${JSON.stringify(schema.config || {})};
         `;
         result.export.push('letgoContext');
-        callback?.afterConfig?.(result);
+        globalCallback?.afterConfig?.(result);
     }
 
     if (schema.utils) {
@@ -110,7 +99,7 @@ export function genGlobalStateCode(schema: IPublicTypeProjectSchema, callback?: 
     }
 
     if (schema.code) {
-        const _result = genCode(schema.code);
+        const _result = genCode(`${outDir}/${GLOBAL_STATE_FILE_NAME}.js`, schema.code);
         result.import.push(..._result.importSources);
         result.code += _result.code;
         result.export.push(...genGlobalStateKeys(schema.code));
@@ -122,13 +111,11 @@ export function genGlobalStateCode(schema: IPublicTypeProjectSchema, callback?: 
 
     globalStateKeys.push(...result.export);
 
-    return {
-        filename: `${GLOBAL_STATE_FILE_NAME}.js`,
-        content: tmp,
-    };
+    fileTree[`${outDir}/${GLOBAL_STATE_FILE_NAME}.js`] = tmp;
 }
 
-export function applyGlobalState(): SetupCode {
+export function applyGlobalState(filePath: string): SetupCode {
+    const { outDir } = getOptions();
     if (!getGlobalFlag()) {
         return {
             importSources: [],
@@ -139,7 +126,7 @@ export function applyGlobalState(): SetupCode {
         importSources: [{
             imported: 'useSharedLetgoGlobal',
             type: ImportType.ImportSpecifier,
-            source: `@/use/${GLOBAL_STATE_FILE_NAME}`,
+            source: relative(filePath, `${outDir}/${GLOBAL_STATE_FILE_NAME}`),
         }],
         code: `const {${getGlobalContextKey().join(', ')}} = useSharedLetgoGlobal()`,
     };

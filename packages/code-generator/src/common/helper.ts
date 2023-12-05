@@ -1,3 +1,4 @@
+import path from 'node:path';
 import type {
     CodeItem,
     CodeStruct,
@@ -17,9 +18,9 @@ import {
     isRestQueryResource,
 } from '@harrywan/letgo-types';
 import { isPlainObject } from 'lodash-es';
+import { getOptions, relative } from '../options';
 import type { ImportSource, SetupCode } from './types';
 import { ImportType } from './types';
-
 import { compilerEventHandlers } from './events';
 
 export function genSingleImport(imports: ImportSource[]) {
@@ -103,8 +104,8 @@ export function genImportCode(imports: ImportSource[]) {
         })
         .sort(
             (
-                a: { source: string; priority: number },
-                b: { source: string; priority: number },
+                a: { source: string, priority: number },
+                b: { source: string, priority: number },
             ) => {
                 return a.priority - b.priority;
             },
@@ -199,10 +200,15 @@ function eventSchemaToFunc(events: IPublicTypeEventHandler[] = []) {
     }, [] as string[]);
 }
 
-export function genCode(codeStruct: CodeStruct): SetupCode {
+export function genCode(filePath: string, codeStruct: CodeStruct): SetupCode {
     if (!codeStruct)
         return null;
 
+    const options = getOptions();
+    if (!options)
+        return;
+
+    const { outDir } = options;
     const codeMap = genCodeMap(codeStruct);
     const sortResult = sortState(codeMap);
     const codeStr: string[] = [];
@@ -213,7 +219,7 @@ export function genCode(codeStruct: CodeStruct): SetupCode {
             importSourceMap.set('useTemporaryState', {
                 imported: 'useTemporaryState',
                 type: ImportType.ImportSpecifier,
-                source: '@/use/useTemporaryState',
+                source: relative(filePath, `${outDir}/useTemporaryState`),
             });
             codeStr.push(`
     const ${item.id} = useTemporaryState({
@@ -226,7 +232,7 @@ export function genCode(codeStruct: CodeStruct): SetupCode {
             importSourceMap.set('useComputed', {
                 imported: 'useComputed',
                 type: ImportType.ImportSpecifier,
-                source: '@/use/useComputed',
+                source: relative(filePath, `${outDir}/useComputed`),
             });
             codeStr.push(`
     const ${item.id} = useComputed({
@@ -244,12 +250,12 @@ export function genCode(codeStruct: CodeStruct): SetupCode {
             importSourceMap.set('useJSQuery', {
                 imported: 'useJSQuery',
                 type: ImportType.ImportSpecifier,
-                source: '@/use/useJSQuery',
+                source: relative(filePath, `${outDir}/useJSQuery`),
             });
             if (isRestQueryResource(item)) {
                 importSourceMap.set('letgoRequest', {
                     type: ImportType.ImportSpecifier,
-                    source: '@/common/letgoRequest',
+                    source: relative(filePath, `${outDir}/letgoRequest`),
                     imported: 'letgoRequest',
                 });
                 const api = isSyntaxError(item.api) ? JSON.stringify(item.api) : item.api;

@@ -11,7 +11,7 @@ export default {
             area: 'leftArea',
             type: 'Widget',
             render: () => (
-                <FTooltip content="全局" placement="right">
+                <FTooltip content="全局逻辑" placement="right">
                     <GlobalActions designer={designer} />
                 </FTooltip>
             ),

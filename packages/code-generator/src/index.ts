@@ -39,23 +39,3 @@ export function genPageCode(schema: IPublicTypeProjectSchema, transform?: (files
         return acc;
     }, {} as Record<string, any>);
 }
-
-// debug func
-export async function saveFile(rootComponents: FileStruct[]) {
-    const content = toAssemble(rootComponents[0]);
-    const options = {
-        types: [
-            {
-                description: 'vue jsx',
-                accept: {
-                    'text/plain': ['.jsx'],
-                },
-            },
-        ],
-    };
-    const handle = await window.showSaveFilePicker(options);
-    const writable = await handle.createWritable();
-    await writable.write(content);
-    await writable.close();
-    return handle;
-}

@@ -1,6 +1,5 @@
 export const DEFAULT_CONTENT = {
     src: {
-        pages: {},
         common: {
             'letgoConstants.js': `
 export const RunCondition = {

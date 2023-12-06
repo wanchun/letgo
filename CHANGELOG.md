@@ -1,3 +1,15 @@
+# [0.0.0-beta.50](https://git.weoa.com/mumblefe/letgo/compare/v0.0.0-beta.49...v0.0.0-beta.50) (2023-12-06)
+
+
+### Features
+
+* global插件内置 ([8f3f282](https://git.weoa.com/mumblefe/letgo/commits/8f3f28242f008cdd2a166dbd0b8ad9fc4a6cf152))
+* 同步lock文件 ([989213c](https://git.weoa.com/mumblefe/letgo/commits/989213cd9c8897a51bab1312ad6050e03f9288b2))
+* 更改文案 ([933706b](https://git.weoa.com/mumblefe/letgo/commits/933706b4950e76ce7dfa0a3d53a55ccf0e65fafb))
+* 更改文案 ([9aa3f47](https://git.weoa.com/mumblefe/letgo/commits/9aa3f47fd0b31117203725aa25383d6a1fbc492d))
+
+
+
 # [0.0.0-beta.49](https://git.weoa.com/mumblefe/letgo/compare/v0.0.0-beta.48...v0.0.0-beta.49) (2023-11-28)
 
 

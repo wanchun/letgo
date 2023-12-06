@@ -1,6 +1,6 @@
 {
     "name": "@harrywan/letgo-engine-plugin",
-    "version": "0.0.0-beta.47",
+    "version": "0.0.0-beta.48",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -18,7 +18,7 @@
         "@harrywan/letgo-common": "^0.0.0-beta.46",
         "@harrywan/letgo-designer": "^0.0.0-beta.47",
         "@harrywan/letgo-editor-core": "^0.0.0-beta.46",
-        "@harrywan/letgo-editor-skeleton": "^0.0.0-beta.47",
+        "@harrywan/letgo-editor-skeleton": "^0.0.0-beta.48",
         "@harrywan/letgo-types": "^0.0.0-beta.46",
         "lodash-es": "^4.17.21",
         "semver": "^7.3.5"

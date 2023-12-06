@@ -47,8 +47,7 @@ function genCommonCode(fileTree: FileTree, options: GenOptions) {
 function genGlobalCss(fileTree: FileTree, options: GenOptions) {
     const { outDir, schema, globalCssFileName } = options;
 
-    if (schema.css)
-        fileTree[`${outDir}/${globalCssFileName}`] = schema.css;
+    fileTree[`${outDir}/${globalCssFileName}`] = schema.css ?? '';
 }
 
 export function gen(_options: GenOptions): FileTree {

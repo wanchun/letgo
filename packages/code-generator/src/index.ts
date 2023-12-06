@@ -21,7 +21,7 @@ function genPackageJSON(result: FileTree, options: GenOptions) {
     if (extraPackageJSON)
         merge(packageJSON, extraPackageJSON);
 
-    result['package.json'] = JSON.stringify(packageJSON);
+    result['package.json'] = JSON.stringify(packageJSON, null, 4);
 }
 
 function genPageCode(fileTree: FileTree, options: GenOptions) {

@@ -1,3 +1,12 @@
+# [0.0.0-beta.52](https://git.weoa.com/mumblefe/letgo/compare/v0.0.0-beta.51...v0.0.0-beta.52) (2023-12-06)
+
+
+### Bug Fixes
+
+* 修复问题 ([8ba9625](https://git.weoa.com/mumblefe/letgo/commits/8ba962514812dcd53d002c7f89d57fda0aa5f5d0))
+
+
+
 # [0.0.0-beta.51](https://git.weoa.com/mumblefe/letgo/compare/v0.0.0-beta.50...v0.0.0-beta.51) (2023-12-06)
 
 

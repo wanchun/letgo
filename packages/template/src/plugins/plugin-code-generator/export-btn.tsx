@@ -96,15 +96,6 @@ export default defineComponent({
                 },
             });
 
-            if (schema.css) {
-                const cssFilePath = ['src', 'global.less'];
-                const defaultCss = get(fileTree, cssFilePath) || '';
-                set(fileTree, cssFilePath, `
-                ${defaultCss}
-                ${schema.css}
-                `);
-            }
-
             const customFiles = transform(codeTemplate, {
                 SVG_SPRITE: getIconSprite(schema.icons ?? []),
                 IS_MICRO: !isNil(schema.config.mainAppState),

@@ -44,6 +44,13 @@ function genCommonCode(fileTree: FileTree, options: GenOptions) {
     });
 }
 
+function genGlobalCss(fileTree: FileTree, options: GenOptions) {
+    const { outDir, schema, globalCssFileName } = options;
+
+    if (schema.css)
+        fileTree[`${outDir}/${globalCssFileName}`] = schema.css;
+}
+
 export function gen(_options: GenOptions): FileTree {
     const options = setOptions(_options);
     const fileTree: FileTree = {};
@@ -56,6 +63,9 @@ export function gen(_options: GenOptions): FileTree {
 
     // 处理全局代码
     genGlobalStateCode(fileTree, options);
+
+    // 处理全局样式
+    genGlobalCss(fileTree, options);
 
     // 处理页面代码
     genPageCode(fileTree, options);

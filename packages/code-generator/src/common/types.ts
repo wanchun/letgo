@@ -5,10 +5,11 @@ export interface GenOptions {
     outDir?: string
     pageDir?: string
     extraPackageJSON?: Record<string, any>
-    pageTransform: (filesStruct: FileStruct[]) => FileStruct[]
-    globalCallback?: {
+    pageTransform?: (filesStruct: FileStruct[]) => FileStruct[]
+    globalCodeCallback?: {
         afterConfig?: (params: CallBackParam) => void
     }
+    globalCssFileName?: string
 }
 
 export interface FileTree {

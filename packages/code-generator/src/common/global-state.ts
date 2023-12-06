@@ -71,7 +71,7 @@ export function compilerUtils(utils: IPublicTypeUtilsMap) {
 }
 
 export function genGlobalStateCode(fileTree: FileTree, options: GenOptions): void {
-    const { schema, outDir, globalCallback } = options;
+    const { schema, outDir, globalCodeCallback } = options;
     globalStateKeys.length = 0;
     hasGlobal = !!(schema.code || schema.config || schema.utils);
     if (!hasGlobal)
@@ -88,7 +88,7 @@ export function genGlobalStateCode(fileTree: FileTree, options: GenOptions): voi
     const letgoContext = ${JSON.stringify(schema.config || {})};
         `;
         result.export.push('letgoContext');
-        globalCallback?.afterConfig?.(result);
+        globalCodeCallback?.afterConfig?.(result);
     }
 
     if (schema.utils) {

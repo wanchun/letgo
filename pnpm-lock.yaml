@@ -699,9 +699,6 @@ importers:
       '@harrywan/letgo-plugin-device':
         specifier: workspace:*
         version: link:../plugin-device
-      '@harrywan/letgo-plugin-global':
-        specifier: workspace:*
-        version: link:../plugin-global
       '@harrywan/letgo-plugin-schema':
         specifier: workspace:*
         version: link:../plugin-schema

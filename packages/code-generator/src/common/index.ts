@@ -1,16 +1,14 @@
 import type {
     IPublicTypeComponentMap,
-
     IPublicTypeNodeData,
     IPublicTypeProjectSchema,
     IPublicTypeRootSchema,
 } from '@harrywan/letgo-types';
-
 import { genScript } from './script';
 import { traverseNodeSchema } from './helper';
 import { formatFileName, formatPageName, formatPageTitle } from './page-meta';
 import { PageFileType } from './types';
-import type { FileStruct } from './types';
+import type { FileStruct, GenOptions } from './types';
 import { genPageJsx, genSlots } from './jsx/gen-jsx';
 
 function getComponentRefs(
@@ -47,6 +45,7 @@ function compileRootSchema(
             componentMaps,
             rootSchema,
             componentRefs,
+            fileName,
         });
 
         return {

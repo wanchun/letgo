@@ -1,16 +1,16 @@
 import { defineComponent } from 'vue';
 import { material, project } from '@harrywan/letgo-engine';
-import type { IPublicTypePackage, IPublicTypeProjectSchema } from '@harrywan/letgo-types';
+import type { IPublicTypePackage } from '@harrywan/letgo-types';
 import {
-    DEFAULT_CONTENT, ImportType, exportZip,
-    genGlobalStateCode, genPackageJSON, genPageCode,
+    ImportType,
+    exportZip,
+    gen,
 } from '@harrywan/letgo-code-generator';
 import { IPublicEnumTransformStage, isProCodeComponentType, isRestQueryResource } from '@harrywan/letgo-types';
 import { getIconSprite } from '@harrywan/letgo-common';
 import { FButton, FMessage } from '@fesjs/fes-design';
 import { DownloadOutlined } from '@fesjs/fes-design/icon';
 import { forEach, get, isNil, isObject, isString, merge, set } from 'lodash-es';
-import type { GlobalStateCode } from '@harrywan/letgo-code-generator';
 import Mustache from 'mustache';
 import codeTemplate from './template';
 
@@ -26,91 +26,6 @@ function transform(codeTemplate: Template, params?: Record<string, any>) {
         else if (isObject(value))
             transform(value, params); // 递归遍历嵌套对象
     });
-}
-
-function findAPIPrefix(schema: IPublicTypeProjectSchema) {
-    if (schema.code) {
-        for (const code of schema.code.code) {
-            if (isRestQueryResource(code) && code.api)
-                return `/${code.api.split('/')[1]}`;
-        }
-    }
-    for (const compTree of schema.componentsTree) {
-        for (const code of compTree.code.code) {
-            if (isRestQueryResource(code) && code.api)
-                return `/${code.api.split('/')[1]}`;
-        }
-    }
-    return '';
-}
-
-async function genCode({ schema, packages, globalState, globalCss }: {
-    schema: IPublicTypeProjectSchema
-    packages: IPublicTypePackage[]
-    globalState?: GlobalStateCode
-    globalCss?: string
-}) {
-    // 处理 codeTemplate
-    const code = transform(codeTemplate, { SVG_SPRITE: getIconSprite(schema.icons ?? []), IS_MICRO: !isNil(schema.config.mainAppState) });
-
-    const currentContent: any = merge({}, DEFAULT_CONTENT, code);
-    const pages = genPageCode(schema, (filesStruct) => {
-        return filesStruct.map((item) => {
-            item.importSources.unshift({
-                imported: 'defineRouteMeta',
-                type: ImportType.ImportSpecifier,
-                source: '@fesjs/fes',
-            });
-            item.afterImports.push(`defineRouteMeta({
-                name: '${item.routeName}',
-                title: '${item.pageTitle}',
-            })`);
-            return item;
-        });
-    });
-    currentContent.src.pages = Object.assign(currentContent.src.pages, pages);
-
-    if (globalState)
-        (currentContent.src.use as Record<string, string>)[globalState.filename] = globalState.content;
-
-    if (globalCss) {
-        const cssFilePath = ['src', 'global.less'];
-        const defaultCss = get(currentContent, cssFilePath) || '';
-        set(currentContent, cssFilePath, `
-        ${defaultCss}
-        ${globalCss}
-        `);
-    }
-    currentContent['package.json'] = JSON.stringify(genPackageJSON(packages, {
-        scripts: {
-            'build:test': 'FES_ENV=test fes build',
-            'build:prod': 'FES_ENV=prod fes build',
-            'analyze': 'ANALYZE=1 fes build',
-            'dev': 'fes dev',
-            'lint': 'eslint .',
-            'lint:fix': 'eslint . --fix',
-        },
-        dependencies: {
-            '@qlin/request': '0.1.8',
-            'core-js': '3.33.0',
-            '@fesjs/builder-vite': '3.0.2',
-            '@fesjs/fes': '3.1.4',
-            '@fesjs/plugin-model': '3.0.1',
-            '@fesjs/plugin-qiankun': '3.1.1',
-            '@webank/fes-plugin-pmbank-um': '3.1.1',
-            '@fesjs/plugin-request': '4.0.0-beta.5',
-            '@fesjs/fes-design': '0.8.9',
-            'vue': '3.3.4',
-            '@harrywan/letgo-components': '0.0.0-beta.45',
-        },
-        devDependencies: {
-            '@webank/eslint-config-vue': '2.0.7',
-            'eslint': '8.47.0',
-            'typescript': '5.1.3',
-        },
-    }), null, 4);
-
-    exportZip(currentContent);
 }
 
 export default defineComponent({
@@ -133,32 +48,71 @@ export default defineComponent({
                     usedPackages.push(pkg);
                 }
             }
+            schema.packages = usedPackages;
 
-            // 必须先执行，初始化 global 代码生成的上下文
-            const globalState = genGlobalStateCode(schema, {
-                afterConfig: (params) => {
-                    if (schema.config.mainAppState) {
-                        params.import.push({
+            const fileTree = gen({
+                schema,
+                pageTransform: (filesStruct) => {
+                    return filesStruct.map((item) => {
+                        item.importSources.unshift({
+                            imported: 'defineRouteMeta',
                             type: ImportType.ImportSpecifier,
-                            imported: 'useModel',
                             source: '@fesjs/fes',
                         });
-                        params.code = `
-    const mainAppState = useModel('qiankunStateFromMain');
-    ${params.code}
-    letgoContext.mainAppState = mainAppState;
-    `;
-                    }
+                        item.afterImports.push(`defineRouteMeta({
+                            name: '${item.routeName}',
+                            title: '${item.pageTitle}',
+                        })`);
+                        return item;
+                    });
+                },
+                extraPackageJSON: {
+                    scripts: {
+                        'build:test': 'FES_ENV=test fes build',
+                        'build:prod': 'FES_ENV=prod fes build',
+                        'analyze': 'ANALYZE=1 fes build',
+                        'dev': 'fes dev',
+                        'lint': 'eslint .',
+                        'lint:fix': 'eslint . --fix',
+                    },
+                    dependencies: {
+                        '@qlin/request': '0.1.8',
+                        'core-js': '3.33.0',
+                        '@fesjs/builder-vite': '3.0.2',
+                        '@fesjs/fes': '3.1.4',
+                        '@fesjs/plugin-model': '3.0.1',
+                        '@fesjs/plugin-qiankun': '3.1.1',
+                        '@webank/fes-plugin-pmbank-um': '3.1.1',
+                        '@fesjs/plugin-request': '4.0.0-beta.5',
+                        '@fesjs/fes-design': '0.8.9',
+                        'vue': '3.3.4',
+                        '@harrywan/letgo-components': '0.0.0-beta.45',
+                    },
+                    devDependencies: {
+                        '@webank/eslint-config-vue': '2.0.7',
+                        'eslint': '8.47.0',
+                        'typescript': '5.1.3',
+                    },
                 },
             });
-            const globalCss = schema.css;
 
-            genCode({
-                schema,
-                globalState,
-                globalCss,
-                packages,
+            if (schema.css) {
+                const cssFilePath = ['src', 'global.less'];
+                const defaultCss = get(fileTree, cssFilePath) || '';
+                set(fileTree, cssFilePath, `
+                ${defaultCss}
+                ${schema.css}
+                `);
+            }
+
+            const customFiles = transform(codeTemplate, {
+                SVG_SPRITE: getIconSprite(schema.icons ?? []),
+                IS_MICRO: !isNil(schema.config.mainAppState),
             });
+
+            const currentContent = merge({}, fileTree, customFiles);
+
+            exportZip(currentContent);
         };
         return () => {
             return (

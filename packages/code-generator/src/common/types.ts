@@ -1,3 +1,20 @@
+import type { IPublicTypeProjectSchema } from '@harrywan/letgo-types';
+
+export interface GenOptions {
+    schema: IPublicTypeProjectSchema
+    outDir?: string
+    pageDir?: string
+    extraPackageJSON?: Record<string, any>
+    pageTransform: (filesStruct: FileStruct[]) => FileStruct[]
+    globalCallback?: {
+        afterConfig?: (params: CallBackParam) => void
+    }
+}
+
+export interface FileTree {
+    [key: string]: string | FileTree
+}
+
 export enum ImportType {
     ImportDefaultSpecifier = 'ImportDefaultSpecifier',
     ImportAll = 'ImportAll',
@@ -36,4 +53,10 @@ export interface FileStruct {
 export interface GlobalStateCode {
     filename: string
     content: string
+}
+
+export interface CallBackParam {
+    import: ImportSource[]
+    code: string
+    export: string[]
 }

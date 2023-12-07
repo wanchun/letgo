@@ -14,7 +14,7 @@ import type { Editor } from '@harrywan/letgo-editor-core';
 import State from './state/state';
 import CodeSetting from './code/code';
 import CodeEdit from './code/edit/code-edit';
-import { editWrapper, leftPanelCls, panelCls, rightPanelCls, tabsCls } from './panel.css';
+import './panel.less';
 
 export default defineComponent({
     props: {
@@ -28,18 +28,18 @@ export default defineComponent({
     setup(props) {
         return () => {
             return (
-                <div class={panelCls}>
-                    <FTabs class={tabsCls}>
+                <div class="letgo-plg-code">
+                    <FTabs class="letgo-plg-code__tabs">
                         <FTabPane
                             name="编辑"
                             value="code"
                             displayDirective="show"
                         >
-                            <div class={editWrapper}>
-                                <FScrollbar class={leftPanelCls}>
+                            <div class="letgo-plg-code__edit">
+                                <FScrollbar class="letgo-plg-code__edit-left">
                                     <CodeSetting designer={props.designer} />
                                 </FScrollbar>
-                                <FScrollbar class={rightPanelCls}>
+                                <FScrollbar class="letgo-plg-code__edit-right">
                                     <CodeEdit designer={props.designer} />
                                 </FScrollbar>
                             </div>

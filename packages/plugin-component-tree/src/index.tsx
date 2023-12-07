@@ -11,8 +11,8 @@ import type { Designer, INode } from '@harrywan/letgo-designer';
 import type { Editor } from '@harrywan/letgo-editor-core';
 import { FInput, FScrollbar, FTooltip, FTree } from '@fesjs/fes-design';
 import { SearchOutlined } from '@fesjs/fes-design/icon';
-import { iconCls, nodeIconCls, searchCls, treeCls, wrapperCls } from './index.css';
 import { SuffixView } from './suffix';
+import './component-tree.less'
 
 interface Option {
     value: string
@@ -30,12 +30,12 @@ export function transformNode(node: INode, isSlot = false): Option {
     option.children = [...node.slots.map(node => transformNode(node, true)), ...node.children.getNodes().map(node => transformNode(node))];
     option.prefix = () => {
         if (node.componentName === 'Page')
-            return <Page class={nodeIconCls} theme="outline" />;
+            return <Page class="letgo-comp-tree__icon letgo-comp-tree__icon--node" theme="outline" />;
 
         if (isSlot)
-            return <Plug class={nodeIconCls} theme="outline" />;
+            return <Plug class="letgo-comp-tree__icon letgo-comp-tree__icon--node" theme="outline" />;
 
-        return <FigmaComponent class={nodeIconCls} theme="outline" />;
+        return <FigmaComponent class="letgo-comp-tree__icon letgo-comp-tree__icon--node" theme="outline" />;
     };
     option.suffix = () => {
         return <SuffixView node={node} style={{ marginRight: '8px' }}></SuffixView>;
@@ -94,8 +94,8 @@ const ComponentTreeView = defineComponent({
 
         return () => {
             return (
-                <div class={wrapperCls}>
-                    <div class={searchCls}>
+                <div class="letgo-comp-tree">
+                    <div class="letgo-comp-tree__search">
                         <FInput
                             placeholder="请输入"
                             clearable
@@ -106,7 +106,7 @@ const ComponentTreeView = defineComponent({
                         >
                         </FInput>
                     </div>
-                    <FScrollbar class={treeCls} contentStyle={{ marginTop: '8px' }}>
+                    <FScrollbar class="letgo-comp-tree__body" contentStyle={{ marginTop: '8px' }}>
                         <FTree
                             ref={refTree}
                             data={data.value}
@@ -131,7 +131,7 @@ export default {
             name: 'PluginComponentTreeWidget',
             render: () => (
                 <FTooltip content="大纲树" placement="right">
-                    <TreeList theme="outline" class={iconCls} />
+                    <TreeList theme="outline" class="letgo-comp-tree__icon" />
                 </FTooltip>
             ),
         }).link(

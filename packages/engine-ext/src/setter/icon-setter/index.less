@@ -1,0 +1,52 @@
+.letgo-color-setter {
+    display: flex;
+    align-items: center;
+    position: relative;
+    border: 1px solid #cfd0d3;
+    border-radius: 4px;
+    height: 32px;
+    line-height: 32px;
+    width: 100%;
+    padding: 0 8px;
+    &:hover {
+        border-color: var(--letgo-primary-color);
+        box-shadow: 0 0 0 2px #dde6ff;
+    }
+}
+
+.letgo-color-setter__input {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+
+.letgo-color-setter__box {
+    width: 20px;
+    height: 20px;
+}
+
+.letgo-color-setter__text {
+    flex: 1;
+    margin-left: 12px;
+    color: var(--letgo-text-color);
+}
+
+.letgo-color-setter__text--null {
+    margin-left: -20px;
+    color: var(--letgo-text-color-caption);
+}
+
+.letgo-color-setter__icon {
+    position: relative;
+    z-index: 2;
+    color: #cfd0d3;
+    cursor: pointer;
+}
+.letgo-color-setter__icons {
+    width: 200px
+}
+

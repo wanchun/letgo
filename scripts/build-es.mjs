@@ -62,6 +62,7 @@ async function buildFile(filePath, outputDir) {
                         || id.endsWith('.css')
                         || id.endsWith('.css.ts')
                         || id.endsWith('vanilla.css')
+                        || id.endsWith('.less')
                     )
                         return false;
 

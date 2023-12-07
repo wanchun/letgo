@@ -3,7 +3,7 @@ import { defineComponent } from 'vue';
 
 import { isFunction } from 'lodash-es';
 import TreeNode from './tree-node';
-import { treeCls } from './tree.css';
+import './tree.less';
 
 export default defineComponent({
     name: 'Tree',
@@ -14,7 +14,7 @@ export default defineComponent({
     },
     setup(props) {
         return () => {
-            return <div class={treeCls}>
+            return <div class="letgo-plg-code-tree">
                 {
                     props.value && Object.keys(props.value).map((key) => {
                         if (isFunction(props.value[key]))

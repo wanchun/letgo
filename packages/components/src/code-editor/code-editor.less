@@ -1,0 +1,41 @@
+
+.letgo-comp-code {
+    display: block;
+    position: relative;
+    width: 100%;
+    &.is-bordered {
+        .cm-editor {
+            border: 1px solid var(--letgo-border-color);
+            border-radius: 4px;
+            &.cm-focused {
+                border: 1px solid var(--letgo-primary-color);
+                box-shadow: 0 0 0 2px #dde6ff;
+                outline: none;
+            }
+        }
+    }
+}
+
+.letgo-comp-code__full-icon {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.letgo-comp-code__full-screen {
+    .fes-scrollbar-container {
+        padding: 0;
+    }
+    .fes-scrollbar-content {
+        height: 100%;
+    }
+    .cm-editor {
+        border-radius: 0;
+        border-right: none;
+        border-left: none;
+        height: 100%;
+    }
+}
+

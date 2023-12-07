@@ -18,6 +18,7 @@ import PluginComponents from '@harrywan/letgo-plugin-components';
 import PluginComponentTree from '@harrywan/letgo-plugin-component-tree';
 import PluginCode from '@harrywan/letgo-plugin-code';
 import PluginGlobalConfig from '@harrywan/letgo-plugin-global';
+import './global.less'
 
 export type { IPluginConfig } from '@harrywan/letgo-engine-plugin';
 

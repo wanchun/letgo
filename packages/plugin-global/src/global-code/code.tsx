@@ -5,7 +5,7 @@ import { CodeList } from '@harrywan/letgo-components';
 import type { CodeItem } from '@harrywan/letgo-types';
 import { innerGlobalVariable } from '@harrywan/letgo-common';
 import CodeEdit from './edit/code-edit';
-import { globalCodeCls, leftPanelCls, rightPanelCls } from './code.css';
+import  './code.less';
 
 export const GlobalCode = defineComponent({
     name: 'GlobalCode',
@@ -32,9 +32,9 @@ export const GlobalCode = defineComponent({
 
         return () => {
             return (
-                <div class={globalCodeCls}>
+                <div class="letgo-global__code">
                     <CodeList
-                        class={leftPanelCls}
+                        class="letgo-global__code-left"
                         hasFunction
                         code={code.value}
                         hasCodeId={hasCodeId}
@@ -42,7 +42,7 @@ export const GlobalCode = defineComponent({
                         onChangeCurrentCodeItem={changeCurrentCodeItem}
                         codesInstance={codesInstance.value}
                     />
-                    <CodeEdit class={rightPanelCls} project={props.designer.project} codeItem={currentCodeItem.value} />
+                    <CodeEdit class="letgo-global__code-right" project={props.designer.project} codeItem={currentCodeItem.value} />
                 </div>
             );
         };

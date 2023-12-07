@@ -6,8 +6,8 @@ import type { IPublicTypeJSSlot, IPublicTypeSetter } from '@harrywan/letgo-types
 import { FGrid, FGridItem, FTooltip } from '@fesjs/fes-design';
 import { CloseCircleFilled } from '@fesjs/fes-design/icon';
 import { commonProps } from '../../common';
-import { iconBoxCls, iconCls, iconsCls, inputCls, textCls, textNullCls, wrapCls } from './index.css';
 import Icon from './icon';
+import './index.less';
 
 function getIconList() {
     const iframe = document.querySelector<HTMLIFrameElement>(
@@ -118,7 +118,7 @@ const IconSetterView = defineComponent({
 
         const renderIcons = () => {
             return (
-                <FGrid class={iconsCls} wrap gutter={[10, 10]}>
+                <FGrid class="letgo-color-setter__icons" wrap gutter={[10, 10]}>
                     {Object.keys(icons).map((name) => {
                         return (
                             <FGridItem span={3}>
@@ -134,22 +134,22 @@ const IconSetterView = defineComponent({
             return (
                 <FTooltip mode="popover" placement="left" v-slots={{ content: renderIcons }}>
                     <div
-                        class={wrapCls}
+                        class="letgo-color-setter"
                         onMouseenter={() => { isHoverRef.value = true; }}
                         onMouseleave={() => { isHoverRef.value = false; }}
                     >
-                        <div class={iconBoxCls}>
+                        <div class="letgo-color-setter__box">
                             <Icon type={iconName.value} size={20} icons={icons} />
                         </div>
-                        <div class={[iconName.value ? textCls : textNullCls]}>{iconName.value || props.placeholder}</div>
+                        <div class={['letgo-color-setter__text', !iconName.value && 'letgo-color-setter__text--null']}>{iconName.value || props.placeholder}</div>
                         <input
-                            class={inputCls}
+                            class="letgo-color-setter__input"
                             readonly
                             value={iconName.value}
                         ></input>
                         <CloseCircleFilled
                             v-show={isHoverRef.value}
-                            class={iconCls}
+                            class="letgo-color-setter__icon"
                             onClick={() => handleChange()}
                         />
                     </div>

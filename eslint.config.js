@@ -12,4 +12,14 @@ export default await antfu({
     },
     typescript: true,
     vue: true,
+    overrides: {
+        javascript: {
+            languageOptions: {
+                globals: {
+                    ENGINE_VERSION_PLACEHOLDER: true,
+                    ENGINE_EXT_VERSION_PLACEHOLDER: true
+                },
+            },
+        },
+    },
 });

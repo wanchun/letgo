@@ -1,6 +1,7 @@
 import path from 'node:path';
 import process from 'node:process';
 import pc from 'picocolors';
+import fse from 'fs-extra';
 import { Project } from 'ts-morph';
 import { compilePkg, compilerFile } from './build-es.mjs';
 import { getNeedCompileEsPkg, getOutputDirFromFilePath } from './build-shard.mjs';
@@ -42,6 +43,19 @@ async function getPkgsTypeProject() {
     const pkgs = getNeedCompileEsPkg();
     for (const pkg of pkgs)
         projects[pkg] = await genPkgType(pkg);
+}
+
+async function genType(sourceFile) {
+    const emitOutput = sourceFile.getEmitOutput();
+
+    for (const outputFile of emitOutput.getOutputFiles()) {
+        const filePath = outputFile
+            .getFilePath()
+            .replace('/es/src', '/es')
+            .replace('\\es\\src', '\\es');
+
+        await fse.outputFileSync(filePath, outputFile.getText(), 'utf8');
+    }
 }
 
 async function handleFileUpdateType(filePath) {

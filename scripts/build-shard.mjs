@@ -2,6 +2,8 @@ import path from 'node:path';
 import process from 'node:process';
 import fse from 'fs-extra';
 
+const argv = minimist(process.argv.slice(2));
+
 export const PACKAGE_PATH = path.join(process.cwd(), './packages');
 
 export const extensions = ['.js', '.vue', '.jsx', '.json', '.ts', '.tsx'];
@@ -15,11 +17,11 @@ export function getLibOutputPath(pkg) {
 }
 
 export function isWatch() {
-    return process.argv.includes('--watch');
+    return argv.watch;
 }
 
 export function includeTypeInBuild() {
-    return process.argv.includes('--types');
+    return argv.types;
 }
 
 export function getResourcePath(pkg) {
@@ -27,6 +29,9 @@ export function getResourcePath(pkg) {
 }
 
 export function getNeedCompileEsPkg() {
+    if (argv._.length)
+        return argv._;
+
     const pkgs = fse.readdirSync(PACKAGE_PATH);
     return pkgs.filter(
         item =>

@@ -3,7 +3,7 @@ export const defaultPackageJSON: Record<string, any> = {
     version: '1.0.0',
     license: 'MIT',
     dependencies: {
-        'core-js': '3.32.1',
+        'core-js': '3.34.0',
         'vue': '3.3.4',
         '@vueuse/core': '10.4.1',
         'lodash-es': '4.17.8',

@@ -1,4 +1,5 @@
 import type { CodeStruct, IPublicTypeNpmInfo, IPublicTypeUtilsMap } from '@harrywan/letgo-types';
+import { set } from 'lodash-es';
 import { getOptions, relative } from '../options';
 import { genCode, genCodeMap, genImportCode } from './helper';
 import type { CallBackParam, FileTree, GenOptions, ImportSource, SetupCode } from './types';
@@ -111,7 +112,7 @@ export function genGlobalStateCode(fileTree: FileTree, options: GenOptions): voi
 
     globalStateKeys.push(...result.export);
 
-    fileTree[`${outDir}/${GLOBAL_STATE_FILE_NAME}.js`] = tmp;
+    set(fileTree, `${outDir}/${GLOBAL_STATE_FILE_NAME}.js`.split('/'), tmp);
 }
 
 export function applyGlobalState(filePath: string): SetupCode {

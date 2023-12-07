@@ -10,7 +10,7 @@ import { IPublicEnumTransformStage, isProCodeComponentType, isRestQueryResource 
 import { getIconSprite } from '@harrywan/letgo-common';
 import { FButton, FMessage } from '@fesjs/fes-design';
 import { DownloadOutlined } from '@fesjs/fes-design/icon';
-import { forEach, get, isNil, isObject, isString, merge, set } from 'lodash-es';
+import { forEach, isNil, isObject, isString, merge } from 'lodash-es';
 import Mustache from 'mustache';
 import codeTemplate from './template';
 

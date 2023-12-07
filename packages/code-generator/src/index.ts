@@ -1,4 +1,4 @@
-import { merge } from 'lodash-es';
+import { merge, set } from 'lodash-es';
 import type { FileTree, GenOptions } from './common/types';
 import { genFileName } from './common/page-meta';
 import { toAssemble } from './common/build';
@@ -11,7 +11,7 @@ export * from './common/types';
 export * from './export-zip';
 export { getOptions } from './options';
 
-function genPackageJSON(result: FileTree, options: GenOptions) {
+function genPackageJSON(fileTree: FileTree, options: GenOptions) {
     const { schema, extraPackageJSON } = options;
     const packageJSON: Record<string, any> = defaultPackageJSON;
     schema?.packages.forEach((item) => {
@@ -21,7 +21,7 @@ function genPackageJSON(result: FileTree, options: GenOptions) {
     if (extraPackageJSON)
         merge(packageJSON, extraPackageJSON);
 
-    result['package.json'] = JSON.stringify(packageJSON, null, 4);
+    fileTree['package.json'] = JSON.stringify(packageJSON, null, 4);
 }
 
 function genPageCode(fileTree: FileTree, options: GenOptions) {
@@ -33,21 +33,21 @@ function genPageCode(fileTree: FileTree, options: GenOptions) {
         return acc;
     }, {} as Record<string, any>);
 
-    fileTree[pageDir] = pages;
+    set(fileTree, pageDir.split('/'), pages);
 }
 
 function genCommonCode(fileTree: FileTree, options: GenOptions) {
     const { outDir } = options;
 
     Object.keys(defaultCodes).forEach((key) => {
-        fileTree[`${outDir}/${key}`] = defaultCodes[key as keyof typeof defaultCodes];
+        set(fileTree, `${outDir}/${key}`.split('/'), defaultCodes[key as keyof typeof defaultCodes]);
     });
 }
 
 function genGlobalCss(fileTree: FileTree, options: GenOptions) {
     const { outDir, schema, globalCssFileName } = options;
 
-    fileTree[`${outDir}/${globalCssFileName}`] = schema.css ?? '';
+    set(fileTree, `${outDir}/${globalCssFileName}`.split('/'), schema.css ?? '');
 }
 
 export function gen(_options: GenOptions): FileTree {

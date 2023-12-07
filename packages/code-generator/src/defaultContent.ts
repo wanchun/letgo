@@ -1,7 +1,4 @@
 export const defaultPackageJSON: Record<string, any> = {
-    name: '@letgo/gen-code',
-    version: '1.0.0',
-    license: 'MIT',
     dependencies: {
         'core-js': '3.32.1',
         'vue': '3.3.4',

@@ -1,6 +1,6 @@
 import path from 'node:path';
 import process from 'node:process';
-import chalk from 'chalk';
+import pc from 'picocolors';
 import { Project } from 'ts-morph';
 import { compilePkg, compilerFile } from './build-es.mjs';
 import { getNeedCompileEsPkg, getOutputDirFromFilePath } from './build-shard.mjs';
@@ -90,8 +90,8 @@ async function handleFileUpdateEs(filePath) {
         const extname = path.extname(filePath);
         if (['.css', '.ts', '.tsx'].includes(extname)) {
             console.log(
-                chalk.dim(winPath(filePath).split('/letgo')[1]),
-                chalk.blue('updated'),
+                pc.dim(winPath(filePath).split('/letgo')[1]),
+                pc.blue('updated'),
             );
         }
     }

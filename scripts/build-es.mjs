@@ -5,7 +5,7 @@ import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 import dts from 'vite-plugin-dts';
-import chalk from 'chalk';
+import pc from 'picocolors';
 import enginePkg from '../packages/engine/package.json' assert { type: 'json' };
 import {
     getEsOutputPath,
@@ -77,11 +77,11 @@ async function buildFile(filePath, outputDir) {
                 },
             },
         },
-        logLevel: 'warn'
+        logLevel: 'warn',
     });
     const endTime = Date.now();
     console.log(
-        chalk.green(`✓ /packages${filePath.split('/packages')[1]} built in ${endTime-startTime}ms`),
+        pc.green(`✓ /packages${filePath.split('/packages')[1]} built in ${endTime - startTime}ms`),
     );
 }
 

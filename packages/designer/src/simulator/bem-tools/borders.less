@@ -1,0 +1,75 @@
+.letgo-designer-sim__border {
+    box-sizing: border-box;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    border: 1px solid rgba(25, 122, 255, 1);
+    will-change: transform, width, height;
+    overflow: visible;
+
+    &-title {
+        display: inline-block;
+        color: rgba(25, 122, 255, 1);
+        transform: translateY(-100%);
+        font-weight: lighter;
+    }
+
+    &-status {
+        display: inline-block;
+        margin-left: 5px;
+        color: #3c3c3c;
+        transform: translateY(-100%);
+        font-weight: lighter;
+    }
+
+    &-actions {
+        position: absolute;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: stretch;
+        justify-content: flex-end;
+        pointer-events: all;
+
+        > * {
+            flex-shrink: 0;
+        }
+    }
+
+    &-action {
+        cursor: pointer;
+        height: 20px;
+        width: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0; 108; 255; 1);
+        opacity: 1;
+        max-height: 100%;
+        overflow: hidden;
+        color: #ffffff;
+        &:hover {
+            background: rgba(25; 122; 255; 1);
+        }
+
+        .i-icon {
+            line-height: 1em;
+        }
+    }
+
+    &--detecting {
+        z-index: 1;
+        border-style: dashed;
+        background: rgba(0, 121, 242, .04);
+    }
+
+    &--selecting {
+        z-index: 2;
+        border-width: 2px;
+    }
+    &--dragging {
+        background: rgba(182, 178, 178, 0.8);
+        border: none;
+    }
+}

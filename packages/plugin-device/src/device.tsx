@@ -3,7 +3,7 @@ import { defineComponent, onBeforeUnmount, shallowRef } from 'vue';
 import { Computer, Phone } from '@icon-park/vue-next';
 import type { Designer, Simulator } from '@harrywan/letgo-designer';
 import type { IPublicTypeDevice } from '@harrywan/letgo-types';
-import { iconCls, isActiveCls, wrapperCls } from './device.css';
+import './device.less';
 
 export const DeviceView = defineComponent({
     name: 'DeviceView',
@@ -36,11 +36,11 @@ export const DeviceView = defineComponent({
 
         return () => {
             return (
-                <div class={wrapperCls}>
-                    <span class={[iconCls, isActive('default') && isActiveCls]} onClick={() => onChange('default')}>
+                <div class="letgo-plg-device">
+                    <span class={['letgo-plg-device__icon', isActive('default') && 'letgo-plg-device__icon--active']} onClick={() => onChange('default')}>
                         <Computer theme="outline" strokeWidth={3} />
                     </span>
-                    <span class={[iconCls, isActive('mobile') && isActiveCls]} onClick={() => onChange('mobile')}>
+                    <span class={['letgo-plg-device__icon', isActive('mobile') && 'letgo-plg-device__icon--active']} onClick={() => onChange('mobile')}>
                         <Phone theme="outline" strokeWidth={3} />
                     </span>
                 </div>

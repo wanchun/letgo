@@ -6,19 +6,14 @@ import { SimulatorView } from '../simulator';
 import type { Project } from '../project';
 import type { Designer } from './designer';
 import { DragHostView } from './drag-host';
-import {
-    designerCls,
-    loadingCls,
-    projectCls,
-    projectContentCls,
-} from './designer-view.css';
+import './designer-view.less';
 
 const BuiltinLoading = defineComponent({
     setup() {
         return () => {
             return (
-                <div class={loadingCls}>
-                    <FSpin size={'large'} />
+                <div class="letgo-designer__loading">
+                    <FSpin size="large" />
                 </div>
             );
         };
@@ -48,8 +43,8 @@ export const ProjectView = defineComponent({
         return () => {
             const { simulatorProps } = designer;
             return (
-                <div class={projectCls}>
-                    <div class={projectContentCls}>
+                <div class="letgo-designer__project">
+                    <div class="letgo-designer__project-content">
                         {!isReady.value && <BuiltinLoading />}
                         <SimulatorView simulatorProps={simulatorProps} />
                     </div>
@@ -117,7 +112,7 @@ export const DesignerView = defineComponent({
 
         return () => {
             return (
-                <div class={designerCls}>
+                <div class="letgo-designer">
                     <DragHostView designer={designer} />
                     <ProjectView designer={designer} />
                 </div>

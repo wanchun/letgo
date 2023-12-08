@@ -3,7 +3,6 @@ import { computed, defineComponent, inject } from 'vue';
 import { FCollapseItem, FGrid, FGridItem, FSelect, FSpace } from '@fesjs/fes-design';
 import { useModel } from '@harrywan/letgo-common';
 import { InputUnit, Row } from '../../../component';
-import { lightCls } from '../index.css';
 import { getPlaceholderPropertyValue } from '../../../common';
 import { styleKey } from '../const';
 
@@ -184,14 +183,15 @@ export const LayoutView = defineComponent({
                                     return (
                                         <FSpace>
                                             <span>{value}</span>
-                                            <span class={lightCls}>
+                                            <span class="letgo-setter-style__light">
                                                 {description}
                                             </span>
                                         </FSpace>
                                     );
                                 },
                             }}
-                        ></FSelect>
+                        >
+                        </FSelect>
                     </Row>
                     {isFlex.value && (
                         <>
@@ -219,14 +219,15 @@ export const LayoutView = defineComponent({
                                             return (
                                                 <FSpace>
                                                     <span>{value}</span>
-                                                    <span class={lightCls}>
+                                                    <span class="letgo-setter-style__light">
                                                         {description}
                                                     </span>
                                                 </FSpace>
                                             );
                                         },
                                     }}
-                                ></FSelect>
+                                >
+                                </FSelect>
                             </Row>
                             <Row label="主轴对齐">
                                 <FSelect
@@ -252,14 +253,15 @@ export const LayoutView = defineComponent({
                                             return (
                                                 <FSpace>
                                                     <span>{value}</span>
-                                                    <span class={lightCls}>
+                                                    <span class="letgo-setter-style__light">
                                                         {description}
                                                     </span>
                                                 </FSpace>
                                             );
                                         },
                                     }}
-                                ></FSelect>
+                                >
+                                </FSelect>
                             </Row>
                             <Row label="辅轴对齐">
                                 <FSelect
@@ -283,14 +285,15 @@ export const LayoutView = defineComponent({
                                             return (
                                                 <FSpace>
                                                     <span>{value}</span>
-                                                    <span class={lightCls}>
+                                                    <span class="letgo-setter-style__light">
                                                         {description}
                                                     </span>
                                                 </FSpace>
                                             );
                                         },
                                     }}
-                                ></FSelect>
+                                >
+                                </FSelect>
                             </Row>
                             <Row label="换行">
                                 <FSelect
@@ -314,14 +317,15 @@ export const LayoutView = defineComponent({
                                             return (
                                                 <FSpace>
                                                     <span>{value}</span>
-                                                    <span class={lightCls}>
+                                                    <span class="letgo-setter-style__light">
                                                         {description}
                                                     </span>
                                                 </FSpace>
                                             );
                                         },
                                     }}
-                                ></FSelect>
+                                >
+                                </FSelect>
                             </Row>
                         </>
                     )}

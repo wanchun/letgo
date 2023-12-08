@@ -5,7 +5,7 @@ import type { Simulator } from '../simulator';
 import { BorderDetectingView } from './border-detecting';
 import { BorderSelectingView } from './border-selecting';
 import { InsertionView } from './insertion';
-import { toolsCls } from './tools.css';
+import './tools.less';
 
 export const BemToolsView = defineComponent({
     name: 'BemToolsView',
@@ -35,7 +35,7 @@ export const BemToolsView = defineComponent({
 
             return (
                 <div
-                    class={toolsCls}
+                    class="letgo-designer-sim-tools"
                     style={{
                         transform: `translate(${-scrollX * scale}px,${
                             -scrollY * scale
@@ -45,7 +45,7 @@ export const BemToolsView = defineComponent({
                 >
                     <BorderDetectingView key="hovering" simulator={simulator} />
                     <BorderSelectingView key="selecting" simulator={simulator} />
-                    <InsertionView key="insert" simulator={simulator}/>
+                    <InsertionView key="insert" simulator={simulator} />
                 </div>
             );
         };

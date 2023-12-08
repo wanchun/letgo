@@ -6,7 +6,6 @@ import { FCollapseItem, FGrid, FGridItem, FInput, FInputNumber, FRadioButton, FR
 import { InputColor, InputUnit, Row } from '../../../component';
 import { addUnit, clearUnit, getPlaceholderPropertyValue } from '../../../common';
 import { styleKey } from '../const';
-import { backgroundPositionWrapperCls, customPositionWrapperCls, iconWrapperCls } from './background.css';
 import './background.less';
 
 enum EnumBackground {
@@ -178,8 +177,8 @@ export const BackgroundView = defineComponent({
                                 </FGrid>
                             </Row>
                             <Row label="定位">
-                                <div class={backgroundPositionWrapperCls}>
-                                    <div class={iconWrapperCls}>
+                                <div class="letgo-setter-style__background-position">
+                                    <div class="letgo-setter-style__background-icon">
                                         <AlignmentTopLeft size={24} onClick={() => handleClickPosition('0px', '0px')} />
                                         <AlignmentTopCenter size={24} onClick={() => handleClickPosition('50%', '0px')} />
                                         <AlignmentTopRight size={24} onClick={() => handleClickPosition('100%', '0px')} />
@@ -190,7 +189,7 @@ export const BackgroundView = defineComponent({
                                         <AlignmentBottomCenter size={24} onClick={() => handleClickPosition('50%', '100%')} />
                                         <AlignmentBottomRight size={24} onClick={() => handleClickPosition('100%', '100%')} />
                                     </div>
-                                    <div class={customPositionWrapperCls}>
+                                    <div class="letgo-setter-style__background-custom">
                                         <Row label="左" labelWidth={20}>
                                             <InputUnit
                                                 v-model={backgroundPositionLeftRef.value}

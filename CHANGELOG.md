@@ -1,3 +1,13 @@
+# [0.0.0-beta.53](https://git.weoa.com/mumblefe/letgo/compare/v0.0.0-beta.52...v0.0.0-beta.53) (2023-12-08)
+
+
+### Bug Fixes
+
+* 优化出码,去掉package.json中无用东西,统一输出内容格式 ([03c1a25](https://git.weoa.com/mumblefe/letgo/commits/03c1a25ba12b8aaef1abba6a4cb317bc85f521d4))
+* 修复出码时全局状态文件中路径引入问题 ([ab6955b](https://git.weoa.com/mumblefe/letgo/commits/ab6955ba5e4c9d98725c46e5b9a4483775d17cea))
+
+
+
 # [0.0.0-beta.52](https://git.weoa.com/mumblefe/letgo/compare/v0.0.0-beta.51...v0.0.0-beta.52) (2023-12-06)
 
 

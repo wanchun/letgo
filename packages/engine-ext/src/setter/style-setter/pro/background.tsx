@@ -7,6 +7,7 @@ import { InputColor, InputUnit, Row } from '../../../component';
 import { addUnit, clearUnit, getPlaceholderPropertyValue } from '../../../common';
 import { styleKey } from '../const';
 import { backgroundPositionWrapperCls, customPositionWrapperCls, iconWrapperCls } from './background.css';
+import './background.less';
 
 enum EnumBackground {
     Image = 1,
@@ -118,7 +119,8 @@ export const BackgroundView = defineComponent({
                                             backgroundColor: val,
                                         });
                                     }}
-                                ></InputColor>
+                                >
+                                </InputColor>
                             </Row>
                             <Row label="透明度">
                                 <FInputNumber
@@ -135,7 +137,8 @@ export const BackgroundView = defineComponent({
                                     v-slots={{
                                         suffix: () => '%',
                                     }}
-                                ></FInputNumber>
+                                >
+                                </FInputNumber>
                             </Row>
                         </>
                     )}
@@ -150,13 +153,14 @@ export const BackgroundView = defineComponent({
                                             backgroundImage: val ? `url("${val}")` : undefined,
                                         });
                                     }}
-                                ></FInput>
+                                >
+                                </FInput>
                             </Row>
                             <Row label="尺寸">
                                 <FRadioGroup v-model={backgroundSizeRef.value}>
-                                    <FRadioButton value={''}>默认</FRadioButton>
-                                    <FRadioButton value={'contain'}>等比填充</FRadioButton>
-                                    <FRadioButton value={'cover'}>等比覆盖</FRadioButton>
+                                    <FRadioButton value="">默认</FRadioButton>
+                                    <FRadioButton value="contain">等比填充</FRadioButton>
+                                    <FRadioButton value="cover">等比覆盖</FRadioButton>
                                 </FRadioGroup>
                                 <FGrid v-show={!backgroundSizeRef.value} gutter={[8]} style={{ marginTop: '8px' }}>
                                     <FGridItem span={12}>
@@ -203,22 +207,22 @@ export const BackgroundView = defineComponent({
                             </Row>
                             <Row label="重复显示">
                                 <FRadioGroup v-model={currentValue.value.backgroundRepeat}>
-                                    <FRadioButton value={'repeat'}>
+                                    <FRadioButton value="repeat">
                                         <FTooltip content="水平和垂直方向重复" placement="top">
                                             <GridNine />
                                         </FTooltip>
                                     </FRadioButton>
-                                    <FRadioButton value={'repeat-x'}>
+                                    <FRadioButton value="repeat-x">
                                         <FTooltip content="水平方向重复" placement="top">
                                             <DistributeHorizontally />
                                         </FTooltip>
                                     </FRadioButton>
-                                    <FRadioButton value={'repeat-y'}>
+                                    <FRadioButton value="repeat-y">
                                         <FTooltip content="垂直方向重复" placement="top">
                                             <DistributeVertically />
                                         </FTooltip>
                                     </FRadioButton>
-                                    <FRadioButton value={'no-repeat'}>
+                                    <FRadioButton value="no-repeat">
                                         <FTooltip content="不重复" placement="top">
                                             <Close />
                                         </FTooltip>
@@ -240,7 +244,8 @@ export const BackgroundView = defineComponent({
                                     v-slots={{
                                         suffix: () => '%',
                                     }}
-                                ></FInputNumber>
+                                >
+                                </FInputNumber>
                             </Row>
                         </>
                     )}

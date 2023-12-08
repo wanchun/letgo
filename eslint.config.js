@@ -11,15 +11,12 @@ export default await antfu({
         'no-undef': 'error',
     },
     typescript: true,
-    vue: true,
-    overrides: {
-        javascript: {
-            languageOptions: {
-                globals: {
-                    ENGINE_VERSION_PLACEHOLDER: true,
-                    ENGINE_EXT_VERSION_PLACEHOLDER: true
-                },
-            },
+    vue: true
+}, {
+    languageOptions: {
+        globals: {
+            ENGINE_VERSION_PLACEHOLDER: 'readonly',
+            ENGINE_EXT_VERSION_PLACEHOLDER: 'readonly',
         },
     },
 });

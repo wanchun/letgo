@@ -13,15 +13,7 @@ import type { Designer } from '../designer';
 import type { ISimulatorProps } from './simulator';
 import { Simulator } from './simulator';
 import { BemToolsView } from './bem-tools';
-import {
-    canvasCls,
-    canvasViewportCls,
-    contentCls,
-    contentIframeCls,
-    deviceDefaultCls,
-    deviceMobileCls,
-    simulatorCls,
-} from './simulator-view.css';
+import './simulator-view.less';
 
 const IframeView = defineComponent({
     name: 'IframeView',
@@ -40,10 +32,10 @@ const IframeView = defineComponent({
                 width: viewport.contentWidth,
             };
             return (
-                <div class={contentCls}>
+                <div class="letgo-simulator__content">
                     <iframe
                         name="SimulatorRenderer"
-                        class={contentIframeCls}
+                        class="letgo-simulator__content-iframe"
                         style={frameStyle}
                         onLoad={(e) => {
                             if (e.target instanceof HTMLIFrameElement)
@@ -81,9 +73,9 @@ export const SimulatorView = defineComponent({
                 return simulator.deviceClassName;
 
             if (simulator.device === 'mobile')
-                return deviceMobileCls;
+                return "letgo-simulator__device-mobile";
 
-            return deviceDefaultCls;
+            return "letgo-simulator__device";
         });
 
         onMount?.(simulator);
@@ -112,9 +104,9 @@ export const SimulatorView = defineComponent({
         const { deviceStyle, simulator, innerDeviceCls } = this;
 
         return (
-            <div class={simulatorCls}>
+            <div class="letgo-simulator">
                 <div
-                    class={[canvasCls, innerDeviceCls]}
+                    class={["letgo-simulator__canvas", innerDeviceCls]}
                     style={deviceStyle?.canvas}
                 >
                     <div
@@ -126,7 +118,7 @@ export const SimulatorView = defineComponent({
                                 });
                             }
                         }}
-                        class={canvasViewportCls}
+                        class="letgo-simulator__canvas-view"
                         style={deviceStyle?.viewport}
                     >
                         <BemToolsView simulator={simulator} />

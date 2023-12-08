@@ -10,7 +10,7 @@ import { EventHandlerList, EventHandlerModify } from '@harrywan/letgo-components
 import { PlusOutlined } from '@fesjs/fes-design/icon';
 import { commonProps } from '../../common';
 import type { EventOptionList } from './interface';
-import { eventListCls, headerCls } from './index.css';
+import './index.less';
 
 type EventList = Array<{ name: string; description?: string }>;
 
@@ -124,11 +124,11 @@ const EventSetterView = defineComponent({
         return () => {
             return (
                 <>
-                    <div class={headerCls}>
+                    <div class="letgo-event-setter__header">
                         <div style="margin: 0; font-size: 14px;">已绑定事件</div>
                         <FButton type="link" onClick={addEvent} size="small">新增<PlusOutlined /></FButton>
                     </div>
-                    <EventHandlerList class={eventListCls} style="margin-bottom: 8px; padding-bottom: 8px;" eventHandlers={selectedEventData.value} currentEventHandler={currentEditEvent.value} onDelete={deleteComponentEvent} onEdit={onEdit} />
+                    <EventHandlerList class="letgo-event-setter__list" style="margin-bottom: 8px; padding-bottom: 8px;" eventHandlers={selectedEventData.value} currentEventHandler={currentEditEvent.value} onDelete={deleteComponentEvent} onEdit={onEdit} />
                     <EventHandlerModify onChange={changeComponentEvent} documentModel={props.node.document} editEvent={currentEditEvent.value} events={eventData.value} />
                 </>
             );

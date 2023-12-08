@@ -1,0 +1,40 @@
+.letgo-simulator-selector {
+    position: relative;
+    margin-right: 2px;
+    color: #fff;
+    border-radius: 3px;
+    pointer-events: auto;
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    &__trigger {
+        background: rgba(0, 108, 255, 1);
+        padding: 0 6px;
+        height: 20px;
+        line-height: 20px;
+        cursor: pointer;
+        color: #fff;
+        border-radius: 3px;
+        font-size: 12px;
+    }
+    &__node {
+        height: 20px;
+        font-size: 12px;
+        &:hover {
+            opacity: 0.8;
+        }
+        &:not(:first-child) {
+            margin-top: 2px;
+        }
+    }
+    &__node-content {
+        padding: 0px 6px;
+        background: #78869a;
+        border-radius: 3px;
+        height: 20px;
+        line-height: 20px;
+        color: #fff;
+        cursor: pointer;
+        overflow: visible;
+    }
+}

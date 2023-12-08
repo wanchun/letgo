@@ -4,7 +4,6 @@ import type { Designer } from '@harrywan/letgo-designer';
 import { CodeEditor } from '@harrywan/letgo-components';
 import { json } from '@codemirror/lang-json';
 import { FButton } from '@fesjs/fes-design';
-import { actionCls, codeCls, wrapperCls } from './index.css';
 
 export const SchemaView = defineComponent({
     name: 'SchemaView',
@@ -39,9 +38,9 @@ export const SchemaView = defineComponent({
 
         return () => {
             return (
-                <div class={wrapperCls}>
+                <div class="letgo-plg-schema">
                     <CodeEditor
-                        class={codeCls}
+                        class="letgo-plg-schema__code"
                         theme={{
                             '&': {
                                 border: '1px solid #cfd0d3',
@@ -57,7 +56,7 @@ export const SchemaView = defineComponent({
                         bordered={false}
                         fullscreen={false}
                     ></CodeEditor>
-                    <div class={actionCls}>
+                    <div class="letgo-plg-schema__action">
                         <FButton type="info" size="small" onClick={onSave}>保存 Schema</FButton>
                     </div>
                 </div>

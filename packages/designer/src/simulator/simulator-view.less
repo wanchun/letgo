@@ -1,0 +1,56 @@
+
+.letgo-simulator {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    &__canvas {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+        &-view {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+    }
+    &__device-mobile {
+        left: 50%;
+        width: 375px;
+        top: 16px;
+        bottom: 16px;
+        max-height: calc(100% - 32px);
+        max-width: calc(100% - 32px);
+        transform: translateX(-50%);
+        box-shadow: 0 2px 10px 0 rgba(31, 56, 88, 0.15);
+    }
+
+    &__device {
+        top: 16px;
+        right: 16px;
+        bottom: 16px;
+        left: 16px;
+        width: auto;
+        box-shadow: 0 1px 4px 0 rgba(31, 50, 88, 0.125);
+    }
+
+    &__content {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+    }
+    &__content-iframe {
+        border: none;
+        transform-origin: 0 0;
+        height: 100%;
+        width: 100%;
+    }
+}

@@ -10,15 +10,7 @@ import { Return } from '@icon-park/vue-next';
 import type { IPluginContext } from '@harrywan/letgo-engine-plugin';
 import { SettingsMain } from './main';
 import Breadcrumb from './breadcrumb';
-import {
-    bodyCls,
-    iconCls,
-    mainCls,
-    noticeCls,
-    paneWrapperCls,
-    popupHeader,
-    popupWrapperCls,
-} from './setting.css';
+import './setting.less'; 
 
 export default defineComponent({
     name: 'PluginSetterPanelView',
@@ -47,8 +39,8 @@ export default defineComponent({
 
             if (!settings) {
                 return (
-                    <div class={mainCls}>
-                        <div class={noticeCls}>
+                    <div class="letgo-plg-setting">
+                        <div class="letgo-plg-setting__notice">
                             <p>请在左侧画布选中节点</p>
                         </div>
                     </div>
@@ -58,8 +50,8 @@ export default defineComponent({
             // 当节点被锁定，且未开启锁定后容器可设置属性
             if (settings.isLocked) {
                 return (
-                    <div class={mainCls}>
-                        <div class={noticeCls}>
+                    <div class="letgo-plg-setting">
+                        <div class="letgo-plg-setting__notice">
                             <p>该节点已被锁定，无法配置</p>
                         </div>
                     </div>
@@ -68,8 +60,8 @@ export default defineComponent({
 
             if (Array.isArray(settings.items) && settings.items.length === 0) {
                 return (
-                    <div class={mainCls}>
-                        <div class={noticeCls}>
+                    <div class="letgo-plg-setting">
+                        <div class="letgo-plg-setting__notice">
                             <p>该组件暂无配置</p>
                         </div>
                     </div>
@@ -78,8 +70,8 @@ export default defineComponent({
 
             if (!settings.isSameComponent) {
                 return (
-                    <div class={mainCls}>
-                        <div class={noticeCls}>
+                    <div class="letgo-plg-setting">
+                        <div class="letgo-plg-setting__notice">
                             <p>请选中同一类型节点编辑</p>
                         </div>
                     </div>
@@ -97,7 +89,7 @@ export default defineComponent({
                             key={field.id}
                             displayDirective="show"
                         >
-                            <FScrollbar class={paneWrapperCls}>
+                            <FScrollbar class="letgo-plg-setting__pane">
                                 {field.items.map(item =>
                                     createSettingFieldView(item),
                                 )}
@@ -107,9 +99,9 @@ export default defineComponent({
                 });
 
             return (
-                <div class={mainCls}>
+                <div class="letgo-plg-setting">
                     <Breadcrumb node={currentNode}></Breadcrumb>
-                    <div class={bodyCls}>
+                    <div class="letgo-plg-setting__body">
                         <FTabs key={currentNode.id} modelValue={items[0].id}>
                             {{
                                 default: renderTabs
@@ -117,10 +109,10 @@ export default defineComponent({
                         </FTabs>
                         {popupList.value.length > 0 && (
                             popupList.value.map(popup => (
-                                <div class={popupWrapperCls} style={{ zIndex: popup.zIndex }}>
+                                <div class="letgo-plg-setting__popup" style={{ zIndex: popup.zIndex }}>
                                     <FScrollbar>
-                                        <div class={popupHeader}>
-                                            <Return theme="outline" class={iconCls} onClick={closePopup}></Return>
+                                        <div class="letgo-plg-setting__popup-header">
+                                            <Return theme="outline" class="letgo-plg-setting__icon" onClick={closePopup}></Return>
                                             <span>
                                                 {popup.title}
                                             </span>

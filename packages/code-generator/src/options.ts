@@ -30,5 +30,5 @@ export function relative(from: string, to: string) {
     }
     fromArr = fromArr.slice(commonLen);
     toArr = toArr.slice(commonLen);
-    return `${Array(fromArr.length).join('../')}${toArr.join('/')}`;
+    return `${Array(fromArr.length).join('../') || './'}${toArr.join('/')}`;
 }

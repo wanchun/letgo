@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue';
-import { categoryCls, titleCls } from './category.css';
+import './category.less';
 
 export default defineComponent({
     props: {
@@ -7,8 +7,8 @@ export default defineComponent({
     },
     setup(props, { slots }) {
         return () => {
-            return <div class={categoryCls}>
-                <div class={titleCls}>{props.title}</div>
+            return <div class="letgo-plg-code__query-category">
+                <div class="letgo-plg-code__query-category-title">{props.title}</div>
                 {slots.default?.()}
             </div>;
         };

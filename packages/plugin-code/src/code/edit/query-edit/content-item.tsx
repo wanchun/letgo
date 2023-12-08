@@ -1,6 +1,6 @@
 import type { PropType, StyleValue } from 'vue';
 import { defineComponent } from 'vue';
-import { contentItemCls, labelCls } from './content-item.css';
+import './content-item.less';
 
 export default defineComponent({
     props: {
@@ -9,12 +9,12 @@ export default defineComponent({
     },
     setup(props, { slots }) {
         const renderLabel = () => {
-            return <label class={labelCls} style={props.labelStyle}>
+            return <label class="letgo-plg-code__content-label" style={props.labelStyle}>
                 {slots.label?.() || props.label}
             </label>;
         };
         return () => {
-            return <div class={contentItemCls} >
+            return <div class="letgo-plg-code__content-item" >
                 {renderLabel()}
                 {slots.content?.()}
             </div>;

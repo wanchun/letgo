@@ -2,7 +2,7 @@ import type { PropType } from 'vue';
 import { defineComponent, nextTick, ref } from 'vue';
 import { FEllipsis } from '@fesjs/fes-design';
 import { EditIcon } from '../icons';
-import { codeIdCls, editIconCls, idContentCls, idContentTextCls, inputCls, inputErrorCls } from './code-id.css';
+import './code-id.less';
 
 export default defineComponent({
     props: {
@@ -48,15 +48,15 @@ export default defineComponent({
 
         return () => {
             return (
-                <div class={codeIdCls}>
-                    <span v-show={!editing.value} class={idContentCls}>
-                        <FEllipsis class={idContentTextCls} content={props.id}></FEllipsis>
-                        <EditIcon onClick={goEdit} class={editIconCls} />
+                <div class="letgo-comp-code__id">
+                    <span v-show={!editing.value} class="letgo-comp-code__id-content">
+                        <FEllipsis class="letgo-comp-code__id-text" content={props.id}></FEllipsis>
+                        <EditIcon onClick={goEdit} class="letgo-comp-code__id-icon" />
                     </span>
                     <input
                         v-show={editing.value}
                         ref={inputRefEl}
-                        class={[inputCls, hasRepeatIdError.value && inputErrorCls]}
+                        class={["letgo-comp-code__id-input", hasRepeatIdError.value && "letgo-comp-code__id-input--error"]}
                         value={currentValue.value}
                         onInput={checkError}
                         onBlur={cancelEdit}

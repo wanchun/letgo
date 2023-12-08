@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue';
-import { separatorCls } from './separator.css';
+import './separator.less';
 
 export default defineComponent({
     name: 'Separator',
@@ -8,7 +8,7 @@ export default defineComponent({
     },
     setup(props) {
         return () => {
-            return <div class={separatorCls}>{props.text}</div>;
+            return <div class="letgo-comp-event__separator">{props.text}</div>;
         };
     },
 });

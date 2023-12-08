@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue';
-import { labelTextCls, labelWrapCls } from './label.css';
+import './label.less';
 
 export default defineComponent({
     name: 'ModifyLabel',
@@ -8,8 +8,8 @@ export default defineComponent({
     },
     setup(props, { slots }) {
         return () => {
-            return <div class={labelWrapCls}>
-                <label class={labelTextCls}>{props.label}</label>
+            return <div class="letgo-comp-event__label">
+                <label class="letgo-comp-event__label-text">{props.label}</label>
                 {slots.default?.()}
             </div>;
         };

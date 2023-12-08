@@ -5,7 +5,7 @@ import { javascript } from '@codemirror/lang-javascript';
 import type { IJavascriptComputed } from '@harrywan/letgo-types';
 import type { DocumentModel } from '@harrywan/letgo-designer';
 import { CodeEditor } from '../../code-editor';
-import { contentCls, headerCls } from './computed-edit.css';
+import './computed-edit.less';
 
 /**
  * TODO 待实现功能
@@ -36,12 +36,12 @@ export const ComputedEdit = defineComponent({
         return () => {
             return (
                 <div>
-                    <div class={headerCls}>
+                    <div class="letgo-comp-logic__header letgo-comp-logic__header--computed">
                         <div>
                             <FButton type="primary" size="small" disabled={tmpFuncBody.value === props.codeItem.funcBody} onClick={onSave}>保存</FButton>
                         </div>
                     </div>
-                    <div class={contentCls}>
+                    <div class="letgo-comp-logic__computed">
                         <CodeEditor documentModel={props.documentModel} extensions={[javascript()]} hints={props.hints} doc={props.codeItem.funcBody} changeDoc={changeFuncBody} />
                     </div>
                 </div>

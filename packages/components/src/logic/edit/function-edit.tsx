@@ -5,7 +5,7 @@ import { javascript } from '@codemirror/lang-javascript';
 import type { IJavascriptFunction } from '@harrywan/letgo-types';
 import type { DocumentModel } from '@harrywan/letgo-designer';
 import { CodeEditor } from '../../code-editor';
-import { contentCls, headerCls } from './function-edit.css';
+import './function-edit.less';
 
 export const FunctionEdit = defineComponent({
     name: 'FunctionEdit',
@@ -31,12 +31,12 @@ export const FunctionEdit = defineComponent({
         return () => {
             return (
                 <div>
-                    <div class={headerCls}>
+                    <div class="letgo-comp-logic__header letgo-comp-logic__header--func">
                         <div>
                             <FButton type="primary" size="small" disabled={tmpFuncBody.value === props.codeItem.funcBody} onClick={onSave}>保存</FButton>
                         </div>
                     </div>
-                    <div class={contentCls}>
+                    <div class="letgo-comp-logic__func">
                         <CodeEditor height='200px' documentModel={props.documentModel} hints={props.hints} doc={props.codeItem.funcBody} extensions={[javascript()]} changeDoc={changeFuncBody} />
                     </div>
                 </div>

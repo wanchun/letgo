@@ -3,7 +3,7 @@ import { defineComponent } from 'vue';
 import { InnerEventHandlerAction } from '@harrywan/letgo-types';
 import type { IPublicTypeEventHandler } from '@harrywan/letgo-types';
 import { DeleteOutlined } from '@fesjs/fes-design/icon';
-import { activeEventCls, callExpressionCls, deleteIconCls, selectedEventCls, selectedEventListCls } from './event-handler-list.css';
+import './event-handler-list.less';
 
 export default defineComponent({
     name: 'EventHandlerList',
@@ -35,15 +35,15 @@ export default defineComponent({
             props.onDelete(item);
         };
         return () => {
-            return <ul class={selectedEventListCls}>
+            return <ul class="letgo-comp-event__list">
                 {props.eventHandlers.map(item => (
-                    <li class={[selectedEventCls, item.id === props.currentEventHandler?.id && activeEventCls]} onClick={() => props.onEdit(item)} key={item.id}>
+                    <li class={["letgo-comp-event__list-item", item.id === props.currentEventHandler?.id && "letgo-comp-event__list-item--active"]} onClick={() => props.onEdit(item)} key={item.id}>
                         {props.visibleName && item.name}
-                        <span class={callExpressionCls}>
+                        <span class="letgo-comp-event__list-call">
                             {getMethodCall(item)}
                         </span>
 
-                        <DeleteOutlined class={deleteIconCls} onClick={(event: Event) => deleteItem(event, item)} />
+                        <DeleteOutlined class="letgo-comp-event__list-icon" onClick={(event: Event) => deleteItem(event, item)} />
                     </li>
                 ))}
             </ul>;

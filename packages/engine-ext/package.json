@@ -26,7 +26,6 @@
         "@harrywan/letgo-designer": "^0.0.0-beta.47",
         "@harrywan/letgo-types": "^0.0.0-beta.46",
         "@icon-park/vue-next": "^1.4.2",
-        "@vanilla-extract/css": "^1.14.0",
         "lodash-es": "^4.17.21",
         "naive-ui": "^2.34.4"
     },

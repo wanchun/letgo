@@ -1,6 +1,5 @@
 import process from 'node:process';
 import path from 'node:path';
-import vanillaExtract from '@vanilla-extract/vite-plugin';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { build } from 'vite';
 import dts from 'vite-plugin-dts';
@@ -34,7 +33,7 @@ async function compiler(source, outDir, name) {
             },
             watch: isWatch(),
         },
-        plugins: [vueJsx(), vanillaExtract.vanillaExtractPlugin({}), isWatch()
+        plugins: [vueJsx(), isWatch()
             ? null
             : dts({
                 compilerOptions: {

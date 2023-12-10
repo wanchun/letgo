@@ -5,12 +5,6 @@ import type {
     IWidgetConfig,
 } from '../types';
 import type { Widget } from '../widget';
-import {
-    bottomAreaCenterCls,
-    bottomAreaCls,
-    bottomAreaLeftCls,
-    bottomAreaRightCls,
-} from './workbench.css';
 
 export default defineComponent({
     name: 'BottomArea',
@@ -53,10 +47,10 @@ export default defineComponent({
                         right.push(content);
                 });
             return (
-                <div class={bottomAreaCls}>
-                    <div class={bottomAreaLeftCls}>{left}</div>
-                    <div class={bottomAreaCenterCls}>{center}</div>
-                    <div class={bottomAreaRightCls}>{right}</div>
+                <div class="letgo-skeleton-workbench__bottom">
+                    <div class="letgo-skeleton-workbench__horizontal">{left}</div>
+                    <div class="letgo-skeleton-workbench__horizontal letgo-skeleton-workbench__horizontal--center">{center}</div>
+                    <div class="letgo-skeleton-workbench__horizontal">{right}</div>
                 </div>
             );
         };

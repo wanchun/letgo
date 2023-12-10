@@ -5,11 +5,6 @@ import type {
     IWidgetConfig,
 } from '../types';
 import type { Widget } from '../widget';
-import {
-    leftAreaBottomCls,
-    leftAreaCls,
-    leftAreaTopCls,
-} from './workbench.css';
 
 export default defineComponent({
     name: 'LeftArea',
@@ -44,9 +39,9 @@ export default defineComponent({
             });
         return () => {
             return (
-                <div class={leftAreaCls}>
-                    <div class={leftAreaTopCls}>{top}</div>
-                    <div class={leftAreaBottomCls}>{bottom}</div>
+                <div class="letgo-skeleton-workbench__left">
+                    <div class="letgo-skeleton-workbench__left-top">{top}</div>
+                    <div class="letgo-skeleton-workbench__left-bottom">{bottom}</div>
                 </div>
             );
         };

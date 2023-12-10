@@ -1,5 +1,6 @@
 import path from 'node:path';
 import process from 'node:process';
+import { existsSync } from 'node:fs';
 import pc from 'picocolors';
 import fse from 'fs-extra';
 import { Project } from 'ts-morph';
@@ -7,6 +8,7 @@ import { compilePkg, compilerFile } from './build-es.mjs';
 import { getNeedCompileEsPkg, getOutputDirFromFilePath } from './build-shard.mjs';
 import { watch } from './watch.mjs';
 import { winPath } from './win-path.mjs';
+import { compilerCss } from './compiler-css.mjs';
 
 async function genPkgType(pkg) {
     // 这部分内容具体可以查阅 ts-morph 的文档
@@ -90,27 +92,28 @@ function handleFileRemoveType(filePath) {
 
 async function handleFileUpdateEs(filePath) {
     try {
-        const pkg = getPkgNameFormFilePath(filePath);
-        if (filePath.endsWith('.css.ts')) {
-            await compilePkg(pkg);
-        }
-        else {
-            await compilerFile(
-                filePath,
-                getOutputDirFromFilePath(filePath),
-            );
-        }
-
-        const extname = path.extname(filePath);
-        if (['.css', '.ts', '.tsx'].includes(extname)) {
-            console.log(
-                pc.dim(winPath(filePath).split('/letgo')[1]),
-                pc.blue('updated'),
-            );
-        }
+        await compilerFile(
+            filePath,
+            getOutputDirFromFilePath(filePath),
+        );
     }
     catch (err) {
         console.error(err);
+    }
+}
+
+async function handleLessUpdate(filePath) {
+    const outputPath = filePath.replace(/\/src/, '/es').replace('.less', '.css');
+    if (existsSync(outputPath)) {
+        compilerCss(filePath, outputPath);
+        console.log(
+            pc.dim(winPath(filePath).split('/letgo')[1]),
+            pc.blue('updated'),
+        );
+    }
+    else {
+        const pkg = getPkgNameFormFilePath(filePath);
+        compilePkg(pkg, false);
     }
 }
 
@@ -119,8 +122,6 @@ function handleFileRemoveEs(filePath) {
     const extname = path.extname(filePath);
     if (extname === '.json')
         fse.removeSync(filePath);
-    else if (filePath.endsWith('.css.ts'))
-        fse.removeSync(`${filePath}.vanilla.css`);
     else if (['.ts', 'tsx'].includes(extname))
         fse.removeSync(`${dir}/${path.basename(filePath).replace(/\.tsx?/, '.js')}`);
 }
@@ -129,8 +130,13 @@ async function startDev() {
     await getPkgsTypeProject();
 
     watch(async (filePath) => {
-        handleFileUpdateEs(filePath);
-        handleFileUpdateType(filePath);
+        if (filePath.endsWith('.less')) {
+            handleLessUpdate(filePath);
+        }
+        else {
+            handleFileUpdateEs(filePath);
+            handleFileUpdateType(filePath);
+        }
     }, (filePath) => {
         handleFileRemoveType(filePath);
         handleFileRemoveEs(filePath);

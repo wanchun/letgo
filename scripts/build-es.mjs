@@ -1,9 +1,9 @@
 import { basename, extname, join } from 'node:path';
 import { copyFileSync, lstatSync, readdirSync } from 'node:fs';
+import fse from 'fs-extra';
 import { build } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
-import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 import dts from 'vite-plugin-dts';
 import pc from 'picocolors';
 import enginePkg from '../packages/engine/package.json' assert { type: 'json' };
@@ -35,7 +35,7 @@ async function buildFile(filePath, outputDir) {
             ENGINE_VERSION_PLACEHOLDER: JSON.stringify(enginePkg.version),
             ENGINE_EXT_VERSION_PLACEHOLDER: JSON.stringify(enginePkg.version),
         },
-        plugins: [vue(), vueJsx(), vanillaExtractPlugin(), tsConfigPath
+        plugins: [vue(), vueJsx(), tsConfigPath
             ? dts({
                 compilerOptions: {
                     rootDir: join(filePath.split('src')[0], 'src'),
@@ -47,6 +47,7 @@ async function buildFile(filePath, outputDir) {
             outDir: outputDir,
             minify: false,
             emptyOutDir: false,
+            cssCodeSplit: true,
             lib: {
                 entry: filePath,
                 fileName: () => {
@@ -60,8 +61,6 @@ async function buildFile(filePath, outputDir) {
                     if (
                         id.includes(filePath)
                         || id.endsWith('.css')
-                        || id.endsWith('.css.ts')
-                        || id.endsWith('vanilla.css')
                         || id.endsWith('.less')
                     )
                         return false;
@@ -70,6 +69,7 @@ async function buildFile(filePath, outputDir) {
                 },
                 plugins: [inlineToExtract()],
                 output: {
+                    preserveModules: true,
                     assetFileNames: (assetInfo) => {
                         if (assetInfo.name === 'style.css')
                             return basename(filePath).replace(/\.tsx?$/, '.css');
@@ -89,10 +89,7 @@ async function buildFile(filePath, outputDir) {
 export async function compilerFile(filePath, outputDir) {
     const fileExt = extname(filePath);
     const fileName = basename(filePath);
-    if (
-        ['.ts', '.tsx'].includes(fileExt)
-        && !filePath.endsWith('.css.ts')
-    )
+    if (['.ts', '.tsx'].includes(fileExt))
         await buildFile(filePath, outputDir);
 
     else if (fileExt === '.json')
@@ -114,9 +111,12 @@ async function compilerFiles(source, outputDir) {
     }
 }
 
-export async function compilePkg(pkg) {
+export async function compilePkg(pkg, emptyOutDir = true) {
     const outputDir = getEsOutputPath(pkg);
     const source = getResourcePath(pkg);
+    if (emptyOutDir)
+        fse.removeSync(outputDir);
+
     await compilerFiles(source, outputDir);
 }
 

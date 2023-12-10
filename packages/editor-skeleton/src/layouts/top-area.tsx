@@ -5,12 +5,6 @@ import type {
     IWidgetConfig,
 } from '../types';
 import type { Widget } from '../widget';
-import {
-    topAreaCenterCls,
-    topAreaCls,
-    topAreaLeftCls,
-    topAreaRightCls,
-} from './workbench.css';
 
 export default defineComponent({
     name: 'TopArea',
@@ -49,10 +43,10 @@ export default defineComponent({
                         right.push(content);
                 });
             return (
-                <div class={topAreaCls}>
-                    <div class={topAreaLeftCls}>{left}</div>
-                    <div class={topAreaCenterCls}>{center}</div>
-                    <div class={topAreaRightCls}>{right}</div>
+                <div class="letgo-skeleton-workbench__top">
+                    <div class="letgo-skeleton-workbench__horizontal">{left}</div>
+                    <div class="letgo-skeleton-workbench__horizontal letgo-skeleton-workbench__horizontal--center">{center}</div>
+                    <div class="letgo-skeleton-workbench__horizontal">{right}</div>
                 </div>
             );
         };

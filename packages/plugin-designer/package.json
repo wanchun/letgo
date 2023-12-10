@@ -20,8 +20,7 @@
     "dependencies": {
         "@fesjs/fes-design": "^0.8.17",
         "@harrywan/letgo-designer": "^0.0.0-beta.47",
-        "@harrywan/letgo-engine-plugin": "^0.0.0-beta.47",
-        "@vanilla-extract/css": "^1.14.0"
+        "@harrywan/letgo-engine-plugin": "^0.0.0-beta.47"
     },
     "publishConfig": {
         "access": "public"

@@ -1,0 +1,107 @@
+.letgo-designer-setting__field {
+    display: block;
+    position: relative;
+    .letgo-designer-setting__accordion-field {
+        margin: 0;
+    }
+
+    .letgo-designer-setting__inline-field {
+        margin: 12px 0;
+        &:first-child {
+            margin: 0 0 12px;
+        }
+        &:last-child {
+            margin: 12px 0 0;
+        }
+    }
+
+    > .letgo-designer-setting__header {
+        height: 32px;
+        font-weight: 500;
+        background: rgba(31,56,88,.06);
+        border-top: 1px solid rgba(31,56,88, .1);
+        border-bottom: 1px solid rgba(31,56,88, .1);
+        color: rgba(0, 0, 0, 0.8);
+        padding: 0 12px;
+        user-select: none;
+    }
+
+    > .letgo-designer-setting__body {
+        padding: 12px;
+    }
+}
+
+
+
+.letgo-designer-setting__accordion-field {
+    display: block;
+    position: relative;
+    margin: 12px;
+
+    .letgo-designer-setting__inline-field {
+        margin: 12px 0;
+        &:first-child {
+            margin: 0 0 12px;
+        }
+        &:last-child {
+            margin: 12px 0 0;
+        }
+    }
+
+    > .letgo-designer-setting__header {
+        height: 48px;
+        font-weight: 500;
+        color: #0f1222;
+        cursor: pointer;
+    }
+}
+
+.letgo-designer-setting__inline-field {
+    display: flex;
+    align-items: center;
+    margin: 12px;
+
+    > .letgo-designer-setting__header {
+        display: inline-flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: flex-start;
+        width: 70px;
+        margin-right: 8px;
+        word-break: break-all;
+        white-space: normal;
+        height: 32px;
+    }
+
+    > .letgo-designer-setting__body {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        align-items: center;
+    }
+}
+
+.letgo-designer-setting__popup {
+    display: flex;
+    align-items: center;
+    margin: 12px;
+}
+
+.letgo-designer-setting__popup-content {
+    position: relative;
+    right: 400px;
+}
+
+.letgo-designer-setting__header {
+    display: flex;
+    align-items: center;
+}
+
+
+.letgo-designer-setting__icon {
+    margin-right: 12px;
+
+    &--show {
+        transform: rotate(90deg);
+    }
+}

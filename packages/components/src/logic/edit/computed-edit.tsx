@@ -5,6 +5,7 @@ import { javascript } from '@codemirror/lang-javascript';
 import type { IJavascriptComputed } from '@harrywan/letgo-types';
 import type { DocumentModel } from '@harrywan/letgo-designer';
 import { CodeEditor } from '../../code-editor';
+import './code-edit.less';
 import './computed-edit.less';
 
 /**

@@ -23,8 +23,7 @@
         "@harrywan/letgo-editor-core": "^0.0.0-beta.46",
         "@harrywan/letgo-engine-plugin": "^0.0.0-beta.48",
         "@harrywan/letgo-types": "^0.0.0-beta.46",
-        "@icon-park/vue-next": "^1.4.2",
-        "@vanilla-extract/css": "^1.14.0"
+        "@icon-park/vue-next": "^1.4.2"
     },
     "publishConfig": {
         "access": "public"

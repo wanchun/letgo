@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent } from 'vue';
 import type { IWidget } from '../types';
-import { activeCls, disabledCls, widgetCls } from './widget.css';
+import './widget.less';
 
 export default defineComponent({
     name: 'Widget',
@@ -29,12 +29,12 @@ export default defineComponent({
 
             if (widget.disabled) {
                 return (
-                    <div class={[widgetCls, disabledCls]}>{widget.body}</div>
+                    <div class="letgo-skeleton__widget letgo-skeleton__widget--disabled">{widget.body}</div>
                 );
             }
             if (props.onClick) {
                 return (
-                    <div class={[widgetCls, isActive.value && activeCls]} onClick={() => props.onClick()}>
+                    <div class={['letgo-skeleton__widget', isActive.value && 'letgo-skeleton__widget--active']} onClick={() => props.onClick()}>
                         {widget.body}
                     </div>
                 );

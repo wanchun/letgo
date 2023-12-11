@@ -1,5 +1,6 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
+import './row.less';
 
 export default defineComponent({
     props: {

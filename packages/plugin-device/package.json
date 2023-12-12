@@ -1,6 +1,6 @@
 {
     "name": "@harrywan/letgo-plugin-device",
-    "version": "0.0.1-beta.0",
+    "version": "0.0.2-beta.0",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -20,8 +20,8 @@
         "vue": "^3.3.9"
     },
     "dependencies": {
-        "@harrywan/letgo-designer": "^0.0.1-beta.0",
-        "@harrywan/letgo-engine-plugin": "^0.0.1-beta.0",
+        "@harrywan/letgo-designer": "^0.0.2-beta.0",
+        "@harrywan/letgo-engine-plugin": "^0.0.2-beta.0",
         "@harrywan/letgo-types": "^0.0.0-beta.46",
         "@icon-park/vue-next": "^1.4.2"
     },

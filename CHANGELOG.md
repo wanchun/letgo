@@ -1,3 +1,25 @@
+## [0.0.2-beta.0](https://git.weoa.com/mumblefe/letgo/compare/v0.0.0-beta.53...v0.0.2-beta.0) (2023-12-12)
+
+
+### Bug Fixes
+
+* 优化 ([eb1d931](https://git.weoa.com/mumblefe/letgo/commits/eb1d9318adb40f5f12300309feac9464199b839f))
+* 优化样式 ([31767d4](https://git.weoa.com/mumblefe/letgo/commits/31767d4214ff25762a607d0f6a0bb74da0dd6f3d))
+* 修复样式问题 ([82764ad](https://git.weoa.com/mumblefe/letgo/commits/82764ad90cae58075de51351632f0e9fb3b7af03))
+* 修复类型构建 ([14c8a3f](https://git.weoa.com/mumblefe/letgo/commits/14c8a3fc0bf916bd7f4667ea991244d8a9f6b3d4))
+* 修复类型错误 ([e5f2510](https://git.weoa.com/mumblefe/letgo/commits/e5f251037a4508f2661b5b44c2504b391ca0c66d))
+* 修复问题 ([3d89188](https://git.weoa.com/mumblefe/letgo/commits/3d891881644b4b69af91bea383111883142565ea))
+* 修复问题 ([1640073](https://git.weoa.com/mumblefe/letgo/commits/1640073fe91fe3484f1c85a0419792618bea0b6d))
+* 去掉无用代码 ([2e45f53](https://git.weoa.com/mumblefe/letgo/commits/2e45f53023e82391bf862d9c029003ea245d1661))
+* 更喜欢icon ([fe72a75](https://git.weoa.com/mumblefe/letgo/commits/fe72a75c5afc0c8bdfcfa21b19e17675a75c7811))
+
+
+### Features
+
+* 添加sideEffects,优化代码 ([94f012f](https://git.weoa.com/mumblefe/letgo/commits/94f012fad03a60994d6534b5b4cfe77687b7574c))
+
+
+
 ## [0.0.1-beta.0](https://git.weoa.com/mumblefe/letgo/compare/v0.0.0-beta.53...v0.0.1-beta.0) (2023-12-12)
 
 

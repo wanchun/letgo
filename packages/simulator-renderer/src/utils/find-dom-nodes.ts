@@ -59,20 +59,20 @@ function appendDescendantChildren(
     else {
         return (
             children.length > 0
-        && children.some((item) => {
-            if (isArray(item.children) && item.children.length > 0) {
-                return appendDescendantChildren(
-                    target,
-                    item.children.filter((child): child is VNode<Element | Text> =>
-                        isVNode(child),
-                    ),
-                );
-            }
-            else if (item.component) {
-                return appendDescendantComponent(target, item.component);
-            }
-            return false;
-        })
+            && children.some((item) => {
+                if (isArray(item.children) && item.children.length > 0) {
+                    return appendDescendantChildren(
+                        target,
+                        item.children.filter((child): child is VNode<Element | Text> =>
+                            isVNode(child),
+                        ),
+                    );
+                }
+                else if (item.component) {
+                    return appendDescendantComponent(target, item.component);
+                }
+                return false;
+            })
         );
     }
 }

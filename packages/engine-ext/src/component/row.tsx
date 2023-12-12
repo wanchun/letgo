@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
-import { contentCls, labelCls, wrapperCls } from './row.css';
+import './row.less';
 
 export default defineComponent({
     props: {
@@ -18,9 +18,9 @@ export default defineComponent({
     setup(props, { slots }) {
         return () => {
             return (
-                <div class={wrapperCls} style={[!props.margin && { margin: 0 }]}>
-                    <div class={labelCls} style={[{ width: `${props.labelWidth}px`, textAlign: props.labelAlign }]}>{props.label}</div>
-                    <div class={contentCls}>{slots.default?.()}</div>
+                <div class="letgo-ext-row" style={[!props.margin && { margin: 0 }]}>
+                    <div class="letgo-ext-row__label" style={[{ width: `${props.labelWidth}px`, textAlign: props.labelAlign }]}>{props.label}</div>
+                    <div class="letgo-ext-row__content">{slots.default?.()}</div>
                 </div>
             );
         };

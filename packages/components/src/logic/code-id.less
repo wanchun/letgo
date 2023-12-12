@@ -1,0 +1,43 @@
+.letgo-comp-code__id {
+    margin: 0 6px;
+    flex: 1;
+    overflow: hidden;
+
+    &-content {
+        display: inline-flex;
+        width: 100%;
+        align-items: center;
+        height: 26px;
+        line-height: 26px;
+        &:hover {
+            .letgo-comp-code__id {
+                opacity: 1;
+            }
+        }
+    }
+    &-text {
+        max-width: calc(100% - 16px);
+        margin-right: 2px;
+    }
+
+    &-icon {
+        opacity: 0;
+        font-size: 14px;
+        color: #5384ff;
+        display: flex;
+        align-items: center;
+    }
+
+    &-input {
+        height: 24px;
+        border: 0;
+        border-radius: 4px;
+        outline: 0;
+        background-color: #fff;
+        width: 100%;
+    }
+    &-input--error {
+        border: 1px solid #f5222d;
+    }
+}
+

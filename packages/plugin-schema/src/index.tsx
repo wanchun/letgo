@@ -1,8 +1,8 @@
 import type { IPluginConfig } from '@harrywan/letgo-engine-plugin';
 import { More } from '@icon-park/vue-next';
 import { FTooltip } from '@fesjs/fes-design';
-import { iconCls } from './index.css';
 import { SchemaView } from './schema';
+import "./index.less"
 
 export default {
     name: 'PluginSchema',
@@ -14,7 +14,7 @@ export default {
             props: {
                 align: 'bottom',
             },
-            render: () => <FTooltip content="Schema" placement="right"><More theme="outline" class={iconCls} /></FTooltip>,
+            render: () => <FTooltip content="Schema" placement="right"><More theme="outline" class="letgo-plg-schema__icon" /></FTooltip>,
         }).link(
             skeleton.add({
                 type: 'Panel',

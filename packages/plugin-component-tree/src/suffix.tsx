@@ -3,7 +3,6 @@ import { computed, defineComponent, reactive, ref } from 'vue';
 import { FDropdown, FForm, FFormItem, FInput, FModal } from '@fesjs/fes-design';
 import type { INode } from '@harrywan/letgo-designer';
 import { Delete, Edit, Lock, MoreOne, Unlock } from '@icon-park/vue-next';
-import { nodeIconCls, suffixWrapperCls } from './index.css';
 
 export const SuffixView = defineComponent({
     name: 'SuffixView',
@@ -21,22 +20,22 @@ export const SuffixView = defineComponent({
                 {
                     value: 'change',
                     label: '修改',
-                    icon: () => <Edit class={nodeIconCls} theme="outline"> </Edit>,
+                    icon: () => <Edit class="letgo-comp-tree__icon letgo-comp-tree__icon--node" theme="outline"> </Edit>,
                 },
                 (!isRoot && isContainer && !isLocked) && {
                     value: 'lock',
                     label: '锁定',
-                    icon: () => <Lock class={nodeIconCls} theme="outline"> </Lock>,
+                    icon: () => <Lock class="letgo-comp-tree__icon letgo-comp-tree__icon--node" theme="outline"> </Lock>,
                 },
                 (!isRoot && isContainer && isLocked) && {
                     value: 'unlock',
                     label: '解锁',
-                    icon: () => <Unlock class={nodeIconCls} theme="outline"> </Unlock>,
+                    icon: () => <Unlock class="letgo-comp-tree__icon letgo-comp-tree__icon--node" theme="outline"> </Unlock>,
                 },
                 (!isRoot && !isSlot) && {
                     value: 'delete',
                     label: '删除',
-                    icon: () => <Delete class={nodeIconCls} theme="outline"> </Delete>,
+                    icon: () => <Delete class="letgo-comp-tree__icon letgo-comp-tree__icon--node" theme="outline"> </Delete>,
                 },
             ].filter(Boolean);
         });
@@ -90,9 +89,9 @@ export const SuffixView = defineComponent({
 
         return () => {
             return (
-                <div class={suffixWrapperCls}>
+                <div class="letgo-comp-tree__suffix">
                     <FDropdown options={options.value} onClick={onClick}>
-                        <MoreOne class={nodeIconCls} theme="outline" />
+                        <MoreOne class="letgo-comp-tree__icon letgo-comp-tree__icon--node" theme="outline" />
                     </FDropdown>
                     <FModal v-model:show={isEdit.value} title="编辑" width={400} onOk={onOk} onCancel={onCancel}>
                         <FForm ref={formRef} model={formModel} labelWidth={60} rules={formRules} >

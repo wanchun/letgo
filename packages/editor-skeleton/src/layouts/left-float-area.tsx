@@ -14,13 +14,6 @@ import { addUnit } from '@harrywan/letgo-common';
 import type { Area } from '../area';
 import type { IPanelConfig } from '../types';
 import type { Panel } from '../widget';
-import {
-    headerIconCls,
-    headerIconsCls,
-    leftFloatAreaBodyCls,
-    leftFloatAreaCls,
-    leftFloatAreaHeaderCls,
-} from './workbench.css';
 
 export default defineComponent({
     name: 'LeftFloatArea',
@@ -83,21 +76,21 @@ export default defineComponent({
             const { current, items } = area;
             const currentProps = current?.props || {};
             return (
-                <div class={leftFloatAreaCls} style={style.value}>
-                    <div class={leftFloatAreaHeaderCls}>
+                <div class="letgo-skeleton-workbench__left-float" style={style.value}>
+                    <div class="letgo-skeleton-workbench__left-float-header">
                         {currentProps.title}
-                        <div class={headerIconsCls}>
+                        <div class="letgo-skeleton-workbench__left-float-icons">
                             <PasswordOutlined
-                                class={headerIconCls}
+                                class="letgo-skeleton-workbench__left-float-icon"
                                 onClick={toggleFixed}
                             />
                             <CloseOutlined
-                                class={headerIconCls}
+                                class="letgo-skeleton-workbench__left-float-icon"
                                 onClick={handleClose}
                             />
                         </div>
                     </div>
-                    <div class={leftFloatAreaBodyCls}>
+                    <div class="letgo-skeleton-workbench__left-float-body">
                         {items.map(item => item.content)}
                     </div>
                 </div>

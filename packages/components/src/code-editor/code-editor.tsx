@@ -26,7 +26,7 @@ import type { DocumentModel } from '@harrywan/letgo-designer';
 import { autocompletion } from '@codemirror/autocomplete';
 import { HintTheme, hintPlugin } from './hint';
 import { useHint } from './use';
-import { fullScreenIconCls, fullScreenWrapperCls, wrapCls } from './code-editor.css';
+import  './code-editor.less';
 
 export const CodeEditor = defineComponent({
     props: {
@@ -148,12 +148,12 @@ export const CodeEditor = defineComponent({
                 <>
                     <div
                         ref={editorRefEl}
-                        class={[attrs.class, wrapCls, props.bordered && 'is-bordered']}
+                        class={[attrs.class, 'letgo-comp-code', props.bordered && 'is-bordered']}
                         style={attrs.style as StyleValue}
                     >
                         {props.fullscreen && (
                             <FullScreen
-                                class={fullScreenIconCls}
+                                class="letgo-comp-code__full-icon"
                                 size={14}
                                 theme="outline"
                                 onClick={toggleFullScreen}
@@ -166,7 +166,7 @@ export const CodeEditor = defineComponent({
                             show={isFullScreen.value}
                             title="代码编辑"
                             width={800}
-                            contentClass={fullScreenWrapperCls}
+                            contentClass="letgo-comp-code__full-screen"
                             onCancel={toggleFullScreen}
                         >
                             <div ref={fullScreenRef} style={{ height: '100%' }}>

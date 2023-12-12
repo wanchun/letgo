@@ -1,0 +1,44 @@
+.letgo-setter-style__border {
+    display: flex;
+    align-items: center;
+    &-icons {
+        display: grid;
+        gap: 4px;
+        grid-template-columns: repeat(3, 24px);
+        grid-template-rows: repeat(3, 24px);
+    }
+    &-icon {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        cursor: pointer;
+        color: rgba(0, 0, 0, 0.8);
+        > svg {
+            width: 1em;
+            height: 1em;
+            vertical-align: middle;
+            fill: currentColor;
+        }
+        &--selected {
+            color: var(--letgo-primary-color); 
+        }
+    }
+
+    &-custom {
+        flex: 1;
+        margin-left: 24px;
+    }
+
+    &-radius {
+        display: grid;
+        gap: 8px;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 32px);
+    }
+    &-radius-item {
+        display: flex;
+        align-items: center;
+        column-gap: 4px;
+    }
+}

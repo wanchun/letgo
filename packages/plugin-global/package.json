@@ -27,7 +27,6 @@
         "@harrywan/letgo-engine": "^0.0.0-beta.50",
         "@harrywan/letgo-engine-plugin": "^0.0.0-beta.48",
         "@harrywan/letgo-types": "^0.0.0-beta.46",
-        "@vanilla-extract/css": "^1.14.0",
         "@vueuse/core": "^10.1.2",
         "lodash-es": "^4.17.21"
     },

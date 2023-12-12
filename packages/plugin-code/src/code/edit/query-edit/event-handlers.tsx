@@ -5,7 +5,7 @@ import { EventHandlerList } from '@harrywan/letgo-components';
 import type { DocumentModel } from '@harrywan/letgo-designer';
 import type { IPublicTypeEventHandler, QueryResourceBase } from '@harrywan/letgo-types';
 import { InnerEventHandlerAction } from '@harrywan/letgo-types';
-import { contentCls, eventHandlersCls, eventListCls, failureCls, titleCls } from './event-handlers.css';
+import './event-handlers.less';
 import EventHeader from './event-header';
 
 type EventType = 'successEvent' | 'failureEvent';
@@ -90,8 +90,8 @@ export default defineComponent({
         };
 
         return () => {
-            return <div class={eventHandlersCls}>
-                <div class={titleCls}>事件绑定</div>
+            return <div class="letgo-plg-code__event-handlers">
+                <div class="letgo-plg-code__event-handlers-title">事件绑定</div>
                 <div>
                     <EventHeader
                         ref={successPopperRef}
@@ -102,10 +102,10 @@ export default defineComponent({
                         onChangeEventHandler={changeSuccessEventHandler}
                         addEventHandler={addSuccessEventHandler}
                     />
-                    <div class={contentCls}>
+                    <div class="letgo-plg-code__event-content">
                         <EventHandlerList
                             visibleName={false}
-                            class={eventListCls}
+                            class="letgo-plg-code__event-list"
                             eventHandlers={props.codeItem.successEvent}
                             currentEventHandler={currentEditEvent.value}
                             onDelete={onDeleteSuccessEvent}
@@ -113,7 +113,7 @@ export default defineComponent({
                         />
                     </div>
                 </div>
-                <div class={failureCls}>
+                <div class="letgo-plg-code__event-failure">
                     <EventHeader
                         ref={failurePopperRef}
                         title="失败"
@@ -123,10 +123,10 @@ export default defineComponent({
                         onChangeEventHandler={changeFailureEventHandler}
                         addEventHandler={addFailureEventHandler}
                     />
-                    <div class={contentCls}>
+                    <div class="letgo-plg-code__event-content">
                         <EventHandlerList
                             visibleName={false}
-                            class={eventListCls}
+                            class="letgo-plg-code__event-list"
                             eventHandlers={props.codeItem.failureEvent}
                             currentEventHandler={currentEditEvent.value}
                             onDelete={onDeleteFailureEvent}

@@ -26,11 +26,7 @@ import type { SettingField } from '@harrywan/letgo-designer';
 import { FButton, FDraggable } from '@fesjs/fes-design';
 import { AddOne, Config, DeleteOne, Drag } from '@icon-park/vue-next';
 import { commonProps } from '../../common';
-import {
-    addWrapperCls, bigBodyWrapperCls, bodyCls, bodyWrapperCls,
-    iconCls, titleCls, titleWrapperCls,
-    wrapperCls,
-} from './index.css';
+import './index.less'
 
 interface ItemType { main: SettingField; cols: SettingField[] }
 
@@ -196,10 +192,10 @@ const ArraySetterView = defineComponent({
                 return;
 
             return (
-                <div class={titleWrapperCls}>
+                <div class="letgo-array-setter__header">
                     {
                         columnsRef.value?.map((item) => {
-                            return <span class={titleCls}>{item.title}</span>;
+                            return <span class="letgo-array-setter__title">{item.title}</span>;
                         })
                     }
                 </div>
@@ -221,14 +217,14 @@ const ArraySetterView = defineComponent({
                 };
                 return (
                     <>
-                        <Config onClick={() => toggle()} class={iconCls} theme="outline" />
+                        <Config onClick={() => toggle()} class="letgo-array-setter__icon" theme="outline" />
                         {
                             columnsRef.value.map((_item, index) => {
                                 const itemField = cols[index];
                                 if (!itemField)
                                     return null;
                                 return (
-                                    <div class={bodyCls}>
+                                    <div class="letgo-array-setter__item">
                                         {createSettingFieldView(itemField)}
                                     </div>
                                 );
@@ -238,7 +234,7 @@ const ArraySetterView = defineComponent({
                 );
             }
             return (
-                <div class={bodyCls}>
+                <div class="letgo-array-setter__item">
                     {createSettingFieldView(main)}
                 </div>
             );
@@ -276,10 +272,10 @@ const ArraySetterView = defineComponent({
                     v-slots={{
                         default: ({ item, index }: { item: ItemType; index: number }) => {
                             return (
-                                <div class={[bodyWrapperCls, !hasCol && bigBodyWrapperCls]}>
-                                    <Drag class={iconCls} theme="outline" onMousedown={onMousedown} />
+                                <div class={['letgo-array-setter__body', !hasCol && 'letgo-array-setter__body--big']}>
+                                    <Drag class="letgo-array-setter__icon" theme="outline" onMousedown={onMousedown} />
                                     {renderField(item, index)}
-                                    <DeleteOne onClick={() => onRemove(item, index)} class={iconCls} theme="outline" />
+                                    <DeleteOne onClick={() => onRemove(item, index)} class="letgo-array-setter__icon" theme="outline" />
                                 </div>
                             );
                         },
@@ -290,13 +286,13 @@ const ArraySetterView = defineComponent({
 
         return () => {
             return (
-                <div class={wrapperCls}>
+                <div class="letgo-array-setter">
                     {renderTitle()}
                     {renderBody()}
-                    <div class={[hasCol && addWrapperCls]}>
+                    <div class={{'letgo-array-setter__add': hasCol }}>
                         <FButton
                             long
-                            v-slots={{ icon: () => <AddOne style={{ marginRight: '8px' }} class={iconCls} theme="outline" ></AddOne> }}
+                            v-slots={{ icon: () => <AddOne style={{ marginRight: '8px' }} class="letgo-array-setter__icon" theme="outline" ></AddOne> }}
                             onClick={onAdd}
                         >
                             新增选项

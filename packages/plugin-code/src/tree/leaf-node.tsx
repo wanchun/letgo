@@ -1,7 +1,7 @@
 import { defineComponent } from 'vue';
 
 import { isArray, isBoolean, isFunction, isNil, isNumber, isPlainObject, isString } from 'lodash-es';
-import { leafCls, leafValueCls } from './leaf-node.css';
+import './leaf-node.less';
 import LabelTip from './label-tip';
 
 type CommonType = string | number | null | boolean;
@@ -24,7 +24,7 @@ export default defineComponent({
             return <LabelTip value={[]} />;
         };
         const attachColorToValue = (color: string, value: string | number) => {
-            return <span class={leafValueCls} style={`color: ${color}`}>{value}</span>;
+            return <span class="letgo-plg-code-tree__value" style={`color: ${color}`}>{value}</span>;
         };
         const renderCommonValue = (value: CommonType) => {
             if (isFunction(value))
@@ -52,7 +52,7 @@ export default defineComponent({
             return renderCommonValue(props.value as CommonType);
         };
         return () => {
-            return <div class={leafCls} style={`padding-left: ${props.level * 14}px`}>
+            return <div class="letgo-plg-code-tree__leaf" style={`padding-left: ${props.level * 14}px`}>
                 <span>{props.label}</span>
                 {renderValue()}
             </div>;

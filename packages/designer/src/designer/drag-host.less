@@ -1,0 +1,21 @@
+.letgo-designer-drag {
+    position: fixed;
+    z-index: 99999;
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 6px grey;
+    transform: translate(-10%, -50%);
+    box-sizing: border-box;
+    &__title {
+        text-align: center;
+        font-size: 14px;
+        text-overflow: ellipsis;
+        color: rgba(0, 0, 0, 0.5);
+        white-space: nowrap;
+        overflow: hidden;
+    }
+}

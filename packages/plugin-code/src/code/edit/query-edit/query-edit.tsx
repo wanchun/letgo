@@ -5,12 +5,12 @@ import { cloneDeep, isEqual } from 'lodash-es';
 import { isRestQueryResource } from '@harrywan/letgo-types';
 import type { IJavascriptQuery } from '@harrywan/letgo-types';
 import type { DocumentModel } from '@harrywan/letgo-designer';
-import { contentCls, headerCls } from './query-edit.css';
 import LeftTabs from './left-tabs';
 import General from './general';
 import RestGeneral from './rest/general';
 import ResponseEdit from './response';
 import Advance from './advance';
+import './query-edit.less';
 
 export default defineComponent({
     props: {
@@ -61,13 +61,13 @@ export default defineComponent({
         return () => {
             return (
                 <>
-                    <div class={headerCls}>
+                    <div class="letgo-plg-code__query-header">
                         <LeftTabs tab={currentTab.value} changeTab={changeTab} />
                         <div>
                             <FButton type="primary" size="small" disabled={!isChange.value} onClick={onSave}>保存</FButton>
                         </div>
                     </div>
-                    <div class={contentCls}>
+                    <div class="letgo-plg-code__query-content">
                         {renderContent()}
                     </div>
                 </>

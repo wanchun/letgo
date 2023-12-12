@@ -30,16 +30,8 @@ import {
 } from '@harrywan/letgo-types';
 import type { Designer } from '@harrywan/letgo-designer';
 import type { Editor } from '@harrywan/letgo-editor-core';
-import {
-    categoryBodyCls,
-    categoryCls,
-    categoryItemCls,
-    categoryItemIconCls,
-    categoryTitleCls,
-    searchCls,
-    tabsCls,
-    wrapperCls,
-} from './panel.css';
+
+import "./panel.less"
 
 interface CategoryType {
     category: string
@@ -168,7 +160,7 @@ export default defineComponent({
                     return (
                         snippet.screenshot && (
                             <img
-                                class={categoryItemIconCls}
+                                class="letgo-components__icon"
                                 src={snippet.screenshot}
                                 draggable="false"
                             />
@@ -178,7 +170,7 @@ export default defineComponent({
                 return (
                     <FGridItem span={12}>
                         <FButton
-                            class={categoryItemCls}
+                            class="letgo-components__item"
                             v-slots={{ icon: renderIcon }}
                             ref={(el: any) => {
                                 if (!el?.$el)
@@ -196,12 +188,12 @@ export default defineComponent({
         const renderCategory = (group: string) => {
             return categoryListRef.value[group].map((item) => {
                 return (
-                    <div class={categoryCls}>
-                        <div class={categoryTitleCls}>{item.category}</div>
+                    <div class="letgo-components__category">
+                        <div class="letgo-components__title">{item.category}</div>
                         <FGrid
                             wrap
                             gutter={[10, 10]}
-                            class={categoryBodyCls}
+                            class="letgo-components__body"
                             v-show={item.show}
                         >
                             {renderSnippet(item.snippets)}
@@ -213,8 +205,8 @@ export default defineComponent({
 
         return () => {
             return (
-                <div class={wrapperCls}>
-                    <div class={searchCls}>
+                <div class="letgo-components">
+                    <div class="letgo-components__search">
                         <FInput
                             placeholder="请输入"
                             clearable
@@ -224,7 +216,7 @@ export default defineComponent({
                             }}
                         ></FInput>
                     </div>
-                    <FTabs class={tabsCls}>
+                    <FTabs class="letgo-components__tabs">
                         {{
                             default: () => groupListRef.value.map((group) => {
                                 return (

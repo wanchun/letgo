@@ -3,7 +3,6 @@ import { defineComponent } from 'vue';
 import type { Area } from '../area';
 import type { IPanelConfig, IWidgetConfig } from '../types';
 import type { Panel, Widget } from '../widget';
-import { mainAreaCls } from './workbench.css';
 
 export default defineComponent({
     name: 'MainArea',
@@ -18,7 +17,7 @@ export default defineComponent({
         return () => {
             const { area } = props;
             return (
-                <div class={mainAreaCls}>
+                <div class="letgo-skeleton-workbench__main">
                     {area.items.map(item => item.content)}
                 </div>
             );

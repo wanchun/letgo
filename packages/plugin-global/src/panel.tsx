@@ -11,7 +11,7 @@ import {
 import type { Designer } from '@harrywan/letgo-designer';
 import { GlobalCSS } from './global-css';
 import { GlobalCode } from './global-code/code';
-import { panelCls, tabsCls } from './panel.css';
+import  './panel.less';
 
 export default defineComponent({
     props: {
@@ -22,8 +22,8 @@ export default defineComponent({
     setup(props) {
         return () => {
             return (
-                <div class={panelCls}>
-                    <FTabs class={tabsCls}>
+                <div class="letgo-global">
+                    <FTabs class="letgo-global__tabs">
                         <FTabPane
                             name="全局样式"
                             value="code"

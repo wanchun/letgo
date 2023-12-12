@@ -3,10 +3,6 @@ import type { INode } from '@harrywan/letgo-designer';
 import { RightOutlined } from '@fesjs/fes-design/icon';
 import { defineComponent } from 'vue';
 import NodeRef from './node-ref';
-import {
-    navigatorCls,
-    navigatorItemCls,
-} from './setting.css';
 
 export default defineComponent({
     name: 'Breadcrumb',
@@ -42,7 +38,7 @@ export default defineComponent({
             const len = parentNodeList.length;
 
             return (
-                <div class={navigatorCls}>
+                <div class="letgo-plg-setting__navigator">
                     {parentNodeList
                         .reverse()
                         .map((node: INode, index: number) => {
@@ -52,8 +48,8 @@ export default defineComponent({
                                 <>
                                     <span
                                         class={[
-                                            navigatorItemCls,
-                                            isParentNode && 'is-parent',
+                                            "letgo-plg-setting__navigator-item",
+                                            isParentNode && 'letgo-plg-setting__navigator-item--parent',
                                         ]}
                                     >
                                         {node?.componentMeta?.title}

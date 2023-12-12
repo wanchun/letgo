@@ -6,7 +6,7 @@ import { FCheckbox, FSelect } from '@fesjs/fes-design';
 import { CodeEditor, ExpressionEditor } from '@harrywan/letgo-components';
 import { javascript } from '@codemirror/lang-javascript';
 import ContentItem from '../content-item';
-import { apiCls, contentCls, methodCls, tipCls, wrapCls } from './params.css';
+import './params.less';
 
 const MethodOptions = [{
     label: 'POST',
@@ -44,15 +44,15 @@ export default defineComponent({
 
         return () => {
             return (
-                <div class={wrapCls}>
+                <div>
                     <ContentItem label="请求方法" labelStyle="width: 72px" v-slots={{
                         content: () => {
                             return (
-                                <div class={contentCls}>
-                                    <FSelect class={methodCls} placeholder='' v-model={props.codeItem.method} options={MethodOptions} />
+                                <div class="letgo-plg-code__query-params-content">
+                                    <FSelect class="letgo-plg-code__query-method" placeholder='' v-model={props.codeItem.method} options={MethodOptions} />
                                     <ExpressionEditor
                                         placeholder="/api/path/to/get/data"
-                                        class={apiCls}
+                                        class="letgo-plg-code__query-api"
                                         documentModel={props.documentModel}
                                         doc={props.codeItem.api}
                                         onChangeDoc={changeApiPath}
@@ -73,7 +73,7 @@ export default defineComponent({
                             return (
                                 <div style="width: 0; flex: 1;">
                                     <FCheckbox v-model={props.codeItem.enableTransformer}>开启数据转换</FCheckbox>
-                                    {!props.codeItem.enableTransformer && <p class={tipCls}>开始数据转换，将请求数据转换成不同的格式</p>}
+                                    {!props.codeItem.enableTransformer && <p class="letgo-plg-code__query-tip">开始数据转换，将请求数据转换成不同的格式</p>}
                                     {props.codeItem.enableTransformer && <CodeEditor extensions={[javascript()]} documentModel={props.documentModel} doc={props.codeItem.transformer} changeDoc={changeTransformer} />}
                                 </div>
                             );

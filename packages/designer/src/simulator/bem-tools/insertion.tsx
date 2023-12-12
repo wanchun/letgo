@@ -4,7 +4,7 @@ import type { Simulator } from '../simulator';
 import { isLocationChildrenDetail, isVertical } from '../../designer';
 import type { DropLocation, ILocationChildrenDetail, IRect } from '../../designer';
 import type { INode, ISimulator } from '../../types';
-import { coverCls, verticalCls, wrapCls } from './insertion.css';
+import './insertion.less';
 
 interface InsertionData {
     edge?: DOMRect
@@ -130,13 +130,13 @@ export const InsertionView = defineComponent({
             if (!edge)
                 return null;
 
-            const className = [wrapCls];
+            const className = ['letgo-designer-sim__insertion'];
 
             const style: CSSProperties = {};
             let x: number;
             let y: number;
             if (insertType === 'cover') {
-                className.push(coverCls);
+                className.push('letgo-designer-sim__insertion--cover');
                 x = (coverRect!.left + scrollX) * scale;
                 y = (coverRect!.top + scrollY) * scale;
                 style.width = `${coverRect!.width * scale}px`;
@@ -147,7 +147,7 @@ export const InsertionView = defineComponent({
                     return null;
 
                 if (vertical) {
-                    className.push(verticalCls);
+                    className.push('letgo-designer-sim__insertion--vertical');
                     x = ((insertType === 'before' ? nearRect.left : nearRect.right) + scrollX) * scale;
                     y = (nearRect.top + scrollY) * scale;
                     style.height = `${nearRect!.height * scale}px`;

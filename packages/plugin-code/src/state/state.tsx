@@ -10,7 +10,7 @@ import FadeInExpandTransition from '../fade-in-expand-transition';
 import Tree from '../tree/tree';
 import StateHeader from './state-header';
 
-import { categoryCls, stateWrapCls } from './state.css';
+import './state.less';
 
 export default defineComponent({
     props: {
@@ -63,8 +63,8 @@ export default defineComponent({
         });
         return () => {
             return (
-                <div class={stateWrapCls}>
-                    <div class={categoryCls}>
+                <div class="letgo-plg-code__state">
+                    <div class="letgo-plg-code__state-category">
                         <StateHeader title="状态" isActive={activeItem.code} clickHeader={toggleCodeExpend} />
                         <FadeInExpandTransition>
                             <div v-show={activeItem.code}>
@@ -72,7 +72,7 @@ export default defineComponent({
                             </div>
                         </FadeInExpandTransition>
                     </div>
-                    <div class={categoryCls}>
+                    <div class="letgo-plg-code__state-category">
                         <StateHeader title="组件" isActive={activeItem.components} clickHeader={toggleComponentsExpend} />
                         <FadeInExpandTransition>
                             <div v-show={activeItem.components}>
@@ -80,7 +80,7 @@ export default defineComponent({
                             </div>
                         </FadeInExpandTransition>
                     </div>
-                    <div class={categoryCls}>
+                    <div class="letgo-plg-code__state-category">
                         <StateHeader title="全局状态" isActive={activeItem.global} clickHeader={toggleGlobalExpend} />
                         <FadeInExpandTransition>
                             <div v-show={activeItem.global}>

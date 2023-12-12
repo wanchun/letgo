@@ -1,5 +1,4 @@
 import { markShallowReactive } from '@harrywan/letgo-common';
-
 import type { IRestQueryResource } from '@harrywan/letgo-types';
 import { genRestApiQueryFunc } from '@harrywan/letgo-renderer';
 import { JavascriptQueryImpl } from './base';

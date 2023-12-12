@@ -5,7 +5,7 @@ import FadeInExpandTransition from '../fade-in-expand-transition';
 import FillArrow from './fill-arrow';
 import LeafNode from './leaf-node';
 import LabelTip from './label-tip';
-import { iconActiveCls, labelIconCls } from './tree-node.css';
+import './tree-node.less';
 
 const TreeNode = defineComponent({
     name: 'TreeNode',
@@ -23,7 +23,7 @@ const TreeNode = defineComponent({
         };
         const renderLabel = () => {
             return <div onClick={toggleExpend} style={`padding-left: ${props.level * 14}px`}>
-                <FillArrow class={[labelIconCls, expended.value && iconActiveCls]} />
+                <FillArrow class={['letgo-plg-code-tree__icon', expended.value && 'letgo-plg-code-tree__icon--active']} />
                 <span style="font-weight: 600">{props.label}</span>
                 <LabelTip value={props.value} />
             </div>;

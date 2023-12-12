@@ -18,17 +18,9 @@ import type { Simulator } from '../simulator';
 import NodeSelectorView from '../node-selector';
 import type { INode } from '../../types';
 import type { OffsetObserver } from '../../designer';
-import {
-    borderActionCls,
-    borderActionsCls,
-    borderCls,
-    borderSelectingCls,
-} from './borders.css';
+import './borders.less';
 
-export function createAction(content: IPublicTypeComponentActionContent,
-    key: string,
-    node: INode,
-    simulator: Simulator) {
+export function createAction(content: IPublicTypeComponentActionContent, key: string, node: INode, simulator: Simulator) {
     if (typeof content === 'string')
         return content;
 
@@ -47,8 +39,8 @@ export function createAction(content: IPublicTypeComponentActionContent,
                 = [npm?.package, npm?.exportName]
                     .filter(item => !!item)
                     .join('-')
-                || node?.componentMeta?.componentName
-                || '';
+                    || node?.componentMeta?.componentName
+                    || '';
 
             editor?.emit('designer.border.action', {
                 name: key,
@@ -56,7 +48,7 @@ export function createAction(content: IPublicTypeComponentActionContent,
             });
         };
         return (
-            <div key={key} class={borderActionCls} onClick={handleClick}>
+            <div key={key} class="letgo-designer-sim__border-action" onClick={handleClick}>
                 <FTooltip content={title} placement="top">
                     {icon && createIcon(icon)}
                 </FTooltip>
@@ -135,7 +127,7 @@ export const Toolbar = defineComponent({
                     actions.push(createAction(content, name, node, props.simulator));
             });
             return (
-                <div class={borderActionsCls} style={style}>
+                <div class="letgo-designer-sim__border-actions" style={style}>
                     {actions}
                     <NodeSelectorView node={node} />
                 </div>
@@ -179,9 +171,9 @@ export const BorderSelectingInstance = defineComponent({
             return (
                 <div
                     class={[
-                        borderCls,
-                        borderSelectingCls,
-                        dragging && 'is-dragging',
+                        'letgo-designer-sim__border',
+                        'letgo-designer-sim__border--selecting',
+                        dragging && 'letgo-designer-sim__border--dragging',
                     ]}
                     style={style}
                 >

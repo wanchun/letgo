@@ -5,7 +5,6 @@ import { editor } from '@harrywan/letgo-editor-core';
 import type { Area } from '../area';
 import type { IPanelConfig } from '../types';
 import type { Panel } from '../widget';
-import { rightActiveDividerCls, rightAreaCls, rightDividerCls } from './workbench.css';
 
 export default defineComponent({
     name: 'RightArea',
@@ -58,17 +57,19 @@ export default defineComponent({
             return (
                 <div
                     v-show={area.items.length}
-                    class={rightAreaCls}
+                    class="letgo-skeleton-workbench__right"
                     style={{
                         width: `${width.value}px`,
-                    }}>
+                    }}
+                >
                     {area.items.map(item => item.content)}
                     <div
-                        class={[rightDividerCls, (isHover.value || isActive.value) && rightActiveDividerCls]}
+                        class={['letgo-skeleton-workbench__right-divider', (isHover.value || isActive.value) && 'letgo-skeleton-workbench__right-divider--active']}
                         onMouseenter={onMouseenter}
                         onMouseleave={onMouseleave}
                         onMousedown={onMousedown}
-                    ></div>
+                    >
+                    </div>
                 </div>
             );
         };

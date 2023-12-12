@@ -7,7 +7,7 @@ import type { DocumentModel } from '@harrywan/letgo-designer';
 import Label from './label';
 import Separator from './separator';
 import RenderOptions from './render-options';
-import { blockCls } from './modify-block.css';
+import './modify-block.less';
 
 const actions = [{
     value: InnerEventHandlerAction.CONTROL_QUERY,
@@ -116,7 +116,7 @@ export default defineComponent({
         };
 
         return () => {
-            return <div class={blockCls}>
+            return <div class="letgo-comp-event__modify">
                 {renderEvent()}
                 {renderAction()}
                 <Separator text={firstSeparatorText.value} />

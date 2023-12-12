@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
 import { DownOutlined } from '@fesjs/fes-design/icon';
-import { categoryTitleCls, titleIconCls } from './state-header.css';
+import './state-header.less';
 
 export default defineComponent({
     props: {
@@ -11,9 +11,9 @@ export default defineComponent({
     },
     setup(props) {
         return () => {
-            return <div class={categoryTitleCls} onClick={props.clickHeader}>
+            return <div class="letgo-plg-code__state-title" onClick={props.clickHeader}>
                 {props.title}
-                <span class={titleIconCls}>
+                <span class="letgo-plg-code__state-icon">
                     <DownOutlined style={{ transition: 'all 0.3s', transform: props.isActive ? 'rotate(0)' : 'rotate(180deg)' }} />
                 </span>
             </div>;

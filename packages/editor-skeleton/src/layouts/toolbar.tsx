@@ -5,12 +5,6 @@ import type {
     IWidgetConfig,
 } from '../types';
 import type { Widget } from '../widget';
-import {
-    toolbarCenterCls,
-    toolbarCls,
-    toolbarLeftCls,
-    toolbarRightCls,
-} from './workbench.css';
 
 export default defineComponent({
     name: 'Toolbar',
@@ -53,10 +47,10 @@ export default defineComponent({
                         right.push(content);
                 });
             return (
-                <div class={toolbarCls}>
-                    <div class={toolbarLeftCls}>{left}</div>
-                    <div class={toolbarCenterCls}>{center}</div>
-                    <div class={toolbarRightCls}>{right}</div>
+                <div class="letgo-skeleton-workbench__toolbar">
+                    <div class="letgo-skeleton-workbench__horizontal">{left}</div>
+                    <div class="letgo-skeleton-workbench__horizontal letgo-skeleton-workbench__horizontal--center">{center}</div>
+                    <div class="letgo-skeleton-workbench__horizontal">{right}</div>
                 </div>
             );
         };

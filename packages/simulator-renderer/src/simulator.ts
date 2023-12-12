@@ -40,7 +40,7 @@ import {
     isVNodeHTMLElement,
     setCompRootData,
 } from './utils';
-import './simulator.css';
+import './simulator.less';
 
 function createDocumentInstance(document: DocumentModel): DocumentInstance {
     /** 记录单个节点的组件实例列表 */

@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue';
 import type { PropType } from 'vue';
-import { activeTabCls, leftTabsCls, tabCls } from './left-tabs.css';
+import './left-tabs.less';
 
 export default defineComponent({
     name: 'LeftTabs',
@@ -13,10 +13,6 @@ export default defineComponent({
             value: 'general',
             label: '通用',
         },
-        // {
-        //     value: 'response',
-        //     label: '响应',
-        // },
         {
             value: 'advanced',
             label: '高级',
@@ -28,12 +24,12 @@ export default defineComponent({
 
         const renderTabs = () => {
             return tabs.map((tab) => {
-                return <button class={[tabCls, props.tab === tab.value ? activeTabCls : '']} onClick={() => selectTab(tab)}>{tab.label}</button>;
+                return <button class={["letgo-plg-code__query-tab", props.tab === tab.value ? 'letgo-plg-code__query-tab--active' : '']} onClick={() => selectTab(tab)}>{tab.label}</button>;
             });
         };
 
         return () => {
-            return <div class={leftTabsCls} >
+            return <div class="letgo-plg-code__query-tabs" >
                 {renderTabs()}
             </div>;
         };

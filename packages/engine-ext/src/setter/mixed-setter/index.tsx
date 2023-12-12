@@ -18,7 +18,7 @@ import { cloneDeep } from 'lodash';
 import { FDropdown, FTooltip } from '@fesjs/fes-design';
 import { CodeBrackets, Transform } from '@icon-park/vue-next';
 import { commonProps } from '../../common';
-import { actionsCls, contentCls, iconCls, isActive, wrapperCls } from './index.css';
+import './index.less';
 
 interface SetterItem {
     name: string
@@ -206,7 +206,7 @@ const MixedSetterView = defineComponent({
                     <FTooltip content={currentSetterName.value === 'ExpressionSetter' ? '关闭' : '启用表达式'}>
                         <CodeBrackets
                             onClick={onClick}
-                            class={[iconCls, currentSetterName.value === 'ExpressionSetter' && isActive]}
+                            class={["letgo-setter-mixed__icon", currentSetterName.value === 'ExpressionSetter' && "letgo-setter-mixed__icon--active"]}
                             theme="outline"
                             size="14"
                         />
@@ -221,7 +221,7 @@ const MixedSetterView = defineComponent({
                     }}
                 >
                     <Transform
-                        class={iconCls}
+                        class="letgo-setter-mixed__icon"
                         theme="outline"
                         size="14"
                     />
@@ -231,11 +231,11 @@ const MixedSetterView = defineComponent({
 
         return () => {
             return (
-                <div class={wrapperCls}>
-                    <div class={contentCls}>
+                <div class="letgo-setter-mixed">
+                    <div class="letgo-setter-mixed__content">
                         {renderCurrentSetter(currentSetter.value)}
                     </div>
-                    <div class={actionsCls}>{renderSwitchAction()}</div>
+                    <div class="letgo-setter-mixed__actions">{renderSwitchAction()}</div>
                 </div>
             );
         };

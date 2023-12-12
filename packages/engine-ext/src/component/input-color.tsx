@@ -1,7 +1,7 @@
 import { defineComponent } from 'vue';
 import { NColorPicker, NConfigProvider } from 'naive-ui';
 import { useModel } from '@harrywan/letgo-common';
-import { inputWrapCls } from './input-color.css';
+import  './input-color.less';
 
 export default defineComponent({
     props: {
@@ -21,7 +21,7 @@ export default defineComponent({
             return (
                 <NConfigProvider preflight-style-disabled>
                     <NColorPicker
-                        class={inputWrapCls}
+                        class="letgo-input-color"
                         actions={['clear']}
                         defaultValue={props.defaultValue}
                         value={currentValue.value}

@@ -8,9 +8,9 @@ import {
     placeholder,
 } from '@codemirror/view';
 import type { PropType } from 'vue';
-import { editorCls } from './expression-editor.css';
 import { HintTheme, hintPlugin } from './hint';
 import { useHint } from './use';
+import './expression-editor.less';
 
 export const ExpressionEditor = defineComponent({
     props: {
@@ -81,7 +81,7 @@ export const ExpressionEditor = defineComponent({
         });
 
         return () => {
-            return <div class={editorCls} ref={editorRefEl}></div>;
+            return <div class="letgo-expression-edit" ref={editorRefEl}></div>;
         };
     },
 });

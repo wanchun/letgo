@@ -21,7 +21,8 @@ import {
     useLeaf,
 } from '@harrywan/letgo-renderer';
 import type {
-    IPublicTypeComponentAction, IPublicTypeComponentInstance,
+    IPublicTypeComponentAction,
+    IPublicTypeComponentInstance,
     IPublicTypeCompositeValue,
     IPublicTypeEventHandler,
 } from '@harrywan/letgo-types';
@@ -35,7 +36,6 @@ import type {
     BlockScope,
     LeafProps,
     RuntimeScope,
-
     SlotSchemaMap,
 } from '@harrywan/letgo-renderer';
 import { eventHandlersToJsFunction } from '@harrywan/letgo-common';

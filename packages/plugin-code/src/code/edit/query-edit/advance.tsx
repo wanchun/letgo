@@ -4,7 +4,7 @@ import type { IJavascriptQuery } from '@harrywan/letgo-types';
 import { FCheckbox, FInputNumber } from '@fesjs/fes-design';
 import Category from './category';
 import ContentItem from './content-item';
-import { cacheDurationCls } from './advance.css';
+import './advance.less';
 
 export default defineComponent({
     props: {
@@ -13,7 +13,7 @@ export default defineComponent({
     setup(props) {
         const renderCacheDuration = () => {
             if (props.codeItem.enableCaching) {
-                return <div class={cacheDurationCls}>
+                return <div class="letgo-plg-code__query-cache">
                     <label>缓存时间(单位:秒):</label>
                     <FInputNumber v-model={props.codeItem.cacheDuration} />
                 </div>;

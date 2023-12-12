@@ -11,7 +11,7 @@ import {
 import type { Designer } from '@harrywan/letgo-designer';
 import { DesignerView } from '@harrywan/letgo-designer';
 import type { IPluginContext } from '@harrywan/letgo-engine-plugin';
-import { designerPluginCls } from './designer.css';
+import './designer.less';
 
 export default defineComponent({
     name: 'PluginDesigner',
@@ -63,7 +63,7 @@ export default defineComponent({
 
             return (
                 <DesignerView
-                    class={designerPluginCls}
+                    class="letgo-plg-designer"
                     editor={editor}
                     designer={designer}
                     onMount={onDesignerMount}

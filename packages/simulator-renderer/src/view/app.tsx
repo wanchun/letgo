@@ -14,10 +14,10 @@ function useCssHandler() {
     const css = host.project.get('css') || '';
     let styleDom = document.createElement('style');
     document.getElementsByTagName('head')[0].appendChild(styleDom);
-    styleDom.innerText = css.replace(/\n/g, '');
+    styleDom.textContent = css.replace(/\n/g, '');
 
     const offEvent = host.project.onCssChange(() => {
-        styleDom.innerText = host.project.get('css')?.replace(/\n/g, '');
+        styleDom.textContent = host.project.get('css')?.replace(/\n/g, '');
     });
 
     onUnmounted(() => {

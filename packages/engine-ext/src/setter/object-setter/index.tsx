@@ -6,7 +6,7 @@ import { isUndefined } from 'lodash-es';
 import { createSettingFieldView } from '@harrywan/letgo-designer';
 import { isJSExpression } from '@harrywan/letgo-types';
 import { commonProps } from '../../common';
-import { wrapperCls } from './index.css';
+import  './index.less';
 
 const ObjectSetterView = defineComponent({
     name: 'ObjectSetterView',
@@ -47,7 +47,7 @@ const ObjectSetterView = defineComponent({
 
         return () => {
             return (
-                <div class={wrapperCls}>
+                <div class="letgo-setter-object">
                     {items.value.map(item => createSettingFieldView(item))}
                 </div>
             );

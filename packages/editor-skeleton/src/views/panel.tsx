@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
 import type { IPanel } from '../types';
-import { panelCls } from './panel.css';
+import './panel.less';
 
 export default defineComponent({
     name: 'Panel',
@@ -18,7 +18,7 @@ export default defineComponent({
                 return;
 
             return (
-                <div class={panelCls}>
+                <div class="letgo-skeleton__panel">
                     {widget.body}
                 </div>
             );

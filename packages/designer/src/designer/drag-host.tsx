@@ -1,8 +1,8 @@
 import type { PropType } from 'vue';
 import { defineComponent, onBeforeUnmount, shallowRef } from 'vue';
 import { isDragNodeDataObject, isDragNodeObject } from './dragon';
-import { ghostGroupCls, ghostTitleCls } from './drag-host.css';
 import type { Designer } from './designer';
+import './drag-host.less';
 
 export const DragHostView = defineComponent({
     name: 'DragHostView',
@@ -53,20 +53,20 @@ export const DragHostView = defineComponent({
                     ? (
                             _dragObject.data.map((item, index) => {
                                 return (
-                            <div key={`ghost-${index}`}>
-                                <div class={ghostTitleCls}>
-                                    {item.componentName}
-                                </div>
-                            </div>
+                                    <div key={`ghost-${index}`}>
+                                        <div class="letgo-designer-drag__title">
+                                            {item.componentName}
+                                        </div>
+                                    </div>
                                 );
                             })
                         )
                     : (
-                    <div>
-                        <div class={ghostTitleCls}>
-                            {_dragObject.data.componentName}
+                        <div>
+                            <div class="letgo-designer-drag__title">
+                                {_dragObject.data.componentName}
+                            </div>
                         </div>
-                    </div>
                         );
             }
         };
@@ -81,7 +81,7 @@ export const DragHostView = defineComponent({
 
             return (
                 <div
-                    class={ghostGroupCls}
+                    class="letgo-designer-drag"
                     style={{
                         left: `${x.value}px`,
                         top: `${y.value}px`,

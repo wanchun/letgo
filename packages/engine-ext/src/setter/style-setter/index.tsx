@@ -7,7 +7,7 @@ import { FCollapse } from '@fesjs/fes-design';
 import { commonProps, getComputeStyle } from '../../common';
 import { BackgroundView, BorderView, CodeView, FontView, LayoutView, PositionView } from './pro';
 import { styleKey } from './const';
-import { wrapperCls } from './index.css';
+import './index.less';
 
 type StyleModule = 'background' | 'border' | 'font' | 'layout' | 'position';
 
@@ -63,7 +63,7 @@ const StyleSetterView = defineComponent({
         return () => {
             const { styleModuleList } = props;
             return (
-                <div class={wrapperCls}>
+                <div class="letgo-setter-style">
                     <CodeView
                         value={currentValue.value}
                         onStyleChange={onStyleChange}

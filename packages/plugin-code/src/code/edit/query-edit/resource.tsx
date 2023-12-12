@@ -4,7 +4,7 @@ import { FSelect } from '@fesjs/fes-design';
 import type { IJavascriptQuery } from '@harrywan/letgo-types';
 import { ResourceType } from '@harrywan/letgo-types';
 import ContentItem from './content-item';
-import { contentCls, wrapCls } from './resource.css';
+import './resource.less';
 
 const Options = [{
     value: ResourceType.RESTQuery,
@@ -30,16 +30,20 @@ export default defineComponent({
     setup(props) {
         return () => {
             return (
-                <div class={wrapCls}>
-                    <ContentItem label="类型" labelStyle="width: 72px" v-slots={{
-                        content: () => {
-                            return (
-                                <div class={contentCls}>
-                                    <FSelect style="width: 130px" v-model={props.codeItem.resourceType} options={Options} />
-                                </div>
-                            );
-                        },
-                    }} />
+                <div class="letgo-plg-code__query-resource">
+                    <ContentItem
+                        label="类型"
+                        labelStyle="width: 72px"
+                        v-slots={{
+                            content: () => {
+                                return (
+                                    <div class="letgo-plg-code__query-resource-content">
+                                        <FSelect style="width: 130px" v-model={props.codeItem.resourceType} options={Options} />
+                                    </div>
+                                );
+                            },
+                        }}
+                    />
                 </div>
             );
         };

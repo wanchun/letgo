@@ -11,21 +11,21 @@
         "lib",
         "src"
     ],
+    "peerDependencies": {
+        "vue": "^3.3.9"
+    },
     "dependencies": {
+        "@fesjs/fes-design": "^0.8.17",
         "@harrywan/letgo-common": "^0.0.0-beta.46",
         "@harrywan/letgo-components": "^0.0.0-beta.47",
         "@harrywan/letgo-designer": "^0.0.0-beta.47",
         "@harrywan/letgo-renderer": "^0.0.0-beta.47",
         "@harrywan/letgo-types": "^0.0.0-beta.46",
-        "@vanilla-extract/css": "^1.14.0",
         "lodash-es": "^4.17.21",
         "vue-router": "^4.2.2"
     },
     "publishConfig": {
         "access": "public"
     },
-    "typings": "./es/index.d.ts",
-    "devDependencies": {
-        "vue": "^3.3.9"
-    }
+    "typings": "./es/index.d.ts"
 }

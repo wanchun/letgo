@@ -10,7 +10,7 @@ import {
 import { FPopper } from '@fesjs/fes-design';
 import { canClickNode } from '../../utils';
 import type { INode } from '../../types';
-import { nodeCls, nodeContentCls, triggerCls, wrapperCls } from './index.css';
+import './index.less';
 
 type UnionNode = INode | null;
 
@@ -62,8 +62,8 @@ const NodeSelectorView = defineComponent({
                     = [npm?.package, npm?.exportName]
                         .filter(item => !!item)
                         .join('-')
-                    || node?.componentMeta?.componentName
-                    || '';
+                        || node?.componentMeta?.componentName
+                        || '';
                 editor?.emit('designer.border.action', {
                     name: 'select',
                     selected,
@@ -99,9 +99,9 @@ const NodeSelectorView = defineComponent({
                         onMouseleave={() => {
                             onMouseOut(node);
                         }}
-                        class={nodeCls}
+                        class="letgo-simulator-selector__node"
                     >
-                        <div class={nodeContentCls}>{node.title}</div>
+                        <div class="letgo-simulator-selector__node-content">{node.title}</div>
                     </div>
                 );
             });
@@ -110,13 +110,13 @@ const NodeSelectorView = defineComponent({
 
         return () => {
             return (
-                <div class={wrapperCls}>
+                <div class="letgo-simulator-selector">
                     <FPopper>
                         {{
                             default: renderNodes,
                             trigger: () => {
                                 return (
-                                    <div class={triggerCls}>{node.title}</div>
+                                    <div class="letgo-simulator-selector__trigger">{node.title}</div>
                                 );
                             },
                         }}

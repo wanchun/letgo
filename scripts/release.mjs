@@ -3,7 +3,7 @@ import process from 'node:process';
 import * as url from 'node:url';
 import path from 'node:path';
 import minimist from 'minimist';
-import chalk from 'chalk';
+import pc from 'picocolors';
 import semver from 'semver';
 import enquirer from 'enquirer';
 import { execa } from 'execa';
@@ -33,10 +33,10 @@ function autoIncVersion(version) {
 }
 
 const run = (bin, args, opts = {}) => execa(bin, args, { stdio: 'inherit', ...opts });
-const dryRun = (bin, args, opts = {}) => console.log(chalk.blue(`[dryrun] ${bin} ${args.join(' ')}`), opts);
+const dryRun = (bin, args, opts = {}) => console.log(pc.blue(`[dryrun] ${bin} ${args.join(' ')}`), opts);
 const runIfNotDry = isDryRun ? dryRun : run;
 const getPkgRoot = pkg => path.resolve(__dirname, `../packages/${pkg}`);
-const step = msg => console.log(chalk.cyan(msg));
+const step = msg => console.log(pc.cyan(msg));
 function arrToObj(arr, key) {
     return arr.reduce((acc, cur) => {
         acc[cur[key]] = cur;
@@ -61,11 +61,11 @@ async function publishPackage(pkg, runIfNotDry) {
                 stdio: 'pipe',
             },
         );
-        console.log('Successfully published :', chalk.green(`${pkg.name}@${pkg.newVersion}`));
+        console.log('Successfully published :', pc.green(`${pkg.name}@${pkg.newVersion}`));
     }
     catch (e) {
         if (e.stderr.match(/previously published/))
-            console.log(chalk.red(`Skipping already published: ${pkg.name}`));
+            console.log(pc.red(`Skipping already published: ${pkg.name}`));
 
         else
             throw e;
@@ -212,7 +212,7 @@ async function main() {
     const changedPackages = await filterChangedPackages();
 
     if (!changedPackages.length) {
-        console.log(chalk.yellow(`No changes to commit.`));
+        console.log(pc.yellow(`No changes to commit.`));
         return;
     }
 
@@ -234,7 +234,7 @@ async function main() {
         type: 'confirm',
         name: 'yes',
         message: `These packages will be released: \n${packagesVersion
-            .map(pkg => `${chalk.magenta(pkg.name)}: v${pkg.version} > ${chalk.green(`v${pkg.newVersion}`)}`)
+            .map(pkg => `${pc.magenta(pkg.name)}: v${pkg.version} > ${pc.green(`v${pkg.newVersion}`)}`)
             .join('\n')}\nConfirm?`,
     });
 

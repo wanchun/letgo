@@ -4,17 +4,7 @@ import type { IPublicTypeDisplay, IPublicTypeNpmInfo } from '@harrywan/letgo-typ
 import { EditOutlined, RightOutlined } from '@fesjs/fes-design/icon';
 import { usePopupManage } from './usePopup';
 
-import {
-    accordionFieldCls,
-    blockFieldCls,
-    bodyCls,
-    headerCls,
-    iconCls,
-    iconShowCls,
-    inlineFieldCls,
-    plainFieldCls,
-    popupFieldCls,
-} from './fields.css';
+import './fields.less';
 
 export interface IFieldProps {
     meta?: IPublicTypeNpmInfo | string
@@ -72,10 +62,10 @@ export const PopupFieldView = defineComponent({
 
         return () => {
             return (
-                <div class={popupFieldCls} id={id} style={{ right: '400px' }}>
-                    <div class={headerCls}>{props.title}</div>
-                    <div class={bodyCls}>
-                        <EditOutlined class={iconCls} onClick={toggle}/>
+                <div class="letgo-designer-setting__popup" id={id} style={{ right: '400px' }}>
+                    <div class="letgo-designer-setting__header">{props.title}</div>
+                    <div class="letgo-designer-setting__body">
+                        <EditOutlined class="letgo-designer-setting__icon" onClick={toggle}/>
                     </div>
                 </div>
             );
@@ -91,8 +81,8 @@ export const PlainFieldView = defineComponent({
 
         return () => {
             return (
-                <div class={plainFieldCls} id={id}>
-                    <div class={bodyCls}>{slots.default?.()}</div>
+                <div class="letgo-designer-setting__plain" id={id}>
+                    <div class="letgo-designer-setting__body">{slots.default?.()}</div>
                 </div>
             );
         };
@@ -111,12 +101,12 @@ export const AccordionFieldView = defineComponent({
 
         return () => {
             return (
-                <div class={accordionFieldCls} id={id}>
-                    <div class={headerCls} onClick={onClickHeader}>
-                        <RightOutlined class={[iconCls, props.expanded && iconShowCls]}/>
+                <div class="letgo-designer-setting__accordion-field" id={id}>
+                    <div class="letgo-designer-setting__header" onClick={onClickHeader}>
+                        <RightOutlined class={['letgo-designer-setting__icon', props.expanded && 'letgo-designer-setting__icon--show']}/>
                         <span>{props.title}</span>
                     </div>
-                    <div class={bodyCls} v-show={props.expanded}>{slots.default?.()}</div>
+                    <div class="letgo-designer-setting__body" v-show={props.expanded}>{slots.default?.()}</div>
                 </div>
             );
         };
@@ -131,9 +121,9 @@ export const BlockFieldView = defineComponent({
 
         return () => {
             return (
-                <div class={blockFieldCls} id={id}>
-                    <div class={headerCls}>{props.title}</div>
-                    <div class={bodyCls}>{slots.default?.()}</div>
+                <div class="letgo-designer-setting__field" id={id}>
+                    <div class="letgo-designer-setting__header">{props.title}</div>
+                    <div class="letgo-designer-setting__body">{slots.default?.()}</div>
                 </div>
             );
         };
@@ -148,9 +138,9 @@ export const InlineFieldView = defineComponent({
 
         return () => {
             return (
-                <div class={inlineFieldCls} id={id}>
-                    <div class={headerCls}>{props.title}</div>
-                    <div class={bodyCls}>{slots.default?.()}</div>
+                <div class="letgo-designer-setting__inline-field" id={id}>
+                    <div class="letgo-designer-setting__header">{props.title}</div>
+                    <div class="letgo-designer-setting__body">{slots.default?.()}</div>
                 </div>
             );
         };

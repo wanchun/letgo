@@ -5,7 +5,6 @@ import { FCollapseItem, FGrid, FGridItem, FInputNumber, FSelect, FSpace } from '
 import { getPlaceholderPropertyValue } from '../../../common';
 import { InputUnit, Row } from '../../../component';
 import { styleKey } from '../const';
-import { lightCls } from '../index.css';
 
 const positionList = [
     {
@@ -79,7 +78,7 @@ export const PositionView = defineComponent({
                                     return (
                                         <FSpace>
                                             <span>{value}</span>
-                                            <span class={lightCls}>
+                                            <span class="letgo-setter-style__light">
                                                 {description}
                                             </span>
                                         </FSpace>

@@ -7,7 +7,7 @@ import { FInput, FOption, FSelect } from '@fesjs/fes-design';
 import type { DocumentModel } from '@harrywan/letgo-designer';
 import { DeleteOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
 import Label from './label';
-import { paramIconCls, paramsCls } from './render-options.css';
+import './render-options.less';
 
 export default defineComponent({
     name: 'RenderOptions',
@@ -138,16 +138,16 @@ export default defineComponent({
                     <FSelect v-model={data.namespace} appendToContainer={false} options={functionOptions.value} />
                 </Label>
                 <Label label="参数">
-                    <div class={paramsCls}>
+                    <div class="letgo-comp-event__params">
                         <span>
                             <FInput v-model={data.params[0]} placeholder='参数1' />
-                            <PlusCircleOutlined class={paramIconCls} onClick={() => addFunctionParam(data)} />
+                            <PlusCircleOutlined class="letgo-comp-event__params-icon" onClick={() => addFunctionParam(data)} />
                         </span>
                         {data.params.slice(1).map((_, index) => {
                             return <span>
                                 <FInput v-model={data.params[index + 1]} placeholder={`参数${index + 2}`} />
-                                <PlusCircleOutlined class={paramIconCls} onClick={() => addFunctionParam(data)} />
-                                <DeleteOutlined class={paramIconCls} onClick={() => deleteFunctionParam(data, index + 1)} />
+                                <PlusCircleOutlined class="letgo-comp-event__params-icon" onClick={() => addFunctionParam(data)} />
+                                <DeleteOutlined class="letgo-comp-event__params-icon" onClick={() => deleteFunctionParam(data, index + 1)} />
                             </span>;
                         })}
                     </div>

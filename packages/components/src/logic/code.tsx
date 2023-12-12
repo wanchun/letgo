@@ -6,8 +6,8 @@ import type { Code } from '@harrywan/letgo-designer';
 import { CodeType, ResourceType } from '@harrywan/letgo-types';
 import type { CodeItem } from '@harrywan/letgo-types';
 import { ComputedIcon, FolderIcon, JsIcon, RestIcon, StateIcon } from '../icons';
-import { codeCls, codeHeaderCls, codeItemActiveCls, codeItemCls, codeItemIdCls, codeMoreIconCls, codeWrapCls, headerIconCls } from './code.css';
 import CodeId from './code-id';
+import './code.less';
 
 const iconMap = {
     [CodeType.JAVASCRIPT_FUNCTION]: JsIcon,
@@ -101,11 +101,11 @@ export const CodeList = defineComponent({
         const renderFolders = () => {
             return props.code?.directories.map((item: any) => {
                 return (
-                    <li class={codeItemCls}>
+                    <li class="letgo-comp-code__item">
                         <FolderIcon />
-                        <span class={codeItemIdCls}>{item.name}</span>
+                        <span class="letgo-comp-code__item_id">{item.name}</span>
                         <FDropdown appendToContainer={false} trigger="click" placement="bottom-end" options={commonOptions}>
-                            <MoreOutlined class={codeMoreIconCls} />
+                            <MoreOutlined class="letgo-comp-code__icon-more" />
                         </FDropdown>
                     </li>
                 );
@@ -123,11 +123,11 @@ export const CodeList = defineComponent({
         const renderCode = () => {
             return props.code?.code.map((item: any) => {
                 return (
-                    <li onClick={() => props.onChangeCurrentCodeItem(item)} class={[codeItemCls, props.currentCodeItem?.id === item.id ? codeItemActiveCls : '']}>
+                    <li onClick={() => props.onChangeCurrentCodeItem(item)} class={['letgo-comp-code__item', props.currentCodeItem?.id === item.id ? 'letgo-comp-code__item--active' : '']}>
                         {renderCodeIcon(item)}
                         <CodeId id={item.id} hasCodeId={props.hasCodeId} onChange={changeCodeId} />
                         <FDropdown onClick={value => onCommonAction(value, item)} appendToContainer={false} trigger="click" placement="bottom-end" options={commonOptions}>
-                            <MoreOutlined class={codeMoreIconCls} />
+                            <MoreOutlined class="letgo-comp-code__icon-more" />
                         </FDropdown>
                     </li>
                 );
@@ -144,13 +144,13 @@ export const CodeList = defineComponent({
 
         return () => {
             return (
-                <div class={codeCls}>
-                    <div class={codeHeaderCls}>
+                <div class="letgo-comp-code">
+                    <div class="letgo-comp-code__header">
                         <FDropdown trigger="click" onClick={addCodeItem} placement="bottom-start" options={options}>
-                            <PlusOutlined class={headerIconCls} />
+                            <PlusOutlined class="letgo-comp-code__header-icon" />
                         </FDropdown>
                     </div>
-                    <ul class={codeWrapCls}>
+                    <ul class="letgo-comp-code__body">
                         {renderFolders()}
                         {renderCode()}
                     </ul>

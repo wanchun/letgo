@@ -5,7 +5,7 @@ import { CloseOutlined, PlusOutlined } from '@fesjs/fes-design/icon';
 import { EventHandlerModify } from '@harrywan/letgo-components';
 import type { DocumentModel } from '@harrywan/letgo-designer';
 import type { IPublicTypeEventHandler } from '@harrywan/letgo-types';
-import { eventListTitle, iconCls, popperHeaderCls, popperWrapCls } from './event-header.css';
+import './event-header.less';
 
 export default defineComponent({
     name: 'EventHandlerHeader',
@@ -41,7 +41,7 @@ export default defineComponent({
 
         return () => {
             return (
-                <div class={eventListTitle}>
+                <div class="letgo-plg-code__event-title">
                     <span>{props.title}</span>
                     <FPopper
                         v-model={popperVisible.value}
@@ -49,9 +49,9 @@ export default defineComponent({
                         placement="right-start"
                         v-slots={{
                             default: () => {
-                                return <div class={popperWrapCls}>
-                                    <div class={popperHeaderCls}>
-                                        <CloseOutlined onClick={closePopper} class={iconCls} />
+                                return <div class="letgo-plg-code__event-popper">
+                                    <div class="letgo-plg-code__event-popper-header">
+                                        <CloseOutlined onClick={closePopper} class="letgo-plg-code__event-icon" />
                                     </div>
                                     <EventHandlerModify
                                         onChange={changeEventHandler}
@@ -61,7 +61,7 @@ export default defineComponent({
                                 </div>;
                             },
                             trigger: () => {
-                                return <PlusOutlined class={iconCls} onClick={props.addEventHandler} />;
+                                return <PlusOutlined class="letgo-plg-code__event-icon" onClick={props.addEventHandler} />;
                             },
                         }}
                     />

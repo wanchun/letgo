@@ -2,7 +2,7 @@
 import { defineComponent } from 'vue';
 import { LetgoEngine, material, project } from '@harrywan/letgo-engine';
 import { createRequest } from '@qlin/request';
-import assets from '../assets/remoteAssets';
+import assets from '../assets/assets';
 import icons from '../assets/icones-bags';
 
 export default defineComponent({

@@ -1,6 +1,6 @@
 {
     "name": "@harrywan/letgo-editor-skeleton",
-    "version": "0.0.2-beta.0",
+    "version": "0.0.3-beta.0",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -20,9 +20,9 @@
     },
     "dependencies": {
         "@fesjs/fes-design": "^0.8.17",
-        "@harrywan/letgo-common": "^0.0.2-beta.0",
-        "@harrywan/letgo-designer": "^0.0.2-beta.0",
-        "@harrywan/letgo-editor-core": "^0.0.2-beta.0",
+        "@harrywan/letgo-common": "^0.0.3-beta.0",
+        "@harrywan/letgo-designer": "^0.0.3-beta.0",
+        "@harrywan/letgo-editor-core": "^0.0.3-beta.0",
         "@harrywan/letgo-types": "^0.0.0-beta.46",
         "@vueuse/core": "^9.6.0"
     },

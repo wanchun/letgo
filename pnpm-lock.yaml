@@ -598,16 +598,19 @@ importers:
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
+      vue:
+        specifier: ^3.3.9
+        version: 3.3.9(typescript@5.3.2)
     devDependencies:
       '@types/lodash-es':
         specifier: ^4.17.6
         version: 4.17.6
-      vue:
-        specifier: ^3.3.9
-        version: 3.3.9(typescript@5.3.2)
 
   packages/simulator-renderer:
     dependencies:
+      '@fesjs/fes-design':
+        specifier: ^0.8.17
+        version: 0.8.17(vue@3.3.9)
       '@harrywan/letgo-common':
         specifier: ^0.0.0-beta.46
         version: link:../common
@@ -626,13 +629,12 @@ importers:
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
-      vue-router:
-        specifier: ^4.2.2
-        version: 4.2.2(vue@3.3.9)
-    devDependencies:
       vue:
         specifier: ^3.3.9
         version: 3.3.9(typescript@5.3.2)
+      vue-router:
+        specifier: ^4.2.2
+        version: 4.2.2(vue@3.3.9)
 
   packages/template:
     dependencies:

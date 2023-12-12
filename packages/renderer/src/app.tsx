@@ -2,6 +2,7 @@ import type { Component, PropType } from 'vue';
 import { computed, defineComponent, onMounted, provide, reactive, ref, shallowRef } from 'vue';
 import type { IPublicTypeAsset, IPublicTypePageSchema, IPublicTypeProjectSchema } from '@harrywan/letgo-types';
 import { AssetLoader, buildComponents, insertIconSprite } from '@harrywan/letgo-common';
+
 import { builtinComponents } from '@harrywan/letgo-components';
 import { Renderer } from './renderer';
 import { JavascriptFunctionLive } from './code-impl';
@@ -15,7 +16,7 @@ function useCssHandler(css?: string) {
     if (css) {
         const styleDom = document.createElement('style');
         document.getElementsByTagName('head')[0].appendChild(styleDom);
-        styleDom.innerText = css.replace(/\n/g, '');
+        styleDom.textContent = css.replace(/\n/g, '');
     }
 }
 

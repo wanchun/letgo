@@ -5,13 +5,13 @@
     top: 0;
     left: 0;
     z-index: 1;
-    border: 1px solid rgba(25, 122, 255, 1);
+    border: 1px solid var(--letgo-primary-color);
     will-change: transform, width, height;
     overflow: visible;
 
     &-title {
         display: inline-block;
-        color: rgba(25, 122, 255, 1);
+        color: var(--letgo-primary-color);
         transform: translateY(-100%);
         font-weight: lighter;
     }
@@ -50,7 +50,7 @@
         overflow: hidden;
         color: #ffffff;
         &:hover {
-            background: rgba(25; 122; 255; 1);
+            background: var(--letgo-primary-color);
         }
 
         .i-icon {
@@ -68,6 +68,7 @@
         z-index: 2;
         border-width: 2px;
     }
+
     &--dragging {
         background: rgba(182, 178, 178, 0.8);
         border: none;

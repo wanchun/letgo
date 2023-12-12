@@ -87,8 +87,6 @@ export const BorderView = defineComponent({
             defaultValue: {},
         });
 
-        const provideState = inject(styleKey);
-
         const onStyleChange = (changedStyle: CSSProperties) => {
             props.onStyleChange?.(changedStyle);
         };
@@ -190,27 +188,42 @@ export const BorderView = defineComponent({
                                 <span
                                     class={['letgo-setter-style__border-icon', selectedBorder.value === EnumBorderType.Top && 'letgo-setter-style__border-icon--selected']}
                                     style={{ gridColumnStart: 2, gridColumnEnd: 4 }}
+                                    onClick={() => {
+                                        selectedBorder.value = EnumBorderType.Top;
+                                    }}
                                 >
                                     {svgList.BorderTop}
                                 </span>
                                 <span
                                     class={['letgo-setter-style__border-icon', selectedBorder.value === EnumBorderType.Left && 'letgo-setter-style__border-icon--selected']}
+                                    onClick={() => {
+                                        selectedBorder.value = EnumBorderType.Left;
+                                    }}
                                 >
                                     {svgList.BorderLeft}
                                 </span>
                                 <span
                                     class={['letgo-setter-style__border-icon', selectedBorder.value === EnumBorderType.All && 'letgo-setter-style__border-icon--selected']}
+                                    onClick={() => {
+                                        selectedBorder.value = EnumBorderType.All;
+                                    }}
                                 >
                                     {svgList.Border}
                                 </span>
                                 <span
                                     class={['letgo-setter-style__border-icon', selectedBorder.value === EnumBorderType.Right && 'letgo-setter-style__border-icon--selected']}
+                                    onClick={() => {
+                                        selectedBorder.value = EnumBorderType.Right;
+                                    }}
                                 >
                                     {svgList.BorderRight}
                                 </span>
                                 <span
                                     class={['letgo-setter-style__border-icon', selectedBorder.value === EnumBorderType.Bottom && 'letgo-setter-style__border-icon--selected']}
                                     style={{ gridColumnStart: 2, gridColumnEnd: 4 }}
+                                    onClick={() => {
+                                        selectedBorder.value = EnumBorderType.Bottom;
+                                    }}
                                 >
                                     {svgList.BorderBottom}
                                 </span>

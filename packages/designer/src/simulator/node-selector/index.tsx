@@ -62,8 +62,8 @@ const NodeSelectorView = defineComponent({
                     = [npm?.package, npm?.exportName]
                         .filter(item => !!item)
                         .join('-')
-                    || node?.componentMeta?.componentName
-                    || '';
+                        || node?.componentMeta?.componentName
+                        || '';
                 editor?.emit('designer.border.action', {
                     name: 'select',
                     selected,

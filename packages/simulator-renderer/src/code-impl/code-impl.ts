@@ -3,7 +3,7 @@ import { reactive } from 'vue';
 import { isNil } from 'lodash-es';
 import type { CodeItem } from '@harrywan/letgo-types';
 import { CodeType } from '@harrywan/letgo-types';
-import { type CodeImplType } from '@harrywan/letgo-designer';
+import type { CodeImplType } from '@harrywan/letgo-designer';
 import { calcDependencies, sortState } from '@harrywan/letgo-common';
 import { JavascriptQueryImpl, createQueryImpl } from './query';
 import { JavascriptFunctionImpl } from './javascript-function';

@@ -1,4 +1,4 @@
-import type { IPublicTypeIconSchema } from '@harrywan/letgo-types';
+import type { IPublicTypeIconSchema } from '@webank/letgo-types';
 
 export function getSvgSymbol(iconSchema: IPublicTypeIconSchema) {
     const svgMarkup = iconSchema.svg;

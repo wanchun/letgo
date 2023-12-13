@@ -1,4 +1,4 @@
-import type { IPluginConfig } from '@harrywan/letgo-engine-plugin';
+import type { IPluginConfig } from '@webank/letgo-engine-plugin';
 import { FigmaComponent, Page, Plug, TreeList } from '@icon-park/vue-next';
 import type { PropType, Ref, VNodeChild } from 'vue';
 import {
@@ -7,12 +7,12 @@ import {
     onBeforeUnmount,
     ref,
 } from 'vue';
-import type { Designer, INode } from '@harrywan/letgo-designer';
-import type { Editor } from '@harrywan/letgo-editor-core';
+import type { Designer, INode } from '@webank/letgo-designer';
+import type { Editor } from '@webank/letgo-editor-core';
 import { FInput, FScrollbar, FTooltip, FTree } from '@fesjs/fes-design';
 import { SearchOutlined } from '@fesjs/fes-design/icon';
 import { SuffixView } from './suffix';
-import './component-tree.less'
+import './component-tree.less';
 
 interface Option {
     value: string

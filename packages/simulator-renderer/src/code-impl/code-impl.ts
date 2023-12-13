@@ -1,10 +1,10 @@
 import { FMessage } from '@fesjs/fes-design';
 import { reactive } from 'vue';
 import { isNil } from 'lodash-es';
-import type { CodeItem } from '@harrywan/letgo-types';
-import { CodeType } from '@harrywan/letgo-types';
-import type { CodeImplType } from '@harrywan/letgo-designer';
-import { calcDependencies, sortState } from '@harrywan/letgo-common';
+import type { CodeItem } from '@webank/letgo-types';
+import { CodeType } from '@webank/letgo-types';
+import type { CodeImplType } from '@webank/letgo-designer';
+import { calcDependencies, sortState } from '@webank/letgo-common';
 import { JavascriptQueryImpl, createQueryImpl } from './query';
 import { JavascriptFunctionImpl } from './javascript-function';
 import { ComputedImpl } from './computed';

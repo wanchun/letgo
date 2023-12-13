@@ -55,7 +55,7 @@ export default defineBuildConfig({
         'app.jsx': `
 import { defineRuntimeConfig,{{#HAS_WATERMARK}} createWatermark,{{/HAS_WATERMARK}}{{#HAS_UM}} um,{{/HAS_UM}}{{#HAS_PUM}} request, pum,{{/HAS_PUM}} {{#HAS_ACCESS}} access,{{/HAS_ACCESS}} } from '@fesjs/fes';
 import { FMessage } from '@fesjs/fes-design';
-import { builtinComponents } from '@harrywan/letgo-components';
+import { builtinComponents } from '@webank/letgo-components';
 {{#HAS_LAYOUT}}
 import CustomHeader from '@/components/customHeader.vue';
 {{/HAS_LAYOUT}}

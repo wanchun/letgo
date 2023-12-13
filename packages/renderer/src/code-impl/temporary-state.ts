@@ -1,7 +1,7 @@
 import { isNil } from 'lodash-es';
-import { attachContext } from '@harrywan/letgo-common';
-import type { ITemporaryState } from '@harrywan/letgo-types';
-import { CodeType } from '@harrywan/letgo-types';
+import { attachContext } from '@webank/letgo-common';
+import type { ITemporaryState } from '@webank/letgo-types';
+import { CodeType } from '@webank/letgo-types';
 
 // 解析执行
 export class TemporaryStateLive {

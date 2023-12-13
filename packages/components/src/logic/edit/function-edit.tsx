@@ -2,8 +2,8 @@ import type { PropType } from 'vue';
 import { defineComponent, ref } from 'vue';
 import { FButton } from '@fesjs/fes-design';
 import { javascript } from '@codemirror/lang-javascript';
-import type { IJavascriptFunction } from '@harrywan/letgo-types';
-import type { DocumentModel } from '@harrywan/letgo-designer';
+import type { IJavascriptFunction } from '@webank/letgo-types';
+import type { DocumentModel } from '@webank/letgo-designer';
 import { CodeEditor } from '../../code-editor';
 import './function-edit.less';
 
@@ -37,7 +37,7 @@ export const FunctionEdit = defineComponent({
                         </div>
                     </div>
                     <div class="letgo-comp-logic__func">
-                        <CodeEditor height='200px' documentModel={props.documentModel} hints={props.hints} doc={props.codeItem.funcBody} extensions={[javascript()]} changeDoc={changeFuncBody} />
+                        <CodeEditor height="200px" documentModel={props.documentModel} hints={props.hints} doc={props.codeItem.funcBody} extensions={[javascript()]} changeDoc={changeFuncBody} />
                     </div>
                 </div>
             );

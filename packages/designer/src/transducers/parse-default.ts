@@ -1,4 +1,4 @@
-import type { IPublicTypeTransformedComponentMetadata } from '@harrywan/letgo-types';
+import type { IPublicTypeTransformedComponentMetadata } from '@webank/letgo-types';
 
 export default function componentDefaults(
     metadata: IPublicTypeTransformedComponentMetadata,

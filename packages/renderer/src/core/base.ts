@@ -4,7 +4,7 @@ import type {
     IPublicTypeNodeSchema,
     IPublicTypeRootSchema,
     IPublicTypeSlotSchema,
-} from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
 import type { RuntimeScope } from '../utils';
 
 export const rendererProps = {

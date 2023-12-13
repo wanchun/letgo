@@ -1,10 +1,11 @@
 {
-    "name": "@harrywan/letgo-renderer",
-    "version": "0.0.4-beta.0",
+    "name": "@webank/letgo-renderer",
+    "version": "0.0.1-beta.0",
     "description": "",
     "author": "",
     "license": "ISC",
     "keywords": [],
+    "sideEffects": false,
     "module": "es/index.js",
     "files": [
         "es",
@@ -18,11 +19,11 @@
         "vue": "^3.3.9"
     },
     "dependencies": {
-        "@harrywan/letgo-common": "^0.0.4-beta.0",
-        "@harrywan/letgo-components": "^0.0.4-beta.0",
-        "@harrywan/letgo-designer": "^0.0.4-beta.0",
-        "@harrywan/letgo-types": "^0.0.0-beta.46",
         "@qlin/request": "^0.1.4",
+        "@webank/letgo-common": "^0.0.1-beta.0",
+        "@webank/letgo-components": "^0.0.1-beta.0",
+        "@webank/letgo-designer": "^0.0.1-beta.0",
+        "@webank/letgo-types": "^0.0.1-beta.0",
         "lodash-es": "^4.17.21"
     },
     "publishConfig": {

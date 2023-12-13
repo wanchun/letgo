@@ -1,7 +1,7 @@
 import { isNil, isObject } from 'lodash-es';
 import type { ComponentInternalInstance, VNode } from 'vue';
 import { isProxy } from 'vue';
-import type { IPublicTypeComponentInstance, IPublicTypeComponentRecord } from '@harrywan/letgo-types';
+import type { IPublicTypeComponentInstance, IPublicTypeComponentRecord } from '@webank/letgo-types';
 
 const SYMBOL_VDID = Symbol('_LCDocId');
 const SYMBOL_VNID = Symbol('_LCNodeId');

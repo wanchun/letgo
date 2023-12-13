@@ -1,9 +1,9 @@
 import { isNil } from 'lodash-es';
 import { computed } from 'vue';
 import type { WatchStopHandle } from 'vue';
-import { markShallowReactive } from '@harrywan/letgo-common';
-import type { IJavascriptComputed } from '@harrywan/letgo-types';
-import { CodeType } from '@harrywan/letgo-types';
+import { markShallowReactive } from '@webank/letgo-common';
+import type { IJavascriptComputed } from '@webank/letgo-types';
+import { CodeType } from '@webank/letgo-types';
 
 export class ComputedLive {
     id: string;

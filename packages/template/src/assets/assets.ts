@@ -1,4 +1,4 @@
-import type { IPublicTypeAssetsJson } from '@harrywan/letgo-types';
+import type { IPublicTypeAssetsJson } from '@webank/letgo-types';
 
 const assets: IPublicTypeAssetsJson = {
     packages: [

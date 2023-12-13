@@ -1,8 +1,8 @@
-import { markComputed, markShallowReactive } from '@harrywan/letgo-common';
-import type { IJavascriptQuery } from '@harrywan/letgo-types';
-import { RunCondition } from '@harrywan/letgo-types';
-import { JavascriptQueryBase } from '@harrywan/letgo-renderer';
-import type { IJavascriptQueryImpl } from '@harrywan/letgo-designer';
+import { markComputed, markShallowReactive } from '@webank/letgo-common';
+import type { IJavascriptQuery } from '@webank/letgo-types';
+import { RunCondition } from '@webank/letgo-types';
+import { JavascriptQueryBase } from '@webank/letgo-renderer';
+import type { IJavascriptQueryImpl } from '@webank/letgo-designer';
 
 // 解析执行
 export class JavascriptQueryImpl extends JavascriptQueryBase implements IJavascriptQueryImpl {

@@ -1,10 +1,10 @@
 import { defineComponent, ref } from 'vue';
 import type { PropType } from 'vue';
-import { genEventId } from '@harrywan/letgo-common';
-import { EventHandlerList } from '@harrywan/letgo-components';
-import type { DocumentModel } from '@harrywan/letgo-designer';
-import type { IPublicTypeEventHandler, QueryResourceBase } from '@harrywan/letgo-types';
-import { InnerEventHandlerAction } from '@harrywan/letgo-types';
+import { genEventId } from '@webank/letgo-common';
+import { EventHandlerList } from '@webank/letgo-components';
+import type { DocumentModel } from '@webank/letgo-designer';
+import type { IPublicTypeEventHandler, QueryResourceBase } from '@webank/letgo-types';
+import { InnerEventHandlerAction } from '@webank/letgo-types';
 import './event-handlers.less';
 import EventHeader from './event-header';
 

@@ -1,8 +1,8 @@
-import type { IPluginConfig } from '@harrywan/letgo-engine-plugin';
+import type { IPluginConfig } from '@webank/letgo-engine-plugin';
 import { More } from '@icon-park/vue-next';
 import { FTooltip } from '@fesjs/fes-design';
 import { SchemaView } from './schema';
-import "./index.less"
+import './index.less';
 
 export default {
     name: 'PluginSchema',

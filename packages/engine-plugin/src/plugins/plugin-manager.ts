@@ -1,9 +1,9 @@
-import type { Editor } from '@harrywan/letgo-editor-core';
-import { editor, engineConfig } from '@harrywan/letgo-editor-core';
-import { getLogger } from '@harrywan/letgo-common';
+import type { Editor } from '@webank/letgo-editor-core';
+import { editor, engineConfig } from '@webank/letgo-editor-core';
+import { getLogger } from '@webank/letgo-common';
 import semverSatisfies from 'semver/functions/satisfies';
-import type { Designer } from '@harrywan/letgo-designer';
-import type { Skeleton } from '@harrywan/letgo-editor-skeleton';
+import type { Designer } from '@webank/letgo-designer';
+import type { Skeleton } from '@webank/letgo-editor-skeleton';
 import { invariant } from '../utils';
 import type {
     IPlugin,

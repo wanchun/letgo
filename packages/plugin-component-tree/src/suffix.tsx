@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, reactive, ref } from 'vue';
 import { FDropdown, FForm, FFormItem, FInput, FModal } from '@fesjs/fes-design';
-import type { INode } from '@harrywan/letgo-designer';
+import type { INode } from '@webank/letgo-designer';
 import { Delete, Edit, Lock, MoreOne, Unlock } from '@icon-park/vue-next';
 
 export const SuffixView = defineComponent({

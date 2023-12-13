@@ -1,13 +1,13 @@
 import { defineComponent } from 'vue';
-import { material, project } from '@harrywan/letgo-engine';
-import type { IPublicTypePackage } from '@harrywan/letgo-types';
+import { material, project } from '@webank/letgo-engine';
+import type { IPublicTypePackage } from '@webank/letgo-types';
 import {
     ImportType,
     exportZip,
     gen,
-} from '@harrywan/letgo-code-generator';
-import { IPublicEnumTransformStage, isProCodeComponentType, isRestQueryResource } from '@harrywan/letgo-types';
-import { getIconSprite } from '@harrywan/letgo-common';
+} from '@webank/letgo-code-generator';
+import { IPublicEnumTransformStage, isProCodeComponentType, isRestQueryResource } from '@webank/letgo-types';
+import { getIconSprite } from '@webank/letgo-common';
 import { FButton, FMessage } from '@fesjs/fes-design';
 import { DownloadOutlined } from '@fesjs/fes-design/icon';
 import { forEach, isNil, isObject, isString, merge } from 'lodash-es';
@@ -86,7 +86,7 @@ export default defineComponent({
                         '@fesjs/plugin-request': '4.0.0-beta.5',
                         '@fesjs/fes-design': '0.8.9',
                         'vue': '3.3.4',
-                        '@harrywan/letgo-components': '0.0.0-beta.45',
+                        '@webank/letgo-components': '0.0.0-beta.45',
                     },
                     devDependencies: {
                         '@webank/eslint-config-vue': '2.0.7',

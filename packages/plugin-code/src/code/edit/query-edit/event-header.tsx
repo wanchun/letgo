@@ -2,9 +2,9 @@ import { defineComponent, ref, watch } from 'vue';
 import type { PropType } from 'vue';
 import { FPopper } from '@fesjs/fes-design';
 import { CloseOutlined, PlusOutlined } from '@fesjs/fes-design/icon';
-import { EventHandlerModify } from '@harrywan/letgo-components';
-import type { DocumentModel } from '@harrywan/letgo-designer';
-import type { IPublicTypeEventHandler } from '@harrywan/letgo-types';
+import { EventHandlerModify } from '@webank/letgo-components';
+import type { DocumentModel } from '@webank/letgo-designer';
+import type { IPublicTypeEventHandler } from '@webank/letgo-types';
 import './event-header.less';
 
 export default defineComponent({

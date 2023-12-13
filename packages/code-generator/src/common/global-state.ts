@@ -1,4 +1,4 @@
-import type { CodeStruct, IPublicTypeNpmInfo, IPublicTypeUtilsMap } from '@harrywan/letgo-types';
+import type { CodeStruct, IPublicTypeNpmInfo, IPublicTypeUtilsMap } from '@webank/letgo-types';
 import { set } from 'lodash-es';
 import { getOptions, relative } from '../options';
 import { genCode, genCodeMap, genImportCode } from './helper';

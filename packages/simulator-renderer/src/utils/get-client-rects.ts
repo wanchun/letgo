@@ -1,4 +1,4 @@
-import { isElement } from '@harrywan/letgo-common';
+import { isElement } from '@webank/letgo-common';
 
 // a range for test TextNode clientRect
 const cycleRange = document.createRange();

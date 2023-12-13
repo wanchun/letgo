@@ -1,7 +1,7 @@
 import { computed } from 'vue';
 import { capitalize } from 'lodash-es';
-import { getVarType } from '@harrywan/letgo-common';
-import type { DocumentModel } from '@harrywan/letgo-designer';
+import { getVarType } from '@webank/letgo-common';
+import type { DocumentModel } from '@webank/letgo-designer';
 import type { HintPathType } from './types';
 
 export function useHint(props: {

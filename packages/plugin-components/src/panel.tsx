@@ -24,14 +24,14 @@ import type {
     IPublicTypeAssetsJson,
     IPublicTypeComponentDescription,
     IPublicTypeSnippet,
-} from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
 import {
     isComponentDescription,
-} from '@harrywan/letgo-types';
-import type { Designer } from '@harrywan/letgo-designer';
-import type { Editor } from '@harrywan/letgo-editor-core';
+} from '@webank/letgo-types';
+import type { Designer } from '@webank/letgo-designer';
+import type { Editor } from '@webank/letgo-editor-core';
 
-import "./panel.less"
+import './panel.less';
 
 interface CategoryType {
     category: string
@@ -54,7 +54,7 @@ export default defineComponent({
         const searchText: Ref<string> = ref();
 
         const snippetsRef = computed(() => {
-            let arr: Array<IPublicTypeSnippet & { component: IPublicTypeComponentDescription; title: string; screenshot?: string; group?: string; category: string }> = [];
+            let arr: Array<IPublicTypeSnippet & { component: IPublicTypeComponentDescription, title: string, screenshot?: string, group?: string, category: string }> = [];
             assetsRef.value.components.forEach((component) => {
                 if (!isComponentDescription(component))
                     return;
@@ -214,7 +214,8 @@ export default defineComponent({
                             v-slots={{
                                 suffix: () => <SearchOutlined />,
                             }}
-                        ></FInput>
+                        >
+                        </FInput>
                     </div>
                     <FTabs class="letgo-components__tabs">
                         {{
@@ -230,7 +231,7 @@ export default defineComponent({
                                         </FScrollbar>
                                     </FTabPane>
                                 );
-                            })
+                            }),
                         }}
                     </FTabs>
                 </div>

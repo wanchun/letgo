@@ -1,8 +1,8 @@
 import { computed, defineComponent } from 'vue';
 import type { PropType } from 'vue';
-import type { Designer } from '@harrywan/letgo-designer';
-import { CodeType } from '@harrywan/letgo-types';
-import { ComputedEdit, FunctionEdit, StateEdit } from '@harrywan/letgo-components';
+import type { Designer } from '@webank/letgo-designer';
+import { CodeType } from '@webank/letgo-types';
+import { ComputedEdit, FunctionEdit, StateEdit } from '@webank/letgo-components';
 import useCode from '../useCode';
 import QueryEdit from './query-edit/query-edit';
 

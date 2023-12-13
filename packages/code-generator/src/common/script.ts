@@ -2,10 +2,10 @@ import path from 'node:path';
 import type {
     IPublicTypeComponentMap,
     IPublicTypeRootSchema,
-} from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
 import {
     isProCodeComponentType,
-} from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
 import { getOptions, relative } from '../options';
 import { genCode } from './helper';
 import { ImportType } from './types';

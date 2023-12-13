@@ -2,7 +2,7 @@ import type {
     IPublicTypeCompositeValue,
     IPublicTypeJSSlot,
     IPublicTypeSlotSchema,
-} from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
 import {
     GlobalEvent,
     IPublicEnumTransformStage,
@@ -10,8 +10,8 @@ import {
     isJSFunction,
     isJSSlot,
     isSlotSchema,
-} from '@harrywan/letgo-types';
-import { markComputed, markShallowReactive, uniqueId, valueToSource } from '@harrywan/letgo-common';
+} from '@webank/letgo-types';
+import { markComputed, markShallowReactive, uniqueId, valueToSource } from '@webank/letgo-common';
 import { isNil, isPlainObject } from 'lodash-es';
 import type { INode, ISlotNode } from '../types';
 import type { Props } from './props';

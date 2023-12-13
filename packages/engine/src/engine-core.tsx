@@ -1,26 +1,26 @@
 import type { PropType } from 'vue';
 import { defineComponent, onBeforeMount, onBeforeUnmount, ref } from 'vue';
-import { Designer } from '@harrywan/letgo-designer';
-import type { IEngineOptions } from '@harrywan/letgo-editor-core';
-import { editor, engineConfig } from '@harrywan/letgo-editor-core';
-import { Skeleton, WorkbenchView } from '@harrywan/letgo-editor-skeleton';
-import engineExt from '@harrywan/letgo-engine-ext';
+import { Designer } from '@webank/letgo-designer';
+import type { IEngineOptions } from '@webank/letgo-editor-core';
+import { editor, engineConfig } from '@webank/letgo-editor-core';
+import { Skeleton, WorkbenchView } from '@webank/letgo-editor-skeleton';
+import engineExt from '@webank/letgo-engine-ext';
 import type {
     IPluginPreference,
-} from '@harrywan/letgo-engine-plugin';
+} from '@webank/letgo-engine-plugin';
 import {
     PluginContext,
     PluginManager,
-} from '@harrywan/letgo-engine-plugin';
-import PluginDesigner from '@harrywan/letgo-plugin-designer';
-import PluginSetting from '@harrywan/letgo-plugin-setting';
-import PluginComponents from '@harrywan/letgo-plugin-components';
-import PluginComponentTree from '@harrywan/letgo-plugin-component-tree';
-import PluginCode from '@harrywan/letgo-plugin-code';
-import PluginGlobalConfig from '@harrywan/letgo-plugin-global';
-import './global.less'
+} from '@webank/letgo-engine-plugin';
+import PluginDesigner from '@webank/letgo-plugin-designer';
+import PluginSetting from '@webank/letgo-plugin-setting';
+import PluginComponents from '@webank/letgo-plugin-components';
+import PluginComponentTree from '@webank/letgo-plugin-component-tree';
+import PluginCode from '@webank/letgo-plugin-code';
+import PluginGlobalConfig from '@webank/letgo-plugin-global';
+import './global.less';
 
-export type { IPluginConfig } from '@harrywan/letgo-engine-plugin';
+export type { IPluginConfig } from '@webank/letgo-engine-plugin';
 
 const innerDesigner = new Designer({ editor });
 

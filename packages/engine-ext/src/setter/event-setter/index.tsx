@@ -1,18 +1,18 @@
 import type { PropType, Ref } from 'vue';
 import { defineComponent, onMounted, ref, watch } from 'vue';
-import type { IPublicTypeEventHandler, IPublicTypeSetter } from '@harrywan/letgo-types';
+import type { IPublicTypeEventHandler, IPublicTypeSetter } from '@webank/letgo-types';
 import {
     FButton,
 } from '@fesjs/fes-design';
-import { genEventId } from '@harrywan/letgo-common';
-import { InnerEventHandlerAction, isRunFunctionEventHandler } from '@harrywan/letgo-types';
-import { EventHandlerList, EventHandlerModify } from '@harrywan/letgo-components';
+import { genEventId } from '@webank/letgo-common';
+import { InnerEventHandlerAction, isRunFunctionEventHandler } from '@webank/letgo-types';
+import { EventHandlerList, EventHandlerModify } from '@webank/letgo-components';
 import { PlusOutlined } from '@fesjs/fes-design/icon';
 import { commonProps } from '../../common';
 import type { EventOptionList } from './interface';
 import './index.less';
 
-type EventList = Array<{ name: string; description?: string }>;
+type EventList = Array<{ name: string, description?: string }>;
 
 interface EventDefinition {
     type: 'events' | 'nativeEvents' | 'lifeCycleEvent'
@@ -126,7 +126,10 @@ const EventSetterView = defineComponent({
                 <>
                     <div class="letgo-event-setter__header">
                         <div style="margin: 0; font-size: 14px;">已绑定事件</div>
-                        <FButton type="link" onClick={addEvent} size="small">新增<PlusOutlined /></FButton>
+                        <FButton type="link" onClick={addEvent} size="small">
+                            新增
+                            <PlusOutlined />
+                        </FButton>
                     </div>
                     <EventHandlerList class="letgo-event-setter__list" style="margin-bottom: 8px; padding-bottom: 8px;" eventHandlers={selectedEventData.value} currentEventHandler={currentEditEvent.value} onDelete={deleteComponentEvent} onEdit={onEdit} />
                     <EventHandlerModify onChange={changeComponentEvent} documentModel={props.node.document} editEvent={currentEditEvent.value} events={eventData.value} />

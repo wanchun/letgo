@@ -1,10 +1,10 @@
-import type { IControlComponentAction, IControlQueryAction, IPublicTypeEventHandler, IRunFunctionAction, ISetLocalStorageAction, ISetTemporaryStateAction } from '@harrywan/letgo-types';
-import { InnerEventHandlerAction } from '@harrywan/letgo-types';
+import type { IControlComponentAction, IControlQueryAction, IPublicTypeEventHandler, IRunFunctionAction, ISetLocalStorageAction, ISetTemporaryStateAction } from '@webank/letgo-types';
+import { InnerEventHandlerAction } from '@webank/letgo-types';
 import type { PropType } from 'vue';
 import { computed, defineComponent, ref } from 'vue';
 
 import { FInput, FOption, FSelect } from '@fesjs/fes-design';
-import type { DocumentModel } from '@harrywan/letgo-designer';
+import type { DocumentModel } from '@webank/letgo-designer';
 import { DeleteOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
 import Label from './label';
 import './render-options.less';
@@ -26,18 +26,20 @@ export default defineComponent({
             });
         });
         const renderQuery = (data: IControlQueryAction) => {
-            return <>
-                <Label label="查询">
-                    <FSelect v-model={data.namespace} appendToContainer={false} options={queryOptions.value} />
-                </Label>
-                <Label label="方法">
-                    <FSelect v-model={data.method} appendToContainer={false}>
-                        <FOption value="trigger">Trigger</FOption>
-                        <FOption value="reset">Reset</FOption>
-                        <FOption value="clearCache">Clear Cache</FOption>
-                    </FSelect>
-                </Label>
-            </>;
+            return (
+                <>
+                    <Label label="查询">
+                        <FSelect v-model={data.namespace} appendToContainer={false} options={queryOptions.value} />
+                    </Label>
+                    <Label label="方法">
+                        <FSelect v-model={data.method} appendToContainer={false}>
+                            <FOption value="trigger">Trigger</FOption>
+                            <FOption value="reset">Reset</FOption>
+                            <FOption value="clearCache">Clear Cache</FOption>
+                        </FSelect>
+                    </Label>
+                </>
+            );
         };
 
         const componentInstanceOptions = computed(() => {
@@ -48,7 +50,7 @@ export default defineComponent({
                 };
             });
         });
-        const componentMethods = ref<{ label: string; value: string }[]>([]);
+        const componentMethods = ref<{ label: string, value: string }[]>([]);
         const selectComponent = (value: string) => {
             const componentName = props.documentModel.state.componentsInstance[value]._componentName;
             const metadata = props.documentModel.getComponentMeta(componentName).getMetadata();
@@ -67,14 +69,16 @@ export default defineComponent({
         };
         // TODO 参数配置
         const renderComponentMethod = (data: IControlComponentAction) => {
-            return <>
-                <Label label="Component">
-                    <FSelect appendToContainer={false} onChange={selectComponent} v-model={data.namespace} options={componentInstanceOptions.value} />
-                </Label>
-                <Label label="Method">
-                    <FSelect appendToContainer={false} v-model={data.method} options={componentMethods.value} />
-                </Label>
-            </>;
+            return (
+                <>
+                    <Label label="Component">
+                        <FSelect appendToContainer={false} onChange={selectComponent} v-model={data.namespace} options={componentInstanceOptions.value} />
+                    </Label>
+                    <Label label="Method">
+                        <FSelect appendToContainer={false} v-model={data.method} options={componentMethods.value} />
+                    </Label>
+                </>
+            );
         };
 
         const stateOptions = computed(() => {
@@ -91,30 +95,34 @@ export default defineComponent({
             }));
         });
         const renderSetTemporaryState = (data: ISetTemporaryStateAction) => {
-            return <>
-                <Label label="State">
-                    <FSelect appendToContainer={false} v-model={data.namespace} options={stateOptions.value} />
-                </Label>
-                <Label label="value">
-                    <FInput v-model={data.params[0]} />
-                </Label>
-            </>;
+            return (
+                <>
+                    <Label label="State">
+                        <FSelect appendToContainer={false} v-model={data.namespace} options={stateOptions.value} />
+                    </Label>
+                    <Label label="value">
+                        <FInput v-model={data.params[0]} />
+                    </Label>
+                </>
+            );
         };
         const renderSetLocalStorage = (data: ISetLocalStorageAction) => {
-            return <>
-                <Label label="Method">
-                    <FSelect appendToContainer={false} v-model={data.method}>
-                        <FOption value="setValue">set Value</FOption>
-                        <FOption value="clear">Clear</FOption>
-                    </FSelect>
-                </Label>
-                <Label label="key">
-                    <FInput v-model={data.params[0]} />
-                </Label>
-                <Label label="value">
-                    <FInput v-model={data.params[1]} />
-                </Label>
-            </>;
+            return (
+                <>
+                    <Label label="Method">
+                        <FSelect appendToContainer={false} v-model={data.method}>
+                            <FOption value="setValue">set Value</FOption>
+                            <FOption value="clear">Clear</FOption>
+                        </FSelect>
+                    </Label>
+                    <Label label="key">
+                        <FInput v-model={data.params[0]} />
+                    </Label>
+                    <Label label="value">
+                        <FInput v-model={data.params[1]} />
+                    </Label>
+                </>
+            );
         };
 
         const functionOptions = computed(() => {
@@ -133,26 +141,30 @@ export default defineComponent({
             data.params.splice(index, 1);
         };
         const renderRunFunction = (data: IRunFunctionAction) => {
-            return <>
-                <Label label="function">
-                    <FSelect v-model={data.namespace} appendToContainer={false} options={functionOptions.value} />
-                </Label>
-                <Label label="参数">
-                    <div class="letgo-comp-event__params">
-                        <span>
-                            <FInput v-model={data.params[0]} placeholder='参数1' />
-                            <PlusCircleOutlined class="letgo-comp-event__params-icon" onClick={() => addFunctionParam(data)} />
-                        </span>
-                        {data.params.slice(1).map((_, index) => {
-                            return <span>
-                                <FInput v-model={data.params[index + 1]} placeholder={`参数${index + 2}`} />
+            return (
+                <>
+                    <Label label="function">
+                        <FSelect v-model={data.namespace} appendToContainer={false} options={functionOptions.value} />
+                    </Label>
+                    <Label label="参数">
+                        <div class="letgo-comp-event__params">
+                            <span>
+                                <FInput v-model={data.params[0]} placeholder="参数1" />
                                 <PlusCircleOutlined class="letgo-comp-event__params-icon" onClick={() => addFunctionParam(data)} />
-                                <DeleteOutlined class="letgo-comp-event__params-icon" onClick={() => deleteFunctionParam(data, index + 1)} />
-                            </span>;
-                        })}
-                    </div>
-                </Label>
-            </>;
+                            </span>
+                            {data.params.slice(1).map((_, index) => {
+                                return (
+                                    <span>
+                                        <FInput v-model={data.params[index + 1]} placeholder={`参数${index + 2}`} />
+                                        <PlusCircleOutlined class="letgo-comp-event__params-icon" onClick={() => addFunctionParam(data)} />
+                                        <DeleteOutlined class="letgo-comp-event__params-icon" onClick={() => deleteFunctionParam(data, index + 1)} />
+                                    </span>
+                                );
+                            })}
+                        </div>
+                    </Label>
+                </>
+            );
         };
 
         return () => {

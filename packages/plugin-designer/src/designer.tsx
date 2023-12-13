@@ -8,9 +8,9 @@ import {
     ref,
     shallowReactive,
 } from 'vue';
-import type { Designer } from '@harrywan/letgo-designer';
-import { DesignerView } from '@harrywan/letgo-designer';
-import type { IPluginContext } from '@harrywan/letgo-engine-plugin';
+import type { Designer } from '@webank/letgo-designer';
+import { DesignerView } from '@webank/letgo-designer';
+import type { IPluginContext } from '@webank/letgo-engine-plugin';
 import './designer.less';
 
 export default defineComponent({

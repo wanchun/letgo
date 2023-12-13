@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { defineComponent, ref } from 'vue';
-import type { IPublicTypeDisplay, IPublicTypeNpmInfo } from '@harrywan/letgo-types';
+import type { IPublicTypeDisplay, IPublicTypeNpmInfo } from '@webank/letgo-types';
 import { EditOutlined, RightOutlined } from '@fesjs/fes-design/icon';
 import { usePopupManage } from './usePopup';
 

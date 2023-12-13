@@ -1,13 +1,13 @@
-import { markComputed, markShallowReactive, replaceExpressionIdentifier, replaceJSFunctionIdentifier } from '@harrywan/letgo-common';
+import { markComputed, markShallowReactive, replaceExpressionIdentifier, replaceJSFunctionIdentifier } from '@webank/letgo-common';
 import type {
     IPublicTypeCompositeValue,
     IPublicTypeEventHandler,
     IPublicTypePropsList,
     IPublicTypePropsMap,
-} from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
 import {
     IPublicEnumTransformStage, isJSExpression, isJSFunction,
-} from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
 import { isNil } from 'lodash-es';
 import type { INode } from '../types';
 import type { IPropParent } from './prop';

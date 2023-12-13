@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, ref } from 'vue';
-import type { Designer } from '@harrywan/letgo-designer';
-import { CodeEditor } from '@harrywan/letgo-components';
+import type { Designer } from '@webank/letgo-designer';
+import { CodeEditor } from '@webank/letgo-components';
 import { json } from '@codemirror/lang-json';
 import { FButton } from '@fesjs/fes-design';
 
@@ -55,7 +55,8 @@ export const SchemaView = defineComponent({
                         extensions={[json()]}
                         bordered={false}
                         fullscreen={false}
-                    ></CodeEditor>
+                    >
+                    </CodeEditor>
                     <div class="letgo-plg-schema__action">
                         <FButton type="info" size="small" onClick={onSave}>保存 Schema</FButton>
                     </div>

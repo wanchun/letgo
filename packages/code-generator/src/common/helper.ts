@@ -7,8 +7,8 @@ import type {
     IPublicTypeJSSlot,
     IPublicTypeNodeData,
     IPublicTypeNodeSchema,
-} from '@harrywan/letgo-types';
-import { isSyntaxError, replaceFunctionName, sortState } from '@harrywan/letgo-common';
+} from '@webank/letgo-types';
+import { isSyntaxError, replaceFunctionName, sortState } from '@webank/letgo-common';
 import {
     CodeType,
     isJSExpression,
@@ -16,7 +16,7 @@ import {
     isJSSlot,
     isNodeSchema,
     isRestQueryResource,
-} from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
 import { isPlainObject } from 'lodash-es';
 import { getOptions, relative } from '../options';
 import type { ImportSource, SetupCode } from './types';

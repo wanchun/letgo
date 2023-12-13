@@ -8,14 +8,14 @@ import type {
     IPublicTypeNodeSchema,
     IPublicTypePropsMap,
     IPublicTypeRootSchema,
-} from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
 import {
     isDOMText,
     isJSExpression,
     isJSFunction,
     isJSSlot,
     isNodeSchema,
-} from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
 import { camelCase, isArray, isEmpty, isNil, isPlainObject, merge } from 'lodash-es';
 import { compilerEventHandlers, funcSchemaToFunc } from '../events';
 import { traverseNodePropsSlot, traverseNodeSchema } from '../helper';

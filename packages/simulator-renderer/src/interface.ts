@@ -1,17 +1,17 @@
 import type { Router } from 'vue-router';
-import type { Config } from '@harrywan/letgo-renderer';
+import type { Config } from '@webank/letgo-renderer';
 import type { App, Component } from 'vue';
 import type {
     IPublicTypeComponentInstance,
     IPublicTypeComponentSchema,
     IPublicTypeNpmInfo,
     IPublicTypeRootSchema,
-} from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
 import type {
     DocumentModel,
     INode,
     ISimulatorRenderer,
-} from '@harrywan/letgo-designer';
+} from '@webank/letgo-designer';
 
 export type MixedComponent = IPublicTypeNpmInfo | Component | IPublicTypeComponentSchema;
 

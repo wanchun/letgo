@@ -1,8 +1,8 @@
-import type { Logger } from '@harrywan/letgo-common';
-import { getLogger } from '@harrywan/letgo-common';
-import type { Editor, EngineConfig } from '@harrywan/letgo-editor-core';
-import { engineConfig } from '@harrywan/letgo-editor-core';
-import type { Designer } from '@harrywan/letgo-designer';
+import type { Logger } from '@webank/letgo-common';
+import { getLogger } from '@webank/letgo-common';
+import type { Editor, EngineConfig } from '@webank/letgo-editor-core';
+import { engineConfig } from '@webank/letgo-editor-core';
+import type { Designer } from '@webank/letgo-designer';
 import { Hotkey, Material, Project, Setters, Skeleton } from '../shell';
 import type {
     IPluginContext,

@@ -1,7 +1,7 @@
 import { defineComponent } from 'vue';
 import { NColorPicker, NConfigProvider } from 'naive-ui';
-import { useModel } from '@harrywan/letgo-common';
-import  './input-color.less';
+import { useModel } from '@webank/letgo-common';
+import './input-color.less';
 
 export default defineComponent({
     props: {

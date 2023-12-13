@@ -1,12 +1,12 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
-import type { IPublicTypeFieldConfig, IPublicTypeSetter, IPublicTypeSetterType } from '@harrywan/letgo-types';
-import type { SettingField } from '@harrywan/letgo-designer';
+import type { IPublicTypeFieldConfig, IPublicTypeSetter, IPublicTypeSetterType } from '@webank/letgo-types';
+import type { SettingField } from '@webank/letgo-designer';
 import { isUndefined } from 'lodash-es';
-import { createSettingFieldView } from '@harrywan/letgo-designer';
-import { isJSExpression } from '@harrywan/letgo-types';
+import { createSettingFieldView } from '@webank/letgo-designer';
+import { isJSExpression } from '@webank/letgo-types';
 import { commonProps } from '../../common';
-import  './index.less';
+import './index.less';
 
 const ObjectSetterView = defineComponent({
     name: 'ObjectSetterView',

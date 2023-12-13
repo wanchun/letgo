@@ -1,8 +1,8 @@
-import type { Logger } from '@harrywan/letgo-common';
-import type { Editor, EngineConfig } from '@harrywan/letgo-editor-core';
-import type { Designer } from '@harrywan/letgo-designer';
-import type { Skeleton as InnerSkeleton } from '@harrywan/letgo-editor-skeleton';
-import type { IPublicTypeCompositeObject } from '@harrywan/letgo-types';
+import type { Logger } from '@webank/letgo-common';
+import type { Editor, EngineConfig } from '@webank/letgo-editor-core';
+import type { Designer } from '@webank/letgo-designer';
+import type { Skeleton as InnerSkeleton } from '@webank/letgo-editor-skeleton';
+import type { IPublicTypeCompositeObject } from '@webank/letgo-types';
 import type { Hotkey, Material, Project, Setters, Skeleton } from '../shell';
 
 export type IPreferenceValueType = string | number | boolean;

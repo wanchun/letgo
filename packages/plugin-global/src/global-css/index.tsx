@@ -1,8 +1,8 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
 import { css } from '@codemirror/lang-css';
-import { CodeEditor } from '@harrywan/letgo-components';
-import type { Project } from '@harrywan/letgo-designer';
+import { CodeEditor } from '@webank/letgo-components';
+import type { Project } from '@webank/letgo-designer';
 
 export const GlobalCSS = defineComponent({
     name: 'GlobalCSS',

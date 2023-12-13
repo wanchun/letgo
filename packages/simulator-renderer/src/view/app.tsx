@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, onUnmounted, provide, reactive, watch } from 'vue';
-import { type CodeItem, CodeType } from '@harrywan/letgo-types';
-import { buildGlobalUtils } from '@harrywan/letgo-renderer';
+import { type CodeItem, CodeType } from '@webank/letgo-types';
+import { buildGlobalUtils } from '@webank/letgo-renderer';
 import { RouterView } from 'vue-router';
 import { BASE_GLOBAL_CONTEXT } from '../constants';
 import type { JavascriptFunctionImpl } from '../code-impl/javascript-function';

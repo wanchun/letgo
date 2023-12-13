@@ -1,4 +1,4 @@
-import type { IPublicTypeSetterType, IPublicTypeSettingTarget } from '@harrywan/letgo-types';
+import type { IPublicTypeSetterType, IPublicTypeSettingTarget } from '@webank/letgo-types';
 import type { ComponentMeta } from '../component-meta';
 import type { Designer } from '../designer';
 import type { INode } from '../types';

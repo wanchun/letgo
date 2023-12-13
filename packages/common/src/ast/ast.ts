@@ -7,8 +7,8 @@ import {
     isRunFunctionEventHandler,
     isSetLocalStorageEventHandler,
     isSetTemporaryStateEventHandler,
-} from '@harrywan/letgo-types';
-import type { CodeItem, IPublicTypeEventHandler, IPublicTypeJSFunction } from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
+import type { CodeItem, IPublicTypeEventHandler, IPublicTypeJSFunction } from '@webank/letgo-types';
 import { isNil } from 'lodash-es';
 import { findGlobals, reallyParse } from './find-globals';
 

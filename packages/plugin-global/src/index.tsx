@@ -1,5 +1,5 @@
 import { FTooltip } from '@fesjs/fes-design';
-import type { IPluginConfig } from '@harrywan/letgo-engine-plugin';
+import type { IPluginConfig } from '@webank/letgo-engine-plugin';
 import GlobalActions from './global-actions';
 import Panel from './panel';
 

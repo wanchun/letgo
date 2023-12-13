@@ -10,7 +10,7 @@ import {
     ref,
 } from 'vue';
 import { CloseOutlined, PasswordOutlined } from '@fesjs/fes-design/icon';
-import { addUnit } from '@harrywan/letgo-common';
+import { addUnit } from '@webank/letgo-common';
 import type { Area } from '../area';
 import type { IPanelConfig } from '../types';
 import type { Panel } from '../widget';

@@ -1,8 +1,8 @@
 import type { ComputedRef } from 'vue';
 import { watch } from 'vue';
-import type { CodeItem, CodeStruct } from '@harrywan/letgo-types';
-import { CodeType } from '@harrywan/letgo-types';
-import { calcDependencies, sortState } from '@harrywan/letgo-common';
+import type { CodeItem, CodeStruct } from '@webank/letgo-types';
+import { CodeType } from '@webank/letgo-types';
+import { calcDependencies, sortState } from '@webank/letgo-common';
 import { TemporaryStateLive } from './temporary-state';
 import { ComputedLive } from './computed';
 import type { JavascriptQueryBase } from './query/base';

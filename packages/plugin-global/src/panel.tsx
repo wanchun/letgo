@@ -8,10 +8,10 @@ import {
     FTabPane,
     FTabs,
 } from '@fesjs/fes-design';
-import type { Designer } from '@harrywan/letgo-designer';
+import type { Designer } from '@webank/letgo-designer';
 import { GlobalCSS } from './global-css';
 import { GlobalCode } from './global-code/code';
-import  './panel.less';
+import './panel.less';
 
 export default defineComponent({
     props: {

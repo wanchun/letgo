@@ -1,4 +1,4 @@
-import { type IPublicTypeEventHandler, type IPublicTypeJSFunction, InnerEventHandlerAction, isRunFunctionEventHandler, isSetLocalStorageEventHandler, isSetTemporaryStateEventHandler } from '@harrywan/letgo-types';
+import { type IPublicTypeEventHandler, type IPublicTypeJSFunction, InnerEventHandlerAction, isRunFunctionEventHandler, isSetLocalStorageEventHandler, isSetTemporaryStateEventHandler } from '@webank/letgo-types';
 import { camelCase } from 'lodash-es';
 
 export function genEventName(prop: string, refName: string) {

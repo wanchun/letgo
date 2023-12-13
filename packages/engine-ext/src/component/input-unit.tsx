@@ -1,6 +1,6 @@
 import type { PropType, Ref } from 'vue';
 import { defineComponent, ref, watch } from 'vue';
-import { useModel } from '@harrywan/letgo-common';
+import { useModel } from '@webank/letgo-common';
 import { FDropdown, FInput, FInputNumber } from '@fesjs/fes-design';
 import { addUnit, clearUnit, clearUnit2 } from '../common';
 
@@ -83,7 +83,7 @@ export const InputUnit = defineComponent({
                                     options={props.units.map(item => ({ value: item, label: item }))}
                                     onClick={((val) => { unitRef.value = val; })}
                                 >
-                                   <span>{unitRef.value}</span>
+                                    <span>{unitRef.value}</span>
                                 </FDropdown>
                             ),
                         }}
@@ -107,7 +107,7 @@ export const InputUnit = defineComponent({
                                 options={props.units.map(item => ({ value: item, label: item }))}
                                 onClick={onChangeUnit}
                             >
-                               <span style={{ cursor: 'pointer' }}>{unitRef.value}</span>
+                                <span style={{ cursor: 'pointer' }}>{unitRef.value}</span>
                             </FDropdown>
                         ),
                     }}

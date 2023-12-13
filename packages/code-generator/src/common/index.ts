@@ -3,7 +3,7 @@ import type {
     IPublicTypeNodeData,
     IPublicTypeProjectSchema,
     IPublicTypeRootSchema,
-} from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
 import { genScript } from './script';
 import { traverseNodeSchema } from './helper';
 import { formatFileName, formatPageName, formatPageTitle } from './page-meta';

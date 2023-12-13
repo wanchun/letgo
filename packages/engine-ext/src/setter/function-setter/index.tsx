@@ -1,11 +1,11 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
-import { isJSFunction } from '@harrywan/letgo-types';
-import type { IPublicTypeJSFunction, IPublicTypeSetter } from '@harrywan/letgo-types';
-import type { SettingField } from '@harrywan/letgo-designer';
+import { isJSFunction } from '@webank/letgo-types';
+import type { IPublicTypeJSFunction, IPublicTypeSetter } from '@webank/letgo-types';
+import type { SettingField } from '@webank/letgo-designer';
 import { isFunction, isUndefined } from 'lodash-es';
 import { javascript } from '@codemirror/lang-javascript';
-import { CodeEditor } from '@harrywan/letgo-components';
+import { CodeEditor } from '@webank/letgo-components';
 import { commonProps } from '../../common';
 
 const FunctionSetterView = defineComponent({
@@ -42,7 +42,8 @@ const FunctionSetterView = defineComponent({
                     doc={currentValue.value}
                     changeDoc={onChange}
                     extensions={[javascript()]}
-                ></CodeEditor>
+                >
+                </CodeEditor>
             );
         };
     },

@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue';
-import type { IPublicTypeComponentMetadata } from '@harrywan/letgo-types';
+import type { IPublicTypeComponentMetadata } from '@webank/letgo-types';
 
 export const Leaf = defineComponent({
     name: 'Leaf',

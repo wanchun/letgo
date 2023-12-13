@@ -1,5 +1,5 @@
 import type { PropType } from 'vue';
-import type { INode, SettingField } from '@harrywan/letgo-designer';
+import type { INode, SettingField } from '@webank/letgo-designer';
 
 export const commonProps = {
     field: Object as PropType<SettingField>,

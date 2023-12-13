@@ -19,26 +19,26 @@ import {
     leafProps,
     parseSchema,
     useLeaf,
-} from '@harrywan/letgo-renderer';
+} from '@webank/letgo-renderer';
 import type {
     IPublicTypeComponentAction,
     IPublicTypeComponentInstance,
     IPublicTypeCompositeValue,
     IPublicTypeEventHandler,
-} from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
 import {
     IPublicEnumTransformStage,
     isJSSlot,
-} from '@harrywan/letgo-types';
-import { getConvertedExtraKey } from '@harrywan/letgo-designer';
-import type { INode, ISlotNode } from '@harrywan/letgo-designer';
+} from '@webank/letgo-types';
+import { getConvertedExtraKey } from '@webank/letgo-designer';
+import type { INode, ISlotNode } from '@webank/letgo-designer';
 import type {
     BlockScope,
     LeafProps,
     RuntimeScope,
     SlotSchemaMap,
-} from '@harrywan/letgo-renderer';
-import { eventHandlersToJsFunction } from '@harrywan/letgo-common';
+} from '@webank/letgo-renderer';
+import { eventHandlersToJsFunction } from '@webank/letgo-common';
 import { BASE_COMP_CONTEXT } from '../constants';
 import { createAction } from './centerAction';
 

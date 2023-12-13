@@ -7,7 +7,8 @@ import {
     nextTick,
     onBeforeUnmount,
     onMounted,
-    ref, watch,
+    ref,
+    watch,
 } from 'vue';
 import { basicSetup } from 'codemirror';
 import type { ViewUpdate } from '@codemirror/view';
@@ -22,11 +23,11 @@ import {
 import { javascriptLanguage } from '@codemirror/lang-javascript';
 import { FullScreen } from '@icon-park/vue-next';
 import { FDrawer } from '@fesjs/fes-design';
-import type { DocumentModel } from '@harrywan/letgo-designer';
+import type { DocumentModel } from '@webank/letgo-designer';
 import { autocompletion } from '@codemirror/autocomplete';
 import { HintTheme, hintPlugin } from './hint';
 import { useHint } from './use';
-import  './code-editor.less';
+import './code-editor.less';
 
 export const CodeEditor = defineComponent({
     props: {
@@ -96,7 +97,8 @@ export const CodeEditor = defineComponent({
                             currentDoc = v.state.sliceDoc();
                             props.changeDoc(currentDoc);
                         }
-                    })].filter(Boolean),
+                    }),
+                ].filter(Boolean),
             });
         };
 

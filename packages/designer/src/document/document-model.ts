@@ -1,6 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
-import { wrapWithEventSwitch } from '@harrywan/letgo-editor-core';
-import { markComputed, uniqueId } from '@harrywan/letgo-common';
+import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
+import { markComputed, uniqueId } from '@webank/letgo-common';
 import type {
     IPublicTypeComponentsMap,
     IPublicTypeNodeData,
@@ -8,13 +8,13 @@ import type {
     IPublicTypePageSchema,
 
     IPublicTypeRootSchema,
-} from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
 import {
     IPublicEnumTransformStage,
     isDOMText,
     isJSExpression,
     isNodeSchema,
-} from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
 import { camelCase } from 'lodash-es';
 import type { INode, IRootNode, ISimulator } from '../types';
 import type {
@@ -102,7 +102,7 @@ export class DocumentModel {
     get fileName(): string {
         return (
             this.rootNode?.getExtraProp('fileName', false)?.getAsString()
-            || this.id
+                || this.id
         );
     }
 
@@ -321,7 +321,7 @@ export class DocumentModel {
     /**
      * 通过 isMatch 函数匹配 Node
      */
-    findNode(isMatch: (node: INode) => Boolean): INode | null {
+    findNode(isMatch: (node: INode) => boolean): INode | null {
         for (const node of this.nodes) {
             if (isMatch(node))
                 return node;

@@ -1,7 +1,7 @@
 import type { CSSProperties, ComputedRef } from 'vue';
 import { computed, defineComponent, h } from 'vue';
 import { isNil } from 'lodash-es';
-import type { IPublicTypeComponentMetadata } from '@harrywan/letgo-types';
+import type { IPublicTypeComponentMetadata } from '@webank/letgo-types';
 
 export const Icon = defineComponent({
     name: 'Icon',
@@ -40,7 +40,8 @@ export const Icon = defineComponent({
             'span',
             { style: this.svgStyle },
             h(
-                'svg', {
+                'svg',
+                {
                     style: {
                         width: '1em',
                         height: '1em',

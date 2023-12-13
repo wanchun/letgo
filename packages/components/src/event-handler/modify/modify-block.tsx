@@ -1,9 +1,9 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, ref, watch } from 'vue';
 import { FButton, FInput, FInputNumber, FOption, FSelect, FSpace } from '@fesjs/fes-design';
-import type { IPublicTypeEventHandler } from '@harrywan/letgo-types';
-import { InnerEventHandlerAction } from '@harrywan/letgo-types';
-import type { DocumentModel } from '@harrywan/letgo-designer';
+import type { IPublicTypeEventHandler } from '@webank/letgo-types';
+import { InnerEventHandlerAction } from '@webank/letgo-types';
+import type { DocumentModel } from '@webank/letgo-designer';
 import Label from './label';
 import Separator from './separator';
 import RenderOptions from './render-options';
@@ -53,7 +53,7 @@ const initOptions: any = {
     },
 };
 
-interface Option { label: string; value: string }
+interface Option { label: string, value: string }
 
 export default defineComponent({
     name: 'EventHandlerModify',
@@ -76,9 +76,11 @@ export default defineComponent({
         });
         const renderEvent = () => {
             return props.events.length
-                ? <Label label="事件">
-                <FSelect v-model={innerEditEvent.value.name} options={props.events} />
-            </Label>
+                ? (
+                    <Label label="事件">
+                        <FSelect v-model={innerEditEvent.value.name} options={props.events} />
+                    </Label>
+                    )
                 : null;
         };
 
@@ -94,11 +96,13 @@ export default defineComponent({
             };
         };
         const renderAction = () => {
-            return <Label label="动作">
-                    <FSelect appendToContainer={false} v-model={innerEditEvent.value.action} onChange={changeAction} >
+            return (
+                <Label label="动作">
+                    <FSelect appendToContainer={false} v-model={innerEditEvent.value.action} onChange={changeAction}>
                         {actions.map(action => <FOption value={action.value}>{action.label}</FOption>)}
                     </FSelect>
-                </Label>;
+                </Label>
+            );
         };
         const firstSeparatorText = computed(() => {
             const item = actions.find(item => item.value === currentAction.value);
@@ -116,24 +120,26 @@ export default defineComponent({
         };
 
         return () => {
-            return <div class="letgo-comp-event__modify">
-                {renderEvent()}
-                {renderAction()}
-                <Separator text={firstSeparatorText.value} />
-                <RenderOptions documentModel={props.documentModel} onChange={changeCurrentEvent} componentEvent={innerEditEvent.value} />
-                <Separator text="高级" />
-                <Label label="执行条件">
-                    <FInput v-model={innerEditEvent.value.onlyRunWhen} />
-                </Label>
-                <Label label="延迟">
-                    <FInputNumber v-model={innerEditEvent.value.waitMs} />
-                </Label>
-                <FSpace justify="end">
-                    <FButton type="primary" size="small" onClick={onSave}>
-                        保存
-                    </FButton>
-                </FSpace>
-            </div>;
+            return (
+                <div class="letgo-comp-event__modify">
+                    {renderEvent()}
+                    {renderAction()}
+                    <Separator text={firstSeparatorText.value} />
+                    <RenderOptions documentModel={props.documentModel} onChange={changeCurrentEvent} componentEvent={innerEditEvent.value} />
+                    <Separator text="高级" />
+                    <Label label="执行条件">
+                        <FInput v-model={innerEditEvent.value.onlyRunWhen} />
+                    </Label>
+                    <Label label="延迟">
+                        <FInputNumber v-model={innerEditEvent.value.waitMs} />
+                    </Label>
+                    <FSpace justify="end">
+                        <FButton type="primary" size="small" onClick={onSave}>
+                            保存
+                        </FButton>
+                    </FSpace>
+                </div>
+            );
         };
     },
 });

@@ -1,5 +1,5 @@
 import { computed, inject, onUnmounted, reactive, watch } from 'vue';
-import type { IPublicTypeComponentInstance, IPublicTypeNodeSchema } from '@harrywan/letgo-types';
+import type { IPublicTypeComponentInstance, IPublicTypeNodeSchema } from '@webank/letgo-types';
 import type { RendererProps } from '../core';
 import type { CodeImplType } from '../code-impl/code-impl';
 import { useCodesInstance } from '../code-impl/code-impl';

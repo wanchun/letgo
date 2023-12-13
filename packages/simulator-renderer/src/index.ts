@@ -1,4 +1,4 @@
-import { request } from '@harrywan/letgo-renderer';
+import { request } from '@webank/letgo-renderer';
 import simulator from './simulator';
 import { warn } from './utils';
 
@@ -25,9 +25,9 @@ win.addEventListener('beforeunload', () => {
 });
 
 export default simulator;
-export * from '@harrywan/letgo-renderer';
+export * from '@webank/letgo-renderer';
 export {
     config as vueRendererConfig,
     default as VueRenderer,
-} from '@harrywan/letgo-renderer';
+} from '@webank/letgo-renderer';
 export * from './interface';

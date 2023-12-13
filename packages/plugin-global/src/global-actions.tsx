@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
-import type { Designer } from '@harrywan/letgo-designer';
+import type { Designer } from '@webank/letgo-designer';
 import './global-actions.less';
 
 export default defineComponent({

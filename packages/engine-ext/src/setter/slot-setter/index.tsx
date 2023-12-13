@@ -1,13 +1,13 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
-import { isJSSlot } from '@harrywan/letgo-types';
-import type { IPublicTypeJSSlot, IPublicTypeSetter } from '@harrywan/letgo-types';
-import type { SettingField } from '@harrywan/letgo-designer';
+import { isJSSlot } from '@webank/letgo-types';
+import type { IPublicTypeJSSlot, IPublicTypeSetter } from '@webank/letgo-types';
+import type { SettingField } from '@webank/letgo-designer';
 import { isNil, isUndefined } from 'lodash-es';
 import { FSwitch } from '@fesjs/fes-design';
 import { commonProps } from '../../common';
 
-type ValueType = IPublicTypeJSSlot & { visible: boolean; title: string };
+type ValueType = IPublicTypeJSSlot & { visible: boolean, title: string };
 
 const SlotSetterView = defineComponent({
     name: 'SlotSetterView',

@@ -1,6 +1,6 @@
-import { executeExpression } from '@harrywan/letgo-common';
+import { executeExpression } from '@webank/letgo-common';
 
-import type { IRestQueryResource } from '@harrywan/letgo-types';
+import type { IRestQueryResource } from '@webank/letgo-types';
 import { JavascriptQueryBase } from './base';
 
 export function genRestApiQueryFunc(api: string, method: string, params: string) {

@@ -1,6 +1,6 @@
-import { markShallowReactive } from '@harrywan/letgo-common';
-import type { IRestQueryResource } from '@harrywan/letgo-types';
-import { genRestApiQueryFunc } from '@harrywan/letgo-renderer';
+import { markShallowReactive } from '@webank/letgo-common';
+import type { IRestQueryResource } from '@webank/letgo-types';
+import { genRestApiQueryFunc } from '@webank/letgo-renderer';
 import { JavascriptQueryImpl } from './base';
 
 export class RestApiQueryImpl extends JavascriptQueryImpl {

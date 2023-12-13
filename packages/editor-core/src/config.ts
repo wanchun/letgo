@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'vue';
-import type { IPublicTypeDevice } from '@harrywan/letgo-types';
+import type { IPublicTypeDevice } from '@webank/letgo-types';
 import { isPlainObject, get as lodashGet } from 'lodash-es';
 import type { createRequest } from '@qlin/request';
 

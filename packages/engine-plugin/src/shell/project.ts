@@ -1,10 +1,12 @@
-import type { DocumentModel, Project as InnerProject } from '@harrywan/letgo-designer';
+import type { DocumentModel, Project as InnerProject } from '@webank/letgo-designer';
 import type {
-    IPublicTypeAppConfig, IPublicTypeIconSchema,
-    IPublicTypeProjectSchema, IPublicTypeRootSchema,
+    IPublicTypeAppConfig,
+    IPublicTypeIconSchema,
+    IPublicTypeProjectSchema,
+    IPublicTypeRootSchema,
     IPublicTypeUtilsMap,
-} from '@harrywan/letgo-types';
-import { IPublicEnumTransformStage } from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
+import { IPublicEnumTransformStage } from '@webank/letgo-types';
 
 import { projectSymbol } from './symbols';
 

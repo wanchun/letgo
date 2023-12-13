@@ -1,11 +1,11 @@
 import { computed, defineComponent, ref } from 'vue';
 import type { PropType } from 'vue';
-import type { Designer } from '@harrywan/letgo-designer';
-import { CodeList } from '@harrywan/letgo-components';
-import type { CodeItem } from '@harrywan/letgo-types';
-import { innerGlobalVariable } from '@harrywan/letgo-common';
+import type { Designer } from '@webank/letgo-designer';
+import { CodeList } from '@webank/letgo-components';
+import type { CodeItem } from '@webank/letgo-types';
+import { innerGlobalVariable } from '@webank/letgo-common';
 import CodeEdit from './edit/code-edit';
-import  './code.less';
+import './code.less';
 
 export const GlobalCode = defineComponent({
     name: 'GlobalCode',

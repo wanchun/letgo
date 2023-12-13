@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import RendererApp from '@harrywan/letgo-renderer';
+import RendererApp from '@webank/letgo-renderer';
 
 const getScenarioName = function () {
     if (location.search)

@@ -15,20 +15,22 @@ import {
 import { get, isArray, isNil, isUndefined } from 'lodash-es';
 import {
     isSetterConfig,
-} from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
 import type {
-    IPublicTypeFieldConfig, IPublicTypeSetter,
-    IPublicTypeSetterConfig, IPublicTypeSetterType,
+    IPublicTypeFieldConfig,
+    IPublicTypeSetter,
+    IPublicTypeSetterConfig,
+    IPublicTypeSetterType,
     IPublicTypeSettingTarget,
-} from '@harrywan/letgo-types';
-import { createSettingFieldView, usePopupManage } from '@harrywan/letgo-designer';
-import type { SettingField } from '@harrywan/letgo-designer';
+} from '@webank/letgo-types';
+import { createSettingFieldView, usePopupManage } from '@webank/letgo-designer';
+import type { SettingField } from '@webank/letgo-designer';
 import { FButton, FDraggable } from '@fesjs/fes-design';
 import { AddOne, Config, DeleteOne, Drag } from '@icon-park/vue-next';
 import { commonProps } from '../../common';
-import './index.less'
+import './index.less';
 
-interface ItemType { main: SettingField; cols: SettingField[] }
+interface ItemType { main: SettingField, cols: SettingField[] }
 
 const ArraySetterView = defineComponent({
     name: 'ArraySetterView',
@@ -270,7 +272,7 @@ const ArraySetterView = defineComponent({
                     disabled={!draggable.value}
                     onDragend={onDragend}
                     v-slots={{
-                        default: ({ item, index }: { item: ItemType; index: number }) => {
+                        default: ({ item, index }: { item: ItemType, index: number }) => {
                             return (
                                 <div class={['letgo-array-setter__body', !hasCol && 'letgo-array-setter__body--big']}>
                                     <Drag class="letgo-array-setter__icon" theme="outline" onMousedown={onMousedown} />
@@ -279,7 +281,8 @@ const ArraySetterView = defineComponent({
                                 </div>
                             );
                         },
-                    }}>
+                    }}
+                >
                 </FDraggable>
             );
         };
@@ -289,10 +292,10 @@ const ArraySetterView = defineComponent({
                 <div class="letgo-array-setter">
                     {renderTitle()}
                     {renderBody()}
-                    <div class={{'letgo-array-setter__add': hasCol }}>
+                    <div class={{ 'letgo-array-setter__add': hasCol }}>
                         <FButton
                             long
-                            v-slots={{ icon: () => <AddOne style={{ marginRight: '8px' }} class="letgo-array-setter__icon" theme="outline" ></AddOne> }}
+                            v-slots={{ icon: () => <AddOne style={{ marginRight: '8px' }} class="letgo-array-setter__icon" theme="outline"></AddOne> }}
                             onClick={onAdd}
                         >
                             新增选项

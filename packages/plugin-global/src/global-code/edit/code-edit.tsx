@@ -1,9 +1,9 @@
 import { computed, defineComponent } from 'vue';
 import type { PropType } from 'vue';
-import type { Project } from '@harrywan/letgo-designer';
-import type { CodeItem } from '@harrywan/letgo-types';
-import { CodeType } from '@harrywan/letgo-types';
-import { ComputedEdit, FunctionEdit, StateEdit } from '@harrywan/letgo-components';
+import type { Project } from '@webank/letgo-designer';
+import type { CodeItem } from '@webank/letgo-types';
+import { CodeType } from '@webank/letgo-types';
+import { ComputedEdit, FunctionEdit, StateEdit } from '@webank/letgo-components';
 
 export default defineComponent({
     props: {

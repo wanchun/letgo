@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { defineComponent, onBeforeUnmount, ref } from 'vue';
-import { editor } from '@harrywan/letgo-editor-core';
+import { editor } from '@webank/letgo-editor-core';
 import type { Simulator } from '../simulator';
 import { BorderDetectingView } from './border-detecting';
 import { BorderSelectingView } from './border-selecting';

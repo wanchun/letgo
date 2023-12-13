@@ -1,7 +1,7 @@
 import { EditorView, minimalSetup } from 'codemirror';
 import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { EditorState } from '@codemirror/state';
-import type { DocumentModel } from '@harrywan/letgo-designer';
+import type { DocumentModel } from '@webank/letgo-designer';
 import { autocompletion } from '@codemirror/autocomplete';
 import type { ViewUpdate } from '@codemirror/view';
 import {
@@ -58,7 +58,8 @@ export const ExpressionEditor = defineComponent({
                             currentDoc = v.state.sliceDoc();
                             props.onChangeDoc(currentDoc);
                         }
-                    })],
+                    }),
+                ],
             });
         };
         onMounted(() => {

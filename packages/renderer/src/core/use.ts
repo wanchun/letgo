@@ -1,4 +1,4 @@
-import type { INode, Prop } from '@harrywan/letgo-designer';
+import type { INode, Prop } from '@webank/letgo-designer';
 import type {
     Component,
     ComputedRef,
@@ -25,7 +25,7 @@ import type {
     IPublicTypeNodeSchema,
     IPublicTypeRootSchema,
     IPublicTypeSlotSchema,
-} from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
 import {
     isDOMText,
     isJSExpression,
@@ -33,9 +33,9 @@ import {
     isJSSlot,
     isNodeSchema,
     isSlotSchema,
-} from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
 import { camelCase, isArray, isFunction, isNil, isPlainObject, isString } from 'lodash-es';
-import { eventHandlersToJsFunction } from '@harrywan/letgo-common';
+import { eventHandlersToJsFunction } from '@webank/letgo-common';
 import { provideRenderContext, useRendererContext } from '../context';
 import type { BlockScope, MaybeArray, RuntimeScope } from '../utils';
 import {

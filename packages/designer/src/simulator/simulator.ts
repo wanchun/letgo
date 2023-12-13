@@ -17,19 +17,19 @@ import type {
     IPublicTypeDevice,
     IPublicTypePackage,
     IPublicTypeUtilItem,
-} from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
 import {
     IPublicEnumAssetLevel,
     IPublicEnumAssetType,
-} from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
 import {
     assetBundle,
     assetItem,
     hasOwnProperty,
     isElement,
     markComputed,
-} from '@harrywan/letgo-common';
-import { engineConfig } from '@harrywan/letgo-editor-core';
+} from '@webank/letgo-common';
+import { engineConfig } from '@webank/letgo-editor-core';
 import type {
     IComponentInstance,
     IDropContainer,
@@ -222,7 +222,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
 
             assetBundle(
                 engineConfig.get('vueRuntimeUrl')
-                    ?? 'https://unpkg.com/vue/dist/vue.runtime.global.js',
+                ?? 'https://unpkg.com/vue/dist/vue.runtime.global.js',
                 IPublicEnumAssetLevel.Environment,
             ),
 
@@ -522,8 +522,8 @@ export class Simulator implements ISimulator<ISimulatorProps> {
         if (
             !dropContainer
             || (nodes
-                && typeof childWhitelist === 'function'
-                && !childWhitelist(operationalNodes[0]))
+            && typeof childWhitelist === 'function'
+            && !childWhitelist(operationalNodes[0]))
         )
             return null;
 
@@ -859,8 +859,8 @@ export class Simulator implements ISimulator<ISimulatorProps> {
     }
 
     /**
-   * @see ISimulator
-   */
+     * @see ISimulator
+     */
     computeRect(node: INode): IRect | null {
         const instances = this.getComponentInstances(node);
         if (!instances)
@@ -891,8 +891,8 @@ export class Simulator implements ISimulator<ISimulatorProps> {
     }
 
     /**
-   * @see ISimulator
-   */
+     * @see ISimulator
+     */
     getComponent(componentName: string): Component | null {
         return this.renderer?.getComponent(componentName) || null;
     }
@@ -964,7 +964,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
 
         elements = elements.slice();
         let rects: DOMRect[] | undefined;
-        let last: { x: number; y: number; r: number; b: number } | undefined;
+        let last: { x: number, y: number, r: number, b: number } | undefined;
         let _computed = false;
         while (true) {
             if (!rects || rects.length < 1) {
@@ -1110,9 +1110,9 @@ function isNearAfter(point: ICanvasPoint, rect: IRect, inline: boolean) {
     if (inline) {
         return (
             Math.abs(point.canvasX - rect.left)
-                + Math.abs(point.canvasY - rect.top)
+            + Math.abs(point.canvasY - rect.top)
             > Math.abs(point.canvasX - rect.right)
-                + Math.abs(point.canvasY - rect.bottom)
+            + Math.abs(point.canvasY - rect.bottom)
         );
     }
     return (

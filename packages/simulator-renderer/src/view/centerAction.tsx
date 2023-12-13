@@ -1,9 +1,9 @@
-import type { IPublicTypeComponentActionContent } from '@harrywan/letgo-types';
+import type { IPublicTypeComponentActionContent } from '@webank/letgo-types';
 import {
     isActionContentObject,
-} from '@harrywan/letgo-types';
-import { createIcon } from '@harrywan/letgo-common';
-import type { INode } from '@harrywan/letgo-designer';
+} from '@webank/letgo-types';
+import { createIcon } from '@webank/letgo-common';
+import type { INode } from '@webank/letgo-designer';
 import './center-action.less';
 
 export function createAction(content: IPublicTypeComponentActionContent, key: string, node: INode) {

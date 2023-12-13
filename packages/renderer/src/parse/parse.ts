@@ -1,6 +1,6 @@
-import type { IPublicTypeJSExpression, IPublicTypeJSFunction, IPublicTypeUtilsMap } from '@harrywan/letgo-types';
-import { isJSExpression, isJSFunction } from '@harrywan/letgo-types';
-import { executeExpression, findLibExport } from '@harrywan/letgo-common';
+import type { IPublicTypeJSExpression, IPublicTypeJSFunction, IPublicTypeUtilsMap } from '@webank/letgo-types';
+import { isJSExpression, isJSFunction } from '@webank/letgo-types';
+import { executeExpression, findLibExport } from '@webank/letgo-common';
 import { isFunction, isPlainObject, isString } from 'lodash-es';
 import { executeFunc, funcSchemaToFunc } from './executeFunc';
 

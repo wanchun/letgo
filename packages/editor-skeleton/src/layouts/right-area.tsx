@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { defineComponent, ref } from 'vue';
 import { useEventListener } from '@vueuse/core';
-import { editor } from '@harrywan/letgo-editor-core';
+import { editor } from '@webank/letgo-editor-core';
 import type { Area } from '../area';
 import type { IPanelConfig } from '../types';
 import type { Panel } from '../widget';

@@ -4,14 +4,14 @@ import {
     isAssetBundle,
     isAssetItem,
     isCSSUrl,
-} from '@harrywan/letgo-common';
-import type { IPublicTypeAssetList } from '@harrywan/letgo-types';
+} from '@webank/letgo-common';
+import type { IPublicTypeAssetList } from '@webank/letgo-types';
 import {
     AssetLevels,
     IPublicEnumAssetLevel,
     IPublicEnumAssetType,
-} from '@harrywan/letgo-types';
-import { getIconSprite } from '@harrywan/letgo-common';
+} from '@webank/letgo-types';
+import { getIconSprite } from '@webank/letgo-common';
 import type { Simulator } from './simulator';
 import type { ISimulatorRenderer } from './renderer';
 

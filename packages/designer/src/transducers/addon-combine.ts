@@ -2,8 +2,8 @@ import type {
     IPublicTypeFieldConfig,
 
     IPublicTypeTransformedComponentMetadata,
-} from '@harrywan/letgo-types';
-import { engineConfig } from '@harrywan/letgo-editor-core';
+} from '@webank/letgo-types';
+import { engineConfig } from '@webank/letgo-editor-core';
 import { isArray } from 'lodash-es';
 import { getConvertedExtraKey } from '../node';
 

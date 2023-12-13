@@ -5,14 +5,14 @@ import type {
     IPublicTypeNodeSchema,
     IPublicTypePropsList,
     IPublicTypePropsMap,
-} from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
 import {
     IPublicEnumTransformStage,
     isDOMText,
     isJSExpression,
-} from '@harrywan/letgo-types';
-import { wrapWithEventSwitch } from '@harrywan/letgo-editor-core';
-import { markComputed, markShallowReactive } from '@harrywan/letgo-common';
+} from '@webank/letgo-types';
+import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
+import { markComputed, markShallowReactive } from '@webank/letgo-common';
 import type { ComponentMeta } from '../component-meta';
 import type { DocumentModel } from '../document';
 import type { IBaseNode, INode, IRootNode } from '../types';
@@ -36,8 +36,8 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     ref: string;
 
     /**
-      * 属性抽象
-      */
+     * 属性抽象
+     */
     props: Props;
 
     isRGLContainer: false;
@@ -55,12 +55,12 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     /**
      * 节点组件类型
      * 特殊节点:
-     *  * Page 页面
-     *  * Block 区块
-     *  * Component 组件/元件
-     *  * Fragment 碎片节点，无 props，有指令
-     *  * Leaf 文字节点 | 表达式节点，无 props，无指令？
-     *  * Slot 插槽节点，无 props，正常 children，有 slotArgs，有指令
+     *  Page 页面
+     *  Block 区块
+     *  Component 组件/元件
+     *  Fragment 碎片节点，无 props，有指令
+     *  Leaf 文字节点 | 表达式节点，无 props，无指令？
+     *  Slot 插槽节点，无 props，正常 children，有 slotArgs，有指令
      */
     readonly componentName: string;
 
@@ -356,7 +356,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     }
 
     onChildrenChange(
-        fn: (param?: { type: string; node: INode }) => void,
+        fn: (param?: { type: string, node: INode }) => void,
     ): (() => void) | undefined {
         const wrappedFunc = wrapWithEventSwitch(fn);
         return this.children?.onChange(wrappedFunc);
@@ -401,8 +401,8 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
 
         if (
             this.isParental()
-            && this.children.size > 0
-            && !options.bypassChildren
+                && this.children.size > 0
+                && !options.bypassChildren
         )
             schema.children = this.children.export(stage);
 

@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { defineComponent, nextTick, ref } from 'vue';
-import { EditIcon } from '@harrywan/letgo-components';
+import { EditIcon } from '@webank/letgo-components';
 import './node-ref.less';
 
 export default defineComponent({

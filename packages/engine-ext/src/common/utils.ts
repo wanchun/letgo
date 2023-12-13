@@ -1,4 +1,4 @@
-import type { INode } from '@harrywan/letgo-designer';
+import type { INode } from '@webank/letgo-designer';
 import { isElement, isNaN, isNil, isNumber, isString } from 'lodash-es';
 import type { CssAttributes, JSONNode } from './css-json';
 import { toCSS, toJSON } from './css-json';
@@ -31,10 +31,10 @@ export function getComputeStyle(node: INode): Record<string, any> | null {
 }
 
 /**
-   * 获取提示属性值
-   * @param cssStyle
-   * @param property
-   */
+ * 获取提示属性值
+ * @param cssStyle
+ * @param property
+ */
 export function getPlaceholderPropertyValue(cssStyle: Record<string, any> | null, property: string) {
     const propertyValue = cssStyle?.[toLine(property)];
 
@@ -68,7 +68,7 @@ export function clearUnit(value: string | number | undefined) {
         return;
     if (isNumber(value))
         return value;
-    const res = parseFloat(value);
+    const res = Number.parseFloat(value);
     return isNaN(res) ? undefined : res;
 }
 
@@ -77,7 +77,7 @@ export function clearUnit2(value: string | number | undefined) {
         return;
     if (isNumber(value))
         return value;
-    const res = parseFloat(value);
+    const res = Number.parseFloat(value);
     return isNaN(res) ? value : res;
 }
 
@@ -91,10 +91,10 @@ export function hex(color: string) {
         .replace(/\)/, '')
         .replace(/[\s+]/g, '')
         .split(',');
-    const a = parseFloat(values[3]);
-    const r = Math.floor(a * parseInt(values[0]) + (1 - a) * 255);
-    const g = Math.floor(a * parseInt(values[1]) + (1 - a) * 255);
-    const b = Math.floor(a * parseInt(values[2]) + (1 - a) * 255);
+    const a = Number.parseFloat(values[3]);
+    const r = Math.floor(a * Number.parseInt(values[0]) + (1 - a) * 255);
+    const g = Math.floor(a * Number.parseInt(values[1]) + (1 - a) * 255);
+    const b = Math.floor(a * Number.parseInt(values[2]) + (1 - a) * 255);
     return (
         `#${
       (`0${r.toString(16)}`).slice(-2)
@@ -111,7 +111,7 @@ export function toLine(styleKey: string) {
     return styleKey.replace(/([A-Z])/g, '-$1').toLowerCase();
 }
 
-export function toHump(name: String) {
+export function toHump(name: string) {
     return name.replace(/\-(\w)/g, (all, letter) => {
         return letter.toUpperCase();
     });

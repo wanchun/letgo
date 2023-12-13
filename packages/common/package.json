@@ -1,6 +1,6 @@
 {
-    "name": "@harrywan/letgo-common",
-    "version": "0.0.4-beta.0",
+    "name": "@webank/letgo-common",
+    "version": "0.0.1-beta.0",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -17,7 +17,7 @@
     },
     "dependencies": {
         "@fesjs/fes-design": "^0.8.17",
-        "@harrywan/letgo-types": "^0.0.0-beta.46",
+        "@webank/letgo-types": "^0.0.1-beta.0",
         "acorn": "^8.8.2",
         "acorn-walk": "^8.2.0",
         "astring": "^1.8.6",

@@ -1,5 +1,5 @@
-import { CodeType, ResourceType, RunCondition } from '@harrywan/letgo-types';
-import type { CodeItem, IJavascriptComputed, IJavascriptFunction, IJavascriptQuery, ITemporaryState } from '@harrywan/letgo-types';
+import { CodeType, ResourceType, RunCondition } from '@webank/letgo-types';
+import type { CodeItem, IJavascriptComputed, IJavascriptFunction, IJavascriptQuery, ITemporaryState } from '@webank/letgo-types';
 
 export interface CodeBaseEdit {
     addCode(id: string, resourceType?: ResourceType): CodeItem

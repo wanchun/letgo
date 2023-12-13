@@ -1,4 +1,4 @@
-import type { IPluginConfig } from '@harrywan/letgo-engine-plugin';
+import type { IPluginConfig } from '@webank/letgo-engine-plugin';
 import PluginSettingView from './setting';
 
 export default {

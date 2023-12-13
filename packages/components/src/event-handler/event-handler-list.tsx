@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
-import { InnerEventHandlerAction } from '@harrywan/letgo-types';
-import type { IPublicTypeEventHandler } from '@harrywan/letgo-types';
+import { InnerEventHandlerAction } from '@webank/letgo-types';
+import type { IPublicTypeEventHandler } from '@webank/letgo-types';
 import { DeleteOutlined } from '@fesjs/fes-design/icon';
 import './event-handler-list.less';
 

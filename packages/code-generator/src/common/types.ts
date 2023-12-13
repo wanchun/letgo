@@ -1,4 +1,4 @@
-import type { IPublicTypeProjectSchema } from '@harrywan/letgo-types';
+import type { IPublicTypeProjectSchema } from '@webank/letgo-types';
 
 export interface GenOptions {
     schema: IPublicTypeProjectSchema

@@ -1,6 +1,6 @@
-import { eventHandlersToJsFunction, markShallowReactive } from '@harrywan/letgo-common';
-import type { IFailureCondition, IJavascriptQuery, IPublicTypeEventHandler, ResourceType } from '@harrywan/letgo-types';
-import { CodeType, RunCondition } from '@harrywan/letgo-types';
+import { eventHandlersToJsFunction, markShallowReactive } from '@webank/letgo-common';
+import type { IFailureCondition, IJavascriptQuery, IPublicTypeEventHandler, ResourceType } from '@webank/letgo-types';
+import { CodeType, RunCondition } from '@webank/letgo-types';
 import { funcSchemaToFunc } from '../../parse';
 
 export class JavascriptQueryBase {

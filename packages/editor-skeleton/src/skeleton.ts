@@ -1,5 +1,5 @@
-import type { IPublicEditor } from '@harrywan/letgo-types';
-import type { Designer } from '@harrywan/letgo-designer';
+import type { IPublicEditor } from '@webank/letgo-types';
+import type { Designer } from '@webank/letgo-designer';
 import type {
     IBaseWidget,
     IEnumSkeletonEvent,

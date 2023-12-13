@@ -7,9 +7,9 @@ import type {
     IPublicTypeEditorGetResult,
     IPublicTypeEditorValueKey,
     IPublicTypeRemoteComponentDescription,
-} from '@harrywan/letgo-types';
-import { AssetLoader } from '@harrywan/letgo-common';
-import { builtinComponentsMeta } from '@harrywan/letgo-components';
+} from '@webank/letgo-types';
+import { AssetLoader } from '@webank/letgo-common';
+import { builtinComponentsMeta } from '@webank/letgo-components';
 import { get, isArray } from 'lodash-es';
 
 export class Editor extends EventEmitter implements IPublicEditor {

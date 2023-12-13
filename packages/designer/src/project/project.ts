@@ -9,14 +9,14 @@ import type {
     IPublicTypeProjectSchema,
     IPublicTypeRootSchema,
     IPublicTypeUtilsMap,
-} from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
 import {
     IPublicEnumTransformStage,
     isLowCodeComponentType,
     isProCodeComponentType,
-} from '@harrywan/letgo-types';
-import { markComputed, markShallowReactive } from '@harrywan/letgo-common';
-import { editor } from '@harrywan/letgo-editor-core';
+} from '@webank/letgo-types';
+import { markComputed, markShallowReactive } from '@webank/letgo-common';
+import { editor } from '@webank/letgo-editor-core';
 import { isDocumentModel } from '../types';
 import type { Designer } from '../designer';
 import { DocumentModel } from '../document';

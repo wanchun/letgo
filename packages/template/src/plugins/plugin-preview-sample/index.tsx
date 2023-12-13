@@ -1,6 +1,6 @@
-import { project } from '@harrywan/letgo-engine';
-import type { IPluginConfig } from '@harrywan/letgo-engine';
-import { IPublicEnumTransformStage } from '@harrywan/letgo-types';
+import { project } from '@webank/letgo-engine';
+import type { IPluginConfig } from '@webank/letgo-engine';
+import { IPublicEnumTransformStage } from '@webank/letgo-types';
 import { FTooltip } from '@fesjs/fes-design';
 import { EyeOutlined } from '@fesjs/fes-design/icon';
 

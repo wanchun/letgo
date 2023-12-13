@@ -1,7 +1,7 @@
 import type { PropType, VNodeChild } from 'vue';
 import { computed, createVNode, defineComponent, h } from 'vue';
-import type { IPublicTypeCustomView, IPublicTypeDisplay } from '@harrywan/letgo-types';
-import { isSetterConfig } from '@harrywan/letgo-types';
+import type { IPublicTypeCustomView, IPublicTypeDisplay } from '@webank/letgo-types';
+import { isSetterConfig } from '@webank/letgo-types';
 import { isFunction } from 'lodash-es';
 import type { IFieldProps } from './fields';
 import { AccordionFieldView, BlockFieldView, InlineFieldView, PlainFieldView, PopupFieldView } from './fields';

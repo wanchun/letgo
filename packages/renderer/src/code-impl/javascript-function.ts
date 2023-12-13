@@ -1,5 +1,5 @@
-import type { IJavascriptFunction } from '@harrywan/letgo-types';
-import { CodeType } from '@harrywan/letgo-types';
+import type { IJavascriptFunction } from '@webank/letgo-types';
+import { CodeType } from '@webank/letgo-types';
 
 // 解析执行
 export class JavascriptFunctionLive {

@@ -1,4 +1,4 @@
-import type { IPublicTypeBlockSchema, IPublicTypeComponentSchema, IPublicTypePageSchema } from '@harrywan/letgo-types';
+import type { IPublicTypeBlockSchema, IPublicTypeComponentSchema, IPublicTypePageSchema } from '@webank/letgo-types';
 
 const flag = {
     Page: 1,

@@ -1,6 +1,6 @@
 import {
     markComputed, markReactive,
-} from '@harrywan/letgo-common';
+} from '@webank/letgo-common';
 import { ScrollTarget } from '../designer';
 import type { IPoint, IViewport, TypeAutoFit } from '../types';
 import { AutoFit } from '../types';

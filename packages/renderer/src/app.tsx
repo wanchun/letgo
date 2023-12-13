@@ -1,9 +1,9 @@
 import type { Component, PropType } from 'vue';
 import { computed, defineComponent, onMounted, provide, reactive, ref, shallowRef } from 'vue';
-import type { IPublicTypeAsset, IPublicTypePageSchema, IPublicTypeProjectSchema } from '@harrywan/letgo-types';
-import { AssetLoader, buildComponents, insertIconSprite } from '@harrywan/letgo-common';
+import type { IPublicTypeAsset, IPublicTypePageSchema, IPublicTypeProjectSchema } from '@webank/letgo-types';
+import { AssetLoader, buildComponents, insertIconSprite } from '@webank/letgo-common';
 
-import { builtinComponents } from '@harrywan/letgo-components';
+import { builtinComponents } from '@webank/letgo-components';
 import { Renderer } from './renderer';
 import { JavascriptFunctionLive } from './code-impl';
 import { buildGlobalUtils } from './parse';

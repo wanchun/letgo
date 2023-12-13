@@ -1,5 +1,5 @@
-import { ResourceType } from '@harrywan/letgo-types';
-import type { IJavascriptQuery, IRestQueryResource } from '@harrywan/letgo-types';
+import { ResourceType } from '@webank/letgo-types';
+import type { IJavascriptQuery, IRestQueryResource } from '@webank/letgo-types';
 
 import { RestApiQueryImpl } from './rest-api';
 import { JavascriptQueryImpl } from './base';

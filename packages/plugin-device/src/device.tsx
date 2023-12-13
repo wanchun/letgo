@@ -1,8 +1,8 @@
 import type { PropType, ShallowRef } from 'vue';
 import { defineComponent, onBeforeUnmount, shallowRef } from 'vue';
 import { Computer, Phone } from '@icon-park/vue-next';
-import type { Designer, Simulator } from '@harrywan/letgo-designer';
-import type { IPublicTypeDevice } from '@harrywan/letgo-types';
+import type { Designer, Simulator } from '@webank/letgo-designer';
+import type { IPublicTypeDevice } from '@webank/letgo-types';
 import './device.less';
 
 export const DeviceView = defineComponent({

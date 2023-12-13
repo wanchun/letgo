@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue';
-import { Page } from '@harrywan/letgo-components';
+import { Page } from '@webank/letgo-components';
 import { rendererProps, useRenderer } from '../core';
 
 export const PageRenderer = defineComponent({

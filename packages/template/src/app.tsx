@@ -1,8 +1,8 @@
 import { defineRuntimeConfig } from '@fesjs/fes';
 import { FConfigProvider } from '@fesjs/fes-design';
-import { plugins } from '@harrywan/letgo-engine';
-import PluginDevice from '@harrywan/letgo-plugin-device';
-import PluginSchema from '@harrywan/letgo-plugin-schema';
+import { plugins } from '@webank/letgo-engine';
+import PluginDevice from '@webank/letgo-plugin-device';
+import PluginSchema from '@webank/letgo-plugin-schema';
 import type { App } from 'vue';
 import PluginLogo from './plugins/plugin-logo';
 import PluginPreview from './plugins/plugin-preview-sample';

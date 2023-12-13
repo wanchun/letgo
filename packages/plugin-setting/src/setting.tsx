@@ -1,13 +1,13 @@
 import type { PropType } from 'vue';
 import { defineComponent, onBeforeUnmount, watch } from 'vue';
 import { FScrollbar, FTabPane, FTabs } from '@fesjs/fes-design';
-import type { SettingField } from '@harrywan/letgo-designer';
+import type { SettingField } from '@webank/letgo-designer';
 import {
     createSettingFieldView,
     usePopup,
-} from '@harrywan/letgo-designer';
+} from '@webank/letgo-designer';
 import { Return } from '@icon-park/vue-next';
-import type { IPluginContext } from '@harrywan/letgo-engine-plugin';
+import type { IPluginContext } from '@webank/letgo-engine-plugin';
 import { SettingsMain } from './main';
 import Breadcrumb from './breadcrumb';
 import './setting.less'; 

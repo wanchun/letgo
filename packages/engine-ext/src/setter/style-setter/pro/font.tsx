@@ -1,6 +1,6 @@
 import type { CSSProperties, PropType } from 'vue';
 import { defineComponent, inject } from 'vue';
-import { useModel } from '@harrywan/letgo-common';
+import { useModel } from '@webank/letgo-common';
 import { FCollapseItem, FInputNumber, FRadioButton, FRadioGroup, FSelect, FTooltip } from '@fesjs/fes-design';
 import { AlignLeft, AlignRight, AlignTextBoth, AlignTextCenter } from '@icon-park/vue-next';
 import { InputColor, InputUnit, Row } from '../../../component';
@@ -98,18 +98,20 @@ export const FontView = defineComponent({
                                 });
                             }}
                             options={fontWeight}
-                        ></FSelect>
+                        >
+                        </FSelect>
                     </Row>
                     <Row label="字体颜色">
                         <InputColor
                             modelValue={currentValue.value.color}
-                            defaultValue={getPlaceholderPropertyValue(provideStyle.style, 'color') }
+                            defaultValue={getPlaceholderPropertyValue(provideStyle.style, 'color')}
                             onChange={(val: string) => {
                                 onStyleChange({
                                     color: val,
                                 });
                             }}
-                        ></InputColor>
+                        >
+                        </InputColor>
                     </Row>
                     <Row label="对齐">
                         <FRadioGroup
@@ -120,22 +122,22 @@ export const FontView = defineComponent({
                                 });
                             }}
                         >
-                            <FRadioButton value={'left'}>
+                            <FRadioButton value="left">
                                 <FTooltip content="left 左对齐" placement="top">
                                     <AlignLeft />
                                 </FTooltip>
                             </FRadioButton>
-                            <FRadioButton value={'center'}>
+                            <FRadioButton value="center">
                                 <FTooltip content="center 居中" placement="top">
                                     <AlignTextCenter />
                                 </FTooltip>
                             </FRadioButton>
-                            <FRadioButton value={'right'}>
+                            <FRadioButton value="right">
                                 <FTooltip content="right 右对齐" placement="top">
                                     <AlignRight />
                                 </FTooltip>
                             </FRadioButton>
-                            <FRadioButton value={'justify'}>
+                            <FRadioButton value="justify">
                                 <FTooltip content="justify 两端对齐" placement="top">
                                     <AlignTextBoth />
                                 </FTooltip>
@@ -157,7 +159,8 @@ export const FontView = defineComponent({
                             v-slots={{
                                 suffix: () => '%',
                             }}
-                        ></FInputNumber>
+                        >
+                        </FInputNumber>
                     </Row>
                 </FCollapseItem>
             );

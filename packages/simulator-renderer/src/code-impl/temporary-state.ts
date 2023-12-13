@@ -1,8 +1,8 @@
-import { TemporaryStateLive } from '@harrywan/letgo-renderer';
-import { markComputed, markReactive } from '@harrywan/letgo-common';
+import { TemporaryStateLive } from '@webank/letgo-renderer';
+import { markComputed, markReactive } from '@webank/letgo-common';
 import { clone } from 'lodash-es';
-import { CodeType, type ITemporaryState } from '@harrywan/letgo-types';
-import type { ITemporaryStateImpl } from '@harrywan/letgo-designer';
+import { CodeType, type ITemporaryState } from '@webank/letgo-types';
+import type { ITemporaryStateImpl } from '@webank/letgo-designer';
 import type { WatchStopHandle } from 'vue';
 import { watch } from 'vue';
 

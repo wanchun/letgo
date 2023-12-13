@@ -1,4 +1,4 @@
-import type { IPublicTypeSetter } from '@harrywan/letgo-types';
+import type { IPublicTypeSetter } from '@webank/letgo-types';
 import * as setters from './setter';
 
 export const version = ENGINE_EXT_VERSION_PLACEHOLDER;

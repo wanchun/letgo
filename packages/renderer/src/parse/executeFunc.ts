@@ -1,5 +1,5 @@
-import type { IPublicTypeJSFunction } from '@harrywan/letgo-types';
-import { executeExpression } from '@harrywan/letgo-common';
+import type { IPublicTypeJSFunction } from '@webank/letgo-types';
+import { executeExpression } from '@webank/letgo-common';
 
 export function funcSchemaToFunc(schema: IPublicTypeJSFunction, ctx: Record<string, unknown>) {
     try {

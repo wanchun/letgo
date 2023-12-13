@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
-import type { IJavascriptQuery } from '@harrywan/letgo-types';
-import type { DocumentModel } from '@harrywan/letgo-designer';
+import type { IJavascriptQuery } from '@webank/letgo-types';
+import type { DocumentModel } from '@webank/letgo-designer';
 import EventHandlers from './event-handlers';
 import Resource from './resource';
 

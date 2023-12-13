@@ -1,4 +1,4 @@
-import type { CodeItem } from '@harrywan/letgo-types';
+import type { CodeItem } from '@webank/letgo-types';
 import { isNil } from 'lodash-es';
 import { calcDependencies } from './ast';
 

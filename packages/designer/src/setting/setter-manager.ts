@@ -1,4 +1,4 @@
-import type { IPublicTypeSetter } from '@harrywan/letgo-types';
+import type { IPublicTypeSetter } from '@webank/letgo-types';
 
 export class SetterManager {
     private static renderMap = new Map<string, IPublicTypeSetter>();

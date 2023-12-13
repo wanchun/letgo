@@ -5,15 +5,15 @@ import type {
     IPublicTypeDynamicProps,
     IPublicTypeSetter,
     IPublicTypeSetterType,
-} from '@harrywan/letgo-types';
+} from '@webank/letgo-types';
 import {
     isSetterConfig,
-} from '@harrywan/letgo-types';
-import type { SettingField } from '@harrywan/letgo-designer';
+} from '@webank/letgo-types';
+import type { SettingField } from '@webank/letgo-designer';
 import {
     SetterManager,
     createSetterContent,
-} from '@harrywan/letgo-designer';
+} from '@webank/letgo-designer';
 import { cloneDeep } from 'lodash';
 import { FDropdown, FTooltip } from '@fesjs/fes-design';
 import { CodeBrackets, Transform } from '@icon-park/vue-next';
@@ -206,7 +206,7 @@ const MixedSetterView = defineComponent({
                     <FTooltip content={currentSetterName.value === 'ExpressionSetter' ? '关闭' : '启用表达式'}>
                         <CodeBrackets
                             onClick={onClick}
-                            class={["letgo-setter-mixed__icon", currentSetterName.value === 'ExpressionSetter' && "letgo-setter-mixed__icon--active"]}
+                            class={['letgo-setter-mixed__icon', currentSetterName.value === 'ExpressionSetter' && 'letgo-setter-mixed__icon--active']}
                             theme="outline"
                             size="14"
                         />

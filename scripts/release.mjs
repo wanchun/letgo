@@ -54,8 +54,8 @@ async function publishPackage(pkg, runIfNotDry) {
         await runIfNotDry(
             // note: use of pnpm is intentional here as we rely on its publishing
             // behavior.
-            'npm',
-            ['publish', ...(_releaseTag ? ['--tag', _releaseTag] : []), '--access', 'public', '--registry', 'http://wnpm.weoa.com:8001'],
+            'wnpm',
+            ['publish', ...(_releaseTag ? ['--tag', _releaseTag] : []), '--access', 'public'],
             {
                 cwd: getPkgRoot(pkg.dirName),
                 stdio: 'pipe',

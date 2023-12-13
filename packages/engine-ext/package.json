@@ -1,6 +1,6 @@
 {
     "name": "@webank/letgo-engine-ext",
-    "version": "0.0.1-beta.1",
+    "version": "0.0.1-beta.2",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -23,10 +23,10 @@
         "@codemirror/lang-json": "^6.0.1",
         "@fesjs/fes-design": "^0.8.17",
         "@icon-park/vue-next": "^1.4.2",
-        "@webank/letgo-common": "^0.0.1-beta.1",
-        "@webank/letgo-components": "^0.0.1-beta.1",
-        "@webank/letgo-designer": "^0.0.1-beta.1",
-        "@webank/letgo-types": "^0.0.1-beta.1",
+        "@webank/letgo-common": "^0.0.1-beta.2",
+        "@webank/letgo-components": "^0.0.1-beta.2",
+        "@webank/letgo-designer": "^0.0.1-beta.2",
+        "@webank/letgo-types": "^0.0.1-beta.2",
         "lodash-es": "^4.17.21",
         "naive-ui": "^2.34.4"
     },

@@ -36,13 +36,15 @@ export default defineComponent({
         };
         // TODO 输入重复的 ID 输入框变红
         return () => {
-            return <div class="letgo-plg-setting__ref">
-                <span v-show={!editing.value} class="letgo-plg-setting__ref-content">
-                    <span>{props.id}</span>
-                    <EditIcon onClick={goEdit} class="letgo-plg-setting__ref-icon" />
-                </span>
-                <input v-show={editing.value} ref={inputRefEl} class="letgo-plg-setting__ref-input" value={props.id} onBlur={cancelEdit} onChange={changeId} />
-            </div>;
+            return (
+                <div class="letgo-plg-setting__ref">
+                    <span v-show={!editing.value} class="letgo-plg-setting__ref-content">
+                        <span>{props.id}</span>
+                        <EditIcon onClick={goEdit} class="letgo-plg-setting__ref-icon" />
+                    </span>
+                    <input v-show={editing.value} ref={inputRefEl} class="letgo-plg-setting__ref-input" value={props.id} onBlur={cancelEdit} onChange={changeId} />
+                </div>
+            );
         };
     },
 });

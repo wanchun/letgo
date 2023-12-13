@@ -25,7 +25,7 @@ export default defineRuntimeConfig({
     rootContainer(Container) {
         return () => {
             return (
-                <FConfigProvider themeOverrides={{ common: { fontSizeBase: '12px' } }}>
+                <FConfigProvider>
                     <Container />
                 </FConfigProvider>
             );

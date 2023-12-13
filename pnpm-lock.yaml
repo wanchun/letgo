@@ -73,11 +73,11 @@ importers:
 
   packages/code-generator:
     dependencies:
-      '@harrywan/letgo-common':
-        specifier: ^0.0.4-beta.0
+      '@webank/letgo-common':
+        specifier: ^0.0.1-beta.0
         version: link:../common
-      '@harrywan/letgo-types':
-        specifier: ^0.0.0-beta.46
+      '@webank/letgo-types':
+        specifier: ^0.0.1-beta.0
         version: link:../types
       jszip:
         specifier: ^3.10.1
@@ -91,8 +91,8 @@ importers:
       '@fesjs/fes-design':
         specifier: ^0.8.17
         version: 0.8.17(vue@3.3.9)
-      '@harrywan/letgo-types':
-        specifier: ^0.0.0-beta.46
+      '@webank/letgo-types':
+        specifier: ^0.0.1-beta.0
         version: link:../types
       acorn:
         specifier: ^8.8.2
@@ -114,7 +114,7 @@ importers:
     dependencies:
       '@codemirror/autocomplete':
         specifier: ^6.11.0
-        version: 6.11.0(@codemirror/language@6.9.2)(@codemirror/state@6.3.1)(@codemirror/view@6.22.0)(@lezer/common@1.1.2)
+        version: 6.11.0(@codemirror/language@6.9.2)(@codemirror/state@6.3.1)(@codemirror/view@6.22.0)(@lezer/common@1.1.1)
       '@codemirror/lang-javascript':
         specifier: ^6.2.1
         version: 6.2.1
@@ -130,21 +130,21 @@ importers:
       '@fesjs/fes-design':
         specifier: ^0.8.17
         version: 0.8.17(vue@3.3.9)
-      '@harrywan/letgo-common':
-        specifier: ^0.0.4-beta.0
-        version: link:../common
-      '@harrywan/letgo-designer':
-        specifier: ^0.0.4-beta.0
-        version: link:../designer
-      '@harrywan/letgo-types':
-        specifier: ^0.0.0-beta.46
-        version: link:../types
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
+      '@webank/letgo-common':
+        specifier: ^0.0.1-beta.0
+        version: link:../common
+      '@webank/letgo-designer':
+        specifier: ^0.0.1-beta.0
+        version: link:../designer
+      '@webank/letgo-types':
+        specifier: ^0.0.1-beta.0
+        version: link:../types
       codemirror:
         specifier: ^6.0.1
-        version: 6.0.1(@lezer/common@1.1.2)
+        version: 6.0.1(@lezer/common@1.1.1)
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -158,18 +158,18 @@ importers:
       '@fesjs/fes-design':
         specifier: ^0.8.17
         version: 0.8.17(vue@3.3.9)
-      '@harrywan/letgo-common':
-        specifier: ^0.0.4-beta.0
-        version: link:../common
-      '@harrywan/letgo-editor-core':
-        specifier: ^0.0.4-beta.0
-        version: link:../editor-core
-      '@harrywan/letgo-types':
-        specifier: ^0.0.0-beta.46
-        version: link:../types
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
+      '@webank/letgo-common':
+        specifier: ^0.0.1-beta.0
+        version: link:../common
+      '@webank/letgo-editor-core':
+        specifier: ^0.0.1-beta.0
+        version: link:../editor-core
+      '@webank/letgo-types':
+        specifier: ^0.0.1-beta.0
+        version: link:../types
       eventemitter3:
         specifier: ^4.0.0
         version: 4.0.0
@@ -179,18 +179,18 @@ importers:
 
   packages/editor-core:
     dependencies:
-      '@harrywan/letgo-common':
-        specifier: ^0.0.4-beta.0
-        version: link:../common
-      '@harrywan/letgo-components':
-        specifier: ^0.0.4-beta.0
-        version: link:../components
-      '@harrywan/letgo-types':
-        specifier: ^0.0.0-beta.46
-        version: link:../types
       '@qlin/request':
         specifier: ^0.1.4
         version: 0.1.4
+      '@webank/letgo-common':
+        specifier: ^0.0.1-beta.0
+        version: link:../common
+      '@webank/letgo-components':
+        specifier: ^0.0.1-beta.0
+        version: link:../components
+      '@webank/letgo-types':
+        specifier: ^0.0.1-beta.0
+        version: link:../types
       eventemitter3:
         specifier: ^4.0.0
         version: 4.0.0
@@ -206,65 +206,65 @@ importers:
       '@fesjs/fes-design':
         specifier: ^0.8.17
         version: 0.8.17(vue@3.3.9)
-      '@harrywan/letgo-common':
-        specifier: ^0.0.4-beta.0
-        version: link:../common
-      '@harrywan/letgo-designer':
-        specifier: ^0.0.4-beta.0
-        version: link:../designer
-      '@harrywan/letgo-editor-core':
-        specifier: ^0.0.4-beta.0
-        version: link:../editor-core
-      '@harrywan/letgo-types':
-        specifier: ^0.0.0-beta.46
-        version: link:../types
       '@vueuse/core':
         specifier: ^9.6.0
         version: 9.6.0(vue@3.3.9)
+      '@webank/letgo-common':
+        specifier: ^0.0.1-beta.0
+        version: link:../common
+      '@webank/letgo-designer':
+        specifier: ^0.0.1-beta.0
+        version: link:../designer
+      '@webank/letgo-editor-core':
+        specifier: ^0.0.1-beta.0
+        version: link:../editor-core
+      '@webank/letgo-types':
+        specifier: ^0.0.1-beta.0
+        version: link:../types
       vue:
         specifier: ^3.3.9
         version: 3.3.9(typescript@5.3.2)
 
   packages/engine:
     dependencies:
-      '@harrywan/letgo-common':
-        specifier: ^0.0.4-beta.0
+      '@webank/letgo-common':
+        specifier: ^0.0.1-beta.0
         version: link:../common
-      '@harrywan/letgo-designer':
-        specifier: ^0.0.4-beta.0
+      '@webank/letgo-designer':
+        specifier: ^0.0.1-beta.0
         version: link:../designer
-      '@harrywan/letgo-editor-core':
-        specifier: ^0.0.4-beta.0
+      '@webank/letgo-editor-core':
+        specifier: ^0.0.1-beta.0
         version: link:../editor-core
-      '@harrywan/letgo-editor-skeleton':
-        specifier: ^0.0.4-beta.0
+      '@webank/letgo-editor-skeleton':
+        specifier: ^0.0.1-beta.0
         version: link:../editor-skeleton
-      '@harrywan/letgo-engine-ext':
-        specifier: ^0.0.4-beta.0
+      '@webank/letgo-engine-ext':
+        specifier: ^0.0.1-beta.0
         version: link:../engine-ext
-      '@harrywan/letgo-engine-plugin':
-        specifier: ^0.0.4-beta.0
+      '@webank/letgo-engine-plugin':
+        specifier: ^0.0.1-beta.0
         version: link:../engine-plugin
-      '@harrywan/letgo-plugin-code':
-        specifier: ^0.0.4-beta.0
+      '@webank/letgo-plugin-code':
+        specifier: ^0.0.1-beta.0
         version: link:../plugin-code
-      '@harrywan/letgo-plugin-component-tree':
-        specifier: ^0.0.4-beta.0
+      '@webank/letgo-plugin-component-tree':
+        specifier: ^0.0.1-beta.0
         version: link:../plugin-component-tree
-      '@harrywan/letgo-plugin-components':
-        specifier: ^0.0.4-beta.0
+      '@webank/letgo-plugin-components':
+        specifier: ^0.0.1-beta.0
         version: link:../plugin-components
-      '@harrywan/letgo-plugin-designer':
-        specifier: ^0.0.4-beta.0
+      '@webank/letgo-plugin-designer':
+        specifier: ^0.0.1-beta.0
         version: link:../plugin-designer
-      '@harrywan/letgo-plugin-global':
-        specifier: ^0.0.4-beta.0
+      '@webank/letgo-plugin-global':
+        specifier: ^0.0.1-beta.0
         version: link:../plugin-global
-      '@harrywan/letgo-plugin-setting':
-        specifier: ^0.0.4-beta.0
+      '@webank/letgo-plugin-setting':
+        specifier: ^0.0.1-beta.0
         version: link:../plugin-setting
-      '@harrywan/letgo-types':
-        specifier: ^0.0.0-beta.46
+      '@webank/letgo-types':
+        specifier: ^0.0.1-beta.0
         version: link:../types
       eventemitter3:
         specifier: ^4.0.0
@@ -294,21 +294,21 @@ importers:
       '@fesjs/fes-design':
         specifier: ^0.8.17
         version: 0.8.17(vue@3.3.9)
-      '@harrywan/letgo-common':
-        specifier: ^0.0.4-beta.0
-        version: link:../common
-      '@harrywan/letgo-components':
-        specifier: ^0.0.4-beta.0
-        version: link:../components
-      '@harrywan/letgo-designer':
-        specifier: ^0.0.4-beta.0
-        version: link:../designer
-      '@harrywan/letgo-types':
-        specifier: ^0.0.0-beta.46
-        version: link:../types
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
+      '@webank/letgo-common':
+        specifier: ^0.0.1-beta.0
+        version: link:../common
+      '@webank/letgo-components':
+        specifier: ^0.0.1-beta.0
+        version: link:../components
+      '@webank/letgo-designer':
+        specifier: ^0.0.1-beta.0
+        version: link:../designer
+      '@webank/letgo-types':
+        specifier: ^0.0.1-beta.0
+        version: link:../types
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -322,20 +322,20 @@ importers:
 
   packages/engine-plugin:
     dependencies:
-      '@harrywan/letgo-common':
-        specifier: ^0.0.4-beta.0
+      '@webank/letgo-common':
+        specifier: ^0.0.1-beta.0
         version: link:../common
-      '@harrywan/letgo-designer':
-        specifier: ^0.0.4-beta.0
+      '@webank/letgo-designer':
+        specifier: ^0.0.1-beta.0
         version: link:../designer
-      '@harrywan/letgo-editor-core':
-        specifier: ^0.0.4-beta.0
+      '@webank/letgo-editor-core':
+        specifier: ^0.0.1-beta.0
         version: link:../editor-core
-      '@harrywan/letgo-editor-skeleton':
-        specifier: ^0.0.4-beta.0
+      '@webank/letgo-editor-skeleton':
+        specifier: ^0.0.1-beta.0
         version: link:../editor-skeleton
-      '@harrywan/letgo-types':
-        specifier: ^0.0.0-beta.46
+      '@webank/letgo-types':
+        specifier: ^0.0.1-beta.0
         version: link:../types
       lodash-es:
         specifier: ^4.17.21
@@ -358,33 +358,33 @@ importers:
       '@fesjs/fes-design':
         specifier: ^0.8.17
         version: 0.8.17(vue@3.3.9)
-      '@harrywan/letgo-common':
-        specifier: ^0.0.4-beta.0
-        version: link:../common
-      '@harrywan/letgo-components':
-        specifier: ^0.0.4-beta.0
-        version: link:../components
-      '@harrywan/letgo-designer':
-        specifier: ^0.0.4-beta.0
-        version: link:../designer
-      '@harrywan/letgo-editor-core':
-        specifier: ^0.0.4-beta.0
-        version: link:../editor-core
-      '@harrywan/letgo-engine-plugin':
-        specifier: ^0.0.4-beta.0
-        version: link:../engine-plugin
-      '@harrywan/letgo-types':
-        specifier: ^0.0.0-beta.46
-        version: link:../types
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
       '@vueuse/core':
         specifier: ^10.1.2
         version: 10.1.2(vue@3.3.9)
+      '@webank/letgo-common':
+        specifier: ^0.0.1-beta.0
+        version: link:../common
+      '@webank/letgo-components':
+        specifier: ^0.0.1-beta.0
+        version: link:../components
+      '@webank/letgo-designer':
+        specifier: ^0.0.1-beta.0
+        version: link:../designer
+      '@webank/letgo-editor-core':
+        specifier: ^0.0.1-beta.0
+        version: link:../editor-core
+      '@webank/letgo-engine-plugin':
+        specifier: ^0.0.1-beta.0
+        version: link:../engine-plugin
+      '@webank/letgo-types':
+        specifier: ^0.0.1-beta.0
+        version: link:../types
       codemirror:
         specifier: ^6.0.1
-        version: 6.0.1(@lezer/common@1.1.2)
+        version: 6.0.1(@lezer/common@1.1.1)
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -401,21 +401,21 @@ importers:
       '@fesjs/fes-design':
         specifier: ^0.8.17
         version: 0.8.17(vue@3.3.9)
-      '@harrywan/letgo-designer':
-        specifier: ^0.0.4-beta.0
-        version: link:../designer
-      '@harrywan/letgo-editor-core':
-        specifier: ^0.0.4-beta.0
-        version: link:../editor-core
-      '@harrywan/letgo-engine-plugin':
-        specifier: ^0.0.4-beta.0
-        version: link:../engine-plugin
-      '@harrywan/letgo-types':
-        specifier: ^0.0.0-beta.46
-        version: link:../types
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
+      '@webank/letgo-designer':
+        specifier: ^0.0.1-beta.0
+        version: link:../designer
+      '@webank/letgo-editor-core':
+        specifier: ^0.0.1-beta.0
+        version: link:../editor-core
+      '@webank/letgo-engine-plugin':
+        specifier: ^0.0.1-beta.0
+        version: link:../engine-plugin
+      '@webank/letgo-types':
+        specifier: ^0.0.1-beta.0
+        version: link:../types
       vue:
         specifier: ^3.3.9
         version: 3.3.9(typescript@5.3.2)
@@ -425,21 +425,21 @@ importers:
       '@fesjs/fes-design':
         specifier: ^0.8.17
         version: 0.8.17(vue@3.3.9)
-      '@harrywan/letgo-designer':
-        specifier: ^0.0.4-beta.0
-        version: link:../designer
-      '@harrywan/letgo-editor-core':
-        specifier: ^0.0.4-beta.0
-        version: link:../editor-core
-      '@harrywan/letgo-engine-plugin':
-        specifier: ^0.0.4-beta.0
-        version: link:../engine-plugin
-      '@harrywan/letgo-types':
-        specifier: ^0.0.0-beta.46
-        version: link:../types
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
+      '@webank/letgo-designer':
+        specifier: ^0.0.1-beta.0
+        version: link:../designer
+      '@webank/letgo-editor-core':
+        specifier: ^0.0.1-beta.0
+        version: link:../editor-core
+      '@webank/letgo-engine-plugin':
+        specifier: ^0.0.1-beta.0
+        version: link:../engine-plugin
+      '@webank/letgo-types':
+        specifier: ^0.0.1-beta.0
+        version: link:../types
       vue:
         specifier: ^3.3.9
         version: 3.3.9(typescript@5.3.2)
@@ -449,11 +449,11 @@ importers:
       '@fesjs/fes-design':
         specifier: ^0.8.17
         version: 0.8.17(vue@3.3.9)
-      '@harrywan/letgo-designer':
-        specifier: ^0.0.4-beta.0
+      '@webank/letgo-designer':
+        specifier: ^0.0.1-beta.0
         version: link:../designer
-      '@harrywan/letgo-engine-plugin':
-        specifier: ^0.0.4-beta.0
+      '@webank/letgo-engine-plugin':
+        specifier: ^0.0.1-beta.0
         version: link:../engine-plugin
       vue:
         specifier: ^3.3.9
@@ -461,18 +461,18 @@ importers:
 
   packages/plugin-device:
     dependencies:
-      '@harrywan/letgo-designer':
-        specifier: ^0.0.4-beta.0
-        version: link:../designer
-      '@harrywan/letgo-engine-plugin':
-        specifier: ^0.0.4-beta.0
-        version: link:../engine-plugin
-      '@harrywan/letgo-types':
-        specifier: ^0.0.0-beta.46
-        version: link:../types
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
+      '@webank/letgo-designer':
+        specifier: ^0.0.1-beta.0
+        version: link:../designer
+      '@webank/letgo-engine-plugin':
+        specifier: ^0.0.1-beta.0
+        version: link:../engine-plugin
+      '@webank/letgo-types':
+        specifier: ^0.0.1-beta.0
+        version: link:../types
     devDependencies:
       vue:
         specifier: ^3.3.9
@@ -489,27 +489,27 @@ importers:
       '@fesjs/fes-design':
         specifier: ^0.8.17
         version: 0.8.17(vue@3.3.9)
-      '@harrywan/letgo-common':
-        specifier: ^0.0.4-beta.0
-        version: link:../common
-      '@harrywan/letgo-components':
-        specifier: ^0.0.4-beta.0
-        version: link:../components
-      '@harrywan/letgo-designer':
-        specifier: ^0.0.4-beta.0
-        version: link:../designer
-      '@harrywan/letgo-engine':
-        specifier: ^0.0.4-beta.0
-        version: link:../engine
-      '@harrywan/letgo-engine-plugin':
-        specifier: ^0.0.4-beta.0
-        version: link:../engine-plugin
-      '@harrywan/letgo-types':
-        specifier: ^0.0.0-beta.46
-        version: link:../types
       '@vueuse/core':
         specifier: ^10.1.2
         version: 10.1.2(vue@3.3.9)
+      '@webank/letgo-common':
+        specifier: ^0.0.1-beta.0
+        version: link:../common
+      '@webank/letgo-components':
+        specifier: ^0.0.1-beta.0
+        version: link:../components
+      '@webank/letgo-designer':
+        specifier: ^0.0.1-beta.0
+        version: link:../designer
+      '@webank/letgo-engine':
+        specifier: ^0.0.1-beta.0
+        version: link:../engine
+      '@webank/letgo-engine-plugin':
+        specifier: ^0.0.1-beta.0
+        version: link:../engine-plugin
+      '@webank/letgo-types':
+        specifier: ^0.0.1-beta.0
+        version: link:../types
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -525,21 +525,21 @@ importers:
       '@fesjs/fes-design':
         specifier: ^0.8.17
         version: 0.8.17(vue@3.3.9)
-      '@harrywan/letgo-components':
-        specifier: ^0.0.4-beta.0
-        version: link:../components
-      '@harrywan/letgo-designer':
-        specifier: ^0.0.4-beta.0
-        version: link:../designer
-      '@harrywan/letgo-engine-plugin':
-        specifier: ^0.0.4-beta.0
-        version: link:../engine-plugin
-      '@harrywan/letgo-types':
-        specifier: ^0.0.0-beta.46
-        version: link:../types
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
+      '@webank/letgo-components':
+        specifier: ^0.0.1-beta.0
+        version: link:../components
+      '@webank/letgo-designer':
+        specifier: ^0.0.1-beta.0
+        version: link:../designer
+      '@webank/letgo-engine-plugin':
+        specifier: ^0.0.1-beta.0
+        version: link:../engine-plugin
+      '@webank/letgo-types':
+        specifier: ^0.0.1-beta.0
+        version: link:../types
       vue:
         specifier: ^3.3.9
         version: 3.3.9(typescript@5.3.2)
@@ -549,27 +549,27 @@ importers:
       '@fesjs/fes-design':
         specifier: ^0.8.17
         version: 0.8.17(vue@3.3.9)
-      '@harrywan/letgo-common':
-        specifier: ^0.0.4-beta.0
-        version: link:../common
-      '@harrywan/letgo-components':
-        specifier: ^0.0.4-beta.0
-        version: link:../components
-      '@harrywan/letgo-designer':
-        specifier: ^0.0.4-beta.0
-        version: link:../designer
-      '@harrywan/letgo-editor-core':
-        specifier: ^0.0.4-beta.0
-        version: link:../editor-core
-      '@harrywan/letgo-engine-plugin':
-        specifier: ^0.0.4-beta.0
-        version: link:../engine-plugin
-      '@harrywan/letgo-types':
-        specifier: ^0.0.0-beta.46
-        version: link:../types
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
+      '@webank/letgo-common':
+        specifier: ^0.0.1-beta.0
+        version: link:../common
+      '@webank/letgo-components':
+        specifier: ^0.0.1-beta.0
+        version: link:../components
+      '@webank/letgo-designer':
+        specifier: ^0.0.1-beta.0
+        version: link:../designer
+      '@webank/letgo-editor-core':
+        specifier: ^0.0.1-beta.0
+        version: link:../editor-core
+      '@webank/letgo-engine-plugin':
+        specifier: ^0.0.1-beta.0
+        version: link:../engine-plugin
+      '@webank/letgo-types':
+        specifier: ^0.0.1-beta.0
+        version: link:../types
       eventemitter3:
         specifier: ^4.0.0
         version: 4.0.0
@@ -580,21 +580,21 @@ importers:
 
   packages/renderer:
     dependencies:
-      '@harrywan/letgo-common':
-        specifier: ^0.0.4-beta.0
-        version: link:../common
-      '@harrywan/letgo-components':
-        specifier: ^0.0.4-beta.0
-        version: link:../components
-      '@harrywan/letgo-designer':
-        specifier: ^0.0.4-beta.0
-        version: link:../designer
-      '@harrywan/letgo-types':
-        specifier: ^0.0.0-beta.46
-        version: link:../types
       '@qlin/request':
         specifier: ^0.1.4
         version: 0.1.4
+      '@webank/letgo-common':
+        specifier: ^0.0.1-beta.0
+        version: link:../common
+      '@webank/letgo-components':
+        specifier: ^0.0.1-beta.0
+        version: link:../components
+      '@webank/letgo-designer':
+        specifier: ^0.0.1-beta.0
+        version: link:../designer
+      '@webank/letgo-types':
+        specifier: ^0.0.1-beta.0
+        version: link:../types
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -611,20 +611,20 @@ importers:
       '@fesjs/fes-design':
         specifier: ^0.8.17
         version: 0.8.17(vue@3.3.9)
-      '@harrywan/letgo-common':
-        specifier: ^0.0.4-beta.0
+      '@webank/letgo-common':
+        specifier: ^0.0.1-beta.0
         version: link:../common
-      '@harrywan/letgo-components':
-        specifier: ^0.0.4-beta.0
+      '@webank/letgo-components':
+        specifier: ^0.0.1-beta.0
         version: link:../components
-      '@harrywan/letgo-designer':
-        specifier: ^0.0.4-beta.0
+      '@webank/letgo-designer':
+        specifier: ^0.0.1-beta.0
         version: link:../designer
-      '@harrywan/letgo-renderer':
-        specifier: ^0.0.4-beta.0
+      '@webank/letgo-renderer':
+        specifier: ^0.0.1-beta.0
         version: link:../renderer
-      '@harrywan/letgo-types':
-        specifier: ^0.0.0-beta.46
+      '@webank/letgo-types':
+        specifier: ^0.0.1-beta.0
         version: link:../types
       lodash-es:
         specifier: ^4.17.21
@@ -650,30 +650,30 @@ importers:
       '@fesjs/plugin-request':
         specifier: 4.0.0-beta.6
         version: 4.0.0-beta.6(@fesjs/fes@3.1.5)(vue@3.3.9)
-      '@harrywan/letgo-code-generator':
-        specifier: workspace:*
-        version: link:../code-generator
-      '@harrywan/letgo-common':
-        specifier: workspace:*
-        version: link:../common
-      '@harrywan/letgo-engine':
-        specifier: workspace:*
-        version: link:../engine
-      '@harrywan/letgo-plugin-device':
-        specifier: workspace:*
-        version: link:../plugin-device
-      '@harrywan/letgo-plugin-schema':
-        specifier: workspace:*
-        version: link:../plugin-schema
-      '@harrywan/letgo-renderer':
-        specifier: workspace:*
-        version: link:../renderer
-      '@harrywan/letgo-types':
-        specifier: workspace:*
-        version: link:../types
       '@vueuse/core':
         specifier: ^10.1.2
         version: 10.1.2(vue@3.3.9)
+      '@webank/letgo-code-generator':
+        specifier: workspace:*
+        version: link:../code-generator
+      '@webank/letgo-common':
+        specifier: workspace:*
+        version: link:../common
+      '@webank/letgo-engine':
+        specifier: workspace:*
+        version: link:../engine
+      '@webank/letgo-plugin-device':
+        specifier: workspace:*
+        version: link:../plugin-device
+      '@webank/letgo-plugin-schema':
+        specifier: workspace:*
+        version: link:../plugin-schema
+      '@webank/letgo-renderer':
+        specifier: workspace:*
+        version: link:../renderer
+      '@webank/letgo-types':
+        specifier: workspace:*
+        version: link:../types
       core-js:
         specifier: ^3.33.3
         version: 3.33.3
@@ -1984,6 +1984,20 @@ packages:
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
 
+  /@codemirror/autocomplete@6.11.0(@codemirror/language@6.9.2)(@codemirror/state@6.3.1)(@codemirror/view@6.22.0)(@lezer/common@1.1.1):
+    resolution: {integrity: sha512-LCPH3W+hl5vcO7OzEQgX6NpKuKVyiKFLGAy7FXROF6nUpsWUdQEgUb3fe/g7B0E1KZCRFfgzdKASt6Wly2UOBg==}
+    peerDependencies:
+      '@codemirror/language': ^6.0.0
+      '@codemirror/state': ^6.0.0
+      '@codemirror/view': ^6.0.0
+      '@lezer/common': ^1.0.0
+    dependencies:
+      '@codemirror/language': 6.9.2
+      '@codemirror/state': 6.3.1
+      '@codemirror/view': 6.22.0
+      '@lezer/common': 1.1.1
+    dev: false
+
   /@codemirror/autocomplete@6.11.0(@codemirror/language@6.9.2)(@codemirror/state@6.3.1)(@codemirror/view@6.22.0)(@lezer/common@1.1.2):
     resolution: {integrity: sha512-LCPH3W+hl5vcO7OzEQgX6NpKuKVyiKFLGAy7FXROF6nUpsWUdQEgUb3fe/g7B0E1KZCRFfgzdKASt6Wly2UOBg==}
     peerDependencies:
@@ -2876,6 +2890,10 @@ packages:
 
   /@juggle/resize-observer@3.4.0:
     resolution: {integrity: sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA==}
+    dev: false
+
+  /@lezer/common@1.1.1:
+    resolution: {integrity: sha512-aAPB9YbvZHqAW+bIwiuuTDGB4DG0sYNRObGLxud8cW7osw1ZQxfDuTZ8KQiqfZ0QJGcR34CvpTMDXEyo/+Htgg==}
     dev: false
 
   /@lezer/common@1.1.2:
@@ -4317,10 +4335,10 @@ packages:
     resolution: {integrity: sha512-q4dMFMlXtKR3XNBHyMHt/3pwYNA69EDk00lloMOaaUMKPUXBw6lpXtbu3MMVG6/uOihGnRDOlkyqsONEUj60+w==}
     dev: true
 
-  /codemirror@6.0.1(@lezer/common@1.1.2):
+  /codemirror@6.0.1(@lezer/common@1.1.1):
     resolution: {integrity: sha512-J8j+nZ+CdWmIeFIGXEFbFPtpiYacFMDR8GlHK3IyHQJMCaVRfGx9NT+Hxivv1ckLWPvNdZqndbr/7lVhrf/Svg==}
     dependencies:
-      '@codemirror/autocomplete': 6.11.0(@codemirror/language@6.9.2)(@codemirror/state@6.3.1)(@codemirror/view@6.22.0)(@lezer/common@1.1.2)
+      '@codemirror/autocomplete': 6.11.0(@codemirror/language@6.9.2)(@codemirror/state@6.3.1)(@codemirror/view@6.22.0)(@lezer/common@1.1.1)
       '@codemirror/commands': 6.3.2
       '@codemirror/language': 6.9.2
       '@codemirror/lint': 6.4.2
@@ -6688,8 +6706,10 @@ packages:
       image-size: 0.5.5
       make-dir: 2.1.0
       mime: 1.6.0
-      needle: 3.3.0
+      needle: 3.2.0
       source-map: 0.6.1
+    transitivePeerDependencies:
+      - supports-color
 
   /levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
@@ -7108,14 +7128,17 @@ packages:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: true
 
-  /needle@3.3.0:
-    resolution: {integrity: sha512-Kaq820952NOrLY/LVbIhPZeXtCGDBAPVgT0BYnoT3p/Nr3nkGXdvWXXA3zgy7wpAgqRULu9p/NvKiFo6f/12fw==}
+  /needle@3.2.0:
+    resolution: {integrity: sha512-oUvzXnyLiVyVGoianLijF9O/RecZUf7TkBfimjGrLM4eQhXyeJwM6GeAWccwfQ9aa4gMCZKqhAOuLaMIcQxajQ==}
     engines: {node: '>= 4.4.x'}
     hasBin: true
     requiresBuild: true
     dependencies:
+      debug: 3.2.7
       iconv-lite: 0.6.3
       sax: 1.3.0
+    transitivePeerDependencies:
+      - supports-color
     optional: true
 
   /negotiator@0.6.3:

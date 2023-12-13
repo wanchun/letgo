@@ -1,6 +1,6 @@
 {
     "name": "@webank/letgo-editor-skeleton",
-    "version": "0.0.1-beta.0",
+    "version": "0.0.1-beta.1",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -21,10 +21,10 @@
     "dependencies": {
         "@fesjs/fes-design": "^0.8.17",
         "@vueuse/core": "^9.6.0",
-        "@webank/letgo-common": "^0.0.1-beta.0",
-        "@webank/letgo-designer": "^0.0.1-beta.0",
-        "@webank/letgo-editor-core": "^0.0.1-beta.0",
-        "@webank/letgo-types": "^0.0.1-beta.0"
+        "@webank/letgo-common": "^0.0.1-beta.1",
+        "@webank/letgo-designer": "^0.0.1-beta.1",
+        "@webank/letgo-editor-core": "^0.0.1-beta.1",
+        "@webank/letgo-types": "^0.0.1-beta.1"
     },
     "publishConfig": {
         "access": "public"

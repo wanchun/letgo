@@ -6,7 +6,7 @@ export function formatFileName(fileName?: string) {
     if (!fileName)
         return `page-${pageFlag++}`;
 
-    return `${fileName}`;
+    return fileName.startsWith('/') ? fileName.slice(1) : `${fileName}`;
 }
 
 export function formatPageName(fileName: string) {

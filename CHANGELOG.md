@@ -1,3 +1,13 @@
+## [0.0.1-beta.4](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.3...v0.0.1-beta.4) (2023-12-14)
+
+
+### Bug Fixes
+
+* 修复出码中页面路径不支持/xxx问题 ([4e19772](https://git.weoa.com/mumblefe/letgo/commits/4e1977288375a250a385247fbda392c9f6ec2785))
+* 修复样式名称修改问题 ([3bb36ce](https://git.weoa.com/mumblefe/letgo/commits/3bb36ce38cda6cc204cc3f26a90a53d4d58b4574))
+
+
+
 ## [0.0.1-beta.3](https://git.weoa.com/mumblefe/letgo/compare/v0.0.0-beta.53...v0.0.1-beta.3) (2023-12-13)
 
 

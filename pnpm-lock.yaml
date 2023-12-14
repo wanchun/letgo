@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 importers:
 
   .:
@@ -190,7 +186,7 @@ importers:
         specifier: ^0.0.1-beta.3
         version: link:../common
       '@webank/letgo-components':
-        specifier: ^0.0.1-beta.3
+        specifier: ^0.0.1-beta.4
         version: link:../components
       '@webank/letgo-types':
         specifier: ^0.0.1-beta.3
@@ -305,7 +301,7 @@ importers:
         specifier: ^0.0.1-beta.3
         version: link:../common
       '@webank/letgo-components':
-        specifier: ^0.0.1-beta.3
+        specifier: ^0.0.1-beta.4
         version: link:../components
       '@webank/letgo-designer':
         specifier: ^0.0.1-beta.3
@@ -372,13 +368,13 @@ importers:
         specifier: ^0.0.1-beta.3
         version: link:../common
       '@webank/letgo-components':
-        specifier: ^0.0.1-beta.3
+        specifier: ^0.0.1-beta.4
         version: link:../components
       '@webank/letgo-designer':
         specifier: ^0.0.1-beta.3
         version: link:../designer
       '@webank/letgo-editor-core':
-        specifier: ^0.0.1-beta.3
+        specifier: ^0.0.1-beta.4
         version: link:../editor-core
       '@webank/letgo-engine-plugin':
         specifier: ^0.0.1-beta.3
@@ -500,7 +496,7 @@ importers:
         specifier: ^0.0.1-beta.3
         version: link:../common
       '@webank/letgo-components':
-        specifier: ^0.0.1-beta.3
+        specifier: ^0.0.1-beta.4
         version: link:../components
       '@webank/letgo-designer':
         specifier: ^0.0.1-beta.3
@@ -533,7 +529,7 @@ importers:
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.11)
       '@webank/letgo-components':
-        specifier: ^0.0.1-beta.3
+        specifier: ^0.0.1-beta.4
         version: link:../components
       '@webank/letgo-designer':
         specifier: ^0.0.1-beta.3
@@ -560,13 +556,13 @@ importers:
         specifier: ^0.0.1-beta.3
         version: link:../common
       '@webank/letgo-components':
-        specifier: ^0.0.1-beta.3
+        specifier: ^0.0.1-beta.4
         version: link:../components
       '@webank/letgo-designer':
         specifier: ^0.0.1-beta.3
         version: link:../designer
       '@webank/letgo-editor-core':
-        specifier: ^0.0.1-beta.3
+        specifier: ^0.0.1-beta.4
         version: link:../editor-core
       '@webank/letgo-engine-plugin':
         specifier: ^0.0.1-beta.3
@@ -591,7 +587,7 @@ importers:
         specifier: ^0.0.1-beta.3
         version: link:../common
       '@webank/letgo-components':
-        specifier: ^0.0.1-beta.3
+        specifier: ^0.0.1-beta.4
         version: link:../components
       '@webank/letgo-designer':
         specifier: ^0.0.1-beta.3
@@ -619,13 +615,13 @@ importers:
         specifier: ^0.0.1-beta.3
         version: link:../common
       '@webank/letgo-components':
-        specifier: ^0.0.1-beta.3
+        specifier: ^0.0.1-beta.4
         version: link:../components
       '@webank/letgo-designer':
         specifier: ^0.0.1-beta.3
         version: link:../designer
       '@webank/letgo-renderer':
-        specifier: ^0.0.1-beta.3
+        specifier: ^0.0.1-beta.4
         version: link:../renderer
       '@webank/letgo-types':
         specifier: ^0.0.1-beta.3
@@ -9166,3 +9162,7 @@ packages:
   /zen-logger@1.1.4:
     resolution: {integrity: sha512-Aidoas1IyoaJ+wxV0lefJsMtWTMfiKduICtNpni03CRu4GKIuEXd38/CWDQzGNfhhoNfkHKKF1nLOpKcTb4jXw==}
     dev: false
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false

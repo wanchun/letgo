@@ -12,30 +12,22 @@ const assets: IPublicTypeAssetsJson = {
         },
         {
             package: '@fesjs/fes-design',
-            version: '0.8.4',
+            version: '0.8.17',
             urls: [
-                'https://registry.npmmirror.com/@fesjs/fes-design/0.8.4/files/dist/fes-design.js',
-                'https://registry.npmmirror.com/@fesjs/fes-design/0.8.4/files/dist/fes-design.css',
+                'https://registry.npmmirror.com/@fesjs/fes-design/0.8.17/files/dist/fes-design.js',
+                'https://registry.npmmirror.com/@fesjs/fes-design/0.8.17/files/dist/fes-design.css',
             ],
             library: 'FesDesign',
-        },
-        {
-            package: 'naive-ui',
-            version: '2.32.0',
-            urls: [
-                'https://registry.npmmirror.com/naive-ui/2.32.0/files/dist/index.prod.js',
-            ],
-            library: 'naive',
-        },
+        }
     ],
     components: [
         {
             title: '文本',
-            componentName: 'NText',
+            componentName: 'FText',
             npm: {
-                package: 'naive-ui',
-                version: '2.32.0',
-                exportName: 'NText',
+                package: '@fesjs/fes-design',
+                version: '0.8.17',
+                exportName: 'FText',
                 destructuring: true,
             },
             props: [
@@ -195,123 +187,9 @@ const assets: IPublicTypeAssetsJson = {
                     // screenshot:
                     //     'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/text.svg',
                     schema: {
-                        componentName: 'NText',
+                        componentName: 'FText',
                         props: {
                             children: '文本内容',
-                        },
-                    },
-                },
-            ],
-            group: '原子组件',
-            category: '基础元素',
-            priority: 0,
-        },
-        {
-            title: '头像',
-            componentName: 'NAvatar',
-            npm: {
-                package: 'naive-ui',
-                version: '2.32.0',
-                exportName: 'NAvatar',
-                destructuring: true,
-            },
-            props: [
-                {
-                    name: 'src',
-                    propType: 'string',
-                },
-                {
-                    name: 'circle',
-                    propType: 'bool',
-                },
-                {
-                    name: 'round',
-                    propType: 'bool',
-                },
-                {
-                    name: 'bordered',
-                    propType: 'bool',
-                },
-                {
-                    name: 'size',
-                    propType: {
-                        type: 'oneOfType',
-                        value: ['string', 'number'],
-                    },
-                },
-            ],
-            configure: {
-                props: [
-                    {
-                        name: 'src',
-                        title: '图片链接地址',
-                        setter: 'StringSetter',
-                    },
-                    {
-                        name: 'circle',
-                        title: '是否为圆形',
-                        setter: 'BoolSetter',
-                    },
-                    {
-                        name: 'round',
-                        title: '是否显示圆角',
-                        setter: 'BoolSetter',
-                    },
-                    {
-                        name: 'bordered',
-                        title: '是否带边框',
-                        setter: 'BoolSetter',
-                    },
-                    {
-                        name: 'size',
-                        title: '头像大小',
-                        setter: {
-                            componentName: 'MixedSetter',
-                            props: {
-                                setters: [
-                                    {
-                                        componentName: 'RadioGroupSetter',
-                                        props: {
-                                            options: [
-                                                {
-                                                    label: '小',
-                                                    value: 'small',
-                                                },
-                                                {
-                                                    label: '中',
-                                                    value: 'medium',
-                                                },
-                                                {
-                                                    label: '大',
-                                                    value: 'large',
-                                                },
-                                            ],
-                                            defaultValue: 'medium',
-                                        },
-                                    },
-                                    'NumberSetter',
-                                ],
-                            },
-                        },
-                    },
-                ],
-                supports: {
-                    style: true,
-                    events: ['onClick', 'onError'],
-                },
-            },
-            snippets: [
-                {
-                    title: '头像',
-                    // screenshot:
-                    //     'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/avatar.png',
-                    schema: {
-                        componentName: 'NAvatar',
-                        props: {
-                            circle: true,
-                            round: false,
-                            src: 'https://v2.vuejs.org/images/logo.svg',
-                            size: 'medium',
                         },
                     },
                 },
@@ -325,7 +203,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FCard',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FCard',
                 destructuring: true,
             },
@@ -494,7 +372,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FSpace',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FSpace',
                 destructuring: true,
             },
@@ -676,7 +554,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FButton',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FButton',
                 destructuring: true,
             },
@@ -891,7 +769,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FForm',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FForm',
                 destructuring: true,
             },
@@ -1106,7 +984,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FFormItem',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FFormItem',
                 destructuring: true,
             },
@@ -1236,7 +1114,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FInput',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FInput',
                 destructuring: true,
             },
@@ -1435,7 +1313,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FInputNumber',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FInputNumber',
                 destructuring: true,
             },
@@ -1562,7 +1440,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FSelect',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FSelect',
                 destructuring: true,
             },
@@ -1921,7 +1799,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FCheckboxGroup',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FCheckboxGroup',
                 destructuring: true,
             },
@@ -2061,7 +1939,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FRadioGroup',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FRadioGroup',
                 destructuring: true,
             },
@@ -2314,7 +2192,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FCheckbox',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FCheckbox',
                 destructuring: true,
             },
@@ -2404,7 +2282,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FRadio',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FRadio',
                 destructuring: true,
             },
@@ -2486,7 +2364,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FDivider',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FDivider',
                 destructuring: true,
             },
@@ -2573,7 +2451,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FEllipsis',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FEllipsis',
                 destructuring: true,
             },
@@ -2641,7 +2519,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FLayout',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FLayout',
                 destructuring: true,
             },
@@ -2788,7 +2666,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FHeader',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FHeader',
                 destructuring: true,
             },
@@ -2854,7 +2732,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FAside',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FAside',
                 destructuring: true,
             },
@@ -2920,7 +2798,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FMain',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FMain',
                 destructuring: true,
             },
@@ -2966,7 +2844,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FFooter',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FFooter',
                 destructuring: true,
             },
@@ -3032,7 +2910,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FDropdown',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FDropdown',
                 destructuring: true,
             },
@@ -3313,7 +3191,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FSteps',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FSteps',
                 destructuring: true,
             },
@@ -3415,7 +3293,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FStep',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FStep',
                 destructuring: true,
             },
@@ -3526,7 +3404,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FPagination',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FPagination',
                 destructuring: true,
             },
@@ -3676,7 +3554,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FSwitch',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FSwitch',
                 destructuring: true,
             },
@@ -3745,7 +3623,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FTimePicker',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FTimePicker',
                 destructuring: true,
             },
@@ -3864,7 +3742,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FDatePicker',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FDatePicker',
                 destructuring: true,
             },
@@ -4015,7 +3893,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FUpload',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FUpload',
                 destructuring: true,
             },
@@ -4129,7 +4007,7 @@ const assets: IPublicTypeAssetsJson = {
                         type: 'JSSlot',
                         value: [
                             {
-                                componentName: 'NText',
+                                componentName: 'FText',
                                 props: {
                                     children: '我是提示文字',
                                 },
@@ -4178,7 +4056,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FUploadDragger',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FUploadDragger',
                 destructuring: true,
             },
@@ -4195,7 +4073,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FSelectTree',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FSelectTree',
                 destructuring: true,
             },
@@ -4471,7 +4349,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FSelectCascader',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FSelectCascader',
                 destructuring: true,
             },
@@ -4720,7 +4598,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FCarousel',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FCarousel',
                 destructuring: true,
             },
@@ -4878,7 +4756,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FCarouselItem',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FCarouselItem',
                 destructuring: true,
             },
@@ -4909,7 +4787,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FCollapse',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FCollapse',
                 destructuring: true,
             },
@@ -4975,7 +4853,7 @@ const assets: IPublicTypeAssetsJson = {
                                 },
                                 children: [
                                     {
-                                        componentName: 'NText',
+                                        componentName: 'FText',
                                         props: {
                                             children: '岁月静好，浅笑安然。打开记忆的闸门，仿佛又回到了那年那月那时光，仿佛又见到你送给我的那盆清香茉莉，在细雨潇潇的夜晚，所呈现出来的洁净和楚楚动人。以前的过往总是在记忆深处，以固有的姿态，以从未稍离的执着提醒我，生命中有一种存在，叫以前。',
                                         },
@@ -4990,7 +4868,7 @@ const assets: IPublicTypeAssetsJson = {
                                 },
                                 children: [
                                     {
-                                        componentName: 'NText',
+                                        componentName: 'FText',
                                         props: {
                                             children: '生活是蜿蜒在山中的小径，坎坷不平，沟崖在侧。摔倒了，要哭就哭吧，怕什么，不心装模作样！这是直率，不是软弱，因为哭一场并不影响赶路，反而能增添一份留意。山花烂漫，景色宜人，如果陶醉了，想笑就笑吧，不心故作矜持！这是直率，不是骄傲，因为笑一次并不影响赶路，反而能增添一份信心。',
                                         },
@@ -5005,7 +4883,7 @@ const assets: IPublicTypeAssetsJson = {
                                 },
                                 children: [
                                     {
-                                        componentName: 'NText',
+                                        componentName: 'FText',
                                         props: {
                                             children: '喜欢一种情意，浅浅淡淡，不远不近。念起便有一种沁心的暖，知心的柔。岁月轮转，韶华渐老，惟愿人依旧安静，温雅。世事经年，惟愿情怀依旧宁静如初。静默时光的彼岸，就让我宁心等待一场必然来临的春暖花开。即使偶尔会有心潮澎湃，亦是沉寂中的安恬与端庄。',
                                         },
@@ -5020,7 +4898,7 @@ const assets: IPublicTypeAssetsJson = {
                                 },
                                 children: [
                                     {
-                                        componentName: 'NText',
+                                        componentName: 'FText',
                                         props: {
                                             children: '一弯月光，风飘云漫，多少个明月夜，寂寞走不出思念的射线，静静的听你梦中的心跳，轻嗅你唇边的香息，柔醉你缱绻的缠绵。衣袂飘飘，心香瓣瓣，在飘渺的细雨中，衍生了无尽的眷恋。用一生的深情与你凝眸相拥，朝夕相伴。幽篁深处，落叶与娇花相随，你我的沉醉，静默了一池山水。',
                                         },
@@ -5040,7 +4918,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FCollapseItem',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FCollapseItem',
                 destructuring: true,
             },
@@ -5091,7 +4969,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FDescriptions',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FDescriptions',
                 destructuring: true,
             },
@@ -5178,7 +5056,7 @@ const assets: IPublicTypeAssetsJson = {
                                 },
                                 children: [
                                     {
-                                        componentName: 'NText',
+                                        componentName: 'FText',
                                         props: {
                                             children: '万xx',
                                         },
@@ -5192,7 +5070,7 @@ const assets: IPublicTypeAssetsJson = {
                                 },
                                 children: [
                                     {
-                                        componentName: 'NText',
+                                        componentName: 'FText',
                                         props: {
                                             children: '男',
                                         },
@@ -5206,7 +5084,7 @@ const assets: IPublicTypeAssetsJson = {
                                 },
                                 children: [
                                     {
-                                        componentName: 'NText',
+                                        componentName: 'FText',
                                         props: {
                                             children: '60',
                                         },
@@ -5220,7 +5098,7 @@ const assets: IPublicTypeAssetsJson = {
                                 },
                                 children: [
                                     {
-                                        componentName: 'NText',
+                                        componentName: 'FText',
                                         props: {
                                             children: '42xxxxxxxxxxxxx212',
                                         },
@@ -5234,7 +5112,7 @@ const assets: IPublicTypeAssetsJson = {
                                 },
                                 children: [
                                     {
-                                        componentName: 'NText',
+                                        componentName: 'FText',
                                         props: {
                                             children: 'A',
                                         },
@@ -5254,7 +5132,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FDescriptionsItem',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FDescriptionsItem',
                 destructuring: true,
             },
@@ -5313,7 +5191,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FImage',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FImage',
                 destructuring: true,
             },
@@ -5430,7 +5308,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FPreviewGroup',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FPreviewGroup',
                 destructuring: true,
             },
@@ -5471,7 +5349,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FTable',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FTable',
                 destructuring: true,
             },
@@ -6068,7 +5946,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FTabs',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FTabs',
                 destructuring: true,
             },
@@ -6413,7 +6291,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FTag',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FTag',
                 destructuring: true,
             },
@@ -6603,7 +6481,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FAlert',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FAlert',
                 destructuring: true,
             },
@@ -6774,7 +6652,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FTooltip',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FTooltip',
                 destructuring: true,
             },
@@ -7137,7 +7015,7 @@ const assets: IPublicTypeAssetsJson = {
                         },
                         children: [
                             {
-                                componentName: 'NText',
+                                componentName: 'FText',
                                 props: {
                                     children: '画龙点睛',
                                 },
@@ -7193,7 +7071,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FSpin',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FSpin',
                 destructuring: true,
             },
@@ -7313,7 +7191,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FDrawer',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FDrawer',
                 destructuring: true,
             },
@@ -7555,7 +7433,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FModal',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FModal',
                 destructuring: true,
             },
@@ -7802,7 +7680,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FGrid',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FGrid',
                 destructuring: true,
             },
@@ -7950,7 +7828,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FGridItem',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FGridItem',
                 destructuring: true,
             },
@@ -8047,7 +7925,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FMenu',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FMenu',
                 destructuring: true,
             },
@@ -8224,7 +8102,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FScrollbar',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FScrollbar',
                 destructuring: true,
             },
@@ -8435,7 +8313,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FTree',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FTree',
                 destructuring: true,
             },
@@ -8908,7 +8786,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FVirtualList',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FVirtualList',
                 destructuring: true,
             },
@@ -9104,7 +8982,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FSkeleton',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FSkeleton',
                 destructuring: true,
             },
@@ -9250,7 +9128,7 @@ const assets: IPublicTypeAssetsJson = {
             componentName: 'FConfigProvider',
             npm: {
                 package: '@fesjs/fes-design',
-                version: '0.8.4',
+                version: '0.8.17',
                 exportName: 'FConfigProvider',
                 destructuring: true,
             },
@@ -9314,7 +9192,7 @@ const assets: IPublicTypeAssetsJson = {
         type: 'npm',
         content: {
             package: '@fesjs/fes-design',
-            version: '0.8.4',
+            version: '0.8.17',
             exportName: 'FMessage',
             destructuring: true,
         },

@@ -1,4 +1,4 @@
-import { isNil } from 'lodash-es';
+import { isNil, isPlainObject, set } from 'lodash-es';
 import { attachContext } from '@webank/letgo-common';
 import type { ITemporaryState } from '@webank/letgo-types';
 import { CodeType } from '@webank/letgo-types';
@@ -39,6 +39,11 @@ export class TemporaryStateLive {
         catch (_) {
             return null;
         }
+    }
+
+    setIn(path: string | string[], value: any) {
+        if (isPlainObject(this.value))
+            set(this.value, path, value);
     }
 
     setValue(value: any) {

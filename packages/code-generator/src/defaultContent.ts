@@ -2,8 +2,8 @@ export const defaultPackageJSON: Record<string, any> = {
     dependencies: {
         'core-js': '3.34.0',
         'vue': '3.3.4',
-        '@vueuse/core': '10.4.1',
-        'lodash-es': '4.17.8',
+        '@vueuse/core': '10.7.0',
+        'lodash-es': '4.17.21',
         '@qlin/request': '0.1.11',
     },
 };
@@ -211,16 +211,26 @@ export function useJSQuery(data) {
 }`,
     'useTemporaryState.js': `
 import { reactive } from 'vue';
+import { isPlainObject, set } from 'lodash-es';
 
 export function useTemporaryState({ id, initValue }) {
     const result = reactive({
         id,
         value: initValue,
         setValue,
+        setIn,
     });
+    
+    function setIn(path, val) {
+        if (isPlainObject(result.value)) {
+            set(result.value, path, val);
+        }
+    }
+
     function setValue(val) {
         result.value = val;
     }
+
     return result;
 }`,
 };

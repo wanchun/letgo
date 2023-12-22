@@ -1,7 +1,8 @@
 import fs from 'node:fs';
 import process from 'node:process';
 import * as url from 'node:url';
-import path from 'node:path';
+import path, { join } from 'node:path';
+import fse from 'fs-extra';
 import minimist from 'minimist';
 import pc from 'picocolors';
 import semver from 'semver';
@@ -17,6 +18,8 @@ const { preid: preId, dry: isDryRun } = minimist(process.argv.slice(2));
 const packages = getNeedPubPkg();
 
 const versionIncrements = ['patch', 'minor', 'major', 'prepatch', 'preminor', 'premajor', 'prerelease'];
+
+const ROOT_PKG_PATH = join(process.cwd(), 'package.json');
 
 function incVersion(version, i) {
     let _preId = preId || semver.prerelease(version)?.[0];
@@ -44,7 +47,7 @@ function arrToObj(arr, key) {
     }, {});
 }
 
-async function publishPackage(pkg, runIfNotDry) {
+async function publishPackage(pkg) {
     step(`Publishing ${pkg.name}...`);
     try {
         let _releaseTag;
@@ -107,10 +110,14 @@ function updatePackage(pkgName, version, pkgs) {
 }
 
 function updateRootVersion(newRootVersion) {
-    const pkgPath = path.resolve(path.resolve(__dirname, '..'), 'package.json');
-    const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
+    const pkg = fse.readJsonSync(ROOT_PKG_PATH);
     pkg.version = newRootVersion;
-    fs.writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 4)}\n`);
+    fs.writeFileSync(ROOT_PKG_PATH, `${JSON.stringify(pkg, null, 4)}\n`);
+}
+
+function getRootVersion() {
+    const pkg = fse.readJsonSync(ROOT_PKG_PATH);
+    return pkg.version;
 }
 
 function updateVersions(packagesVersion) {
@@ -169,8 +176,7 @@ async function createPackageNewVersion(name, version) {
 }
 
 async function genRootPackageVersion() {
-    const pkgPath = path.resolve(path.resolve(__dirname, '..'), 'package.json');
-    const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
+    const pkg = fse.readJsonSync(ROOT_PKG_PATH);
     const newVersion = await createPackageNewVersion(pkg.name, pkg.version);
     return newVersion;
 }
@@ -208,74 +214,107 @@ function genOtherPkgsVersion(packagesVersion) {
     return result;
 }
 
+const NEED_PUBLISH_PKGS = join(process.cwd(), '.temp', 'pub.json');
+function rewordChangePkg(packagesVersion) {
+    fse.outputJsonSync(NEED_PUBLISH_PKGS, packagesVersion);
+}
+function removeChangePkg() {
+    fse.removeSync(NEED_PUBLISH_PKGS);
+}
+
+function readChangePkg() {
+    if (fs.existsSync(NEED_PUBLISH_PKGS))
+        return fse.readJsonSync(NEED_PUBLISH_PKGS);
+
+    return null; ;
+}
+
+async function publishPkgs(packagesVersion) {
+    rewordChangePkg(packagesVersion);
+
+    for (const pkg of packagesVersion) {
+        try {
+            await publishPackage(pkg);
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+
+    removeChangePkg();
+}
+
 async function main() {
-    const changedPackages = await filterChangedPackages();
+    let packagesVersion = readChangePkg();
+    let newRootVersion = getRootVersion();
+    if (!packagesVersion) {
+        const changedPackages = await filterChangedPackages();
 
-    if (!changedPackages.length) {
-        console.log(pc.yellow(`No changes to commit.`));
-        return;
-    }
+        if (!changedPackages.length) {
+            console.log(pc.yellow(`No changes to commit.`));
+            return;
+        }
 
-    const updatedPkgs = [];
-    for (const pkg of changedPackages) {
-        const { name, version } = readPackageVersionAndName(pkg);
-        const newVersion = await createPackageNewVersion(name, version);
-        updatedPkgs.push({
-            dirName: pkg,
-            newVersion,
-            ...readPackageVersionAndName(pkg),
-        });
-    }
+        const updatedPkgs = [];
+        for (const pkg of changedPackages) {
+            const { name, version } = readPackageVersionAndName(pkg);
+            const newVersion = await createPackageNewVersion(name, version);
+            updatedPkgs.push({
+                dirName: pkg,
+                newVersion,
+                ...readPackageVersionAndName(pkg),
+            });
+        }
 
-    const passiveUpdatePkgs = genOtherPkgsVersion(updatedPkgs);
-    const packagesVersion = passiveUpdatePkgs.concat(updatedPkgs);
+        const passiveUpdatePkgs = genOtherPkgsVersion(updatedPkgs);
+        packagesVersion = passiveUpdatePkgs.concat(updatedPkgs);
 
-    const { yes } = await prompt({
-        type: 'confirm',
-        name: 'yes',
-        message: `These packages will be released: \n${packagesVersion
+        const { yes } = await prompt({
+            type: 'confirm',
+            name: 'yes',
+            message: `These packages will be released: \n${packagesVersion
             .map(pkg => `${pc.magenta(pkg.name)}: v${pkg.version} > ${pc.green(`v${pkg.newVersion}`)}`)
             .join('\n')}\nConfirm?`,
-    });
+        });
 
-    if (!yes)
-        return;
+        if (!yes)
+            return;
 
-    const newRootVersion = await genRootPackageVersion();
+        newRootVersion = await genRootPackageVersion();
 
-    // update all package versions and inter-dependencies
-    step('\nUpdating cross dependencies...');
-    updateRootVersion(newRootVersion);
-    updateVersions(packagesVersion);
+        // update all package versions and inter-dependencies
+        step('\nUpdating cross dependencies...');
+        updateRootVersion(newRootVersion);
+        updateVersions(packagesVersion);
 
-    // update lock
-    await run('pnpm', ['i']);
-    // // build all packages with types
-    step('\nBuilding all packages...');
-    if (!isDryRun)
-        await run('pnpm', ['build']);
+        // update lock
+        await run('pnpm', ['i']);
+        // // build all packages with types
+        step('\nBuilding all packages...');
+        if (!isDryRun)
+            await run('pnpm', ['build']);
 
-    else
-        console.log(`(skipped build)`);
+        else
+            console.log(`(skipped build)`);
 
-    // generate changelog
-    step('\nGenerating changelog...');
-    await run(`pnpm`, ['changelog']);
+        // generate changelog
+        step('\nGenerating changelog...');
+        await run(`pnpm`, ['changelog']);
 
-    const { stdout } = await run('git', ['diff'], { stdio: 'pipe' });
-    if (stdout) {
-        step('\nCommitting changes...');
-        await runIfNotDry('git', ['add', '-A']);
-        await runIfNotDry('git', ['commit', '-m', `chore: v${newRootVersion}`]);
-    }
-    else {
-        console.log('No changes to commit.');
+        const { stdout } = await run('git', ['diff'], { stdio: 'pipe' });
+        if (stdout) {
+            step('\nCommitting changes...');
+            await runIfNotDry('git', ['add', '-A']);
+            await runIfNotDry('git', ['commit', '-m', `chore: v${newRootVersion}`]);
+        }
+        else {
+            console.log('No changes to commit.');
+        }
     }
 
     // publish packages
     step('\nPublishing packages...');
-    for (const pkg of packagesVersion)
-        await publishPackage(pkg, runIfNotDry);
+    await publishPkgs(packagesVersion);
 
     // push to GitHub
     step('\nPushing to GitHub...');

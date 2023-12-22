@@ -232,14 +232,8 @@ function readChangePkg() {
 async function publishPkgs(packagesVersion) {
     rewordChangePkg(packagesVersion);
 
-    for (const pkg of packagesVersion) {
-        try {
-            await publishPackage(pkg);
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
+    for (const pkg of packagesVersion)
+        await publishPackage(pkg);
 
     removeChangePkg();
 }

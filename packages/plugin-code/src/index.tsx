@@ -2,6 +2,8 @@ import type { IPluginConfig } from '@webank/letgo-engine-plugin';
 import { FTooltip } from '@fesjs/fes-design';
 import Panel from './panel';
 
+export * from './common/register';
+
 export default {
     name: 'PluginCodePanel',
     init({ skeleton, editor, designer }) {

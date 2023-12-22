@@ -22,6 +22,7 @@
         "@webank/letgo-code-generator": "workspace:*",
         "@webank/letgo-common": "workspace:*",
         "@webank/letgo-engine": "workspace:*",
+        "@webank/letgo-plugin-code": "workspace:*",
         "@webank/letgo-plugin-device": "workspace:*",
         "@webank/letgo-plugin-schema": "workspace:*",
         "@webank/letgo-renderer": "workspace:*",

@@ -3,6 +3,7 @@ import type { IPluginConfig } from '@webank/letgo-engine-plugin';
 import GlobalActions from './global-actions';
 import Panel from './panel';
 
+// 本插件后续废弃，将逻辑放到一个插件里面
 export default {
     name: 'PluginGlobal',
     init({ skeleton, designer }) {

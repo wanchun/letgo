@@ -12,6 +12,7 @@ import {
 import type { Designer } from '@webank/letgo-designer';
 import type { Editor } from '@webank/letgo-editor-core';
 import State from './state/state';
+import { GlobalCode } from './global-code/code';
 import CodeSetting from './code/code';
 import CodeEdit from './code/edit/code-edit';
 import './panel.less';
@@ -31,7 +32,7 @@ export default defineComponent({
                 <div class="letgo-plg-code">
                     <FTabs class="letgo-plg-code__tabs">
                         <FTabPane
-                            name="编辑"
+                            name="页面逻辑"
                             value="code"
                             displayDirective="show"
                         >
@@ -43,6 +44,13 @@ export default defineComponent({
                                     <CodeEdit designer={props.designer} />
                                 </FScrollbar>
                             </div>
+                        </FTabPane>
+                        <FTabPane
+                            name="全局逻辑"
+                            value="globalLogic"
+                            displayDirective="show"
+                        >
+                            <GlobalCode designer={props.designer} />
                         </FTabPane>
                         <FTabPane
                             name="查看"

@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { defineComponent, onBeforeMount, onBeforeUnmount, ref } from 'vue';
-import { Designer } from '@webank/letgo-designer';
+import { Designer, registerMetadataTransducer } from '@webank/letgo-designer';
 import type { IEngineOptions } from '@webank/letgo-editor-core';
 import { editor, engineConfig } from '@webank/letgo-editor-core';
 import { Skeleton, WorkbenchView } from '@webank/letgo-editor-skeleton';
@@ -36,7 +36,7 @@ const { config, designer, plugins, skeleton, material, project, hotkey, setters 
     pluginName: 'CommonPlugin',
 });
 
-export { editor, config, designer, plugins, skeleton, material, project, hotkey, setters };
+export { editor, config, designer, plugins, skeleton, material, project, hotkey, setters, registerMetadataTransducer };
 
 // 注册一批内置插件
 (async function registerPlugins() {

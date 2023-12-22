@@ -212,7 +212,8 @@ export default function (
             });
         }
         else if (field.setter) {
-            if (supportVariableGlobally) {
+            const supportVariable = field.supportVariable ?? supportVariableGlobally;
+            if (supportVariable) {
                 const setter = field.setter;
                 if (isArray(setter)) {
                     if (!setter.includes('ExpressionSetter'))

@@ -33,7 +33,7 @@ export function useHint(props: {
                 label: key,
                 detail: capitalize(codesInstance[key].type),
                 type: 'variable',
-                value: codesInstance[key].view,
+                value: codesInstance[key].hint || codesInstance[key].view,
             });
         });
 

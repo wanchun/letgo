@@ -28,6 +28,14 @@ export class TemporaryStateImpl extends TemporaryStateLive implements ITemporary
         };
     }
 
+    get hint() {
+        return {
+            value: this.value,
+            setValue: this.setValue,
+            setIn: this.setIn,
+        };
+    }
+
     changeId(id: string) {
         this.id = id;
     }

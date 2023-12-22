@@ -1,3 +1,16 @@
+## [0.0.1-beta.5](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.4...v0.0.1-beta.5) (2023-12-22)
+
+
+### Features
+
+* 暴露 registerMetadataTransducer 方法，支持 supportVariable, 优化 popup 样式 ([03a1e04](https://git.weoa.com/mumblefe/letgo/commits/03a1e04a714e2edfc53c237343b3cd0c1a1b1a81))
+* 临时变量支持按路径进行设置 ([7db8f6c](https://git.weoa.com/mumblefe/letgo/commits/7db8f6cfded1022b74844d68cd46e671caec473d))
+* 优化临时状态代码提示 ([1aef63c](https://git.weoa.com/mumblefe/letgo/commits/1aef63cae3f8852fa3c7905e3c1887312ba2fd21))
+* merge code plugin ([ef67905](https://git.weoa.com/mumblefe/letgo/commits/ef67905ded93f59cfe67edc705bc09fc1cd96852))
+* plugin code 支持 regiterComponent ([6b4e33a](https://git.weoa.com/mumblefe/letgo/commits/6b4e33a0462939df70dd101f3ef7b50ea4c3885f))
+
+
+
 ## [0.0.1-beta.4](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.3...v0.0.1-beta.4) (2023-12-14)
 
 

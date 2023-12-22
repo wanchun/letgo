@@ -20,7 +20,7 @@ class JavascriptComputedEdit implements CodeBaseEdit {
         return {
             id,
             type: CodeType.JAVASCRIPT_COMPUTED,
-            funcBody: '// Tip: 通过一个状态计算另一个状态 \n\nreturn 5',
+            funcBody: '// Tip: 通过一个变量计算另一个变量 \n\nreturn 5',
         };
     }
 }

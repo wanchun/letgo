@@ -53,12 +53,12 @@ export const CodeList = defineComponent({
             },
             {
                 value: CodeType.JAVASCRIPT_COMPUTED,
-                label: '计算状态',
+                label: '计算变量',
                 icon: () => h(iconMap[CodeType.JAVASCRIPT_COMPUTED]),
             },
             {
                 value: CodeType.TEMPORARY_STATE,
-                label: '临时状态',
+                label: '变量',
                 icon: () => h(iconMap[CodeType.TEMPORARY_STATE]),
             },
         ].filter(Boolean);

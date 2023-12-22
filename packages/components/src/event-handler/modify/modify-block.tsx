@@ -17,7 +17,7 @@ const actions = [{
     label: '控制组件',
 }, {
     value: InnerEventHandlerAction.SET_TEMPORARY_STATE,
-    label: '设置临时状态',
+    label: '设置变量值',
 }, {
     value: InnerEventHandlerAction.SET_LOCAL_STORAGE,
     label: '设置本地存储',

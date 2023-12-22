@@ -71,8 +71,8 @@ export interface IPublicTypeNodeSchema {
      */
     children?: IPublicTypeNodeData | IPublicTypeNodeData[]
     /**
-   * 是否锁定
-   */
+     * 是否锁定
+     */
     isLocked?: boolean
 }
 
@@ -190,7 +190,7 @@ export interface IPublicTypeProjectSchema {
      */
     css?: string
     /**
-     * 全局状态
+     * 全局逻辑
      */
     code?: CodeStruct
     /**

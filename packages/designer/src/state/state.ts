@@ -26,13 +26,25 @@ export class State {
         return this.codesInstance[id] || this.componentsInstance[id];
     }
 
+    triggerAfterSimulatorReady(fn: () => void) {
+        if (this.designer.simulator) {
+            fn();
+        }
+        else {
+            this.offEvents.push(this.designer.onSimulatorReady(() => {
+                fn();
+            }));
+        }
+    }
+
     initCodesInstanceListen() {
-        this.offEvents.push(this.designer.onSimulatorReady(() => {
+        this.triggerAfterSimulatorReady(() => {
             this.offEvents.push(
                 this.designer.simulator.onUpdateCodesInstance((codesInstance) => {
                     this.codesInstance = { ...codesInstance };
-                }));
-        }));
+                }),
+            );
+        });
     }
 
     getInstance(instances: IComponentInstance[]) {
@@ -49,8 +61,7 @@ export class State {
     }
 
     initComponentInstanceListen() {
-        // TODO: 清理
-        this.offEvents.push(this.designer.onSimulatorReady(() => {
+        this.triggerAfterSimulatorReady(() => {
             this.offEvents.push(this.designer.simulator.onEvent('componentInstanceChange', (options: {
                 docId: string
                 id: string
@@ -107,7 +118,7 @@ export class State {
                         delete this.componentsInstance[refName];
                 }
             }));
-        }));
+        });
     }
 
     purge() {

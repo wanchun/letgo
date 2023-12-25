@@ -47,11 +47,8 @@ export default defineComponent({
                 ...props.designer.project.extraGlobalState,
             };
         });
-        const currentDocument = computed(() => {
-            return props.designer.currentDocument;
-        });
         const currentState = computed(() => {
-            return currentDocument.value?.state;
+            return props.designer.currentDocument?.state;
         });
 
         const codesState = computed(() => {

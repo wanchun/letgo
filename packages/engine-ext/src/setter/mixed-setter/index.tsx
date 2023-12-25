@@ -219,6 +219,8 @@ const MixedSetterView = defineComponent({
                     onClick={(val: string) => {
                         changeSetter(val);
                     }}
+                    placement="bottom-end"
+                    showSelectedOption
                 >
                     <Transform
                         class="letgo-setter-mixed__icon"

@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 importers:
 
   .:
@@ -140,9 +136,6 @@ importers:
       '@webank/letgo-common':
         specifier: ^0.0.1-beta.5
         version: link:../common
-      '@webank/letgo-designer':
-        specifier: ^0.0.1-beta.5
-        version: link:../designer
       '@webank/letgo-types':
         specifier: ^0.0.1-beta.5
         version: link:../types
@@ -152,10 +145,13 @@ importers:
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
-    devDependencies:
       vue:
         specifier: ^3.3.9
         version: 3.3.11(typescript@5.3.3)
+    devDependencies:
+      '@webank/letgo-designer':
+        specifier: ^0.0.1-beta.5
+        version: link:../designer
 
   packages/designer:
     dependencies:
@@ -505,9 +501,6 @@ importers:
       '@webank/letgo-designer':
         specifier: ^0.0.1-beta.5
         version: link:../designer
-      '@webank/letgo-engine':
-        specifier: ^0.0.1-beta.5
-        version: link:../engine
       '@webank/letgo-engine-plugin':
         specifier: ^0.0.1-beta.5
         version: link:../engine-plugin
@@ -9217,3 +9210,7 @@ packages:
   /zen-logger@1.1.4:
     resolution: {integrity: sha512-Aidoas1IyoaJ+wxV0lefJsMtWTMfiKduICtNpni03CRu4GKIuEXd38/CWDQzGNfhhoNfkHKKF1nLOpKcTb4jXw==}
     dev: false
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false

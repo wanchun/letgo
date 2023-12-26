@@ -1,7 +1,6 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
-import type { ITemporaryState } from '@webank/letgo-types';
-import type { DocumentModel } from '@webank/letgo-designer';
+import type { IPublicModelDocumentModel, ITemporaryState } from '@webank/letgo-types';
 import { ExpressionEditor } from '../../code-editor';
 import './state-edit.less';
 
@@ -13,7 +12,7 @@ import './state-edit.less';
 export const StateEdit = defineComponent({
     name: 'StateEdit',
     props: {
-        documentModel: Object as PropType<DocumentModel>,
+        documentModel: Object as PropType<IPublicModelDocumentModel>,
         hints: Object as PropType<Record<string, any>>,
         codeItem: Object as PropType<ITemporaryState>,
         changeContent: Function as PropType<(id: string, content: Partial<ITemporaryState>) => void>,

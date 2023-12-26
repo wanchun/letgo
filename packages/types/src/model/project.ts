@@ -1,12 +1,26 @@
 import type {
-    IPublicEnumTransformStage, IPublicModelDocumentModel,
-    IPublicTypeAppConfig, IPublicTypeProjectSchema,
+    IPublicEnumTransformStage,
+    IPublicModelCode,
+    IPublicModelDocumentModel,
+    IPublicTypeAppConfig,
+    IPublicTypeIconSchema,
+    IPublicTypeProjectSchema,
     IPublicTypeRootSchema,
+    IPublicTypeUtilsMap,
 } from '..';
 
 export interface IBaseProject<
   DocumentModel,
+  Code = IPublicModelCode,
 > {
+    css: string
+
+    codesInstance: Record<string, any>
+
+    utilsInstance: Record<string, any>
+
+    readonly code: Code
+
     /**
      * 【响应式】获取 schema 数据
      */
@@ -30,6 +44,15 @@ export interface IBaseProject<
      * @returns
      */
     get documentsMap(): Map<string, DocumentModel>
+
+    get extraGlobalState(): {
+        utils: Record<string, any>
+        letgoContext: IPublicTypeAppConfig
+    }
+
+    get utils(): IPublicTypeUtilsMap
+
+    get icons(): IPublicTypeIconSchema[] | undefined
 
     /**
      * 打开一个 document
@@ -92,6 +115,10 @@ export interface IBaseProject<
      */
     setConfig<T extends keyof IPublicTypeAppConfig>(key: T, value: IPublicTypeAppConfig[T]): void
     setConfig(value: IPublicTypeAppConfig): void
+
+    setUtils(utils: IPublicTypeUtilsMap): void
+
+    setIcons(icons: IPublicTypeIconSchema[]): void
 }
 
 export interface IPublicModelProject extends IBaseProject<IPublicModelDocumentModel> {}

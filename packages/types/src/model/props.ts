@@ -1,7 +1,10 @@
 import type {
-    IPublicEnumTransformStage, IPublicModelNode,
-    IPublicModelProp, IPublicTypeCompositeValue,
-    IPublicTypePropsList, IPublicTypePropsMap,
+    IPublicEnumTransformStage,
+    IPublicModelNode,
+    IPublicModelProp,
+    IPublicTypeCompositeValue,
+    IPublicTypePropsList,
+    IPublicTypePropsMap,
 } from '..';
 
 interface IExtrasObject {

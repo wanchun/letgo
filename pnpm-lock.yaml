@@ -148,10 +148,6 @@ importers:
       vue:
         specifier: ^3.3.9
         version: 3.3.11(typescript@5.3.3)
-    devDependencies:
-      '@webank/letgo-designer':
-        specifier: ^0.0.1-beta.6
-        version: link:../designer
 
   packages/designer:
     dependencies:

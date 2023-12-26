@@ -2,8 +2,7 @@ import type { PropType } from 'vue';
 import { defineComponent, ref } from 'vue';
 import { FButton } from '@fesjs/fes-design';
 import { javascript } from '@codemirror/lang-javascript';
-import type { IJavascriptComputed } from '@webank/letgo-types';
-import type { DocumentModel } from '@webank/letgo-designer';
+import type { IJavascriptComputed, IPublicModelDocumentModel } from '@webank/letgo-types';
 import { CodeEditor } from '../../code-editor';
 import './code-edit.less';
 import './computed-edit.less';
@@ -16,7 +15,7 @@ import './computed-edit.less';
 export const ComputedEdit = defineComponent({
     name: 'ComputedEdit',
     props: {
-        documentModel: Object as PropType<DocumentModel>,
+        documentModel: Object as PropType<IPublicModelDocumentModel>,
         hints: Object as PropType<Record<string, any>>,
         codeItem: Object as PropType<IJavascriptComputed>,
         changeContent: Function as PropType<(id: string, content: Partial<IJavascriptComputed>) => void>,

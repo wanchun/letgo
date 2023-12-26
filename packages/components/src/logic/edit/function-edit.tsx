@@ -2,15 +2,14 @@ import type { PropType } from 'vue';
 import { defineComponent, ref } from 'vue';
 import { FButton } from '@fesjs/fes-design';
 import { javascript } from '@codemirror/lang-javascript';
-import type { IJavascriptFunction } from '@webank/letgo-types';
-import type { DocumentModel } from '@webank/letgo-designer';
+import type { IJavascriptFunction, IPublicModelDocumentModel } from '@webank/letgo-types';
 import { CodeEditor } from '../../code-editor';
 import './function-edit.less';
 
 export const FunctionEdit = defineComponent({
     name: 'FunctionEdit',
     props: {
-        documentModel: Object as PropType<DocumentModel>,
+        documentModel: Object as PropType<IPublicModelDocumentModel>,
         hints: Object as PropType<Record<string, any>>,
         codeItem: Object as PropType<IJavascriptFunction>,
         changeContent: Function as PropType<(id: string, content: Partial<IJavascriptFunction>) => void>,

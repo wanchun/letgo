@@ -1,12 +1,12 @@
 import { computed } from 'vue';
 import { capitalize } from 'lodash-es';
 import { getVarType } from '@webank/letgo-common';
-import type { DocumentModel } from '@webank/letgo-designer';
+import type { IPublicModelDocumentModel } from '@webank/letgo-types';
 import type { HintPathType } from './types';
 
 export function useHint(props: {
     hints?: Record<string, any>
-    documentModel?: DocumentModel
+    documentModel?: IPublicModelDocumentModel
 }) {
     const hints = computed(() => {
         if (props.hints) {

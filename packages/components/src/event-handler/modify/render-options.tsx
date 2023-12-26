@@ -1,10 +1,9 @@
-import type { IControlComponentAction, IControlQueryAction, IPublicTypeEventHandler, IRunFunctionAction, ISetLocalStorageAction, ISetTemporaryStateAction } from '@webank/letgo-types';
+import type { IControlComponentAction, IControlQueryAction, IPublicModelDocumentModel, IPublicTypeEventHandler, IRunFunctionAction, ISetLocalStorageAction, ISetTemporaryStateAction } from '@webank/letgo-types';
 import { InnerEventHandlerAction } from '@webank/letgo-types';
 import type { PropType } from 'vue';
 import { computed, defineComponent, ref } from 'vue';
 
 import { FInput, FOption, FSelect } from '@fesjs/fes-design';
-import type { DocumentModel } from '@webank/letgo-designer';
 import { DeleteOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
 import Label from './label';
 import './render-options.less';
@@ -12,7 +11,7 @@ import './render-options.less';
 export default defineComponent({
     name: 'RenderOptions',
     props: {
-        documentModel: Object as PropType<DocumentModel>,
+        documentModel: Object as PropType<IPublicModelDocumentModel>,
         componentEvent: Object as PropType<IPublicTypeEventHandler>,
         onChange: Function as PropType<((content: Record<string, any>) => void)>,
     },

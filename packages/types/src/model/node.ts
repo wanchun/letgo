@@ -1,8 +1,13 @@
 import type {
-    IPublicEnumTransformStage, IPublicModelNodeChildren,
+    IPublicEnumTransformStage,
+    IPublicModelComponentMeta,
+    IPublicModelNodeChildren,
     IPublicModelProp,
-    IPublicTypeCompositeValue, IPublicTypeNodeSchema,
-    IPublicTypePropsList, IPublicTypePropsMap,
+    IPublicModelSettingTopEntry,
+    IPublicTypeCompositeValue,
+    IPublicTypeNodeSchema,
+    IPublicTypePropsList,
+    IPublicTypePropsMap,
 } from '../';
 
 export interface IBaseModelNode<
@@ -41,21 +46,21 @@ export interface IBaseModelNode<
     get computedSchema(): IPublicTypeNodeSchema
 
     /**
-   * 获取对应的 setting entry
-   * get setting entry of this node
-   */
+     * 获取对应的 setting entry
+     * get setting entry of this node
+     */
     get settingEntry(): SettingTopEntry
 
     /**
-   * 获取当前节点的父亲节点
-   * get parent of this node
-   */
+     * 获取当前节点的父亲节点
+     * get parent of this node
+     */
     get parent(): Node | null
 
     /**
-   * 获取当前节点的孩子节点模型
-   * get children of this node
-   */
+     * 获取当前节点的孩子节点模型
+     * get children of this node
+     */
     get children(): NodeChildren | null
 
     /**
@@ -79,7 +84,7 @@ export interface IBaseModelNode<
     /**
      * 下标
      * index
-    */
+     */
     get index(): number
 
     /**

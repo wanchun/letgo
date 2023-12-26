@@ -38,10 +38,10 @@ export interface IPublicModelSelection<
     clear(): void
 
     /**
-    * 判断是否选中了指定节点
-    * check if node with specific id is selected
-    * @param id
-    */
+     * 判断是否选中了指定节点
+     * check if node with specific id is selected
+     * @param id
+     */
     has(id: string): boolean
 
     /**

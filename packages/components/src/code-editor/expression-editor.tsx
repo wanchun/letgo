@@ -1,7 +1,7 @@
 import { EditorView, minimalSetup } from 'codemirror';
 import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { EditorState } from '@codemirror/state';
-import type { DocumentModel } from '@webank/letgo-designer';
+import type { IPublicModelDocumentModel } from '@webank/letgo-types';
 import { autocompletion } from '@codemirror/autocomplete';
 import type { ViewUpdate } from '@codemirror/view';
 import {
@@ -14,7 +14,7 @@ import './expression-editor.less';
 
 export const ExpressionEditor = defineComponent({
     props: {
-        documentModel: Object as PropType<DocumentModel>,
+        documentModel: Object as PropType<IPublicModelDocumentModel>,
         hints: Object as PropType<Record<string, any>>,
         doc: String,
         onChangeDoc: Function as PropType<(doc: string) => void>,

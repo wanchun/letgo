@@ -1,8 +1,15 @@
 import type {
-    IPublicEnumTransformStage, IPublicModelNode,
-    IPublicModelProject, IPublicModelSelection,
-    IPublicTypeDragNodeDataObject, IPublicTypeDragNodeObject,
-    IPublicTypeNodeData, IPublicTypeNodeSchema,
+    IPublicEnumTransformStage,
+    IPublicModelCode,
+    IPublicModelComponentMeta,
+    IPublicModelNode,
+    IPublicModelProject,
+    IPublicModelSelection,
+    IPublicModelState,
+    IPublicTypeDragNodeDataObject,
+    IPublicTypeDragNodeObject,
+    IPublicTypeNodeData,
+    IPublicTypeNodeSchema,
     IPublicTypeRootSchema,
 } from '../';
 
@@ -10,12 +17,19 @@ export interface IPublicModelDocumentModel<
   Selection = IPublicModelSelection,
   Node = IPublicModelNode,
   Project = IPublicModelProject,
+  ComponentMeta = IPublicModelComponentMeta,
+  State = IPublicModelState,
+  Code = IPublicModelCode,
 > {
 
     /**
      * id
      */
     id: string
+
+    readonly code: Code
+
+    readonly state: State
 
     /**
      * 节点选中区模型实例

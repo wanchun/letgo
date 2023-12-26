@@ -34,8 +34,5 @@
     "publishConfig": {
         "access": "public"
     },
-    "typings": "./es/index.d.ts",
-    "devDependencies": {
-        "@webank/letgo-designer": "^0.0.1-beta.6"
-    }
+    "typings": "./es/index.d.ts"
 }

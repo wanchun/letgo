@@ -23,7 +23,7 @@ import {
 import { javascriptLanguage } from '@codemirror/lang-javascript';
 import { FullScreen } from '@icon-park/vue-next';
 import { FDrawer } from '@fesjs/fes-design';
-import type { DocumentModel } from '@webank/letgo-designer';
+import type { IPublicModelDocumentModel } from '@webank/letgo-types';
 import { autocompletion } from '@codemirror/autocomplete';
 import { HintTheme, hintPlugin } from './hint';
 import { useHint } from './use';
@@ -31,7 +31,7 @@ import './code-editor.less';
 
 export const CodeEditor = defineComponent({
     props: {
-        documentModel: Object as PropType<DocumentModel>,
+        documentModel: Object as PropType<IPublicModelDocumentModel>,
         hints: Object as PropType<Record<string, any>>,
         doc: String,
         changeDoc: Function as PropType<(doc: string) => void>,

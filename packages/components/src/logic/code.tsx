@@ -2,9 +2,8 @@ import { defineComponent, h } from 'vue';
 import type { PropType } from 'vue';
 import { FDropdown } from '@fesjs/fes-design';
 import { MoreOutlined, PlusOutlined } from '@fesjs/fes-design/icon';
-import type { Code } from '@webank/letgo-designer';
+import type { CodeItem, IPublicModelCode } from '@webank/letgo-types';
 import { CodeType, ResourceType } from '@webank/letgo-types';
-import type { CodeItem } from '@webank/letgo-types';
 import { ComputedIcon, FolderIcon, JsIcon, RestIcon, StateIcon } from '../icons';
 import CodeId from './code-id';
 import './code.less';
@@ -26,7 +25,7 @@ export const CodeList = defineComponent({
     props: {
         currentCodeItem: Object as PropType<CodeItem>,
         onChangeCurrentCodeItem: Function as PropType<((codeItem: CodeItem) => void)>,
-        code: Object as PropType<Code>,
+        code: Object as PropType<IPublicModelCode>,
         codesInstance: {
             type: Object as PropType<Record<string, any>>,
         },

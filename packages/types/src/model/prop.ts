@@ -1,5 +1,6 @@
 import type {
-    IPublicEnumTransformStage, IPublicModelNode,
+    IPublicEnumTransformStage,
+    IPublicModelNode,
     IPublicTypeCompositeValue,
 } from '../';
 
@@ -51,10 +52,10 @@ export interface IPublicModelProp<
     getValue(): IPublicTypeCompositeValue
 
     /**
-   * 导出值
-   * export schema
-   * @param stage
-   */
+     * 导出值
+     * export schema
+     * @param stage
+     */
     export(stage: IPublicEnumTransformStage): IPublicTypeCompositeValue
 
     /**

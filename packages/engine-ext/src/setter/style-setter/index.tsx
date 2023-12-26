@@ -2,7 +2,7 @@ import type { CSSProperties, PropType } from 'vue';
 import { defineComponent, onMounted, provide, ref } from 'vue';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { useModel } from '@webank/letgo-common';
-import { isNil } from 'lodash-es';
+import { cloneDeep, isNil } from 'lodash-es';
 import { FCollapse } from '@fesjs/fes-design';
 import { commonProps, getComputeStyle } from '../../common';
 import { BackgroundView, BorderView, CodeView, FontView, LayoutView, PositionView } from './pro';
@@ -28,7 +28,7 @@ const StyleSetterView = defineComponent({
             default: true,
         },
     },
-    setup(props, { emit }) {
+    setup(props) {
         onMounted(() => {
             props.onMounted?.();
         });
@@ -37,10 +37,9 @@ const StyleSetterView = defineComponent({
             style: getComputeStyle(props.node),
         });
 
-        const [currentValue, updateCurrentValue] = useModel(props, emit, {
-            prop: 'value',
-            defaultValue: {},
-        });
+        const initValue = ref(cloneDeep(props.value) ?? {});
+
+        const currentValue = ref(cloneDeep(props.value) ?? {});
 
         const onStyleChange = (changedStyle: Record<string, any>, assign = true) => {
             if (assign) {
@@ -49,11 +48,12 @@ const StyleSetterView = defineComponent({
                     changedStyle[p] = (isNil(changedStyle[p]) || changedStyle[p] === '') ? undefined : changedStyle[p];
 
                 const styleData = { ...currentValue.value, ...changedStyle };
-                updateCurrentValue(styleData);
+                currentValue.value = styleData;
+                initValue.value = styleData;
                 props.onChange(styleData);
             }
             else {
-                updateCurrentValue(changedStyle);
+                currentValue.value = changedStyle;
                 props.onChange(changedStyle);
             }
         };
@@ -65,7 +65,7 @@ const StyleSetterView = defineComponent({
             return (
                 <div class="letgo-setter-style">
                     <CodeView
-                        value={currentValue.value}
+                        value={initValue.value}
                         onStyleChange={onStyleChange}
                     />
                     <FCollapse v-model={showItems.value} arrow="left" embedded={false}>

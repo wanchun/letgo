@@ -58,6 +58,7 @@ export const toJSON = function (
         cssString = cssString.replace(commentX, '');
     }
 
+    // eslint-disable-next-line no-cond-assign
     while ((match = altX.exec(cssString)) != null) {
         if (!isEmpty(match[capComment]) && args.comments) {
             // Comment

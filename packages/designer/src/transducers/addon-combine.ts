@@ -52,13 +52,13 @@ export default function (
             items: propsGroup,
         },
     ];
-    if (supports.class) {
-        stylesGroup.push({
-            name: 'class',
-            title: '绑定类名',
-            setter: 'ClassNameSetter',
-        });
-    }
+    // if (supports.class) {
+    //     stylesGroup.push({
+    //         name: 'class',
+    //         title: '绑定类名',
+    //         setter: 'ClassNameSetter',
+    //     });
+    // }
     if (supports.style) {
         stylesGroup.push({
             name: 'style',

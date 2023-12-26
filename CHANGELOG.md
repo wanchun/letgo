@@ -1,3 +1,21 @@
+## [0.0.1-beta.8](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.6...v0.0.1-beta.8) (2023-12-26)
+
+
+### Bug Fixes
+
+* **style-setter:** 修复编辑行内样式时丢失焦点问题 ([4b89ce0](https://git.weoa.com/mumblefe/letgo/commits/4b89ce02892272c25eff90dc8cbc85e3b4833c09))
+* 优化 ([0ba9316](https://git.weoa.com/mumblefe/letgo/commits/0ba9316c03f27ef31fbe3db745cb47ce58d75269))
+* 修复 state 展示问题 ([dc48f5e](https://git.weoa.com/mumblefe/letgo/commits/dc48f5e6a0916d158d0713bcc7ad93cdfa9f981b))
+* 多个 setter 添加选中效果 ([189e649](https://git.weoa.com/mumblefe/letgo/commits/189e6496efc89f351c6b56395f0b45335bafecb3))
+
+
+### Features
+
+* 修复依赖 ([e11d616](https://git.weoa.com/mumblefe/letgo/commits/e11d6168e55e4ffff3fa7bd360f58d4185565ed2))
+* 修复依赖 ([b5f4747](https://git.weoa.com/mumblefe/letgo/commits/b5f474704f41c558d6c5c0797f57e443e7628045))
+
+
+
 ## [0.0.1-beta.7](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.6...v0.0.1-beta.7) (2023-12-26)
 
 

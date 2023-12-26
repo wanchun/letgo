@@ -1,3 +1,13 @@
+## [0.0.1-beta.7](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.6...v0.0.1-beta.7) (2023-12-26)
+
+
+### Bug Fixes
+
+* 修复 state 展示问题 ([dc48f5e](https://git.weoa.com/mumblefe/letgo/commits/dc48f5e6a0916d158d0713bcc7ad93cdfa9f981b))
+* 多个 setter 添加选中效果 ([189e649](https://git.weoa.com/mumblefe/letgo/commits/189e6496efc89f351c6b56395f0b45335bafecb3))
+
+
+
 ## [0.0.1-beta.6](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.4...v0.0.1-beta.6) (2023-12-22)
 
 

@@ -62,6 +62,9 @@ async function publishPackage(pkg) {
             {
                 cwd: getPkgRoot(pkg.dirName),
                 stdio: 'pipe',
+                env: {
+                    npm_config_user_agent: 'npm/9.9.1 node/v20.9.0 darwin arm64 workspaces/false',
+                },
             },
         );
         console.log('Successfully published :', pc.green(`${pkg.name}@${pkg.newVersion}`));

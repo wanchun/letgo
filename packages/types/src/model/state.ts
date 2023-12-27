@@ -1,4 +1,4 @@
-import type { IPublicTypeComponentInstance } from '..';
+import type { IPublicTypeComponentRecord } from '..';
 
 export interface IPublicModelState {
     componentsInstance: Record<string, any>
@@ -9,7 +9,7 @@ export interface IPublicModelState {
 
     triggerAfterSimulatorReady(fn: () => void): void
 
-    getInstance(instances: IPublicTypeComponentInstance[]): Record<string, any>
+    getInstance(instances: IPublicTypeComponentRecord[]): Record<string, any>
 
     changeNodeRef(ref: string, preRef: string): void
 

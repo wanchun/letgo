@@ -1,7 +1,7 @@
 import { markReactive } from '@webank/letgo-common';
 import { debounce } from 'lodash-es';
+import type { IPublicTypeComponentRecord } from '@webank/letgo-types';
 import type { Designer } from '../designer';
-import type { IComponentInstance } from '../types';
 import type { Project } from '../project';
 
 export class State {
@@ -47,7 +47,7 @@ export class State {
         });
     }
 
-    getInstance(instances: IComponentInstance[]) {
+    getInstance(instances: IPublicTypeComponentRecord[]) {
         return this.designer.simulator.getComponentInstancesExpose(instances[0]);
     }
 
@@ -65,7 +65,7 @@ export class State {
             this.offEvents.push(this.designer.simulator.onEvent('componentInstanceChange', (options: {
                 docId: string
                 id: string
-                instances: IComponentInstance[]
+                instances: IPublicTypeComponentRecord[]
             }) => {
                 const currentDocument = this.designer.currentDocument;
                 const node = currentDocument.getNode(options.id);

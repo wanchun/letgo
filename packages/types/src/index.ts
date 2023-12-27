@@ -10,7 +10,6 @@ export * as GlobalEvent from './event';
 export * from './editor';
 export * from './transform-stage';
 export * from './icon';
-export * from './component';
 export * from './setter-config';
 export * from './setting-target';
 export * from './field-config';

@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent } from 'vue';
-import type { IComponentInstance } from '../../types';
+import type { IPublicTypeComponentRecord } from '@webank/letgo-types';
 import type { Simulator } from '../simulator';
 import './borders.less';
 
@@ -117,7 +117,7 @@ export const BorderDetectingView = defineComponent({
             if (!instances || instances.length < 1)
                 return null;
 
-            const getReact = (inst: IComponentInstance) => {
+            const getReact = (inst: IPublicTypeComponentRecord) => {
                 return simulator.computeComponentInstanceRect(
                     inst,
                     currentNode.componentMeta.rootSelector,

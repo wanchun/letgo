@@ -1,3 +1,6 @@
-import type { IPublicTypeComponentRecord } from '..';
+import type { ComponentPublicInstance } from 'vue';
 
-// export type IPublicTypeComponentInstance = IPublicTypeComponentRecord | Element;
+/**
+ * 组件实例定义
+ */
+export type IPublicTypeComponentInstance = ComponentPublicInstance;

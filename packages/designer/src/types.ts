@@ -11,8 +11,6 @@ import type { DocumentModel } from './document';
 import type { DropLocation, ILocateEvent, ScrollTarget } from './designer';
 import type { ISimulatorRenderer } from './simulator';
 
-export type IComponentInstance = IPublicTypeComponentRecord | Element;
-
 export interface IBaseNode<T extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> extends Node<T> {
     readonly children: NodeChildren
 }
@@ -35,7 +33,7 @@ export function isDocumentModel(obj: any): obj is DocumentModel {
     return obj && obj.rootNode;
 }
 
-export interface INodeInstance<T = IComponentInstance> {
+export interface INodeInstance<T = IPublicTypeComponentRecord> {
     docId: string
     nodeId: string
     instance: T
@@ -44,12 +42,12 @@ export interface INodeInstance<T = IComponentInstance> {
 
 export interface IDropContainer {
     container: INode
-    instance: IComponentInstance
+    instance: IPublicTypeComponentRecord
 }
 
 export interface INodeSelector {
     node: INode
-    instance?: IComponentInstance
+    instance?: IPublicTypeComponentRecord
 }
 
 export interface ISensor {
@@ -108,29 +106,29 @@ export interface ISimulator<P = object> extends ISensor {
     setInstance(
         docId: string,
         id: string,
-        instances: IComponentInstance[] | null,
+        instances: IPublicTypeComponentRecord[] | null,
     ): void
 
     /**
      * 在组件实例上寻找子组件实例
      */
     getClosestNodeInstance(
-        from: IComponentInstance,
+        from: IPublicTypeComponentRecord,
         specId?: string,
     ): INodeInstance | null
 
-    getComponentInstancesExpose(instance: IComponentInstance): Record<string, any>
+    getComponentInstancesExpose(instance: IPublicTypeComponentRecord): Record<string, any>
 
     /**
      * 获取节点实例
      */
     getNodeInstanceFromElement(
         e: Element | null,
-    ): INodeInstance<IComponentInstance> | null
+    ): INodeInstance<IPublicTypeComponentRecord> | null
     /**
      * 根据节点获取节点的组件实例
      */
-    getComponentInstances(node: INode): IComponentInstance[] | null
+    getComponentInstances(node: INode): IPublicTypeComponentRecord[] | null
     /**
      * 查找合适的投放容器
      */
@@ -139,14 +137,14 @@ export interface ISimulator<P = object> extends ISensor {
      * 查找节点的 dom
      */
     findDOMNodes(
-        instance: IComponentInstance,
+        instance: IPublicTypeComponentRecord,
         selector?: string,
     ): Array<Element | Text> | null
     /**
      * 计算节点位置
      */
     computeComponentInstanceRect(
-        instance: IComponentInstance,
+        instance: IPublicTypeComponentRecord,
         selector?: string,
     ): DOMRect | null
     // /**

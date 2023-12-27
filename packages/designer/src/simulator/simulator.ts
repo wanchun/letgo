@@ -14,6 +14,7 @@ import * as Vue from 'vue';
 import type {
     IPublicTypeAsset,
     IPublicTypeAssetList,
+    IPublicTypeComponentRecord,
     IPublicTypeDevice,
     IPublicTypePackage,
     IPublicTypeUtilItem,
@@ -30,8 +31,8 @@ import {
     markComputed,
 } from '@webank/letgo-common';
 import { engineConfig } from '@webank/letgo-editor-core';
+import { isNaN } from 'lodash-es';
 import type {
-    IComponentInstance,
     IDropContainer,
     INode,
     INodeInstance,
@@ -677,7 +678,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
         const document = this.project.currentDocument;
         const { focusNode } = document;
         let container: INode;
-        let nodeInstance: INodeInstance<IComponentInstance> | undefined;
+        let nodeInstance: INodeInstance<IPublicTypeComponentRecord> | undefined;
 
         if (target) {
             const ref = this.getNodeInstanceFromElement(target);
@@ -789,7 +790,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
     }
 
     private instancesMapRef: ShallowRef<{
-        [docId: string]: Map<string, IComponentInstance[]>
+        [docId: string]: Map<string, IPublicTypeComponentRecord[]>
     }> = shallowRef({});
 
     onUpdateCodesInstance(func: (codesInstance: Record<string, any>) => void) {
@@ -809,7 +810,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
     setInstance(
         docId: string,
         id: string,
-        instances: IComponentInstance[] | null,
+        instances: IPublicTypeComponentRecord[] | null,
     ) {
         const instancesMap = this.instancesMapRef.value;
         if (!hasOwnProperty(instancesMap, docId))
@@ -831,7 +832,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
         triggerRef(this.instancesMapRef);
     }
 
-    getComponentInstancesExpose(instance: IComponentInstance) {
+    getComponentInstancesExpose(instance: IPublicTypeComponentRecord) {
         return this.renderer?.getNodeInstanceExpose(instance) || null;
     }
 
@@ -841,7 +842,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
     getComponentInstances(
         node: INode,
         context?: INodeInstance,
-    ): IComponentInstance[] | null {
+    ): IPublicTypeComponentRecord[] | null {
         const docId = node.document.id;
 
         const instances
@@ -902,7 +903,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
      */
     getNodeInstanceFromElement(
         target: Element | null,
-    ): INodeInstance<IComponentInstance> | null {
+    ): INodeInstance<IPublicTypeComponentRecord> | null {
         if (!target)
             return null;
 
@@ -923,9 +924,9 @@ export class Simulator implements ISimulator<ISimulatorProps> {
      * @see ISimulator
      */
     getClosestNodeInstance(
-        from: IComponentInstance,
+        from: IPublicTypeComponentRecord | Element,
         specId?: string,
-    ): INodeInstance<IComponentInstance> | null {
+    ): INodeInstance<IPublicTypeComponentRecord> | null {
         return this.renderer?.getClosestNodeInstance(from, specId) || null;
     }
 
@@ -933,7 +934,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
      * @see ISimulator
      */
     findDOMNodes(
-        instance: IComponentInstance,
+        instance: IPublicTypeComponentRecord,
         selector?: string,
     ): Array<Element | Text> | null {
         const elements = this._renderer?.findDOMNodes(instance);
@@ -954,7 +955,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
      * @see ISimulator
      */
     computeComponentInstanceRect(
-        instance: IComponentInstance,
+        instance: IPublicTypeComponentRecord,
         selector?: string,
     ): IRect | null {
         const renderer = this.renderer;

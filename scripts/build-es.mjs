@@ -82,7 +82,9 @@ async function buildFile(filePath, outputDir) {
     });
     const endTime = Date.now();
     console.log(
-        pc.green(`✓ /packages${filePath.split('/packages')[1]} built in ${endTime - startTime}ms`),
+        pc.blue(`🎉 packages${filePath.split('/packages')[1]}`),
+        ' ',
+        pc.green(`built in ${endTime - startTime}ms`),
     );
 }
 

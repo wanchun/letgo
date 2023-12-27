@@ -1,6 +1,7 @@
 // NOTE: 仅用作类型标注，切勿作为实体使用
 import {
     assetItem,
+    getIconSprite,
     isAssetBundle,
     isAssetItem,
     isCSSUrl,
@@ -11,7 +12,6 @@ import {
     IPublicEnumAssetLevel,
     IPublicEnumAssetType,
 } from '@webank/letgo-types';
-import { getIconSprite } from '@webank/letgo-common';
 import type { Simulator } from './simulator';
 import type { ISimulatorRenderer } from './renderer';
 

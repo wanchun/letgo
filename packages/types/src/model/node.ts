@@ -3,7 +3,7 @@ import type {
     IPublicModelComponentMeta,
     IPublicModelNodeChildren,
     IPublicModelProp,
-    IPublicModelSettingTopEntry,
+    IPublicModelSettingTop,
     IPublicTypeCompositeValue,
     IPublicTypeNodeSchema,
     IPublicTypePropsList,
@@ -14,7 +14,7 @@ export interface IBaseModelNode<
     Node = IPublicModelNode,
     NodeChildren = IPublicModelNodeChildren,
     ComponentMeta = IPublicModelComponentMeta,
-    SettingTopEntry = IPublicModelSettingTopEntry,
+    SettingTopEntry = IPublicModelSettingTop,
     Prop = IPublicModelProp,
 > {
     /**

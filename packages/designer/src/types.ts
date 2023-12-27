@@ -13,8 +13,7 @@ import type { ISimulatorRenderer } from './simulator';
 
 export type IComponentInstance = IPublicTypeComponentRecord | Element;
 
-export interface IBaseNode<T extends IPublicTypeNodeSchema = IPublicTypeNodeSchema>
-    extends Node<T> {
+export interface IBaseNode<T extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> extends Node<T> {
     readonly children: NodeChildren
 }
 

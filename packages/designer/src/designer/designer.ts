@@ -46,7 +46,7 @@ interface IDesignerProps {
     onDragstart?: (e: ILocateEvent) => void
     onDrag?: (e: ILocateEvent) => void
     onDragend?: (
-        e: { dragObject: IDragObject; copy: boolean },
+        e: { dragObject: IDragObject, copy: boolean },
         loc?: DropLocation,
     ) => void
     [key: string]: unknown
@@ -82,8 +82,8 @@ export class Designer {
     private _renderer: unknown;
 
     private _simulatorProps?:
-    | ISimulatorProps
-    | ((designer: Designer) => ISimulatorProps);
+        | ISimulatorProps
+        | ((designer: Designer) => ISimulatorProps);
 
     private props?: IDesignerProps;
 

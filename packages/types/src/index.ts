@@ -14,7 +14,6 @@ export * from './component';
 export * from './setter-config';
 export * from './setting-target';
 export * from './field-config';
-export * from './device';
 export * from './code';
 export * from './model';
 export * from './type';

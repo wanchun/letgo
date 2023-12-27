@@ -1,6 +1,6 @@
-import type { IPublicModelNode, IPublicModelSettingField } from './';
+import type { IPublicModelNode, IPublicModelSettingField } from '.';
 
-export interface IPublicModelSettingTopEntry<
+export interface IPublicModelSettingTop<
   Node = IPublicModelNode,
   SettingField = IPublicModelSettingField,
 > {

@@ -1,8 +1,18 @@
-import type { IPublicTypeCompositeValue, IPublicTypeCustomView, IPublicTypeDisposable, IPublicTypeFieldConfig, IPublicTypeFieldExtraProps, IPublicTypeSetValueOptions, IPublicTypeSetterType } from '..';
-import type { IPublicModelComponentMeta, IPublicModelNode, IPublicModelSettingTopEntry } from './';
+import type {
+    IPublicModelComponentMeta,
+    IPublicModelNode,
+    IPublicModelSettingTop,
+    IPublicTypeCompositeValue,
+    IPublicTypeCustomView,
+    IPublicTypeDisposable,
+    IPublicTypeFieldConfig,
+    IPublicTypeFieldExtraProps,
+    IPublicTypeSetValueOptions,
+    IPublicTypeSetterType,
+} from '..';
 
 export interface IBaseModelSettingField<
-  SettingTopEntry,
+  SettingTop,
   SettingField,
   ComponentMeta,
   Node,
@@ -11,7 +21,7 @@ export interface IBaseModelSettingField<
     /**
      * 获取设置属性的父设置属性
      */
-    readonly parent: SettingTopEntry | SettingField
+    readonly parent: SettingTop | SettingField
 
     /**
      * 获取设置属性的 isGroup
@@ -58,8 +68,6 @@ export interface IBaseModelSettingField<
      */
     get extraProps(): IPublicTypeFieldExtraProps
 
-    get props(): SettingTopEntry
-
     /**
      * 获取设置属性对应的节点实例
      */
@@ -68,7 +76,7 @@ export interface IBaseModelSettingField<
     /**
      * 获取顶级设置属性
      */
-    get top(): SettingTopEntry
+    get top(): SettingTop
 
     /**
      * 是否是 SettingField 实例
@@ -85,11 +93,13 @@ export interface IBaseModelSettingField<
      */
     get items(): Array<SettingField | IPublicTypeCustomView>
 
+    getKey(): string | number
+
     /**
      * 设置 key 值
      * @param key
      */
-    setKey(key: string | number): void
+    setKey(key: string | number, changePropKey?: boolean): void
 
     /**
      * 设置值
@@ -140,12 +150,6 @@ export interface IBaseModelSettingField<
     setExtraPropValue(propName: string, value: any): void
 
     /**
-     * 获取设置属性集
-     * @returns
-     */
-    getProps(): SettingTopEntry
-
-    /**
      * 是否绑定了变量
      * @returns
      */
@@ -180,16 +184,10 @@ export interface IBaseModelSettingField<
      */
     remove(): void
 
-    /**
-     * 设置 autorun
-     * @param action
-     * @returns
-     */
-    onEffect(action: () => void): IPublicTypeDisposable
 }
 
 export interface IPublicModelSettingField extends IBaseModelSettingField<
-  IPublicModelSettingTopEntry,
+  IPublicModelSettingTop,
   IPublicModelSettingField,
   IPublicModelComponentMeta,
   IPublicModelNode

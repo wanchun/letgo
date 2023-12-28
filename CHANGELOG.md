@@ -1,3 +1,23 @@
+## [0.0.1-beta.9](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.8...v0.0.1-beta.9) (2023-12-28)
+
+
+### Bug Fixes
+
+* 出码多个事件问题 ([bf2d186](https://git.weoa.com/mumblefe/letgo/commits/bf2d1866112f4d70f47b16817f692277bab6b0b8))
+* 去掉components依赖designer ([9560fbe](https://git.weoa.com/mumblefe/letgo/commits/9560fbe276df4cb68de45ba7500004e410546112))
+
+
+### Features
+
+* code和state实现接口 ([51efd93](https://git.weoa.com/mumblefe/letgo/commits/51efd9318d439c33762cf31c432c5c75c13c54f9))
+* 提供definePlugin定义插件 ([07870da](https://git.weoa.com/mumblefe/letgo/commits/07870daf553fbb4e3fdd3eb05dcdd8b8c630708b))
+* 整理ts接口 ([0596c01](https://git.weoa.com/mumblefe/letgo/commits/0596c010f5d70ee7dae21017489caa49a82e6a35))
+* 整理类型 ([a8e2aad](https://git.weoa.com/mumblefe/letgo/commits/a8e2aad27499c768c5b59dda1cc1afbc9341ba5f))
+* 整理类型 ([9562370](https://git.weoa.com/mumblefe/letgo/commits/9562370c8c34708c85a887f7f955abc9cc738ffc))
+* 整理类型 ([c6dda2a](https://git.weoa.com/mumblefe/letgo/commits/c6dda2a3351ea9d617e38bc69f0c8a8d6faa45df))
+
+
+
 ## [0.0.1-beta.8](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.6...v0.0.1-beta.8) (2023-12-26)
 
 

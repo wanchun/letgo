@@ -29,6 +29,7 @@ async function compiler(source, outDir, name) {
                     globals: {
                         vue: 'Vue',
                     },
+                    exports: 'named'
                 },
             },
             watch: isWatch(),

@@ -206,7 +206,7 @@ function compileNodeSchema(nodeSchema: IPublicTypeNodeData, componentRefs: Set<s
             ${compileProps(nodeSchema.props, nodeSchema.ref).join(' ')} 
             ${Object.keys(events).map((eventName) => {
                 return `${eventName}={[${events[eventName].join(', ')}]}`;
-            })}
+            }).join(' ')}
             ${genSlotDirective(nodeSchema, componentRefs)} 
             ${!isEmpty(excludeSlotChildren)
                 ? `>

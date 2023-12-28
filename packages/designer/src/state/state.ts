@@ -1,15 +1,16 @@
 import { markReactive } from '@webank/letgo-common';
 import { debounce } from 'lodash-es';
-import type { IPublicTypeComponentRecord } from '@webank/letgo-types';
+import type { IPublicModelState, IPublicTypeComponentRecord } from '@webank/letgo-types';
 import type { Designer } from '../designer';
 import type { Project } from '../project';
 
-export class State {
+export class State implements IPublicModelState {
     private designer: Designer;
     private nodeIdToRef = new Map<string, string>();
+    private offEvents: (() => void)[] = [];
     componentsInstance: Record<string, any>;
     codesInstance: Record<string, any>;
-    private offEvents: (() => void)[] = [];
+
     constructor(project: Project) {
         markReactive(this, {
             codesInstance: {},

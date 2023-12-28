@@ -1,7 +1,7 @@
-import type { IPluginConfig } from '@webank/letgo-engine-plugin';
+import { definePlugin } from '@webank/letgo-engine-plugin';
 import PluginSettingView from './setting';
 
-export default {
+export default definePlugin({
     name: 'PluginSetting',
     init(ctx) {
         const setterPanel = ctx.skeleton.add({
@@ -12,4 +12,4 @@ export default {
         });
         setterPanel.show();
     },
-} as IPluginConfig;
+});

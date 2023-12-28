@@ -1,10 +1,9 @@
-import { project } from '@webank/letgo-engine';
-import type { IPluginConfig } from '@webank/letgo-engine';
+import { definePlugin, project } from '@webank/letgo-engine';
 import { IPublicEnumTransformStage } from '@webank/letgo-types';
 import { FTooltip } from '@fesjs/fes-design';
 import { EyeOutlined } from '@fesjs/fes-design/icon';
 
-export default {
+export default definePlugin({
     name: 'PluginPreview',
     init({ skeleton }) {
         const doPreview = () => {
@@ -29,4 +28,4 @@ export default {
             render: () => <FTooltip content="预览" placement="top"><EyeOutlined size={20} onClick={() => doPreview()}></EyeOutlined></FTooltip>,
         });
     },
-} as IPluginConfig;
+});

@@ -1,10 +1,10 @@
-import type { IPluginConfig } from '@webank/letgo-engine-plugin';
+import { definePlugin } from '@webank/letgo-engine-plugin';
 import { More } from '@icon-park/vue-next';
 import { FTooltip } from '@fesjs/fes-design';
 import { SchemaView } from './schema';
 import './index.less';
 
-export default {
+export default definePlugin({
     name: 'PluginSchema',
     init({ skeleton, designer }) {
         skeleton.add({
@@ -28,4 +28,4 @@ export default {
             }),
         );
     },
-} as IPluginConfig;
+});

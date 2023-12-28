@@ -1,7 +1,7 @@
-import type { IPluginConfig } from '@webank/letgo-engine-plugin';
+import { definePlugin } from '@webank/letgo-engine-plugin';
 import PluginDesignerView from './designer';
 
-export default {
+export default definePlugin({
     name: 'PluginDesigner',
     init(ctx) {
         ctx.skeleton.add({
@@ -11,4 +11,4 @@ export default {
             render: () => <PluginDesignerView ctx={ctx} />,
         });
     },
-} as IPluginConfig;
+});

@@ -1,10 +1,10 @@
 import { FTooltip } from '@fesjs/fes-design';
-import type { IPluginConfig } from '@webank/letgo-engine-plugin';
+import { definePlugin } from '@webank/letgo-engine-plugin';
 import GlobalActions from './global-actions';
 import Panel from './panel';
 
 // 本插件后续废弃，将逻辑放到一个插件里面
-export default {
+export default definePlugin({
     name: 'PluginGlobal',
     init({ skeleton, designer }) {
         skeleton.add({
@@ -32,4 +32,4 @@ export default {
             }),
         );
     },
-} as IPluginConfig;
+});

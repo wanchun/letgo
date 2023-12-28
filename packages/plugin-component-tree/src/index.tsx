@@ -1,4 +1,4 @@
-import type { IPluginConfig } from '@webank/letgo-engine-plugin';
+import { definePlugin } from '@webank/letgo-engine-plugin';
 import { FigmaComponent, Page, Plug, TreeList } from '@icon-park/vue-next';
 import type { PropType, Ref, VNodeChild } from 'vue';
 import {
@@ -122,7 +122,7 @@ const ComponentTreeView = defineComponent({
     },
 });
 
-export default {
+export default definePlugin({
     name: 'PluginComponentTree',
     init({ skeleton, editor, designer }) {
         skeleton.add({
@@ -147,4 +147,4 @@ export default {
             }),
         );
     },
-} as IPluginConfig;
+});

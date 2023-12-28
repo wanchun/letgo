@@ -1,7 +1,7 @@
-import type { IPluginConfig } from '@webank/letgo-engine';
+import { definePlugin } from '@webank/letgo-engine';
 import Logo from '../../components/logo.vue';
 
-export default {
+export default definePlugin({
     name: 'PluginLogo',
     init({ skeleton }) {
         skeleton.add({
@@ -14,4 +14,4 @@ export default {
             },
         });
     },
-} as IPluginConfig;
+});

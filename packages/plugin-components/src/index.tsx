@@ -1,8 +1,8 @@
-import type { IPluginConfig } from '@webank/letgo-engine-plugin';
+import { definePlugin } from '@webank/letgo-engine-plugin';
 import Content from './content';
 import Panel from './panel';
 
-export default {
+export default definePlugin({
     name: 'PluginComponents',
     init({ skeleton, editor, designer }) {
         skeleton.add({
@@ -23,4 +23,4 @@ export default {
             }),
         );
     },
-} as IPluginConfig;
+});

@@ -1,10 +1,10 @@
-import type { IPluginConfig } from '@webank/letgo-engine-plugin';
+import { definePlugin } from '@webank/letgo-engine-plugin';
 import { FTooltip } from '@fesjs/fes-design';
 import Panel from './panel';
 
 export * from './common/register';
 
-export default {
+export default definePlugin({
     name: 'PluginCodePanel',
     init({ skeleton, editor, designer }) {
         skeleton.add({
@@ -36,4 +36,4 @@ export default {
             }),
         );
     },
-} as IPluginConfig;
+});

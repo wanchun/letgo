@@ -1,7 +1,7 @@
-import type { IPluginConfig } from '@webank/letgo-engine';
+import { definePlugin } from '@webank/letgo-engine';
 import ExportBtn from './export-btn';
 
-export default {
+export default definePlugin({
     name: 'PluginCodeGenerator',
     init({ skeleton }) {
         skeleton.add({
@@ -14,4 +14,4 @@ export default {
             },
         });
     },
-} as IPluginConfig;
+});

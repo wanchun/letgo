@@ -1,7 +1,7 @@
-import type { IPluginConfig } from '@webank/letgo-engine-plugin';
+import { definePlugin } from '@webank/letgo-engine-plugin';
 import { DeviceView } from './device';
 
-export default {
+export default definePlugin({
     name: 'PluginDevice',
     init(ctx) {
         ctx.skeleton.add({
@@ -15,4 +15,4 @@ export default {
             render: () => <DeviceView designer={ctx.designer} />,
         });
     },
-} as IPluginConfig;
+});

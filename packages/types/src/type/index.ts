@@ -19,3 +19,7 @@ export * from './node-selector';
 export * from './scrollable';
 export * from './auto-fit';
 export * from './point';
+export * from './viewport';
+export * from './node-instance';
+export * from './simulator-renderer';
+export * from './drop-container';

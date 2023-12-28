@@ -17,20 +17,3 @@ export interface ISettingEntry extends IPublicTypeSettingTarget {
 
     get: (propName: string | number) => ISettingEntry | null
 }
-
-export enum EnumPropValueChangeType {
-    /**
-     * normal set value
-     */
-    SET_VALUE = 'SET_VALUE',
-    /**
-     * value changed caused by sub-prop value change
-     */
-    SUB_VALUE_CHANGE = 'SUB_VALUE_CHANGE',
-}
-
-export interface ISetValueOptions {
-    disableMutator?: boolean
-    type?: EnumPropValueChangeType
-    fromSetHotValue?: boolean
-}

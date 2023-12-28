@@ -5,6 +5,7 @@ import type {
     IPublicModelDocumentModel,
     IPublicModelDragon,
     IPublicModelNode,
+    IPublicModelOffsetObserver,
     IPublicModelProject,
     IPublicModelSelection,
     IPublicModelSettingTop,
@@ -12,6 +13,7 @@ import type {
     IPublicTypeComponentMetadata,
     IPublicTypeComponentSchema,
     IPublicTypeDesignerProps,
+    IPublicTypeNodeSelector,
     IPublicTypeNpmInfo,
     IPublicTypeSimulatorProps,
 } from '..';
@@ -59,4 +61,8 @@ export interface IPublicModelDesigner<
     onRendererReady(fn: (args: unknown) => void): () => void
 
     createSettingEntry(nodes: IPublicModelNode[]): IPublicModelSettingTop
+
+    createOffsetObserver(nodeInstance: IPublicTypeNodeSelector): IPublicModelOffsetObserver
+
+    touchOffsetObserver(): void
 }

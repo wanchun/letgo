@@ -1,8 +1,10 @@
 import type {
+    IPublicTypeAutoFit,
     IPublicTypeComponentRecord,
     IPublicTypeComponentSchema,
     IPublicTypeNodeSchema,
     IPublicTypePageSchema,
+    IPublicTypePoint,
     IPublicTypeSlotSchema,
 } from '@webank/letgo-types';
 import type { Component } from 'vue';
@@ -163,13 +165,6 @@ export function isSimulator(obj: any): obj is ISimulator {
     return obj && obj.isSimulator;
 }
 
-export interface IPoint {
-    clientX: number
-    clientY: number
-}
-
-export type TypeAutoFit = '100%';
-
 export const AutoFit = '100%';
 
 export interface IScrollable {
@@ -188,8 +183,8 @@ export interface IViewport extends IScrollable {
     /**
      * 内容大小
      */
-    contentWidth: number | TypeAutoFit
-    contentHeight: number | TypeAutoFit
+    contentWidth: number | IPublicTypeAutoFit
+    contentHeight: number | IPublicTypeAutoFit
 
     /**
      * 内容缩放
@@ -224,10 +219,10 @@ export interface IViewport extends IScrollable {
     /**
      * 全局坐标系转化为本地坐标系
      */
-    toLocalPoint(point: IPoint): IPoint
+    toLocalPoint(point: IPublicTypePoint): IPublicTypePoint
 
     /**
      * 本地坐标系转化为全局坐标系
      */
-    toGlobalPoint(point: IPoint): IPoint
+    toGlobalPoint(point: IPublicTypePoint): IPublicTypePoint
 }

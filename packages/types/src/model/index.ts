@@ -14,3 +14,7 @@ export * from './state';
 export * from './designer';
 export * from './dragon';
 export * from './simulator';
+export * from './scroll-target';
+export * from './scroller';
+export * from './drop-location';
+export * from './offset-observer';

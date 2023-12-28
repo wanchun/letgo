@@ -2,6 +2,7 @@ import type {
     IPublicEditor,
     IPublicTypeFieldConfig,
     IPublicTypeFieldExtraProps,
+    IPublicTypeSetValueOptions,
     IPublicTypeSetterType,
 } from '@webank/letgo-types';
 import { EventEmitter } from 'eventemitter3';
@@ -10,7 +11,7 @@ import { GlobalEvent, isJSExpression } from '@webank/letgo-types';
 import type { INode } from '../types';
 import type { Designer } from '../designer';
 import type { ComponentMeta } from '../component-meta';
-import type { ISetValueOptions, ISettingEntry } from './types';
+import type { ISettingEntry } from './types';
 
 function getSettingFieldCollectorKey(
     parent: ISettingEntry,
@@ -88,7 +89,7 @@ export class SettingField implements ISettingEntry {
         // FIXME! intl
         return (
             this._title
-            || (typeof this.name === 'number' ? `项目 ${this.name}` : this.name)
+                || (typeof this.name === 'number' ? `项目 ${this.name}` : this.name)
         );
     }
 
@@ -280,7 +281,7 @@ export class SettingField implements ISettingEntry {
         val: any,
         isHotValue?: boolean,
         force?: boolean,
-        extraOptions?: ISetValueOptions,
+        extraOptions?: IPublicTypeSetValueOptions,
     ) {
         const oldValue = this.getValue();
 

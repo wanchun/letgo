@@ -1,8 +1,11 @@
 import {
-    markComputed, markReactive,
+    markComputed,
+    markReactive,
 } from '@webank/letgo-common';
+import { isNaN } from 'lodash-es';
+import type { IPublicTypeAutoFit, IPublicTypePoint } from '@webank/letgo-types';
 import { ScrollTarget } from '../designer';
-import type { IPoint, IViewport, TypeAutoFit } from '../types';
+import type { IViewport } from '../types';
 import { AutoFit } from '../types';
 
 export class Viewport implements IViewport {
@@ -14,9 +17,9 @@ export class Viewport implements IViewport {
 
     private _scale = 1;
 
-    private _contentWidth: number | TypeAutoFit = AutoFit;
+    private _contentWidth: number | IPublicTypeAutoFit = AutoFit;
 
-    private _contentHeight: number | TypeAutoFit = AutoFit;
+    private _contentHeight: number | IPublicTypeAutoFit = AutoFit;
 
     private _scrollX = 0;
 
@@ -26,19 +29,19 @@ export class Viewport implements IViewport {
 
     private _scrolling = false;
 
-    get contentHeight(): number | TypeAutoFit {
+    get contentHeight(): number | IPublicTypeAutoFit {
         return this._contentHeight;
     }
 
-    set contentHeight(newContentHeight: number | TypeAutoFit) {
+    set contentHeight(newContentHeight: number | IPublicTypeAutoFit) {
         this._contentHeight = newContentHeight;
     }
 
-    get contentWidth(): number | TypeAutoFit {
+    get contentWidth(): number | IPublicTypeAutoFit {
         return this._contentWidth;
     }
 
-    set contentWidth(val: number | TypeAutoFit) {
+    set contentWidth(val: number | IPublicTypeAutoFit) {
         this._contentWidth = val;
     }
 
@@ -169,7 +172,7 @@ export class Viewport implements IViewport {
         this._scrollTarget = scrollTarget;
     }
 
-    toGlobalPoint(point: IPoint): IPoint {
+    toGlobalPoint(point: IPublicTypePoint): IPublicTypePoint {
         if (!this.viewportElement)
             return point;
 
@@ -180,7 +183,7 @@ export class Viewport implements IViewport {
         };
     }
 
-    toLocalPoint(point: IPoint): IPoint {
+    toLocalPoint(point: IPublicTypePoint): IPublicTypePoint {
         if (!this.viewportElement)
             return point;
 

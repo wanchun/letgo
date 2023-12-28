@@ -1,4 +1,4 @@
 export enum IPublicEnumDragObjectType {
     Node = 'node',
-    NodeData = 'nodedata',
+    NodeData = 'nodeData',
 }

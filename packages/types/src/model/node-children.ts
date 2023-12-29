@@ -1,7 +1,9 @@
 import type {
-    IPublicEnumTransformStage, IPublicModelNode,
-    IPublicTypeDisposable, IPublicTypeNodeData,
-    IPublicTypeNodeSchema,
+    IPublicChildrenChangeOptions,
+    IPublicEnumTransformStage,
+    IPublicModelNode,
+    IPublicTypeDisposable,
+    IPublicTypeNodeData,
 } from '..';
 
 export interface IPublicModelNodeChildren<
@@ -31,16 +33,7 @@ export interface IPublicModelNodeChildren<
      * export schema
      * @param stage
      */
-    export(stage: IPublicEnumTransformStage): IPublicTypeNodeSchema
-
-    /**
-     * 插入一个节点
-     * insert a node at specific position
-     * @param node 待插入节点
-     * @param at 插入下标
-     * @returns
-     */
-    insertNode(node: Node, at?: number | null): void
+    export(stage?: IPublicEnumTransformStage): IPublicTypeNodeData[]
 
     /**
      * 删除指定节点
@@ -48,7 +41,7 @@ export interface IPublicModelNodeChildren<
      * @param node
      * @param purge
      */
-    deleteChild(node: Node, purge?: boolean): boolean
+    deleteChild(node: Node, purge?: boolean): void
 
     /**
      * 返回指定节点的下标
@@ -69,10 +62,10 @@ export interface IPublicModelNodeChildren<
     /**
      * 获取所有子节点
      */
-    getNodes(): IPublicModelNodeChildren
+    getNodes(): Node[]
 
     /**
-    * 监听发生变化
-    */
-    onChange(fn: (ids: string[]) => void): IPublicTypeDisposable
+     * 监听发生变化
+     */
+    onChange(fn: (info?: IPublicChildrenChangeOptions) => void): IPublicTypeDisposable
 }

@@ -1,4 +1,11 @@
-import type { IPublicTypeAdvanced, IPublicTypeComponentAction, IPublicTypeFieldConfig, IPublicTypeNodeData, IPublicTypeNodeSchema, IPublicTypeNpmInfo, IPublicTypeTransformedComponentMetadata } from '..';
+import type {
+    IPublicTypeComponentAction,
+    IPublicTypeFieldConfig,
+    IPublicTypeNodeData,
+    IPublicTypeNodeSchema,
+    IPublicTypeNpmInfo,
+    IPublicTypeTransformedComponentMetadata,
+} from '..';
 import type { IPublicModelNode } from './node';
 
 export interface IPublicModelComponentMeta<
@@ -60,13 +67,6 @@ export interface IPublicModelComponentMeta<
      * available actions
      */
     get availableActions(): IPublicTypeComponentAction[]
-
-    /**
-     * 组件元数据中高级配置部分
-     * configure.advanced
-     * @since v1.1.0
-     */
-    get advanced(): IPublicTypeAdvanced
 
     /**
      * 设置 npm 信息

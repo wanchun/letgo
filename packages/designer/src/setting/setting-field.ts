@@ -1,5 +1,7 @@
 import type {
+    IBaseModelSettingField,
     IPublicEditor,
+    IPublicTypeCompositeValue,
     IPublicTypeFieldConfig,
     IPublicTypeFieldExtraProps,
     IPublicTypeSetValueOptions,
@@ -11,11 +13,17 @@ import { GlobalEvent, isJSExpression } from '@webank/letgo-types';
 import type { INode } from '../types';
 import type { Designer } from '../designer';
 import type { ComponentMeta } from '../component-meta';
-import type { ISettingEntry } from './types';
+import type { ISettingTop, SettingTop } from './setting-top';
+
+export interface ISettingField extends IBaseModelSettingField<SettingTop, SettingField, ComponentMeta, INode> {
+
+}
+
+export interface IFieldConfig extends IPublicTypeFieldConfig<SettingField> {}
 
 function getSettingFieldCollectorKey(
-    parent: ISettingEntry,
-    config: IPublicTypeFieldConfig,
+    parent: ISettingField | ISettingTop,
+    config: IFieldConfig,
 ) {
     const path = [config.name];
     let cur = parent;
@@ -28,8 +36,8 @@ function getSettingFieldCollectorKey(
     return path.join('.');
 }
 
-export class SettingField implements ISettingEntry {
-    extraProps: IPublicTypeFieldExtraProps = {};
+export class SettingField implements ISettingField {
+    extraProps: IPublicTypeFieldExtraProps<SettingField> = {};
 
     // === static properties ===
     private emitter = new EventEmitter();
@@ -48,9 +56,9 @@ export class SettingField implements ISettingEntry {
 
     readonly componentMeta: ComponentMeta | null;
 
-    readonly top: ISettingEntry;
+    readonly top: SettingTop;
 
-    readonly parent: ISettingEntry;
+    readonly parent: SettingField | SettingTop;
 
     readonly isGroup: boolean;
 
@@ -68,7 +76,7 @@ export class SettingField implements ISettingEntry {
         return this._name;
     }
 
-    get path() {
+    get path(): (string | number)[] {
         const path = this.parent.path.slice();
         if (this.type === 'field')
             path.push(this.name);
@@ -76,9 +84,9 @@ export class SettingField implements ISettingEntry {
         return path;
     }
 
-    private _config: IPublicTypeFieldConfig;
+    private _config: IFieldConfig;
 
-    get config(): IPublicTypeFieldConfig {
+    get config(): IFieldConfig {
         return this._config;
     }
 
@@ -162,8 +170,8 @@ export class SettingField implements ISettingEntry {
     }
 
     constructor(
-        parent: ISettingEntry,
-        config: IPublicTypeFieldConfig,
+        parent: SettingField | SettingTop,
+        config: IFieldConfig,
         private settingFieldCollector?: (
             name: string | number,
             field: SettingField,
@@ -222,7 +230,7 @@ export class SettingField implements ISettingEntry {
     }
 
     private initItems(
-        items: Array<IPublicTypeFieldConfig>,
+        items: Array<IFieldConfig>,
         settingFieldCollector?: {
             (name: string | number, field: SettingField): void
             (name: string, field: SettingField): void
@@ -278,9 +286,7 @@ export class SettingField implements ISettingEntry {
      * 设置当前属性值
      */
     setValue(
-        val: any,
-        isHotValue?: boolean,
-        force?: boolean,
+        val: IPublicTypeCompositeValue,
         extraOptions?: IPublicTypeSetValueOptions,
     ) {
         const oldValue = this.getValue();
@@ -440,14 +446,14 @@ export class SettingField implements ISettingEntry {
     }
 
     // 创建子配置项，通常用于 object/array 类型数据
-    createField(config: IPublicTypeFieldConfig): SettingField {
+    createField(config: IFieldConfig): SettingField {
         this.settingFieldCollector?.(getSettingFieldCollectorKey(this.parent, config), this);
         return new SettingField(this, config, this.settingFieldCollector);
     }
 
-    getConfig<K extends keyof IPublicTypeFieldConfig>(
+    getConfig<K extends keyof IFieldConfig>(
         configName?: K,
-    ): IPublicTypeFieldConfig[K] | IPublicTypeFieldConfig {
+    ): IFieldConfig[K] | IFieldConfig {
         if (configName)
             return this.config[configName];
 

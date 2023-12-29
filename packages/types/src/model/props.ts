@@ -1,5 +1,6 @@
 import type {
     IPublicEnumTransformStage,
+    IPublicExtrasObject,
     IPublicModelNode,
     IPublicModelProp,
     IPublicTypeCompositeValue,
@@ -7,30 +8,27 @@ import type {
     IPublicTypePropsMap,
 } from '..';
 
-interface IExtrasObject {
-    [key: string]: any
-}
-
 export interface IBaseModelProps<
-  Prop,
+    Node = IPublicModelNode,
+    Prop = IPublicModelProp,
 > {
 
     /**
      * 所属 Node 节点
      */
-    readonly owner: IPublicModelNode
+    readonly owner: Node
 
     /**
      * 类型
      */
-    type: 'map' | 'list'
+    get type(): 'map' | 'list'
 
     /**
      * 导入属性数据
      * @param value
      * @param extras
      */
-    import(value?: IPublicTypePropsMap | IPublicTypePropsList | null, extras?: IExtrasObject): void
+    import(value?: IPublicTypePropsMap | IPublicTypePropsList | null, extras?: IPublicExtrasObject): void
 
     /**
      * 导出 schema
@@ -38,8 +36,10 @@ export interface IBaseModelProps<
      */
     export(stage: IPublicEnumTransformStage): {
         props?: IPublicTypePropsMap | IPublicTypePropsList
-        extras?: IExtrasObject
+        extras?: IPublicExtrasObject
     }
+
+    merge(value: IPublicTypePropsMap, extras?: IPublicTypePropsMap): void
 
     /**
      * 获取指定 path 的属性模型实例
@@ -81,7 +81,7 @@ export interface IBaseModelProps<
      * @param key
      * @since v1.1.0
      */
-    add(key: string | number | undefined, value: IPublicTypeCompositeValue): this
+    add(key: string | number, value?: IPublicTypeCompositeValue): Prop
 
     /**
      * 添加一个 extra prop
@@ -90,7 +90,7 @@ export interface IBaseModelProps<
      * @param key
      * @since v1.1.0
      */
-    addExtra(key: string | number | undefined, value: IPublicTypeCompositeValue): this
+    addExtra(key: string | number, value?: IPublicTypeCompositeValue): Prop
 
     /**
      * 删除一个 Prop
@@ -99,4 +99,4 @@ export interface IBaseModelProps<
     delete(prop: Prop): void
 }
 
-export interface IPublicModelProps extends IBaseModelProps<IPublicModelProp> {}
+export interface IPublicModelProps extends IBaseModelProps<IPublicModelNode, IPublicModelProp> {}

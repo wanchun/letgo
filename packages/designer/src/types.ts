@@ -1,35 +1,15 @@
 import type {
     IPublicTypeAutoFit,
     IPublicTypeComponentRecord,
-    IPublicTypeComponentSchema,
-    IPublicTypeNodeSchema,
-    IPublicTypePageSchema,
     IPublicTypePoint,
-    IPublicTypeSlotSchema,
 } from '@webank/letgo-types';
 import type { Component } from 'vue';
-import type { Node, NodeChildren } from './node';
 import type { DocumentModel } from './document';
 import type { DropLocation, ILocateEvent, ScrollTarget } from './designer';
 import type { ISimulatorRenderer } from './simulator';
+import type { INode } from './node';
 
-export interface IBaseNode<T extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> extends Node<T> {
-    readonly children: NodeChildren
-}
-
-export interface ILeafNode extends IBaseNode {
-    readonly children: null
-}
-
-export type IPageNode = IBaseNode<IPublicTypePageSchema>;
-
-export type IComponentNode = IBaseNode<IPublicTypeComponentSchema>;
-
-export type ISlotNode = IBaseNode<IPublicTypeSlotSchema>;
-
-export type IRootNode = IPageNode | IComponentNode;
-
-export type INode = ISlotNode | IPageNode | IComponentNode;
+export type { INode, IPageNode, IComponentNode, ISlotNode, IRootNode } from './node';
 
 export function isDocumentModel(obj: any): obj is DocumentModel {
     return obj && obj.rootNode;

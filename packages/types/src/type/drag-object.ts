@@ -4,9 +4,9 @@ import type {
     IPublicTypeNodeSchema,
 } from '..';
 
-export interface IPublicTypeDragNodeObject {
+export interface IPublicTypeDragNodeObject<Node = IPublicModelNode> {
     type: IPublicEnumDragObjectType.Node
-    nodes: IPublicModelNode[]
+    nodes: Node[]
 }
 
 export interface IPublicTypeDragNodeDataObject {

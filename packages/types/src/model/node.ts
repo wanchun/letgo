@@ -1,8 +1,10 @@
 import type {
     IPublicEnumTransformStage,
     IPublicModelComponentMeta,
+    IPublicModelDocumentModel,
     IPublicModelNodeChildren,
     IPublicModelProp,
+    IPublicModelProps,
     IPublicModelSettingTop,
     IPublicTypeCompositeValue,
     IPublicTypeNodeSchema,
@@ -11,10 +13,13 @@ import type {
 } from '../';
 
 export interface IBaseModelNode<
+    DocumentModel = IPublicModelDocumentModel,
+    Schema = IPublicTypeNodeSchema,
     Node = IPublicModelNode,
     NodeChildren = IPublicModelNodeChildren,
     ComponentMeta = IPublicModelComponentMeta,
     SettingTopEntry = IPublicModelSettingTop,
+    Props = IPublicModelProps,
     Prop = IPublicModelProp,
 > {
     /**
@@ -22,6 +27,12 @@ export interface IBaseModelNode<
      * node id
      */
     readonly id: string
+
+    readonly isNode: boolean
+
+    readonly document: DocumentModel
+
+    props: Props
 
     /**
      * 节点 ref
@@ -43,7 +54,7 @@ export interface IBaseModelNode<
     /**
      * schema 结构
      */
-    get computedSchema(): IPublicTypeNodeSchema
+    get computedSchema(): Schema
 
     /**
      * 获取对应的 setting entry
@@ -175,7 +186,7 @@ export interface IBaseModelNode<
      * import node schema
      * @param data
      */
-    importSchema(data: IPublicTypeNodeSchema): void
+    importSchema(data: Schema): void
 
     /**
      * 导出节点数据
@@ -183,7 +194,7 @@ export interface IBaseModelNode<
      * @param stage
      * @param options
      */
-    exportSchema(stage: IPublicEnumTransformStage, options?: any): IPublicTypeNodeSchema
+    exportSchema(stage: IPublicEnumTransformStage, options?: any): Schema
 
     /**
      * 选中当前节点实例
@@ -212,6 +223,26 @@ export interface IBaseModelNode<
      */
     contains(node: Node): boolean
 
+    /**
+     * 是否为父级节点
+     */
+    isParental(): boolean
+
+    /**
+     * 是否为根节点
+     * check if node is root in the tree
+     * @since v1.1.0
+     */
+    isRoot(): boolean
+
+    isLeaf(): boolean
+
+    purge(): void
+
+    isPurged: boolean
+
+    remove(purge?: boolean): void
+
 }
 
-export interface IPublicModelNode extends IBaseModelNode<IPublicModelNode> {}
+export interface IPublicModelNode extends IBaseModelNode<IPublicTypeNodeSchema, IPublicModelNode> {}

@@ -1,21 +1,26 @@
-import { markComputed, markShallowReactive, replaceExpressionIdentifier, replaceJSFunctionIdentifier } from '@webank/letgo-common';
+import {
+    markComputed,
+    markShallowReactive,
+    replaceExpressionIdentifier,
+    replaceJSFunctionIdentifier,
+} from '@webank/letgo-common';
 import type {
+    IBaseModelProps,
+    IPublicExtrasObject,
     IPublicTypeCompositeValue,
     IPublicTypeEventHandler,
     IPublicTypePropsList,
     IPublicTypePropsMap,
 } from '@webank/letgo-types';
 import {
-    IPublicEnumTransformStage, isJSExpression, isJSFunction,
+    IPublicEnumTransformStage,
+    isJSExpression,
+    isJSFunction,
 } from '@webank/letgo-types';
 import { isNil } from 'lodash-es';
 import type { INode } from '../types';
 import type { IPropParent } from './prop';
 import { Prop } from './prop';
-
-interface ExtrasObject {
-    [key: string]: any
-}
 
 export const EXTRA_KEY_PREFIX = '___';
 
@@ -34,7 +39,7 @@ export function getOriginalExtraKey(key: string): string {
     return key.replace(new RegExp(`${EXTRA_KEY_PREFIX}`, 'g'), '');
 }
 
-export class Props implements IPropParent {
+export class Props implements IPropParent, IBaseModelProps<INode, Prop> {
     /**
      * 响应式
      */
@@ -70,7 +75,7 @@ export class Props implements IPropParent {
     constructor(
         owner: INode,
         value?: IPublicTypePropsMap | IPublicTypePropsList | null,
-        extras?: ExtrasObject,
+        extras?: IPublicExtrasObject,
     ) {
         markShallowReactive(this, {
             items: [],
@@ -138,7 +143,7 @@ export class Props implements IPropParent {
         });
     };
 
-    import(value?: IPublicTypePropsMap | IPublicTypePropsList | null, extras?: ExtrasObject) {
+    import(value?: IPublicTypePropsMap | IPublicTypePropsList | null, extras?: IPublicExtrasObject) {
         this.items.forEach(item => item.purge());
         this.items = [];
         if (Array.isArray(value)) {
@@ -166,7 +171,7 @@ export class Props implements IPropParent {
 
     export(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Save): {
         props?: IPublicTypePropsMap | IPublicTypePropsList
-        extras?: ExtrasObject
+        extras?: IPublicExtrasObject
     } {
         if (this.items.length < 1)
             return {};
@@ -202,7 +207,7 @@ export class Props implements IPropParent {
                     return;
                 if (
                     typeof name === 'string'
-                    && name.startsWith(EXTRA_KEY_PREFIX)
+                        && name.startsWith(EXTRA_KEY_PREFIX)
                 ) {
                     name = getOriginalExtraKey(name);
                     extras[name] = value;
@@ -263,7 +268,7 @@ export class Props implements IPropParent {
         return this.itemMap.has(getConvertedExtraKey(key));
     }
 
-    add(key: string | number, value: IPublicTypeCompositeValue | undefined): Prop {
+    add(key: string | number, value?: IPublicTypeCompositeValue): Prop {
         const prop = new Prop(this, value, key);
         const items = [...this.items];
         items.push(prop);
@@ -271,7 +276,7 @@ export class Props implements IPropParent {
         return prop;
     }
 
-    addExtra(key: string | number, value: IPublicTypeCompositeValue | undefined): Prop {
+    addExtra(key: string | number, value?: IPublicTypeCompositeValue): Prop {
         return this.add(getConvertedExtraKey(String(key)), value);
     }
 

@@ -1,15 +1,17 @@
 import { EventEmitter } from 'eventemitter3';
-import type { IPublicTypeNodeData } from '@webank/letgo-types';
-import { IPublicEnumTransformStage, isNodeSchema } from '@webank/letgo-types';
+import type {
+    IPublicChildrenChangeOptions,
+    IPublicModelNodeChildren,
+    IPublicTypeNodeData,
+} from '@webank/letgo-types';
+import {
+    IPublicEnumTransformStage,
+    isNodeSchema,
+} from '@webank/letgo-types';
 import { markComputed, markShallowReactive } from '@webank/letgo-common';
 import type { INode } from '../types';
 
-interface IOnChangeOptions {
-    type: string
-    node: INode
-}
-
-export class NodeChildren {
+export class NodeChildren implements IPublicModelNodeChildren<INode> {
     private children: INode[];
 
     private emitter = new EventEmitter();
@@ -60,7 +62,7 @@ export class NodeChildren {
         const originChildren = this.children.slice();
         this.children.forEach(child => child.setParent(null));
 
-        const children = new Array<INode>(data.length);
+        const children: INode[] = Array.from({ length: data.length });
         for (let i = 0, l = data.length; i < l; i++) {
             const child = originChildren[i];
             const item = data[i];
@@ -72,7 +74,7 @@ export class NodeChildren {
                 && child.componentName === item.componentName
             ) {
                 node = child;
-                node.importSchema(item);
+                node.importSchema(item as any);
             }
             else {
                 node = this.owner.document.createNode(item);
@@ -219,7 +221,7 @@ export class NodeChildren {
         return this.children;
     }
 
-    onChange(fn: (info?: IOnChangeOptions) => void): () => void {
+    onChange(fn: (info?: IPublicChildrenChangeOptions) => void): () => void {
         this.emitter.on('change', fn);
         return () => {
             this.emitter.off('change', fn);

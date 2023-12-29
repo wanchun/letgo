@@ -1,5 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
 import type {
+    IPublicModelComponentMeta,
     IPublicTypeComponentAction,
     IPublicTypeComponentMetadata,
     IPublicTypeNestingFilter,
@@ -180,7 +181,7 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
     },
 ];
 
-export class ComponentMeta {
+export class ComponentMeta implements IPublicModelComponentMeta<INode> {
     readonly isComponentMeta = true;
 
     private emitter = new EventEmitter();
@@ -336,8 +337,8 @@ export class ComponentMeta {
     isRootComponent(includeBlock = true) {
         return (
             this.componentName === 'Page'
-            || this.componentName === 'Component'
-            || (includeBlock && this.componentName === 'Block')
+                || this.componentName === 'Component'
+                || (includeBlock && this.componentName === 'Block')
         );
     }
 
@@ -383,7 +384,7 @@ export class ComponentMeta {
         if (this.childWhitelist) {
             const _target: any = !Array.isArray(target) ? [target] : target;
             return _target.every((item: INode | IPublicTypeNodeSchema) => {
-                const _item = !isNode<INode>(item)
+                const _item = !isNode(item)
                     ? new Node(my.document, item)
                     : item;
                 return this.childWhitelist && this.childWhitelist(_item, my);

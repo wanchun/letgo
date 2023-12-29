@@ -14,12 +14,12 @@ import type {
 } from '../';
 
 export interface IPublicModelDocumentModel<
-  Selection = IPublicModelSelection,
-  Node = IPublicModelNode,
-  Project = IPublicModelProject,
-  ComponentMeta = IPublicModelComponentMeta,
-  State = IPublicModelState,
-  Code = IPublicModelCode,
+    Project = IPublicModelProject,
+    ComponentMeta = IPublicModelComponentMeta,
+    Selection = IPublicModelSelection,
+    Node = IPublicModelNode,
+    State = IPublicModelState,
+    Code = IPublicModelCode,
 > {
 
     /**
@@ -94,7 +94,7 @@ export interface IPublicModelDocumentModel<
      * @param data
      * @returns
      */
-    createNode<T = Node>(data: IPublicTypeNodeSchema): T | null
+    createNode<T = Node>(data: IPublicTypeNodeData): T | null
 
     /**
      * 移除指定节点/节点id
@@ -102,6 +102,12 @@ export interface IPublicModelDocumentModel<
      * @param idOrNode
      */
     deleteNode(idOrNode: string | Node): void
+
+    /**
+     * 移出，但是node还在
+     * @param node
+     */
+    removeNode(node: Node): void
 
     /**
      * 根据 nodeId 返回 Node 实例
@@ -133,7 +139,21 @@ export interface IPublicModelDocumentModel<
      */
     checkNesting(
         dropTarget: Node,
-        dragObject: IPublicTypeDragNodeObject | IPublicTypeDragNodeDataObject
+        dragObject: IPublicTypeDragNodeObject<Node> | IPublicTypeDragNodeDataObject
     ): boolean
 
+    checkDropTarget(
+        dropTarget: Node,
+        dragObject: IPublicTypeDragNodeObject<Node> | IPublicTypeDragNodeDataObject,
+    ): boolean
+
+    /**
+     * 检查对象对父级的要求，涉及配置 parentWhitelist
+     */
+    checkNestingUp(parent: Node, obj: IPublicTypeNodeSchema | Node): boolean
+
+    /**
+     * 检查投放位置对子级的要求，涉及配置 childWhitelist
+     */
+    checkNestingDown(parent: Node, obj: IPublicTypeNodeSchema | Node): boolean
 }

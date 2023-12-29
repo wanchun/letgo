@@ -17,14 +17,12 @@ import {
     isSetterConfig,
 } from '@webank/letgo-types';
 import type {
-    IPublicTypeFieldConfig,
     IPublicTypeSetter,
     IPublicTypeSetterConfig,
     IPublicTypeSetterType,
-    IPublicTypeSettingTarget,
 } from '@webank/letgo-types';
-import { createSettingFieldView, usePopupManage } from '@webank/letgo-designer';
-import type { SettingField } from '@webank/letgo-designer';
+import { createSettingFieldView, isSettingField, usePopupManage } from '@webank/letgo-designer';
+import type { IFieldConfig, ISettingField, SettingField } from '@webank/letgo-designer';
 import { FButton, FDraggable } from '@fesjs/fes-design';
 import { AddOne, Config, DeleteOne, Drag } from '@icon-park/vue-next';
 import { commonProps } from '../../common';
@@ -46,7 +44,7 @@ const ArraySetterView = defineComponent({
             type: [String, Object, Array] as PropType<IPublicTypeSetterType>,
         },
         columns: {
-            type: Array as PropType<IPublicTypeFieldConfig[]>,
+            type: Array as PropType<IFieldConfig[]>,
         },
         infinite: Boolean,
     },
@@ -59,7 +57,12 @@ const ArraySetterView = defineComponent({
             if (!props.infinite)
                 return props;
 
-            const setter = field.parent?.parent?.setter;
+            const owner = field.parent?.parent;
+
+            if (!isSettingField(owner))
+                return props;
+
+            const setter = owner?.setter;
 
             if (isArray(setter)) {
                 const arraySetter = setter.find(item => isSetterConfig(item) && item?.componentName === 'ArraySetter');
@@ -83,7 +86,7 @@ const ArraySetterView = defineComponent({
 
         const items: ShallowRef<Array<ItemType>> = shallowRef([]);
 
-        const onItemChange = (target: IPublicTypeSettingTarget) => {
+        const onItemChange = (target: ISettingField) => {
             const targetPath: Array<string | number> = target?.path;
             if (!targetPath || targetPath.length < 2) {
                 console.warn(
@@ -102,7 +105,7 @@ const ArraySetterView = defineComponent({
             const fieldValue = field.getValue();
             try {
                 const index = +targetPath[targetPath.length - 2];
-                if (typeof index === 'number' && !isNaN(index)) {
+                if (typeof index === 'number' && !Number.isNaN(index)) {
                     fieldValue[index] = items.value[index].main.getValue();
                     field?.extraProps?.setValue?.call(field, field, fieldValue);
                 }
@@ -312,7 +315,7 @@ export const ArraySetter: IPublicTypeSetter = {
     title: '数组设置器',
     Component: ArraySetterView,
     condition: (field) => {
-        const v = field.getValue() ?? (field as SettingField).getDefaultValue();
+        const v = field.getValue() ?? field.getDefaultValue();
         return isUndefined(v) || isArray(v);
     },
 };

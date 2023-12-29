@@ -1,4 +1,7 @@
-import type { IPublicModelNode, IPublicModelSettingField } from '.';
+import type {
+    IPublicModelNode,
+    IPublicModelSettingField,
+} from '..';
 
 export interface IPublicModelSettingTop<
   Node = IPublicModelNode,
@@ -36,4 +39,5 @@ export interface IPublicModelSettingTop<
      * @param propName
      */
     clearPropValue(propName: string | number): void
+
 }

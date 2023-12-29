@@ -11,7 +11,6 @@ export * from './editor';
 export * from './transform-stage';
 export * from './icon';
 export * from './setter-config';
-export * from './setting-target';
 export * from './field-config';
 export * from './code';
 export * from './model';

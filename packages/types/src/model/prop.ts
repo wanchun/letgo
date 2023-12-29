@@ -16,7 +16,7 @@ export interface IPublicModelProp<
     /**
      * key 值
      */
-    key: string | number | undefined
+    get key(): string | number
 
     /**
      * 返回当前 prop 的全路径

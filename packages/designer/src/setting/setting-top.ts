@@ -1,10 +1,16 @@
 import { EventEmitter } from 'eventemitter3';
-import type { IPublicEditor } from '@webank/letgo-types';
+import type { IPublicEditor, IPublicModelSettingTop } from '@webank/letgo-types';
 import type { ComponentMeta } from '../component-meta';
 import type { Designer } from '../designer';
 import type { INode } from '../types';
-import type { ISettingEntry } from './types';
 import { SettingField } from './setting-field';
+
+export interface ISettingTop extends IPublicModelSettingTop<INode, SettingField > {
+
+    readonly top: ISettingTop
+
+    readonly parent: ISettingTop
+}
 
 function generateSessionId(nodes: INode[]) {
     return nodes
@@ -13,7 +19,7 @@ function generateSessionId(nodes: INode[]) {
         .join(',');
 }
 
-export class SettingTop implements ISettingEntry {
+export class SettingTop implements ISettingTop {
     private emitter = new EventEmitter();
 
     private _items: Array<SettingField> = [];
@@ -26,9 +32,9 @@ export class SettingTop implements ISettingEntry {
 
     readonly path: string[] = [];
 
-    readonly top: ISettingEntry;
+    readonly top: this;
 
-    readonly parent: ISettingEntry;
+    readonly parent: this;
 
     get componentMeta() {
         return this._componentMeta;
@@ -123,7 +129,7 @@ export class SettingTop implements ISettingEntry {
                 settingFieldMap[name] = field;
             };
             this._items = this.componentMeta.propsConfigure.map((item) => {
-                return new SettingField(this, item, settingFieldCollector);
+                return new SettingField(this, item as any, settingFieldCollector);
             });
             this._settingFieldMap = settingFieldMap;
         }

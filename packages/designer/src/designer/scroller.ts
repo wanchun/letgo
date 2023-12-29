@@ -1,7 +1,8 @@
 import { isElement } from '@webank/letgo-common';
+import type { IPublicModelScrollTarget, IPublicModelScroller } from '@webank/letgo-types';
 import type { IScrollable } from '../types';
 
-export class ScrollTarget {
+export class ScrollTarget implements IPublicModelScrollTarget {
     get left() {
         return 'scrollX' in this.target
             ? this.target.scrollX
@@ -14,7 +15,7 @@ export class ScrollTarget {
             : this.target.scrollTop;
     }
 
-    scrollTo(options: { left?: number; top?: number }) {
+    scrollTo(options: { left?: number, top?: number }) {
         this.target.scrollTo(options);
     }
 
@@ -48,7 +49,7 @@ function easing(n: number) {
 
 const SCROLL_ACCURACY = 30;
 
-export class Scroller {
+export class Scroller implements IPublicModelScroller {
     private pid: number | undefined;
 
     constructor(private scrollable: IScrollable) {}
@@ -65,7 +66,7 @@ export class Scroller {
         return target;
     }
 
-    scrollTo(options: { left?: number; top?: number }) {
+    scrollTo(options: { left?: number, top?: number }) {
         this.cancel();
 
         const { scrollTarget } = this;
@@ -119,7 +120,7 @@ export class Scroller {
         pid = this.pid;
     }
 
-    scrolling(point: { globalX: number; globalY: number }) {
+    scrolling(point: { globalX: number, globalY: number }) {
         this.cancel();
 
         const { bounds, scale = 1 } = this.scrollable;

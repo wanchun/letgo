@@ -1,11 +1,12 @@
 import { EventEmitter } from 'eventemitter3';
 import { markComputed, markShallowReactive } from '@webank/letgo-common';
+import type { IPublicModelDetecting } from '@webank/letgo-types';
 import type { DocumentModel } from '../document';
 import type { INode } from '../types';
 
 const DETECTING_CHANGE_EVENT = 'detectingChange';
 
-export class Detecting {
+export class Detecting implements IPublicModelDetecting<DocumentModel, INode> {
     private _enable = true;
 
     get enable() {

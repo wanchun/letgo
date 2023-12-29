@@ -170,6 +170,7 @@ export const CodeEditor = defineComponent({
                             width={800}
                             contentClass="letgo-comp-code__full-screen"
                             onCancel={toggleFullScreen}
+                            maskClosable={false}
                         >
                             <div ref={fullScreenRef} style={{ height: '100%' }}>
                             </div>

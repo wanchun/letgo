@@ -5,7 +5,9 @@ import type {
     IPublicTypeScrollable,
 } from '..';
 
-export interface IPublicTypeViewport extends IPublicTypeScrollable {
+export interface IPublicTypeViewport<
+    ScrollTarget = IPublicModelScrollTarget,
+> extends IPublicTypeScrollable<ScrollTarget> {
     /**
      * 视口大小
      */
@@ -34,7 +36,7 @@ export interface IPublicTypeViewport extends IPublicTypeScrollable {
     /**
      * 视口滚动对象
      */
-    readonly scrollTarget?: IPublicModelScrollTarget
+    readonly scrollTarget?: ScrollTarget
     /**
      * 是否滚动中
      */

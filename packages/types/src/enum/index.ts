@@ -1,3 +1,3 @@
-export * from './drag-object-type';
-export * from './prop-value-changed-type';
+export * from './drag-object';
+export * from './prop-value-changed';
 export * from './location-detail';

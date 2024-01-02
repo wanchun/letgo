@@ -6,11 +6,11 @@ import type {
     IPublicTypeComponentSchema,
     IPublicTypeNpmInfo,
     IPublicTypeRootSchema,
+    IPublicTypeSimulatorRenderer,
 } from '@webank/letgo-types';
 import type {
     DocumentModel,
     INode,
-    ISimulatorRenderer,
 } from '@webank/letgo-designer';
 
 export type MixedComponent = IPublicTypeNpmInfo | Component | IPublicTypeComponentSchema;
@@ -21,7 +21,7 @@ export interface SimulatorViewLayout {
     props?: Record<string, unknown>
 }
 
-export interface VueSimulatorRenderer extends ISimulatorRenderer {
+export interface VueSimulatorRenderer extends IPublicTypeSimulatorRenderer<INode> {
     app: App
     config: Config
     router: Router

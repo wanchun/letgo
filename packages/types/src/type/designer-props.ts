@@ -2,7 +2,9 @@ import type { Component } from 'vue';
 import type {
     IPublicEditor,
     IPublicModelDesigner,
+    IPublicModelDocumentModel,
     IPublicModelDropLocation,
+    IPublicModelNode,
     IPublicTypeComponentMetadata,
     IPublicTypeDragObject,
     IPublicTypeLocateEvent,
@@ -10,17 +12,20 @@ import type {
     IPublicTypeSimulatorProps,
 } from '..';
 
-export interface IPublicTypeDesignerProps {
+export interface IPublicTypeDesignerProps<
+    DocumentModel = IPublicModelDocumentModel,
+    Node = IPublicModelNode,
+> {
     editor: IPublicEditor
     defaultSchema?: IPublicTypeProjectSchema
     simulatorProps?: IPublicTypeSimulatorProps | ((designer: IPublicModelDesigner) => IPublicTypeSimulatorProps)
     simulatorComponent?: Component
     componentMetadatas?: IPublicTypeComponentMetadata[]
-    onDragstart?: (e: IPublicTypeLocateEvent) => void
-    onDrag?: (e: IPublicTypeLocateEvent) => void
+    onDragstart?: (e: IPublicTypeLocateEvent<DocumentModel, Node>) => void
+    onDrag?: (e: IPublicTypeLocateEvent<DocumentModel, Node>) => void
     onDragend?: (
-        e: { dragObject: IPublicTypeDragObject, copy: boolean },
-        loc?: IPublicModelDropLocation,
+        e: { dragObject: IPublicTypeDragObject<Node>, copy: boolean },
+        loc?: IPublicModelDropLocation<DocumentModel, Node>,
     ) => void
     [key: string]: unknown
 }

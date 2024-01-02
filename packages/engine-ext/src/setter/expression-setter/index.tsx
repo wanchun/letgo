@@ -2,7 +2,6 @@ import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
 import { debounce, isNil } from 'lodash-es';
 import { isJSExpression } from '@webank/letgo-types';
-import type { SettingField } from '@webank/letgo-designer';
 import { ExpressionEditor } from '@webank/letgo-components';
 import type { IPublicTypeCompositeValue, IPublicTypeSetter } from '@webank/letgo-types';
 import { commonProps } from '../../common';
@@ -62,7 +61,7 @@ export const ExpressionSetter: IPublicTypeSetter = {
     title: '表达式设置器',
     Component: ExpressionSetterView,
     condition: (field) => {
-        const v = field.getValue() ?? (field as SettingField).getDefaultValue();
+        const v = field.getValue() ?? field.getDefaultValue();
         return isJSExpression(v);
     },
 };

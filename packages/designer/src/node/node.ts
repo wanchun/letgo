@@ -20,7 +20,7 @@ import { markComputed, markShallowReactive } from '@webank/letgo-common';
 import type { ComponentMeta } from '../component-meta';
 import type { DocumentModel } from '../document';
 import type { SettingTop } from '../setting';
-import { includeSlot, removeSlot } from '../utils/slot';
+import { includeSlot, removeSlot } from '../utils';
 import { Props } from './props';
 import type { Prop } from './prop';
 import { NodeChildren } from './node-children';

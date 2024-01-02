@@ -19,36 +19,42 @@ import type {
 } from '..';
 
 export interface IPublicModelDesigner<
+    Project = IPublicModelProject,
+    DocumentModel = IPublicModelDocumentModel,
     ComponentMeta = IPublicModelComponentMeta,
     Selection = IPublicModelSelection,
     Simulator = IPublicModelSimulator,
+    Node = IPublicModelNode,
+    Dragon = IPublicModelDragon,
+    Detecting = IPublicModelDetecting,
+    SettingTop = IPublicModelSettingTop,
 > {
     readonly editor: IPublicEditor
 
-    readonly project: IPublicModelProject
+    readonly project: Project
 
-    readonly dragon: IPublicModelDragon
+    readonly dragon: Dragon
 
-    readonly detecting: IPublicModelDetecting
+    readonly detecting: Detecting
 
     get componentMetaMap(): Map<string, ComponentMeta>
 
     get componentsMap(): { [key: string]: IPublicTypeNpmInfo | IPublicTypeComponentSchema }
 
-    get currentDocument(): IPublicModelDocumentModel
+    get currentDocument(): DocumentModel
 
     get currentSelection(): Selection
 
     get simulator(): Simulator
 
     get simulatorProps(): IPublicTypeSimulatorProps & {
-        designer: IPublicModelDesigner
+        designer: IPublicModelDesigner<Project, DocumentModel, ComponentMeta, Selection, Simulator, Node, Dragon, Detecting, SettingTop>
         onMount: (host: Simulator) => void
     }
 
     get isRendererReady(): boolean
 
-    setProps(nextProps: IPublicTypeDesignerProps): void
+    setProps(nextProps: IPublicTypeDesignerProps<DocumentModel, Node>): void
 
     buildComponentMetaMap(metaDataList: IPublicTypeComponentMetadata[]): void
 
@@ -60,9 +66,9 @@ export interface IPublicModelDesigner<
 
     onRendererReady(fn: (args: unknown) => void): () => void
 
-    createSettingEntry(nodes: IPublicModelNode[]): IPublicModelSettingTop
+    createSettingEntry(nodes: Node[]): SettingTop
 
-    createOffsetObserver(nodeInstance: IPublicTypeNodeSelector): IPublicModelOffsetObserver
+    createOffsetObserver(nodeInstance: IPublicTypeNodeSelector<Node>): IPublicModelOffsetObserver<Node>
 
     touchOffsetObserver(): void
 }

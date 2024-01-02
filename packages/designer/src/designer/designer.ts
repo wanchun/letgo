@@ -2,55 +2,40 @@ import { EventEmitter } from 'eventemitter3';
 import type {
     IPublicEditor,
     IPublicEnumTransformStage,
+    IPublicModelDesigner,
     IPublicTypeComponentAction,
     IPublicTypeComponentMetadata,
     IPublicTypeComponentSchema,
     IPublicTypeCompositeObject,
+    IPublicTypeDesignerProps,
     IPublicTypeNpmInfo,
-    IPublicTypeProjectSchema,
     IPublicTypePropsList,
+    IPublicTypeSimulatorProps,
 } from '@webank/letgo-types';
 import {
+    isDragNodeDataObject,
+    isDragNodeObject,
+    isLocationChildrenDetail,
     isNodeSchema,
 } from '@webank/letgo-types';
-import type { Component } from 'vue';
 import { markComputed } from '@webank/letgo-common';
 import { isNil } from 'lodash-es';
-import type { INode, INodeSelector, ISimulator } from '../types';
+import type { INode, INodeSelector } from '../types';
 import { Project } from '../project';
 import { ComponentMeta } from '../component-meta';
 import { insertChildren } from '../node';
-import type { ISimulatorProps, Simulator } from '../simulator';
+import type { Simulator } from '../simulator';
 import { SettingTop } from '../setting';
-import type {
-    IDragObject,
-    ILocateEvent,
-} from './dragon';
+import type { DocumentModel } from '../document';
+import type { Selection } from '../document/selection';
 import {
     Dragon,
-    isDragNodeDataObject,
-    isDragNodeObject,
 } from './dragon';
-import type { DropLocation } from './location';
-import { isLocationChildrenDetail } from './location';
 import { Detecting } from './detecting';
 import type { OffsetObserver } from './offset-observer';
 import { createOffsetObserver } from './offset-observer';
 
-interface IDesignerProps {
-    editor: IPublicEditor
-    defaultSchema?: IPublicTypeProjectSchema
-    simulatorProps?: ISimulatorProps | ((designer: Designer) => ISimulatorProps)
-    simulatorComponent?: Component
-    componentMetadatas?: IPublicTypeComponentMetadata[]
-    onDragstart?: (e: ILocateEvent) => void
-    onDrag?: (e: ILocateEvent) => void
-    onDragend?: (
-        e: { dragObject: IDragObject, copy: boolean },
-        loc?: DropLocation,
-    ) => void
-    [key: string]: unknown
-}
+type IDesignerProps = IPublicTypeDesignerProps<DocumentModel, INode>;
 
 interface IPropsReducerContext {
     stage: IPublicEnumTransformStage
@@ -62,7 +47,7 @@ type IPropsReducer = (
     ctx?: IPropsReducerContext,
 ) => IPublicTypeCompositeObject;
 
-export class Designer {
+export class Designer implements IPublicModelDesigner<Project, DocumentModel, ComponentMeta, Selection, Simulator, INode, Dragon, Detecting, SettingTop> {
     private emitter = new EventEmitter();
 
     readonly editor: IPublicEditor;
@@ -77,13 +62,13 @@ export class Designer {
 
     private _lostComponentMetaMap = new Map<string, ComponentMeta>();
 
-    private _simulator?: ISimulator;
+    private _simulator?: Simulator;
 
     private _renderer: unknown;
 
     private _simulatorProps?:
-        | ISimulatorProps
-        | ((designer: Designer) => ISimulatorProps);
+        | IPublicTypeSimulatorProps
+        | ((designer: Designer) => IPublicTypeSimulatorProps);
 
     private props?: IDesignerProps;
 
@@ -106,14 +91,14 @@ export class Designer {
     /**
      * 模拟器
      */
-    get simulator(): ISimulator | null {
+    get simulator(): Simulator | null {
         return this._simulator || null;
     }
 
     /**
      * 模拟器参数
      */
-    get simulatorProps(): ISimulatorProps & {
+    get simulatorProps(): IPublicTypeSimulatorProps & {
         designer: Designer
         onMount: (host: Simulator) => void
     } {
@@ -192,7 +177,7 @@ export class Designer {
                     && loc.detail.valid !== false
                 ) {
                     let nodes: INode[] | undefined;
-                    if (isDragNodeObject(dragObject)) {
+                    if (isDragNodeObject<INode>(dragObject)) {
                         nodes = insertChildren(
                             loc.target,
                             [...dragObject.nodes],
@@ -365,12 +350,12 @@ export class Designer {
         }, props);
     }
 
-    private mountSimulator(simulator: ISimulator) {
+    private mountSimulator(simulator: Simulator) {
         this._simulator = simulator;
         this.emitter.emit('letgo_engine_simulator_ready', simulator);
     }
 
-    onSimulatorReady(fn: (args: ISimulator) => void): () => void {
+    onSimulatorReady(fn: (args: Simulator) => void): () => void {
         this.emitter.on('letgo_engine_simulator_ready', fn);
         return () => {
             this.emitter.off('letgo_engine_simulator_ready', fn);

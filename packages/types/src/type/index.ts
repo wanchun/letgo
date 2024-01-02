@@ -24,3 +24,4 @@ export * from './simulator-renderer';
 export * from './drop-container';
 export * from './node-children-change-options';
 export * from './extras-object';
+export * from './canvas-point';

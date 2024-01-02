@@ -1,11 +1,14 @@
 import type { Component } from 'vue';
 import type {
+    IPublicModelNode,
     IPublicTypeComponentRecord,
     IPublicTypeNodeInstance,
     IPublicTypeNodeSchema,
 } from '..';
 
-export interface IPublicTypeSimulatorRenderer {
+export interface IPublicTypeSimulatorRenderer<
+    Node = IPublicModelNode,
+> {
     readonly isSimulatorRenderer: true
     createComponent(schema: IPublicTypeNodeSchema): Component | null
     getComponent(componentName: string): Component | null
@@ -13,7 +16,7 @@ export interface IPublicTypeSimulatorRenderer {
     getClosestNodeInstance(
         from: IPublicTypeComponentRecord | Element,
         nodeId?: string,
-    ): IPublicTypeNodeInstance<IPublicTypeComponentRecord> | null
+    ): IPublicTypeNodeInstance<IPublicTypeComponentRecord, Node> | null
     findDOMNodes(
         instance: IPublicTypeComponentRecord,
     ): Array<Element | Text> | null

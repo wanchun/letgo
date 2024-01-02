@@ -1,35 +1,40 @@
 import type {
+    IPublicModelDocumentModel,
     IPublicModelDropLocation,
+    IPublicModelNode,
     IPublicTypeDragObject,
     IPublicTypeLocateEvent,
     IPublicTypeLocationData,
     IPublicTypeSensor,
 } from '..';
 
-export interface IPublicModelDragon {
-    get activeSensor(): IPublicTypeSensor | undefined
+export interface IPublicModelDragon<
+    DocumentModel = IPublicModelDocumentModel,
+    Node = IPublicModelNode,
+> {
+    get activeSensor(): IPublicTypeSensor<DocumentModel, Node> | undefined
 
     get dragging(): boolean
 
-    get dropLocation(): IPublicModelDropLocation
+    get dropLocation(): IPublicModelDropLocation<DocumentModel, Node>
 
-    from(shell: Element, boost: (e: MouseEvent) => IPublicTypeDragObject | null): () => void
+    from(shell: Element, boost: (e: MouseEvent) => IPublicTypeDragObject<Node> | null): () => void
 
-    boost(dragObject: IPublicTypeDragObject, boostEvent: MouseEvent | DragEvent): void
+    boost(dragObject: IPublicTypeDragObject<Node>, boostEvent: MouseEvent | DragEvent): void
 
-    addSensor(sensor: IPublicTypeSensor): void
+    addSensor(sensor: IPublicTypeSensor<DocumentModel, Node>): void
 
-    removeSensor(sensor: IPublicTypeSensor): void
+    removeSensor(sensor: IPublicTypeSensor<DocumentModel, Node>): void
 
-    createLocation(locationData: IPublicTypeLocationData): IPublicModelDropLocation
+    createLocation(locationData: IPublicTypeLocationData<DocumentModel, Node>): IPublicModelDropLocation<DocumentModel, Node>
 
     clearLocation(): void
 
-    onDropLocationChange(func: (loc: IPublicModelDropLocation) => any): () => void
+    onDropLocationChange(func: (loc: IPublicModelDropLocation<DocumentModel, Node>) => any): () => void
 
-    onDragstart(func: (e: IPublicTypeLocateEvent) => any): () => void
+    onDragstart(func: (e: IPublicTypeLocateEvent<DocumentModel, Node>) => any): () => void
 
-    onDrag(func: (e: IPublicTypeLocateEvent) => any): () => void
+    onDrag(func: (e: IPublicTypeLocateEvent<DocumentModel, Node>) => any): () => void
 
-    onDragend(func: (x: { dragObject: IPublicTypeDragObject, copy: boolean }) => any): () => void
+    onDragend(func: (x: { dragObject: IPublicTypeDragObject<Node>, copy: boolean }) => any): () => void
 }

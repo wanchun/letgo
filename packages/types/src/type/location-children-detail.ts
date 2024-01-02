@@ -1,10 +1,14 @@
-import type {
+import {
     IPublicEnumLocationDetail,
+} from '..';
+import type {
     IPublicModelNode,
     IPublicTypeRect,
 } from '..';
 
-export interface IPublicTypeLocationChildrenDetail {
+export interface IPublicTypeLocationChildrenDetail<
+    Node = IPublicModelNode,
+> {
     type: IPublicEnumLocationDetail.Children
     index?: number | null
     /**
@@ -13,10 +17,16 @@ export interface IPublicTypeLocationChildrenDetail {
     valid?: boolean
     edge?: DOMRect
     near?: {
-        node: IPublicModelNode
+        node: Node
         pos: 'before' | 'after' | 'replace'
         rect?: IPublicTypeRect
         align?: 'V' | 'H'
     }
-    focus?: { type: 'slots' } | { type: 'node', node: IPublicModelNode }
+    focus?: { type: 'slots' } | { type: 'node', node: Node }
+}
+
+export function isLocationChildrenDetail<Node = IPublicModelNode>(
+    obj: any,
+): obj is IPublicTypeLocationChildrenDetail<Node> {
+    return obj && obj.type === IPublicEnumLocationDetail.Children;
 }

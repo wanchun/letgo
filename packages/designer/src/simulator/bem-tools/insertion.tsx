@@ -1,8 +1,13 @@
 import type { CSSProperties, PropType } from 'vue';
 import { defineComponent } from 'vue';
+import { isLocationChildrenDetail } from '@webank/letgo-types';
+import type {
+    IPublicTypeLocationChildrenDetail,
+    IPublicTypeRect,
+} from '@webank/letgo-types';
 import type { Simulator } from '../simulator';
-import { isLocationChildrenDetail, isVertical } from '../../designer';
-import type { DropLocation, ILocationChildrenDetail, IRect } from '../../designer';
+import { isVertical } from '../../designer';
+import type { DropLocation } from '../../designer';
 import type { INode, ISimulator } from '../../types';
 import './insertion.less';
 
@@ -10,7 +15,7 @@ interface InsertionData {
     edge?: DOMRect
     insertType?: string
     vertical?: boolean
-    nearRect?: IRect
+    nearRect?: IPublicTypeRect
     coverRect?: DOMRect
     nearNode?: INode
 }
@@ -18,7 +23,7 @@ interface InsertionData {
 /**
  * 处理拖拽子节点(INode)情况
  */
-function processChildrenDetail(sim: ISimulator, container: INode, detail: ILocationChildrenDetail): InsertionData {
+function processChildrenDetail(sim: ISimulator, container: INode, detail: IPublicTypeLocationChildrenDetail<INode>): InsertionData {
     let edge = detail.edge || null;
 
     if (!edge) {
@@ -96,7 +101,7 @@ function processDetail({ target, detail, document }: DropLocation): InsertionDat
     if (!sim)
         return {};
 
-    if (isLocationChildrenDetail(detail)) {
+    if (isLocationChildrenDetail<INode>(detail)) {
         return processChildrenDetail(sim, target, detail);
     }
     else {

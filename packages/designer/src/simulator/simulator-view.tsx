@@ -9,8 +9,8 @@ import {
     onUnmounted,
     watch,
 } from 'vue';
+import type { IPublicTypeSimulatorProps } from '@webank/letgo-types';
 import type { Designer } from '../designer';
-import type { ISimulatorProps } from './simulator';
 import { Simulator } from './simulator';
 import { BemToolsView } from './bem-tools';
 import './simulator-view.less';
@@ -53,7 +53,7 @@ export const SimulatorView = defineComponent({
     props: {
         simulatorProps: {
             type: Object as PropType<
-                ISimulatorProps & {
+                IPublicTypeSimulatorProps & {
                     designer: Designer
                     onMount?: (host: Simulator) => void
                 }
@@ -73,9 +73,9 @@ export const SimulatorView = defineComponent({
                 return simulator.deviceClassName;
 
             if (simulator.device === 'mobile')
-                return "letgo-simulator__device-mobile";
+                return 'letgo-simulator__device-mobile';
 
-            return "letgo-simulator__device";
+            return 'letgo-simulator__device';
         });
 
         onMount?.(simulator);
@@ -106,7 +106,7 @@ export const SimulatorView = defineComponent({
         return (
             <div class="letgo-simulator">
                 <div
-                    class={["letgo-simulator__canvas", innerDeviceCls]}
+                    class={['letgo-simulator__canvas', innerDeviceCls]}
                     style={deviceStyle?.canvas}
                 >
                     <div

@@ -2,7 +2,6 @@ import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
 import { isJSFunction } from '@webank/letgo-types';
 import type { IPublicTypeJSFunction, IPublicTypeSetter } from '@webank/letgo-types';
-import type { SettingField } from '@webank/letgo-designer';
 import { isFunction, isUndefined } from 'lodash-es';
 import { javascript } from '@codemirror/lang-javascript';
 import { CodeEditor } from '@webank/letgo-components';
@@ -55,7 +54,7 @@ export const FunctionSetter: IPublicTypeSetter = {
     Component: FunctionSetterView,
     condition: (field) => {
         const v = field.getValue();
-        const defaultValue = (field as SettingField).getDefaultValue();
+        const defaultValue = field.getDefaultValue();
         return isUndefined(v) || isJSFunction(v) || isFunction(defaultValue);
     },
 };

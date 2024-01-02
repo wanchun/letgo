@@ -1,71 +1,15 @@
+import {
+    IPublicEnumLocationDetail,
+} from '@webank/letgo-types';
+import type {
+    IPublicModelDropLocation,
+    IPublicTypeLocateEvent,
+    IPublicTypeLocationData,
+    IPublicTypeLocationDetail,
+    IPublicTypeRect,
+} from '@webank/letgo-types';
 import type { DocumentModel } from '../document';
 import type { INode } from '../types';
-import type { ILocateEvent } from './dragon';
-
-export enum EnumLocationDetail {
-    Children = 'Children',
-    Prop = 'Prop',
-}
-
-export interface ILocationData {
-    target: INode // shadowNode | ConditionFlow | ElementNode | IRootNode
-    detail: ILocationDetail
-    source: string
-    event: ILocateEvent
-}
-
-export interface ILocationChildrenDetail {
-    type: EnumLocationDetail.Children
-    index?: number | null
-    /**
-     * 是否有效位置
-     */
-    valid?: boolean
-    edge?: DOMRect
-    near?: {
-        node: INode
-        pos: 'before' | 'after' | 'replace'
-        rect?: IRect
-        align?: 'V' | 'H'
-    }
-    focus?: { type: 'slots' } | { type: 'node'; node: INode }
-}
-
-export interface ILocationPropDetail {
-    // cover 形态，高亮 domNode，如果 domNode 为空，取 container 的值
-    type: EnumLocationDetail.Prop
-    name: string
-    domNode?: HTMLElement
-}
-
-export type ILocationDetail =
-    | ILocationChildrenDetail
-    | ILocationPropDetail
-    | { type: string; [key: string]: any };
-
-export interface ICanvasPoint {
-    canvasX: number
-    canvasY: number
-}
-
-export type IRects = DOMRect[] & {
-    elements: Array<Element | Text>
-};
-
-export type IRect = DOMRect & {
-    elements?: Array<Element | Text>
-    computed?: boolean
-};
-
-export function isLocationData(obj: any): obj is ILocationData {
-    return obj && obj.target && obj.detail;
-}
-
-export function isLocationChildrenDetail(
-    obj: any,
-): obj is ILocationChildrenDetail {
-    return obj && obj.type === EnumLocationDetail.Children;
-}
 
 export function isRowContainer(container: Element | Text, win?: Window) {
     if (isText(container))
@@ -95,7 +39,7 @@ export function isChildInline(child: Element | Text, win?: Window) {
     );
 }
 
-export function getRectTarget(rect: IRect | null) {
+export function getRectTarget(rect: IPublicTypeRect | null) {
     if (!rect || rect.computed)
         return null;
 
@@ -103,7 +47,7 @@ export function getRectTarget(rect: IRect | null) {
     return els?.length > 0 ? els[0] : null;
 }
 
-export function isVerticalContainer(rect: IRect | null) {
+export function isVerticalContainer(rect: IPublicTypeRect | null) {
     const el = getRectTarget(rect);
     if (!el)
         return false;
@@ -111,7 +55,7 @@ export function isVerticalContainer(rect: IRect | null) {
     return isRowContainer(el);
 }
 
-export function isVertical(rect: IRect | null) {
+export function isVertical(rect: IPublicTypeRect | null) {
     const el = getRectTarget(rect);
     if (!el)
         return false;
@@ -130,16 +74,16 @@ function isDocument(elem: any): elem is Document {
     return elem.nodeType === Node.DOCUMENT_NODE;
 }
 
-export function getWindow(elem: Element | Document): Window {
+function getWindow(elem: Element | Document): Window {
     return (isDocument(elem) ? elem : elem.ownerDocument!).defaultView!;
 }
 
-export class DropLocation {
+export class DropLocation implements IPublicModelDropLocation<DocumentModel, INode> {
     readonly target: INode;
 
-    readonly detail: ILocationDetail;
+    readonly detail: IPublicTypeLocationDetail<INode>;
 
-    readonly event: ILocateEvent;
+    readonly event: IPublicTypeLocateEvent<DocumentModel, INode>;
 
     readonly source: string;
 
@@ -147,14 +91,14 @@ export class DropLocation {
         return this.target.document;
     }
 
-    constructor({ target, detail, source, event }: ILocationData) {
+    constructor({ target, detail, source, event }: IPublicTypeLocationData<DocumentModel, INode>) {
         this.target = target;
         this.detail = detail;
         this.source = source;
         this.event = event;
     }
 
-    clone(event: ILocateEvent): DropLocation {
+    clone(event: IPublicTypeLocateEvent<DocumentModel, INode>): DropLocation {
         return new DropLocation({
             target: this.target,
             detail: this.detail,

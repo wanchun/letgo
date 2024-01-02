@@ -1,6 +1,9 @@
 import { isElement } from '@webank/letgo-common';
-import type { IPublicModelScrollTarget, IPublicModelScroller } from '@webank/letgo-types';
-import type { IScrollable } from '../types';
+import type {
+    IPublicModelScrollTarget,
+    IPublicModelScroller,
+    IPublicTypeScrollable,
+} from '@webank/letgo-types';
 
 export class ScrollTarget implements IPublicModelScrollTarget {
     get left() {
@@ -52,7 +55,7 @@ const SCROLL_ACCURACY = 30;
 export class Scroller implements IPublicModelScroller {
     private pid: number | undefined;
 
-    constructor(private scrollable: IScrollable) {}
+    constructor(private scrollable: IPublicTypeScrollable<ScrollTarget>) {}
 
     get scrollTarget(): ScrollTarget | null {
         let target = this.scrollable.scrollTarget;

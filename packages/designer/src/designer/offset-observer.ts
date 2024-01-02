@@ -1,7 +1,8 @@
 import { markComputed, markShallowReactive, uniqueId } from '@webank/letgo-common';
+import type { IPublicModelOffsetObserver } from '@webank/letgo-types';
 import type { INode, INodeSelector, IViewport } from '../types';
 
-export class OffsetObserver {
+export class OffsetObserver implements IPublicModelOffsetObserver<INode> {
     readonly id = uniqueId('offsetObserver');
 
     private lastOffsetLeft?: number;

@@ -2,6 +2,7 @@ import { EventEmitter } from 'eventemitter3';
 import type { ShallowReactive } from 'vue';
 import { shallowReactive } from 'vue';
 import type {
+    IBaseProject,
     IPublicTypeAppConfig,
     IPublicTypeAssetsJson,
     IPublicTypeComponentsMap,
@@ -22,7 +23,7 @@ import type { Designer } from '../designer';
 import { DocumentModel } from '../document';
 import { Code } from '../code/code';
 
-export class Project {
+export class Project implements IBaseProject<DocumentModel, Code> {
     css: string;
 
     codesInstance: Record<string, any> = {};

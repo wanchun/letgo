@@ -5,9 +5,10 @@ import type {
 
 export interface IPublicTypeNodeInstance<
     T = IPublicTypeComponentRecord,
+    Node = IPublicModelNode,
 > {
     docId: string
     nodeId: string
     instance: T
-    node?: IPublicModelNode | null
+    node?: Node | null
 }

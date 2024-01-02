@@ -6,20 +6,19 @@ import {
     isAssetItem,
     isCSSUrl,
 } from '@webank/letgo-common';
-import type { IPublicTypeAssetList } from '@webank/letgo-types';
+import type { IPublicTypeAssetList, IPublicTypeSimulatorRenderer } from '@webank/letgo-types';
 import {
     AssetLevels,
     IPublicEnumAssetLevel,
     IPublicEnumAssetType,
 } from '@webank/letgo-types';
 import type { Simulator } from './simulator';
-import type { ISimulatorRenderer } from './renderer';
 
 export function createSimulator(
     simulator: Simulator,
     iframe: HTMLIFrameElement,
     vendors: IPublicTypeAssetList = [],
-): Promise<ISimulatorRenderer> {
+): Promise<IPublicTypeSimulatorRenderer> {
     const win: any = iframe.contentWindow;
     const doc = iframe.contentDocument;
 

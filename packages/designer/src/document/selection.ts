@@ -1,10 +1,11 @@
 import { EventEmitter } from 'eventemitter3';
 import { shallowReactive } from 'vue';
+import type { IPublicModelSelection } from '@webank/letgo-types';
 import { EnumPositionNO, comparePosition } from '../node/node';
 import type { INode } from '../types';
 import type { DocumentModel } from './document-model';
 
-export class Selection {
+export class Selection implements IPublicModelSelection<INode> {
     private emitter = new EventEmitter();
 
     private _selected: string[] = shallowReactive([]);

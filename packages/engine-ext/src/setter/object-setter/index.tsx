@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
-import type { IPublicTypeFieldConfig, IPublicTypeSetter, IPublicTypeSetterType } from '@webank/letgo-types';
-import type { SettingField } from '@webank/letgo-designer';
+import type { IPublicTypeSetter, IPublicTypeSetterType } from '@webank/letgo-types';
+import type { IFieldConfig } from '@webank/letgo-designer';
 import { isUndefined } from 'lodash-es';
 import { createSettingFieldView } from '@webank/letgo-designer';
 import { isJSExpression } from '@webank/letgo-types';
@@ -14,7 +14,7 @@ const ObjectSetterView = defineComponent({
         ...commonProps,
         value: Object,
         defaultValue: Object,
-        items: Object as PropType<IPublicTypeFieldConfig[]>,
+        items: Object as PropType<IFieldConfig[]>,
         extraSetter: [String, Object, Array] as PropType<IPublicTypeSetterType>,
     },
     setup(props) {
@@ -60,7 +60,7 @@ export const ObjectSetter: IPublicTypeSetter = {
     title: '对象设置器',
     Component: ObjectSetterView,
     condition: (field) => {
-        const v = field.getValue() ?? (field as SettingField).getDefaultValue();
+        const v = field.getValue() ?? field.getDefaultValue();
         if (isJSExpression(v))
             return false;
         return isUndefined(v) || typeof v === 'object';

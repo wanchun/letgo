@@ -2,7 +2,6 @@ import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
 import { isJSSlot } from '@webank/letgo-types';
 import type { IPublicTypeJSSlot, IPublicTypeSetter } from '@webank/letgo-types';
-import type { SettingField } from '@webank/letgo-designer';
 import { isNil, isUndefined } from 'lodash-es';
 import { FSwitch } from '@fesjs/fes-design';
 import { commonProps } from '../../common';
@@ -97,7 +96,7 @@ export const SlotSetter: IPublicTypeSetter = {
     title: '插槽设置器',
     Component: SlotSetterView,
     condition: (field) => {
-        const v = field.getValue() ?? (field as SettingField).getDefaultValue();
+        const v = field.getValue() ?? field.getDefaultValue();
         return isUndefined(v) || isJSSlot(v);
     },
 };

@@ -1,4 +1,5 @@
 import type {
+    IPublicModelProp,
     IPublicTypeCompositeValue,
     IPublicTypeJSSlot,
     IPublicTypeSlotSchema,
@@ -32,7 +33,7 @@ type IValueTypes =
     | 'function'
     | 'slot';
 
-export class Prop implements IPropParent {
+export class Prop implements IPropParent, IPublicModelProp<INode> {
     private _key: string | number;
 
     private _value: any;
@@ -371,9 +372,9 @@ export class Prop implements IPropParent {
         const type = this._type;
         if (
             type !== 'map'
-            && type !== 'list'
-            && type !== 'unset'
-            && !createIfNone
+                && type !== 'list'
+                && type !== 'unset'
+                && !createIfNone
         )
             return null;
 
@@ -564,8 +565,8 @@ export function isProp(obj: any): obj is Prop {
 }
 
 export function isValidArrayIndex(key: any, limit = -1): key is number {
-    const n = parseFloat(String(key));
+    const n = Number.parseFloat(String(key));
     return (
-        n >= 0 && Math.floor(n) === n && isFinite(n) && (limit < 0 || n < limit)
+        n >= 0 && Math.floor(n) === n && Number.isFinite(n) && (limit < 0 || n < limit)
     );
 }

@@ -185,7 +185,7 @@ export const SettingFieldView = defineComponent({
                     ? _defaultValue(field)
                     : _defaultValue,
                 onChange: (value: any) => {
-                    field.setValue(value, true);
+                    field.setValue(value);
                 },
                 onMounted: () => {
                     // TODO

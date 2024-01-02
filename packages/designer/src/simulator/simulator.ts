@@ -1,6 +1,5 @@
 import { EventEmitter } from 'eventemitter3';
 import type {
-    CSSProperties,
     Component,
     ShallowReactive,
     ShallowRef,
@@ -12,16 +11,25 @@ import {
 } from 'vue';
 import * as Vue from 'vue';
 import type {
-    IPublicTypeAsset,
     IPublicTypeAssetList,
+    IPublicTypeCanvasPoint,
     IPublicTypeComponentRecord,
-    IPublicTypeDevice,
+    IPublicTypeDeviceStyleProps,
+    IPublicTypeDragNodeObject,
+    IPublicTypeLocationChildrenDetail,
     IPublicTypePackage,
-    IPublicTypeUtilItem,
+    IPublicTypeRect,
+    IPublicTypeSimulatorProps,
+    IPublicTypeSimulatorRenderer,
 } from '@webank/letgo-types';
 import {
     IPublicEnumAssetLevel,
     IPublicEnumAssetType,
+    IPublicEnumDragObject,
+    IPublicEnumLocationDetail,
+    isDragAnyObject,
+    isDragNodeObject,
+    isLocationData,
 } from '@webank/letgo-types';
 import {
     assetBundle,
@@ -34,6 +42,7 @@ import { engineConfig } from '@webank/letgo-editor-core';
 import { isNaN } from 'lodash-es';
 import type {
     IDropContainer,
+    ILocateEvent,
     INode,
     INodeInstance,
     ISimulator,
@@ -42,45 +51,19 @@ import type { Project } from '../project';
 import type {
     Designer,
     DropLocation,
-    ICanvasPoint,
-    IDragNodeObject,
-    ILocateEvent,
-    ILocationChildrenDetail,
-    IRect,
 } from '../designer';
 import {
-    EnumDragObject,
-    EnumLocationDetail,
     Scroller,
     getRectTarget,
     isChildInline,
-    isDragAnyObject,
-    isDragNodeObject,
-    isLocationData,
     isRowContainer,
     isShaken,
 } from '../designer';
 import { getClosestClickableNode, getClosestNode } from '../utils';
 import { contains, isRootNode } from '../node';
+import type { DocumentModel } from '../document';
 import { Viewport } from './viewport';
-import type { ISimulatorRenderer } from './renderer';
 import { createSimulator } from './create-simulator';
-
-export interface IDeviceStyleProps {
-    canvas?: CSSProperties
-    viewport?: CSSProperties
-}
-
-export interface ISimulatorProps {
-    designMode?: 'live' | 'design' | 'preview' | 'extend' | 'border'
-    device?: IPublicTypeDevice
-    deviceStyle?: IDeviceStyleProps
-    deviceClassName?: string
-    library?: IPublicTypePackage[]
-    utilsMetadata?: IPublicTypeUtilItem[]
-    simulatorUrl?: IPublicTypeAsset
-    [key: string]: any
-}
 
 const win = window as any;
 
@@ -93,14 +76,14 @@ const defaultEnvironment = [
     ),
 ];
 
-export class Simulator implements ISimulator<ISimulatorProps> {
+export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
     readonly isSimulator = true;
 
     private emitter = new EventEmitter();
 
     private _sensorAvailable = true;
 
-    private props: ShallowReactive<ISimulatorProps> = shallowReactive({});
+    private props: ShallowReactive<IPublicTypeSimulatorProps> = shallowReactive({});
 
     private _contentWindow?: Window & {
         letgoRequest?: (...args: any[]) => Promise<any>
@@ -110,7 +93,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
 
     private _iframe?: HTMLIFrameElement;
 
-    private _renderer?: ISimulatorRenderer;
+    private _renderer?: IPublicTypeSimulatorRenderer<INode>;
 
     private sensing = false;
 
@@ -160,7 +143,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
         return this.get('deviceClassName');
     }
 
-    get deviceStyle(): IDeviceStyleProps {
+    get deviceStyle(): IPublicTypeDeviceStyleProps {
         return this.get('deviceStyle');
     }
 
@@ -175,7 +158,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
         this.scroller = new Scroller(this.viewport);
     }
 
-    setProps(props: ISimulatorProps) {
+    setProps(props: IPublicTypeSimulatorProps) {
         for (const p in this.props)
             delete this.props[p];
 
@@ -197,7 +180,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
     /**
      * 有 Renderer 进程连接进来，设置同步机制
      */
-    connect(renderer: ISimulatorRenderer) {
+    connect(renderer: IPublicTypeSimulatorRenderer<INode>) {
         this._renderer = renderer;
     }
 
@@ -359,7 +342,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
                 }
                 designer.dragon.boost(
                     {
-                        type: EnumDragObject.Node,
+                        type: IPublicEnumDragObject.Node,
                         nodes,
                     },
                     downEvent,
@@ -485,7 +468,8 @@ export class Simulator implements ISimulator<ISimulatorProps> {
      */
     locate(e: ILocateEvent): DropLocation | undefined | null {
         const { dragObject } = e;
-        const { nodes } = dragObject as IDragNodeObject;
+
+        const { nodes } = dragObject as unknown as IPublicTypeDragNodeObject;
 
         const operationalNodes = nodes?.filter((node) => {
             const onMoveHook
@@ -528,7 +512,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
         )
             return null;
 
-        if (isLocationData(dropContainer))
+        if (isLocationData<DocumentModel, INode>(dropContainer))
             return this.designer.dragon.createLocation(dropContainer);
 
         const { container, instance: containerInstance } = dropContainer;
@@ -543,8 +527,8 @@ export class Simulator implements ISimulator<ISimulatorProps> {
 
         const { children } = container;
 
-        const detail: ILocationChildrenDetail = {
-            type: EnumLocationDetail.Children,
+        const detail: IPublicTypeLocationChildrenDetail = {
+            type: IPublicEnumLocationDetail.Children,
             index: 0,
             edge,
         };
@@ -702,7 +686,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
 
         // get common parent, avoid drop container contains by dragObject
         const drillDownExcludes = new Set<INode>();
-        if (isDragNodeObject(dragObject)) {
+        if (isDragNodeObject<INode>(dragObject)) {
             const { nodes } = dragObject;
             let i = nodes.length;
             let p: any = container;
@@ -862,7 +846,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
     /**
      * @see ISimulator
      */
-    computeRect(node: INode): IRect | null {
+    computeRect(node: INode): IPublicTypeRect | null {
         const instances = this.getComponentInstances(node);
         if (!instances)
             return null;
@@ -957,7 +941,7 @@ export class Simulator implements ISimulator<ISimulatorProps> {
     computeComponentInstanceRect(
         instance: IPublicTypeComponentRecord,
         selector?: string,
-    ): IRect | null {
+    ): IPublicTypeRect | null {
         const renderer = this.renderer;
         let elements = this.findDOMNodes(instance, selector);
         if (!elements)
@@ -1070,7 +1054,7 @@ function getMatched(
     return firstQueried;
 }
 
-function isPointInRect(point: ICanvasPoint, rect: IRect) {
+function isPointInRect(point: IPublicTypeCanvasPoint, rect: IPublicTypeRect) {
     return (
         point.canvasY >= rect.top
         && point.canvasY <= rect.bottom
@@ -1079,7 +1063,7 @@ function isPointInRect(point: ICanvasPoint, rect: IRect) {
     );
 }
 
-function distanceToRect(point: ICanvasPoint, rect: IRect) {
+function distanceToRect(point: IPublicTypeCanvasPoint, rect: IPublicTypeRect) {
     let minX = Math.min(
         Math.abs(point.canvasX - rect.left),
         Math.abs(point.canvasX - rect.right),
@@ -1097,7 +1081,7 @@ function distanceToRect(point: ICanvasPoint, rect: IRect) {
     return Math.sqrt(minX ** 2 + minY ** 2);
 }
 
-function distanceToEdge(point: ICanvasPoint, rect: IRect) {
+function distanceToEdge(point: IPublicTypeCanvasPoint, rect: IPublicTypeRect) {
     const distanceTop = Math.abs(point.canvasY - rect.top);
     const distanceBottom = Math.abs(point.canvasY - rect.bottom);
 
@@ -1107,7 +1091,7 @@ function distanceToEdge(point: ICanvasPoint, rect: IRect) {
     };
 }
 
-function isNearAfter(point: ICanvasPoint, rect: IRect, inline: boolean) {
+function isNearAfter(point: IPublicTypeCanvasPoint, rect: IPublicTypeRect, inline: boolean) {
     if (inline) {
         return (
             Math.abs(point.canvasX - rect.left)

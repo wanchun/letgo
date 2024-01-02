@@ -3,7 +3,7 @@ import type {
     IPublicTypeComponentRecord,
 } from '..';
 
-export interface IPublicTypeNodeSelector {
-    node: IPublicModelNode
+export interface IPublicTypeNodeSelector<Node = IPublicModelNode> {
+    node: Node
     instance?: IPublicTypeComponentRecord
 }

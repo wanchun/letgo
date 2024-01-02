@@ -6,16 +6,18 @@ import type {
 } from '..';
 
 export interface IPublicModelDropLocation<
+    DocumentModel = IPublicModelDocumentModel,
+    Node = IPublicModelNode,
 > {
-    readonly target: IPublicModelNode
+    readonly target: Node
 
-    readonly detail: IPublicTypeLocationDetail
+    readonly detail: IPublicTypeLocationDetail<Node>
 
-    readonly event: IPublicTypeLocateEvent
+    readonly event: IPublicTypeLocateEvent<DocumentModel, Node>
 
     readonly source: string
 
-    get document(): IPublicModelDocumentModel
+    get document(): DocumentModel
 
-    clone(event: IPublicTypeLocateEvent): IPublicModelDropLocation
+    clone(event: IPublicTypeLocateEvent<DocumentModel, Node>): IPublicModelDropLocation<DocumentModel, Node>
 }

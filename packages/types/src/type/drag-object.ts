@@ -1,16 +1,16 @@
-import { IPublicEnumDragObjectType } from '..';
+import { IPublicEnumDragObject } from '..';
 import type {
     IPublicModelNode,
     IPublicTypeNodeSchema,
 } from '..';
 
-export interface IPublicTypeDragNodeObject {
-    type: IPublicEnumDragObjectType.Node
-    nodes: IPublicModelNode[]
+export interface IPublicTypeDragNodeObject<Node = IPublicModelNode> {
+    type: IPublicEnumDragObject.Node
+    nodes: Node[]
 }
 
 export interface IPublicTypeDragNodeDataObject {
-    type: IPublicEnumDragObjectType.NodeData
+    type: IPublicEnumDragObject.NodeData
     data: IPublicTypeNodeSchema | IPublicTypeNodeSchema[]
     thumbnail?: string
     description?: string
@@ -18,24 +18,24 @@ export interface IPublicTypeDragNodeDataObject {
 }
 
 export interface IPublicTypeDragAnyObject {
-    type: string
+    type: string & Exclude<IPublicEnumDragObject, IPublicEnumDragObject.NodeData | IPublicEnumDragObject.Node>
     [key: string]: any
 }
 
-export type IPublicTypeDragObject = IPublicTypeDragNodeDataObject | IPublicTypeDragNodeObject | IPublicTypeDragAnyObject;
+export type IPublicTypeDragObject<Node = IPublicModelNode> = IPublicTypeDragNodeObject<Node> | IPublicTypeDragNodeDataObject | IPublicTypeDragAnyObject;
 
-export function isDragNodeObject(obj: any): obj is IPublicTypeDragNodeObject {
-    return obj && obj.type === IPublicEnumDragObjectType.Node;
+export function isDragNodeObject<Node = IPublicModelNode>(obj: any): obj is IPublicTypeDragNodeObject<Node> {
+    return obj && obj.type === IPublicEnumDragObject.Node;
 }
 
 export function isDragNodeDataObject(obj: any): obj is IPublicTypeDragNodeDataObject {
-    return obj && obj.type === IPublicEnumDragObjectType.NodeData;
+    return obj && obj.type === IPublicEnumDragObject.NodeData;
 }
 
 export function isDragAnyObject(obj: any): obj is IPublicTypeDragAnyObject {
     return (
         obj
-        && obj.type !== IPublicEnumDragObjectType.NodeData
-        && obj.type !== IPublicEnumDragObjectType.Node
+        && obj.type !== IPublicEnumDragObject.NodeData
+        && obj.type !== IPublicEnumDragObject.Node
     );
 }

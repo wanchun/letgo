@@ -1,6 +1,8 @@
 import type { IPublicModelNode, IPublicTypeComponentRecord } from '..';
 
-export interface IPublicTypeDropContainer {
-    container: IPublicModelNode
+export interface IPublicTypeDropContainer<
+    Node = IPublicModelNode,
+> {
+    container: Node
     instance: IPublicTypeComponentRecord
 }

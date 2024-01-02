@@ -1,10 +1,14 @@
 import { EventEmitter } from 'eventemitter3';
 import type {
     GlobalEvent,
+    IBaseModelNode,
+    IPublicTypeComponentSchema,
     IPublicTypeNodeData,
     IPublicTypeNodeSchema,
+    IPublicTypePageSchema,
     IPublicTypePropsList,
     IPublicTypePropsMap,
+    IPublicTypeSlotSchema,
 } from '@webank/letgo-types';
 import {
     IPublicEnumTransformStage,
@@ -15,19 +19,28 @@ import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
 import { markComputed, markShallowReactive } from '@webank/letgo-common';
 import type { ComponentMeta } from '../component-meta';
 import type { DocumentModel } from '../document';
-import type { IBaseNode, INode, IRootNode } from '../types';
 import type { SettingTop } from '../setting';
-import { includeSlot, removeSlot } from '../utils/slot';
-import { NodeChildren } from './node-children';
+import { includeSlot, removeSlot } from '../utils';
 import { Props } from './props';
 import type { Prop } from './prop';
+import { NodeChildren } from './node-children';
 
 type IPropChangeOptions = Omit<
     GlobalEvent.Node.Prop.ChangeOptions,
     'node'
 >;
 
-export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> {
+export type IPageNode = Node<IPublicTypePageSchema>;
+
+export type IComponentNode = Node<IPublicTypeComponentSchema>;
+
+export type ISlotNode = Node<IPublicTypeSlotSchema>;
+
+export type IRootNode = IPageNode | IComponentNode;
+
+export type INode = ISlotNode | IPageNode | IComponentNode;
+
+export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> implements IBaseModelNode<DocumentModel, Schema, INode, NodeChildren, ComponentMeta, SettingTop, Props, Prop> {
     private emitter = new EventEmitter();
 
     /**
@@ -622,7 +635,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     }
 }
 
-export function isNode<Node = IBaseNode>(node: any): node is Node {
+export function isNode(node: any): node is INode {
     return node && node.isNode;
 }
 

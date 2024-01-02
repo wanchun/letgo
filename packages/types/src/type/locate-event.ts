@@ -1,10 +1,14 @@
 import type {
     IPublicModelDocumentModel,
+    IPublicModelNode,
     IPublicTypeDragObject,
     IPublicTypeSensor,
 } from '..';
 
-export interface IPublicTypeLocateEvent {
+export interface IPublicTypeLocateEvent<
+    DocumentModel = IPublicModelDocumentModel,
+    Node = IPublicModelNode,
+> {
     readonly type: 'LocateEvent'
     /**
      * 浏览器窗口坐标系
@@ -18,12 +22,12 @@ export interface IPublicTypeLocateEvent {
     /**
      * 拖拽对象
      */
-    readonly dragObject: IPublicTypeDragObject
+    readonly dragObject: IPublicTypeDragObject<Node>
 
     /**
      * 激活的感应器
      */
-    sensor?: IPublicTypeSensor
+    sensor?: IPublicTypeSensor<DocumentModel, Node>
 
     // ======= 以下是 激活的 sensor 将填充的值 ========
     /**
@@ -38,7 +42,7 @@ export interface IPublicTypeLocateEvent {
     /**
      * 激活或目标文档
      */
-    document?: IPublicModelDocumentModel
+    document?: DocumentModel
     /**
      * 事件订正标识，初始构造时，从发起端构造，缺少 canvasX,canvasY, 需要经过订正才有
      */

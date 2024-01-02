@@ -1,4 +1,4 @@
-export enum IPublicEnumDragObjectType {
+export enum IPublicEnumDragObject {
     Node = 'node',
     NodeData = 'nodeData',
 }

@@ -107,15 +107,6 @@ export interface IBaseProject<
      */
     importSchema(schema?: IPublicTypeProjectSchema): void
 
-    /**
-     * 设置当前项目配置
-     *
-     * set config data for this project
-     * @param value object
-     */
-    setConfig<T extends keyof IPublicTypeAppConfig>(key: T, value: IPublicTypeAppConfig[T]): void
-    setConfig(value: IPublicTypeAppConfig): void
-
     setUtils(utils: IPublicTypeUtilsMap): void
 
     setIcons(icons: IPublicTypeIconSchema[]): void

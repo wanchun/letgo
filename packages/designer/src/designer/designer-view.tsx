@@ -1,6 +1,10 @@
 import type { PropType } from 'vue';
 import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue';
-import type { IPublicEditor, IPublicTypeComponentMetadata, IPublicTypeProjectSchema } from '@webank/letgo-types';
+import type {
+    IPublicEditor,
+    IPublicTypeComponentMetadata,
+    IPublicTypeProjectSchema,
+} from '@webank/letgo-types';
 import { SimulatorView } from '../simulator';
 import type { Project } from '../project';
 import type { Designer } from './designer';

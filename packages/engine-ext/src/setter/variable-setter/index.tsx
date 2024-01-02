@@ -1,7 +1,6 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
 import { isJSExpression } from '@webank/letgo-types';
-import type { SettingField } from '@webank/letgo-designer';
 import type { IPublicTypeCompositeValue, IPublicTypeSetter } from '@webank/letgo-types';
 import { FSelect } from '@fesjs/fes-design';
 import { commonProps } from '../../common';
@@ -67,7 +66,7 @@ export const VariableSetter: IPublicTypeSetter = {
     title: '变量设置器',
     Component: VariableSetterView,
     condition: (field) => {
-        const v = field.getValue() ?? (field as SettingField).getDefaultValue();
+        const v = field.getValue() ?? (field).getDefaultValue();
         return isJSExpression(v) && v.value?.endsWith('.value');
     },
 };

@@ -2,16 +2,19 @@ import { EventEmitter } from 'eventemitter3';
 import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
 import { markComputed, uniqueId } from '@webank/letgo-common';
 import type {
+    IPublicModelDocumentModel,
     IPublicTypeComponentsMap,
+    IPublicTypeDragNodeDataObject,
+    IPublicTypeDragNodeObject,
     IPublicTypeNodeData,
     IPublicTypeNodeSchema,
     IPublicTypePageSchema,
-
     IPublicTypeRootSchema,
 } from '@webank/letgo-types';
 import {
     IPublicEnumTransformStage,
     isDOMText,
+    isDragNodeDataObject,
     isJSExpression,
     isNodeSchema,
 } from '@webank/letgo-types';
@@ -19,11 +22,6 @@ import { camelCase } from 'lodash-es';
 import type { INode, IRootNode, ISimulator } from '../types';
 import type {
     Designer,
-    IDragNodeDataObject,
-    IDragNodeObject,
-} from '../designer';
-import {
-    isDragNodeDataObject,
 } from '../designer';
 import type { Project } from '../project';
 import { Node, insertChild, insertChildren, isNode } from '../node';
@@ -34,15 +32,7 @@ import { Selection } from './selection';
 
 const componentUseTimes: Record<string, number> = {};
 
-type TypeGetData<T, NodeType> = T extends undefined
-    ? NodeType extends {
-        schema: infer R
-    }
-        ? R
-        : any
-    : T;
-
-export class DocumentModel {
+export class DocumentModel implements IPublicModelDocumentModel<Project, ComponentMeta, Selection, INode, State, Code> {
     readonly project: Project;
 
     readonly designer: Designer;
@@ -274,8 +264,8 @@ export class DocumentModel {
     /**
      * 根据 schema 创建一个节点
      */
-    createNode<T extends INode = INode, C = undefined>(
-        data: TypeGetData<C, T>,
+    createNode<T = INode>(
+        data: IPublicTypeNodeData,
     ): T {
         let schema: any;
         if (isDOMText(data) || isJSExpression(data)) {
@@ -416,7 +406,7 @@ export class DocumentModel {
 
     checkDropTarget(
         dropTarget: INode,
-        dragObject: IDragNodeObject | IDragNodeDataObject,
+        dragObject: IPublicTypeDragNodeObject<INode> | IPublicTypeDragNodeDataObject,
     ): boolean {
         let items: Array<INode | IPublicTypeNodeSchema>;
         if (isDragNodeDataObject(dragObject)) {
@@ -432,7 +422,7 @@ export class DocumentModel {
 
     checkNesting(
         dropTarget: INode,
-        dragObject: IDragNodeObject | IDragNodeDataObject,
+        dragObject: IPublicTypeDragNodeObject<INode> | IPublicTypeDragNodeDataObject,
     ): boolean {
         let items: Array<INode | IPublicTypeNodeSchema>;
         if (isDragNodeDataObject(dragObject)) {

@@ -1,6 +1,5 @@
 import type {
     IPublicTypeFieldConfig,
-
     IPublicTypeTransformedComponentMetadata,
 } from '@webank/letgo-types';
 import { engineConfig } from '@webank/letgo-editor-core';

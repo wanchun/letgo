@@ -1,4 +1,4 @@
-export enum IPublicEnumPropValueChangedType {
+export enum IPublicEnumPropValueChanged {
     /**
      * normal set value
      */

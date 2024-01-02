@@ -1,5 +1,5 @@
 import type { Component, Slot } from 'vue';
-import type { IPublicTypeSettingTarget } from './setting-target';
+import type { IPublicModelSettingField } from '..';
 
 export interface IPublicTypeSetter {
     /**
@@ -17,12 +17,12 @@ export interface IPublicTypeSetter {
     /**
      * 给 MixedSetter 用于判断优先选中哪个
      */
-    condition?: (target: IPublicTypeSettingTarget) => boolean
+    condition?: (target: IPublicModelSettingField) => boolean
 }
 
 export type IPublicTypeCustomView = Slot;
 
-export type IPublicTypeDynamicProps = (target: IPublicTypeSettingTarget) => Record<string, unknown>;
+export type IPublicTypeDynamicProps = (target: IPublicModelSettingField) => Record<string, unknown>;
 
 export interface IPublicTypeSetterConfig {
     /**
@@ -42,7 +42,7 @@ export interface IPublicTypeSetterConfig {
     /**
      * 给 MixedSetter 用于判断优先选中哪个
      */
-    condition?: (target: IPublicTypeSettingTarget) => boolean
+    condition?: (target: IPublicModelSettingField) => boolean
 
     // for MixedSetter
     isRequired?: boolean

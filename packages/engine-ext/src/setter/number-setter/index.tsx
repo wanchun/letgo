@@ -1,6 +1,5 @@
 import { computed, defineComponent, onMounted } from 'vue';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
-import type { SettingField } from '@webank/letgo-designer';
 import { isNumber, isUndefined } from 'lodash-es';
 import { FInputNumber } from '@fesjs/fes-design';
 import { commonProps } from '../../common';
@@ -45,7 +44,7 @@ export const NumberSetter: IPublicTypeSetter = {
     title: '数字设置器',
     Component: NumberSetterView,
     condition: (field) => {
-        const v = field.getValue() ?? (field as SettingField).getDefaultValue();
+        const v = field.getValue() ?? field.getDefaultValue();
         return isUndefined(v) || typeof v === 'number';
     },
 };

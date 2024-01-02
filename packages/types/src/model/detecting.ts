@@ -1,6 +1,13 @@
-import type { IPublicModelNode, IPublicTypeDisposable } from '..';
+import type {
+    IPublicModelDocumentModel,
+    IPublicModelNode,
+    IPublicTypeDisposable,
+} from '..';
 
-export interface IPublicModelDetecting<Node = IPublicModelNode> {
+export interface IPublicModelDetecting<
+    DocumentModel = IPublicModelDocumentModel,
+    Node = IPublicModelNode,
+> {
 
     /**
      * 是否启用
@@ -30,7 +37,7 @@ export interface IPublicModelDetecting<Node = IPublicModelNode> {
      * 清空 hover 态
      * clear all hover state
      */
-    leave(): void
+    leave(doc?: DocumentModel): void
 
     /**
      * hover 节点变化事件

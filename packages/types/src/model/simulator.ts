@@ -1,5 +1,6 @@
 import type { Component } from 'vue';
 import type {
+    IPublicModelDocumentModel,
     IPublicModelNode,
     IPublicTypeComponentRecord,
     IPublicTypeDropContainer,
@@ -10,13 +11,17 @@ import type {
     IPublicTypeViewport,
 } from '..';
 
-export interface IPublicModelSimulator<P = object> extends IPublicTypeSensor {
+export interface IPublicModelSimulator<
+    P = object,
+    DocumentModel = IPublicModelDocumentModel,
+    Node = IPublicModelNode,
+ > extends IPublicTypeSensor<DocumentModel, Node> {
     readonly isSimulator: true
     readonly viewport: IPublicTypeViewport
     readonly contentWindow?: Window
     readonly contentDocument?: Document
 
-    readonly renderer?: IPublicTypeSimulatorRenderer
+    readonly renderer?: IPublicTypeSimulatorRenderer<Node>
 
     setProps(props: P): void
 
@@ -52,7 +57,7 @@ export interface IPublicModelSimulator<P = object> extends IPublicTypeSensor {
     getClosestNodeInstance(
         from: IPublicTypeComponentRecord,
         specId?: string,
-    ): IPublicTypeNodeInstance | null
+    ): IPublicTypeNodeInstance<IPublicTypeComponentRecord, Node> | null
 
     getComponentInstancesExpose(instance: IPublicTypeComponentRecord): Record<string, any>
 
@@ -61,15 +66,15 @@ export interface IPublicModelSimulator<P = object> extends IPublicTypeSensor {
      */
     getNodeInstanceFromElement(
         e: Element | null,
-    ): IPublicTypeNodeInstance<IPublicTypeComponentRecord> | null
+    ): IPublicTypeNodeInstance<IPublicTypeComponentRecord, Node> | null
     /**
      * 根据节点获取节点的组件实例
      */
-    getComponentInstances(node: IPublicModelNode): IPublicTypeComponentRecord[] | null
+    getComponentInstances(node: Node): IPublicTypeComponentRecord[] | null
     /**
      * 查找合适的投放容器
      */
-    getDropContainer(e: IPublicTypeLocateEvent): IPublicTypeDropContainer | null
+    getDropContainer(e: IPublicTypeLocateEvent<DocumentModel, Node>): IPublicTypeDropContainer<Node> | null
     /**
      * 查找节点的 dom
      */
@@ -89,7 +94,7 @@ export interface IPublicModelSimulator<P = object> extends IPublicTypeSensor {
      */
     getComponent(componentName: string): Component | null
 
-    computeRect(node: IPublicModelNode): DOMRect | null
+    computeRect(node: Node): DOMRect | null
 }
 
 export function isSimulator(obj: any): obj is IPublicModelSimulator {

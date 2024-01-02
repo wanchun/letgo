@@ -3,6 +3,7 @@ import type {
 } from '..';
 
 export interface IPublicModelOffsetObserver<
+    Node = IPublicModelNode,
 > {
     readonly id: string
 
@@ -30,7 +31,7 @@ export interface IPublicModelOffsetObserver<
 
     get scale(): number
 
-    readonly node: IPublicModelNode
+    readonly node: Node
 
     readonly compute: () => void
 

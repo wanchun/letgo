@@ -4,7 +4,6 @@ import type {
     IPublicModelSettingTop,
     IPublicTypeCompositeValue,
     IPublicTypeCustomView,
-    IPublicTypeDisposable,
     IPublicTypeFieldConfig,
     IPublicTypeFieldExtraProps,
     IPublicTypeSetValueOptions,
@@ -12,10 +11,10 @@ import type {
 } from '..';
 
 export interface IBaseModelSettingField<
-  SettingTop,
-  SettingField,
-  ComponentMeta,
-  Node,
+    SettingTop,
+    SettingField,
+    ComponentMeta,
+    Node,
 > {
 
     /**
@@ -37,11 +36,6 @@ export interface IBaseModelSettingField<
      * 获取设置属性的 name
      */
     get name(): string | number | undefined
-
-    /**
-     * 获取设置属性的 key
-     */
-    get key(): string | number | undefined
 
     /**
      * 获取设置属性的 path
@@ -66,12 +60,7 @@ export interface IBaseModelSettingField<
     /**
      * 获取设置属性的 extraProps
      */
-    get extraProps(): IPublicTypeFieldExtraProps
-
-    /**
-     * 获取设置属性对应的节点实例
-     */
-    get node(): Node | null
+    get extraProps(): IPublicTypeFieldExtraProps<SettingField>
 
     /**
      * 获取顶级设置属性
@@ -166,7 +155,7 @@ export interface IBaseModelSettingField<
      * @param config
      * @returns
      */
-    createField(config: IPublicTypeFieldConfig): SettingField
+    createField(config: IPublicTypeFieldConfig<SettingField>): SettingField
 
     /**
      * 获取值，当为变量时，返回 mock
@@ -184,6 +173,10 @@ export interface IBaseModelSettingField<
      */
     remove(): void
 
+    /**
+     *
+     */
+    getNode(): Node | null
 }
 
 export interface IPublicModelSettingField extends IBaseModelSettingField<

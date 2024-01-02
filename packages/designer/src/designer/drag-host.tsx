@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { defineComponent, onBeforeUnmount, shallowRef } from 'vue';
-import { isDragNodeDataObject, isDragNodeObject } from './dragon';
+import { isDragNodeDataObject, isDragNodeObject } from '@webank/letgo-types';
 import type { Designer } from './designer';
 import './drag-host.less';
 

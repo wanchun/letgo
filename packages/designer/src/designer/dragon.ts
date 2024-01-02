@@ -1,94 +1,17 @@
 import { EventEmitter } from 'eventemitter3';
-import type { IPublicTypeNodeSchema } from '@webank/letgo-types';
+import {
+    isDragNodeObject,
+} from '@webank/letgo-types';
+import type {
+    IPublicModelDragon,
+} from '@webank/letgo-types';
 import { cursor, markComputed, markShallowReactive } from '@webank/letgo-common';
 import type { DocumentModel } from '../document';
-import type { INode, ISensor, ISimulator } from '../types';
+import type { IDragObject, ILocateEvent, ILocationData, INode, ISensor, ISimulator } from '../types';
 import { isSimulator } from '../types';
 import { makeEventsHandler } from '../utils';
 import type { Designer } from './designer';
-import type { ILocationData } from './location';
 import { DropLocation } from './location';
-
-export enum EnumDragObject {
-    Node = 'node',
-    NodeData = 'nodeData',
-}
-
-export interface IDragNodeObject {
-    type: EnumDragObject.Node
-    nodes: INode[]
-}
-
-export interface IDragNodeDataObject {
-    type: EnumDragObject.NodeData
-    data: IPublicTypeNodeSchema | IPublicTypeNodeSchema[]
-    description?: string
-    [extra: string]: unknown
-}
-
-export interface IDragAnyObject {
-    type: string
-    [key: string]: unknown
-}
-
-export type IDragObject = IDragNodeObject | IDragNodeDataObject | IDragAnyObject;
-
-export function isDragNodeObject(obj: any): obj is IDragNodeObject {
-    return obj && obj.type === EnumDragObject.Node;
-}
-
-export function isDragNodeDataObject(obj: any): obj is IDragNodeDataObject {
-    return obj && obj.type === EnumDragObject.NodeData;
-}
-
-export function isDragAnyObject(obj: any): obj is IDragAnyObject {
-    return (
-        obj
-        && obj.type !== EnumDragObject.NodeData
-        && obj.type !== EnumDragObject.Node
-    );
-}
-
-export interface ILocateEvent {
-    readonly type: 'LocateEvent'
-    /**
-     * 浏览器窗口坐标系
-     */
-    readonly globalX: number
-    readonly globalY: number
-    /**
-     * 原始事件
-     */
-    readonly originalEvent: MouseEvent | DragEvent
-    /**
-     * 拖拽对象
-     */
-    readonly dragObject: IDragObject
-
-    /**
-     * 激活的感应器
-     */
-    sensor?: ISensor
-
-    // ======= 以下是 激活的 sensor 将填充的值 ========
-    /**
-     * 浏览器事件响应目标
-     */
-    target?: Element | null
-    /**
-     * 当前激活文档画布坐标系
-     */
-    canvasX?: number
-    canvasY?: number
-    /**
-     * 激活或目标文档
-     */
-    document?: DocumentModel
-    /**
-     * 事件订正标识，初始构造时，从发起端构造，缺少 canvasX,canvasY, 需要经过订正才有
-     */
-    fixed?: true
-}
 
 const SHAKE_DISTANCE = 4;
 /**
@@ -106,7 +29,7 @@ export function isShaken(
 
     return (
         (e1.clientY - e2.clientY) ** 2
-            + (e1.clientX - e2.clientX) ** 2
+        + (e1.clientX - e2.clientX) ** 2
         > SHAKE_DISTANCE
     );
 }
@@ -121,7 +44,7 @@ export function isInvalidPoint(e: any, last: any): boolean {
         && e.clientY === 0
         && last
         && (Math.abs(last.clientX - e.clientX) > 5
-            || Math.abs(last.clientY - e.clientY) > 5)
+        || Math.abs(last.clientY - e.clientY) > 5)
     );
 }
 
@@ -133,7 +56,7 @@ export function isSameAs(
 }
 
 function getSourceSensor(dragObject: IDragObject): ISimulator | null {
-    if (!isDragNodeObject(dragObject))
+    if (!isDragNodeObject<INode>(dragObject))
         return null;
 
     return dragObject.nodes[0]?.document.simulator || null;
@@ -146,7 +69,7 @@ function isDragEvent(e: any): e is DragEvent {
 /**
  * Drag-on 拖拽引擎
  */
-export class Dragon {
+export class Dragon implements IPublicModelDragon<DocumentModel, INode> {
     private emitter = new EventEmitter();
 
     private sensors: ISensor[] = [];
@@ -545,7 +468,7 @@ export class Dragon {
         };
     }
 
-    onDragend(func: (x: { dragObject: IDragObject; copy: boolean }) => any) {
+    onDragend(func: (x: { dragObject: IDragObject, copy: boolean }) => any) {
         this.emitter.on('dragend', func);
         return () => {
             this.emitter.off('dragend', func);

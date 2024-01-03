@@ -12,7 +12,7 @@ export function createFieldContent(
     props: IFieldProps,
     children: VNodeChild,
     type?: IPublicTypeFieldDisplay,
-) {
+): VNodeChild {
     if (type === 'plain' || !props.title)
         return h(PlainFieldView, props, () => children);
 

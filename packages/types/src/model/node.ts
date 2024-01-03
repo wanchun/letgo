@@ -1,4 +1,5 @@
 import type {
+    GlobalEvent,
     IPublicEnumTransformStage,
     IPublicModelComponentMeta,
     IPublicModelDocumentModel,
@@ -11,6 +12,11 @@ import type {
     IPublicTypePropsList,
     IPublicTypePropsMap,
 } from '../';
+
+type IPropChangeOptions = Omit<
+    GlobalEvent.Node.Prop.ChangeOptions,
+    'node'
+>;
 
 export interface IBaseModelNode<
     DocumentModel = IPublicModelDocumentModel,
@@ -241,8 +247,37 @@ export interface IBaseModelNode<
 
     isPurged: boolean
 
+    addSlot(node: Node): void
+
+    removeSlot(node: Node): void
+
+    setParent(node: Node | null): void
+
     remove(purge?: boolean): void
 
+    isRGLContainer: boolean
+
+    setVisible(flag: boolean): void
+
+    onCodeIdChanged(func: (id: string, preId: string) => void): void
+
+    onNodeRefChanged(func: (ref: string, preRef: string) => void): void
+
+    onChildrenChange(fn: (param?: { type: string, node: Node }) => void): () => void
+
+    onPropChange(func: (info: IPropChangeOptions) => void): () => void
+
+    clearPropValue(path: string): void
+
+    setProps(props?: IPublicTypePropsMap | IPublicTypePropsList | Props | null): void
+
+    mergeProps(props: IPublicTypePropsMap): void
+
+    isContainer(): boolean
+
+    changeRef(ref: string): void
+
+    emitPropChange(val: IPropChangeOptions): void
 }
 
 export interface IPublicModelNode extends IBaseModelNode<IPublicModelDocumentModel, IPublicTypeNodeSchema, IPublicModelNode> {}

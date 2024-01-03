@@ -267,7 +267,7 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
     createNode<T = INode>(
         data: IPublicTypeNodeData,
     ): T {
-        let schema: any;
+        let schema: IPublicTypeNodeSchema;
         if (isDOMText(data) || isJSExpression(data)) {
             schema = {
                 componentName: 'Leaf',
@@ -285,7 +285,7 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
         if (schema.id) {
             node = this.getNode(schema.id);
             if (node && node.componentName === schema.componentName)
-                node.importSchema(schema);
+                node.importSchema(schema as any);
 
             else if (node)
                 node = null;

@@ -1,6 +1,3 @@
-import {
-    IPublicEnumLocationDetail,
-} from '@webank/letgo-types';
 import type {
     IPublicModelDropLocation,
     IPublicTypeLocateEvent,

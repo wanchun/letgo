@@ -30,17 +30,21 @@ type IPropChangeOptions = Omit<
     'node'
 >;
 
-export type IPageNode = Node<IPublicTypePageSchema>;
+export interface IBaseNode<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> extends IBaseModelNode<DocumentModel, Schema, INode, NodeChildren, ComponentMeta, SettingTop, Props, Prop> {
+    internalSetSlotFor(slotFor: Prop | null | undefined): void
+}
 
-export type IComponentNode = Node<IPublicTypeComponentSchema>;
+export type IPageNode = IBaseNode<IPublicTypePageSchema>;
 
-export type ISlotNode = Node<IPublicTypeSlotSchema>;
+export type IComponentNode = IBaseNode<IPublicTypeComponentSchema>;
+
+export type ISlotNode = IBaseNode<IPublicTypeSlotSchema>;
 
 export type IRootNode = IPageNode | IComponentNode;
 
-export type INode = ISlotNode | IPageNode | IComponentNode;
+export type INode = ISlotNode | IPageNode | IComponentNode | IBaseNode;
 
-export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> implements IBaseModelNode<DocumentModel, Schema, INode, NodeChildren, ComponentMeta, SettingTop, Props, Prop> {
+export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> implements IBaseNode {
     private emitter = new EventEmitter();
 
     /**

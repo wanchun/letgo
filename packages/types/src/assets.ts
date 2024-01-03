@@ -70,8 +70,13 @@ export interface IPublicTypeAssetsJson {
      * 所有组件的描述协议列表所有组件的列表
      */
     components?: Array<IPublicTypeComponentDescription | IPublicTypeRemoteComponentDescription>
+    /**
+     * 排序
+     */
     sort?: IPublicTypeComponentSort
-
+    /**
+     * 工具函数
+     */
     utils?: IPublicTypeUtilsMap
 }
 
@@ -104,6 +109,9 @@ export interface IPublicTypePackage {
      * 资源标题
      */
     title?: string
+    /**
+     * 类型
+     */
     type?: IPublicTypeCodeType
     /**
      * 包名

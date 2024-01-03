@@ -6,9 +6,9 @@ import {
 } from '@webank/letgo-common';
 import type {
     IBaseModelProps,
+    IEventHandler,
     IPublicExtrasObject,
     IPublicTypeCompositeValue,
-    IPublicTypeEventHandler,
     IPublicTypePropsList,
     IPublicTypePropsMap,
 } from '@webank/letgo-types';
@@ -110,7 +110,7 @@ export class Props implements IPropParent, IBaseModelProps<INode, Prop> {
             const value = item.getValue();
             if (typeof item.key === 'string' && value) {
                 if (item.key === getConvertedExtraKey('events')) {
-                    const newValue = (value as []).map((item: IPublicTypeEventHandler) => {
+                    const newValue = (value as []).map((item: IEventHandler) => {
                         if (item.namespace === preId)
                             item.namespace = id;
 

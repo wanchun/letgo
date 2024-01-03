@@ -1,5 +1,5 @@
-import type { IControlComponentAction, IControlQueryAction, IPublicModelDocumentModel, IPublicTypeEventHandler, IRunFunctionAction, ISetLocalStorageAction, ISetTemporaryStateAction } from '@webank/letgo-types';
-import { InnerEventHandlerAction } from '@webank/letgo-types';
+import type { IControlComponentAction, IControlQueryAction, IEventHandler, IPublicModelDocumentModel, IRunFunctionAction, ISetLocalStorageAction, ISetTemporaryStateAction } from '@webank/letgo-types';
+import { IEnumEventHandlerAction } from '@webank/letgo-types';
 import type { PropType } from 'vue';
 import { computed, defineComponent, ref } from 'vue';
 
@@ -12,7 +12,7 @@ export default defineComponent({
     name: 'RenderOptions',
     props: {
         documentModel: Object as PropType<IPublicModelDocumentModel>,
-        componentEvent: Object as PropType<IPublicTypeEventHandler>,
+        componentEvent: Object as PropType<IEventHandler>,
         onChange: Function as PropType<((content: Record<string, any>) => void)>,
     },
     setup(props) {
@@ -167,19 +167,19 @@ export default defineComponent({
         };
 
         return () => {
-            if (props.componentEvent.action === InnerEventHandlerAction.CONTROL_QUERY)
+            if (props.componentEvent.action === IEnumEventHandlerAction.CONTROL_QUERY)
                 return renderQuery(props.componentEvent as IControlQueryAction);
 
-            if (props.componentEvent.action === InnerEventHandlerAction.CONTROL_COMPONENT)
+            if (props.componentEvent.action === IEnumEventHandlerAction.CONTROL_COMPONENT)
                 return renderComponentMethod(props.componentEvent as IControlComponentAction);
 
-            if (props.componentEvent.action === InnerEventHandlerAction.SET_TEMPORARY_STATE)
+            if (props.componentEvent.action === IEnumEventHandlerAction.SET_TEMPORARY_STATE)
                 return renderSetTemporaryState(props.componentEvent as ISetTemporaryStateAction);
 
-            if (props.componentEvent.action === InnerEventHandlerAction.SET_LOCAL_STORAGE)
+            if (props.componentEvent.action === IEnumEventHandlerAction.SET_LOCAL_STORAGE)
                 return renderSetLocalStorage(props.componentEvent as ISetLocalStorageAction);
 
-            if (props.componentEvent.action === InnerEventHandlerAction.RUN_FUNCTION)
+            if (props.componentEvent.action === IEnumEventHandlerAction.RUN_FUNCTION)
                 return renderRunFunction(props.componentEvent as IRunFunctionAction);
         };
     },

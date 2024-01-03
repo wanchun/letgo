@@ -1,10 +1,10 @@
 import { ref } from 'vue';
 import { createSharedComposable } from '@vueuse/core';
-import type { CodeItem } from '@webank/letgo-types';
+import type { ICodeItem } from '@webank/letgo-types';
 
 function useCode() {
-    const currentCodeItem = ref<CodeItem>();
-    const changeCurrentCodeItem = (item: CodeItem | null) => {
+    const currentCodeItem = ref<ICodeItem>();
+    const changeCurrentCodeItem = (item: ICodeItem | null) => {
         currentCodeItem.value = item;
     };
     return {

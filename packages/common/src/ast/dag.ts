@@ -1,4 +1,4 @@
-import type { CodeItem } from '@webank/letgo-types';
+import type { ICodeItem } from '@webank/letgo-types';
 import { isNil } from 'lodash-es';
 import { calcDependencies } from './ast';
 
@@ -40,7 +40,7 @@ export function checkCycleDependency(dependencyMap: Map<string, string[]>) {
     return sortResult;
 }
 
-export function sortState(codeMap: Map<string, CodeItem>, dependencyMap = new Map<string, string[]>(), ctx?: Record<string, any>) {
+export function sortState(codeMap: Map<string, ICodeItem>, dependencyMap = new Map<string, string[]>(), ctx?: Record<string, any>) {
     const innerCtx = {
         ...ctx,
     };

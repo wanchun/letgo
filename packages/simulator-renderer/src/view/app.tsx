@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, onUnmounted, provide, reactive, watch } from 'vue';
-import { type CodeItem, CodeType } from '@webank/letgo-types';
+import { type ICodeItem, IEnumCodeType } from '@webank/letgo-types';
 import { buildGlobalUtils } from '@webank/letgo-renderer';
 import { RouterView } from 'vue-router';
 import { BASE_GLOBAL_CONTEXT } from '../constants';
@@ -69,12 +69,12 @@ export default defineComponent({
 
         const offCodeChangedEvent: (() => void)[] = [];
         offCodeChangedEvent.push(
-            code.onCodesChanged((currentCodeMap: Map<string, CodeItem>) => {
+            code.onCodesChanged((currentCodeMap: Map<string, ICodeItem>) => {
                 initCodesInstance(currentCodeMap, globalContext);
             }),
-            code.onCodeItemAdd((item: CodeItem) => {
+            code.onCodeItemAdd((item: ICodeItem) => {
                 createCodeInstance(item, globalContext);
-                if (codesInstance[item.id].type === CodeType.JAVASCRIPT_FUNCTION)
+                if (codesInstance[item.id].type === IEnumCodeType.JAVASCRIPT_FUNCTION)
                     globalContext[item.id] = (codesInstance[item.id] as JavascriptFunctionImpl).trigger.bind(codesInstance[item.id]);
 
                 else

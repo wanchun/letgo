@@ -1,6 +1,6 @@
 import { markComputed, markShallowReactive } from '@webank/letgo-common';
 import type { IJavascriptQuery } from '@webank/letgo-types';
-import { RunCondition } from '@webank/letgo-types';
+import { IEnumRunCondition } from '@webank/letgo-types';
 import { JavascriptQueryBase } from '@webank/letgo-renderer';
 import type { IJavascriptQueryImpl } from '@webank/letgo-designer';
 
@@ -21,7 +21,7 @@ export class JavascriptQueryImpl extends JavascriptQueryBase implements IJavascr
             showSuccessToaster: data.showSuccessToaster || false,
             successMessage: data.successMessage || '',
             queryTimeout: data.queryTimeout,
-            runCondition: data.runCondition || RunCondition.Manual,
+            runCondition: data.runCondition || IEnumRunCondition.Manual,
             queryFailureCondition: data.queryFailureCondition || [],
             successEvent: data.successEvent,
             failureEvent: data.failureEvent,

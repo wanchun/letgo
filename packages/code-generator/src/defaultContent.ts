@@ -10,12 +10,12 @@ export const defaultPackageJSON: Record<string, any> = {
 
 export const defaultCodes = {
     'letgoConstants.js': `
-export const RunCondition = {
+export const IEnumRunCondition = {
     MANUAL: 0,
     PageLoads: 1,
 };
 
-export const CodeType = {
+export const IEnumCodeType = {
     JAVASCRIPT_QUERY: 'query',
     JAVASCRIPT_COMPUTED: 'computed',
     TEMPORARY_STATE: 'temporaryState',
@@ -119,7 +119,7 @@ export function useInstance() {
 }`,
     'useJSQuery.js': `
 import { markReactive } from './reactive';
-import { RunCondition } from './letgoConstants';
+import { IEnumRunCondition } from './letgoConstants';
 
 class JSQuery {
     constructor(data) {
@@ -135,7 +135,7 @@ class JSQuery {
             runWhenPageLoads: data.runWhenPageLoads || false,
             successMessage: data.successMessage || '',
             queryTimeout: data.queryTimeout,
-            runCondition: data.runCondition || RunCondition.MANUAL,
+            runCondition: data.runCondition || IEnumRunCondition.MANUAL,
             queryFailureCondition: data.queryFailureCondition || [],
             successEvent: data.successEvent || [],
             failureEvent: data.failureEvent || [],

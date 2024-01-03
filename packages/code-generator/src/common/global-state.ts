@@ -1,4 +1,8 @@
-import type { CodeStruct, IPublicTypeNpmInfo, IPublicTypeUtilsMap } from '@webank/letgo-types';
+import type {
+    ICodeStruct,
+    IPublicTypeNpmInfo,
+    IPublicTypeUtilsMap,
+} from '@webank/letgo-types';
 import { set } from 'lodash-es';
 import { getOptions, relative } from '../options';
 import { genCode, genCodeMap, genImportCode } from './helper';
@@ -23,7 +27,7 @@ export const useSharedLetgoGlobal = createSharedComposable(${GLOBAL_STATE_FILE_N
 `;
 
 const globalStateKeys: string[] = [];
-function genGlobalStateKeys(codeStruct: CodeStruct) {
+function genGlobalStateKeys(codeStruct: ICodeStruct) {
     const codeMap = genCodeMap(codeStruct);
     return Array.from(codeMap.keys());
 }

@@ -1,4 +1,4 @@
-import type { CodeType } from '@webank/letgo-types';
+import type { IEnumCodeType } from '@webank/letgo-types';
 
 export interface ICodeBaseImpl {
     id: string
@@ -8,22 +8,22 @@ export interface ICodeBaseImpl {
 }
 
 export interface ITemporaryStateImpl extends ICodeBaseImpl {
-    type: CodeType.TEMPORARY_STATE
+    type: IEnumCodeType.TEMPORARY_STATE
     changeDeps(deps: string[]): void
 }
 
 export interface IJavascriptComputedImpl extends ICodeBaseImpl {
-    type: CodeType.JAVASCRIPT_COMPUTED
+    type: IEnumCodeType.JAVASCRIPT_COMPUTED
     changeDeps(deps: string[]): void
 }
 
 export interface IJavascriptQueryImpl extends ICodeBaseImpl {
-    type: CodeType.JAVASCRIPT_QUERY
+    type: IEnumCodeType.JAVASCRIPT_QUERY
     trigger(): void
 }
 
 export interface IJavascriptFunctionImpl extends ICodeBaseImpl {
-    type: CodeType.JAVASCRIPT_FUNCTION
+    type: IEnumCodeType.JAVASCRIPT_FUNCTION
     trigger(): void
 }
 

@@ -6,12 +6,12 @@ import {
     replaceExpressionIdentifier,
     replaceJSFunctionIdentifier,
 } from '@webank/letgo-common';
-import { CodeType } from '@webank/letgo-types';
+import { IEnumCodeType } from '@webank/letgo-types';
 import type {
-    CodeItem,
-    CodeStruct,
+    ICodeItem,
+    ICodeStruct,
+    IEnumResourceType,
     IPublicModelCode,
-    ResourceType,
 } from '@webank/letgo-types';
 import { codeBaseEdit } from './code-base';
 
@@ -19,9 +19,9 @@ const idCount: Record<string, number> = {};
 
 export class Code implements IPublicModelCode {
     private emitter = new EventEmitter();
-    codeStruct: CodeStruct;
-    codeMap: Map<string, CodeItem>;
-    constructor(codeStruct?: CodeStruct) {
+    codeStruct: ICodeStruct;
+    codeMap: Map<string, ICodeItem>;
+    constructor(codeStruct?: ICodeStruct) {
         codeStruct = codeStruct || {
             directories: [],
             code: [],
@@ -39,23 +39,23 @@ export class Code implements IPublicModelCode {
     }
 
     get queries() {
-        return this.code.filter(item => item.type === CodeType.JAVASCRIPT_QUERY);
+        return this.code.filter(item => item.type === IEnumCodeType.JAVASCRIPT_QUERY);
     }
 
     get temporaryStates() {
-        return this.code.filter(item => item.type === CodeType.TEMPORARY_STATE);
+        return this.code.filter(item => item.type === IEnumCodeType.TEMPORARY_STATE);
     }
 
     get functions() {
-        return this.code.filter(item => item.type === CodeType.JAVASCRIPT_FUNCTION);
+        return this.code.filter(item => item.type === IEnumCodeType.JAVASCRIPT_FUNCTION);
     }
 
     get code() {
         return this.codeStruct.code;
     }
 
-    private genCodeMap(code: CodeStruct) {
-        const codeMap = new Map<string, CodeItem>();
+    private genCodeMap(code: ICodeStruct) {
+        const codeMap = new Map<string, ICodeItem>();
         code.code.forEach((item) => {
             codeMap.set(item.id, item);
         });
@@ -81,11 +81,11 @@ export class Code implements IPublicModelCode {
         return this.codeMap.has(id);
     };
 
-    onCodesChanged = (func: (currentCodeMap: Map<string, CodeItem>) => void) => {
+    onCodesChanged = (func: (currentCodeMap: Map<string, ICodeItem>) => void) => {
         return this.onEvent('codesChanged', func);
     };
 
-    initCode(codeStruct?: CodeStruct) {
+    initCode(codeStruct?: ICodeStruct) {
         this.codeStruct = codeStruct || {
             directories: [],
             code: [],
@@ -112,7 +112,7 @@ export class Code implements IPublicModelCode {
         }
     };
 
-    genCodeId = (type: CodeType): string => {
+    genCodeId = (type: IEnumCodeType): string => {
         idCount[type] = (idCount[type] || 0) + 1;
         const newId = `${type}${idCount[type]}`;
         if (this.hasCodeId(newId))
@@ -121,21 +121,21 @@ export class Code implements IPublicModelCode {
         return newId;
     };
 
-    emitCodeItemAdd(codeItem: CodeItem) {
+    emitCodeItemAdd(codeItem: ICodeItem) {
         this.emitter.emit('codeItemAdd', codeItem);
     }
 
-    onCodeItemAdd = (func: (codeItem: CodeItem) => void) => {
+    onCodeItemAdd = (func: (codeItem: ICodeItem) => void) => {
         return this.onEvent('codeItemAdd', func);
     };
 
-    addCodeItemWithType = (type: CodeType, resourceType?: ResourceType) => {
+    addCodeItemWithType = (type: IEnumCodeType, resourceType?: IEnumResourceType) => {
         const id = this.genCodeId(type);
         const item = codeBaseEdit[type].addCode(id, resourceType);
         this.addCodeItem(item);
     };
 
-    addCodeItem = (item: CodeItem) => {
+    addCodeItem = (item: ICodeItem) => {
         this.codeStruct.code.push(item);
         const newCodeItem = this.codeStruct.code[this.codeStruct.code.length - 1];
         this.codeMap.set(item.id, newCodeItem);
@@ -196,7 +196,7 @@ export class Code implements IPublicModelCode {
     scopeVariableChange(id: string, newVariable: string, oldVariable: string) {
         const item = this.codeMap.get(id);
 
-        if (item.type === CodeType.TEMPORARY_STATE) {
+        if (item.type === IEnumCodeType.TEMPORARY_STATE) {
             const initValue = replaceExpressionIdentifier(item.initValue, newVariable, oldVariable);
             if (item.initValue !== initValue) {
                 this.changeCodeItemContent(item.id, {
@@ -204,7 +204,7 @@ export class Code implements IPublicModelCode {
                 });
             }
         }
-        else if (item.type === CodeType.JAVASCRIPT_COMPUTED) {
+        else if (item.type === IEnumCodeType.JAVASCRIPT_COMPUTED) {
             const funcBody = replaceJSFunctionIdentifier(item.funcBody, newVariable, oldVariable);
             if (item.funcBody !== funcBody) {
                 this.changeCodeItemContent(item.id, {
@@ -212,7 +212,7 @@ export class Code implements IPublicModelCode {
                 });
             }
         }
-        else if (item.type === CodeType.JAVASCRIPT_FUNCTION) {
+        else if (item.type === IEnumCodeType.JAVASCRIPT_FUNCTION) {
             const funcBody = replaceJSFunctionIdentifier(item.funcBody, newVariable, oldVariable);
             if (item.funcBody !== funcBody) {
                 this.changeCodeItemContent(item.id, {
@@ -220,7 +220,7 @@ export class Code implements IPublicModelCode {
                 });
             }
         }
-        else if (item.type === CodeType.JAVASCRIPT_QUERY) {
+        else if (item.type === IEnumCodeType.JAVASCRIPT_QUERY) {
             // TODO 以后有变量依赖的不仅仅是 query 属性
             const query = replaceJSFunctionIdentifier(item.query, newVariable, oldVariable);
             if (item.query !== query) {

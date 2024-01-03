@@ -1,10 +1,10 @@
 import type { IJavascriptFunction } from '@webank/letgo-types';
-import { CodeType } from '@webank/letgo-types';
+import { IEnumCodeType } from '@webank/letgo-types';
 
 // 解析执行
 export class JavascriptFunctionLive {
     id: string;
-    type: CodeType.JAVASCRIPT_FUNCTION = CodeType.JAVASCRIPT_FUNCTION;
+    type: IEnumCodeType.JAVASCRIPT_FUNCTION = IEnumCodeType.JAVASCRIPT_FUNCTION;
     ctx: Record<string, any>;
     deps: string[];
     funcBody: string;

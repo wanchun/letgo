@@ -1,4 +1,11 @@
-import { type IPublicTypeEventHandler, type IPublicTypeJSFunction, InnerEventHandlerAction, isRunFunctionEventHandler, isSetLocalStorageEventHandler, isSetTemporaryStateEventHandler } from '@webank/letgo-types';
+import {
+    IEnumEventHandlerAction,
+    type IEventHandler,
+    type IPublicTypeJSFunction,
+    isRunFunctionEventHandler,
+    isSetLocalStorageEventHandler,
+    isSetTemporaryStateEventHandler,
+} from '@webank/letgo-types';
 import { camelCase } from 'lodash-es';
 
 export function genEventName(prop: string, refName: string) {
@@ -11,15 +18,15 @@ function handleParams(params: string[]) {
     });
 }
 
-function compilerEventHandler(event: IPublicTypeEventHandler) {
+function compilerEventHandler(event: IEventHandler) {
     if (isRunFunctionEventHandler(event)) {
         const params = (event.params || []).filter(Boolean).concat('...args');
         return `(...args) => ${event.namespace}(${params.join(', ')})`;
     }
-    else if (event.action === InnerEventHandlerAction.CONTROL_QUERY) {
+    else if (event.action === IEnumEventHandlerAction.CONTROL_QUERY) {
         return `(...args) => ${event.namespace}.${event.method}(...args)`;
     }
-    else if (event.action === InnerEventHandlerAction.CONTROL_COMPONENT) {
+    else if (event.action === IEnumEventHandlerAction.CONTROL_COMPONENT) {
         return `(...args) => ${event.namespace}.${event.method}(...args)`;
     }
     else if (isSetTemporaryStateEventHandler(event)) {
@@ -36,12 +43,12 @@ function compilerEventHandler(event: IPublicTypeEventHandler) {
     return null;
 }
 
-export function compilerEventHandlers(events: IPublicTypeEventHandler[]) {
+export function compilerEventHandlers(events: IEventHandler[]) {
     const result: {
         [key: string]: string[]
     } = {};
-    events.forEach((item: IPublicTypeEventHandler) => {
-        if ((item.namespace && item.method) || item.action === InnerEventHandlerAction.RUN_FUNCTION) {
+    events.forEach((item: IEventHandler) => {
+        if ((item.namespace && item.method) || item.action === IEnumEventHandlerAction.RUN_FUNCTION) {
             const jsExpression = compilerEventHandler(item);
             result[item.name] = (result[item.name] || []).concat(jsExpression);
         }

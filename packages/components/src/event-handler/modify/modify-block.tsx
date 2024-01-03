@@ -1,50 +1,50 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, ref, watch } from 'vue';
 import { FButton, FInput, FInputNumber, FOption, FSelect, FSpace } from '@fesjs/fes-design';
-import type { IPublicModelDocumentModel, IPublicTypeEventHandler } from '@webank/letgo-types';
-import { InnerEventHandlerAction } from '@webank/letgo-types';
+import type { IEventHandler, IPublicModelDocumentModel } from '@webank/letgo-types';
+import { IEnumEventHandlerAction } from '@webank/letgo-types';
 import Label from './label';
 import Separator from './separator';
 import RenderOptions from './render-options';
 import './modify-block.less';
 
 const actions = [{
-    value: InnerEventHandlerAction.CONTROL_QUERY,
+    value: IEnumEventHandlerAction.CONTROL_QUERY,
     label: '控制查询',
 }, {
-    value: InnerEventHandlerAction.CONTROL_COMPONENT,
+    value: IEnumEventHandlerAction.CONTROL_COMPONENT,
     label: '控制组件',
 }, {
-    value: InnerEventHandlerAction.SET_TEMPORARY_STATE,
+    value: IEnumEventHandlerAction.SET_TEMPORARY_STATE,
     label: '设置变量值',
 }, {
-    value: InnerEventHandlerAction.SET_LOCAL_STORAGE,
+    value: IEnumEventHandlerAction.SET_LOCAL_STORAGE,
     label: '设置本地存储',
 }, {
-    value: InnerEventHandlerAction.RUN_FUNCTION,
+    value: IEnumEventHandlerAction.RUN_FUNCTION,
     label: '执行函数',
 }];
 
 const initOptions: any = {
-    [InnerEventHandlerAction.CONTROL_QUERY]: {
+    [IEnumEventHandlerAction.CONTROL_QUERY]: {
         namespace: null,
         method: 'trigger',
     },
-    [InnerEventHandlerAction.CONTROL_COMPONENT]: {
+    [IEnumEventHandlerAction.CONTROL_COMPONENT]: {
         namespace: null,
         method: null,
     },
-    [InnerEventHandlerAction.SET_TEMPORARY_STATE]: {
+    [IEnumEventHandlerAction.SET_TEMPORARY_STATE]: {
         namespace: null,
         method: 'setValue',
         params: [],
     },
-    [InnerEventHandlerAction.SET_LOCAL_STORAGE]: {
+    [IEnumEventHandlerAction.SET_LOCAL_STORAGE]: {
         namespace: 'localStorage',
         method: 'setValue',
         params: [],
     },
-    [InnerEventHandlerAction.RUN_FUNCTION]: {
+    [IEnumEventHandlerAction.RUN_FUNCTION]: {
         namespace: null,
         method: null,
         funcBody: '',
@@ -58,12 +58,12 @@ export default defineComponent({
     name: 'EventHandlerModify',
     props: {
         documentModel: Object as PropType<IPublicModelDocumentModel>,
-        editEvent: Object as PropType<IPublicTypeEventHandler>,
+        editEvent: Object as PropType<IEventHandler>,
         events: {
             type: Array as PropType<Option[]>,
             default: () => [] as Option[],
         },
-        onChange: Function as PropType<(data: IPublicTypeEventHandler) => void>,
+        onChange: Function as PropType<(data: IEventHandler) => void>,
     },
     setup(props) {
         const innerEditEvent = ref({ ...props.editEvent });

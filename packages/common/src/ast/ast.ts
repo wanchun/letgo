@@ -1,14 +1,14 @@
 import { generate } from 'astring';
 import { parse } from 'acorn';
 import {
-    CodeType,
-    InnerEventHandlerAction,
+    IEnumCodeType,
+    IEnumEventHandlerAction,
     isRestQueryResource,
     isRunFunctionEventHandler,
     isSetLocalStorageEventHandler,
     isSetTemporaryStateEventHandler,
 } from '@webank/letgo-types';
-import type { CodeItem, IPublicTypeEventHandler, IPublicTypeJSFunction } from '@webank/letgo-types';
+import type { ICodeItem, IEventHandler, IPublicTypeJSFunction } from '@webank/letgo-types';
 import { isNil } from 'lodash-es';
 import { findGlobals, reallyParse } from './find-globals';
 
@@ -46,27 +46,27 @@ export function calcJSCodeDependencies(code: string, ctx?: Record<string, any>) 
     return dependencies;
 }
 
-function handleEventDep(events: IPublicTypeEventHandler[]) {
+function handleEventDep(events: IEventHandler[]) {
     const result: string[] = [];
     if (events) {
         events.forEach((event) => {
-            if ([InnerEventHandlerAction.SET_TEMPORARY_STATE, InnerEventHandlerAction.CONTROL_QUERY, InnerEventHandlerAction.RUN_FUNCTION].includes(event.action))
+            if ([IEnumEventHandlerAction.SET_TEMPORARY_STATE, IEnumEventHandlerAction.CONTROL_QUERY, IEnumEventHandlerAction.RUN_FUNCTION].includes(event.action))
                 result.push(event.namespace);
         });
     }
     return result;
 }
 
-export function calcDependencies(item: CodeItem, ctx?: Record<string, any>) {
+export function calcDependencies(item: ICodeItem, ctx?: Record<string, any>) {
     try {
         let result: string[] = [];
-        if (item.type === CodeType.TEMPORARY_STATE)
+        if (item.type === IEnumCodeType.TEMPORARY_STATE)
             result = calcJSCodeDependencies(item.initValue ? `(${item.initValue})` : null, ctx);
 
-        else if (item.type === CodeType.JAVASCRIPT_COMPUTED || item.type === CodeType.JAVASCRIPT_FUNCTION)
+        else if (item.type === IEnumCodeType.JAVASCRIPT_COMPUTED || item.type === IEnumCodeType.JAVASCRIPT_FUNCTION)
             result = calcJSCodeDependencies(item.funcBody, ctx);
 
-        if (item.type === CodeType.JAVASCRIPT_QUERY) {
+        if (item.type === IEnumCodeType.JAVASCRIPT_QUERY) {
             if (isRestQueryResource(item)) {
                 result = calcJSCodeDependencies(item.params ? `(${item.params})` : null, ctx);
                 result = result.concat(handleEventDep(item.failureEvent));
@@ -85,16 +85,16 @@ export function calcDependencies(item: CodeItem, ctx?: Record<string, any>) {
     }
 }
 
-export function eventHandlerToJsFunction(item: IPublicTypeEventHandler): IPublicTypeJSFunction {
+export function eventHandlerToJsFunction(item: IEventHandler): IPublicTypeJSFunction {
     let expression: string;
     const params: string[] = item.params ? item.params.filter(item => item) : [];
     if (isRunFunctionEventHandler(item)) {
         expression = `${item.namespace}(...Array.prototype.slice.call(arguments))`;
     }
-    else if (item.action === InnerEventHandlerAction.CONTROL_QUERY) {
+    else if (item.action === IEnumEventHandlerAction.CONTROL_QUERY) {
         expression = `${item.namespace}.${item.method}.apply(${item.namespace}, Array.prototype.slice.call(arguments))`;
     }
-    else if (item.action === InnerEventHandlerAction.CONTROL_COMPONENT) {
+    else if (item.action === IEnumEventHandlerAction.CONTROL_COMPONENT) {
         expression = `${item.namespace}.${item.method}(Array.prototype.slice.call(arguments))`;
     }
     else if (isSetTemporaryStateEventHandler(item)) {
@@ -121,12 +121,12 @@ export function eventHandlerToJsFunction(item: IPublicTypeEventHandler): IPublic
     };
 }
 
-export function eventHandlersToJsFunction(handlers: IPublicTypeEventHandler[] = []) {
+export function eventHandlersToJsFunction(handlers: IEventHandler[] = []) {
     const result: {
         [key: string]: IPublicTypeJSFunction[]
     } = {};
-    handlers.forEach((item: IPublicTypeEventHandler) => {
-        if ((item.namespace && item.method) || item.action === InnerEventHandlerAction.RUN_FUNCTION) {
+    handlers.forEach((item: IEventHandler) => {
+        if ((item.namespace && item.method) || item.action === IEnumEventHandlerAction.RUN_FUNCTION) {
             const jsExpression = eventHandlerToJsFunction(item);
             result[item.name] = (result[item.name] || []).concat(jsExpression);
         }

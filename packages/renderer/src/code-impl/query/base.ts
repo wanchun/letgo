@@ -1,12 +1,12 @@
 import { eventHandlersToJsFunction, markShallowReactive } from '@webank/letgo-common';
-import type { IFailureCondition, IJavascriptQuery, IPublicTypeEventHandler, ResourceType } from '@webank/letgo-types';
-import { CodeType, RunCondition } from '@webank/letgo-types';
+import type { IEnumResourceType, IEventHandler, IFailureCondition, IJavascriptQuery } from '@webank/letgo-types';
+import { IEnumCodeType, IEnumRunCondition } from '@webank/letgo-types';
 import { funcSchemaToFunc } from '../../parse';
 
 export class JavascriptQueryBase {
     id: string;
-    resourceType: ResourceType;
-    type: CodeType.JAVASCRIPT_QUERY = CodeType.JAVASCRIPT_QUERY;
+    resourceType: IEnumResourceType;
+    type: IEnumCodeType.JAVASCRIPT_QUERY = IEnumCodeType.JAVASCRIPT_QUERY;
     ctx: Record<string, any>;
     data: any = null;
     error: string = null;
@@ -24,11 +24,11 @@ export class JavascriptQueryBase {
     runWhenPageLoads = false;
     enableCaching = false;
     cacheDuration: number = null;
-    runCondition: RunCondition;
-    failureEvent: IPublicTypeEventHandler[];
+    runCondition: IEnumRunCondition;
+    failureEvent: IEventHandler[];
     successEventInstances: ((...args: any[]) => void)[];
     failureEventInstances: ((...args: any[]) => void)[];
-    successEvent: IPublicTypeEventHandler[];
+    successEvent: IEventHandler[];
     queryFailureCondition: IFailureCondition[];
     cacheTime: number;
     constructor(data: IJavascriptQuery, deps: string[], ctx: Record<string, any>) {
@@ -42,7 +42,7 @@ export class JavascriptQueryBase {
         this.showSuccessToaster = data.showSuccessToaster || false;
         this.successMessage = data.successMessage || '';
         this.queryTimeout = data.queryTimeout;
-        this.runCondition = data.runCondition || RunCondition.Manual;
+        this.runCondition = data.runCondition || IEnumRunCondition.Manual;
         this.queryFailureCondition = data.queryFailureCondition || [];
         this.successEvent = data.successEvent;
         this.failureEvent = data.failureEvent;
@@ -65,7 +65,7 @@ export class JavascriptQueryBase {
         this.deps = deps;
     }
 
-    eventSchemaToFunc(events: IPublicTypeEventHandler[] = []) {
+    eventSchemaToFunc(events: IEventHandler[] = []) {
         if (!events.length)
             return [];
         const jsExpressionMap = eventHandlersToJsFunction(events);

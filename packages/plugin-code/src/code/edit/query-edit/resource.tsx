@@ -2,23 +2,23 @@ import { defineComponent } from 'vue';
 import type { PropType } from 'vue';
 import { FSelect } from '@fesjs/fes-design';
 import type { IJavascriptQuery } from '@webank/letgo-types';
-import { ResourceType } from '@webank/letgo-types';
+import { IEnumResourceType } from '@webank/letgo-types';
 import ContentItem from './content-item';
 import './resource.less';
 
 const Options = [{
-    value: ResourceType.RESTQuery,
+    value: IEnumResourceType.RESTQuery,
     label: 'REST API',
 }, {
-    value: ResourceType.Query,
+    value: IEnumResourceType.Query,
     label: '自定义查询逻辑',
 }];
 
 // const RunOptions = [{
-//     value: RunCondition.Manual,
+//     value: IEnumRunCondition.Manual,
 //     label: '手动触发 trigger 执行',
 // }, {
-//     value: RunCondition.DependStateChange,
+//     value: IEnumRunCondition.DependStateChange,
 //     label: '依赖状态变更自动执行',
 // }];
 

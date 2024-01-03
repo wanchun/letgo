@@ -1,6 +1,6 @@
-import type { IPublicTypeProjectSchema } from './schema';
 import type { IPublicTypeComponentMetadata } from './metadata';
 import type { IPublicTypeUtilsMap } from './utils';
+import type { IPublicTypeProjectSchema } from '.';
 
 export enum IPublicEnumAssetLevel {
     // 环境依赖库 比如 react, react-dom

@@ -1,11 +1,11 @@
 import type { PropType, Ref } from 'vue';
 import { defineComponent, onMounted, ref, watch } from 'vue';
-import type { IPublicTypeEventHandler, IPublicTypeSetter } from '@webank/letgo-types';
+import type { IEventHandler, IPublicTypeSetter } from '@webank/letgo-types';
 import {
     FButton,
 } from '@fesjs/fes-design';
 import { genEventId } from '@webank/letgo-common';
-import { InnerEventHandlerAction, isRunFunctionEventHandler } from '@webank/letgo-types';
+import { IEnumEventHandlerAction, isRunFunctionEventHandler } from '@webank/letgo-types';
 import { EventHandlerList, EventHandlerModify } from '@webank/letgo-components';
 import { PlusOutlined } from '@fesjs/fes-design/icon';
 import { commonProps } from '../../common';
@@ -34,15 +34,15 @@ const EventSetterView = defineComponent({
     name: 'EventSetterView',
     props: {
         ...commonProps,
-        value: Object as PropType<IPublicTypeEventHandler[]>,
-        defaultValue: Object as PropType<IPublicTypeEventHandler[]>,
-        onChange: Function as PropType<(componentEvents: IPublicTypeEventHandler[]) => void>,
+        value: Object as PropType<IEventHandler[]>,
+        defaultValue: Object as PropType<IEventHandler[]>,
+        onChange: Function as PropType<(componentEvents: IEventHandler[]) => void>,
         definition: Array as PropType<Array<EventDefinition>>,
     },
     setup(props) {
         const eventData: Ref<EventOptionList> = ref([]);
 
-        const selectedEventData = ref<IPublicTypeEventHandler[]>(props.value || []);
+        const selectedEventData = ref<IEventHandler[]>(props.value || []);
 
         watch(
             () => props.definition,
@@ -63,19 +63,19 @@ const EventSetterView = defineComponent({
             props.onMounted?.();
         });
 
-        const getInitComponentEvent = (): IPublicTypeEventHandler => {
+        const getInitComponentEvent = (): IEventHandler => {
             return {
                 id: genEventId(),
                 name: eventData.value[0].value,
                 waitType: 'debounce',
                 waitMs: null,
-                action: InnerEventHandlerAction.CONTROL_QUERY,
+                action: IEnumEventHandlerAction.CONTROL_QUERY,
                 namespace: null,
                 method: null,
             };
         };
 
-        const currentEditEvent = ref<IPublicTypeEventHandler>(getInitComponentEvent());
+        const currentEditEvent = ref<IEventHandler>(getInitComponentEvent());
 
         watch(() => props.value, () => {
             selectedEventData.value = props.value || [];
@@ -89,7 +89,7 @@ const EventSetterView = defineComponent({
             }
         });
 
-        const onEdit = (data: IPublicTypeEventHandler) => {
+        const onEdit = (data: IEventHandler) => {
             currentEditEvent.value = { ...data };
             if (isRunFunctionEventHandler(data) && !currentEditEvent.value.params)
                 currentEditEvent.value.params = [];
@@ -103,7 +103,7 @@ const EventSetterView = defineComponent({
             emitChangeEventData();
         };
 
-        const changeComponentEvent = (changedEvent: IPublicTypeEventHandler) => {
+        const changeComponentEvent = (changedEvent: IEventHandler) => {
             const index = selectedEventData.value.findIndex(item => item.id === changedEvent.id);
             if (index === -1)
                 selectedEventData.value.push(changedEvent);
@@ -113,7 +113,7 @@ const EventSetterView = defineComponent({
             emitChangeEventData();
         };
 
-        const deleteComponentEvent = (event: IPublicTypeEventHandler) => {
+        const deleteComponentEvent = (event: IEventHandler) => {
             const index = selectedEventData.value.findIndex(item => item.id === event.id);
             selectedEventData.value.splice(index, 1);
             if (currentEditEvent.value.id === event.id)

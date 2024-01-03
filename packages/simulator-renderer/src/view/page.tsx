@@ -1,7 +1,12 @@
 import { computed, defineComponent, h, onUnmounted, provide, watch } from 'vue';
 import type { PropType } from 'vue';
 import { Renderer } from '@webank/letgo-renderer';
-import { type CodeItem, CodeType, type IPublicTypeComponentInstance, type IPublicTypeNodeSchema } from '@webank/letgo-types';
+import {
+    type ICodeItem,
+    IEnumCodeType,
+    type IPublicTypeComponentInstance,
+    type IPublicTypeNodeSchema,
+} from '@webank/letgo-types';
 import type { DocumentInstance, VueSimulatorRenderer } from '../interface';
 import { BASE_COMP_CONTEXT } from '../constants';
 import type { JavascriptFunctionImpl } from '../code-impl/javascript-function';
@@ -41,12 +46,12 @@ export default defineComponent({
 
         const offCodeChangedEvent: (() => void)[] = [];
         offCodeChangedEvent.push(
-            code.value.onCodesChanged((currentCodeMap: Map<string, CodeItem>) => {
+            code.value.onCodesChanged((currentCodeMap: Map<string, ICodeItem>) => {
                 initCodesInstance(currentCodeMap, executeCtx);
             }),
-            code.value.onCodeItemAdd((item: CodeItem) => {
+            code.value.onCodeItemAdd((item: ICodeItem) => {
                 createCodeInstance(item, executeCtx);
-                if (codesInstance[item.id].type === CodeType.JAVASCRIPT_FUNCTION)
+                if (codesInstance[item.id].type === IEnumCodeType.JAVASCRIPT_FUNCTION)
                     executeCtx[item.id] = (codesInstance[item.id] as JavascriptFunctionImpl).trigger.bind(codesInstance[item.id]);
 
                 else executeCtx[item.id] = codesInstance[item.id];

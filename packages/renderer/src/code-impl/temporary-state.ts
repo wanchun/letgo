@@ -1,12 +1,12 @@
 import { isNil, isPlainObject, set } from 'lodash-es';
 import { attachContext } from '@webank/letgo-common';
 import type { ITemporaryState } from '@webank/letgo-types';
-import { CodeType } from '@webank/letgo-types';
+import { IEnumCodeType } from '@webank/letgo-types';
 
 // 解析执行
 export class TemporaryStateLive {
     id: string;
-    type: CodeType.TEMPORARY_STATE = CodeType.TEMPORARY_STATE;
+    type: IEnumCodeType.TEMPORARY_STATE = IEnumCodeType.TEMPORARY_STATE;
     deps: string[];
     ctx: Record<string, any>;
     value: any = null;

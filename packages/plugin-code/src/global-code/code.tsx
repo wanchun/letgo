@@ -2,7 +2,7 @@ import { computed, defineComponent, ref } from 'vue';
 import type { PropType } from 'vue';
 import type { Designer } from '@webank/letgo-designer';
 import { CodeList } from '@webank/letgo-components';
-import type { CodeItem } from '@webank/letgo-types';
+import type { ICodeItem } from '@webank/letgo-types';
 import { innerGlobalVariable } from '@webank/letgo-common';
 import CodeEdit from './edit/code-edit';
 import './code.less';
@@ -21,8 +21,8 @@ export const GlobalCode = defineComponent({
             return props.designer.project.codesInstance;
         });
 
-        const currentCodeItem = ref<CodeItem>();
-        const changeCurrentCodeItem = (item: CodeItem | null) => {
+        const currentCodeItem = ref<ICodeItem>();
+        const changeCurrentCodeItem = (item: ICodeItem | null) => {
             currentCodeItem.value = item;
         };
 

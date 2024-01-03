@@ -2,29 +2,29 @@ import { defineComponent, h } from 'vue';
 import type { PropType } from 'vue';
 import { FDropdown } from '@fesjs/fes-design';
 import { MoreOutlined, PlusOutlined } from '@fesjs/fes-design/icon';
-import type { CodeItem, IPublicModelCode } from '@webank/letgo-types';
-import { CodeType, ResourceType } from '@webank/letgo-types';
+import type { ICodeItem, IPublicModelCode } from '@webank/letgo-types';
+import { IEnumCodeType, IEnumResourceType } from '@webank/letgo-types';
 import { ComputedIcon, FolderIcon, JsIcon, RestIcon, StateIcon } from '../icons';
 import CodeId from './code-id';
 import './code.less';
 
 const iconMap = {
-    [CodeType.JAVASCRIPT_FUNCTION]: JsIcon,
-    [CodeType.JAVASCRIPT_COMPUTED]: ComputedIcon,
-    [CodeType.TEMPORARY_STATE]: StateIcon,
+    [IEnumCodeType.JAVASCRIPT_FUNCTION]: JsIcon,
+    [IEnumCodeType.JAVASCRIPT_COMPUTED]: ComputedIcon,
+    [IEnumCodeType.TEMPORARY_STATE]: StateIcon,
 };
 
 const resourceTypeIcon = {
-    [ResourceType.Query]: JsIcon,
-    [ResourceType.RESTQuery]: RestIcon,
+    [IEnumResourceType.Query]: JsIcon,
+    [IEnumResourceType.RESTQuery]: RestIcon,
 };
 
 // TODO 拖拽交换 code 顺序
 export const CodeList = defineComponent({
     name: 'CodeList',
     props: {
-        currentCodeItem: Object as PropType<CodeItem>,
-        onChangeCurrentCodeItem: Function as PropType<((codeItem: CodeItem) => void)>,
+        currentCodeItem: Object as PropType<ICodeItem>,
+        onChangeCurrentCodeItem: Function as PropType<((codeItem: ICodeItem) => void)>,
         code: Object as PropType<IPublicModelCode>,
         codesInstance: {
             type: Object as PropType<Record<string, any>>,
@@ -40,25 +40,25 @@ export const CodeList = defineComponent({
     setup(props) {
         const options = [
             props.hasQuery && {
-                value: ResourceType.RESTQuery,
-                codeType: CodeType.JAVASCRIPT_QUERY,
+                value: IEnumResourceType.RESTQuery,
+                codeType: IEnumCodeType.JAVASCRIPT_QUERY,
                 label: '查询',
-                icon: () => h(resourceTypeIcon[ResourceType.RESTQuery]),
+                icon: () => h(resourceTypeIcon[IEnumResourceType.RESTQuery]),
             },
             props.hasFunction && {
-                value: CodeType.JAVASCRIPT_FUNCTION,
+                value: IEnumCodeType.JAVASCRIPT_FUNCTION,
                 label: 'Js函数',
-                icon: () => h(iconMap[CodeType.JAVASCRIPT_FUNCTION]),
+                icon: () => h(iconMap[IEnumCodeType.JAVASCRIPT_FUNCTION]),
             },
             {
-                value: CodeType.JAVASCRIPT_COMPUTED,
+                value: IEnumCodeType.JAVASCRIPT_COMPUTED,
                 label: '计算变量',
-                icon: () => h(iconMap[CodeType.JAVASCRIPT_COMPUTED]),
+                icon: () => h(iconMap[IEnumCodeType.JAVASCRIPT_COMPUTED]),
             },
             {
-                value: CodeType.TEMPORARY_STATE,
+                value: IEnumCodeType.TEMPORARY_STATE,
                 label: '变量',
-                icon: () => h(iconMap[CodeType.TEMPORARY_STATE]),
+                icon: () => h(iconMap[IEnumCodeType.TEMPORARY_STATE]),
             },
         ].filter(Boolean);
 
@@ -76,7 +76,7 @@ export const CodeList = defineComponent({
             },
         ];
 
-        const onCommonAction = (value: string, item: CodeItem) => {
+        const onCommonAction = (value: string, item: ICodeItem) => {
             if (value === 'delete') {
                 props.code?.deleteCodeItem(item.id);
                 if (props.currentCodeItem?.id === item.id)
@@ -111,8 +111,8 @@ export const CodeList = defineComponent({
             });
         };
 
-        const renderCodeIcon = (item: CodeItem) => {
-            if (item.type === CodeType.JAVASCRIPT_QUERY)
+        const renderCodeIcon = (item: ICodeItem) => {
+            if (item.type === IEnumCodeType.JAVASCRIPT_QUERY)
                 return h(resourceTypeIcon[item.resourceType]);
 
             if (iconMap[item.type])
@@ -136,9 +136,9 @@ export const CodeList = defineComponent({
         const addCodeItem = (val: string) => {
             const option = options.find(item => item.value === val);
             if (option.codeType)
-                props.code?.addCodeItemWithType(option.codeType, val as ResourceType);
+                props.code?.addCodeItemWithType(option.codeType, val as IEnumResourceType);
             else
-                props.code?.addCodeItemWithType(val as CodeType);
+                props.code?.addCodeItemWithType(val as IEnumCodeType);
         };
 
         return () => {

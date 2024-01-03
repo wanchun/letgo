@@ -1,8 +1,8 @@
 import { FMessage } from '@fesjs/fes-design';
 import { reactive } from 'vue';
 import { isNil } from 'lodash-es';
-import type { CodeItem } from '@webank/letgo-types';
-import { CodeType } from '@webank/letgo-types';
+import type { ICodeItem } from '@webank/letgo-types';
+import { IEnumCodeType } from '@webank/letgo-types';
 import type { CodeImplType } from '@webank/letgo-designer';
 import { calcDependencies, sortState } from '@webank/letgo-common';
 import { JavascriptQueryImpl, createQueryImpl } from './query';
@@ -12,23 +12,23 @@ import { TemporaryStateImpl } from './temporary-state';
 
 export function useCodesInstance() {
     const dependencyMap = new Map<string, string[]>();
-    let codeMap: Map<string, CodeItem> = new Map();
+    let codeMap: Map<string, ICodeItem> = new Map();
     const codesInstance: Record<string, CodeImplType> = reactive({});
 
-    const createCodeInstance = (item: CodeItem, ctx: Record<string, any>) => {
+    const createCodeInstance = (item: ICodeItem, ctx: Record<string, any>) => {
         if (!dependencyMap.has(item.id))
             dependencyMap.set(item.id, calcDependencies(item, ctx));
 
-        if (item.type === CodeType.TEMPORARY_STATE)
+        if (item.type === IEnumCodeType.TEMPORARY_STATE)
             codesInstance[item.id] = new TemporaryStateImpl(item, dependencyMap.get(item.id), ctx);
 
-        else if (item.type === CodeType.JAVASCRIPT_COMPUTED)
+        else if (item.type === IEnumCodeType.JAVASCRIPT_COMPUTED)
             codesInstance[item.id] = new ComputedImpl(item, dependencyMap.get(item.id), ctx);
 
-        else if (item.type === CodeType.JAVASCRIPT_QUERY)
+        else if (item.type === IEnumCodeType.JAVASCRIPT_QUERY)
             codesInstance[item.id] = createQueryImpl(item, dependencyMap.get(item.id), ctx);
 
-        else if (item.type === CodeType.JAVASCRIPT_FUNCTION)
+        else if (item.type === IEnumCodeType.JAVASCRIPT_FUNCTION)
             codesInstance[item.id] = new JavascriptFunctionImpl(item, dependencyMap.get(item.id), ctx);
     };
 
@@ -64,7 +64,7 @@ export function useCodesInstance() {
         delete codesInstance[preId];
     };
 
-    const initCodesInstance = (currentCodeMap: Map<string, CodeItem>, ctx: Record<string, any>) => {
+    const initCodesInstance = (currentCodeMap: Map<string, ICodeItem>, ctx: Record<string, any>) => {
         try {
             dependencyMap.clear();
             for (const key of codeMap.keys()) {
@@ -78,7 +78,7 @@ export function useCodesInstance() {
             sortResult.forEach((codeId) => {
                 const item = codeMap.get(codeId);
                 createCodeInstance(item, ctx);
-                if (codesInstance[item.id].type === CodeType.JAVASCRIPT_FUNCTION)
+                if (codesInstance[item.id].type === IEnumCodeType.JAVASCRIPT_FUNCTION)
                     ctx[item.id] = (codesInstance[item.id] as JavascriptFunctionImpl).trigger.bind(codesInstance[item.id]);
                 else
                     ctx[item.id] = codesInstance[item.id];

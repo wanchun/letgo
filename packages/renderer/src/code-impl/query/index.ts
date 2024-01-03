@@ -1,4 +1,4 @@
-import { ResourceType } from '@webank/letgo-types';
+import { IEnumResourceType } from '@webank/letgo-types';
 import type { IJavascriptQuery, IRestQueryResource } from '@webank/letgo-types';
 
 import { RestApiQuery } from './rest-api';
@@ -9,7 +9,7 @@ export { JavascriptQueryBase } from './base';
 
 export function createQueryImpl(data: IJavascriptQuery, deps: string[], ctx: Record<string, any>) {
     let instance;
-    if (data.resourceType === ResourceType.RESTQuery)
+    if (data.resourceType === IEnumResourceType.RESTQuery)
         instance = new RestApiQuery(data as IRestQueryResource, deps, ctx);
     else
         instance = new JavascriptQueryBase(data, deps, ctx);

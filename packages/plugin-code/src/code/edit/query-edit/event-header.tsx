@@ -4,7 +4,7 @@ import { FPopper } from '@fesjs/fes-design';
 import { CloseOutlined, PlusOutlined } from '@fesjs/fes-design/icon';
 import { EventHandlerModify } from '@webank/letgo-components';
 import type { DocumentModel } from '@webank/letgo-designer';
-import type { IPublicTypeEventHandler } from '@webank/letgo-types';
+import type { IEventHandler } from '@webank/letgo-types';
 import './event-header.less';
 
 export default defineComponent({
@@ -12,8 +12,8 @@ export default defineComponent({
     props: {
         title: String,
         documentModel: Object as PropType<DocumentModel>,
-        eventHandler: Object as PropType<IPublicTypeEventHandler>,
-        onChangeEventHandler: Function as PropType<(event: IPublicTypeEventHandler) => void>,
+        eventHandler: Object as PropType<IEventHandler>,
+        onChangeEventHandler: Function as PropType<(event: IEventHandler) => void>,
         addEventHandler: Function as PropType<(event: Event) => void>,
         onClose: Function as PropType<() => void>,
     },
@@ -23,7 +23,7 @@ export default defineComponent({
             popperVisible.value = false;
         };
 
-        const changeEventHandler = (event: IPublicTypeEventHandler) => {
+        const changeEventHandler = (event: IEventHandler) => {
             props.onChangeEventHandler(event);
             closePopper();
         };
@@ -49,16 +49,18 @@ export default defineComponent({
                         placement="right-start"
                         v-slots={{
                             default: () => {
-                                return <div class="letgo-plg-code__event-popper">
-                                    <div class="letgo-plg-code__event-popper-header">
-                                        <CloseOutlined onClick={closePopper} class="letgo-plg-code__event-icon" />
+                                return (
+                                    <div class="letgo-plg-code__event-popper">
+                                        <div class="letgo-plg-code__event-popper-header">
+                                            <CloseOutlined onClick={closePopper} class="letgo-plg-code__event-icon" />
+                                        </div>
+                                        <EventHandlerModify
+                                            onChange={changeEventHandler}
+                                            documentModel={props.documentModel}
+                                            editEvent={props.eventHandler}
+                                        />
                                     </div>
-                                    <EventHandlerModify
-                                        onChange={changeEventHandler}
-                                        documentModel={props.documentModel}
-                                        editEvent={props.eventHandler}
-                                    />
-                                </div>;
+                                );
                             },
                             trigger: () => {
                                 return <PlusOutlined class="letgo-plg-code__event-icon" onClick={props.addEventHandler} />;

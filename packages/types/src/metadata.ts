@@ -1,10 +1,13 @@
 import type { Slot } from 'vue';
 import type { IPublicTypeProp, IPublicTypePropConfig } from './prop-config';
 import type { IPublicTypeNpmInfo } from './npm';
-import type { IPublicTypeComponentSchema, IPublicTypeNodeSchema } from './schema';
-import type { IPublicTypeIcon } from './icon';
-import type { IPublicTypeFieldConfig } from './field-config';
 import type { IPublicTypeCompositeValue } from './value-type';
+import type {
+    IPublicTypeComponentSchema,
+    IPublicTypeFieldConfig,
+    IPublicTypeIcon,
+    IPublicTypeNodeSchema,
+} from '.';
 
 /**
  * 可用片段
@@ -29,8 +32,8 @@ export interface IPublicTypeSnippet {
      */
     group?: string
     /**
-      * 二级分组
-      */
+     * 二级分组
+     */
     category?: string
 }
 

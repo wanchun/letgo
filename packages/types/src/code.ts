@@ -1,13 +1,13 @@
-import type { IPublicTypeEventHandler } from './event-handler';
+import type { IEventHandler } from './event-handler';
 
-export enum CodeType {
+export enum IEnumCodeType {
     JAVASCRIPT_QUERY = 'query',
     JAVASCRIPT_FUNCTION = 'function',
     JAVASCRIPT_COMPUTED = 'computed',
     TEMPORARY_STATE = 'temporaryState',
 }
 
-export enum ResourceType {
+export enum IEnumResourceType {
     Query = 'query',
     RESTQuery = 'rest',
 }
@@ -18,15 +18,15 @@ export interface IFailureCondition {
     message: string
 }
 
-export enum RunCondition {
+export enum IEnumRunCondition {
     Manual = 'manual',
     // DependStateChange = 'dependStateChange',
 }
 
-export interface QueryResourceBase {
-    type: CodeType.JAVASCRIPT_QUERY
+export interface IQueryResourceBase {
+    type: IEnumCodeType.JAVASCRIPT_QUERY
     id: string
-    resourceType: ResourceType
+    resourceType: IEnumResourceType
     enableTransformer?: boolean
     transformer?: string
     query: string
@@ -34,54 +34,54 @@ export interface QueryResourceBase {
     showFailureToaster?: boolean
     showSuccessToaster?: boolean
     successMessage?: string
-    runCondition: RunCondition
+    runCondition: IEnumRunCondition
     runWhenPageLoads?: boolean
     enableCaching?: boolean
     cacheDuration?: number
     queryTimeout?: number
-    successEvent?: IPublicTypeEventHandler[]
-    failureEvent?: IPublicTypeEventHandler[]
+    successEvent?: IEventHandler[]
+    failureEvent?: IEventHandler[]
 }
 
-export interface IRestQueryResource extends QueryResourceBase {
-    resourceType: ResourceType.RESTQuery
+export interface IRestQueryResource extends IQueryResourceBase {
+    resourceType: IEnumResourceType.RESTQuery
     method: string
     api: string
     params?: string
 }
 
-export type IJavascriptQuery = QueryResourceBase | IRestQueryResource;
+export type IJavascriptQuery = IQueryResourceBase | IRestQueryResource;
 
 export function isRestQueryResource(obj: any): obj is IRestQueryResource {
-    return obj && obj.resourceType === ResourceType.RESTQuery;
+    return obj && obj.resourceType === IEnumResourceType.RESTQuery;
 }
 
 export interface IJavascriptFunction {
     id: string
-    type: CodeType.JAVASCRIPT_FUNCTION
+    type: IEnumCodeType.JAVASCRIPT_FUNCTION
     funcBody: string
 }
 
 export interface IJavascriptComputed {
     id: string
-    type: CodeType.JAVASCRIPT_COMPUTED
+    type: IEnumCodeType.JAVASCRIPT_COMPUTED
     funcBody: string
 }
 
 export interface ITemporaryState {
     id: string
-    type: CodeType.TEMPORARY_STATE
+    type: IEnumCodeType.TEMPORARY_STATE
     initValue: string
 }
 
-export type CodeItem = ITemporaryState | IJavascriptComputed | IJavascriptFunction | IJavascriptQuery;
+export type ICodeItem = ITemporaryState | IJavascriptComputed | IJavascriptFunction | IJavascriptQuery;
 
-export interface CodeDirectory {
+export interface ICodeDirectory {
     name: string
-    code: CodeItem[]
+    code: ICodeItem[]
 }
 
-export interface CodeStruct {
-    directories: CodeDirectory[]
-    code: CodeItem[]
+export interface ICodeStruct {
+    directories: ICodeDirectory[]
+    code: ICodeItem[]
 }

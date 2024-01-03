@@ -14,4 +14,5 @@ export interface IPublicTypeExternalUtils {
 }
 
 export type IPublicTypeUtilItem = IPublicTypeInternalUtils | IPublicTypeExternalUtils;
+
 export type IPublicTypeUtilsMap = IPublicTypeUtilItem[];

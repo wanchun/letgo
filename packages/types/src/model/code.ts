@@ -1,26 +1,26 @@
-import type { CodeItem, CodeStruct, CodeType, ResourceType } from '..';
+import type { ICodeItem, ICodeStruct, IEnumCodeType, IEnumResourceType } from '..';
 
 export interface IPublicModelCode {
-    codeStruct: CodeStruct
-    codeMap: Map<string, CodeItem>
+    codeStruct: ICodeStruct
+    codeMap: Map<string, ICodeItem>
 
-    get directories(): CodeStruct['directories']
+    get directories(): ICodeStruct['directories']
 
-    get queries(): CodeItem[]
+    get queries(): ICodeItem[]
 
-    get temporaryStates(): CodeItem[]
+    get temporaryStates(): ICodeItem[]
 
-    get functions(): CodeItem[]
+    get functions(): ICodeItem[]
 
-    get code(): CodeItem[]
+    get code(): ICodeItem[]
 
-    addCodeItem(item: CodeItem): void
+    addCodeItem(item: ICodeItem): void
 
-    addCodeItemWithType(type: CodeType, resourceType?: ResourceType): void
+    addCodeItemWithType(type: IEnumCodeType, resourceType?: IEnumResourceType): void
 
-    onCodeItemAdd(func: (codeItem: CodeItem) => void): () => void
+    onCodeItemAdd(func: (codeItem: ICodeItem) => void): () => void
 
-    emitCodeItemAdd(codeItem: CodeItem): void
+    emitCodeItemAdd(codeItem: ICodeItem): void
 
     deleteCodeItem(id: string): void
 

@@ -17,8 +17,8 @@ import {
     toValue,
 } from 'vue';
 import type {
+    IEventHandler,
     IPublicTypeCompositeValue,
-    IPublicTypeEventHandler,
     IPublicTypeJSExpression,
     IPublicTypeJSFunction,
     IPublicTypeNodeData,
@@ -110,7 +110,7 @@ function render({
     } as any);
 }
 
-export function buildEvents(events: IPublicTypeEventHandler[] = []) {
+export function buildEvents(events: IEventHandler[] = []) {
     return eventHandlersToJsFunction(events);
 }
 
@@ -343,7 +343,8 @@ function buildRefProp(
 function processProp(
     target: Record<string, unknown>,
     key: string,
-    val: unknown) {
+    val: unknown,
+) {
     if (key.startsWith('v-model')) {
         // 双向绑定逻辑
         const matched = key.match(/v-model(?::(\w+))?$/);

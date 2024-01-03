@@ -1,16 +1,16 @@
 import path from 'node:path';
 import type {
-    CodeItem,
-    CodeStruct,
+    ICodeItem,
+    ICodeStruct,
+    IEventHandler,
     IPublicTypeCompositeValue,
-    IPublicTypeEventHandler,
     IPublicTypeJSSlot,
     IPublicTypeNodeData,
     IPublicTypeNodeSchema,
 } from '@webank/letgo-types';
 import { isSyntaxError, replaceFunctionName, sortState } from '@webank/letgo-common';
 import {
-    CodeType,
+    IEnumCodeType,
     isJSExpression,
     isJSFunction,
     isJSSlot,
@@ -176,8 +176,8 @@ export function traverseNodeSchema(
     }
 }
 
-export function genCodeMap(code: CodeStruct) {
-    const codeMap = new Map<string, CodeItem>();
+export function genCodeMap(code: ICodeStruct) {
+    const codeMap = new Map<string, ICodeItem>();
     code.code.forEach((item) => {
         codeMap.set(item.id, item);
     });
@@ -190,7 +190,7 @@ export function genCodeMap(code: CodeStruct) {
     return codeMap;
 }
 
-function eventSchemaToFunc(events: IPublicTypeEventHandler[] = []) {
+function eventSchemaToFunc(events: IEventHandler[] = []) {
     if (!events.length)
         return [];
     const jsFunctionMap = compilerEventHandlers(events);
@@ -200,7 +200,7 @@ function eventSchemaToFunc(events: IPublicTypeEventHandler[] = []) {
     }, [] as string[]);
 }
 
-export function genCode(filePath: string, codeStruct: CodeStruct): SetupCode {
+export function genCode(filePath: string, codeStruct: ICodeStruct): SetupCode {
     if (!codeStruct)
         return null;
 
@@ -215,7 +215,7 @@ export function genCode(filePath: string, codeStruct: CodeStruct): SetupCode {
     const importSourceMap = new Map<string, ImportSource>();
     sortResult.forEach((codeId) => {
         const item = codeMap.get(codeId);
-        if (item.type === CodeType.TEMPORARY_STATE) {
+        if (item.type === IEnumCodeType.TEMPORARY_STATE) {
             importSourceMap.set('useTemporaryState', {
                 imported: 'useTemporaryState',
                 type: ImportType.ImportSpecifier,
@@ -228,7 +228,7 @@ export function genCode(filePath: string, codeStruct: CodeStruct): SetupCode {
     });
             `);
         }
-        else if (item.type === CodeType.JAVASCRIPT_COMPUTED) {
+        else if (item.type === IEnumCodeType.JAVASCRIPT_COMPUTED) {
             importSourceMap.set('useComputed', {
                 imported: 'useComputed',
                 type: ImportType.ImportSpecifier,
@@ -243,10 +243,10 @@ export function genCode(filePath: string, codeStruct: CodeStruct): SetupCode {
     });
             `);
         }
-        else if (item.type === CodeType.JAVASCRIPT_FUNCTION) {
+        else if (item.type === IEnumCodeType.JAVASCRIPT_FUNCTION) {
             codeStr.push(replaceFunctionName(item.funcBody, item.id));
         }
-        else if (item.type === CodeType.JAVASCRIPT_QUERY) {
+        else if (item.type === IEnumCodeType.JAVASCRIPT_QUERY) {
             importSourceMap.set('useJSQuery', {
                 imported: 'useJSQuery',
                 type: ImportType.ImportSpecifier,

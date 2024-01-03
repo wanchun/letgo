@@ -1,7 +1,7 @@
 import { TemporaryStateLive } from '@webank/letgo-renderer';
 import { markComputed, markReactive } from '@webank/letgo-common';
 import { clone } from 'lodash-es';
-import { CodeType, type ITemporaryState } from '@webank/letgo-types';
+import { IEnumCodeType, type ITemporaryState } from '@webank/letgo-types';
 import type { ITemporaryStateImpl } from '@webank/letgo-designer';
 import type { WatchStopHandle } from 'vue';
 import { watch } from 'vue';
@@ -68,7 +68,7 @@ export class TemporaryStateImpl extends TemporaryStateLive implements ITemporary
         if (!deps || deps.length === 0)
             return;
         this.unwatch = watch(() => deps.map((dep) => {
-            if (this.ctx[dep].type === CodeType.JAVASCRIPT_QUERY)
+            if (this.ctx[dep].type === IEnumCodeType.JAVASCRIPT_QUERY)
                 return this.ctx[dep].data;
             else
                 return this.ctx[dep].value;

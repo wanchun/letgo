@@ -21,10 +21,10 @@ import {
     useLeaf,
 } from '@webank/letgo-renderer';
 import type {
+    IEventHandler,
     IPublicTypeComponentAction,
     IPublicTypeComponentInstance,
     IPublicTypeCompositeValue,
-    IPublicTypeEventHandler,
 } from '@webank/letgo-types';
 import {
     IPublicEnumTransformStage,
@@ -94,7 +94,7 @@ function useSchema(props: LeafProps, node: INode) {
     Object.assign(compProps, result.props);
     Object.assign(compSlots, result.slots);
 
-    const updateEvents = (events: IPublicTypeEventHandler[], oldEvents?: IPublicTypeEventHandler[]) => {
+    const updateEvents = (events: IEventHandler[], oldEvents?: IEventHandler[]) => {
         (props.schema.events || []).concat(oldEvents || []).forEach((item) => {
             delete compProps[item.name];
         });

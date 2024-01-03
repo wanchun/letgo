@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { defineComponent, ref } from 'vue';
-import type { IPublicTypeDisplay, IPublicTypeNpmInfo } from '@webank/letgo-types';
+import type { IPublicTypeFieldDisplay, IPublicTypeNpmInfo } from '@webank/letgo-types';
 import { EditOutlined, RightOutlined } from '@fesjs/fes-design/icon';
 import { usePopupManage } from './usePopup';
 
@@ -10,7 +10,7 @@ export interface IFieldProps {
     meta?: IPublicTypeNpmInfo | string
     name?: string
     title?: string | null
-    display?: IPublicTypeDisplay
+    display?: IPublicTypeFieldDisplay
     expanded?: boolean
     valueState?: number
     onExpandChange?: (expandState: boolean) => void

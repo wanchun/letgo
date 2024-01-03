@@ -1,6 +1,6 @@
-import { CodeType, ResourceType, RunCondition } from '@webank/letgo-types';
+import { IEnumCodeType, IEnumResourceType, IEnumRunCondition } from '@webank/letgo-types';
 import type {
-    CodeItem,
+    ICodeItem,
     IJavascriptComputed,
     IJavascriptFunction,
     IJavascriptQuery,
@@ -8,14 +8,14 @@ import type {
 } from '@webank/letgo-types';
 
 export interface CodeBaseEdit {
-    addCode(id: string, resourceType?: ResourceType): CodeItem
+    addCode(id: string, resourceType?: IEnumResourceType): ICodeItem
 }
 
 class TemporaryStateEdit implements CodeBaseEdit {
     addCode(id: string): ITemporaryState {
         return {
             id,
-            type: CodeType.TEMPORARY_STATE,
+            type: IEnumCodeType.TEMPORARY_STATE,
             initValue: '',
         };
     }
@@ -25,7 +25,7 @@ class JavascriptComputedEdit implements CodeBaseEdit {
     addCode(id: string): IJavascriptComputed {
         return {
             id,
-            type: CodeType.JAVASCRIPT_COMPUTED,
+            type: IEnumCodeType.JAVASCRIPT_COMPUTED,
             funcBody: '// Tip: 通过一个变量计算另一个变量 \n\nreturn 5',
         };
     }
@@ -35,16 +35,16 @@ class JavascriptFunctionEdit implements CodeBaseEdit {
     addCode(id: string): IJavascriptFunction {
         return {
             id,
-            type: CodeType.JAVASCRIPT_FUNCTION,
+            type: IEnumCodeType.JAVASCRIPT_FUNCTION,
             funcBody: '// Tip: 函数 \n\n function func() {\n    return 5;\n}',
         };
     }
 }
 
 class JavascriptQueryEdit implements CodeBaseEdit {
-    addCode(id: string, resourceType?: ResourceType): IJavascriptQuery {
+    addCode(id: string, resourceType?: IEnumResourceType): IJavascriptQuery {
         const otherFields: Record<string, any> = {};
-        if (resourceType === ResourceType.RESTQuery) {
+        if (resourceType === IEnumResourceType.RESTQuery) {
             otherFields.method = 'POST';
             otherFields.enableTransformer = false;
             otherFields.transformer = '\n return data;';
@@ -52,9 +52,9 @@ class JavascriptQueryEdit implements CodeBaseEdit {
 
         return {
             id,
-            resourceType: resourceType || ResourceType.Query,
-            type: CodeType.JAVASCRIPT_QUERY,
-            runCondition: RunCondition.Manual,
+            resourceType: resourceType || IEnumResourceType.Query,
+            type: IEnumCodeType.JAVASCRIPT_QUERY,
+            runCondition: IEnumRunCondition.Manual,
             query: '',
             queryFailureCondition: [],
             showFailureToaster: false,
@@ -68,8 +68,8 @@ class JavascriptQueryEdit implements CodeBaseEdit {
 }
 
 export const codeBaseEdit = {
-    [CodeType.JAVASCRIPT_QUERY]: new JavascriptQueryEdit(),
-    [CodeType.JAVASCRIPT_COMPUTED]: new JavascriptComputedEdit(),
-    [CodeType.TEMPORARY_STATE]: new TemporaryStateEdit(),
-    [CodeType.JAVASCRIPT_FUNCTION]: new JavascriptFunctionEdit(),
+    [IEnumCodeType.JAVASCRIPT_QUERY]: new JavascriptQueryEdit(),
+    [IEnumCodeType.JAVASCRIPT_COMPUTED]: new JavascriptComputedEdit(),
+    [IEnumCodeType.TEMPORARY_STATE]: new TemporaryStateEdit(),
+    [IEnumCodeType.JAVASCRIPT_FUNCTION]: new JavascriptFunctionEdit(),
 };

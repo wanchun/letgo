@@ -1,4 +1,4 @@
-import type { IPublicTypeNodeData, IPublicTypeSlotSchema } from './schema';
+import type { IPublicTypeNodeData, IPublicTypeSlotSchema } from '.';
 
 /**
  * 变量表达式

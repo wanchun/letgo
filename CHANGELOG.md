@@ -686,7 +686,7 @@
 * 支持Block 和 Page 渲染 ([0f700f4](https://git.weoa.com/mumblefe/letgo/commits/0f700f493f310126e33ec8ffd89839396aaa9f35))
 * 支持Icon配置 ([b1a246a](https://git.weoa.com/mumblefe/letgo/commits/b1a246af0563f7666d67379b2682354054f2602a))
 * 支持微前端 ([12d7aa6](https://git.weoa.com/mumblefe/letgo/commits/12d7aa68306743631b83aa06a6c541a6b8218528))
-* 支持按 CodeStruct 引入状态 ([ba472bf](https://git.weoa.com/mumblefe/letgo/commits/ba472bfcfa0cd556fb6e7afd0fcea198f2f19ed5))
+* 支持按 ICodeStruct 引入状态 ([ba472bf](https://git.weoa.com/mumblefe/letgo/commits/ba472bfcfa0cd556fb6e7afd0fcea198f2f19ed5))
 * 改为fesjs 域 ([f645564](https://git.weoa.com/mumblefe/letgo/commits/f6455644a5fbf6e90dde046b29003a36bc78f38a))
 * 改为fesjs 域 ([5b19d8c](https://git.weoa.com/mumblefe/letgo/commits/5b19d8cec5718a03ea2fbeb8dfd735907e46ee86))
 * 改为使用eventemitter3 ([ff2bb75](https://git.weoa.com/mumblefe/letgo/commits/ff2bb75326691bd4e2444f243d84a75ec6dbc402))

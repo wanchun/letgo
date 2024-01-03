@@ -1,6 +1,6 @@
 import type { PropType, VNodeChild } from 'vue';
 import { computed, createVNode, defineComponent, h } from 'vue';
-import type { IPublicTypeCustomView, IPublicTypeDisplay } from '@webank/letgo-types';
+import type { IPublicTypeCustomView, IPublicTypeFieldDisplay } from '@webank/letgo-types';
 import { isSetterConfig } from '@webank/letgo-types';
 import { isFunction } from 'lodash-es';
 import type { IFieldProps } from './fields';
@@ -11,7 +11,7 @@ import { SetterManager } from './setter-manager';
 export function createFieldContent(
     props: IFieldProps,
     children: VNodeChild,
-    type?: IPublicTypeDisplay,
+    type?: IPublicTypeFieldDisplay,
 ) {
     if (type === 'plain' || !props.title)
         return h(PlainFieldView, props, () => children);

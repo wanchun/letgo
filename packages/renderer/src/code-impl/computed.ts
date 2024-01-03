@@ -3,11 +3,11 @@ import { computed } from 'vue';
 import type { WatchStopHandle } from 'vue';
 import { markShallowReactive } from '@webank/letgo-common';
 import type { IJavascriptComputed } from '@webank/letgo-types';
-import { CodeType } from '@webank/letgo-types';
+import { IEnumCodeType } from '@webank/letgo-types';
 
 export class ComputedLive {
     id: string;
-    type: CodeType.JAVASCRIPT_COMPUTED = CodeType.JAVASCRIPT_COMPUTED;
+    type: IEnumCodeType.JAVASCRIPT_COMPUTED = IEnumCodeType.JAVASCRIPT_COMPUTED;
     deps: string[];
     ctx: Record<string, any>;
     value: any;

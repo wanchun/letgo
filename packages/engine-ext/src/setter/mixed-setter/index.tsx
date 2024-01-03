@@ -2,7 +2,7 @@ import type { PropType, Ref } from 'vue';
 import { computed, defineComponent, ref } from 'vue';
 import type {
     IPublicTypeCustomView,
-    IPublicTypeDynamicProps,
+    IPublicTypeDynamicSetterProps,
     IPublicTypeSetter,
     IPublicTypeSetterType,
 } from '@webank/letgo-types';
@@ -24,7 +24,7 @@ interface SetterItem {
     name: string
     title: string
     setter: string | IPublicTypeCustomView
-    props?: object | IPublicTypeDynamicProps
+    props?: object | IPublicTypeDynamicSetterProps
     condition?: (field: SettingField) => boolean
     defaultValue?: any
 }

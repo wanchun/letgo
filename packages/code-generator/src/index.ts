@@ -6,6 +6,7 @@ import { schemaToCode } from './common';
 import { defaultCodes, defaultPackageJSON } from './defaultContent';
 import { genGlobalStateCode } from './common/global-state';
 import { setOptions } from './options';
+import { genCodeMap } from './common/helper';
 
 export * from './common/types';
 export * from './export-zip';
@@ -54,6 +55,10 @@ export function gen(_options: GenOptions): FileTree {
     const options = setOptions(_options);
     const fileTree: FileTree = {};
 
+    const ctx = {
+        codes: genCodeMap(options.schema.code),
+    };
+
     // 处理 package.json
     genPackageJSON(fileTree, options);
 
@@ -61,13 +66,13 @@ export function gen(_options: GenOptions): FileTree {
     genCommonCode(fileTree, options);
 
     // 处理全局代码
-    genGlobalStateCode(fileTree, options);
+    genGlobalStateCode(ctx, fileTree, options);
 
     // 处理全局样式
     genGlobalCss(fileTree, options);
 
     // 处理页面代码
-    genPageCode(fileTree, options);
+    genPageCode(ctx, fileTree, options);
 
     return fileTree;
 }

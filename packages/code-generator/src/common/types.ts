@@ -1,4 +1,4 @@
-import type { IPublicTypeProjectSchema } from '@webank/letgo-types';
+import type { ICodeItem, IPublicTypeProjectSchema } from '@webank/letgo-types';
 
 export interface GenOptions {
     schema: IPublicTypeProjectSchema
@@ -60,4 +60,8 @@ export interface CallBackParam {
     import: ImportSource[]
     code: string
     export: string[]
+}
+
+export interface Context {
+    codes: Map<string, ICodeItem>
 }

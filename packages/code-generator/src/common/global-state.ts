@@ -6,7 +6,7 @@ import type {
 import { set } from 'lodash-es';
 import { getOptions, relative } from '../options';
 import { genCode, genCodeMap, genImportCode } from './helper';
-import type { CallBackParam, FileTree, GenOptions, ImportSource, SetupCode } from './types';
+import type { CallBackParam, Context, FileTree, GenOptions, ImportSource, SetupCode } from './types';
 import { ImportType } from './types';
 
 export const GLOBAL_STATE_FILE_NAME = 'useLetgoGlobal';
@@ -75,7 +75,7 @@ export function compilerUtils(utils: IPublicTypeUtilsMap) {
     };
 }
 
-export function genGlobalStateCode(fileTree: FileTree, options: GenOptions): void {
+export function genGlobalStateCode(ctx: Context, fileTree: FileTree, options: GenOptions): void {
     const { schema, outDir, globalCodeCallback } = options;
     globalStateKeys.length = 0;
     hasGlobal = !!(schema.code || schema.config || schema.utils);
@@ -104,7 +104,7 @@ export function genGlobalStateCode(fileTree: FileTree, options: GenOptions): voi
     }
 
     if (schema.code) {
-        const _result = genCode(`${outDir}/${GLOBAL_STATE_FILE_NAME}.js`, schema.code);
+        const _result = genCode(ctx, `${outDir}/${GLOBAL_STATE_FILE_NAME}.js`, schema.code);
         result.import.push(..._result.importSources);
         result.code += _result.code;
         result.export.push(...genGlobalStateKeys(schema.code));

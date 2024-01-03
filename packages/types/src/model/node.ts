@@ -245,4 +245,4 @@ export interface IBaseModelNode<
 
 }
 
-export interface IPublicModelNode extends IBaseModelNode<IPublicTypeNodeSchema, IPublicModelNode> {}
+export interface IPublicModelNode extends IBaseModelNode<IPublicModelDocumentModel, IPublicTypeNodeSchema, IPublicModelNode> {}

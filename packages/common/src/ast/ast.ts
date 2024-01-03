@@ -98,7 +98,8 @@ export function eventHandlerToJsFunction(item: IEventHandler): IPublicTypeJSFunc
         expression = `${item.namespace}.${item.method}(Array.prototype.slice.call(arguments))`;
     }
     else if (isSetTemporaryStateEventHandler(item)) {
-        // TODO 支持其他方法
+        // param: 0 value, 1: path，因此需要对数组进行倒序
+        params.reverse();
         expression = `${item.namespace}.${item.method}.apply(${item.namespace}, Array.prototype.slice.call(arguments))`;
     }
     else if (isSetLocalStorageEventHandler(item)) {

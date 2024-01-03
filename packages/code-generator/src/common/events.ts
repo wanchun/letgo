@@ -30,7 +30,9 @@ function compilerEventHandler(event: IEventHandler) {
         return `(...args) => ${event.namespace}.${event.method}(...args)`;
     }
     else if (isSetTemporaryStateEventHandler(event)) {
-        return `(...args) => ${event.namespace}.${event.method}(${event.params[0]})`;
+        const params = [...event.params];
+        params.reverse();
+        return `(...args) => ${event.namespace}.${event.method}(${event.params.join(', ')})`;
     }
     else if (isSetLocalStorageEventHandler(event)) {
         if (event.method === 'setValue')

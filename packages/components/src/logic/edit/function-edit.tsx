@@ -36,7 +36,7 @@ export const FunctionEdit = defineComponent({
                         </div>
                     </div>
                     <div class="letgo-comp-logic__func">
-                        <CodeEditor height="200px" documentModel={props.documentModel} hints={props.hints} doc={props.codeItem.funcBody} extensions={[javascript()]} changeDoc={changeFuncBody} />
+                        <CodeEditor height="200px" hints={props.hints} doc={props.codeItem.funcBody} extensions={[javascript()]} changeDoc={changeFuncBody} />
                     </div>
                 </div>
             );

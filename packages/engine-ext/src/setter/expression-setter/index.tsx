@@ -45,12 +45,9 @@ const ExpressionSetterView = defineComponent({
                 mock: currentMock.value,
             });
         };
-        const documentModel = computed(() => {
-            return props.node.document;
-        });
         return () => {
             return (
-                <ExpressionEditor documentModel={documentModel.value} doc={currentValue.value} onChangeDoc={debounce(changeValue, 500)} />
+                <ExpressionEditor doc={currentValue.value} onChangeDoc={debounce(changeValue, 500)} />
             );
         };
     },

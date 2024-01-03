@@ -42,7 +42,7 @@ export const ComputedEdit = defineComponent({
                         </div>
                     </div>
                     <div class="letgo-comp-logic__computed">
-                        <CodeEditor documentModel={props.documentModel} extensions={[javascript()]} hints={props.hints} doc={props.codeItem.funcBody} changeDoc={changeFuncBody} />
+                        <CodeEditor extensions={[javascript()]} hints={props.hints} doc={props.codeItem.funcBody} changeDoc={changeFuncBody} />
                     </div>
                 </div>
             );

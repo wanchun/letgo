@@ -22,7 +22,7 @@ export default defineComponent({
         return () => {
             return (
                 <CommonGeneral documentModel={props.documentModel} codeItem={props.codeItem} changeCodeItem={props.changeCodeItem}>
-                    <CodeEditor documentModel={props.documentModel} extensions={[javascript()]} doc={props.codeItem.query} changeDoc={changeQuery} />
+                    <CodeEditor extensions={[javascript()]} doc={props.codeItem.query} changeDoc={changeQuery} />
                 </CommonGeneral>
             );
         };

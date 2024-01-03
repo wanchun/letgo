@@ -32,7 +32,6 @@ export const StateEdit = defineComponent({
                             <label class="letgo-comp-logic__state-label">初始值</label>
                             <ExpressionEditor
                                 placeholder="temporary state"
-                                documentModel={props.documentModel}
                                 hints={props.hints}
                                 doc={props.codeItem.initValue}
                                 onChangeDoc={changeInitValue}

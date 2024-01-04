@@ -71,7 +71,7 @@ function normalProps(key: string, value: any, refName: string) {
     if (value == null)
         return '';
 
-    if (typeof value === 'string')
+    if (typeof value === 'string' && value)
         return `${key}="${value}"`;
 
     if (value)
@@ -196,7 +196,10 @@ function wrapLoop(code: string, nodeSchema: IPublicTypeNodeData, isRoot = false)
             }
             return `{${nodeSchema.condition.value} && ${result}}`;
         }
-        return result;
+        if (isRoot)
+            return result;
+
+        return `{ ${result} }`;
     }
     return code;
 }

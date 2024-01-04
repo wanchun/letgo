@@ -66,7 +66,6 @@ export default defineComponent({
                 };
             });
         };
-        // TODO 参数配置
         const renderComponentMethod = (data: IControlComponentAction) => {
             return (
                 <>

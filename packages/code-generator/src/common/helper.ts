@@ -23,9 +23,18 @@ import type { Context, ImportSource, SetupCode } from './types';
 import { ImportType } from './types';
 import { compilerEventHandlers } from './events';
 
+export function ensureArray(data?: string | string[]) {
+    if (data == null)
+        return [];
+    if (typeof data === 'string')
+        return [data];
+
+    return data;
+}
+
 export function isExpression(ctx: Context, code: string) {
     return rawIsExpression(code, (name: string) => {
-        return ctx.codes.has(name);
+        return ctx.codes.has(name) || ctx.refs?.has(name) || ctx.scope?.includes(name);
     });
 }
 

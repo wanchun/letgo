@@ -21,8 +21,8 @@ function getComponentRefs(
     return componentRefs;
 }
 
-function getUseComponentRefs(rootSchema: IPublicTypeRootSchema) {
-    const componentRefs = getComponentRefs(rootSchema.children);
+function getUseComponentRefs(ctx: Context, rootSchema: IPublicTypeRootSchema) {
+    const componentRefs = ctx.refs;
     const usedComponents = new Set<string>();
     const schemaStr = JSON.stringify(rootSchema);
     for (const refName of componentRefs.values()) {
@@ -39,7 +39,7 @@ function compileRootSchema(
     rootSchema: IPublicTypeRootSchema,
 ): FileStruct {
     if (rootSchema.componentName === 'Page') {
-        const componentRefs = getUseComponentRefs(rootSchema);
+        const componentRefs = getUseComponentRefs(ctx, rootSchema);
         const fileName = formatFileName(rootSchema.fileName);
 
         const [importSources, codes] = genScript({
@@ -94,7 +94,9 @@ function getUseComponents(
 export function schemaToCode(ctx: Context, schema: IPublicTypeProjectSchema): FileStruct[] {
     return schema.componentsTree.map((rootSchema) => {
         const pageContext = {
+            ...ctx,
             codes: genCodeMap(rootSchema.code, new Map(ctx.codes)),
+            refs: getComponentRefs(rootSchema.children),
         };
         return compileRootSchema(
             pageContext,

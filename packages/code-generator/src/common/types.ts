@@ -64,4 +64,6 @@ export interface CallBackParam {
 
 export interface Context {
     codes: Map<string, ICodeItem>
+    scope: string[]
+    refs?: Set<string>
 }

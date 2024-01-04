@@ -1,5 +1,5 @@
 import { merge, set } from 'lodash-es';
-import type { FileTree, GenOptions } from './common/types';
+import type { Context, FileTree, GenOptions } from './common/types';
 import { genFileName } from './common/page-meta';
 import { toAssemble } from './common/build';
 import { schemaToCode } from './common';
@@ -25,9 +25,9 @@ function genPackageJSON(fileTree: FileTree, options: GenOptions) {
     fileTree['package.json'] = JSON.stringify(packageJSON, null, 4);
 }
 
-function genPageCode(fileTree: FileTree, options: GenOptions) {
+function genPageCode(ctx: Context, fileTree: FileTree, options: GenOptions) {
     const { pageTransform, pageDir, schema } = options;
-    const filesStruct = pageTransform ? pageTransform(schemaToCode(schema)) : schemaToCode(schema);
+    const filesStruct = pageTransform ? pageTransform(schemaToCode(ctx, schema)) : schemaToCode(ctx, schema);
 
     const pages = filesStruct.reduce((acc, cur) => {
         acc[genFileName(cur)] = toAssemble(cur);
@@ -55,8 +55,9 @@ export function gen(_options: GenOptions): FileTree {
     const options = setOptions(_options);
     const fileTree: FileTree = {};
 
-    const ctx = {
+    const ctx: Context = {
         codes: genCodeMap(options.schema.code),
+        scope: [],
     };
 
     // 处理 package.json

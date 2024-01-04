@@ -17,6 +17,7 @@ import {
     isNodeSchema,
 } from '@webank/letgo-types';
 import { camelCase, isArray, isEmpty, isNil, isPlainObject, merge } from 'lodash-es';
+import { ensureArray } from '@webank/letgo-common';
 import { compilerEventHandlers, funcSchemaToFunc } from '../events';
 import { traverseNodePropsSlot, traverseNodeSchema } from '../helper';
 import type { Context } from '../types';
@@ -163,10 +164,18 @@ function wrapCondition(code: string, condition: IPublicTypeCompositeValue, isRoo
     return code;
 }
 
-function wrapLoop(code: string, nodeSchema: IPublicTypeNodeData, isRoot = false) {
+function genLoopParams(nodeSchema: IPublicTypeNodeData) {
     if (isNodeSchema(nodeSchema) && nodeSchema.loop) {
         const item = nodeSchema.loopArgs?.[0] || 'item';
         const index = nodeSchema.loopArgs?.[1] || 'index';
+        return [item, index];
+    }
+    return [];
+}
+
+function wrapLoop(code: string, nodeSchema: IPublicTypeNodeData, isRoot = false) {
+    if (isNodeSchema(nodeSchema) && nodeSchema.loop) {
+        const [item, index] = genLoopParams(nodeSchema);
         const keyProp = nodeSchema.props?.key || index;
         let loopVariable: string;
         if (isJSExpression(nodeSchema.loop))
@@ -197,6 +206,9 @@ function compileNodeSchema(ctx: Context, nodeSchema: IPublicTypeNodeData, compon
     if (isNodeSchema(nodeSchema)) {
         if (nodeSchema.condition === false)
             return '';
+        const loopParams = genLoopParams(nodeSchema);
+        if (nodeSchema.loop)
+            ctx.scope = ctx.scope.concat(loopParams);
 
         const children = genNodeSchemaChildren(nodeSchema);
         const events = compilerEventHandlers(ctx, nodeSchema.events || []);
@@ -219,8 +231,10 @@ function compileNodeSchema(ctx: Context, nodeSchema: IPublicTypeNodeData, compon
                     </${nodeSchema.componentName}>`
                 : ' />'
         }`;
-        if (nodeSchema.loop)
+        if (nodeSchema.loop) {
+            ctx.scope = ctx.scope.splice(0, ctx.scope.length - loopParams.length);
             return wrapLoop(code, nodeSchema, isRoot);
+        }
 
         return wrapCondition(code, nodeSchema.condition, isRoot);
     }
@@ -282,13 +296,15 @@ function genSlotDirective(ctx: Context, item: IPublicTypeNodeSchema, componentRe
         const cur = item.props[key];
         if (isJSSlot(cur)) {
             const slotName = cur.name || key;
-            const params = cur.params ? cur.params.join(', ') : '';
+            const params = ensureArray(cur.params);
             const hasMoreComp = Array.isArray(cur.value) && cur.value.length > 1;
+            ctx.scope = ctx.scope.concat(params);
             slotDefine[slotName] = `
-            (${params}) => {
+            (${params.join(', ')}) => {
                 return ${wrapFragment(compileNodeData(ctx, cur.value, componentRefs, !hasMoreComp))}
             }
             `;
+            ctx.scope.splice(0, ctx.scope.length - params.length);
         }
     });
     if (Object.keys(slotDefine).length) {
@@ -316,13 +332,15 @@ export function genSlots(
 
             return acc;
         }, {} as Record<string, any>), (key: string, value: IPublicTypeJSSlot) => {
-            const params = value.params ? value.params.join(', ') : '';
+            const params = ensureArray(value.params);
             const hasMoreComp = Array.isArray(value.value) && value.value.length > 1;
+            ctx.scope = ctx.scope.concat(params);
             slots.push(`
-            const ${genPropSlotName(key, item.ref)} = (${params}) => {
+            const ${genPropSlotName(key, item.ref)} = (${params.join(', ')}) => {
                 return ${wrapFragment(compileNodeData(ctx, value.value, componentRefs, !hasMoreComp))}
             }
             `);
+            ctx.scope = ctx.scope.splice(0, ctx.scope.length - params.length);
         });
     });
 

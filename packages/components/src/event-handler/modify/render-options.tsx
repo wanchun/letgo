@@ -93,6 +93,13 @@ export default defineComponent({
                 };
             }));
         });
+        const changeVariablePath = (data: ISetTemporaryStateAction) => {
+            if (data.params[1])
+                data.method = 'setIn';
+
+            else
+                data.method = 'setValue';
+        };
         const renderSetTemporaryState = (data: ISetTemporaryStateAction) => {
             return (
                 <>
@@ -101,6 +108,9 @@ export default defineComponent({
                     </Label>
                     <Label label="value">
                         <FInput v-model={data.params[0]} />
+                    </Label>
+                    <Label label="path">
+                        <FInput v-model={data.params[1]} onChange={() => changeVariablePath(data)} placeholder="值路径，不填默认覆盖整个值" />
                     </Label>
                 </>
             );

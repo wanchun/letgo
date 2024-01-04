@@ -15,7 +15,7 @@ export function funcSchemaToFunc(schema: IPublicTypeJSFunction, ctx: Record<stri
             const params = (schema.params || []).map(param => executeExpression(param, {
                 ...ctx,
                 args,
-            }));
+            }, true));
             return fn(ctx, [...params, ...args]);
         };
     }

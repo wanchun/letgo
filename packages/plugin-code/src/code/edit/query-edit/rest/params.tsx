@@ -5,6 +5,7 @@ import type { DocumentModel } from '@webank/letgo-designer';
 import { FCheckbox, FSelect } from '@fesjs/fes-design';
 import { CodeEditor, ExpressionEditor } from '@webank/letgo-components';
 import { javascript } from '@codemirror/lang-javascript';
+import { formatExpression, formatJsCode } from '@webank/letgo-common';
 import ContentItem from '../content-item';
 import './params.less';
 
@@ -36,10 +37,20 @@ export default defineComponent({
             });
         };
 
+        const onParamsBlur = async (newParams: string) => {
+            newParams = await formatExpression(newParams);
+            changeParams(newParams);
+        };
+
         const changeTransformer = (code: string) => {
             props.changeCodeItem({
                 transformer: code,
             });
+        };
+
+        const onTransformerBlur = async (val: string) => {
+            val = await formatJsCode(val);
+            changeTransformer(val);
         };
 
         return () => {
@@ -70,7 +81,15 @@ export default defineComponent({
                         labelStyle="width: 72px"
                         v-slots={{
                             content: () => {
-                                return <ExpressionEditor style="width: 0; flex: 1;" placeholder="params" doc={props.codeItem.params} onChangeDoc={changeParams} />;
+                                return (
+                                    <ExpressionEditor
+                                        style="width: 0; flex: 1;"
+                                        placeholder="params"
+                                        doc={props.codeItem.params}
+                                        onChangeDoc={changeParams}
+                                        onBlur={onParamsBlur}
+                                    />
+                                );
                             },
                         }}
                     />
@@ -84,7 +103,7 @@ export default defineComponent({
                                     <div style="width: 0; flex: 1;">
                                         <FCheckbox v-model={props.codeItem.enableTransformer}>开启数据转换</FCheckbox>
                                         {!props.codeItem.enableTransformer && <p class="letgo-plg-code__query-tip">开始数据转换，将请求数据转换成不同的格式</p>}
-                                        {props.codeItem.enableTransformer && <CodeEditor extensions={[javascript()]} doc={props.codeItem.transformer} changeDoc={changeTransformer} />}
+                                        {props.codeItem.enableTransformer && <CodeEditor extensions={[javascript()]} doc={props.codeItem.transformer} changeDoc={changeTransformer} onBlur={onTransformerBlur} />}
                                     </div>
                                 );
                             },

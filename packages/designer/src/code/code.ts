@@ -133,6 +133,7 @@ export class Code implements IPublicModelCode {
         const id = this.genCodeId(type);
         const item = codeBaseEdit[type].addCode(id, resourceType);
         this.addCodeItem(item);
+        return item;
     };
 
     addCodeItem = (item: ICodeItem) => {

@@ -18,7 +18,8 @@ export const ExpressionEditor = defineComponent({
         onChangeDoc: Function as PropType<(doc: string) => void>,
         placeholder: String,
     },
-    setup(props) {
+    emits: ['blur', 'focus'],
+    setup(props, { emit }) {
         const editorRefEl = ref();
         let currentDoc = props.doc || '';
         let editorView: EditorView;
@@ -55,6 +56,14 @@ export const ExpressionEditor = defineComponent({
                         if (v.docChanged) {
                             currentDoc = v.state.sliceDoc();
                             props.onChangeDoc(currentDoc);
+                        }
+                        // focus state change
+                        if (v.focusChanged) {
+                            currentDoc = v.state.sliceDoc();
+                            if (v.view.hasFocus)
+                                emit('focus', currentDoc);
+                            else
+                                emit('blur', currentDoc);
                         }
                     }),
                 ],

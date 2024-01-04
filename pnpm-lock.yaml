@@ -106,6 +106,9 @@ importers:
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
+      prettier:
+        specifier: ^3.1.1
+        version: 3.1.1
       zen-logger:
         specifier: ^1.1.0
         version: 1.1.4
@@ -115,6 +118,9 @@ importers:
       '@codemirror/autocomplete':
         specifier: ^6.11.0
         version: 6.11.1(@codemirror/language@6.9.3)(@codemirror/state@6.3.3)(@codemirror/view@6.22.2)(@lezer/common@1.1.1)
+      '@codemirror/commands':
+        specifier: ^6.3.2
+        version: 6.3.2
       '@codemirror/lang-javascript':
         specifier: ^6.2.1
         version: 6.2.1
@@ -7632,6 +7638,12 @@ packages:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
     dev: true
+
+  /prettier@3.1.1:
+    resolution: {integrity: sha512-22UbSzg8luF4UuZtzgiUOfcGM8s4tjBv6dJRT7j275NXsy2jb4aJa4NNveul5x4eqlF1wuhuR2RElK71RvmVaw==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dev: false
 
   /pretty-format@29.7.0:
     resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}

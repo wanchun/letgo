@@ -100,11 +100,11 @@ export const CodeList = defineComponent({
         const renderFolders = () => {
             return props.code?.directories.map((item: any) => {
                 return (
-                    <li class="letgo-comp-code__item">
+                    <li class="letgo-logic-code__item">
                         <FolderIcon />
-                        <span class="letgo-comp-code__item_id">{item.name}</span>
+                        <span class="letgo-logic-code__item_id">{item.name}</span>
                         <FDropdown appendToContainer={false} trigger="click" placement="bottom-end" options={commonOptions}>
-                            <MoreOutlined class="letgo-comp-code__icon-more" />
+                            <MoreOutlined class="letgo-logic-code__icon-more" />
                         </FDropdown>
                     </li>
                 );
@@ -122,11 +122,11 @@ export const CodeList = defineComponent({
         const renderCode = () => {
             return props.code?.code.map((item: any) => {
                 return (
-                    <li onClick={() => props.onChangeCurrentCodeItem(item)} class={['letgo-comp-code__item', props.currentCodeItem?.id === item.id ? 'letgo-comp-code__item--active' : '']}>
+                    <li onClick={() => props.onChangeCurrentCodeItem(item)} class={['letgo-logic-code__item', props.currentCodeItem?.id === item.id ? 'letgo-logic-code__item--active' : '']}>
                         {renderCodeIcon(item)}
                         <CodeId id={item.id} hasCodeId={props.hasCodeId} onChange={changeCodeId} />
                         <FDropdown onClick={value => onCommonAction(value, item)} appendToContainer={false} trigger="click" placement="bottom-end" options={commonOptions}>
-                            <MoreOutlined class="letgo-comp-code__icon-more" />
+                            <MoreOutlined class="letgo-logic-code__icon-more" />
                         </FDropdown>
                     </li>
                 );
@@ -135,21 +135,23 @@ export const CodeList = defineComponent({
 
         const addCodeItem = (val: string) => {
             const option = options.find(item => item.value === val);
+            let item;
             if (option.codeType)
-                props.code?.addCodeItemWithType(option.codeType, val as IEnumResourceType);
+                item = props.code?.addCodeItemWithType(option.codeType, val as IEnumResourceType);
             else
-                props.code?.addCodeItemWithType(val as IEnumCodeType);
+                item = props.code?.addCodeItemWithType(val as IEnumCodeType);
+            props.onChangeCurrentCodeItem(item);
         };
 
         return () => {
             return (
-                <div class="letgo-comp-code">
-                    <div class="letgo-comp-code__header">
+                <div class="letgo-logic-code">
+                    <div class="letgo-logic-code__header">
                         <FDropdown trigger="click" onClick={addCodeItem} placement="bottom-start" options={options}>
-                            <PlusOutlined class="letgo-comp-code__header-icon" />
+                            <PlusOutlined class="letgo-logic-code__header-icon" />
                         </FDropdown>
                     </div>
-                    <ul class="letgo-comp-code__body">
+                    <ul class="letgo-logic-code__body">
                         {renderFolders()}
                         {renderCode()}
                     </ul>

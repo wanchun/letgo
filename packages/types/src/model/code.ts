@@ -16,7 +16,7 @@ export interface IPublicModelCode {
 
     addCodeItem(item: ICodeItem): void
 
-    addCodeItemWithType(type: IEnumCodeType, resourceType?: IEnumResourceType): void
+    addCodeItemWithType(type: IEnumCodeType, resourceType?: IEnumResourceType): ICodeItem
 
     onCodeItemAdd(func: (codeItem: ICodeItem) => void): () => void
 

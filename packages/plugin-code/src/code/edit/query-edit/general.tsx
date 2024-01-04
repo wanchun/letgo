@@ -4,6 +4,7 @@ import type { IJavascriptQuery } from '@webank/letgo-types';
 import type { DocumentModel } from '@webank/letgo-designer';
 import { javascript } from '@codemirror/lang-javascript';
 import { CodeEditor } from '@webank/letgo-components';
+import { formatJsCode } from '@webank/letgo-common';
 import CommonGeneral from './common-general';
 
 export default defineComponent({
@@ -19,10 +20,21 @@ export default defineComponent({
                 query: doc,
             });
         };
+
+        const onBlur = async (val: string) => {
+            val = await formatJsCode(val);
+            changeQuery(val);
+        };
+
         return () => {
             return (
                 <CommonGeneral documentModel={props.documentModel} codeItem={props.codeItem} changeCodeItem={props.changeCodeItem}>
-                    <CodeEditor extensions={[javascript()]} doc={props.codeItem.query} changeDoc={changeQuery} />
+                    <CodeEditor
+                        extensions={[javascript()]}
+                        doc={props.codeItem.query}
+                        changeDoc={changeQuery}
+                        onBlur={onBlur}
+                    />
                 </CommonGeneral>
             );
         };

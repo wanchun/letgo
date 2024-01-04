@@ -26,7 +26,7 @@ class JavascriptComputedEdit implements CodeBaseEdit {
         return {
             id,
             type: IEnumCodeType.JAVASCRIPT_COMPUTED,
-            funcBody: '// Tip: 通过一个变量计算另一个变量 \n\nreturn 5',
+            funcBody: '// Tip: 通过一个变量计算出新的变量，当依赖的变更更新时，新的变量自动更新 \nreturn 5',
         };
     }
 }
@@ -36,7 +36,7 @@ class JavascriptFunctionEdit implements CodeBaseEdit {
         return {
             id,
             type: IEnumCodeType.JAVASCRIPT_FUNCTION,
-            funcBody: '// Tip: 函数 \n\n function func() {\n    return 5;\n}',
+            funcBody: '// Tip: 函数 \nfunction func() {\n  \n}',
         };
     }
 }
@@ -47,7 +47,7 @@ class JavascriptQueryEdit implements CodeBaseEdit {
         if (resourceType === IEnumResourceType.RESTQuery) {
             otherFields.method = 'POST';
             otherFields.enableTransformer = false;
-            otherFields.transformer = '\n return data;';
+            otherFields.transformer = '//变量data是原始响应结果  \nreturn data;';
         }
 
         return {

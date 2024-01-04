@@ -14,6 +14,7 @@ import { basicSetup } from 'codemirror';
 import type { ViewUpdate } from '@codemirror/view';
 import {
     EditorView,
+    keymap,
     placeholder,
 } from '@codemirror/view';
 import type { Extension } from '@codemirror/state';
@@ -21,6 +22,7 @@ import {
     EditorState,
 } from '@codemirror/state';
 import { javascriptLanguage } from '@codemirror/lang-javascript';
+import { indentWithTab } from '@codemirror/commands';
 import { FullScreen } from '@icon-park/vue-next';
 import { FDrawer } from '@fesjs/fes-design';
 import { autocompletion } from '@codemirror/autocomplete';
@@ -56,7 +58,8 @@ export const CodeEditor = defineComponent({
             default: '100px',
         },
     },
-    setup(props, { attrs }) {
+    emits: ['blur', 'focus'],
+    setup(props, { attrs, emit }) {
         const editorRefEl = ref<HTMLElement>();
         const fullScreenRef = ref<HTMLElement>();
         const isFullScreen = ref(false);
@@ -81,6 +84,7 @@ export const CodeEditor = defineComponent({
                 doc: currentDoc,
                 extensions: [
                     basicSetup,
+                    keymap.of([indentWithTab]),
                     theme,
                     ...props.extensions,
                     javascriptLanguage.data.of({
@@ -90,10 +94,18 @@ export const CodeEditor = defineComponent({
                         icons: false,
                     }),
                     placeholder('Type your code here'),
-                    state && EditorView.updateListener.of((v: ViewUpdate) => {
+                    state && EditorView.updateListener.of(async (v: ViewUpdate) => {
                         if (v.docChanged) {
                             currentDoc = v.state.sliceDoc();
                             props.changeDoc(currentDoc);
+                        }
+                        // focus state change
+                        if (v.focusChanged) {
+                            currentDoc = v.state.sliceDoc();
+                            if (v.view.hasFocus)
+                                emit('focus', currentDoc);
+                            else
+                                emit('blur', currentDoc);
                         }
                     }),
                 ].filter(Boolean),

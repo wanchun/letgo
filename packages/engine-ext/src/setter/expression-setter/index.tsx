@@ -4,6 +4,7 @@ import { debounce, isNil } from 'lodash-es';
 import { isJSExpression } from '@webank/letgo-types';
 import { ExpressionEditor } from '@webank/letgo-components';
 import type { IPublicTypeCompositeValue, IPublicTypeSetter } from '@webank/letgo-types';
+import { formatExpression } from '@webank/letgo-common';
 import { commonProps } from '../../common';
 
 const ExpressionSetterView = defineComponent({
@@ -45,9 +46,13 @@ const ExpressionSetterView = defineComponent({
                 mock: currentMock.value,
             });
         };
+        const onBlur = async (val: string) => {
+            val = await formatExpression(val);
+            changeValue(val);
+        };
         return () => {
             return (
-                <ExpressionEditor doc={currentValue.value} onChangeDoc={debounce(changeValue, 500)} />
+                <ExpressionEditor doc={currentValue.value} onChangeDoc={debounce(changeValue, 500)} onBlur={onBlur} />
             );
         };
     },

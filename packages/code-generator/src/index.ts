@@ -1,11 +1,12 @@
 import { merge, set } from 'lodash-es';
-import type { FileTree, GenOptions } from './common/types';
+import type { Context, FileTree, GenOptions } from './common/types';
 import { genFileName } from './common/page-meta';
 import { toAssemble } from './common/build';
 import { schemaToCode } from './common';
 import { defaultCodes, defaultPackageJSON } from './defaultContent';
 import { genGlobalStateCode } from './common/global-state';
 import { setOptions } from './options';
+import { genCodeMap } from './common/helper';
 
 export * from './common/types';
 export * from './export-zip';
@@ -24,9 +25,9 @@ function genPackageJSON(fileTree: FileTree, options: GenOptions) {
     fileTree['package.json'] = JSON.stringify(packageJSON, null, 4);
 }
 
-function genPageCode(fileTree: FileTree, options: GenOptions) {
+function genPageCode(ctx: Context, fileTree: FileTree, options: GenOptions) {
     const { pageTransform, pageDir, schema } = options;
-    const filesStruct = pageTransform ? pageTransform(schemaToCode(schema)) : schemaToCode(schema);
+    const filesStruct = pageTransform ? pageTransform(schemaToCode(ctx, schema)) : schemaToCode(ctx, schema);
 
     const pages = filesStruct.reduce((acc, cur) => {
         acc[genFileName(cur)] = toAssemble(cur);
@@ -54,6 +55,11 @@ export function gen(_options: GenOptions): FileTree {
     const options = setOptions(_options);
     const fileTree: FileTree = {};
 
+    const ctx: Context = {
+        codes: genCodeMap(options.schema.code),
+        scope: [],
+    };
+
     // 处理 package.json
     genPackageJSON(fileTree, options);
 
@@ -61,13 +67,13 @@ export function gen(_options: GenOptions): FileTree {
     genCommonCode(fileTree, options);
 
     // 处理全局代码
-    genGlobalStateCode(fileTree, options);
+    genGlobalStateCode(ctx, fileTree, options);
 
     // 处理全局样式
     genGlobalCss(fileTree, options);
 
     // 处理页面代码
-    genPageCode(fileTree, options);
+    genPageCode(ctx, fileTree, options);
 
     return fileTree;
 }

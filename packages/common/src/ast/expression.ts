@@ -51,6 +51,28 @@ export function attachContext(code: string, isInclude: (name: string) => boolean
     return generate((ast as any).body[0]).replace(';', '');
 }
 
+export function isExpression(code: string, isInclude: (name: string) => boolean) {
+    try {
+        let flag = false;
+        transformExpression(code, (identifier) => {
+            if (isInclude(identifier.name))
+                flag = true;
+        });
+
+        if (flag === false) {
+            // eslint-disable-next-line no-eval
+            eval(code);
+            // 可执行，为表达式
+            flag = true;
+        }
+
+        return flag;
+    }
+    catch (_) {
+        return false;
+    }
+}
+
 export function executeExpression(text: string | null, ctx: Record<string, any> = {}, whenErrorReturnRaw = false) {
     if (isNil(text))
         return null;

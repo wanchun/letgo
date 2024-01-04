@@ -17,8 +17,10 @@ import {
     isNodeSchema,
 } from '@webank/letgo-types';
 import { camelCase, isArray, isEmpty, isNil, isPlainObject, merge } from 'lodash-es';
+import { ensureArray } from '@webank/letgo-common';
 import { compilerEventHandlers, funcSchemaToFunc } from '../events';
 import { traverseNodePropsSlot, traverseNodeSchema } from '../helper';
+import type { Context } from '../types';
 import { compileDirectives } from './directives';
 
 function genPropSlotName(key: string, refName: string) {
@@ -162,10 +164,18 @@ function wrapCondition(code: string, condition: IPublicTypeCompositeValue, isRoo
     return code;
 }
 
-function wrapLoop(code: string, nodeSchema: IPublicTypeNodeData, isRoot = false) {
+function genLoopParams(nodeSchema: IPublicTypeNodeData) {
     if (isNodeSchema(nodeSchema) && nodeSchema.loop) {
         const item = nodeSchema.loopArgs?.[0] || 'item';
         const index = nodeSchema.loopArgs?.[1] || 'index';
+        return [item, index];
+    }
+    return [];
+}
+
+function wrapLoop(code: string, nodeSchema: IPublicTypeNodeData, isRoot = false) {
+    if (isNodeSchema(nodeSchema) && nodeSchema.loop) {
+        const [item, index] = genLoopParams(nodeSchema);
         const keyProp = nodeSchema.props?.key || index;
         let loopVariable: string;
         if (isJSExpression(nodeSchema.loop))
@@ -192,13 +202,16 @@ function wrapLoop(code: string, nodeSchema: IPublicTypeNodeData, isRoot = false)
     return code;
 }
 
-function compileNodeSchema(nodeSchema: IPublicTypeNodeData, componentRefs: Set<string>, isRoot = false) {
+function compileNodeSchema(ctx: Context, nodeSchema: IPublicTypeNodeData, componentRefs: Set<string>, isRoot = false) {
     if (isNodeSchema(nodeSchema)) {
         if (nodeSchema.condition === false)
             return '';
+        const loopParams = genLoopParams(nodeSchema);
+        if (nodeSchema.loop)
+            ctx.scope = ctx.scope.concat(loopParams);
 
         const children = genNodeSchemaChildren(nodeSchema);
-        const events = compilerEventHandlers(nodeSchema.events || []);
+        const events = compilerEventHandlers(ctx, nodeSchema.events || []);
         const excludeSlotChildren = children.filter(item => !isJSSlot(item));
         const code = `<${nodeSchema.componentName}
             ${handleComponentRef(nodeSchema, componentRefs)}
@@ -207,19 +220,21 @@ function compileNodeSchema(nodeSchema: IPublicTypeNodeData, componentRefs: Set<s
             ${Object.keys(events).map((eventName) => {
                 return `${eventName}={[${events[eventName].join(', ')}]}`;
             }).join(' ')}
-            ${genSlotDirective(nodeSchema, componentRefs)} 
+            ${genSlotDirective(ctx, nodeSchema, componentRefs)} 
             ${!isEmpty(excludeSlotChildren)
                 ? `>
                     ${excludeSlotChildren
                         .map((item) => {
-                            return compileNodeData(item, componentRefs);
+                            return compileNodeData(ctx, item, componentRefs);
                         })
                         .join('\n')}
                     </${nodeSchema.componentName}>`
                 : ' />'
         }`;
-        if (nodeSchema.loop)
+        if (nodeSchema.loop) {
+            ctx.scope = ctx.scope.splice(0, ctx.scope.length - loopParams.length);
             return wrapLoop(code, nodeSchema, isRoot);
+        }
 
         return wrapCondition(code, nodeSchema.condition, isRoot);
     }
@@ -233,9 +248,9 @@ function compileDOMText(domText: IPublicTypeDOMText) {
     return domText;
 }
 
-function compileSingleNodeData(nodeData: IPublicTypeNodeData, componentRefs: Set<string>, isRoot = false) {
+function compileSingleNodeData(ctx: Context, nodeData: IPublicTypeNodeData, componentRefs: Set<string>, isRoot = false) {
     if (isNodeSchema(nodeData))
-        return compileNodeSchema(nodeData, componentRefs, isRoot);
+        return compileNodeSchema(ctx, nodeData, componentRefs, isRoot);
 
     else if (isJSExpression(nodeData))
         return compileJSExpression(nodeData);
@@ -246,10 +261,10 @@ function compileSingleNodeData(nodeData: IPublicTypeNodeData, componentRefs: Set
     return '';
 }
 
-function compileNodeData(nodeData: IPublicTypeNodeData | IPublicTypeNodeData[], componentRefs: Set<string>, isRoot = false): string | string[] {
+function compileNodeData(ctx: Context, nodeData: IPublicTypeNodeData | IPublicTypeNodeData[], componentRefs: Set<string>, isRoot = false): string | string[] {
     if (isArray(nodeData))
-        return nodeData.map(item => compileSingleNodeData(item, componentRefs, isRoot));
-    return compileSingleNodeData(nodeData, componentRefs, isRoot);
+        return nodeData.map(item => compileSingleNodeData(ctx, item, componentRefs, isRoot));
+    return compileSingleNodeData(ctx, nodeData, componentRefs, isRoot);
 }
 
 function wrapFragment(children: string | string[]) {
@@ -265,7 +280,7 @@ function wrapFragment(children: string | string[]) {
     return children.length ? children[0] : '';
 }
 
-function genSlotDirective(item: IPublicTypeNodeSchema, componentRefs: Set<string>) {
+function genSlotDirective(ctx: Context, item: IPublicTypeNodeSchema, componentRefs: Set<string>) {
     let result = '';
     const slotDefine: Record<string, string> = {};
     const slotChildren = genNodeSchemaChildren(item).filter(item => isJSSlot(item));
@@ -273,7 +288,7 @@ function genSlotDirective(item: IPublicTypeNodeSchema, componentRefs: Set<string
         const hasMoreComp = slotChildren.length > 1;
         slotDefine.default = `
         () => {
-            return ${wrapFragment(compileNodeData(slotChildren, componentRefs, !hasMoreComp))}
+            return ${wrapFragment(compileNodeData(ctx, slotChildren, componentRefs, !hasMoreComp))}
         }
         `;
     }
@@ -281,13 +296,15 @@ function genSlotDirective(item: IPublicTypeNodeSchema, componentRefs: Set<string
         const cur = item.props[key];
         if (isJSSlot(cur)) {
             const slotName = cur.name || key;
-            const params = cur.params ? cur.params.join(', ') : '';
+            const params = ensureArray(cur.params);
             const hasMoreComp = Array.isArray(cur.value) && cur.value.length > 1;
+            ctx.scope = ctx.scope.concat(params);
             slotDefine[slotName] = `
-            (${params}) => {
-                return ${wrapFragment(compileNodeData(cur.value, componentRefs, !hasMoreComp))}
+            (${params.join(', ')}) => {
+                return ${wrapFragment(compileNodeData(ctx, cur.value, componentRefs, !hasMoreComp))}
             }
             `;
+            ctx.scope.splice(0, ctx.scope.length - params.length);
         }
     });
     if (Object.keys(slotDefine).length) {
@@ -303,6 +320,7 @@ function genSlotDirective(item: IPublicTypeNodeSchema, componentRefs: Set<string
 }
 
 export function genSlots(
+    ctx: Context,
     nodeData: IPublicTypeNodeData | IPublicTypeNodeData[],
     componentRefs: Set<string>,
 ) {
@@ -314,24 +332,26 @@ export function genSlots(
 
             return acc;
         }, {} as Record<string, any>), (key: string, value: IPublicTypeJSSlot) => {
-            const params = value.params ? value.params.join(', ') : '';
+            const params = ensureArray(value.params);
             const hasMoreComp = Array.isArray(value.value) && value.value.length > 1;
+            ctx.scope = ctx.scope.concat(params);
             slots.push(`
-            const ${genPropSlotName(key, item.ref)} = (${params}) => {
-                return ${wrapFragment(compileNodeData(value.value, componentRefs, !hasMoreComp))}
+            const ${genPropSlotName(key, item.ref)} = (${params.join(', ')}) => {
+                return ${wrapFragment(compileNodeData(ctx, value.value, componentRefs, !hasMoreComp))}
             }
             `);
+            ctx.scope = ctx.scope.splice(0, ctx.scope.length - params.length);
         });
     });
 
     return slots;
 }
 
-export function genPageJsx(rootSchema: IPublicTypeRootSchema, componentRefs: Set<string>) {
+export function genPageJsx(ctx: Context, rootSchema: IPublicTypeRootSchema, componentRefs: Set<string>) {
     const nodeData = Array.isArray(rootSchema.children) ? rootSchema.children : [rootSchema.children];
     return `return () => {
         return <div class="letgo-page" ${compileProps(merge(rootSchema.defaultProps, rootSchema.props)).join(' ')}>
-            ${nodeData.map(item => compileNodeData(item, componentRefs)).join('\n')}
+            ${nodeData.map(item => compileNodeData(ctx, item, componentRefs)).join('\n')}
         </div>
     }`;
 }

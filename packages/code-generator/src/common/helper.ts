@@ -8,7 +8,7 @@ import type {
     IPublicTypeNodeData,
     IPublicTypeNodeSchema,
 } from '@webank/letgo-types';
-import { isSyntaxError, replaceFunctionName, sortState } from '@webank/letgo-common';
+import { isSyntaxError, isExpression as rawIsExpression, replaceFunctionName, sortState } from '@webank/letgo-common';
 import {
     IEnumCodeType,
     isJSExpression,
@@ -19,9 +19,24 @@ import {
 } from '@webank/letgo-types';
 import { isPlainObject } from 'lodash-es';
 import { getOptions, relative } from '../options';
-import type { ImportSource, SetupCode } from './types';
+import type { Context, ImportSource, SetupCode } from './types';
 import { ImportType } from './types';
 import { compilerEventHandlers } from './events';
+
+export function ensureArray(data?: string | string[]) {
+    if (data == null)
+        return [];
+    if (typeof data === 'string')
+        return [data];
+
+    return data;
+}
+
+export function isExpression(ctx: Context, code: string) {
+    return rawIsExpression(code, (name: string) => {
+        return ctx.codes.has(name) || ctx.refs?.has(name) || ctx.scope?.includes(name);
+    });
+}
 
 export function genSingleImport(imports: ImportSource[]) {
     if (!imports.length)
@@ -176,8 +191,7 @@ export function traverseNodeSchema(
     }
 }
 
-export function genCodeMap(code: ICodeStruct) {
-    const codeMap = new Map<string, ICodeItem>();
+export function genCodeMap(code: ICodeStruct, codeMap: Map<string, ICodeItem> = new Map<string, ICodeItem>()) {
     code.code.forEach((item) => {
         codeMap.set(item.id, item);
     });
@@ -190,17 +204,24 @@ export function genCodeMap(code: ICodeStruct) {
     return codeMap;
 }
 
-function eventSchemaToFunc(events: IEventHandler[] = []) {
+export function mergeCodeStruct(lCodeStruct: ICodeStruct, rCodeStruct: ICodeStruct): ICodeStruct {
+    return {
+        code: [].concat(lCodeStruct.code).concat(rCodeStruct.code),
+        directories: [].concat(lCodeStruct.directories).concat(rCodeStruct.directories),
+    };
+}
+
+function eventSchemaToFunc(ctx: Context, events: IEventHandler[] = []) {
     if (!events.length)
         return [];
-    const jsFunctionMap = compilerEventHandlers(events);
+    const jsFunctionMap = compilerEventHandlers(ctx, events);
     return Object.keys(jsFunctionMap).reduce((acc, cur) => {
         acc = acc.concat(jsFunctionMap[cur]);
         return acc;
     }, [] as string[]);
 }
 
-export function genCode(filePath: string, codeStruct: ICodeStruct): SetupCode {
+export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct): SetupCode {
     if (!codeStruct)
         return null;
 
@@ -277,8 +298,8 @@ export function genCode(filePath: string, codeStruct: ICodeStruct): SetupCode {
         ${item.runCondition ? `runCondition: '${item.runCondition}',` : ''}
         ${item.runWhenPageLoads ? `runWhenPageLoads: ${item.runWhenPageLoads},` : ''}
         ${(item.queryFailureCondition && item.queryFailureCondition.length) ? `queryFailureCondition: ${item.queryFailureCondition},` : ''}
-        ${item.successEvent ? `successEvent: [${eventSchemaToFunc(item.successEvent).join(',')}],` : ''}
-        ${item.failureEvent ? `failureEvent: [${eventSchemaToFunc(item.failureEvent).join(',')}],` : ''}
+        ${item.successEvent ? `successEvent: [${eventSchemaToFunc(ctx, item.successEvent).join(',')}],` : ''}
+        ${item.failureEvent ? `failureEvent: [${eventSchemaToFunc(ctx, item.failureEvent).join(',')}],` : ''}
     });
                 `);
             }
@@ -296,8 +317,8 @@ export function genCode(filePath: string, codeStruct: ICodeStruct): SetupCode {
         ${item.runCondition ? `runCondition: '${item.runCondition}',` : ''}
         ${item.runWhenPageLoads ? `runWhenPageLoads: ${item.runWhenPageLoads},` : ''}
         ${(item.queryFailureCondition && item.queryFailureCondition.length) ? `queryFailureCondition: ${item.queryFailureCondition},` : ''}
-        ${item.successEvent ? `successEvent: [${eventSchemaToFunc(item.successEvent).join(',')}],` : ''}
-        ${item.failureEvent ? `failureEvent: [${eventSchemaToFunc(item.failureEvent).join(',')}],` : ''}
+        ${item.successEvent ? `successEvent: [${eventSchemaToFunc(ctx, item.successEvent).join(',')}],` : ''}
+        ${item.failureEvent ? `failureEvent: [${eventSchemaToFunc(ctx, item.failureEvent).join(',')}],` : ''}
     });
                 `);
             }

@@ -5,10 +5,10 @@ import type {
     IPublicTypeRootSchema,
 } from '@webank/letgo-types';
 import { genScript } from './script';
-import { traverseNodeSchema } from './helper';
+import { genCodeMap, traverseNodeSchema } from './helper';
 import { formatFileName, formatPageName, formatPageTitle } from './page-meta';
 import { PageFileType } from './types';
-import type { FileStruct, GenOptions } from './types';
+import type { Context, FileStruct } from './types';
 import { genPageJsx, genSlots } from './jsx/gen-jsx';
 
 function getComponentRefs(
@@ -21,8 +21,8 @@ function getComponentRefs(
     return componentRefs;
 }
 
-function getUseComponentRefs(rootSchema: IPublicTypeRootSchema) {
-    const componentRefs = getComponentRefs(rootSchema.children);
+function getUseComponentRefs(ctx: Context, rootSchema: IPublicTypeRootSchema) {
+    const componentRefs = ctx.refs;
     const usedComponents = new Set<string>();
     const schemaStr = JSON.stringify(rootSchema);
     for (const refName of componentRefs.values()) {
@@ -34,11 +34,12 @@ function getUseComponentRefs(rootSchema: IPublicTypeRootSchema) {
 }
 
 function compileRootSchema(
+    ctx: Context,
     componentMaps: IPublicTypeComponentMap[],
     rootSchema: IPublicTypeRootSchema,
 ): FileStruct {
     if (rootSchema.componentName === 'Page') {
-        const componentRefs = getUseComponentRefs(rootSchema);
+        const componentRefs = getUseComponentRefs(ctx, rootSchema);
         const fileName = formatFileName(rootSchema.fileName);
 
         const [importSources, codes] = genScript({
@@ -55,8 +56,8 @@ function compileRootSchema(
             pageTitle: formatPageTitle(rootSchema.title),
             afterImports: [],
             importSources,
-            codes: codes.concat(genSlots(rootSchema, componentRefs)),
-            jsx: genPageJsx(rootSchema, componentRefs),
+            codes: codes.concat(genSlots(ctx, rootSchema, componentRefs)),
+            jsx: genPageJsx(ctx, rootSchema, componentRefs),
         };
     }
     return null;
@@ -89,9 +90,16 @@ function getUseComponents(
     return useComponents;
 }
 
-export function schemaToCode(schema: IPublicTypeProjectSchema): FileStruct[] {
+// TODO scope 放入 codes 或者另外加一个参数
+export function schemaToCode(ctx: Context, schema: IPublicTypeProjectSchema): FileStruct[] {
     return schema.componentsTree.map((rootSchema) => {
+        const pageContext = {
+            ...ctx,
+            codes: genCodeMap(rootSchema.code, new Map(ctx.codes)),
+            refs: getComponentRefs(rootSchema.children),
+        };
         return compileRootSchema(
+            pageContext,
             getUseComponents(schema.componentsMap, rootSchema),
             rootSchema,
         );

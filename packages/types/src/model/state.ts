@@ -9,7 +9,7 @@ export interface IPublicModelState {
 
     triggerAfterSimulatorReady(fn: () => void): void
 
-    getInstance(instances: IPublicTypeComponentRecord[]): Record<string, any>
+    getInstances(instances: IPublicTypeComponentRecord[]): Record<string, any>[]
 
     changeNodeRef(ref: string, preRef: string): void
 

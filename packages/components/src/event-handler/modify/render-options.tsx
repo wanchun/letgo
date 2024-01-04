@@ -43,7 +43,8 @@ export default defineComponent({
         };
 
         const componentInstanceOptions = computed(() => {
-            return Object.keys(props.documentModel.state.componentsInstance).map((key) => {
+            const instances = props.documentModel.state.componentsInstance;
+            return Object.keys(instances).filter(key => !Array.isArray(instances[key])).map((key) => {
                 return {
                     label: key,
                     value: key,

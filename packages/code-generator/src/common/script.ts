@@ -9,7 +9,7 @@ import {
 import { getOptions, relative } from '../options';
 import { genCode } from './helper';
 import { ImportType } from './types';
-import type { ImportSource } from './types';
+import type { Context, ImportSource } from './types';
 import { applyGlobalState } from './global-state';
 
 function genComponentImports(componentMaps: IPublicTypeComponentMap[]) {
@@ -55,7 +55,8 @@ function genRefCode(filePath: string, componentRefs: Set<string>) {
     };
 }
 
-export function genScript({ componentMaps, rootSchema, componentRefs, fileName }: {
+export function genScript({ ctx, componentMaps, rootSchema, componentRefs, fileName }: {
+    ctx: Context
     componentMaps: IPublicTypeComponentMap[]
     rootSchema: IPublicTypeRootSchema
     componentRefs: Set<string>
@@ -71,7 +72,7 @@ export function genScript({ componentMaps, rootSchema, componentRefs, fileName }
     const codeImports = genComponentImports(componentMaps);
     const globalStateSnippet = applyGlobalState(`${pageDir}/${fileName}`);
     const refCodeSnippet = genRefCode(`${pageDir}/${fileName}`, componentRefs);
-    const codesSnippet = genCode(`${pageDir}/${fileName}`, rootSchema.code);
+    const codesSnippet = genCode(ctx, `${pageDir}/${fileName}`, rootSchema.code);
 
     const codes = [
         globalStateSnippet.code,

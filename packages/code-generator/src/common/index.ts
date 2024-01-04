@@ -44,6 +44,7 @@ function compileRootSchema(
         const fileName = formatFileName(rootSchema.fileName);
 
         const [importSources, codes] = genScript({
+            ctx,
             componentMaps,
             rootSchema,
             componentRefs,

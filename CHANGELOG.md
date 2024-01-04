@@ -1,3 +1,36 @@
+## [0.0.1-beta.10](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.9...v0.0.1-beta.10) (2024-1-4)
+
+
+### Bug Fixes
+
+* 出码添加 scope ([02ecb0a](https://git.weoa.com/mumblefe/letgo/commits/02ecb0a691238a99fcb4dc6bc84fe2ca82ee7875))
+* 代码编辑点阴影不让关闭 ([f876cd8](https://git.weoa.com/mumblefe/letgo/commits/f876cd8b6eb42c1b95f564453be92de0532af49d))
+* 修复 setIn 问题 ([6865a4a](https://git.weoa.com/mumblefe/letgo/commits/6865a4ada581d8fba0fe8c27aa7d8b2e3ffe8f64))
+* 修复类型问题 ([4f011d5](https://git.weoa.com/mumblefe/letgo/commits/4f011d565f47aa676fd4945fa6d907fbb1aafe9c))
+* 修复问题 ([4bfa1f5](https://git.weoa.com/mumblefe/letgo/commits/4bfa1f5b48931859eb0c952de5f3e3d0157f1fbe))
+* 修复问题 ([8a92659](https://git.weoa.com/mumblefe/letgo/commits/8a92659c06a842bf17989ef751d7b1ac97c6485e))
+* 修复组件实例没初始化，应用组件ref 出现 not define 问题 ([8481cae](https://git.weoa.com/mumblefe/letgo/commits/8481cae2f61b7d140ceee726b14dc1cce9c30102))
+* component label to chinese ([0aefb72](https://git.weoa.com/mumblefe/letgo/commits/0aefb72d5678aa47bed3dbe31d67a01c2159ab01))
+* component label to chinese ([3079708](https://git.weoa.com/mumblefe/letgo/commits/3079708d178185c74aa65fb8bb50e757491ba872))
+* label to chinese ([b2d277c](https://git.weoa.com/mumblefe/letgo/commits/b2d277c5ee39afa78740e5b65c7c448548871470))
+
+
+### Features
+
+* 处理ts类型 ([3a09a8d](https://git.weoa.com/mumblefe/letgo/commits/3a09a8de67b2445c1772d6058e5eaf40bf7f0a7f))
+* 处理ts类型 ([adf0750](https://git.weoa.com/mumblefe/letgo/commits/adf075081289ae2a364c17c328cfd3fa3903dab6))
+* 格式化表达式输入 ([5239288](https://git.weoa.com/mumblefe/letgo/commits/5239288d7dd6497421fb0668cf7961ce98a96dbb))
+* 函数绑定支持全局 ([8d5dfb5](https://git.weoa.com/mumblefe/letgo/commits/8d5dfb53d20a7cbab43829d62c89b0bf114e1924))
+* 精确判断一个变量是否为表达式 ([d7cf804](https://git.weoa.com/mumblefe/letgo/commits/d7cf804227c4f6ec362d8fcb717ae2a5bd388a37))
+* 事件绑定支持 setIn ([8dfb02d](https://git.weoa.com/mumblefe/letgo/commits/8dfb02d1f3305d59b46e7ae102cbf365d0f7687c))
+* 文案 ([bc43e3d](https://git.weoa.com/mumblefe/letgo/commits/bc43e3d89fad40f428dd1fb330d67c27ca5f1c42))
+* 优化ts类型 ([31755b2](https://git.weoa.com/mumblefe/letgo/commits/31755b207f242ba6aeca7164b033ad9284ab7e4a))
+* 整理类型 ([31acbc5](https://git.weoa.com/mumblefe/letgo/commits/31acbc5ae14e502f16f5d971aba8f317474ced52))
+* 整理类型 ([d3c5670](https://git.weoa.com/mumblefe/letgo/commits/d3c56704a51bd776d6eb8abbba2dba940e7fa40c))
+* 整理类型 ([647400e](https://git.weoa.com/mumblefe/letgo/commits/647400ed5b77a77fd474fd6276783c7d33a6fb17))
+
+
+
 ## [0.0.1-beta.9](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.8...v0.0.1-beta.9) (2023-12-28)
 
 

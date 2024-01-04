@@ -70,10 +70,10 @@ export default defineComponent({
         const renderComponentMethod = (data: IControlComponentAction) => {
             return (
                 <>
-                    <Label label="Component">
+                    <Label label="组件">
                         <FSelect appendToContainer={false} onChange={selectComponent} v-model={data.namespace} options={componentInstanceOptions.value} />
                     </Label>
-                    <Label label="Method">
+                    <Label label="方法">
                         <FSelect appendToContainer={false} v-model={data.method} options={componentMethods.value} />
                     </Label>
                 </>

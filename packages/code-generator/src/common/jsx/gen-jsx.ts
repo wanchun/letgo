@@ -17,9 +17,8 @@ import {
     isNodeSchema,
 } from '@webank/letgo-types';
 import { camelCase, isArray, isEmpty, isNil, isPlainObject, merge } from 'lodash-es';
-import { ensureArray } from '@webank/letgo-common';
+import { ensureArray, traverseNodePropsSlot, traverseNodeSchema } from '@webank/letgo-common';
 import { compilerEventHandlers, funcSchemaToFunc } from '../events';
-import { traverseNodePropsSlot, traverseNodeSchema } from '../helper';
 import type { Context } from '../types';
 import { compileDirectives } from './directives';
 

@@ -4,8 +4,9 @@ import type {
     IPublicTypeProjectSchema,
     IPublicTypeRootSchema,
 } from '@webank/letgo-types';
+import { traverseNodeSchema } from '@webank/letgo-common';
 import { genScript } from './script';
-import { genCodeMap, traverseNodeSchema } from './helper';
+import { genCodeMap } from './helper';
 import { formatFileName, formatPageName, formatPageTitle } from './page-meta';
 import { PageFileType } from './types';
 import type { Context, FileStruct } from './types';

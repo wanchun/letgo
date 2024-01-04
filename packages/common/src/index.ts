@@ -22,3 +22,4 @@ export * from './ensure-array';
 export * from './unit';
 export * from './createIconSprite';
 export * from './format';
+export * from './traverse-schema';

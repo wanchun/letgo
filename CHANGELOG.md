@@ -1,3 +1,17 @@
+## [0.0.1-beta.11](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.10...v0.0.1-beta.11) (2024-1-4)
+
+
+### Bug Fixes
+
+* 修复出码 loop问题 ([5b2aca8](https://git.weoa.com/mumblefe/letgo/commits/5b2aca81d37983e99e3362daadb2eacc379225cd))
+
+
+### Features
+
+* 支持 loop ref ([641ae13](https://git.weoa.com/mumblefe/letgo/commits/641ae13432f34bc61743624252a2e27e9bf6c242))
+
+
+
 ## [0.0.1-beta.10](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.9...v0.0.1-beta.10) (2024-1-4)
 
 

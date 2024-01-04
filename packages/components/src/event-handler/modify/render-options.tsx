@@ -99,13 +99,13 @@ export default defineComponent({
         const renderSetTemporaryState = (data: ISetTemporaryStateAction) => {
             return (
                 <>
-                    <Label label="State">
+                    <Label label="变量">
                         <FSelect appendToContainer={false} v-model={data.namespace} options={stateOptions.value} />
                     </Label>
-                    <Label label="value">
+                    <Label label="值">
                         <FInput v-model={data.params[0]} />
                     </Label>
-                    <Label label="path">
+                    <Label label="值路径">
                         <FInput v-model={data.params[1]} onChange={() => changeVariablePath(data)} placeholder="值路径，不填默认覆盖整个值" />
                     </Label>
                 </>
@@ -114,16 +114,16 @@ export default defineComponent({
         const renderSetLocalStorage = (data: ISetLocalStorageAction) => {
             return (
                 <>
-                    <Label label="Method">
+                    <Label label="方法">
                         <FSelect appendToContainer={false} v-model={data.method}>
                             <FOption value="setValue">set Value</FOption>
                             <FOption value="clear">Clear</FOption>
                         </FSelect>
                     </Label>
-                    <Label label="key">
+                    <Label label="键">
                         <FInput v-model={data.params[0]} />
                     </Label>
-                    <Label label="value">
+                    <Label label="值">
                         <FInput v-model={data.params[1]} />
                     </Label>
                 </>
@@ -148,7 +148,7 @@ export default defineComponent({
         const renderRunFunction = (data: IRunFunctionAction) => {
             return (
                 <>
-                    <Label label="function">
+                    <Label label="函数名">
                         <FSelect v-model={data.namespace} appendToContainer={false} options={functionOptions.value} />
                     </Label>
                     <Label label="参数">

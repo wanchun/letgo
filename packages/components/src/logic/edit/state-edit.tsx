@@ -37,7 +37,7 @@ export const StateEdit = defineComponent({
                         <div class="letgo-comp-logic__state-input">
                             <label class="letgo-comp-logic__state-label">初始值</label>
                             <ExpressionEditor
-                                placeholder="请输入变量内容"
+                                placeholder="请输入变量初始值"
                                 hints={props.hints}
                                 doc={props.codeItem.initValue}
                                 onChangeDoc={changeInitValue}

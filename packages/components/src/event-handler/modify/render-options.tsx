@@ -5,6 +5,7 @@ import { computed, defineComponent, ref } from 'vue';
 
 import { FInput, FOption, FSelect } from '@fesjs/fes-design';
 import { DeleteOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
+import { isFunction, isPlainObject } from 'lodash-es';
 import Label from './label';
 import './render-options.less';
 
@@ -133,13 +134,44 @@ export default defineComponent({
             );
         };
 
+        function pickFuncFromObj(data: Record<string, any>, parent: string[] = []) {
+            let funcs: string[] = [];
+            for (const key of Object.keys(data)) {
+                if (isFunction(data[key]))
+                    funcs.push([...parent, key].join('.'));
+
+                if (isPlainObject(data[key]))
+                    funcs = funcs.concat(pickFuncFromObj(data[key], parent.concat(key)));
+            }
+            return funcs;
+        }
+        const contextFuncs = computed(() => {
+            const extraGlobalState = props.documentModel.project.extraGlobalState;
+            const utilsFunc = pickFuncFromObj(extraGlobalState.utils, ['utils']);
+            const contextFuncs = pickFuncFromObj(extraGlobalState.letgoContext, ['letgoContext']);
+
+            return utilsFunc.concat(contextFuncs).map((item) => {
+                return {
+                    label: item,
+                    value: item,
+                };
+            });
+        });
+        const globalFunction = computed(() => {
+            return props.documentModel.project.code.functions.map((item) => {
+                return {
+                    label: item.id,
+                    value: item.id,
+                };
+            });
+        });
         const functionOptions = computed(() => {
             return props.documentModel.code.functions.map((item) => {
                 return {
                     label: item.id,
                     value: item.id,
                 };
-            });
+            }).concat(globalFunction.value).concat(contextFuncs.value);
         });
 
         const addFunctionParam = (data: IRunFunctionAction) => {

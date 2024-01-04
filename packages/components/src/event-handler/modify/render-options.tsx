@@ -94,7 +94,11 @@ export default defineComponent({
             }));
         });
         const changeVariablePath = (data: ISetTemporaryStateAction) => {
-            data.method = 'setIn';
+            if (data.params[1])
+                data.method = 'setIn';
+
+            else
+                data.method = 'setValue';
         };
         const renderSetTemporaryState = (data: ISetTemporaryStateAction) => {
             return (

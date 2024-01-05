@@ -133,7 +133,7 @@ function genNodeSchemaChildren(nodeSchema: IPublicTypeNodeSchema): IPublicTypeNo
 
 function handleComponentRef(nodeSchema: IPublicTypeNodeSchema, componentRefs: Set<string>) {
     if (componentRefs.has(nodeSchema.ref))
-        return `ref={${nodeSchema.ref}RefEl}`;
+        return `ref={${nodeSchema.ref}RefEl} ref_for={${!!nodeSchema.loop}}`;
     return '';
 }
 

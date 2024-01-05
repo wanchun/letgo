@@ -108,8 +108,8 @@ export function useInstance() {
     const refEl = ref();
     const proxy = reactive({
         el: refEl
-    })
-    return [refEl, proxy.refEl];
+    });
+    return [refEl, proxy.el];
 }`,
     'useJSQuery.js': `
 import { markReactive } from './reactive';

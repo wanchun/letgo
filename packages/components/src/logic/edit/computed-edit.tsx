@@ -29,7 +29,7 @@ export const ComputedEdit = defineComponent({
         };
 
         const onBlur = async (value: string) => {
-            value = await formatJsCode(value);
+            value = await formatJsCode(value, { tabWidth: 2 });
             changeFuncBody(value);
         };
         const onSave = () => {

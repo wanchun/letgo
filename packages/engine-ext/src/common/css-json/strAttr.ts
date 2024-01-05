@@ -1,7 +1,7 @@
 export function strAttr(name: string, value: string, depth = 0): string {
     let response = '';
     for (let i = 0; i <= depth; ++i)
-        response += '  ';
+        response += ' ';
 
     return `${response + name}: ${value};\n`;
 }

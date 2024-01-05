@@ -22,7 +22,7 @@ export default defineComponent({
         };
 
         const onBlur = async (val: string) => {
-            val = await formatJsCode(val);
+            val = await formatJsCode(val, { tabWidth: 2 });
             changeQuery(val);
         };
 

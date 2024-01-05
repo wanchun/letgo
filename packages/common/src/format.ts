@@ -29,7 +29,7 @@ export async function formatExpression(expression: string) {
     if (!expression || !format)
         return expression;
 
-    let result = await formatJsCode(`(${expression})`, { semi: false, trailingComma: 'none' });
+    let result = await formatJsCode(`(${expression})`, { semi: false, trailingComma: 'none', tabWidth: 2 });
     result = result.trim();
     if (result.startsWith(';'))
         result = result.slice(1);

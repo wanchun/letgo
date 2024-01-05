@@ -49,7 +49,7 @@ export default defineComponent({
         };
 
         const onTransformerBlur = async (val: string) => {
-            val = await formatJsCode(val);
+            val = await formatJsCode(val, { tabWidth: 2 });
             changeTransformer(val);
         };
 

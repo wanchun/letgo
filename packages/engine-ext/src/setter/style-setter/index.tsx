@@ -36,8 +36,6 @@ const StyleSetterView = defineComponent({
             style: getComputeStyle(props.node),
         });
 
-        const initValue = ref(cloneDeep(props.value) ?? {});
-
         const currentValue = ref(cloneDeep(props.value) ?? {});
 
         const onStyleChange = (changedStyle: Record<string, any>, assign = true) => {
@@ -48,7 +46,6 @@ const StyleSetterView = defineComponent({
 
                 const styleData = { ...currentValue.value, ...changedStyle };
                 currentValue.value = styleData;
-                initValue.value = styleData;
                 props.onChange(styleData);
             }
             else {
@@ -64,7 +61,7 @@ const StyleSetterView = defineComponent({
             return (
                 <div class="letgo-setter-style">
                     <CodeView
-                        value={initValue.value}
+                        value={currentValue.value}
                         onStyleChange={onStyleChange}
                     />
                     <FCollapse v-model={showItems.value} arrow="left" embedded={false}>

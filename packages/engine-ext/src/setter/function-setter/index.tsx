@@ -37,7 +37,7 @@ const FunctionSetterView = defineComponent({
             catch (e) {}
         };
         const onBlur = async (val: string) => {
-            val = await formatJsCode(val);
+            val = await formatJsCode(val, { tabWidth: 2 });
             onChange(val);
         };
         return () => {

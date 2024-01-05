@@ -62,6 +62,7 @@ export const ExpressionEditor = defineComponent({
                             currentDoc = v.state.sliceDoc();
                             if (v.view.hasFocus)
                                 emit('focus', currentDoc);
+
                             else
                                 emit('blur', currentDoc);
                         }

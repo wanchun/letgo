@@ -1,6 +1,6 @@
 {
     "name": "@webank/letgo-plugin-device",
-    "version": "0.0.1-beta.10",
+    "version": "0.0.1-beta.12",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -21,8 +21,8 @@
     },
     "dependencies": {
         "@icon-park/vue-next": "^1.4.2",
-        "@webank/letgo-designer": "^0.0.1-beta.10",
-        "@webank/letgo-engine-plugin": "^0.0.1-beta.10",
+        "@webank/letgo-designer": "^0.0.1-beta.12",
+        "@webank/letgo-engine-plugin": "^0.0.1-beta.12",
         "@webank/letgo-types": "^0.0.1-beta.8"
     },
     "devDependencies": {

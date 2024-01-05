@@ -1,3 +1,25 @@
+## [0.0.1-beta.13](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.11...v0.0.1-beta.13) (2024-1-5)
+
+
+### Bug Fixes
+
+* 修复出码 ref loop 问题 ([d6fa51a](https://git.weoa.com/mumblefe/letgo/commits/d6fa51a1d091da5f167c8477979682225372c5d7))
+* 修复类型问题 ([2decff4](https://git.weoa.com/mumblefe/letgo/commits/2decff473c1162c781050b487b4bab58f31d65f3))
+* 修复类型问题 ([ab06a40](https://git.weoa.com/mumblefe/letgo/commits/ab06a40776d3e84e71abe0d74966efebb31b686f))
+* 修复运行时 ref loop 问题 ([9a83be4](https://git.weoa.com/mumblefe/letgo/commits/9a83be4a26da3b1a07bf01b5f99a55d576e6b713))
+
+
+
+## [0.0.1-beta.12](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.11...v0.0.1-beta.12) (2024-1-5)
+
+
+### Bug Fixes
+
+* 修复出码 ref loop 问题 ([d6fa51a](https://git.weoa.com/mumblefe/letgo/commits/d6fa51a1d091da5f167c8477979682225372c5d7))
+* 修复类型问题 ([ab06a40](https://git.weoa.com/mumblefe/letgo/commits/ab06a40776d3e84e71abe0d74966efebb31b686f))
+
+
+
 ## [0.0.1-beta.11](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.10...v0.0.1-beta.11) (2024-1-4)
 
 

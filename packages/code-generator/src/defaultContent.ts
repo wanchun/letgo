@@ -102,14 +102,23 @@ export function useComputed({
     });
 }`,
     'useInstance.js': `
-import { ref, reactive } from 'vue';
+import { ref } from 'vue';
 
 export function useInstance() {
     const refEl = ref();
-    const proxy = reactive({
-        el: refEl
+    const proxy = new Proxy({}, {
+        get(_, key) {
+            if (typeof refEl.value?.[key] === 'function' && !refEl.value.hasOwnProperty(key)) {
+                return refEl.value[key].bind(refEl.value)
+            }
+            return refEl.value?.[key];
+        },
+        set(_, key, value) {
+            if (refEl.value)
+                refEl.value[key] = value;
+        },
     });
-    return [refEl, proxy.el];
+    return [refEl, proxy];
 }`,
     'useJSQuery.js': `
 import { markReactive } from './reactive';

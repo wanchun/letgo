@@ -1,6 +1,6 @@
 {
     "name": "@webank/letgo-editor-skeleton",
-    "version": "0.0.1-beta.10",
+    "version": "0.0.1-beta.11",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -22,7 +22,7 @@
         "@fesjs/fes-design": "^0.8.17",
         "@vueuse/core": "^9.6.0",
         "@webank/letgo-common": "^0.0.1-beta.8",
-        "@webank/letgo-designer": "^0.0.1-beta.10",
+        "@webank/letgo-designer": "^0.0.1-beta.11",
         "@webank/letgo-editor-core": "^0.0.1-beta.10",
         "@webank/letgo-types": "^0.0.1-beta.8"
     },

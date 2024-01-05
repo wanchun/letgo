@@ -32,7 +32,7 @@ import { Selection } from './selection';
 
 const componentUseTimes: Record<string, number> = {};
 
-export class DocumentModel implements IPublicModelDocumentModel<Project, ComponentMeta, Selection, INode, State, Code> {
+export class DocumentModel implements IPublicModelDocumentModel<ComponentMeta, Selection, INode, State, Code> {
     readonly project: Project;
 
     readonly designer: Designer;

@@ -28,7 +28,7 @@ function getUseComponentRefs(ctx: Context, rootSchema: IPublicTypeRootSchema) {
     const schemaStr = JSON.stringify(rootSchema);
     for (const refName of componentRefs.values()) {
         // REFACTOR 有可能误杀
-        if (schemaStr.includes(`${refName}.`))
+        if (schemaStr.includes(`${refName}.`) || schemaStr.includes(`${refName}?`))
             usedComponents.add(refName);
     }
     return usedComponents;

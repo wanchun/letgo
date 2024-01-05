@@ -1,6 +1,6 @@
 {
     "name": "@webank/letgo-plugin-code",
-    "version": "0.0.1-beta.11",
+    "version": "0.0.1-beta.12",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -27,9 +27,9 @@
         "@vueuse/core": "^10.1.2",
         "@webank/letgo-common": "^0.0.1-beta.8",
         "@webank/letgo-components": "^0.0.1-beta.11",
-        "@webank/letgo-designer": "^0.0.1-beta.10",
+        "@webank/letgo-designer": "^0.0.1-beta.11",
         "@webank/letgo-editor-core": "^0.0.1-beta.10",
-        "@webank/letgo-engine-plugin": "^0.0.1-beta.10",
+        "@webank/letgo-engine-plugin": "^0.0.1-beta.11",
         "@webank/letgo-types": "^0.0.1-beta.8",
         "codemirror": "^6.0.1",
         "lodash-es": "^4.17.21"

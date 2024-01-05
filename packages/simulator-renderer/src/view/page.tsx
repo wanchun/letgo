@@ -40,7 +40,7 @@ export default defineComponent({
             changeCodeInstanceId,
         } = useCodesInstance();
 
-        const { executeCtx } = useContext(codesInstance);
+        const { executeCtx } = useContext(codesInstance, props.documentInstance.document.state.componentsInstance);
 
         initCodesInstance(code.value.codeMap, executeCtx);
 

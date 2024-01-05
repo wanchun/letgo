@@ -1,3 +1,12 @@
+## [0.0.1-beta.16](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.15...v0.0.1-beta.16) (2024-1-5)
+
+
+### Bug Fixes
+
+* 修复出码 ref 是个数组问题 ([09ba4fe](https://git.weoa.com/mumblefe/letgo/commits/09ba4fec89acd23841d8c43b665256157929441d))
+
+
+
 ## [0.0.1-beta.15](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.14...v0.0.1-beta.15) (2024-1-5)
 
 

@@ -102,20 +102,14 @@ export function useComputed({
     });
 }`,
     'useInstance.js': `
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 
 export function useInstance() {
     const refEl = ref();
-    const proxy = new Proxy({}, {
-        get(_, key) {
-            return refEl.value?.[key];
-        },
-        set(_, key, value) {
-            if (refEl.value)
-                refEl.value[key] = value;
-        },
-    });
-    return [refEl, proxy];
+    const proxy = reactive({
+        el: refEl
+    })
+    return [refEl, proxy.refEl];
 }`,
     'useJSQuery.js': `
 import { markReactive } from './reactive';

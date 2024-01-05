@@ -1,5 +1,5 @@
 import type { PropType } from 'vue';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import { FButton } from '@fesjs/fes-design';
 import { javascript } from '@codemirror/lang-javascript';
 import type { IJavascriptFunction, IPublicModelDocumentModel } from '@webank/letgo-types';
@@ -21,6 +21,10 @@ export const FunctionEdit = defineComponent({
         const changeFuncBody = (value: string) => {
             tmpFuncBody.value = value;
         };
+
+        watch(() => props.codeItem, () => {
+            tmpFuncBody.value = props.codeItem.funcBody;
+        });
 
         const onBlur = async (value: string) => {
             value = await formatJsCode(value, { tabWidth: 2 });

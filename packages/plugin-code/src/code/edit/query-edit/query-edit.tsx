@@ -3,8 +3,7 @@ import { computed, defineComponent, ref, watch } from 'vue';
 import { FButton } from '@fesjs/fes-design';
 import { cloneDeep, isEqual } from 'lodash-es';
 import { isRestQueryResource } from '@webank/letgo-types';
-import type { IJavascriptQuery } from '@webank/letgo-types';
-import type { DocumentModel } from '@webank/letgo-designer';
+import type { IJavascriptQuery, IPublicModelDocumentModel } from '@webank/letgo-types';
 import LeftTabs from './left-tabs';
 import General from './general';
 import RestGeneral from './rest/general';
@@ -14,7 +13,7 @@ import './query-edit.less';
 
 export default defineComponent({
     props: {
-        documentModel: Object as PropType<DocumentModel>,
+        documentModel: Object as PropType<IPublicModelDocumentModel>,
         codeItem: Object as PropType<IJavascriptQuery>,
         changeContent: Function as PropType<(id: string, content: Partial<IJavascriptQuery>) => void>,
     },

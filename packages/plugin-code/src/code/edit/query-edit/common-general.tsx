@@ -1,14 +1,13 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
-import type { IJavascriptQuery } from '@webank/letgo-types';
-import type { DocumentModel } from '@webank/letgo-designer';
+import type { IJavascriptQuery, IPublicModelDocumentModel } from '@webank/letgo-types';
 import EventHandlers from './event-handlers';
 import Resource from './resource';
 
 export default defineComponent({
     name: 'CommonGeneral',
     props: {
-        documentModel: Object as PropType<DocumentModel>,
+        documentModel: Object as PropType<IPublicModelDocumentModel>,
         codeItem: Object as PropType<IJavascriptQuery>,
         changeCodeItem: Function as PropType<(content: Partial<IJavascriptQuery>) => void>,
     },

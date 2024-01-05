@@ -26,12 +26,14 @@ import { indentWithTab } from '@codemirror/commands';
 import { FullScreen } from '@icon-park/vue-next';
 import { FDrawer } from '@fesjs/fes-design';
 import { autocompletion } from '@codemirror/autocomplete';
+import type { IPublicModelDocumentModel } from '@webank/letgo-types';
 import { HintTheme, hintPlugin } from './hint';
 import { useHint } from './use';
 import './code-editor.less';
 
 export const CodeEditor = defineComponent({
     props: {
+        documentModel: Object as PropType<IPublicModelDocumentModel>,
         hints: Object as PropType<Record<string, any>>,
         doc: String,
         changeDoc: Function as PropType<(doc: string) => void>,

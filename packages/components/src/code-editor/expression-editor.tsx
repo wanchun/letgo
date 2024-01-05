@@ -6,6 +6,7 @@ import type { ViewUpdate } from '@codemirror/view';
 import {
     placeholder,
 } from '@codemirror/view';
+import type { IPublicModelDocumentModel } from '@webank/letgo-types';
 import type { PropType } from 'vue';
 import { HintTheme, hintPlugin } from './hint';
 import { useHint } from './use';
@@ -13,6 +14,7 @@ import './expression-editor.less';
 
 export const ExpressionEditor = defineComponent({
     props: {
+        documentModel: Object as PropType<IPublicModelDocumentModel>,
         hints: Object as PropType<Record<string, any>>,
         doc: String,
         onChangeDoc: Function as PropType<(doc: string) => void>,

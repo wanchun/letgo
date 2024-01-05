@@ -2,8 +2,7 @@ import { defineComponent, ref } from 'vue';
 import type { PropType } from 'vue';
 import { genEventId } from '@webank/letgo-common';
 import { EventHandlerList } from '@webank/letgo-components';
-import type { DocumentModel } from '@webank/letgo-designer';
-import type { IEventHandler, IQueryResourceBase } from '@webank/letgo-types';
+import type { IEventHandler, IPublicModelDocumentModel, IQueryResourceBase } from '@webank/letgo-types';
 import { IEnumEventHandlerAction } from '@webank/letgo-types';
 import './event-handlers.less';
 import EventHeader from './event-header';
@@ -13,7 +12,7 @@ type EventType = 'successEvent' | 'failureEvent';
 export default defineComponent({
     name: 'EventHandler',
     props: {
-        documentModel: Object as PropType<DocumentModel>,
+        documentModel: Object as PropType<IPublicModelDocumentModel>,
         codeItem: Object as PropType<IQueryResourceBase>,
         changeCodeItem: Function as PropType<(content: Partial<IQueryResourceBase>) => void>,
     },

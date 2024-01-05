@@ -1,7 +1,6 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
-import type { IJavascriptQuery, IRestQueryResource } from '@webank/letgo-types';
-import type { DocumentModel } from '@webank/letgo-designer';
+import type { IJavascriptQuery, IPublicModelDocumentModel, IRestQueryResource } from '@webank/letgo-types';
 import CommonGeneral from '../common-general';
 import { CustomComponent } from '../../../../common/register';
 import ParamsConfig from './params';
@@ -9,7 +8,7 @@ import ParamsConfig from './params';
 export default defineComponent({
     name: 'JSQueryGeneral',
     props: {
-        documentModel: Object as PropType<DocumentModel>,
+        documentModel: Object as PropType<IPublicModelDocumentModel>,
         codeItem: Object as PropType<IRestQueryResource>,
         changeCodeItem: Function as PropType<(content: Partial<IJavascriptQuery>) => void>,
     },

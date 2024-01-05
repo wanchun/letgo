@@ -43,6 +43,7 @@ export const FunctionEdit = defineComponent({
                     </div>
                     <div class="letgo-comp-logic__func">
                         <CodeEditor
+                            documentModel={props.documentModel}
                             height="200px"
                             hints={props.hints}
                             doc={tmpFuncBody.value}

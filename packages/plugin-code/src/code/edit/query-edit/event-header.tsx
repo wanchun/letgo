@@ -3,15 +3,14 @@ import type { PropType } from 'vue';
 import { FPopper } from '@fesjs/fes-design';
 import { CloseOutlined, PlusOutlined } from '@fesjs/fes-design/icon';
 import { EventHandlerModify } from '@webank/letgo-components';
-import type { DocumentModel } from '@webank/letgo-designer';
-import type { IEventHandler } from '@webank/letgo-types';
+import type { IEventHandler, IPublicModelDocumentModel } from '@webank/letgo-types';
 import './event-header.less';
 
 export default defineComponent({
     name: 'EventHandlerHeader',
     props: {
         title: String,
-        documentModel: Object as PropType<DocumentModel>,
+        documentModel: Object as PropType<IPublicModelDocumentModel>,
         eventHandler: Object as PropType<IEventHandler>,
         onChangeEventHandler: Function as PropType<(event: IEventHandler) => void>,
         addEventHandler: Function as PropType<(event: Event) => void>,

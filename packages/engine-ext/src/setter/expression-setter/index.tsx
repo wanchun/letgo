@@ -52,7 +52,7 @@ const ExpressionSetterView = defineComponent({
         };
         return () => {
             return (
-                <ExpressionEditor doc={currentValue.value} onChangeDoc={debounce(changeValue, 500)} onBlur={onBlur} />
+                <ExpressionEditor documentModel={props.node.document} doc={currentValue.value} onChangeDoc={debounce(changeValue, 500)} onBlur={onBlur} />
             );
         };
     },

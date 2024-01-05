@@ -1,3 +1,17 @@
+## [0.0.1-beta.15](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.14...v0.0.1-beta.15) (2024-1-5)
+
+
+### Bug Fixes
+
+* 修复 componnet instance not define 问题 ([40fb5f7](https://git.weoa.com/mumblefe/letgo/commits/40fb5f7bda8b834878166da32aa6376c2970b4a0))
+* 修复 computed function 同类型之间无效问题 ([4792f2e](https://git.weoa.com/mumblefe/letgo/commits/4792f2e7e06d1c99ba1ccd557491d8a233df0464))
+* 修复 hint ([4f517c7](https://git.weoa.com/mumblefe/letgo/commits/4f517c7ee285ef17136e9bbf8b21371efba40ad9))
+* 修复 ref 出码识别失败问题 ([ca67e7e](https://git.weoa.com/mumblefe/letgo/commits/ca67e7e9bd445efac291ea67008f738a43d6d257))
+* 修复出码 ref 是个数组问题 ([8bc5bb5](https://git.weoa.com/mumblefe/letgo/commits/8bc5bb55e09bf847d0c8b5e43e759cc877b7211c))
+* 修复出码 ref 是个数组问题 ([5c5e3ce](https://git.weoa.com/mumblefe/letgo/commits/5c5e3ce210ce44f3d55286efdf9e784971dfe36e))
+
+
+
 ## [0.0.1-beta.14](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.13...v0.0.1-beta.14) (2024-01-05)
 
 

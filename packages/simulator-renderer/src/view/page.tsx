@@ -1,4 +1,4 @@
-import { computed, defineComponent, h, onUnmounted, provide, watch } from 'vue';
+import { computed, defineComponent, h, nextTick, onUnmounted, provide, watch } from 'vue';
 import type { PropType } from 'vue';
 import { Renderer } from '@webank/letgo-renderer';
 import {
@@ -99,10 +99,20 @@ export default defineComponent({
             executeCtx,
             onCompGetCtx: (schema: IPublicTypeNodeSchema, ref: IPublicTypeComponentInstance) => {
                 if (ref) {
-                    if (schema.ref)
-                        executeCtx[schema.ref] = ref;
+                    if (schema.ref) {
+                        nextTick(() => {
+                            // 如果 schema 是个 loop, ref 和组件实例不是一对一关系，因此不能直接用 ref 参数，
+                            executeCtx[schema.ref] = props.documentInstance.document.state.componentsInstance[schema.ref];
+                        });
+                    }
                     onUnmounted(() => {
-                        delete executeCtx[schema.ref];
+                        if (!Array.isArray(schema.ref)) {
+                            delete executeCtx[schema.ref];
+                        }
+                        else {
+                            const index = executeCtx[schema.ref].find((item: IPublicTypeComponentInstance) => item === ref);
+                            executeCtx[schema.ref].splice(index, 1);
+                        }
                     }, ref.$);
 
                     props.documentInstance.mountInstance(schema.id!, ref);

@@ -1,3 +1,12 @@
+## [0.0.1-beta.14](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.13...v0.0.1-beta.14) (2024-01-05)
+
+
+### Features
+
+* 格式化tabWidth统一为2 ([2b4c696](https://git.weoa.com/mumblefe/letgo/commits/2b4c6961a9e3d24bad5dfac360ede2cfbae1ae39))
+
+
+
 ## [0.0.1-beta.13](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.11...v0.0.1-beta.13) (2024-1-5)
 
 

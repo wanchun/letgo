@@ -1,4 +1,5 @@
 import { computed, inject, onUnmounted, reactive, watch } from 'vue';
+import { traverseNodeSchema } from '@webank/letgo-common';
 import type { IPublicTypeComponentInstance, IPublicTypeNodeSchema } from '@webank/letgo-types';
 import type { RendererProps } from '../core';
 import type { CodeImplType } from '../code-impl/code-impl';
@@ -16,12 +17,33 @@ export function createExecuteContext(props: RendererProps) {
         immediate: true,
     });
 
+    if (props.__schema?.children) {
+        traverseNodeSchema(props.__schema.children, (item) => {
+            if (item.loop)
+                executeCtx[item.ref] = [];
+
+            else
+                executeCtx[item.ref] = {};
+        });
+    }
+
     const onCompGetCtx = (schema: IPublicTypeNodeSchema, ref: IPublicTypeComponentInstance) => {
         if (ref) {
-            if (schema.ref)
+            if (schema.ref && schema.loop)
+                executeCtx[schema.ref] = (executeCtx[schema.ref] || []).concat(ref);
+
+            else
                 executeCtx[schema.ref] = ref;
+
             onUnmounted(() => {
-                delete executeCtx[schema.ref];
+                if (!schema.loop) {
+                    executeCtx[schema.ref] = {};
+                }
+                else {
+                    const index = executeCtx[schema.ref].findIndex((item: IPublicTypeComponentInstance) => item === ref);
+                    if (index !== -1)
+                        executeCtx[schema.ref].splice(index, 1);
+                }
             }, ref.$);
         }
     };

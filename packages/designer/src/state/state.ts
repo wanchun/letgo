@@ -1,6 +1,6 @@
-import { markReactive, markShallowReactive, traverseNodeSchema } from '@webank/letgo-common';
+import { markReactive, markShallowReactive } from '@webank/letgo-common';
 import { debounce } from 'lodash-es';
-import type { IPublicModelState, IPublicTypeComponentRecord, IPublicTypeRootSchema } from '@webank/letgo-types';
+import type { IPublicModelState, IPublicTypeComponentRecord } from '@webank/letgo-types';
 import type { Designer } from '../designer';
 import type { Project } from '../project';
 import type { INode } from '../types';
@@ -12,7 +12,7 @@ export class State implements IPublicModelState {
     componentsInstance: Record<string, any>;
     codesInstance: Record<string, any>;
 
-    constructor(project: Project, schema?: IPublicTypeRootSchema) {
+    constructor(project: Project) {
         markReactive(this, {
             codesInstance: {},
             componentsInstance: {},
@@ -21,16 +21,6 @@ export class State implements IPublicModelState {
 
         });
         this.designer = project.designer;
-
-        if (schema?.children) {
-            traverseNodeSchema(schema.children, (item) => {
-                if (item.loop)
-                    this.componentsInstance[item.ref] = [];
-
-                else
-                    this.componentsInstance[item.ref] = {};
-            });
-        }
 
         this.initComponentInstanceListen();
 

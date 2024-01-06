@@ -40,7 +40,7 @@ export default defineComponent({
             changeCodeInstanceId,
         } = useCodesInstance();
 
-        const { executeCtx } = useContext(codesInstance, props.documentInstance.document.state.componentsInstance);
+        const { executeCtx } = useContext(codesInstance, props.documentInstance);
 
         initCodesInstance(code.value.codeMap, executeCtx);
 
@@ -106,11 +106,11 @@ export default defineComponent({
                         });
                     }
                     onUnmounted(() => {
-                        if (!Array.isArray(schema.ref)) {
-                            delete executeCtx[schema.ref];
+                        if (!Array.isArray(executeCtx[schema.ref])) {
+                            executeCtx[schema.ref] = {};
                         }
                         else {
-                            const index = executeCtx[schema.ref].find((item: IPublicTypeComponentInstance) => item === ref);
+                            const index = executeCtx[schema.ref].findIndex((item: IPublicTypeComponentInstance) => item === ref);
                             executeCtx[schema.ref].splice(index, 1);
                         }
                     }, ref.$);

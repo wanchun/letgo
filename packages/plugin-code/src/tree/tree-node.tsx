@@ -22,41 +22,47 @@ const TreeNode = defineComponent({
             expended.value = !expended.value;
         };
         const renderLabel = () => {
-            return <div onClick={toggleExpend} style={`padding-left: ${props.level * 14}px`}>
-                <FillArrow class={['letgo-plg-code-tree__icon', expended.value && 'letgo-plg-code-tree__icon--active']} />
-                <span style="font-weight: 600">{props.label}</span>
-                <LabelTip value={props.value} />
-            </div>;
+            return (
+                <div onClick={toggleExpend} style={`padding-left: ${props.level * 14}px`}>
+                    <FillArrow class={['letgo-plg-code-tree__icon', expended.value && 'letgo-plg-code-tree__icon--active']} />
+                    <span style="font-weight: 600">{props.label}</span>
+                    <LabelTip value={props.value} />
+                </div>
+            );
         };
         return () => {
             if (isArray(props.value) && props.value.length) {
-                return <>
-                    {renderLabel()}
-                    <FadeInExpandTransition>
-                        <div v-show={expended.value}>
-                            {
-                                Array.from(props.value.keys()).map((key) => {
-                                    return <TreeNode label={key} level={props.level + 1} value={props.value[key]} />;
-                                })
-                            }
-                        </div>
-                    </FadeInExpandTransition>
-                </>;
-            }
-
-            else if (isPlainObject(props.value)) {
-                return <>
+                return (
+                    <>
                         {renderLabel()}
                         <FadeInExpandTransition>
                             <div v-show={expended.value}>
                                 {
-                                    Object.keys(props.value).map((key) => {
+                                Array.from(props.value.keys()).map((key) => {
+                                    return <TreeNode label={key} level={props.level + 1} value={props.value[key]} />;
+                                })
+                            }
+                            </div>
+                        </FadeInExpandTransition>
+                    </>
+                );
+            }
+
+            else if (isPlainObject(props.value)) {
+                return (
+                    <>
+                        {renderLabel()}
+                        <FadeInExpandTransition>
+                            <div v-show={expended.value}>
+                                {
+                                    Object.keys(props.value).filter(key => !key.startsWith('__')).map((key) => {
                                         return <TreeNode label={key} level={props.level + 1} value={props.value[key]} />;
                                     })
                                 }
                             </div>
                         </FadeInExpandTransition>
-                    </>;
+                    </>
+                );
             }
 
             return <LeafNode label={props.label} level={props.level} value={props.value} />;

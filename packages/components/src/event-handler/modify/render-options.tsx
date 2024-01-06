@@ -53,7 +53,7 @@ export default defineComponent({
         });
         const componentMethods = ref<{ label: string, value: string }[]>([]);
         const selectComponent = (value: string) => {
-            const componentName = props.documentModel.state.componentsInstance[value]._componentName;
+            const componentName = props.documentModel.state.componentsInstance[value].__componentName;
             const metadata = props.documentModel.getComponentMeta(componentName).getMetadata();
             componentMethods.value = (metadata.configure?.supports?.methods || []).map((item) => {
                 if (typeof item === 'string') {

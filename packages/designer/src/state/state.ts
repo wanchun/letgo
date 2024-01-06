@@ -64,7 +64,7 @@ export class State implements IPublicModelState {
             this.componentsInstance[node.ref] = instances;
         }
         else {
-            instances[0]._componentName = node.componentName;
+            instances[0].__componentName = node.componentName;
             this.componentsInstance[node.ref] = instances[0];
         }
     }

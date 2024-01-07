@@ -115,6 +115,9 @@ importers:
 
   packages/components:
     dependencies:
+      '@biomejs/wasm-web':
+        specifier: ^1.4.1
+        version: 1.4.1
       '@codemirror/autocomplete':
         specifier: ^6.11.0
         version: 6.11.0(@codemirror/language@6.9.2)(@codemirror/state@6.3.1)(@codemirror/view@6.22.0)(@lezer/common@1.2.0)
@@ -127,6 +130,9 @@ importers:
       '@codemirror/language':
         specifier: ^6.9.2
         version: 6.9.2
+      '@codemirror/lint':
+        specifier: ^6.4.2
+        version: 6.4.2
       '@codemirror/state':
         specifier: ^6.3.1
         version: 6.3.1
@@ -1996,6 +2002,10 @@ packages:
       '@babel/helper-string-parser': 7.23.4
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
+
+  /@biomejs/wasm-web@1.4.1:
+    resolution: {integrity: sha512-qXIC9EIeeFZd+UPBynSaBePtrwSVIt8zRvsqpyZDsDAjHkPXASgUcVaslAd8yXh/Nwv2HLL08I9lGhoSB4r94Q==}
+    dev: false
 
   /@codemirror/autocomplete@6.11.0(@codemirror/language@6.9.2)(@codemirror/state@6.3.1)(@codemirror/view@6.22.0)(@lezer/common@1.2.0):
     resolution: {integrity: sha512-LCPH3W+hl5vcO7OzEQgX6NpKuKVyiKFLGAy7FXROF6nUpsWUdQEgUb3fe/g7B0E1KZCRFfgzdKASt6Wly2UOBg==}

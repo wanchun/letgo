@@ -6,18 +6,21 @@ import type { HintPathType } from './types';
 
 export function useHint(props: {
     hints?: Record<string, any>
+    compRef?: string
     documentModel?: IPublicModelDocumentModel
 }) {
     const hints = computed(() => {
         if (props.hints) {
             return props.hints;
         }
-        else if (props.documentModel?.state) {
+        else if (props.documentModel) {
             const currentDocument = props.documentModel;
             const state = currentDocument.state;
+            const scope = props.compRef ? currentDocument.state.getCompScope(props.compRef) : {};
             return {
                 codesInstance: Object.assign({}, state?.codesInstance, currentDocument.project.codesInstance),
                 componentsInstance: state?.componentsInstance,
+                scope,
                 ...currentDocument.project.extraGlobalState,
             };
         }
@@ -26,7 +29,7 @@ export function useHint(props: {
         }
     });
     const hintOptions = computed(() => {
-        const { codesInstance, componentsInstance, ...otherState } = hints.value;
+        const { codesInstance, componentsInstance, scope, ...otherState } = hints.value;
         const result: HintPathType[] = [];
         Object.keys(codesInstance || {}).forEach((key) => {
             result.push({
@@ -34,6 +37,14 @@ export function useHint(props: {
                 detail: capitalize(codesInstance[key].type),
                 type: 'variable',
                 value: codesInstance[key].hint || codesInstance[key].view,
+            });
+        });
+        Object.keys(scope || {}).forEach((key) => {
+            result.push({
+                label: key,
+                detail: 'Scope',
+                type: 'variable',
+                value: scope[key],
             });
         });
 

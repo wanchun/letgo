@@ -59,6 +59,7 @@ export const CodeEditor = defineComponent({
             type: String,
             default: '100px',
         },
+        compRef: String,
     },
     emits: ['blur', 'focus'],
     setup(props, { attrs, emit }) {

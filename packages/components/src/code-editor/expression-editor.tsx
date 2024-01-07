@@ -19,6 +19,7 @@ export const ExpressionEditor = defineComponent({
         doc: String,
         onChangeDoc: Function as PropType<(doc: string) => void>,
         placeholder: String,
+        compRef: String,
     },
     emits: ['blur', 'focus'],
     setup(props, { emit }) {

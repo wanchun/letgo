@@ -47,6 +47,7 @@ const FunctionSetterView = defineComponent({
                     changeDoc={onChange}
                     extensions={[javascript()]}
                     onBlur={onBlur}
+                    compRef={props.node.ref}
                 >
                 </CodeEditor>
             );

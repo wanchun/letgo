@@ -83,6 +83,15 @@ globalThis.addEventListener('message', async (e) => {
             break;
         }
 
+        case 'updateGlobals': {
+            if (!workspace)
+                console.error('Workspace was not initialized');
+
+            configuration.javascript.globals = e.data.globals;
+            workspace.updateSettings({ configuration });
+            break;
+        }
+
         case 'update': {
             if (!workspace) {
                 console.error('Workspace was not initialized');
@@ -90,7 +99,6 @@ globalThis.addEventListener('message', async (e) => {
             }
 
             const { filename, code } = e.data;
-
             let file = files.get(filename);
             if (file === undefined) {
                 file = {
@@ -144,24 +152,16 @@ globalThis.addEventListener('message', async (e) => {
                 path,
             });
 
-            const formatterIr = workspace.getFormatterIr({
-                path,
-            });
-
             const biomeOutput: BiomeOutput = {
                 diagnostics: {
                     console: printer.finish(),
                     list: diagnosticsResult.diagnostics,
                 },
-                formatter: {
-                    code: printed.code,
-                    ir: formatterIr,
-                },
+                formatter: printed.code,
             };
 
             globalThis.postMessage({
                 type: 'updated',
-                filename,
                 biomeOutput,
             });
             break;

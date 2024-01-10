@@ -20,7 +20,7 @@
     },
     "dependencies": {
         "@fesjs/fes-design": "^0.8.17",
-        "@vueuse/core": "^9.6.0",
+        "@vueuse/core": "^10.7.1",
         "@webank/letgo-common": "^0.0.1-beta.9",
         "@webank/letgo-designer": "^0.0.1-beta.13",
         "@webank/letgo-editor-core": "^0.0.1-beta.11",

@@ -4,7 +4,7 @@ import { FButton } from '@fesjs/fes-design';
 import { javascript } from '@codemirror/lang-javascript';
 import type { IJavascriptFunction, IPublicModelDocumentModel } from '@webank/letgo-types';
 import { formatJsCode } from '@webank/letgo-common';
-import { CodeEditor } from '../../code-editor';
+import { CodeEditor } from '../../code-editor/biome/code-mirror';
 import './function-edit.less';
 
 export const FunctionEdit = defineComponent({
@@ -52,7 +52,7 @@ export const FunctionEdit = defineComponent({
                             hints={props.hints}
                             doc={tmpFuncBody.value}
                             extensions={[javascript()]}
-                            changeDoc={changeFuncBody}
+                            onChange={changeFuncBody}
                             onBlur={onBlur}
                         />
                     </div>

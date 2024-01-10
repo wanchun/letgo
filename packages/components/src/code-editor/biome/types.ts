@@ -17,6 +17,7 @@ export enum LoadingState {
 
 export interface CodeEditorProps {
     doc: string
+    id?: string
     scopeVariables?: Record<string, any>
     compRef?: string
     documentModel?: IPublicModelDocumentModel

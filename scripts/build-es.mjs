@@ -58,11 +58,11 @@ async function buildFile(filePath, outputDir) {
             rollupOptions: {
                 external: (id) => {
                     id = id.split('?')[0];
-                    if (
-                        id.includes(filePath)
-                        || id.endsWith('.css')
-                        || id.endsWith('.less')
-                    )
+                    if (id.includes(filePath))
+                        return false;
+
+                    if ((id.endsWith('.css')
+                        || id.endsWith('.less')) && !id.startsWith('..'))
                         return false;
 
                     return true;

@@ -10,10 +10,10 @@ import type { Extension } from '@codemirror/state';
 import { FullScreen } from '@icon-park/vue-next';
 import { FDrawer } from '@fesjs/fes-design';
 import type { IPublicModelDocumentModel } from '@webank/letgo-types';
-import '../code-editor.less';
 import { useCodeMirror } from './use-code-mirror';
+import '../code-editor.less';
 
-export const CodeMirror = defineComponent({
+export const CodeEditor = defineComponent({
     props: {
         documentModel: Object as PropType<IPublicModelDocumentModel>,
         hints: Object as PropType<Record<string, any>>,
@@ -44,6 +44,7 @@ export const CodeMirror = defineComponent({
             type: String,
             default: '100px',
         },
+        id: String,
         compRef: String,
         language: String as PropType<'json' | 'javascript'>,
     },

@@ -4,25 +4,35 @@ import babel from 'prettier/plugins/babel';
 import postcss from 'prettier/plugins/postcss';
 
 export function formatJsCode(content: string, options?: Record<string, any>) {
-    return format(content, {
-        tabWidth: 4,
-        singleQuote: true,
-        vueIndentScriptAndStyle: true,
-        parser: 'babel',
-        plugins: [estree, babel],
-        ...options,
-    });
+    try {
+        return format(content, {
+            tabWidth: 4,
+            singleQuote: true,
+            vueIndentScriptAndStyle: true,
+            parser: 'babel',
+            plugins: [estree, babel],
+            ...options,
+        });
+    }
+    catch (e) {
+        return content;
+    }
 }
 
 export function formatCssCode(code: string, options?: Record<string, any>) {
-    return format(code, {
-        tabWidth: 4,
-        singleQuote: true,
-        vueIndentScriptAndStyle: true,
-        parser: 'css',
-        plugins: [postcss],
-        ...options,
-    });
+    try {
+        return format(code, {
+            tabWidth: 4,
+            singleQuote: true,
+            vueIndentScriptAndStyle: true,
+            parser: 'css',
+            plugins: [postcss],
+            ...options,
+        });
+    }
+    catch (e) {
+        return code;
+    }
 }
 
 export async function formatExpression(expression: string) {

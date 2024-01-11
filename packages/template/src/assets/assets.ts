@@ -18,7 +18,7 @@ const assets: IPublicTypeAssetsJson = {
                 'https://registry.npmmirror.com/@fesjs/fes-design/0.8.17/files/dist/fes-design.css',
             ],
             library: 'FesDesign',
-        }
+        },
     ],
     components: [
         {
@@ -1147,6 +1147,17 @@ const assets: IPublicTypeAssetsJson = {
                     name: 'rows',
                     propType: 'number',
                 },
+                {
+                    name: 'showWordLimit',
+                    propType: 'bool',
+                },
+                {
+                    name: 'autosize',
+                    propType: {
+                        type: 'oneOfType',
+                        value: ['bool', 'object'],
+                    },
+                },
             ],
             configure: {
                 props: [
@@ -1171,6 +1182,32 @@ const assets: IPublicTypeAssetsJson = {
                         title: '行数',
                         setter: 'NumberSetter',
                         defaultValue: 2,
+                        condition: (target) => {
+                            const val = target.top.getPropValue('type');
+                            return val === 'textarea';
+                        },
+                    },
+                    {
+                        name: 'autosize',
+                        title: '高度自适应',
+                        setter: {
+                            componentName: 'ObjectSetter',
+                            props: {
+                                items: [
+                                    {
+                                        name: 'minRows',
+                                        title: '最小行数',
+                                        setter: 'NumberSetter',
+                                    },
+                                    {
+                                        name: 'maxRows',
+                                        title: '最大行数',
+                                        setter: 'NumberSetter',
+                                    },
+                                ],
+                            },
+                        },
+                        defaultValue: false,
                         condition: (target) => {
                             const val = target.top.getPropValue('type');
                             return val === 'textarea';
@@ -1299,7 +1336,6 @@ const assets: IPublicTypeAssetsJson = {
                         componentName: 'FInput',
                         props: {
                             type: 'textarea',
-                            showPassword: true,
                         },
                     },
                 },
@@ -8755,8 +8791,15 @@ const assets: IPublicTypeAssetsJson = {
                     class: true,
                     style: true,
                     events: [
-                        'onCheck', 'onExpand', 'onSelect', 'onDragstart', 'onDragend',
-                        'onDragenter', 'onDragleave', 'onDragover', 'onDrop',
+                        'onCheck',
+                        'onExpand',
+                        'onSelect',
+                        'onDragstart',
+                        'onDragend',
+                        'onDragenter',
+                        'onDragleave',
+                        'onDragover',
+                        'onDrop',
                     ],
                 },
             },

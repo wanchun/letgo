@@ -5,7 +5,7 @@ export default definePlugin({
     name: 'PluginDevice',
     init(ctx) {
         ctx.skeleton.add({
-            area: 'toolbarArea',
+            area: 'topArea',
             name: 'deviceWidget',
             type: 'Widget',
             props: {

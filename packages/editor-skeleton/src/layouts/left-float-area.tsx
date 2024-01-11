@@ -48,7 +48,6 @@ export default defineComponent({
                 height: addUnit(currentProps.height),
                 maxHeight: addUnit(currentProps.maxHeight),
                 maxWidth: addUnit(currentProps.maxWidth),
-                marginLeft: '1px',
                 boxShadow: 'none',
             };
         });

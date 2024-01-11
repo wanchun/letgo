@@ -51,11 +51,11 @@ export default defineComponent({
 </script>
 
 <template>
-  <RendererApp class="engine" :page-schema="pageSchema" :project-schema="projectSchema">
-    <template #loading>
-      正在加载中...
-    </template>
-  </RendererApp>
+    <RendererApp class="engine" :page-schema="pageSchema" :project-schema="projectSchema">
+        <template #loading>
+            正在加载中...
+        </template>
+    </RendererApp>
 </template>
 
 <style>

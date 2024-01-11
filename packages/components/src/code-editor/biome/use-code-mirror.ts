@@ -10,71 +10,16 @@ import {
     placeholder,
 } from '@codemirror/view';
 import { autocompletion } from '@codemirror/autocomplete';
-import { lintGutter, setDiagnostics } from '@codemirror/lint';
-import type { Diagnostic as CodeMirrorDiagnostic } from '@codemirror/lint';
+import { lintGutter } from '@codemirror/lint';
 import { json } from '@codemirror/lang-json';
 import { javascript, javascriptLanguage } from '@codemirror/lang-javascript';
 import { vscodeKeymap } from '@replit/codemirror-vscode-keymap';
 import { deleteLine, indentWithTab } from '@codemirror/commands';
-import type { Diagnostic as BiomeDiagnostic } from '@biomejs/wasm-web';
 import { isFunction } from 'lodash-es';
 import { HintTheme, hintPlugin, useHint, useScopeVariables } from './use-hint';
 import type { CodeEditorProps } from './types';
-import { useBiomeWorker } from './use-worker';
 
 const External = Annotation.define<boolean>();
-
-function getDiagnosticMessage(diagnostic: BiomeDiagnostic): string {
-    let buf = '';
-    for (const elem of diagnostic.message)
-        buf += elem.content;
-
-    return buf;
-}
-
-function biomeDiagnosticsToCodeMirror(
-    biome: BiomeDiagnostic[],
-): CodeMirrorDiagnostic[] {
-    const codeMirror: CodeMirrorDiagnostic[] = [];
-
-    for (const diag of biome) {
-        const span = diag.location?.span;
-        if (span === undefined)
-            continue;
-
-        let severity: CodeMirrorDiagnostic['severity'];
-        switch (diag.severity) {
-            case 'error':
-            case 'fatal': {
-                severity = 'error';
-                break;
-            }
-
-            case 'information': {
-                severity = 'info';
-                break;
-            }
-
-            case 'warning': {
-                severity = 'warning';
-                break;
-            }
-
-            default: {
-                severity = 'error';
-            }
-        }
-
-        codeMirror.push({
-            from: span[0],
-            to: span[1],
-            severity,
-            message: getDiagnosticMessage(diag),
-        });
-    }
-
-    return codeMirror;
-}
 
 export function useCodeMirror(props: CodeEditorProps) {
     const container = ref<HTMLElement>();
@@ -83,7 +28,6 @@ export function useCodeMirror(props: CodeEditorProps) {
 
     const scopeVariables = useScopeVariables(props);
     const { hintOptions } = useHint(scopeVariables);
-    const { biomeOutput } = useBiomeWorker(props, scopeVariables);
 
     const theme = EditorView.theme({
         ...HintTheme,
@@ -93,11 +37,14 @@ export function useCodeMirror(props: CodeEditorProps) {
         },
     });
 
-    watch(biomeOutput, () => {
-        editorView.dispatch(
-            setDiagnostics(editorView.state, biomeDiagnosticsToCodeMirror(biomeOutput.value.diagnostics.list)),
-        );
-    });
+    // TODO format code
+    const innerOnBlur = (doc: string) => {
+        if (isFunction(props.onChange))
+            props.onChange(doc);
+
+        if (isFunction(props.onBlur))
+            props.onBlur(doc);
+    };
 
     const genState = () => {
         return EditorState.create({
@@ -134,8 +81,8 @@ export function useCodeMirror(props: CodeEditorProps) {
                         if (v.view.hasFocus && isFunction(props.onFocus))
                             props.onFocus(doc);
 
-                        if (!v.view.hasFocus && isFunction(props.onBlur))
-                            props.onBlur(doc);
+                        if (!v.view.hasFocus)
+                            innerOnBlur(doc);
                     }
                 }),
             ].filter(Boolean),

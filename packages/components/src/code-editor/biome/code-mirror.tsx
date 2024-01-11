@@ -13,7 +13,7 @@ import type { IPublicModelDocumentModel } from '@webank/letgo-types';
 import { useCodeMirror } from './use-code-mirror';
 import '../code-editor.less';
 
-export const CodeEditor = defineComponent({
+export const CodeMirror = defineComponent({
     props: {
         documentModel: Object as PropType<IPublicModelDocumentModel>,
         hints: Object as PropType<Record<string, any>>,
@@ -78,7 +78,7 @@ export const CodeEditor = defineComponent({
                             </FullScreen>
                         )}
                     </div>
-                    {props.fullscreen && (
+                    {props.fullscreen && isFullScreen.value && (
                         <FDrawer
                             show={isFullScreen.value}
                             title="代码编辑"

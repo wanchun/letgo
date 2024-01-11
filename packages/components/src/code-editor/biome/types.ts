@@ -29,25 +29,3 @@ export interface CodeEditorProps {
     onFocus?: (doc: string) => void
     onBlur?: (doc: string) => void
 }
-
-export interface BiomeOutput {
-    diagnostics: {
-        console: string
-        list: Diagnostic[]
-    }
-    formatter: {
-        code: string
-        ir: string
-    }
-}
-
-export const emptyBiomeOutput: BiomeOutput = {
-    diagnostics: {
-        console: '',
-        list: [],
-    },
-    formatter: {
-        code: '',
-        ir: '',
-    },
-};

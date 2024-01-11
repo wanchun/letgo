@@ -4,8 +4,7 @@ import { isJSFunction } from '@webank/letgo-types';
 import type { IPublicTypeJSFunction, IPublicTypeSetter } from '@webank/letgo-types';
 import { isFunction, isUndefined } from 'lodash-es';
 import { javascript } from '@codemirror/lang-javascript';
-import { CodeEditor } from '@webank/letgo-components';
-import { formatJsCode } from '@webank/letgo-common';
+import { CodeMirror } from '@webank/letgo-components';
 import { commonProps } from '../../common';
 
 const FunctionSetterView = defineComponent({
@@ -36,20 +35,16 @@ const FunctionSetterView = defineComponent({
             }
             catch (e) {}
         };
-        const onBlur = async (val: string) => {
-            val = await formatJsCode(val, { tabWidth: 2 });
-            onChange(val);
-        };
         return () => {
             return (
-                <CodeEditor
+                <CodeMirror
                     doc={currentValue.value}
-                    changeDoc={onChange}
+                    onChange={onChange}
                     extensions={[javascript()]}
-                    onBlur={onBlur}
                     compRef={props.node.ref}
+                    id={props.node.ref}
                 >
-                </CodeEditor>
+                </CodeMirror>
             );
         };
     },

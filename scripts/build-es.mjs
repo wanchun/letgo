@@ -31,6 +31,7 @@ async function buildFile(filePath, outputDir) {
     const tsConfigPath = getTsConfigPath(filePath);
     const startTime = Date.now();
     await build({
+        base: './',
         define: {
             ENGINE_VERSION_PLACEHOLDER: JSON.stringify(enginePkg.version),
             ENGINE_EXT_VERSION_PLACEHOLDER: JSON.stringify(enginePkg.version),
@@ -45,6 +46,7 @@ async function buildFile(filePath, outputDir) {
             : null],
         build: {
             outDir: outputDir,
+            assetsDir: '.',
             minify: false,
             emptyOutDir: false,
             cssCodeSplit: true,

@@ -28,7 +28,6 @@
         "@codemirror/lint": "^6.4.2",
         "@codemirror/state": "^6.3.1",
         "@codemirror/view": "^6.22.0",
-        "@ddietr/codemirror-themes": "^1.4.2",
         "@fesjs/fes-design": "^0.8.17",
         "@icon-park/vue-next": "^1.4.2",
         "@replit/codemirror-vscode-keymap": "^6.0.2",

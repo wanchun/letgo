@@ -12,7 +12,7 @@ export function inlineToExtract() {
                 else needInjectCssBundle = bundleItem;
             });
 
-            if (!cssFileName && needInjectCssBundle) {
+            if (!cssFileName && needInjectCssBundle?.importedBindings) {
                 needInjectCssBundle.importedBindings = Object.keys(needInjectCssBundle.importedBindings).reduce((acc, key) => {
                     const value = needInjectCssBundle.importedBindings[key];
                     if (key.endsWith('.less'))

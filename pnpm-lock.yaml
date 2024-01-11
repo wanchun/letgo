@@ -146,9 +146,6 @@ importers:
       '@codemirror/view':
         specifier: ^6.22.0
         version: 6.22.0
-      '@ddietr/codemirror-themes':
-        specifier: ^1.4.2
-        version: 1.4.2
       '@fesjs/fes-design':
         specifier: ^0.8.17
         version: 0.8.17(vue@3.3.9)
@@ -2223,15 +2220,6 @@ packages:
       vue: ^3.0.11
     dependencies:
       vue: 3.3.9(typescript@5.3.3)
-    dev: false
-
-  /@ddietr/codemirror-themes@1.4.2:
-    resolution: {integrity: sha512-8U3H3lmtmSWLD5VRlt7jf2HW62URnwgPxjZZDYjBX5EtMpgZ2QnqiIYrNzdQPPjJngT9D43gls3+JlekCBmrfw==}
-    dependencies:
-      '@codemirror/language': 6.9.2
-      '@codemirror/state': 6.4.0
-      '@codemirror/view': 6.23.0
-      '@lezer/highlight': 1.2.0
     dev: false
 
   /@emotion/hash@0.8.0:

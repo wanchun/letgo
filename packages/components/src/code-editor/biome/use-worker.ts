@@ -2,7 +2,8 @@ import type { ComputedRef } from 'vue';
 import { computed, reactive, ref, watch } from 'vue';
 import { createSharedComposable, watchThrottled } from '@vueuse/core';
 
-import type { BiomeOutput, LoadingState } from './types';
+import { LoadingState } from './types';
+import type { BiomeOutput } from './types';
 
 export interface UseBiomeWorker {
     doc: string
@@ -63,22 +64,26 @@ let filenameCounter = 0;
 export function useBiomeWorker(props: UseBiomeWorker, scopeVariables?: ComputedRef<Record<string, any>>) {
     const ext = props.language === 'json' ? '.json' : '.js';
     const filename = `${props.id || filenameCounter++}${ext}`;
-    const { files, updateFile, updateGlobals } = useSharedBiomeWorker();
+    const { files, updateFile, loadingState, updateGlobals } = useSharedBiomeWorker();
 
     const biomeOutput = computed(() => {
         return files[filename];
     });
 
     watchThrottled(() => props.doc, () => {
-        updateFile(filename, props.doc);
+        if (loadingState.value === LoadingState.Success)
+            updateFile(filename, props.doc);
     }, {
         throttle: 100,
     });
 
     if (scopeVariables) {
         watch(scopeVariables, () => {
-            updateGlobals(Object.keys(scopeVariables));
-            updateFile(filename, props.doc);
+            const globals = Object.keys(scopeVariables.value);
+            if (globals) {
+                updateGlobals(globals);
+                loadingState.value === LoadingState.Success && updateFile(filename, props.doc);
+            }
         }, {
             immediate: true,
         });

@@ -84,10 +84,13 @@ globalThis.addEventListener('message', async (e) => {
         }
 
         case 'updateGlobals': {
-            if (!workspace)
-                console.error('Workspace was not initialized');
-
             configuration.javascript.globals = e.data.globals;
+
+            if (!workspace) {
+                console.error('Workspace was not initialized');
+                break;
+            }
+
             workspace.updateSettings({ configuration });
             break;
         }
@@ -162,6 +165,7 @@ globalThis.addEventListener('message', async (e) => {
 
             globalThis.postMessage({
                 type: 'updated',
+                filename,
                 biomeOutput,
             });
             break;

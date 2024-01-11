@@ -15,7 +15,6 @@ import type { Diagnostic as CodeMirrorDiagnostic } from '@codemirror/lint';
 import { json } from '@codemirror/lang-json';
 import { javascript, javascriptLanguage } from '@codemirror/lang-javascript';
 import { vscodeKeymap } from '@replit/codemirror-vscode-keymap';
-import { githubDark } from '@ddietr/codemirror-themes/github-dark';
 import { deleteLine, indentWithTab } from '@codemirror/commands';
 import type { Diagnostic as BiomeDiagnostic } from '@biomejs/wasm-web';
 import { isFunction } from 'lodash-es';
@@ -115,7 +114,6 @@ export function useCodeMirror(props: CodeEditorProps) {
                 ]),
                 theme,
                 props.language === 'json' ? json() : javascript(),
-                githubDark,
                 ...props.extensions,
                 javascriptLanguage.data.of({
                     autocomplete: hintPlugin(hintOptions),

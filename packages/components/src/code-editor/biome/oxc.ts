@@ -6,12 +6,12 @@ function convertToUtf8(sourceTextUtf8: Uint8Array, d: number) {
 
 export class OxcWrap {
     oxc: Oxc;
-    runOptions = new OxcRunOptions();
-    linterOptions = new OxcLinterOptions();
-    parserOptions = new OxcParserOptions();
-    codegenOptions = new OxcCodegenOptions();
-    minifierOptions = new OxcMinifierOptions();
-    typeCheckOptions = new OxcTypeCheckingOptions();
+    runOptions: OxcRunOptions;
+    linterOptions: OxcLinterOptions;
+    parserOptions: OxcParserOptions;
+    codegenOptions: OxcCodegenOptions;
+    minifierOptions: OxcMinifierOptions;
+    typeCheckOptions: OxcTypeCheckingOptions;
 
     sourceTextUtf8: Uint8Array;
     constructor() {
@@ -21,6 +21,14 @@ export class OxcWrap {
     async initOxc() {
         try {
             await initWasm();
+
+            this.runOptions = new OxcRunOptions();
+            this.linterOptions = new OxcLinterOptions();
+            this.parserOptions = new OxcParserOptions();
+            this.codegenOptions = new OxcCodegenOptions();
+            this.minifierOptions = new OxcMinifierOptions();
+            this.typeCheckOptions = new OxcTypeCheckingOptions();
+
             this.oxc = new Oxc();
 
             this.runOptions.syntax = true;

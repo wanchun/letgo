@@ -39,5 +39,9 @@
         "yaml"
     ],
     "eslint.debug": true,
-    "eslint.notebooks.rules.customizations": []
+    "eslint.notebooks.rules.customizations": [],
+    "cSpell.words": [
+        "Codegen",
+        "keymap"
+    ]
 }

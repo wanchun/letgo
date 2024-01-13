@@ -1,5 +1,5 @@
-import type { Diagnostic } from '@biomejs/wasm-web';
 import type { Extension } from '@codemirror/state';
+import type { Diagnostic } from '@codemirror/lint';
 import type { IPublicModelDocumentModel } from '@webank/letgo-types';
 
 export interface HintPathType {
@@ -17,15 +17,18 @@ export enum LoadingState {
 
 export interface CodeEditorProps {
     doc: string
-    id?: string
     scopeVariables?: Record<string, any>
     compRef?: string
     documentModel?: IPublicModelDocumentModel
     height?: string
-    language?: 'json' | 'javascript'
     theme?: Record<string, any>
     extensions?: Extension[]
     onChange?: (doc: string) => void
     onFocus?: (doc: string) => void
     onBlur?: (doc: string) => void
+}
+
+export interface OxcOutput {
+    diagnostics: Diagnostic[]
+    formatter: string
 }

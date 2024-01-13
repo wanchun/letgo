@@ -44,9 +44,7 @@ export const CodeMirror = defineComponent({
             type: String,
             default: '100px',
         },
-        id: String,
         compRef: String,
-        language: String as PropType<'json' | 'javascript'>,
     },
     setup(props, { attrs }) {
         const [editorRefEl] = useCodeMirror(props);

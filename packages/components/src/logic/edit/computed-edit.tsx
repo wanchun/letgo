@@ -53,7 +53,6 @@ export const ComputedEdit = defineComponent({
                             hints={props.hints}
                             doc={tmpFuncBody.value}
                             onChange={changeFuncBody}
-                            id={props.codeItem.id}
                         />
                     </div>
                 </div>

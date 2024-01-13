@@ -33,6 +33,7 @@ export class OxcWrap {
 
             this.runOptions.syntax = true;
             this.runOptions.lint = true;
+            this.runOptions.prettier_format = true;
             this.parserOptions.allowReturnOutsideFunction = true;
         }
         catch (error) {
@@ -63,5 +64,9 @@ export class OxcWrap {
             message: d.message,
         }));
         return diagnostics;
+    }
+
+    getFormat() {
+        return this.oxc.prettierFormattedText;
     }
 }

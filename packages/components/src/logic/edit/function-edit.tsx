@@ -3,7 +3,7 @@ import { defineComponent, ref, watch } from 'vue';
 import { FButton } from '@fesjs/fes-design';
 import { javascript } from '@codemirror/lang-javascript';
 import type { IJavascriptFunction, IPublicModelDocumentModel } from '@webank/letgo-types';
-import { CodeMirror } from '../../code-editor/biome/code-mirror';
+import { CodeMirror } from '../../code-editor';
 import './function-edit.less';
 
 export const FunctionEdit = defineComponent({

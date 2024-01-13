@@ -42,7 +42,6 @@ const FunctionSetterView = defineComponent({
                     onChange={onChange}
                     extensions={[javascript()]}
                     compRef={props.node.ref}
-                    id={props.node.ref}
                 >
                 </CodeMirror>
             );

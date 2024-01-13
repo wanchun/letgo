@@ -10,15 +10,14 @@ import {
     placeholder,
 } from '@codemirror/view';
 import { autocompletion } from '@codemirror/autocomplete';
-import { lintGutter, linter } from '@codemirror/lint';
-import { json } from '@codemirror/lang-json';
+import { lintGutter, setDiagnostics } from '@codemirror/lint';
 import { javascript, javascriptLanguage } from '@codemirror/lang-javascript';
 import { vscodeKeymap } from '@replit/codemirror-vscode-keymap';
 import { deleteLine, indentWithTab } from '@codemirror/commands';
 import { isFunction } from 'lodash-es';
 import { HintTheme, hintPlugin, useHint, useScopeVariables } from './use-hint';
 import type { CodeEditorProps } from './types';
-import { OxcWrap } from './oxc';
+import { useOxcWorker } from './use-oxc';
 
 const External = Annotation.define<boolean>();
 
@@ -29,7 +28,7 @@ export function useCodeMirror(props: CodeEditorProps) {
 
     const scopeVariables = useScopeVariables(props);
     const { hintOptions } = useHint(scopeVariables);
-    const oxc = new OxcWrap();
+    const { updateCode, oxcOutput } = useOxcWorker();
 
     const theme = EditorView.theme({
         ...HintTheme,
@@ -39,19 +38,24 @@ export function useCodeMirror(props: CodeEditorProps) {
         },
     });
 
+    watch(oxcOutput, () => {
+        editorView.dispatch(
+            setDiagnostics(editorView.state, oxcOutput.value.diagnostics),
+        );
+    });
+
     const innerOnChange = (doc: string) => {
-        oxc.runOxc(doc);
+        updateCode(doc);
         if (isFunction(props.onChange))
             props.onChange(doc);
     };
 
-    // TODO format code
     const innerOnBlur = (doc: string) => {
-        if (isFunction(props.onChange))
-            props.onChange(doc);
+        if (isFunction(props.onChange) && oxcOutput.value.formatter !== doc)
+            props.onChange(oxcOutput.value.formatter);
 
         if (isFunction(props.onBlur))
-            props.onBlur(doc);
+            props.onBlur(oxcOutput.value.formatter);
     };
 
     const genState = () => {
@@ -68,7 +72,7 @@ export function useCodeMirror(props: CodeEditorProps) {
                     },
                 ]),
                 theme,
-                props.language === 'json' ? json() : javascript(),
+                javascript(),
                 ...props.extensions,
                 javascriptLanguage.data.of({
                     autocomplete: hintPlugin(hintOptions),
@@ -77,7 +81,7 @@ export function useCodeMirror(props: CodeEditorProps) {
                     icons: false,
                 }),
                 lintGutter(),
-                linter(() => oxc.getDiagnostics(), { delay: 0 }),
+                // linter(() => oxc.getDiagnostics(), { delay: 0 }),
                 placeholder('Enter your code here'),
                 EditorView.updateListener.of(async (v) => {
                     if (v.docChanged && !v.transactions.some(tr => tr.annotation(External))) {

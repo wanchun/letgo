@@ -39,7 +39,7 @@ export const CodeView = defineComponent({
             return (
                 <CodeMirror
                     doc={currentValue.value}
-                    changeDoc={onStyleChange}
+                    onChange={onStyleChange}
                     extensions={[css()]}
                     onFocus={onFocus}
                     onBlur={onBlur}

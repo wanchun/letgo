@@ -10,14 +10,10 @@ import {
     placeholder,
 } from '@codemirror/view';
 import { autocompletion } from '@codemirror/autocomplete';
-import { lintGutter, setDiagnostics } from '@codemirror/lint';
-import { javascript, javascriptLanguage } from '@codemirror/lang-javascript';
 import { vscodeKeymap } from '@replit/codemirror-vscode-keymap';
 import { deleteLine, indentWithTab } from '@codemirror/commands';
 import { isFunction } from 'lodash-es';
-import { HintTheme, hintPlugin, useHint, useScopeVariables } from './use-hint';
 import type { CodeEditorProps } from './types';
-import { useOxcWorker } from './use-oxc';
 
 const External = Annotation.define<boolean>();
 
@@ -26,36 +22,17 @@ export function useCodeMirror(props: CodeEditorProps) {
 
     let editorView: EditorView;
 
-    const scopeVariables = useScopeVariables(props);
-    const { hintOptions } = useHint(scopeVariables);
-    const { updateCode, oxcOutput } = useOxcWorker();
-
     const theme = EditorView.theme({
-        ...HintTheme,
         '&': {
             height: props.height,
             outline: 'none',
         },
-    });
-
-    watch(oxcOutput, () => {
-        editorView.dispatch(
-            setDiagnostics(editorView.state, oxcOutput.value.diagnostics),
-        );
+        ...props.theme,
     });
 
     const innerOnChange = (doc: string) => {
-        updateCode(doc);
         if (isFunction(props.onChange))
             props.onChange(doc);
-    };
-
-    const innerOnBlur = (doc: string) => {
-        if (isFunction(props.onChange) && oxcOutput.value.formatter !== doc)
-            props.onChange(oxcOutput.value.formatter);
-
-        if (isFunction(props.onBlur))
-            props.onBlur(oxcOutput.value.formatter);
     };
 
     const genState = () => {
@@ -72,16 +49,10 @@ export function useCodeMirror(props: CodeEditorProps) {
                     },
                 ]),
                 theme,
-                javascript(),
                 ...props.extensions,
-                javascriptLanguage.data.of({
-                    autocomplete: hintPlugin(hintOptions),
-                }),
                 autocompletion({
                     icons: false,
                 }),
-                lintGutter(),
-                // linter(() => oxc.getDiagnostics(), { delay: 0 }),
                 placeholder('Enter your code here'),
                 EditorView.updateListener.of(async (v) => {
                     if (v.docChanged && !v.transactions.some(tr => tr.annotation(External))) {
@@ -94,8 +65,8 @@ export function useCodeMirror(props: CodeEditorProps) {
                         if (v.view.hasFocus && isFunction(props.onFocus))
                             props.onFocus(doc);
 
-                        if (!v.view.hasFocus)
-                            innerOnBlur(doc);
+                        if (!v.view.hasFocus && props.onBlur)
+                            props.onBlur(doc);
                     }
                 }),
             ].filter(Boolean),

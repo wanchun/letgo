@@ -51,7 +51,7 @@ export const SchemaView = defineComponent({
                             },
                         }}
                         doc={currentSchema.value}
-                        changeDoc={onChange}
+                        onChange={onChange}
                         extensions={[json()]}
                         bordered={false}
                         fullscreen={false}

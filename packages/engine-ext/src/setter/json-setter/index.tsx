@@ -42,7 +42,7 @@ const JsonSetterView = defineComponent({
             return (
                 <CodeMirror
                     doc={currentValue.value}
-                    changeDoc={onChange}
+                    onChange={onChange}
                     extensions={[json()]}
                 >
                 </CodeMirror>

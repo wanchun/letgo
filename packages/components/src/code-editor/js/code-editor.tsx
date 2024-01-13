@@ -10,7 +10,7 @@ import type { Extension } from '@codemirror/state';
 import { FullScreen } from '@icon-park/vue-next';
 import { FDrawer } from '@fesjs/fes-design';
 import type { IPublicModelDocumentModel } from '@webank/letgo-types';
-import { useCodeMirror } from './use-code-mirror';
+import { useCodeEditor } from './use-code-editor';
 import '../code-editor.less';
 
 export const CodeEditor = defineComponent({
@@ -47,8 +47,8 @@ export const CodeEditor = defineComponent({
         compRef: String,
     },
     setup(props, { attrs }) {
-        const [editorRefEl] = useCodeMirror(props);
-        const [fullScreenRef] = useCodeMirror(props);
+        const [editorRefEl] = useCodeEditor(props);
+        const [fullScreenRef] = useCodeEditor(props);
         const isFullScreen = ref(false);
 
         const toggleFullScreen = () => {

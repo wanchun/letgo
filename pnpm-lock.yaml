@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 importers:
 
   .:
@@ -657,17 +653,17 @@ importers:
   packages/template:
     dependencies:
       '@fesjs/builder-vite':
-        specifier: ^4.0.1
-        version: 4.0.1(@fesjs/fes@3.1.7)(core-js@3.33.3)(postcss@8.4.33)(vue@3.3.9)
+        specifier: ^4.0.2
+        version: 4.0.2(@fesjs/fes@3.1.8)(@types/node@20.10.8)(core-js@3.33.3)(postcss@8.4.33)(vue@3.3.9)
       '@fesjs/fes':
-        specifier: ^3.1.7
-        version: 3.1.7(vue@3.3.9)
+        specifier: ^3.1.8
+        version: 3.1.8(vue@3.3.9)
       '@fesjs/fes-design':
         specifier: ^0.8.17
         version: 0.8.17(vue@3.3.9)
       '@fesjs/plugin-request':
         specifier: 4.0.0-beta.6
-        version: 4.0.0-beta.6(@fesjs/fes@3.1.7)(vue@3.3.9)
+        version: 4.0.0-beta.6(@fesjs/fes@3.1.8)(vue@3.3.9)
       '@vueuse/core':
         specifier: ^10.7.1
         version: 10.7.1(vue@3.3.9)
@@ -706,7 +702,7 @@ importers:
         version: 4.2.0
       vue:
         specifier: ^3.3.9
-        version: 3.3.9
+        version: 3.3.9(typescript@5.3.3)
 
   packages/types:
     dependencies:
@@ -2443,14 +2439,14 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@fesjs/builder-vite@4.0.1(@fesjs/fes@3.1.7)(core-js@3.33.3)(postcss@8.4.33)(vue@3.3.9):
-    resolution: {integrity: sha512-aJ0Y2ZzTaPnHWANCfd0SgWve5WgkuxyEY6tTx9ffnuDgBh6CMs4Z7zqmtoY3XkYoFDxC0J3EQccR+3pwdQ/ISg==}
+  /@fesjs/builder-vite@4.0.2(@fesjs/fes@3.1.8)(@types/node@20.10.8)(core-js@3.33.3)(postcss@8.4.33)(vue@3.3.9):
+    resolution: {integrity: sha512-MQFKOWoWgIUp7v+CEVmCZ0NoTOUdtpz6orkxQNVKLudjM+Flz5jUoJPijMInpK1rRQTiRdAHNtP/fUKag6C3Fw==}
     peerDependencies:
-      '@fesjs/fes': ^3.1.7
+      '@fesjs/fes': ^3.1.8
       core-js: ^3.29.1
     dependencies:
       '@babel/core': 7.23.7
-      '@fesjs/fes': 3.1.7(vue@3.3.9)
+      '@fesjs/fes': 3.1.8(vue@3.3.9)
       '@fesjs/utils': 3.0.1
       '@rollup/pluginutils': 5.1.0
       '@vitejs/plugin-basic-ssl': 1.0.2(vite@5.0.11)
@@ -2475,7 +2471,7 @@ packages:
       postcss-safe-parser: 6.0.0(postcss@8.4.33)
       rollup-plugin-visualizer: 5.12.0
       terser: 5.26.0
-      vite: 5.0.11(less@4.2.0)(terser@5.26.0)
+      vite: 5.0.11(@types/node@20.10.8)(less@4.2.0)(terser@5.26.0)
     transitivePeerDependencies:
       - '@types/node'
       - lightningcss
@@ -2520,7 +2516,7 @@ packages:
       date-fns: 2.30.0
       lodash-es: 4.17.21
       stickybits: 3.7.11
-      vue: 3.3.9
+      vue: 3.3.9(typescript@5.3.3)
     transitivePeerDependencies:
       - '@vue/composition-api'
     dev: false
@@ -2546,8 +2542,8 @@ packages:
       - '@vue/composition-api'
     dev: false
 
-  /@fesjs/fes@3.1.7(vue@3.3.9):
-    resolution: {integrity: sha512-Uo6YlxhSKf+E4GmCKNXQAwvuWy6OSXHtdkhDImD+ZQJEKxWUJIrfQYgnSmupcYoH6xcbRx6k6nunqvBQroCa1Q==}
+  /@fesjs/fes@3.1.8(vue@3.3.9):
+    resolution: {integrity: sha512-eZNmncL9J10oVnndlNnsR0efgyq9BllmgKXZhFFoPOvgLQNdlGITQWZ8yMs17H//4W6y45A2Dg7i9ezid/oi5Q==}
     engines: {node: ^10.12.0 || ^12.0.0 || >= 14.0.0}
     hasBin: true
     dependencies:
@@ -2563,16 +2559,16 @@ packages:
       - vue
     dev: false
 
-  /@fesjs/plugin-request@4.0.0-beta.6(@fesjs/fes@3.1.7)(vue@3.3.9):
+  /@fesjs/plugin-request@4.0.0-beta.6(@fesjs/fes@3.1.8)(vue@3.3.9):
     resolution: {integrity: sha512-JIayot8x2DTFQhmoJaLEWComRUAZf+gvHdIjvhnzKr3w7DsgfPFhjG3EERNCSL4JHTPywngP8ZGZsYkQ0zDzlA==}
     peerDependencies:
       '@fesjs/fes': ^3.1.4
       vue: ^3.2.37
     dependencies:
-      '@fesjs/fes': 3.1.7(vue@3.3.9)
+      '@fesjs/fes': 3.1.8(vue@3.3.9)
       '@fesjs/utils': 3.0.1
       '@qlin/request': 0.1.4
-      vue: 3.3.9
+      vue: 3.3.9(typescript@5.3.3)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -2589,7 +2585,7 @@ packages:
       envinfo: 7.11.0
       express: 4.18.2
       mockjs: 1.1.0
-      vue: 3.3.9
+      vue: 3.3.9(typescript@5.3.3)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -2599,7 +2595,7 @@ packages:
     peerDependencies:
       vue: ^3.2.47
     dependencies:
-      vue: 3.3.9
+      vue: 3.3.9(typescript@5.3.3)
       vue-router: 4.2.2(vue@3.3.9)
     dev: false
 
@@ -3150,7 +3146,6 @@ packages:
     resolution: {integrity: sha512-f8nQs3cLxbAFc00vEU59yf9UyGUftkPaLGfvbVOIDdx2i1b8epBqj2aNGyP19fiyXWvlmZ7qC1XLjAzw/OKIeA==}
     dependencies:
       undici-types: 5.26.5
-    dev: true
 
   /@types/normalize-package-data@2.4.4:
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -3318,7 +3313,7 @@ packages:
     peerDependencies:
       vite: ^3.0.0 || ^4.0.0 || ^5.0.0
     dependencies:
-      vite: 5.0.11(less@4.2.0)(terser@5.26.0)
+      vite: 5.0.11(@types/node@20.10.8)(less@4.2.0)(terser@5.26.0)
     dev: false
 
   /@vitejs/plugin-legacy@5.2.0(terser@5.26.0)(vite@5.0.11):
@@ -3336,7 +3331,7 @@ packages:
       regenerator-runtime: 0.14.1
       systemjs: 6.14.3
       terser: 5.26.0
-      vite: 5.0.11(less@4.2.0)(terser@5.26.0)
+      vite: 5.0.11(@types/node@20.10.8)(less@4.2.0)(terser@5.26.0)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -3351,8 +3346,8 @@ packages:
       '@babel/core': 7.23.7
       '@babel/plugin-transform-typescript': 7.23.6(@babel/core@7.23.7)
       '@vue/babel-plugin-jsx': 1.1.5(@babel/core@7.23.7)
-      vite: 5.0.11(less@4.2.0)(terser@5.26.0)
-      vue: 3.3.9
+      vite: 5.0.11(@types/node@20.10.8)(less@4.2.0)(terser@5.26.0)
+      vue: 3.3.9(typescript@5.3.3)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -3380,8 +3375,8 @@ packages:
       vite: ^4.0.0 || ^5.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 5.0.11(less@4.2.0)(terser@5.26.0)
-      vue: 3.3.9
+      vite: 5.0.11(@types/node@20.10.8)(less@4.2.0)(terser@5.26.0)
+      vue: 3.3.9(typescript@5.3.3)
     dev: false
 
   /@vitejs/plugin-vue@4.6.2(vite@5.0.11)(vue@3.4.7):
@@ -3617,7 +3612,7 @@ packages:
     dependencies:
       '@vue/compiler-ssr': 3.3.9
       '@vue/shared': 3.3.9
-      vue: 3.3.9
+      vue: 3.3.9(typescript@5.3.3)
 
   /@vue/server-renderer@3.4.7(vue@3.4.7):
     resolution: {integrity: sha512-3bWnYLEkLLhkDWqvNk7IvbQD4UcxvFKxELBiOO2iG3m6AniFIsBWfHOO5tLVQnjdWkODu4rq0GipmfEenVAK5Q==}
@@ -4324,7 +4319,7 @@ packages:
     dev: true
 
   /concat-map@0.0.1:
-    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=, tarball: https://registry.npmmirror.com/concat-map/download/concat-map-0.0.1.tgz}
+    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
   /connect-history-api-fallback@2.0.0:
     resolution: {integrity: sha512-U73+6lQFmfiNPrYbXqr6kZ1i1wiRqXnp2nhMsINseWXO8lDau0LGEffJ8kQi4EjLZympVgRdvqjAgiZ1tgzDDA==}
@@ -4484,7 +4479,7 @@ packages:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
 
   /cookie-signature@1.0.6:
-    resolution: {integrity: sha1-4wOogrNCzD7oylE6eZmXNNqzriw=, tarball: https://registry.npmmirror.com/cookie-signature/download/cookie-signature-1.0.6.tgz}
+    resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
     dev: false
 
   /cookie@0.5.0:
@@ -5691,7 +5686,7 @@ packages:
     dev: true
 
   /forwarded@0.2.0:
-    resolution: {integrity: sha1-ImmTZCiq1MFcfr6XeahL8LKoGBE=, tarball: https://registry.npmmirror.com/forwarded/download/forwarded-0.2.0.tgz}
+    resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -6789,7 +6784,7 @@ packages:
     dev: true
 
   /media-typer@0.3.0:
-    resolution: {integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=, tarball: https://registry.npmmirror.com/media-typer/download/media-typer-0.3.0.tgz}
+    resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -8015,7 +8010,7 @@ packages:
     dev: false
 
   /setprototypeof@1.2.0:
-    resolution: {integrity: sha1-ZsmiSnP5/CjL5msJ/tPTPcrxtCQ=, tarball: https://registry.npmmirror.com/setprototypeof/download/setprototypeof-1.2.0.tgz}
+    resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==}
     dev: false
 
   /shallow-clone@3.0.1:
@@ -8357,7 +8352,7 @@ packages:
       is-number: 7.0.0
 
   /toidentifier@1.0.1:
-    resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==, tarball: https://registry.npmmirror.com/toidentifier/download/toidentifier-1.0.1.tgz}
+    resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==}
     engines: {node: '>=0.6'}
     dev: false
 
@@ -8507,7 +8502,6 @@ packages:
 
   /undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
-    dev: true
 
   /unicode-canonical-property-names-ecmascript@2.0.0:
     resolution: {integrity: sha512-yY5PpDlfVIU5+y/BSCxAJRBIS1Zc2dDG3Ujq+sR0U+JjUevW2JhocOF+soROYDSaAezOzOKuyyixhD6mBknSmQ==}
@@ -8583,7 +8577,7 @@ packages:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
   /utils-merge@1.0.1:
-    resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=, tarball: https://registry.npmmirror.com/utils-merge/download/utils-merge-1.0.1.tgz}
+    resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
     dev: false
 
@@ -8695,44 +8689,6 @@ packages:
       terser: 5.26.0
     optionalDependencies:
       fsevents: 2.3.3
-    dev: true
-
-  /vite@5.0.11(less@4.2.0)(terser@5.26.0):
-    resolution: {integrity: sha512-XBMnDjZcNAw/G1gEiskiM1v6yzM4GE5aMGvhWTlHAYYhxb7S3/V1s3m2LDHa8Vh6yIWYYB0iJwsEaS523c4oYA==}
-    engines: {node: ^18.0.0 || >=20.0.0}
-    hasBin: true
-    peerDependencies:
-      '@types/node': ^18.0.0 || >=20.0.0
-      less: '*'
-      lightningcss: ^1.21.0
-      sass: '*'
-      stylus: '*'
-      sugarss: '*'
-      terser: ^5.4.0
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      less:
-        optional: true
-      lightningcss:
-        optional: true
-      sass:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      terser:
-        optional: true
-    dependencies:
-      esbuild: 0.19.11
-      less: 4.2.0
-      postcss: 8.4.33
-      rollup: 4.9.4
-      terser: 5.26.0
-    optionalDependencies:
-      fsevents: 2.3.3
-    dev: false
 
   /vitest@0.34.6(less@4.2.0):
     resolution: {integrity: sha512-+5CALsOvbNKnS+ZHMXtuUC7nL8/7F1F2DnHGjSsszX8zCjWSSviphCb/NuS9Nzf4Q03KyyDRBAXhF/8lffME4Q==}
@@ -8820,7 +8776,7 @@ packages:
       '@vue/composition-api':
         optional: true
     dependencies:
-      vue: 3.3.9
+      vue: 3.3.9(typescript@5.3.3)
     dev: false
 
   /vue-demi@0.14.6(vue@3.4.7):
@@ -8862,7 +8818,7 @@ packages:
       vue: ^3.2.0
     dependencies:
       '@vue/devtools-api': 6.5.1
-      vue: 3.3.9
+      vue: 3.3.9(typescript@5.3.3)
     dev: false
 
   /vue-template-compiler@2.7.16:
@@ -8883,20 +8839,6 @@ packages:
       semver: 7.5.4
       typescript: 5.3.3
     dev: true
-
-  /vue@3.3.9:
-    resolution: {integrity: sha512-sy5sLCTR8m6tvUk1/ijri3Yqzgpdsmxgj6n6yl7GXXCXqVbmW2RCXe9atE4cEI6Iv7L89v5f35fZRRr5dChP9w==}
-    peerDependencies:
-      typescript: '*'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      '@vue/compiler-dom': 3.3.9
-      '@vue/compiler-sfc': 3.3.9
-      '@vue/runtime-dom': 3.3.9
-      '@vue/server-renderer': 3.3.9(vue@3.3.9)
-      '@vue/shared': 3.3.9
 
   /vue@3.3.9(typescript@5.3.3):
     resolution: {integrity: sha512-sy5sLCTR8m6tvUk1/ijri3Yqzgpdsmxgj6n6yl7GXXCXqVbmW2RCXe9atE4cEI6Iv7L89v5f35fZRRr5dChP9w==}
@@ -9096,3 +9038,7 @@ packages:
   /zen-logger@1.1.0:
     resolution: {integrity: sha512-3h6l2BYZCJdQxs4ACCd3lcGhnoE7gCDbceRAFfblvbArr2PPlnOhlkYlw1Xl8yL+kCbru8sSd9KjtCMirCSb3A==}
     dev: false
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false

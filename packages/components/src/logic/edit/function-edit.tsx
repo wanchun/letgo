@@ -1,9 +1,8 @@
 import type { PropType } from 'vue';
 import { defineComponent, ref, watch } from 'vue';
 import { FButton } from '@fesjs/fes-design';
-import { javascript } from '@codemirror/lang-javascript';
 import type { IJavascriptFunction, IPublicModelDocumentModel } from '@webank/letgo-types';
-import { CodeMirror } from '../../code-editor';
+import { CodeEditor } from '../../code-editor';
 import './function-edit.less';
 
 export const FunctionEdit = defineComponent({
@@ -40,12 +39,11 @@ export const FunctionEdit = defineComponent({
                         </div>
                     </div>
                     <div class="letgo-comp-logic__func">
-                        <CodeMirror
+                        <CodeEditor
                             documentModel={props.documentModel}
                             height="200px"
                             hints={props.hints}
                             doc={tmpFuncBody.value}
-                            extensions={[javascript()]}
                             onChange={changeFuncBody}
                         />
                     </div>

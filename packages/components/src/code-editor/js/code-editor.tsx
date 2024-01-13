@@ -13,7 +13,7 @@ import type { IPublicModelDocumentModel } from '@webank/letgo-types';
 import { useCodeMirror } from './use-code-mirror';
 import '../code-editor.less';
 
-export const CodeMirror = defineComponent({
+export const CodeEditor = defineComponent({
     props: {
         documentModel: Object as PropType<IPublicModelDocumentModel>,
         hints: Object as PropType<Record<string, any>>,

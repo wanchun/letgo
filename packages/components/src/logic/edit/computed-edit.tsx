@@ -1,10 +1,8 @@
 import type { PropType } from 'vue';
 import { defineComponent, ref, watch } from 'vue';
 import { FButton } from '@fesjs/fes-design';
-import { javascript } from '@codemirror/lang-javascript';
 import type { IJavascriptComputed, IPublicModelDocumentModel } from '@webank/letgo-types';
-import { formatJsCode } from '@webank/letgo-common';
-import { CodeMirror } from '../../code-editor';
+import { CodeEditor } from '../../code-editor';
 import './code-edit.less';
 import './computed-edit.less';
 
@@ -47,9 +45,8 @@ export const ComputedEdit = defineComponent({
                         </div>
                     </div>
                     <div class="letgo-comp-logic__computed">
-                        <CodeMirror
+                        <CodeEditor
                             documentModel={props.documentModel}
-                            extensions={[javascript()]}
                             hints={props.hints}
                             doc={tmpFuncBody.value}
                             onChange={changeFuncBody}

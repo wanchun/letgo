@@ -3,8 +3,7 @@ import { computed, defineComponent, onMounted } from 'vue';
 import { isJSFunction } from '@webank/letgo-types';
 import type { IPublicTypeJSFunction, IPublicTypeSetter } from '@webank/letgo-types';
 import { isFunction, isUndefined } from 'lodash-es';
-import { javascript } from '@codemirror/lang-javascript';
-import { CodeMirror } from '@webank/letgo-components';
+import { CodeEditor } from '@webank/letgo-components';
 import { commonProps } from '../../common';
 
 const FunctionSetterView = defineComponent({
@@ -37,13 +36,12 @@ const FunctionSetterView = defineComponent({
         };
         return () => {
             return (
-                <CodeMirror
+                <CodeEditor
                     doc={currentValue.value}
                     onChange={onChange}
-                    extensions={[javascript()]}
                     compRef={props.node.ref}
                 >
-                </CodeMirror>
+                </CodeEditor>
             );
         };
     },

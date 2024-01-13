@@ -28,7 +28,6 @@
         "@webank/letgo-plugin-component-tree": "^0.0.1-beta.12",
         "@webank/letgo-plugin-components": "^0.0.1-beta.12",
         "@webank/letgo-plugin-designer": "^0.0.1-beta.12",
-        "@webank/letgo-plugin-global": "^0.0.1-beta.15",
         "@webank/letgo-plugin-setting": "^0.0.1-beta.15",
         "@webank/letgo-types": "^0.0.1-beta.8",
         "eventemitter3": "^4.0.0",

@@ -21,17 +21,14 @@ import type { Extension } from '@codemirror/state';
 import {
     EditorState,
 } from '@codemirror/state';
-import { javascriptLanguage } from '@codemirror/lang-javascript';
 import { indentWithTab } from '@codemirror/commands';
 import { FullScreen } from '@icon-park/vue-next';
 import { FDrawer } from '@fesjs/fes-design';
 import { autocompletion } from '@codemirror/autocomplete';
 import type { IPublicModelDocumentModel } from '@webank/letgo-types';
-import { HintTheme, hintPlugin } from './hint';
-import { useHint } from './use';
 import './code-editor.less';
 
-export const CodeEditor = defineComponent({
+export const CodeMirror = defineComponent({
     props: {
         documentModel: Object as PropType<IPublicModelDocumentModel>,
         hints: Object as PropType<Record<string, any>>,
@@ -71,10 +68,7 @@ export const CodeEditor = defineComponent({
         let editorView: EditorView;
         let fullScreenView: EditorView;
 
-        const { hintOptions } = useHint(props);
-
         const theme = EditorView.theme({
-            ...HintTheme,
             '&': {
                 height: props.height,
                 outline: 'none',
@@ -90,9 +84,6 @@ export const CodeEditor = defineComponent({
                     keymap.of([indentWithTab]),
                     theme,
                     ...props.extensions,
-                    javascriptLanguage.data.of({
-                        autocomplete: hintPlugin(hintOptions),
-                    }),
                     autocompletion({
                         icons: false,
                     }),

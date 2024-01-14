@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
 import type { IPublicModelDocumentModel, ITemporaryState } from '@webank/letgo-types';
-import { ExpressionEditor } from '../../code-editor/js/expression-editor';
+import { ExpressionEditor } from '../../code-editor';
 import './state-edit.less';
 
 /**

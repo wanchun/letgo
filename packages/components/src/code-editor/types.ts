@@ -1,13 +1,6 @@
 import type { IPublicModelDocumentModel } from '@webank/letgo-types';
 import type { Extension } from '@codemirror/state';
 
-export interface HintPathType {
-    label: string
-    detail: string
-    type: 'function' | 'keyword' | 'variable' | 'text' | 'property'
-    value?: any
-}
-
 export interface CodeEditorProps {
     doc: string
     scopeVariables?: Record<string, any>

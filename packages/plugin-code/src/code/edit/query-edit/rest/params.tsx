@@ -3,7 +3,6 @@ import { defineComponent } from 'vue';
 import type { IPublicModelDocumentModel, IRestQueryResource } from '@webank/letgo-types';
 import { FCheckbox, FSelect } from '@fesjs/fes-design';
 import { CodeEditor, ExpressionEditor } from '@webank/letgo-components';
-import { formatExpression } from '@webank/letgo-common';
 import ContentItem from '../content-item';
 import './params.less';
 
@@ -35,11 +34,6 @@ export default defineComponent({
             });
         };
 
-        const onParamsBlur = async (newParams: string) => {
-            newParams = await formatExpression(newParams);
-            changeParams(newParams);
-        };
-
         const changeTransformer = (code: string) => {
             props.changeCodeItem({
                 transformer: code,
@@ -62,7 +56,7 @@ export default defineComponent({
                                             placeholder="/api/path/to/get/data"
                                             class="letgo-plg-code__query-api"
                                             doc={props.codeItem.api}
-                                            onChangeDoc={changeApiPath}
+                                            onChange={changeApiPath}
                                         />
                                     </div>
                                 );
@@ -81,8 +75,7 @@ export default defineComponent({
                                         style="width: 0; flex: 1;"
                                         placeholder="params"
                                         doc={props.codeItem.params}
-                                        onChangeDoc={changeParams}
-                                        onBlur={onParamsBlur}
+                                        onChange={changeParams}
                                     />
                                 );
                             },

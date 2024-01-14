@@ -51,11 +51,12 @@ export function useCodeEditor(props: CodeEditorProps) {
     };
 
     const innerOnBlur = (doc: string) => {
-        if (isFunction(props.onChange) && oxcOutput.value.formatter !== doc)
-            props.onChange(oxcOutput.value.formatter);
+        const formattedDoc = oxcOutput.value.formatter || doc;
+        if (isFunction(props.onChange) && formattedDoc !== doc)
+            props.onChange(formattedDoc);
 
         if (isFunction(props.onBlur))
-            props.onBlur(oxcOutput.value.formatter);
+            props.onBlur(formattedDoc);
     };
 
     const genState = () => {
@@ -81,7 +82,6 @@ export function useCodeEditor(props: CodeEditorProps) {
                     icons: false,
                 }),
                 lintGutter(),
-                // linter(() => oxc.getDiagnostics(), { delay: 0 }),
                 placeholder('Enter your code here'),
                 EditorView.updateListener.of(async (v) => {
                     if (v.docChanged && !v.transactions.some(tr => tr.annotation(External))) {

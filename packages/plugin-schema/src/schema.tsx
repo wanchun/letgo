@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, ref } from 'vue';
 import type { Designer } from '@webank/letgo-designer';
-import { CodeEditor } from '@webank/letgo-components';
+import { CodeMirror } from '@webank/letgo-components';
 import { json } from '@codemirror/lang-json';
 import { FButton } from '@fesjs/fes-design';
 
@@ -39,7 +39,7 @@ export const SchemaView = defineComponent({
         return () => {
             return (
                 <div class="letgo-plg-schema">
-                    <CodeEditor
+                    <CodeMirror
                         class="letgo-plg-schema__code"
                         theme={{
                             '&': {
@@ -51,12 +51,12 @@ export const SchemaView = defineComponent({
                             },
                         }}
                         doc={currentSchema.value}
-                        changeDoc={onChange}
+                        onChange={onChange}
                         extensions={[json()]}
                         bordered={false}
                         fullscreen={false}
                     >
-                    </CodeEditor>
+                    </CodeMirror>
                     <div class="letgo-plg-schema__action">
                         <FButton type="info" size="small" onClick={onSave}>保存 Schema</FButton>
                     </div>

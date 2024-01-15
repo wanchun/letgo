@@ -1,7 +1,6 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
 import type { IPublicModelDocumentModel, ITemporaryState } from '@webank/letgo-types';
-import { formatExpression } from '@webank/letgo-common';
 import { ExpressionEditor } from '../../code-editor';
 import './state-edit.less';
 
@@ -25,11 +24,6 @@ export const StateEdit = defineComponent({
             });
         };
 
-        const onBlur = async (value: string) => {
-            value = await formatExpression(value);
-            changeInitValue(value);
-        };
-
         return () => {
             return (
                 <div class="letgo-comp-logic__state">
@@ -41,8 +35,7 @@ export const StateEdit = defineComponent({
                                 placeholder="请输入变量初始值"
                                 hints={props.hints}
                                 doc={props.codeItem.initValue}
-                                onChangeDoc={changeInitValue}
-                                onBlur={onBlur}
+                                onChange={changeInitValue}
                             />
                         </div>
                     </div>

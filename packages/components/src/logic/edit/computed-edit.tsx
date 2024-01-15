@@ -1,9 +1,7 @@
 import type { PropType } from 'vue';
 import { defineComponent, ref, watch } from 'vue';
 import { FButton } from '@fesjs/fes-design';
-import { javascript } from '@codemirror/lang-javascript';
 import type { IJavascriptComputed, IPublicModelDocumentModel } from '@webank/letgo-types';
-import { formatJsCode } from '@webank/letgo-common';
 import { CodeEditor } from '../../code-editor';
 import './code-edit.less';
 import './computed-edit.less';
@@ -32,10 +30,6 @@ export const ComputedEdit = defineComponent({
             tmpFuncBody.value = props.codeItem.funcBody;
         });
 
-        const onBlur = async (value: string) => {
-            value = await formatJsCode(value, { tabWidth: 2 });
-            changeFuncBody(value);
-        };
         const onSave = () => {
             props.changeContent(props.codeItem.id, {
                 funcBody: tmpFuncBody.value,
@@ -53,11 +47,9 @@ export const ComputedEdit = defineComponent({
                     <div class="letgo-comp-logic__computed">
                         <CodeEditor
                             documentModel={props.documentModel}
-                            extensions={[javascript()]}
                             hints={props.hints}
                             doc={tmpFuncBody.value}
-                            changeDoc={changeFuncBody}
-                            onBlur={onBlur}
+                            onChange={changeFuncBody}
                         />
                     </div>
                 </div>

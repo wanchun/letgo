@@ -1,9 +1,12 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
+        "target": "ESNext",
+        "lib": ["DOM", "ES2022", "WebWorker"],
+        "module": "ESNext",
         "outDir": "es"
     },
     "include": [
         "src"
-    ],
+    ]
 }

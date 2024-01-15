@@ -14,7 +14,7 @@ import {
     SetterManager,
     createSetterContent,
 } from '@webank/letgo-designer';
-import { cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash-es';
 import { FDropdown, FTooltip } from '@fesjs/fes-design';
 import { CodeBrackets, Transform } from '@icon-park/vue-next';
 import { commonProps } from '../../common';

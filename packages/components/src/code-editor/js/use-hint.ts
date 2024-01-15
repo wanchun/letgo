@@ -1,8 +1,11 @@
+import { computed } from 'vue';
+import { capitalize, get, isObject } from 'lodash-es';
+import { getVarType } from '@webank/letgo-common';
+import type { IPublicModelDocumentModel } from '@webank/letgo-types';
+
 import type { CompletionContext } from '@codemirror/autocomplete';
 import { snippetCompletion } from '@codemirror/autocomplete';
 import type { ComputedRef } from 'vue';
-import { get, isObject } from 'lodash-es';
-import { getVarType } from '@webank/letgo-common';
 import type { HintPathType } from './types';
 
 export const HintTheme = {
@@ -115,5 +118,79 @@ export function hintPlugin(hintPaths: ComputedRef<HintPathType[]>) {
             return null;
         }
         return null;
+    };
+}
+
+export function useScopeVariables(props: {
+    scopeVariables?: Record<string, any>
+    compRef?: string
+    documentModel?: IPublicModelDocumentModel
+}) {
+    const innerScopeVariables = computed(() => {
+        if (props.scopeVariables) {
+            return props.scopeVariables;
+        }
+        else if (props.documentModel) {
+            const currentDocument = props.documentModel;
+            const state = currentDocument.state;
+            const scope = props.compRef ? currentDocument.state.getCompScope(props.compRef) : {};
+            return {
+                codesInstance: Object.assign({}, state?.codesInstance, currentDocument.project.codesInstance),
+                componentsInstance: state?.componentsInstance,
+                scope,
+                ...currentDocument.project.extraGlobalState,
+            };
+        }
+        else {
+            return {};
+        }
+    });
+    return innerScopeVariables;
+}
+
+export function useHint(scopeVariables: ComputedRef<Record<string, any>>) {
+    const hintOptions = computed(() => {
+        const { codesInstance, componentsInstance, scope, ...otherState } = scopeVariables.value;
+        const result: HintPathType[] = [];
+        Object.keys(codesInstance || {}).forEach((key) => {
+            result.push({
+                label: key,
+                detail: capitalize(codesInstance[key].type),
+                type: 'variable',
+                value: codesInstance[key].hint || codesInstance[key].view,
+            });
+        });
+        Object.keys(scope || {}).forEach((key) => {
+            result.push({
+                label: key,
+                detail: 'Scope',
+                type: 'variable',
+                value: scope[key],
+            });
+        });
+
+        Object.keys(componentsInstance || {}).forEach((key) => {
+            result.push({
+                label: key,
+                detail: 'Component',
+                type: 'variable',
+                value: componentsInstance[key],
+            });
+        });
+
+        Object.keys(otherState).forEach((key) => {
+            result.push({
+                label: key,
+                detail: getVarType(otherState[key as keyof typeof otherState]),
+                type: 'variable',
+                value: otherState[key as keyof typeof otherState],
+            });
+        });
+
+        return result;
+    });
+
+    return {
+        hintOptions,
     };
 }

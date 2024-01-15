@@ -128,7 +128,7 @@ export class DocumentModel implements IPublicModelDocumentModel<ComponentMeta, S
             fileName: '',
         } as IPublicTypePageSchema;
         this.code = new Code(currentSchema.code);
-        this.state = new State(project);
+        this.state = new State(project, currentSchema);
 
         this.rootNode = this.createNode(currentSchema);
 

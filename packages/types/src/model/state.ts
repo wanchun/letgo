@@ -11,6 +11,8 @@ export interface IPublicModelState {
 
     getInstances(instances: IPublicTypeComponentRecord[]): Record<string, any>[]
 
+    getCompScope(ref: string): Record<string, any>
+
     changeNodeRef(ref: string, preRef: string): void
 
 }

@@ -1,5 +1,6 @@
 import { computed, defineComponent, h, nextTick, onUnmounted, provide, watch } from 'vue';
 import type { PropType } from 'vue';
+import type { RuntimeScope } from '@webank/letgo-renderer';
 import { Renderer } from '@webank/letgo-renderer';
 import {
     type ICodeItem,
@@ -97,9 +98,10 @@ export default defineComponent({
         provide(BASE_COMP_CONTEXT, {
             getNode: (id: string) => props.documentInstance.getNode(id),
             executeCtx,
-            onCompGetCtx: (schema: IPublicTypeNodeSchema, ref: IPublicTypeComponentInstance) => {
+            onCompGetCtx: (schema: IPublicTypeNodeSchema, ref: IPublicTypeComponentInstance, scope?: RuntimeScope) => {
                 if (ref) {
                     if (schema.ref) {
+                        (ref as any).__scope = scope;
                         nextTick(() => {
                             // 如果 schema 是个 loop, ref 和组件实例不是一对一关系，因此不能直接用 ref 参数，
                             executeCtx[schema.ref] = props.documentInstance.document.state.componentsInstance[schema.ref];

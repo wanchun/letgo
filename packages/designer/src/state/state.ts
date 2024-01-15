@@ -1,6 +1,6 @@
-import { markReactive, markShallowReactive } from '@webank/letgo-common';
+import { markReactive, traverseNodeSchema } from '@webank/letgo-common';
 import { debounce } from 'lodash-es';
-import type { IPublicModelState, IPublicTypeComponentRecord } from '@webank/letgo-types';
+import type { IPublicModelState, IPublicTypeComponentRecord, IPublicTypeRootSchema } from '@webank/letgo-types';
 import type { Designer } from '../designer';
 import type { Project } from '../project';
 import type { INode } from '../types';
@@ -12,15 +12,22 @@ export class State implements IPublicModelState {
     componentsInstance: Record<string, any>;
     codesInstance: Record<string, any>;
 
-    constructor(project: Project) {
+    constructor(project: Project, schema?: IPublicTypeRootSchema) {
         markReactive(this, {
             codesInstance: {},
             componentsInstance: {},
         });
-        markShallowReactive(this, {
-
-        });
         this.designer = project.designer;
+
+        if (schema?.children) {
+            traverseNodeSchema(schema.children, (item) => {
+                if (item.loop)
+                    this.componentsInstance[item.ref] = [];
+
+                else
+                    this.componentsInstance[item.ref] = {};
+            });
+        }
 
         this.initComponentInstanceListen();
 
@@ -56,6 +63,14 @@ export class State implements IPublicModelState {
         return instances.map((item) => {
             return this.designer.simulator.getComponentInstancesExpose(item);
         });
+    }
+
+    getCompScope(ref: string) {
+        const instances = this.componentsInstance[ref];
+        if (Array.isArray(instances))
+            return instances.length > 0 ? instances[0].__scope : null;
+
+        return instances ? instances.__scope : null;
     }
 
     private setCompInstances(node: INode, instances: Record<string, any>) {

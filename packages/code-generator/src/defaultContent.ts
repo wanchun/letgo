@@ -2,7 +2,7 @@ export const defaultPackageJSON: Record<string, any> = {
     dependencies: {
         'core-js': '3.34.0',
         'vue': '3.3.4',
-        '@vueuse/core': '10.7.0',
+        '@vueuse/core': '10.7.1',
         'lodash-es': '4.17.21',
         '@qlin/request': '0.1.11',
     },

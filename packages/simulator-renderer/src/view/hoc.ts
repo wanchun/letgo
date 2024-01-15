@@ -17,6 +17,7 @@ import {
     buildSlots,
     ensureArray,
     leafProps,
+    mergeScope,
     parseSchema,
     useLeaf,
 } from '@webank/letgo-renderer';
@@ -272,8 +273,9 @@ export const Hoc = defineComponent({
             );
         }
 
-        const getRef = (inst: IPublicTypeComponentInstance) => {
-            onCompGetCtx(props.schema, inst);
+        const getRef = (inst: IPublicTypeComponentInstance, blockScope?: BlockScope) => {
+            const mergedScope = blockScope ? mergeScope(innerScope.value, blockScope) : innerScope.value;
+            onCompGetCtx(props.schema, inst, mergedScope);
         };
 
         return {
@@ -341,7 +343,7 @@ export const Hoc = defineComponent({
                     propsSchema: compProps,
                     blockScope,
                     extraProps: {
-                        ref: getRef,
+                        ref: (inst: IPublicTypeComponentInstance) => getRef(inst, blockScope),
                     },
                     node,
                     render: renderComp,

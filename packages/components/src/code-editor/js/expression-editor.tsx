@@ -34,12 +34,13 @@ function formatExpression(expression: string) {
 }
 
 function formatDiagnostics(diagnostics: Diagnostic[] = [], doc: string) {
-    const len = doc.length;
-    return diagnostics.filter(diagnostic => !((diagnostic.to === len && diagnostic.from === len) || (diagnostic.to === 0 && diagnostic.from === 0))).map(diagnostic => ({
+    // 加两个括号的长度
+    const len = doc.length + 2;
+    return diagnostics.map(diagnostic => ({
         ...diagnostic,
         from: diagnostic.from ? diagnostic.from - 1 : diagnostic.from,
-        to: diagnostic.to ? diagnostic.to - 1 : diagnostic.to,
-    }));
+        to: diagnostic.to ? (diagnostic.to === len ? diagnostic.to - 2 : diagnostic.to - 1) : diagnostic.to,
+    })).filter(diagnostic => diagnostic.from <= diagnostic.to && diagnostic.to !== 0);
 }
 
 export const ExpressionEditor = defineComponent({

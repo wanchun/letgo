@@ -1191,20 +1191,25 @@ const assets: IPublicTypeAssetsJson = {
                         name: 'autosize',
                         title: '高度自适应',
                         setter: {
-                            componentName: 'ObjectSetter',
+                            componentName: 'BoolSetter',
                             props: {
-                                items: [
-                                    {
-                                        name: 'minRows',
-                                        title: '最小行数',
-                                        setter: 'NumberSetter',
+                                extraSetter: {
+                                    componentName: 'ObjectSetter',
+                                    props: {
+                                        items: [
+                                            {
+                                                name: 'minRows',
+                                                title: '最小行数',
+                                                setter: 'NumberSetter',
+                                            },
+                                            {
+                                                name: 'maxRows',
+                                                title: '最大行数',
+                                                setter: 'NumberSetter',
+                                            },
+                                        ],
                                     },
-                                    {
-                                        name: 'maxRows',
-                                        title: '最大行数',
-                                        setter: 'NumberSetter',
-                                    },
-                                ],
+                                },
                             },
                         },
                         defaultValue: false,

@@ -1,30 +1,80 @@
-import { defineComponent, onMounted } from 'vue';
-import type { IPublicTypeSetter } from '@webank/letgo-types';
+import type { PropType } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
+import type { IPublicTypeSetter, IPublicTypeSetterConfig } from '@webank/letgo-types';
+import { createSetterContent } from '@webank/letgo-designer';
 import { FSwitch } from '@fesjs/fes-design';
-import { isUndefined } from 'lodash-es';
+import { isFunction, isNil, isUndefined } from 'lodash-es';
 import { commonProps } from '../../common';
 
 const BoolSetterView = defineComponent({
     name: 'BoolSetterView',
     props: {
         ...commonProps,
-        value: Boolean,
-        defaultValue: Boolean,
+        value: [Boolean, Array, Object],
+        defaultValue: [Boolean, Array, Object],
+        extraSetter: {
+            type: Object as PropType<IPublicTypeSetterConfig>,
+        },
     },
     setup(props) {
+        const { field, extraSetter } = props;
+
+        const value = isUndefined(props.value) ? props.defaultValue : props.value;
+
+        const isChecked = ref(!isNil(value) && value !== false);
+
+        const onChange = (val: boolean) => {
+            props.onChange(val);
+        };
+
+        const renderExtra = () => {
+            if (!extraSetter)
+                return;
+
+            if (!isChecked.value)
+                return;
+
+            const value = field.getValue();
+            const setterType = extraSetter.componentName;
+            let setterProps = {};
+            let defaultValue;
+            if (extraSetter.props) {
+                setterProps = extraSetter.props;
+                if (typeof setterProps === 'function')
+                    setterProps = setterProps(field);
+            }
+            if (extraSetter.defaultValue)
+                defaultValue = extraSetter.defaultValue;
+
+            return createSetterContent(setterType, {
+                ...setterProps,
+                field,
+                node: field.top.getNode(),
+                key: field.id,
+                value,
+                defaultValue: isFunction(defaultValue)
+                    ? defaultValue(field)
+                    : defaultValue,
+                onChange: (value: any) => {
+                    field.setValue(value);
+                },
+            });
+        };
+
         onMounted(() => {
             props.onMounted?.();
         });
+
         return () => {
             return (
-                <FSwitch
-                    modelValue={
-                        isUndefined(props.value)
-                            ? props.defaultValue
-                            : props.value
-                    }
-                    onChange={(val: any) => props.onChange(val)}
-                />
+                <>
+                    <FSwitch
+                        v-model={isChecked.value}
+                        onChange={onChange}
+                    />
+                    {renderExtra()}
+                </>
+
             );
         };
     },

@@ -15,7 +15,6 @@ const ObjectSetterView = defineComponent({
         value: Object,
         defaultValue: Object,
         items: Object as PropType<IFieldConfig[]>,
-        extraSetter: [String, Object, Array] as PropType<IPublicTypeSetterType>,
     },
     setup(props) {
         onMounted(() => {

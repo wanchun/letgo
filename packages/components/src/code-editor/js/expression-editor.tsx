@@ -78,9 +78,11 @@ export const ExpressionEditor = defineComponent({
         });
 
         watch(oxcOutput, () => {
-            editorView.dispatch(
-                setDiagnostics(editorView.state, formatDiagnostics(oxcOutput.value.diagnostics || [], props.doc)),
-            );
+            if (oxcOutput.value) {
+                editorView.dispatch(
+                    setDiagnostics(editorView.state, formatDiagnostics(oxcOutput.value.diagnostics || [], props.doc)),
+                );
+            }
         });
 
         const innerOnChange = (doc: string) => {
@@ -90,7 +92,7 @@ export const ExpressionEditor = defineComponent({
         };
 
         const innerOnBlur = (doc: string) => {
-            const formattedDoc = formatExpression(oxcOutput.value.formatter) || doc;
+            const formattedDoc = formatExpression(oxcOutput.value?.formatter) || doc;
             if (isFunction(props.onChange) && formattedDoc !== doc)
                 props.onChange(doc);
 

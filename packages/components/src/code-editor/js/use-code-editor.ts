@@ -39,9 +39,11 @@ export function useCodeEditor(props: CodeEditorProps) {
     });
 
     watch(oxcOutput, () => {
-        editorView.dispatch(
-            setDiagnostics(editorView.state, oxcOutput.value.diagnostics),
-        );
+        if (oxcOutput.value) {
+            editorView.dispatch(
+                setDiagnostics(editorView.state, oxcOutput.value.diagnostics),
+            );
+        }
     });
 
     const innerOnChange = (doc: string) => {
@@ -51,7 +53,7 @@ export function useCodeEditor(props: CodeEditorProps) {
     };
 
     const innerOnBlur = (doc: string) => {
-        const formattedDoc = oxcOutput.value.formatter || doc;
+        const formattedDoc = oxcOutput.value?.formatter || doc;
         if (isFunction(props.onChange) && formattedDoc !== doc)
             props.onChange(formattedDoc);
 

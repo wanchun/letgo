@@ -35,7 +35,7 @@ function formatExpression(expression: string) {
 
 function formatDiagnostics(diagnostics: Diagnostic[] = [], doc: string) {
     const len = doc.length;
-    return diagnostics.filter(diagnostic => (diagnostic.to === len && diagnostic.from === len) || diagnostic.to === 0 && diagnostic.from === 0).map(diagnostic => ({
+    return diagnostics.filter(diagnostic => !((diagnostic.to === len && diagnostic.from === len) || (diagnostic.to === 0 && diagnostic.from === 0))).map(diagnostic => ({
         ...diagnostic,
         from: diagnostic.from ? diagnostic.from - 1 : diagnostic.from,
         to: diagnostic.to ? diagnostic.to - 1 : diagnostic.to,
@@ -94,7 +94,7 @@ export const ExpressionEditor = defineComponent({
         const innerOnBlur = (doc: string) => {
             const formattedDoc = formatExpression(oxcOutput.value?.formatter) || doc;
             if (isFunction(props.onChange) && formattedDoc !== doc)
-                props.onChange(doc);
+                props.onChange(formattedDoc);
 
             if (isFunction(props.onBlur))
                 props.onBlur(formattedDoc);

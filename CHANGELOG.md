@@ -1,3 +1,12 @@
+## [0.0.2-beta.1](https://git.weoa.com/mumblefe/letgo/compare/v0.0.2-beta.0...v0.0.2-beta.1) (2024-1-16)
+
+
+### Bug Fixes
+
+* 优化编辑器加载 ([bcfc280](https://git.weoa.com/mumblefe/letgo/commits/bcfc2803c7a656e5d54c6d4df1221e8d8cbcbd48))
+
+
+
 ## [0.0.2-beta.0](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.16...v0.0.2-beta.0) (2024-1-16)
 
 

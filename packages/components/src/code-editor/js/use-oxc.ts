@@ -1,5 +1,5 @@
 import { computed, reactive, ref } from 'vue';
-import { createSharedComposable } from '@vueuse/core';
+import { createGlobalState } from '@vueuse/core';
 
 import { throttle } from 'lodash-es';
 import { LoadingState } from './types';
@@ -47,7 +47,7 @@ function _usOxcWorker() {
     };
 }
 
-export const useSharedBiomeWorker = createSharedComposable(_usOxcWorker);
+export const useSharedBiomeWorker = createGlobalState(_usOxcWorker);
 
 let filenameCounter = 0;
 export function useOxcWorker() {

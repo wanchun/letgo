@@ -31,7 +31,7 @@ export class Code implements IPublicModelCode {
         });
         markComputed(this, ['directories', 'code', 'queries', 'temporaryStates']);
 
-        this.codeMap = this.genCodeMap(codeStruct);
+        this.codeMap = this.genCodeMap(this.codeStruct);
     }
 
     get directories() {

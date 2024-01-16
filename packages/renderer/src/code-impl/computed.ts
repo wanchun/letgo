@@ -43,7 +43,6 @@ export class ComputedLive {
             return fn(this.ctx);
         }
         catch (_) {
-            console.error(_);
             return null;
         }
     }

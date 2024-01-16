@@ -1,3 +1,12 @@
+## [0.0.2-beta.3](https://git.weoa.com/mumblefe/letgo/compare/v0.0.2-beta.2...v0.0.2-beta.3) (2024-1-16)
+
+
+### Bug Fixes
+
+* 修复 state 初始状态问题 ([a5a393c](https://git.weoa.com/mumblefe/letgo/commits/a5a393c3446debc8c5628b5a3682c59c7040c4a1))
+
+
+
 ## [0.0.2-beta.2](https://git.weoa.com/mumblefe/letgo/compare/v0.0.2-beta.1...v0.0.2-beta.2) (2024-1-16)
 
 

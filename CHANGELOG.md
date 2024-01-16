@@ -1,3 +1,34 @@
+## [0.0.2-beta.0](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.16...v0.0.2-beta.0) (2024-1-16)
+
+
+### Bug Fixes
+
+* expression 格式化问题 ([0d99ddf](https://git.weoa.com/mumblefe/letgo/commits/0d99ddf0d641aedc5b285ffd90f983fbb8541a71))
+* lodash to lodash-es ([738c774](https://git.weoa.com/mumblefe/letgo/commits/738c7744cde67468148fb676005740dbd9e90c2d))
+* upgrade builder ([7838d6f](https://git.weoa.com/mumblefe/letgo/commits/7838d6fe6a74edb3027547db916c58a488c61b7b))
+* 优化 ([c8a7734](https://git.weoa.com/mumblefe/letgo/commits/c8a7734774654a699193b30b1722cd0e3feabe4a))
+* 优化 ref_for 编译" ([4c099c6](https://git.weoa.com/mumblefe/letgo/commits/4c099c60344fcef6d7d184becccc6e4cc4a43e8e))
+* 优化代码编辑 ([f52cfaa](https://git.weoa.com/mumblefe/letgo/commits/f52cfaa33f7ececab525e94a3187ee22f945a198))
+* 修复 oxc 初始化问题 ([09c05bc](https://git.weoa.com/mumblefe/letgo/commits/09c05bce2b63df67e8c422b691cf60627f1a3887))
+* 修复部分 bug ([0284651](https://git.weoa.com/mumblefe/letgo/commits/0284651c21c82a3d0b1421605ea685f41d16d2f3))
+* 多个逻辑切换问题 ([b525b13](https://git.weoa.com/mumblefe/letgo/commits/b525b13e4bf051e2989330c76c2ef97c51811856))
+* 表达式语法校验问题 ([8b9d1fb](https://git.weoa.com/mumblefe/letgo/commits/8b9d1fb5371a0972b75f0829806ddc6298a91eff))
+* 运行时 loop 和 comp instance 缺失问题 ([8823e75](https://git.weoa.com/mumblefe/letgo/commits/8823e755e79e0da7401ae31523403e390dc7e65d))
+
+
+### Features
+
+* biome ([16f3fae](https://git.weoa.com/mumblefe/letgo/commits/16f3fae737e79bac69061515e4869666cb6440f3))
+* BoolSetter支持配置 false | Object ([3dc7d38](https://git.weoa.com/mumblefe/letgo/commits/3dc7d38e39731a09ed6f53b1298d0d59c1ba98da))
+* hint 支持 scope ([891a7a2](https://git.weoa.com/mumblefe/letgo/commits/891a7a202cac881cba64c364b69b82014cfe0267))
+* 优化编辑器 ([90d8924](https://git.weoa.com/mumblefe/letgo/commits/90d892418e4b08fabf4eac091aa95a39496d6ef7))
+* 优化表达式 ([2e744e7](https://git.weoa.com/mumblefe/letgo/commits/2e744e772939c5d04dedd7673cda3d327845caf2))
+* 优化面板样式 ([6cf4d56](https://git.weoa.com/mumblefe/letgo/commits/6cf4d564fb80a3d9f25ffaf2046632489e4c9cbc))
+* 切换 oxc ([50c6387](https://git.weoa.com/mumblefe/letgo/commits/50c6387bad3d641ce670cc6ed325e4eac83d8225))
+* 状态展示隐藏内部属性 ([6d7c07c](https://git.weoa.com/mumblefe/letgo/commits/6d7c07c6d617cfa3d153fffa946346339ac5a801))
+
+
+
 ## [0.0.1-beta.16](https://git.weoa.com/mumblefe/letgo/compare/v0.0.1-beta.15...v0.0.1-beta.16) (2024-1-5)
 
 

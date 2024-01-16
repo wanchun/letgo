@@ -28,7 +28,7 @@ export function useCodeEditor(props: CodeEditorProps) {
 
     const scopeVariables = useScopeVariables(props);
     const { hintOptions } = useHint(scopeVariables);
-    const { updateCode, oxcOutput } = useOxcWorker();
+    const { updateCode, oxcOutput } = useOxcWorker(props.id);
 
     const theme = EditorView.theme({
         ...HintTheme,
@@ -39,7 +39,7 @@ export function useCodeEditor(props: CodeEditorProps) {
     });
 
     watch(oxcOutput, () => {
-        if (oxcOutput.value) {
+        if (oxcOutput.value && editorView) {
             editorView.dispatch(
                 setDiagnostics(editorView.state, oxcOutput.value.diagnostics),
             );

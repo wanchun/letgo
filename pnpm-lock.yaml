@@ -358,15 +358,6 @@ importers:
 
   packages/plugin-code:
     dependencies:
-      '@codemirror/lang-javascript':
-        specifier: ^6.1.7
-        version: 6.2.1
-      '@codemirror/state':
-        specifier: ^6.2.0
-        version: 6.3.1
-      '@codemirror/view':
-        specifier: ^6.11.0
-        version: 6.22.0
       '@fesjs/fes-design':
         specifier: ^0.8.17
         version: 0.8.17(vue@3.3.9)
@@ -394,9 +385,6 @@ importers:
       '@webank/letgo-types':
         specifier: ^0.0.2-beta.0
         version: link:../types
-      codemirror:
-        specifier: ^6.0.1
-        version: 6.0.1(@lezer/common@1.2.0)
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -406,7 +394,7 @@ importers:
         version: 4.17.6
       vue:
         specifier: ^3.3.9
-        version: 3.3.9(typescript@5.3.3)
+        version: 3.3.9
 
   packages/plugin-component-tree:
     dependencies:
@@ -2475,7 +2463,7 @@ packages:
       date-fns: 2.30.0
       lodash-es: 4.17.21
       stickybits: 3.7.11
-      vue: 3.3.9(typescript@5.3.3)
+      vue: 3.3.9
     transitivePeerDependencies:
       - '@vue/composition-api'
     dev: false
@@ -2641,7 +2629,7 @@ packages:
     peerDependencies:
       vue: 3.x
     dependencies:
-      vue: 3.3.9(typescript@5.3.3)
+      vue: 3.3.9
     dev: false
 
   /@icon-park/vue-next@1.4.2(vue@3.4.7):
@@ -3571,7 +3559,7 @@ packages:
     dependencies:
       '@vue/compiler-ssr': 3.3.9
       '@vue/shared': 3.3.9
-      vue: 3.3.9(typescript@5.3.3)
+      vue: 3.3.9
 
   /@vue/server-renderer@3.4.7(vue@3.4.7):
     resolution: {integrity: sha512-3bWnYLEkLLhkDWqvNk7IvbQD4UcxvFKxELBiOO2iG3m6AniFIsBWfHOO5tLVQnjdWkODu4rq0GipmfEenVAK5Q==}
@@ -8729,7 +8717,7 @@ packages:
       '@vue/composition-api':
         optional: true
     dependencies:
-      vue: 3.3.9(typescript@5.3.3)
+      vue: 3.3.9
     dev: false
 
   /vue-demi@0.14.6(vue@3.4.7):
@@ -8792,6 +8780,20 @@ packages:
       semver: 7.5.4
       typescript: 5.3.3
     dev: true
+
+  /vue@3.3.9:
+    resolution: {integrity: sha512-sy5sLCTR8m6tvUk1/ijri3Yqzgpdsmxgj6n6yl7GXXCXqVbmW2RCXe9atE4cEI6Iv7L89v5f35fZRRr5dChP9w==}
+    peerDependencies:
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@vue/compiler-dom': 3.3.9
+      '@vue/compiler-sfc': 3.3.9
+      '@vue/runtime-dom': 3.3.9
+      '@vue/server-renderer': 3.3.9(vue@3.3.9)
+      '@vue/shared': 3.3.9
 
   /vue@3.3.9(typescript@5.3.3):
     resolution: {integrity: sha512-sy5sLCTR8m6tvUk1/ijri3Yqzgpdsmxgj6n6yl7GXXCXqVbmW2RCXe9atE4cEI6Iv7L89v5f35fZRRr5dChP9w==}

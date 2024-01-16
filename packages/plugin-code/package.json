@@ -19,9 +19,6 @@
         "vue": "^3.3.9"
     },
     "dependencies": {
-        "@codemirror/lang-javascript": "^6.1.7",
-        "@codemirror/state": "^6.2.0",
-        "@codemirror/view": "^6.11.0",
         "@fesjs/fes-design": "^0.8.17",
         "@icon-park/vue-next": "^1.4.2",
         "@vueuse/core": "^10.7.1",
@@ -31,7 +28,6 @@
         "@webank/letgo-editor-core": "^0.0.1-beta.14",
         "@webank/letgo-engine-plugin": "^0.0.2-beta.0",
         "@webank/letgo-types": "^0.0.2-beta.0",
-        "codemirror": "^6.0.1",
         "lodash-es": "^4.17.21"
     },
     "publishConfig": {

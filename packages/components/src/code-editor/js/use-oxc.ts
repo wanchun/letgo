@@ -50,8 +50,8 @@ function _usOxcWorker() {
 export const useSharedBiomeWorker = createGlobalState(_usOxcWorker);
 
 let filenameCounter = 0;
-export function useOxcWorker() {
-    const filename = `${filenameCounter++}.js`;
+export function useOxcWorker(id: string) {
+    const filename = `${id || filenameCounter++}.js`;
     const { files, updateFile, loadingState } = useSharedBiomeWorker();
 
     const oxcOutput = computed(() => {

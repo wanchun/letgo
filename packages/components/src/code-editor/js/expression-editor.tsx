@@ -79,7 +79,7 @@ export const ExpressionEditor = defineComponent({
         });
 
         watch(oxcOutput, () => {
-            if (oxcOutput.value) {
+            if (oxcOutput.value && editorView) {
                 editorView.dispatch(
                     setDiagnostics(editorView.state, formatDiagnostics(oxcOutput.value.diagnostics || [], props.doc)),
                 );

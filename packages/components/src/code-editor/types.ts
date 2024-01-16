@@ -9,6 +9,7 @@ export interface CodeEditorProps {
     height?: string
     theme?: Record<string, any>
     extensions?: Extension[]
+    id?: string
     onChange?: (doc: string) => void
     onFocus?: (doc: string) => void
     onBlur?: (doc: string) => void

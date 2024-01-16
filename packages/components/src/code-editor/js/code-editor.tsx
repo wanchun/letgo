@@ -45,6 +45,7 @@ export const CodeEditor = defineComponent({
             default: '100px',
         },
         compRef: String,
+        id: String,
     },
     setup(props, { attrs }) {
         const [editorRefEl] = useCodeEditor(props);

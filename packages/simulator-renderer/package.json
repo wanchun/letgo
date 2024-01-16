@@ -8,8 +8,7 @@
     "module": "es/index.js",
     "files": [
         "es",
-        "lib",
-        "src"
+        "lib"
     ],
     "peerDependencies": {
         "vue": "^3.3.9"

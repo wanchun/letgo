@@ -1,3 +1,12 @@
+## [0.0.2-beta.2](https://git.weoa.com/mumblefe/letgo/compare/v0.0.2-beta.1...v0.0.2-beta.2) (2024-1-16)
+
+
+### Features
+
+* 优化函数保存逻辑 ([708457f](https://git.weoa.com/mumblefe/letgo/commits/708457f1db03d07761050373e014fbc9209252a2))
+
+
+
 ## [0.0.2-beta.1](https://git.weoa.com/mumblefe/letgo/compare/v0.0.2-beta.0...v0.0.2-beta.1) (2024-1-16)
 
 

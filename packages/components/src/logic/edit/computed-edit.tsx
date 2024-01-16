@@ -1,8 +1,7 @@
 import type { PropType } from 'vue';
-import { defineComponent, watch } from 'vue';
+import { defineComponent } from 'vue';
 import type { IJavascriptComputed, IPublicModelDocumentModel } from '@webank/letgo-types';
 import { CodeEditor } from '../../code-editor';
-import './code-edit.less';
 import './computed-edit.less';
 
 /**

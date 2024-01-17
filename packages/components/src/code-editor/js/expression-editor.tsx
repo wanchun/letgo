@@ -53,6 +53,7 @@ export const ExpressionEditor = defineComponent({
         onFocus: Function as PropType<(doc: string) => void>,
         placeholder: String,
         compRef: String,
+        id: String,
     },
     setup(props) {
         const editorRefEl = ref();
@@ -60,7 +61,7 @@ export const ExpressionEditor = defineComponent({
 
         const scopeVariables = useScopeVariables(props);
         const { hintOptions } = useHint(scopeVariables);
-        const { updateCode, oxcOutput } = useOxcWorker();
+        const { updateCode, oxcOutput } = useOxcWorker(props.id);
 
         const Theme = EditorView.theme({
             '&': {
@@ -77,16 +78,17 @@ export const ExpressionEditor = defineComponent({
             },
             ...HintTheme,
         });
-
+        let currentDoc = props.doc;
         watch(oxcOutput, () => {
             if (oxcOutput.value && editorView) {
                 editorView.dispatch(
-                    setDiagnostics(editorView.state, formatDiagnostics(oxcOutput.value.diagnostics || [], props.doc)),
+                    setDiagnostics(editorView.state, formatDiagnostics(oxcOutput.value.diagnostics || [], currentDoc)),
                 );
             }
         });
 
         const innerOnChange = (doc: string) => {
+            currentDoc = doc;
             updateCode(`(${doc})`);
             if (isFunction(props.onChange))
                 props.onChange(doc);

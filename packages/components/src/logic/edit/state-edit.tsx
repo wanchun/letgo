@@ -36,6 +36,7 @@ export const StateEdit = defineComponent({
                                 hints={props.hints}
                                 doc={props.codeItem.initValue}
                                 onChange={changeInitValue}
+                                id={props.codeItem.id}
                             />
                         </div>
                     </div>

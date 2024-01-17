@@ -43,9 +43,13 @@ function formatProps(key: string | number, value: any, refName: string): any {
         `;
     }
     else if (isPlainObject(value)) {
+        const valueKeys = Object.keys(value);
+        if (key === 'style' && valueKeys.length === 0)
+            return '';
+
         return `
         {
-            ${Object.keys(value).map((key) => {
+            ${valueKeys.map((key) => {
                 return `${key}: ${formatProps(key, value[key], refName)}`;
             }).join(', ')}
         }
@@ -74,8 +78,10 @@ function normalProps(key: string, value: any, refName: string) {
     if (typeof value === 'string' && value)
         return `${key}="${value}"`;
 
-    if (value)
-        return `${key}={${formatProps(key, value, refName)}}`;
+    if (value) {
+        value = formatProps(key, value, refName);
+        return value ? `${key}={${formatProps(key, value, refName)}}` : '';
+    }
 
     return '';
 }

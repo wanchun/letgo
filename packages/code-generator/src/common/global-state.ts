@@ -46,7 +46,6 @@ function compilerNpmImports(npm: IPublicTypeNpmInfo): ImportSource {
         source: npm.package,
         imported: npm.exportName,
         type: npm.destructuring ? ImportType.ImportSpecifier : ImportType.ImportDefaultSpecifier,
-        main: npm.main,
     };
 }
 

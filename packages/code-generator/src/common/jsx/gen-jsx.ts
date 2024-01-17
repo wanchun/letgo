@@ -26,6 +26,7 @@ function genPropSlotName(key: string, refName: string) {
     return camelCase(`${refName}_${key}_slots`);
 }
 function formatProps(key: string | number, value: any, refName: string): any {
+    console.log(11111);
     if (isJSSlot(value))
         return genPropSlotName(key as string, refName);
 
@@ -80,7 +81,7 @@ function normalProps(key: string, value: any, refName: string) {
 
     if (value) {
         value = formatProps(key, value, refName);
-        return value ? `${key}={${formatProps(key, value, refName)}}` : '';
+        return value ? `${key}={${value}}` : '';
     }
 
     return '';

@@ -1,3 +1,15 @@
+## [0.0.2-beta.4](https://git.weoa.com/mumblefe/letgo/compare/v0.0.2-beta.3...v0.0.2-beta.4) (2024-1-17)
+
+
+### Bug Fixes
+
+* 修复 editor 问题 ([6da699f](https://git.weoa.com/mumblefe/letgo/commits/6da699f2959dbe07fee1b1f2d15d779899ad4c49))
+* 修复出码 style 为空的问题 ([652b435](https://git.weoa.com/mumblefe/letgo/commits/652b4354431112f9897071bcd99bfd89228dbdef))
+* 修复类型问题 ([5a73769](https://git.weoa.com/mumblefe/letgo/commits/5a73769065cff9414d5af5fa493d652b422b3a4f))
+* remove utils main ([fbafd35](https://git.weoa.com/mumblefe/letgo/commits/fbafd35a2af212d96111c1f6b9efb7ce2302bf2e))
+
+
+
 ## [0.0.2-beta.3](https://git.weoa.com/mumblefe/letgo/compare/v0.0.2-beta.2...v0.0.2-beta.3) (2024-1-16)
 
 

@@ -1,3 +1,12 @@
+## [0.0.2-beta.5](https://git.weoa.com/mumblefe/letgo/compare/v0.0.2-beta.4...v0.0.2-beta.5) (2024-1-17)
+
+
+### Bug Fixes
+
+* 修复出码问题 ([c49ba77](https://git.weoa.com/mumblefe/letgo/commits/c49ba77cf0c4b15cfc9c434dcd4192e63746dfb2))
+
+
+
 ## [0.0.2-beta.4](https://git.weoa.com/mumblefe/letgo/compare/v0.0.2-beta.3...v0.0.2-beta.4) (2024-1-17)
 
 

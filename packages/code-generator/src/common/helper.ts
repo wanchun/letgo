@@ -1,23 +1,13 @@
-import path from 'node:path';
 import type {
     ICodeItem,
     ICodeStruct,
     IEventHandler,
-    IPublicTypeCompositeValue,
-    IPublicTypeJSSlot,
-    IPublicTypeNodeData,
-    IPublicTypeNodeSchema,
 } from '@webank/letgo-types';
 import { isSyntaxError, isExpression as rawIsExpression, replaceFunctionName, sortState } from '@webank/letgo-common';
 import {
     IEnumCodeType,
-    isJSExpression,
-    isJSFunction,
-    isJSSlot,
-    isNodeSchema,
     isRestQueryResource,
 } from '@webank/letgo-types';
-import { isPlainObject } from 'lodash-es';
 import { getOptions, relative } from '../options';
 import type { Context, ImportSource, SetupCode } from './types';
 import { ImportType } from './types';

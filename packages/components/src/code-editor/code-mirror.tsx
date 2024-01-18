@@ -74,7 +74,7 @@ export const CodeMirror = defineComponent({
                             </FullScreen>
                         )}
                     </div>
-                    {props.fullscreen && isFullScreen.value && (
+                    {props.fullscreen && (isFullScreen.value || fullScreenRef.value) && (
                         <FDrawer
                             show={isFullScreen.value}
                             title="代码编辑"

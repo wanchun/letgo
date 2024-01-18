@@ -62,7 +62,7 @@ export class State implements IPublicModelState {
     getInstances(instances: IPublicTypeComponentRecord[]) {
         return instances.map((item) => {
             return this.designer.simulator.getComponentInstancesExpose(item);
-        });
+        }).filter(Boolean);
     }
 
     getCompScope(ref: string) {

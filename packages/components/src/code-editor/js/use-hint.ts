@@ -42,6 +42,12 @@ export const HintTheme = {
         color: '#222',
         textDecoration: 'none',
     },
+    '& .cm-gutter-lint': {
+        width: '1.2em',
+    },
+    '& .cm-gutter-lint .cm-gutterElement': {
+        padding: '0',
+    },
 };
 
 export function hintPlugin(hintPaths: ComputedRef<HintPathType[]>) {

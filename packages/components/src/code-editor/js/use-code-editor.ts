@@ -1,5 +1,5 @@
 import { onBeforeUnmount, ref, watch } from 'vue';
-import { basicSetup } from 'codemirror';
+import { basicSetup } from '@uiw/codemirror-extensions-basic-setup';
 import {
     Annotation,
     EditorState,
@@ -65,7 +65,9 @@ export function useCodeEditor(props: CodeEditorProps) {
         return EditorState.create({
             doc: props.doc,
             extensions: [
-                basicSetup,
+                basicSetup({
+                    lineNumbers: false,
+                }),
                 keymap.of([
                     ...vscodeKeymap,
                     indentWithTab,

@@ -149,6 +149,9 @@ importers:
       '@replit/codemirror-vscode-keymap':
         specifier: ^6.0.2
         version: 6.0.2(@codemirror/autocomplete@6.11.0)(@codemirror/commands@6.3.2)(@codemirror/language@6.9.2)(@codemirror/lint@6.4.2)(@codemirror/search@6.5.5)(@codemirror/state@6.3.1)(@codemirror/view@6.22.0)
+      '@uiw/codemirror-extensions-basic-setup':
+        specifier: ^4.21.21
+        version: 4.21.21(@codemirror/autocomplete@6.11.0)(@codemirror/commands@6.3.2)(@codemirror/language@6.9.2)(@codemirror/lint@6.4.2)(@codemirror/search@6.5.5)(@codemirror/state@6.3.1)(@codemirror/view@6.22.0)
       '@vueuse/core':
         specifier: ^10.7.1
         version: 10.7.1(vue@3.3.9)
@@ -3410,6 +3413,26 @@ packages:
       '@typescript-eslint/types': 6.18.1
       eslint-visitor-keys: 3.4.3
     dev: true
+
+  /@uiw/codemirror-extensions-basic-setup@4.21.21(@codemirror/autocomplete@6.11.0)(@codemirror/commands@6.3.2)(@codemirror/language@6.9.2)(@codemirror/lint@6.4.2)(@codemirror/search@6.5.5)(@codemirror/state@6.3.1)(@codemirror/view@6.22.0):
+    resolution: {integrity: sha512-+0i9dPrRSa8Mf0CvyrMvnAhajnqwsP3IMRRlaHDRgsSGL8igc4z7MhvUPn+7cWFAAqWzQRhMdMSWzo6/TEa3EA==}
+    peerDependencies:
+      '@codemirror/autocomplete': '>=6.0.0'
+      '@codemirror/commands': '>=6.0.0'
+      '@codemirror/language': '>=6.0.0'
+      '@codemirror/lint': '>=6.0.0'
+      '@codemirror/search': '>=6.0.0'
+      '@codemirror/state': '>=6.0.0'
+      '@codemirror/view': '>=6.0.0'
+    dependencies:
+      '@codemirror/autocomplete': 6.11.0(@codemirror/language@6.9.2)(@codemirror/state@6.3.1)(@codemirror/view@6.22.0)(@lezer/common@1.2.0)
+      '@codemirror/commands': 6.3.2
+      '@codemirror/language': 6.9.2
+      '@codemirror/lint': 6.4.2
+      '@codemirror/search': 6.5.5
+      '@codemirror/state': 6.3.1
+      '@codemirror/view': 6.22.0
+    dev: false
 
   /@ungap/structured-clone@1.2.0:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}

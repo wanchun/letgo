@@ -29,6 +29,7 @@
         "@icon-park/vue-next": "^1.4.2",
         "@qlin/oxc-wasm-web": "^0.0.1",
         "@replit/codemirror-vscode-keymap": "^6.0.2",
+        "@uiw/codemirror-extensions-basic-setup": "^4.21.21",
         "@vueuse/core": "^10.7.1",
         "@webank/letgo-common": "^0.0.2-beta.1",
         "@webank/letgo-types": "^0.0.2-beta.1",

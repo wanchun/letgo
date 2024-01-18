@@ -9,6 +9,7 @@ export class JavascriptQueryBase {
     type: IEnumCodeType.JAVASCRIPT_QUERY = IEnumCodeType.JAVASCRIPT_QUERY;
     ctx: Record<string, any>;
     data: any = null;
+    response: any = null; ;
     error: string = null;
     loading = false;
     deps: string[];
@@ -110,12 +111,15 @@ export class JavascriptQueryBase {
         if (fn) {
             try {
                 this.loading = true;
-                let data;
+                let response;
                 if (this.queryTimeout)
-                    data = await Promise.race([this.timeoutPromise(this.queryTimeout), fn(this.ctx)]);
+                    response = await Promise.race([this.timeoutPromise(this.queryTimeout), fn(this.ctx)]);
                 else
-                    data = await fn(this.ctx);
+                    response = await fn(this.ctx);
 
+                this.response = response;
+
+                let data = response?.data;
                 if (this.enableTransformer && this.transformer) {
                     // eslint-disable-next-line no-new-func
                     const fn = new Function('_ctx', `

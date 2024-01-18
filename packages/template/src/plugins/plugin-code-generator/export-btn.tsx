@@ -86,7 +86,7 @@ export default defineComponent({
                         '@fesjs/plugin-request': '4.0.0-beta.5',
                         '@fesjs/fes-design': '0.8.9',
                         'vue': '3.3.4',
-                        '@webank/letgo-components': '0.0.0-beta.45',
+                        '@webank/letgo-components': '0.0.2-beta.3',
                     },
                     devDependencies: {
                         '@webank/eslint-config-vue': '2.0.7',

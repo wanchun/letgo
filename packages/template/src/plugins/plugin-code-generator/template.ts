@@ -51,7 +51,7 @@ export default defineBuildConfig({
             // eslint-disable-next-line no-template-curly-in-string
             'letgoRequest.js': 'import { pum } from \'@fesjs/fes\';\nimport { FMessage } from \'@fesjs/fes-design\';\nimport { createRequest } from \'@qlin/request\';\n\nexport const letgoRequest = createRequest({\n    mergeRequest: true,\n    mode: \'cors\',\n    credentials: \'same-origin\',\n    errorHandler(error) {\n        if (error.response.status === 401)\n            return pum.redirectToLogin();\n\n        if (error.response) {\n            // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围\n            FMessage.error(`服务端异常：${error.response.status}`);\n        } else if (error.msg) {\n            FMessage.error(error.msg);\n        } else {\n            // 发送请求时出了点问题\n            FMessage.error(error.message);\n        }\n        console.log(\'request error\', error);\n    },\n});\n',
         },
-        'global.less': `@import './letgo/global.css'`,
+        'global.less': `@import './letgo/global.css';`,
         'app.jsx': `
 import { defineRuntimeConfig,{{#HAS_WATERMARK}} createWatermark,{{/HAS_WATERMARK}}{{#HAS_UM}} um,{{/HAS_UM}}{{#HAS_PUM}} request, pum,{{/HAS_PUM}} {{#HAS_ACCESS}} access,{{/HAS_ACCESS}} } from '@fesjs/fes';
 import { FMessage } from '@fesjs/fes-design';

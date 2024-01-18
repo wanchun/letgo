@@ -142,8 +142,8 @@ class JSQuery {
             queryFailureCondition: data.queryFailureCondition || [],
             successEvent: data.successEvent || [],
             failureEvent: data.failureEvent || [],
-
             data: null,
+            response: null,
             error: null,
             loading: false,
         });
@@ -167,12 +167,14 @@ class JSQuery {
         if (this.query) {
             try {
                 this.loading = true;
-                let data;
+                let response;
                 if (this.queryTimeout)
-                    data = await Promise.race([this.timeoutPromise(this.queryTimeout), this.query()]);
+                    response = await Promise.race([this.timeoutPromise(this.queryTimeout), this.query()]);
                 else
-                    data = await this.query();
+                    response = await this.query();
 
+                this.response = response;
+                let data = response?.data;
                 if (this.enableTransformer && this.transformer)
                     data = await this.transformer(data);
 

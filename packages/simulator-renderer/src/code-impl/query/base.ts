@@ -44,6 +44,7 @@ export class JavascriptQueryImpl extends JavascriptQueryBase implements IJavascr
             successEvent: this.successEvent,
             failureEvent: this.failureEvent,
 
+            response: this.response,
             data: this.data,
             error: this.error,
 

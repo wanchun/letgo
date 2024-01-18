@@ -9,7 +9,7 @@ export class JavascriptQueryBase {
     type: IEnumCodeType.JAVASCRIPT_QUERY = IEnumCodeType.JAVASCRIPT_QUERY;
     ctx: Record<string, any>;
     data: any = null;
-    response: any = null; ;
+    response: any = null;
     error: string = null;
     loading = false;
     deps: string[];

@@ -29,7 +29,7 @@ export default defineComponent({
             return (
                 <>
                     <Label label="查询">
-                        <FSelect v-model={data.namespace} appendToContainer={false} options={queryOptions.value} />
+                        <FSelect v-model={data.namespace} filterable appendToContainer={false} options={queryOptions.value} />
                     </Label>
                     <Label label="方法">
                         <FSelect v-model={data.method} appendToContainer={false}>
@@ -72,7 +72,7 @@ export default defineComponent({
             return (
                 <>
                     <Label label="组件">
-                        <FSelect appendToContainer={false} onChange={selectComponent} v-model={data.namespace} options={componentInstanceOptions.value} />
+                        <FSelect appendToContainer={false} onChange={selectComponent} v-model={data.namespace} filterable options={componentInstanceOptions.value} />
                     </Label>
                     <Label label="方法">
                         <FSelect appendToContainer={false} v-model={data.method} options={componentMethods.value} />
@@ -105,7 +105,7 @@ export default defineComponent({
             return (
                 <>
                     <Label label="变量">
-                        <FSelect appendToContainer={false} v-model={data.namespace} options={stateOptions.value} />
+                        <FSelect appendToContainer={false} v-model={data.namespace} filterable options={stateOptions.value} />
                     </Label>
                     <Label label="值">
                         <FInput v-model={data.params[0]} />
@@ -138,10 +138,13 @@ export default defineComponent({
         function pickFuncFromObj(data: Record<string, any>, parent: string[] = []) {
             let funcs: string[] = [];
             for (const key of Object.keys(data)) {
+                if (key.startsWith('__'))
+                    continue;
+
                 if (isFunction(data[key]))
                     funcs.push([...parent, key].join('.'));
 
-                if (isPlainObject(data[key]))
+                if (isPlainObject(data[key]) && parent.length < 2)
                     funcs = funcs.concat(pickFuncFromObj(data[key], parent.concat(key)));
             }
             return funcs;
@@ -185,7 +188,7 @@ export default defineComponent({
             return (
                 <>
                     <Label label="函数名">
-                        <FSelect v-model={data.namespace} appendToContainer={false} options={functionOptions.value} />
+                        <FSelect v-model={data.namespace} appendToContainer={false} filterable options={functionOptions.value} />
                     </Label>
                     <Label label="参数">
                         <div class="letgo-comp-event__params">

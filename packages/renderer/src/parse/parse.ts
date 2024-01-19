@@ -58,11 +58,11 @@ export function parseSchema(schema: unknown, ctx?: Record<string, unknown>): unk
     return schema;
 }
 
-export function buildGlobalUtils(libraryMap: Record<string, string>, utils?: IPublicTypeUtilsMap) {
+export function buildGlobalUtils(libraryMap: Record<string, string>, utils?: IPublicTypeUtilsMap, ctx?: Record<string, any>) {
     if (utils) {
         return utils.reduce((acc, cur) => {
             if (cur.type === 'function')
-                acc[cur.name] = funcSchemaToFunc(cur.content, {});
+                acc[cur.name] = funcSchemaToFunc(cur.content, ctx ?? {});
 
             else
                 acc[cur.name] = findLibExport(libraryMap, cur.name, cur.content);

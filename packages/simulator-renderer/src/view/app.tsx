@@ -57,11 +57,11 @@ export default defineComponent({
             changeCodeInstanceId,
         } = useCodesInstance();
 
-        const globalUtils = buildGlobalUtils(props.simulator.libraryMap, host.project.utils);
         const globalContext: Record<string, any> = reactive({
-            utils: globalUtils,
             letgoContext: host.project.config || {},
         });
+        const globalUtils = buildGlobalUtils(props.simulator.libraryMap, host.project.utils, globalContext);
+        globalContext.utils = globalUtils;
 
         host.project.updateUtilsInstance(globalUtils);
 

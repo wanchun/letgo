@@ -86,7 +86,7 @@ export const RendererApp = defineComponent({
             };
 
             isReady.value = true;
-            globalContext.utils = buildGlobalUtils(libraryMap, props.projectSchema.utils);
+            globalContext.utils = buildGlobalUtils(libraryMap, props.projectSchema.utils, globalContext);
         });
 
         useCodesInstance({

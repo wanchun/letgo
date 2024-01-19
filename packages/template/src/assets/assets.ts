@@ -9244,6 +9244,15 @@ const assets: IPublicTypeAssetsJson = {
             exportName: 'FMessage',
             destructuring: true,
         },
+    }, {
+        name: 'FModal',
+        type: 'npm',
+        content: {
+            package: '@fesjs/fes-design',
+            version: '0.8.17',
+            exportName: 'FModal',
+            destructuring: true,
+        },
     }],
     sort: {
         groupList: ['原子组件', '智能推导', '精选组件'],

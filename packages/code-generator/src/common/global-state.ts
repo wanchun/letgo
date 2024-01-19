@@ -11,7 +11,7 @@ import { ImportType } from './types';
 
 export const GLOBAL_STATE_FILE_NAME = 'useLetgoGlobal';
 
-const TEMPLATE = `import { createSharedComposable } from '@vueuse/core';
+const TEMPLATE = `
 IMPORTS
 
 function ${GLOBAL_STATE_FILE_NAME}() {
@@ -82,14 +82,22 @@ export function genGlobalStateCode(ctx: Context, fileTree: FileTree, options: Ge
         return null;
 
     const result: CallBackParam = {
-        import: [],
+        import: [{
+            source: '@vueuse/core',
+            imported: 'createSharedComposable',
+            type: ImportType.ImportSpecifier,
+        }, {
+            source: 'vue',
+            imported: 'reactive',
+            type: ImportType.ImportSpecifier,
+        }],
         code: '',
         export: [],
     };
 
     if (schema.config) {
         result.code += `
-    const letgoContext = ${JSON.stringify(schema.config || {})};
+    const letgoContext = reactive(${JSON.stringify(schema.config || {})});
         `;
         result.export.push('letgoContext');
         globalCodeCallback?.afterConfig?.(result);

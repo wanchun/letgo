@@ -1,6 +1,6 @@
 {
     "name": "@webank/letgo-designer",
-    "version": "0.0.2-beta.2",
+    "version": "0.0.3-beta.0",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -18,7 +18,7 @@
         "@fesjs/fes-design": "^0.8.17",
         "@icon-park/vue-next": "^1.4.2",
         "@webank/letgo-common": "^0.0.2-beta.1",
-        "@webank/letgo-editor-core": "^0.0.2-beta.1",
+        "@webank/letgo-editor-core": "^0.0.2-beta.3",
         "@webank/letgo-types": "^0.0.2-beta.1",
         "eventemitter3": "^4.0.0",
         "lodash-es": "^4.17.21"

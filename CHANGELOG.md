@@ -1,3 +1,18 @@
+## [0.0.3-beta.1](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.0...v0.0.3-beta.1) (2024-1-19)
+
+
+### Bug Fixes
+
+* 修复编辑器多次全屏异常 + set __componentName null ([d9fc0c5](https://git.weoa.com/mumblefe/letgo/commits/d9fc0c51deeba03c3394dc0c2a8087dfff19af37))
+* utils 函数创建 + 事件绑定函数交互优化 ([fcada7d](https://git.weoa.com/mumblefe/letgo/commits/fcada7dbbd47a0ed66c5d550b2bed64e37923f72))
+
+
+### Features
+
+* 将 letgoContext 转为响应式 obj ([1f732ce](https://git.weoa.com/mumblefe/letgo/commits/1f732ce47413653887df7d2348b346fd49efaf40))
+
+
+
 ## [0.0.3-beta.0](https://git.weoa.com/mumblefe/letgo/compare/v0.0.2-beta.5...v0.0.3-beta.0) (2024-01-18)
 
 

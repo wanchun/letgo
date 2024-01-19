@@ -41,6 +41,7 @@ export enum PageFileType {
 }
 
 export interface FileStruct {
+    rawFileName: string
     fileType: PageFileType
     filename: string
     routeName: string

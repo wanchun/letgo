@@ -19,7 +19,7 @@
     },
     "dependencies": {
         "@codemirror/lang-json": "^6.0.1",
-        "@fesjs/fes-design": "^0.8.17",
+        "@fesjs/fes-design": "^0.8.24",
         "@icon-park/vue-next": "^1.4.2",
         "@webank/letgo-components": "^0.0.3-beta.0",
         "@webank/letgo-designer": "^0.0.2-beta.2",

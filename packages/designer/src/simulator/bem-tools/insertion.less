@@ -1,23 +1,44 @@
 .letgo-designer-sim__insertion {
     position: absolute;
-    top: -2px;
+    top: 0;
     left: 0;
     z-index: 12;
     pointer-events: none;
-    background-color: var(--letgo-primary-color);
-    height: 4px;
-
-    &--cover {
-        top: 0;
-        height: auto;
-        width: auto;
-        border: none;
-        opacity: 0.3;
+    background-color: rgba(83, 132, 255, 0.3);
+    .letgo-designer-sim__insertion--after {
+        position: absolute;
+        left: 0;
+        bottom: -20px;
+        height: 20px;
+        width: 100%;
+        border-top: 4px solid var(--letgo-primary-color);
+        color: var(--letgo-primary-color);
     }
-    &--vertical {
+    .letgo-designer-sim__insertion--before {
+        position: absolute;
+        left: 0;
+        top: -20px;
+        height: 20px;
+        width: 100%;
+        border-bottom: 4px solid var(--letgo-primary-color);
+        color: var(--letgo-primary-color);
+    }
+    .letgo-designer-sim__insertion--after--vertical {
+        position: absolute;
         top: 0;
-        left: -2px;
-        width: 4px;
-        height: auto; 
+        right: -20px;
+        width: 20px;
+        height: 100%;
+        border-left: 4px solid var(--letgo-primary-color);
+        color: var(--letgo-primary-color);
+    }
+    .letgo-designer-sim__insertion--before--vertical {
+        position: absolute;
+        top: 0;
+        left: -20px;
+        width: 20px;
+        height: 100%;
+        border-right: 4px solid var(--letgo-primary-color);
+        color: var(--letgo-primary-color);
     }
 }

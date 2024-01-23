@@ -38,11 +38,11 @@ function processChildrenDetail(sim: ISimulator, container: INode, detail: IPubli
     };
 
     if (detail.near) {
-        const { node, pos, rect, align } = detail.near;
-        ret.nearRect = rect || sim.computeRect(node);
+        const { node, pos, align } = detail.near;
+        ret.nearRect = sim.computeRect(node);
         ret.nearNode = node;
         if (pos === 'replace') {
-        // FIXME: ret.nearRect mybe null
+            // FIXME: ret.nearRect mybe null
             ret.coverRect = ret.nearRect;
             ret.insertType = 'cover';
         }
@@ -130,42 +130,45 @@ export const InsertionView = defineComponent({
                 return null;
 
             const { scale, scrollX, scrollY } = simulator.viewport;
-            const { edge, insertType, coverRect, nearRect, vertical } = processDetail(loc);
+            const { edge, insertType, coverRect, nearRect, vertical, nearNode } = processDetail(loc);
 
             if (!edge)
                 return null;
 
-            const className = ['letgo-designer-sim__insertion'];
-
+            const classNamePre = 'letgo-designer-sim__insertion';
+            const className = [classNamePre];
             const style: CSSProperties = {};
             let x: number;
             let y: number;
+
             if (insertType === 'cover') {
-                className.push('letgo-designer-sim__insertion--cover');
+                className.push(`${classNamePre}--cover`);
                 x = (coverRect!.left + scrollX) * scale;
                 y = (coverRect!.top + scrollY) * scale;
                 style.width = `${coverRect!.width * scale}px`;
                 style.height = `${coverRect!.height * scale}px`;
+                style.transform = `translate3d(${x}px, ${y}px, 0)`;
+                return (
+                    <div class={className} style={style}></div>
+                );
             }
-            else {
-                if (!nearRect)
-                    return null;
 
-                if (vertical) {
-                    className.push('letgo-designer-sim__insertion--vertical');
-                    x = ((insertType === 'before' ? nearRect.left : nearRect.right) + scrollX) * scale;
-                    y = (nearRect.top + scrollY) * scale;
-                    style.height = `${nearRect!.height * scale}px`;
-                }
-                else {
-                    x = (nearRect.left + scrollX) * scale;
-                    y = ((insertType === 'before' ? nearRect.top : nearRect.bottom) + scrollY) * scale;
-                    style.width = `${nearRect.width * scale}px`;
-                }
-            }
+            if (!nearRect)
+                return null;
+
+            x = (nearRect!.left + scrollX) * scale;
+            y = (nearRect!.top + scrollY) * scale;
+            style.width = `${nearRect!.width * scale}px`;
+            style.height = `${nearRect!.height * scale}px`;
             style.transform = `translate3d(${x}px, ${y}px, 0)`;
 
-            return <div class={className} style={style} />;
+            return (
+                <div class={className} style={style}>
+                    <div class={`${classNamePre}--${insertType}${vertical ? '--vertical' : ''}`}>
+                        {nearNode.id}
+                    </div>
+                </div>
+            );
         };
     },
 });

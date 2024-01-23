@@ -2620,12 +2620,7 @@ const assets: IPublicTypeAssetsJson = {
                 },
             },
             snippets: [
-                {
-                    title: '布局容器',
-                    schema: {
-                        componentName: 'FLayout',
-                    },
-                },
+
                 {
                     title: '混合布局',
                     schema: {
@@ -2757,12 +2752,7 @@ const assets: IPublicTypeAssetsJson = {
                 },
             },
             snippets: [
-                {
-                    title: '容器头部',
-                    schema: {
-                        componentName: 'FHeader',
-                    },
-                },
+
             ],
             group: '原子组件',
             category: '布局组件',
@@ -2823,12 +2813,7 @@ const assets: IPublicTypeAssetsJson = {
                 },
             },
             snippets: [
-                {
-                    title: '容器侧边栏',
-                    schema: {
-                        componentName: 'FAside',
-                    },
-                },
+
             ],
             group: '原子组件',
             category: '布局组件',
@@ -2869,12 +2854,7 @@ const assets: IPublicTypeAssetsJson = {
                 },
             },
             snippets: [
-                {
-                    title: '容器主体',
-                    schema: {
-                        componentName: 'FMain',
-                    },
-                },
+
             ],
             group: '原子组件',
             category: '布局组件',
@@ -2935,12 +2915,7 @@ const assets: IPublicTypeAssetsJson = {
                 },
             },
             snippets: [
-                {
-                    title: '容器底部',
-                    schema: {
-                        componentName: 'FFooter',
-                    },
-                },
+
             ],
             group: '原子组件',
             category: '布局组件',

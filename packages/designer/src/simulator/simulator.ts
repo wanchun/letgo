@@ -471,6 +471,7 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
 
         const { nodes } = dragObject as unknown as IPublicTypeDragNodeObject;
 
+        // 判断被拖动的节点是否能移动
         const operationalNodes = nodes?.filter((node) => {
             const onMoveHook
                 = node.componentMeta?.getMetadata()?.configure.advanced?.callbacks
@@ -493,17 +494,20 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
         if (!document)
             return null;
 
+        // 根据locateEvent定位信息确定放置的节点
         const dropContainer = this.getDropContainer(e);
 
-        const childWhitelist
-            = dropContainer?.container?.componentMeta?.childWhitelist;
+        // 如果放置节点父级有锁住的节点，则不能被放置
         const lockedNode = getClosestNode(
-            dropContainer?.container as INode,
+            dropContainer?.container,
             node => node.isLocked,
         );
         if (lockedNode)
             return null;
 
+        // 如果放置节点存在白名单而且拖拽节点不在白名单，则不能被放置
+        const childWhitelist
+            = dropContainer?.container?.componentMeta?.childWhitelist;
         if (
             !dropContainer
             || (nodes
@@ -517,6 +521,7 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
 
         const { container, instance: containerInstance } = dropContainer;
 
+        // edge是放置节点的边缘位置信息
         const edge = this.computeComponentInstanceRect(
             containerInstance,
             container.componentMeta.rootSelector,
@@ -534,7 +539,7 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
         };
 
         const locationData = {
-            target: container as INode,
+            target: container,
             detail,
             source: `simulator${document.id}`,
             event: e,
@@ -717,7 +722,7 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
         }
 
         let dropContainer: IDropContainer = {
-            container: container as any,
+            container,
             instance,
         };
 

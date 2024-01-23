@@ -25,7 +25,7 @@
         "@codemirror/lint": "^6.4.2",
         "@codemirror/state": "^6.3.1",
         "@codemirror/view": "^6.22.0",
-        "@fesjs/fes-design": "^0.8.17",
+        "@fesjs/fes-design": "^0.8.24",
         "@icon-park/vue-next": "^1.4.2",
         "@qlin/oxc-wasm-web": "^0.0.1",
         "@replit/codemirror-vscode-keymap": "^6.0.2",

@@ -43,7 +43,7 @@ export const SchemaView = defineComponent({
                         class="letgo-plg-schema__code"
                         theme={{
                             '&': {
-                                border: '1px solid #cfd0d3',
+                                border: '1px solid var(--letgo-border-color)',
                                 borderRadius: 0,
                                 borderRight: 'none',
                                 borderLeft: 'none',

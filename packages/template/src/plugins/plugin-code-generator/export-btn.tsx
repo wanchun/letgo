@@ -84,7 +84,7 @@ export default defineComponent({
                         '@fesjs/plugin-qiankun': '3.1.1',
                         '@webank/fes-plugin-pmbank-um': '3.1.1',
                         '@fesjs/plugin-request': '4.0.0-beta.5',
-                        '@fesjs/fes-design': '0.8.9',
+                        '@fesjs/fes-design': '0.8.24',
                         'vue': '3.3.4',
                         '@webank/letgo-components': '0.0.2-beta.3',
                     },

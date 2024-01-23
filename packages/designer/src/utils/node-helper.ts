@@ -1,8 +1,8 @@
 // 仅使用类型
+import type { IPublicModelNode } from '@webank/letgo-types';
 import type { INode } from '../types';
 
-export function getClosestNode(node: INode,
-    until: (node: INode) => boolean): INode | undefined {
+export function getClosestNode(node: INode, until: (node: INode) => boolean): INode | undefined {
     if (!node)
         return undefined;
 
@@ -19,12 +19,15 @@ export function getClosestNode(node: INode,
  * @returns {boolean} 是否可点击，true表示可点击
  */
 export function canClickNode(node: INode, e: unknown): boolean {
-    const onClickHook
-        = node.componentMeta?.getMetadata().configure?.advanced?.callbacks
-            ?.onClickHook;
-    const canClick
-        = typeof onClickHook === 'function'
-            ? onClickHook(e as MouseEvent, node)
-            : true;
+    const onClickHook = node.componentMeta?.getMetadata().configure?.advanced?.callbacks?.onClickHook;
+    const canClick = typeof onClickHook === 'function'
+        ? onClickHook(e as MouseEvent, node)
+        : true;
     return canClick;
+}
+
+export function canMoveNode(node: INode): boolean {
+    const onMoveHook = node.componentMeta?.getMetadata()?.configure.advanced?.callbacks?.onMoveHook;
+    const canMove = (onMoveHook && typeof onMoveHook) === 'function' ? onMoveHook(node) : true;
+    return canMove;
 }

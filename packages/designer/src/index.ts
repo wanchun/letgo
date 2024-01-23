@@ -8,3 +8,4 @@ export * from './setting';
 export * from './code';
 export * from './state/state';
 export * from './component-meta';
+export * from './utils';

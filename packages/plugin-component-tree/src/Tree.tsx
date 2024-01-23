@@ -6,7 +6,7 @@ import {
     onBeforeUnmount,
     ref,
 } from 'vue';
-import { insertChild } from '@webank/letgo-designer';
+import { canMoveNode, getClosestNode, insertChild } from '@webank/letgo-designer';
 import type { Designer, INode } from '@webank/letgo-designer';
 import type { Editor } from '@webank/letgo-editor-core';
 import { FInput, FScrollbar, FTree } from '@fesjs/fes-design';
@@ -21,6 +21,7 @@ interface Option {
     prefix?: () => VNodeChild
     suffix?: () => VNodeChild
     isLeaf?: boolean
+    draggable?: boolean
 }
 
 function transformNode(node: INode, isSlot = false): Option {
@@ -42,6 +43,8 @@ function transformNode(node: INode, isSlot = false): Option {
         return <SuffixView node={node} style={{ marginRight: '8px' }}></SuffixView>;
     };
     option.isLeaf = !node.isContainer;
+
+    option.draggable = canMoveNode(node);
 
     return option;
 }
@@ -101,18 +104,39 @@ export const TreeView = defineComponent({
                 return;
 
             const dragNode = document.getNode(originDragNode.value);
+            let containerNode: INode;
+            let index: number;
             if (position === 'inside') {
-                const dragNode = document.getNode(originDragNode.value);
-                insertChild(targetNode, dragNode, 0);
+                containerNode = targetNode;
+                index = 0;
             }
             else if (position === 'before') {
-                const index = targetNode.parent.children.indexOf(targetNode);
-                insertChild(targetNode.parent, dragNode, index);
+                containerNode = targetNode.parent;
+                index = targetNode.parent.children.indexOf(targetNode);
             }
             else if (position === 'after') {
-                const index = targetNode.parent.children.indexOf(targetNode);
-                insertChild(targetNode.parent, dragNode, index + 1);
+                containerNode = targetNode.parent;
+                index = targetNode.parent.children.indexOf(targetNode) + 1;
             }
+
+            // 如果放置节点父级有锁住的节点，则不能被放置
+            const lockedNode = getClosestNode(
+                containerNode,
+                (node: INode) => node.isLocked,
+            );
+            if (lockedNode)
+                return;
+
+            // 如果放置节点存在白名单而且拖拽节点不在白名单，则不能被放置
+            const childWhitelist = containerNode?.componentMeta?.childWhitelist;
+            if (typeof childWhitelist === 'function' && !childWhitelist(dragNode))
+                return;
+
+            // 检查父子关系是否满足Nesting配置
+            if (!document.checkNestingUp(containerNode, dragNode) || !document.checkNestingDown(containerNode, dragNode))
+                return;
+
+            insertChild(containerNode, dragNode, index);
         };
 
         return () => {

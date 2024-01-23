@@ -59,7 +59,7 @@ import {
     isRowContainer,
     isShaken,
 } from '../designer';
-import { getClosestClickableNode, getClosestNode } from '../utils';
+import { canMoveNode, getClosestClickableNode, getClosestNode } from '../utils';
 import { contains, isRootNode } from '../node';
 import type { DocumentModel } from '../document';
 import { Viewport } from './viewport';
@@ -469,20 +469,10 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
     locate(e: ILocateEvent): DropLocation | undefined | null {
         const { dragObject } = e;
 
-        const { nodes } = dragObject as unknown as IPublicTypeDragNodeObject;
+        const { nodes } = dragObject as unknown as IPublicTypeDragNodeObject<INode>;
 
         // 判断被拖动的节点是否能移动
-        const operationalNodes = nodes?.filter((node) => {
-            const onMoveHook
-                = node.componentMeta?.getMetadata()?.configure.advanced?.callbacks
-                    ?.onMoveHook;
-            const canMove
-                = (onMoveHook && typeof onMoveHook) === 'function'
-                    ? onMoveHook(node)
-                    : true;
-
-            return canMove;
-        });
+        const operationalNodes = nodes?.filter(node => canMoveNode(node));
 
         if (nodes && (!operationalNodes || operationalNodes.length === 0))
             return;

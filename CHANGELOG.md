@@ -1,3 +1,12 @@
+## [0.0.3-beta.3](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.2...v0.0.3-beta.3) (2024-1-23)
+
+
+### Bug Fixes
+
+* 修复 vue 组件实例没有 hasOwnProperty 属性的问题 ([ac8e852](https://git.weoa.com/mumblefe/letgo/commits/ac8e852633e53d5fbad406ec9d0d10fd45565952))
+
+
+
 ## [0.0.3-beta.2](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.1...v0.0.3-beta.2) (2024-1-19)
 
 

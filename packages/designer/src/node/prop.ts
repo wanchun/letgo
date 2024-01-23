@@ -126,8 +126,6 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
         this.options = options;
         if (!isNil(value))
             this.setValue(value);
-
-        this.setupItems();
     }
 
     setKey(key: string | number) {
@@ -135,6 +133,9 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
     }
 
     setupItems() {
+        if (this._items)
+            this._items.forEach(prop => prop.purge());
+
         let items: Prop[] | null = null;
         const data = this._value;
         const type = this._type;
@@ -176,6 +177,7 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
                     title: schema.title,
                     params: schema.props.params,
                     value: schema,
+                    id: schema.id,
                 };
             }
             return {
@@ -184,6 +186,7 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
                 title: schema.title,
                 params: schema.props.params,
                 value: schema.children,
+                id: schema.id,
             };
         }
         if (type === 'map') {
@@ -225,7 +228,16 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
         if (
             isSlotSchema(data.value)
         ) {
-            slotSchema = data.value;
+            const value = data.value;
+            slotSchema = {
+                componentName: 'Slot',
+                name: value.name || data.name,
+                title: value.title || data.title,
+                props: value.props || {
+                    params: data.params,
+                },
+                children: value.children,
+            };
         }
         else {
             slotSchema = {
@@ -245,8 +257,10 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
         else {
             const owner = this.owner;
             this._slotNode = owner.document.createNode(slotSchema);
-            owner.addSlot(this._slotNode);
-            this._slotNode.internalSetSlotFor(this);
+            if (this._slotNode) {
+                owner.addSlot(this._slotNode);
+                this._slotNode.internalSetSlotFor(this);
+            }
         }
     }
 
@@ -298,7 +312,10 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
             };
         }
 
-        this.dispose();
+        if (this._type !== 'slot' && this._slotNode) {
+            this._slotNode.remove();
+            this._slotNode = undefined;
+        }
         this.setupItems();
 
         if (oldValue !== this._value) {
@@ -536,18 +553,6 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
         return this._type === undefined;
     }
 
-    private dispose() {
-        const items = this._items;
-        if (items)
-            items.forEach(prop => prop.purge());
-
-        this._items = null;
-        if (this._type !== 'slot' && this._slotNode) {
-            this._slotNode.remove();
-            this._slotNode = undefined;
-        }
-    }
-
     /**
      * 销毁
      */
@@ -556,7 +561,10 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
             return;
 
         this.purged = true;
-        this.dispose();
+        if (this._slotNode) {
+            this._slotNode.remove();
+            this._slotNode = undefined;
+        }
     }
 }
 

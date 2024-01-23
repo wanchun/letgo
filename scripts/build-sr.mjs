@@ -14,7 +14,7 @@ async function compiler(source, outDir, name) {
         build: {
             minify: false,
             outDir,
-            emptyOutDir: outDir,
+            emptyOutDir: isWatch() ? false : outDir,
             lib: {
                 entry: path.join(source, 'index.ts'),
                 name,
@@ -29,7 +29,7 @@ async function compiler(source, outDir, name) {
                     globals: {
                         vue: 'Vue',
                     },
-                    exports: 'named'
+                    exports: 'named',
                 },
             },
             watch: isWatch(),

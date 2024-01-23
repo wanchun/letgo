@@ -52,6 +52,7 @@ function compileRootSchema(
         });
 
         return {
+            rawFileName: rootSchema.fileName,
             fileType: PageFileType.Jsx,
             filename: fileName,
             routeName: formatPageName(fileName),

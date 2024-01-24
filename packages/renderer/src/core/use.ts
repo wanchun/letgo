@@ -27,6 +27,7 @@ import type {
     IPublicTypeSlotSchema,
 } from '@webank/letgo-types';
 import {
+    IPublicEnumTransformStage,
     isDOMText,
     isJSExpression,
     isJSFunction,
@@ -62,7 +63,7 @@ export function isNodeData(val: unknown): val is IPublicTypeNodeData | IPublicTy
  * @param comp - 节点渲染的组件，若不传入，则根据节点的 componentName 推断
  */
 function render({
-    props,
+    scope,
     context,
     schema,
     components,
@@ -70,7 +71,7 @@ function render({
     blockScope,
     comp,
 }: {
-    props: LeafProps
+    scope: RuntimeScope
     context: Record<string, unknown>
     schema: IPublicTypeNodeData
     base: Component
@@ -78,7 +79,7 @@ function render({
     blockScope?: MaybeArray<BlockScope | undefined | null>
     comp?: Component
 }) {
-    const mergedScope = mergeScope(props.scope, blockScope);
+    const mergedScope = mergeScope(scope, blockScope);
 
     // 若 schema 不为 IPublicTypeNodeSchema，则直接渲染
     if (isString(schema)) {
@@ -122,9 +123,7 @@ export function buildEvents(events: IEventHandler[] = []) {
  * - prop 和 node 中同时存在 children 时，prop children 会覆盖 node children
  * - className prop 会被处理为 class prop
  */
-export function buildSchema(props: LeafProps, node?: INode) {
-    const { schema } = props;
-
+export function buildSchema(schema: IPublicTypeNodeSchema, node?: INode) {
     const slotProps: SlotSchemaMap = {};
     const normalProps: PropSchemaMap = {};
 
@@ -138,12 +137,14 @@ export function buildSchema(props: LeafProps, node?: INode) {
             // 处理具名插槽
             const prop = node?.getProp(key, false);
             if (prop && prop.slotNode) {
-                // design 模式，从 prop 对象到处 schema
-                const slotSchema = prop.slotNode.computedSchema;
+                // design 模式，从 prop对应的 slotNode 对象获取 schema
+                const slotSchema = prop.slotNode.exportSchema(
+                    IPublicEnumTransformStage.Render,
+                );
                 if (isSlotSchema(slotSchema))
-                    slotProps[key] = slotSchema;
+                    slotProps[slotSchema.name || key] = slotSchema;
             }
-            if (val.value) {
+            else if (val.value) {
                 // live 模式，直接获取 schema 值，若值为空则不渲染插槽
                 slotProps[val.name || key] = {
                     componentName: 'Slot',
@@ -210,7 +211,9 @@ function buildProp(
         let slotSchema: IPublicTypeSlotSchema | IPublicTypeNodeData | IPublicTypeNodeData[];
         if (prop?.slotNode) {
             // design 模式，从 prop 中导出 schema
-            slotSchema = prop.slotNode.computedSchema;
+            slotSchema = prop.slotNode.exportSchema(
+                IPublicEnumTransformStage.Render,
+            );
             slotParams = isSlotSchema(slotSchema) ? slotSchema.props.params ?? [] : [];
         }
         else {
@@ -551,7 +554,7 @@ export function buildSlots(
     }, {} as Record<string, Slot>);
 }
 
-export function useLeaf(props: LeafProps, context: Record<string, unknown>) {
+export function useLeaf(scope: RuntimeScope, context: Record<string, unknown>) {
     const { components } = useRendererContext();
 
     /**
@@ -566,7 +569,7 @@ export function useLeaf(props: LeafProps, context: Record<string, unknown>) {
         comp?: Component,
     ): VNode | null => {
         return render({
-            props,
+            scope,
             context,
             schema: nodeSchema,
             components: components.value,

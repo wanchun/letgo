@@ -1,4 +1,4 @@
-import type { IPublicTypeAssetsJson } from '@webank/letgo-types';
+import type { IPublicModelSettingField, IPublicTypeAssetsJson } from '@webank/letgo-types';
 
 const assets: IPublicTypeAssetsJson = {
     packages: [
@@ -6164,6 +6164,18 @@ const assets: IPublicTypeAssetsJson = {
                                         setter: 'StringSetter',
                                     },
                                 ],
+                                defaultItemValue: (field: IPublicModelSettingField): any => {
+                                    const value = field.getValue();
+                                    return {
+                                        name: '默认标题',
+                                        value: `${value.length + 1}`,
+                                        render: {
+                                            type: 'JSSlot',
+                                            title: '渲染内容',
+                                            value: [],
+                                        },
+                                    };
+                                },
                             },
                         },
                     },

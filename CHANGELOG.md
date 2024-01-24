@@ -1,3 +1,20 @@
+## [0.0.3-beta.4](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.2...v0.0.3-beta.4) (2024-01-24)
+
+
+### Bug Fixes
+
+* 修复 vue 组件实例没有 hasOwnProperty 属性的问题 ([ac8e852](https://git.weoa.com/mumblefe/letgo/commits/ac8e852633e53d5fbad406ec9d0d10fd45565952))
+* 修复初始化Prop可能多次创建slotNode问题 ([42d47a5](https://git.weoa.com/mumblefe/letgo/commits/42d47a5afe67a9f0210eaaaabebffe74f3f950e7))
+* 去掉无用代码 ([7edf114](https://git.weoa.com/mumblefe/letgo/commits/7edf114acf907717cfa8108261f33ec23fee51bd))
+* 当插槽更新时需要重新渲染父组件 ([f23ca15](https://git.weoa.com/mumblefe/letgo/commits/f23ca1552f7be94d38c9eada58f02e1e94d3aad8))
+
+
+### Features
+
+* 完善组件树拖拽限制 ([188355f](https://git.weoa.com/mumblefe/letgo/commits/188355fccee0b54e871b9034cb20661575cf80d5))
+
+
+
 ## [0.0.3-beta.3](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.2...v0.0.3-beta.3) (2024-1-23)
 
 

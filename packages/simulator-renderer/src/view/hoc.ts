@@ -162,13 +162,11 @@ function useHocNode(rerenderSlots: () => void) {
 
     if (!parentNode) {
         return {
-            rerender: debouncedRerender,
             rerenderParent: (): undefined => void 0,
         };
     }
     else {
         return {
-            rerender: debouncedRerender,
             rerenderParent: parentNode.rerenderSlots,
         };
     }

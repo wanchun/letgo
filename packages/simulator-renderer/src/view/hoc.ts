@@ -1,5 +1,5 @@
-import { isNil } from 'lodash-es';
-import type { ComputedRef, Slot } from 'vue';
+import { debounce, isNil } from 'lodash-es';
+import type { ComputedRef, InjectionKey, Slot } from 'vue';
 import {
     Fragment,
     computed,
@@ -7,8 +7,10 @@ import {
     h,
     inject,
     onUnmounted,
+    provide,
     reactive,
     ref,
+    watch,
 } from 'vue';
 import {
     buildProps,
@@ -77,19 +79,12 @@ function useSchema(props: LeafProps, node: INode) {
     } = reactive({});
     const compSlots: SlotSchemaMap = reactive({});
 
-    const result = buildSchema(props, node);
-    Object.entries(props.schema.props ?? {}).forEach(([key, val]) => {
-        if (isJSSlot(val)) {
-            // 处理具名插槽
-            const prop = node?.getProp(key);
-            if (prop && prop.slotNode) {
-                // design 模式，从 prop 对象到处 schema
-                const slotSchema = prop.slotNode.exportSchema(
-                    IPublicEnumTransformStage.Render,
-                );
-                result.slots[slotSchema?.name || key] = slotSchema;
-            }
-        }
+    const result = buildSchema(props.schema, node);
+
+    watch(() => props.schema, () => {
+        const result = buildSchema(props.schema, node);
+        Object.assign(compProps, result.props);
+        Object.assign(compSlots, result.slots);
     });
 
     Object.assign(compProps, result.props);
@@ -155,6 +150,30 @@ function useLoop(props: LeafProps, ctx: Record<string, any>) {
     };
 }
 
+const HOC_NODE_KEY: InjectionKey<{ rerenderSlots: () => void }> = Symbol('hocNode');
+function useHocNode(rerenderSlots: () => void) {
+    const parentNode = inject(HOC_NODE_KEY, null);
+
+    const debouncedRerender = debounce(rerenderSlots, 10);
+
+    provide(HOC_NODE_KEY, {
+        rerenderSlots: debouncedRerender,
+    });
+
+    if (!parentNode) {
+        return {
+            rerender: debouncedRerender,
+            rerenderParent: (): undefined => void 0,
+        };
+    }
+    else {
+        return {
+            rerender: debouncedRerender,
+            rerenderParent: parentNode.rerenderSlots,
+        };
+    }
+}
+
 export const Hoc = defineComponent({
     name: 'Hoc',
     props: leafProps,
@@ -162,9 +181,20 @@ export const Hoc = defineComponent({
         const { getNode, onCompGetCtx, executeCtx } = inject(BASE_COMP_CONTEXT);
         const node = props.schema.id ? getNode(props.schema.id) : null;
 
-        const { renderComp } = useLeaf(props, executeCtx);
+        const { renderComp } = useLeaf(props.scope, executeCtx);
 
         const { compProps, updateEvents, compSlots } = useSchema(props, node);
+
+        const update = () => {
+            const newSchema = node.exportSchema(
+                IPublicEnumTransformStage.Render,
+            );
+            const result = buildSchema(newSchema, node);
+            Object.assign(compProps, result.props);
+            Object.assign(compSlots, result.slots);
+        };
+
+        const { rerenderParent } = useHocNode(update);
 
         const innerScope: ComputedRef<RuntimeScope> = computed(() => {
             if (props.schema.componentName === 'Slot') {
@@ -204,6 +234,9 @@ export const Hoc = defineComponent({
                 node.onChildrenChange(() => {
                     const schema = node.exportSchema(IPublicEnumTransformStage.Render);
                     compSlots.default = ensureArray(schema.children);
+                    // Slot组件更新children -> 就是父组件更新props
+                    if (node.slotFor && node.componentName === 'Slot')
+                        rerenderParent();
                 }),
             );
             disposeFunctions.push(
@@ -242,7 +275,9 @@ export const Hoc = defineComponent({
                             else if (!isNil(newValue)) {
                                 compSlots.default = ensureArray(newValue);
                             }
-                            else { delete compSlots.default; }
+                            else {
+                                delete compSlots.default;
+                            }
                         }
                         else if (isJSSlot(newValue)) {
                             // 具名插槽更新

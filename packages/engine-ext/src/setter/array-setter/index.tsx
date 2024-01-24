@@ -159,7 +159,7 @@ const ArraySetterView = defineComponent({
 
         const onAdd = () => {
             const value = field.getValue() ?? [];
-            if (props.defaultItemValue) {
+            if (!isUndefined(props.defaultItemValue)) {
                 const defaultItemValue = isFunction(props.defaultItemValue) ? props.defaultItemValue(field) : props.defaultItemValue;
                 props.onChange([...value, defaultItemValue]);
             }

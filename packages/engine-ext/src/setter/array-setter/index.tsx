@@ -12,7 +12,7 @@ import {
     shallowRef,
     triggerRef,
 } from 'vue';
-import { get, isArray, isNil, isUndefined } from 'lodash-es';
+import { get, isArray, isFunction, isNil, isUndefined } from 'lodash-es';
 import {
     isSetterConfig,
 } from '@webank/letgo-types';
@@ -45,6 +45,10 @@ const ArraySetterView = defineComponent({
         },
         columns: {
             type: Array as PropType<IFieldConfig[]>,
+        },
+        defaultItemValue: {
+            type: [String, Number, Boolean, Object, Array, Function] as PropType<any | ((value: unknown) => unknown)>,
+            default: (): undefined => undefined,
         },
         infinite: Boolean,
     },
@@ -147,11 +151,19 @@ const ArraySetterView = defineComponent({
             };
         };
 
-        // TODO: 处理defaultValue
-        const onAdd = () => {
+        const addItem = () => {
             const item = createItem(items.value.length);
             items.value.push(item);
             triggerRef(items);
+        };
+
+        const onAdd = () => {
+            const value = field.getValue() ?? [];
+            if (!isUndefined(props.defaultItemValue)) {
+                const defaultItemValue = isFunction(props.defaultItemValue) ? props.defaultItemValue(field) : props.defaultItemValue;
+                props.onChange([...value, defaultItemValue]);
+            }
+            addItem();
         };
 
         const onRemove = (removed: ItemType, index: number) => {
@@ -177,7 +189,7 @@ const ArraySetterView = defineComponent({
             const valueLength = isArray(value) ? value.length : 0;
 
             for (let i = 0; i < valueLength; i++)
-                onAdd();
+                addItem();
         };
 
         init();

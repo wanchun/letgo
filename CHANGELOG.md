@@ -1,3 +1,17 @@
+## [0.0.3-beta.5](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.4...v0.0.3-beta.5) (2024-01-25)
+
+
+### Bug Fixes
+
+* 修复问题 ([58ae40c](https://git.weoa.com/mumblefe/letgo/commits/58ae40c20042b5dce6614d4107ff881155b7b16c))
+
+
+### Features
+
+* 数组设置器中添加项支持设置默认值 ([3957781](https://git.weoa.com/mumblefe/letgo/commits/3957781da7c6f00312690884d91febe2a132598b))
+
+
+
 ## [0.0.3-beta.4](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.2...v0.0.3-beta.4) (2024-01-24)
 
 

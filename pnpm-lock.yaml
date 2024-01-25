@@ -11,6 +11,9 @@ importers:
       '@antfu/eslint-config':
         specifier: ^2.6.2
         version: 2.6.2(@vue/compiler-sfc@3.4.14)(eslint@8.56.0)(typescript@5.3.3)(vitest@0.34.6)
+      '@icon-park/vue-next':
+        specifier: ^1.4.2
+        version: 1.4.2(vue@3.4.14)
       '@vitejs/plugin-vue':
         specifier: ^4.6.2
         version: 4.6.2(vite@5.0.11)(vue@3.4.14)
@@ -258,7 +261,7 @@ importers:
         specifier: ^0.0.3-beta.0
         version: link:../editor-skeleton
       '@webank/letgo-engine-ext':
-        specifier: ^0.0.3-beta.0
+        specifier: ^0.0.3-beta.1
         version: link:../engine-ext
       '@webank/letgo-engine-plugin':
         specifier: ^0.0.2-beta.4
@@ -2641,7 +2644,6 @@ packages:
       vue: 3.x
     dependencies:
       vue: 3.4.14(typescript@5.3.3)
-    dev: false
 
   /@jest/schemas@29.6.3:
     resolution: {integrity: sha512-mo5j5X+jIZmJQveBKeS/clAueipV7KgiX1vMgCxam1RNYiqE1w62n0/tJJnHtjW8ZHcQco5gY85jA3mi0L+nSA==}

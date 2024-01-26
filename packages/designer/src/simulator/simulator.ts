@@ -938,17 +938,17 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
         selector?: string,
     ): IPublicTypeRect | null {
         const renderer = this.renderer;
-        let elements = this.findDOMNodes(instance, selector);
+        const elements = this.findDOMNodes(instance, selector);
         if (!elements)
             return null;
 
-        elements = elements.slice();
+        const elemArray = elements.slice();
         let rects: DOMRect[] | undefined;
         let last: { x: number, y: number, r: number, b: number } | undefined;
         let _computed = false;
         while (true) {
             if (!rects || rects.length < 1) {
-                const elem = elements.pop();
+                const elem = elemArray.pop();
                 if (!elem)
                     break;
 

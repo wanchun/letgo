@@ -1,3 +1,13 @@
+## [0.0.3-beta.6](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.5...v0.0.3-beta.6) (2024-01-26)
+
+
+### Bug Fixes
+
+* tabs等插槽无法正常渲染终极解决方案 ([20baabc](https://git.weoa.com/mumblefe/letgo/commits/20baabc38806b89a148e9695e0e1c962f930464b))
+* 拖拽位置中能正确拿到instanceRect ([0a45898](https://git.weoa.com/mumblefe/letgo/commits/0a45898a30fc0e0973c13b4dc82317718dca99b5))
+
+
+
 ## [0.0.3-beta.5](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.4...v0.0.3-beta.5) (2024-01-25)
 
 

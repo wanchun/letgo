@@ -79,13 +79,7 @@ function useSchema(props: LeafProps, node: INode) {
     } = reactive({});
     const compSlots: SlotSchemaMap = reactive({});
 
-    const result = buildSchema(props.schema, node);
-
-    watch(() => props.schema, () => {
-        const result = buildSchema(props.schema, node);
-        Object.assign(compProps, result.props);
-        Object.assign(compSlots, result.slots);
-    });
+    const result = buildSchema(node.computedSchema, node);
 
     Object.assign(compProps, result.props);
     Object.assign(compSlots, result.slots);
@@ -150,28 +144,6 @@ function useLoop(props: LeafProps, ctx: Record<string, any>) {
     };
 }
 
-const HOC_NODE_KEY: InjectionKey<{ rerenderSlots: () => void }> = Symbol('hocNode');
-function useHocNode(rerenderSlots: () => void) {
-    const parentNode = inject(HOC_NODE_KEY, null);
-
-    const debouncedRerender = debounce(rerenderSlots, 10);
-
-    provide(HOC_NODE_KEY, {
-        rerenderSlots: debouncedRerender,
-    });
-
-    if (!parentNode) {
-        return {
-            rerenderParent: (): undefined => void 0,
-        };
-    }
-    else {
-        return {
-            rerenderParent: parentNode.rerenderSlots,
-        };
-    }
-}
-
 export const Hoc = defineComponent({
     name: 'Hoc',
     props: leafProps,
@@ -182,17 +154,6 @@ export const Hoc = defineComponent({
         const { renderComp } = useLeaf(props.scope, executeCtx);
 
         const { compProps, updateEvents, compSlots } = useSchema(props, node);
-
-        const update = () => {
-            const newSchema = node.exportSchema(
-                IPublicEnumTransformStage.Render,
-            );
-            const result = buildSchema(newSchema, node);
-            Object.assign(compProps, result.props);
-            Object.assign(compSlots, result.slots);
-        };
-
-        const { rerenderParent } = useHocNode(update);
 
         const innerScope: ComputedRef<RuntimeScope> = computed(() => {
             if (props.schema.componentName === 'Slot') {
@@ -232,9 +193,6 @@ export const Hoc = defineComponent({
                 node.onChildrenChange(() => {
                     const schema = node.exportSchema(IPublicEnumTransformStage.Render);
                     compSlots.default = ensureArray(schema.children);
-                    // Slot组件更新children -> 就是父组件更新props
-                    if (node.slotFor && node.componentName === 'Slot')
-                        rerenderParent();
                 }),
             );
             disposeFunctions.push(

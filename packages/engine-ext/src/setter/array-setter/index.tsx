@@ -11,6 +11,7 @@ import {
     ref,
     shallowRef,
     triggerRef,
+    watch,
 } from 'vue';
 import { get, isArray, isFunction, isNil, isUndefined } from 'lodash-es';
 import {
@@ -184,6 +185,7 @@ const ArraySetterView = defineComponent({
         };
 
         const init = () => {
+            items.value = [];
             const value = isNil(props.value) ? props.defaultValue : props.value;
 
             const valueLength = isArray(value) ? value.length : 0;
@@ -193,6 +195,8 @@ const ArraySetterView = defineComponent({
         };
 
         init();
+
+        watch(() => props.value, init);
 
         onMounted(() => {
             props.onMounted?.();

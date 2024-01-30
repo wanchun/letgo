@@ -86,6 +86,7 @@ export interface IModalConfig extends IBaseConfig {
 export interface IPanelConfig extends IBaseConfig {
     type: 'Panel'
     props?: IPanelProps
+    defaultFixed?: boolean
 }
 
 export type IUnionConfig = IWidgetConfig | IModalConfig | IPanelConfig;

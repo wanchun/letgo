@@ -94,12 +94,12 @@ export const SuffixView = defineComponent({
                         <MoreOne class="letgo-comp-tree__icon letgo-comp-tree__icon--node" theme="outline" />
                     </FDropdown>
                     <FModal v-model:show={isEdit.value} title="编辑" width={400} onOk={onOk} onCancel={onCancel}>
-                        <FForm ref={formRef} model={formModel} labelWidth={60} rules={formRules} >
-                            <FFormItem label='名称' prop='title'>
-                                <FInput v-model={formModel.title} placeholder='请输入'/ >
+                        <FForm ref={formRef} model={formModel} labelWidth={60} rules={formRules}>
+                            <FFormItem label="名称" prop="title">
+                                <FInput v-model={formModel.title} placeholder="请输入" />
                             </FFormItem>
-                            <FFormItem label='英文名' prop='ref'>
-                                <FInput v-model={formModel.ref} placeholder='请输入'/ >
+                            <FFormItem label="id" prop="ref">
+                                <FInput v-model={formModel.ref} placeholder="请输入" />
                             </FFormItem>
                         </FForm>
                     </FModal>

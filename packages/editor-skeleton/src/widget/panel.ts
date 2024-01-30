@@ -1,5 +1,7 @@
 import type { VNodeChild } from 'vue';
 import { h } from 'vue';
+import { markComputed, markShallowReactive } from '@webank/letgo-common';
+import { isUndefined } from 'lodash-es';
 import PanelView from '../views/panel';
 import type { IPanel, IPanelConfig, IPanelProps } from '../types';
 import type { Area } from '../area';
@@ -13,6 +15,12 @@ export class Panel extends BaseWidget implements IPanel {
 
     parent: Area<any, any>;
 
+    private _isFixed: boolean;
+
+    get isFixed() {
+        return this._isFixed;
+    }
+
     get content(): VNodeChild {
         return h(PanelView, {
             widget: this,
@@ -24,6 +32,14 @@ export class Panel extends BaseWidget implements IPanel {
     constructor(readonly skeleton: Skeleton, readonly config: IPanelConfig) {
         super(skeleton, config, false);
         this.props = config.props;
+        markShallowReactive(this, {
+            _isFixed: isUndefined(config.defaultFixed) ? true : config.defaultFixed,
+        });
+        markComputed(this, ['isFixed']);
+    }
+
+    toggleFixed() {
+        this._isFixed = !this.isFixed;
     }
 
     setParent(parent: Area<any, any>) {

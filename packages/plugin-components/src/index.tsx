@@ -20,6 +20,7 @@ export default definePlugin({
                     width: 300,
                     title: '物料',
                 },
+                defaultFixed: false,
             }),
         );
     },

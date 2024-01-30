@@ -7,9 +7,8 @@ import {
     computed,
     defineComponent,
     onUnmounted,
-    ref,
 } from 'vue';
-import { CloseOutlined, PasswordOutlined } from '@fesjs/fes-design/icon';
+import { Close, Lock, Unlock } from '@icon-park/vue-next';
 import { addUnit } from '@webank/letgo-common';
 import type { Area } from '../area';
 import type { IPanelConfig } from '../types';
@@ -24,7 +23,6 @@ export default defineComponent({
     },
     setup(props) {
         const { area } = props;
-        const isFixedRef = ref(true);
         const style: Ref<CSSProperties> = computed(() => {
             const { current, items } = area;
             if (!items.length || !current) {
@@ -33,7 +31,7 @@ export default defineComponent({
                 };
             }
             const currentProps = current?.props || {};
-            if (isFixedRef.value) {
+            if (current.isFixed) {
                 return {
                     width: addUnit(currentProps.width),
                     height: addUnit(currentProps.height),
@@ -52,7 +50,7 @@ export default defineComponent({
             };
         });
         const toggleFixed = () => {
-            isFixedRef.value = !isFixedRef.value;
+            area.current.toggleFixed();
         };
         const handleClose = () => {
             area.unActiveAll();
@@ -61,7 +59,7 @@ export default defineComponent({
         const designer = area.skeleton.designer;
 
         const clear = designer.dragon.onDragstart(() => {
-            if (isFixedRef.value)
+            if (area.current.isFixed)
                 handleClose();
         });
 
@@ -73,17 +71,32 @@ export default defineComponent({
         return () => {
             const { area } = props;
             const { current, items } = area;
+            if (!current)
+                return;
+
             const currentProps = current?.props || {};
             return (
                 <div class="letgo-skeleton-workbench__left-float" style={style.value}>
                     <div class="letgo-skeleton-workbench__left-float-header">
                         {currentProps.title}
                         <div class="letgo-skeleton-workbench__left-float-icons">
-                            <PasswordOutlined
-                                class="letgo-skeleton-workbench__left-float-icon"
-                                onClick={toggleFixed}
-                            />
-                            <CloseOutlined
+                            {
+                                current.isFixed && (
+                                    <Unlock
+                                        class="letgo-skeleton-workbench__left-float-icon"
+                                        onClick={toggleFixed}
+                                    />
+                                )
+                            }
+                            {
+                                !current.isFixed && (
+                                    <Lock
+                                        class="letgo-skeleton-workbench__left-float-icon"
+                                        onClick={toggleFixed}
+                                    />
+                                )
+                            }
+                            <Close
                                 class="letgo-skeleton-workbench__left-float-icon"
                                 onClick={handleClose}
                             />

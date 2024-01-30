@@ -1,3 +1,25 @@
+## [0.0.3-beta.7](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.2...v0.0.3-beta.7) (2024-1-29)
+
+
+### Bug Fixes
+
+* 当插槽更新时需要重新渲染父组件 ([f23ca15](https://git.weoa.com/mumblefe/letgo/commits/f23ca1552f7be94d38c9eada58f02e1e94d3aad8))
+* 去掉无用代码 ([7edf114](https://git.weoa.com/mumblefe/letgo/commits/7edf114acf907717cfa8108261f33ec23fee51bd))
+* 拖拽位置中能正确拿到instanceRect ([0a45898](https://git.weoa.com/mumblefe/letgo/commits/0a45898a30fc0e0973c13b4dc82317718dca99b5))
+* 修复 array value watch 问题 ([d3114c0](https://git.weoa.com/mumblefe/letgo/commits/d3114c036dbb066e073611bc0f9ab706af83dd77))
+* 修复 vue 组件实例没有 hasOwnProperty 属性的问题 ([ac8e852](https://git.weoa.com/mumblefe/letgo/commits/ac8e852633e53d5fbad406ec9d0d10fd45565952))
+* 修复初始化Prop可能多次创建slotNode问题 ([42d47a5](https://git.weoa.com/mumblefe/letgo/commits/42d47a5afe67a9f0210eaaaabebffe74f3f950e7))
+* 修复问题 ([58ae40c](https://git.weoa.com/mumblefe/letgo/commits/58ae40c20042b5dce6614d4107ff881155b7b16c))
+* tabs等插槽无法正常渲染终极解决方案 ([20baabc](https://git.weoa.com/mumblefe/letgo/commits/20baabc38806b89a148e9695e0e1c962f930464b))
+
+
+### Features
+
+* 数组设置器中添加项支持设置默认值 ([3957781](https://git.weoa.com/mumblefe/letgo/commits/3957781da7c6f00312690884d91febe2a132598b))
+* 完善组件树拖拽限制 ([188355f](https://git.weoa.com/mumblefe/letgo/commits/188355fccee0b54e871b9034cb20661575cf80d5))
+
+
+
 ## [0.0.3-beta.6](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.5...v0.0.3-beta.6) (2024-01-26)
 
 

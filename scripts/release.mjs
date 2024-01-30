@@ -67,7 +67,7 @@ async function publishPackage(pkg) {
                 },
             },
         );
-        console.log('Successfully published :', pc.green(`${pkg.name}@${pkg.newVersion}`));
+        console.log('Successfully published:', pc.green(`${pkg.name}@${pkg.newVersion}`));
     }
     catch (e) {
         if (e.stderr.match(/previously published/))
@@ -310,7 +310,7 @@ async function main() {
     }
 
     // publish packages
-    step('\nPublishing packages...');
+    step('\nPublishing packages: ');
     await publishPkgs(packagesVersion);
 
     // push to GitHub

@@ -2,6 +2,7 @@ import type { VNodeChild } from 'vue';
 import { watch } from 'vue';
 import { markComputed, markShallowReactive, uniqueId } from '@webank/letgo-common';
 import type { Skeleton } from '../skeleton';
+import type { Area } from '../area';
 import type { IBaseConfig, IBaseWidget } from '../types';
 import { IEnumSkeletonEvent } from '../types';
 
@@ -17,6 +18,8 @@ export class BaseWidget implements IBaseWidget {
     protected _disabled: boolean;
 
     protected _body: VNodeChild;
+
+    parent: Area<any, any>;
 
     get body() {
         if (this.isReady)
@@ -40,6 +43,14 @@ export class BaseWidget implements IBaseWidget {
 
         else if (this.isReady)
             this._visible = false;
+
+        this.skeleton.postEvent(
+            this._visible
+                ? IEnumSkeletonEvent.WIDGET_SHOW
+                : IEnumSkeletonEvent.WIDGET_HIDE,
+            this.name,
+            this,
+        );
     }
 
     get visible() {
@@ -62,6 +73,13 @@ export class BaseWidget implements IBaseWidget {
         if (this._disabled === flag)
             return;
         this._disabled = flag;
+        this.skeleton.postEvent(
+            flag
+                ? IEnumSkeletonEvent.WIDGET_DISABLE
+                : IEnumSkeletonEvent.WIDGET_ENABLE,
+            this.name,
+            this,
+        );
     }
 
     disable() {
@@ -90,25 +108,17 @@ export class BaseWidget implements IBaseWidget {
         markComputed(this, ['disabled', 'visible']);
 
         this.name = config.name;
+    }
 
-        watch(() => this.visible, (visible) => {
-            this.skeleton.postEvent(
-                visible
-                    ? IEnumSkeletonEvent.WIDGET_SHOW
-                    : IEnumSkeletonEvent.WIDGET_HIDE,
-                this.name,
-                this,
-            );
-        });
+    setParent(parent: Area<any, any>) {
+        if (parent === this.parent)
+            return;
 
-        watch(() => this.disabled, (disabled) => {
-            this.skeleton.postEvent(
-                disabled
-                    ? IEnumSkeletonEvent.WIDGET_DISABLE
-                    : IEnumSkeletonEvent.WIDGET_ENABLE,
-                this.name,
-                this,
-            );
-        });
+        if (this.parent)
+            this.parent.remove(this);
+
+        parent.addItem(this);
+
+        this.parent = parent;
     }
 }

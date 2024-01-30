@@ -6,9 +6,9 @@ import type { Skeleton } from './skeleton';
 export class Area<C extends IBaseConfig, T extends IBaseWidget = IBaseWidget> {
     private _items: T[];
 
-    private _itemMaps: { [name: string]: T } = {};
-
     private _current: T | null;
+
+    private _itemMaps: { [name: string]: T } = {};
 
     handle: (config: C) => T;
 
@@ -85,12 +85,17 @@ export class Area<C extends IBaseConfig, T extends IBaseWidget = IBaseWidget> {
             return item;
 
         const newItem = this.handle(config);
-        this._items = [...this._items, newItem];
-        this._itemMaps[config.name] = newItem;
-        if (isPanel(newItem))
-            newItem.setParent(this);
+        newItem.setParent(this);
 
         return newItem;
+    }
+
+    addItem(item: T) {
+        const _item = this.get(item.name);
+        if (_item)
+            return;
+        this._items = [...this._items, item];
+        this._itemMaps[item.name] = item;
     }
 
     remove(item: string | T): number {
@@ -98,13 +103,16 @@ export class Area<C extends IBaseConfig, T extends IBaseWidget = IBaseWidget> {
         if (!thing)
             return -1;
 
-        const itemValues = this._items;
+        const itemValues = [...this._items];
         const i = itemValues.indexOf(thing);
-        if (i > -1)
-            this._items = itemValues.splice(i, 1);
+        if (i > -1) {
+            itemValues.splice(i, 1);
+            this._items = itemValues;
+        }
+        if (this._itemMaps[thing.name])
+            delete this._itemMaps[thing.name];
 
-        delete this._itemMaps[thing.name];
-        if (thing === this.current)
+        if (thing === this._current)
             this._current = null;
 
         return i;

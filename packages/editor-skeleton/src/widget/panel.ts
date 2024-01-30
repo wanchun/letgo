@@ -4,7 +4,6 @@ import { markComputed, markShallowReactive } from '@webank/letgo-common';
 import { isUndefined } from 'lodash-es';
 import PanelView from '../views/panel';
 import type { IPanel, IPanelConfig, IPanelProps } from '../types';
-import type { Area } from '../area';
 import type { Skeleton } from '../skeleton';
 import { BaseWidget } from './base';
 
@@ -12,8 +11,6 @@ export class Panel extends BaseWidget implements IPanel {
     readonly isPanel = true;
 
     readonly props: IPanelProps;
-
-    parent: Area<any, any>;
 
     private _isFixed: boolean;
 
@@ -40,16 +37,6 @@ export class Panel extends BaseWidget implements IPanel {
 
     toggleFixed() {
         this._isFixed = !this.isFixed;
-    }
-
-    setParent(parent: Area<any, any>) {
-        if (parent === this.parent)
-            return;
-
-        if (this.parent)
-            this.parent.remove(this);
-
-        this.parent = parent;
     }
 
     protected setVisible(flag: boolean) {

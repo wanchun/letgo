@@ -134,6 +134,7 @@ export interface IBaseWidget {
     toggle(): void
     enable?(): void
     disable?(): void
+    setParent(area: Area<any, any>): void
 }
 
 export interface IWidget extends IBaseWidget {
@@ -158,6 +159,9 @@ export interface IModal extends IBaseWidget {
     readonly content: VNodeChild
     readonly isModal: true
     readonly props: IModalProps
+
+    parent: Area<any, any>
+    setParent: (parent: Area<any, any>) => void
 }
 
 export interface IPanel extends IBaseWidget {
@@ -168,8 +172,6 @@ export interface IPanel extends IBaseWidget {
     readonly isPanel: true
     readonly props: IPanelProps
 
-    parent: Area<any, any>
-    setParent: (parent: Area<any, any>) => void
 }
 
 export interface IWidgetModel extends IWidget {

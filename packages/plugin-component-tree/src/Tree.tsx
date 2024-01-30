@@ -5,8 +5,10 @@ import {
     defineComponent,
     onBeforeUnmount,
     ref,
+    shallowRef,
 } from 'vue';
 import { canMoveNode, getClosestNode, insertChild } from '@webank/letgo-designer';
+import { isLocationChildrenDetail } from '@webank/letgo-types';
 import type { Designer, INode } from '@webank/letgo-designer';
 import type { Editor } from '@webank/letgo-editor-core';
 import { FInput, FScrollbar, FTree } from '@fesjs/fes-design';
@@ -24,12 +26,31 @@ interface Option {
     draggable?: boolean
 }
 
-function transformNode(node: INode, isSlot = false): Option {
+interface DragTarget {
+    target: INode
+    index: number
+}
+
+function transformNode(node: INode, isSlot: boolean, dragTarget?: DragTarget): Option {
     const option: Option = {
         value: node.id,
         label: `${node.ref} - ${node.title || node.componentName}`,
     };
-    option.children = [...node.slots.map(node => transformNode(node, true)), ...node.children.getNodes().map(node => transformNode(node))];
+    option.children = [
+        ...node.slots.map(node => transformNode(node, true, dragTarget)),
+        ...node.children.getNodes().map(node => transformNode(node, false, dragTarget)),
+    ];
+    // 此节点是拖入目标
+    if (dragTarget && node.id === dragTarget.target.id) {
+        option.children.splice(dragTarget.index, 0, {
+            value: '',
+            label: '',
+            prefix: () => {
+                return <div class="letgo-comp-tree-drag" style={{ left: `${(node.zLevel + 1) * 16}px` }}></div>;
+            },
+        });
+    }
+
     option.prefix = () => {
         if (node.componentName === 'Page')
             return <Page class="letgo-comp-tree__icon letgo-comp-tree__icon--node" theme="outline" />;
@@ -67,6 +88,21 @@ export const TreeView = defineComponent({
 
         onBeforeUnmount(clear);
 
+        const dragTargetRef = shallowRef<DragTarget>();
+
+        const clearDropLocationChange = props.designer.dragon.onDropLocationChange((loc) => {
+            if (loc && isLocationChildrenDetail(loc.detail) && loc.detail.valid !== false) {
+                const target = loc.target;
+                const index = loc.detail.index;
+                dragTargetRef.value = {
+                    target,
+                    index,
+                };
+            }
+        });
+
+        onBeforeUnmount(clearDropLocationChange);
+
         const data = computed(() => {
             // 必须等 RendererReady，才能正确拿到Page的schema
             if (!isSimulatorReady.value)
@@ -76,7 +112,7 @@ export const TreeView = defineComponent({
             if (!currentRootNode)
                 return [];
 
-            return [transformNode(currentRootNode)];
+            return [transformNode(currentRootNode, false, dragTargetRef.value)];
         });
 
         const selectedIds = computed(() => {

@@ -285,7 +285,7 @@ async function main() {
         updateVersions(packagesVersion);
 
         // update lock
-        await run('pnpm', ['i']);
+        // await run('pnpm', ['i']);
         // // build all packages with types
         step('\nBuilding all packages...');
         if (!isDryRun)

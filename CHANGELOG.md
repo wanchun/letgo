@@ -1,3 +1,12 @@
+## [0.0.3-beta.9](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.8...v0.0.3-beta.9) (2024-01-31)
+
+
+### Features
+
+* 拖拽时显示大纲树存在性能问题 ([4991e05](https://git.weoa.com/mumblefe/letgo/commits/4991e059a776f6cd700428da520b095856413a5b))
+
+
+
 ## [0.0.3-beta.8](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.7...v0.0.3-beta.8) (2024-01-31)
 
 

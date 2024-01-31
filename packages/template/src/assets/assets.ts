@@ -12,10 +12,10 @@ const assets: IPublicTypeAssetsJson = {
         },
         {
             package: '@fesjs/fes-design',
-            version: '0.8.17',
+            version: '0.8.25',
             urls: [
-                'https://registry.npmmirror.com/@fesjs/fes-design/0.8.17/files/dist/fes-design.js',
-                'https://registry.npmmirror.com/@fesjs/fes-design/0.8.17/files/dist/fes-design.css',
+                'https://registry.npmmirror.com/@fesjs/fes-design/0.8.25/files/dist/fes-design.js',
+                'https://registry.npmmirror.com/@fesjs/fes-design/0.8.25/files/dist/fes-design.css',
             ],
             library: 'FesDesign',
         },

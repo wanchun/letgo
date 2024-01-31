@@ -26,11 +26,11 @@ interface InsertionData {
 function processChildrenDetail(sim: ISimulator, container: INode, detail: IPublicTypeLocationChildrenDetail<INode>): InsertionData {
     let edge = detail.edge || null;
 
-    if (!edge) {
+    if (!edge)
         edge = sim.computeRect(container);
-        if (!edge)
-            return {};
-    }
+
+    if (!edge)
+        return {};
 
     const ret: InsertionData = {
         edge,
@@ -38,8 +38,8 @@ function processChildrenDetail(sim: ISimulator, container: INode, detail: IPubli
     };
 
     if (detail.near) {
-        const { node, pos, align } = detail.near;
-        ret.nearRect = sim.computeRect(node);
+        const { node, pos, align, rect } = detail.near;
+        ret.nearRect = rect ?? sim.computeRect(node);
         ret.nearNode = node;
         if (pos === 'replace') {
             // FIXME: ret.nearRect mybe null
@@ -101,18 +101,15 @@ function processDetail({ target, detail, document }: DropLocation): InsertionDat
     if (!sim)
         return {};
 
-    if (isLocationChildrenDetail<INode>(detail)) {
+    if (isLocationChildrenDetail<INode>(detail))
         return processChildrenDetail(sim, target, detail);
-    }
-    else {
-        // TODO: others...
-        const instances = sim.getComponentInstances(target);
-        if (!instances)
-            return {};
 
-        const edge = sim.computeComponentInstanceRect(instances[0], target.componentMeta.rootSelector);
-        return edge ? { edge, insertType: 'cover', coverRect: edge } : {};
-    }
+    const instances = sim.getComponentInstances(target);
+    if (!instances)
+        return {};
+
+    const edge = sim.computeComponentInstanceRect(instances[0], target.componentMeta.rootSelector);
+    return edge ? { edge, insertType: 'cover', coverRect: edge } : {};
 }
 
 export const InsertionView = defineComponent({

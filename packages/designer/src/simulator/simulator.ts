@@ -39,7 +39,7 @@ import {
     markComputed,
 } from '@webank/letgo-common';
 import { engineConfig } from '@webank/letgo-editor-core';
-import { isNaN } from 'lodash-es';
+import { isNaN, isUndefined } from 'lodash-es';
 import type {
     IDropContainer,
     ILocateEvent,
@@ -466,7 +466,7 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
     /**
      * @see ISimulator
      */
-    locate(e: ILocateEvent): DropLocation | undefined | null {
+    locate(e: ILocateEvent): DropLocation | null {
         const { dragObject } = e;
 
         const { nodes } = dragObject as unknown as IPublicTypeDragNodeObject<INode>;
@@ -475,7 +475,7 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
         const operationalNodes = nodes?.filter(node => canMoveNode(node));
 
         if (nodes && (!operationalNodes || operationalNodes.length === 0))
-            return;
+            return null;
 
         this.sensing = true;
         this.scroller.scrolling(e);
@@ -520,9 +520,12 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
         if (!edge)
             return null;
 
+        if (isUndefined(e.canvasX) || isUndefined(e.canvasY))
+            return null;
+
         const { children } = container;
 
-        const detail: IPublicTypeLocationChildrenDetail = {
+        const detail: IPublicTypeLocationChildrenDetail<INode> = {
             type: IPublicEnumLocationDetail.Children,
             index: 0,
             edge,
@@ -568,9 +571,9 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
             if (!rect)
                 continue;
 
-            const distance = isPointInRect(e as any, rect)
+            const distance = isPointInRect({ canvasX: e.canvasX, canvasY: e.canvasY }, rect)
                 ? 0
-                : distanceToRect(e as any, rect);
+                : distanceToRect({ canvasX: e.canvasX, canvasY: e.canvasY }, rect);
 
             if (distance === 0) {
                 nearDistance = distance;
@@ -601,41 +604,42 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
         if (nearNode && nearRect) {
             const el = getRectTarget(nearRect);
             const inline = el ? isChildInline(el) : false;
-            const row = el ? isRowContainer(el.parentElement) : false;
+            const row = el?.parentElement ? isRowContainer(el.parentElement) : false;
             const vertical = inline || row;
 
-            // TODO: fix type
-            const near: any = {
+            const near: IPublicTypeLocationChildrenDetail<INode>['near'] = {
                 node: nearNode,
                 pos: 'before',
                 align: vertical ? 'V' : 'H',
+                rect: nearRect,
             };
             detail.near = near;
-            if (isNearAfter(e as any, nearRect, vertical)) {
+            if (isNearAfter({ canvasX: e.canvasX, canvasY: e.canvasY }, nearRect, vertical)) {
                 near.pos = 'after';
                 detail.index = nearIndex + 1;
             }
-            if (!row && nearDistance !== 0) {
-                const edgeDistance = distanceToEdge(e as any, edge);
-                if (edgeDistance.distance < nearDistance!) {
-                    const { nearAfter } = edgeDistance;
-                    if (minTop == null)
-                        minTop = edge.top;
+            // 暂时去掉此逻辑
+            // if (!row && nearDistance !== 0) {
+            //     const edgeDistance = distanceToEdge({ canvasX: e.canvasX, canvasY: e.canvasY }, edge);
+            //     if (edgeDistance.distance < nearDistance!) {
+            //         const { nearAfter } = edgeDistance;
+            //         if (minTop == null)
+            //             minTop = edge.top;
 
-                    if (maxBottom == null)
-                        maxBottom = edge.bottom;
+            //         if (maxBottom == null)
+            //             maxBottom = edge.bottom;
 
-                    near.rect = new DOMRect(
-                        edge.left,
-                        minTop,
-                        edge.width,
-                        maxBottom - minTop,
-                    );
-                    near.align = 'H';
-                    near.pos = nearAfter ? 'after' : 'before';
-                    detail.index = nearAfter ? children.size : 0;
-                }
-            }
+            //         near.rect = new DOMRect(
+            //             edge.left,
+            //             minTop,
+            //             edge.width,
+            //             maxBottom - minTop,
+            //         );
+            //         near.align = 'H';
+            //         near.pos = nearAfter ? 'after' : 'before';
+            //         detail.index = nearAfter ? children.size : 0;
+            //     }
+            // }
         }
 
         return this.designer.dragon.createLocation(locationData);
@@ -1076,15 +1080,15 @@ function distanceToRect(point: IPublicTypeCanvasPoint, rect: IPublicTypeRect) {
     return Math.sqrt(minX ** 2 + minY ** 2);
 }
 
-function distanceToEdge(point: IPublicTypeCanvasPoint, rect: IPublicTypeRect) {
-    const distanceTop = Math.abs(point.canvasY - rect.top);
-    const distanceBottom = Math.abs(point.canvasY - rect.bottom);
+// function distanceToEdge(point: IPublicTypeCanvasPoint, rect: IPublicTypeRect) {
+//     const distanceTop = Math.abs(point.canvasY - rect.top);
+//     const distanceBottom = Math.abs(point.canvasY - rect.bottom);
 
-    return {
-        distance: Math.min(distanceTop, distanceBottom),
-        nearAfter: distanceBottom < distanceTop,
-    };
-}
+//     return {
+//         distance: Math.min(distanceTop, distanceBottom),
+//         nearAfter: distanceBottom < distanceTop,
+//     };
+// }
 
 function isNearAfter(point: IPublicTypeCanvasPoint, rect: IPublicTypeRect, inline: boolean) {
     if (inline) {

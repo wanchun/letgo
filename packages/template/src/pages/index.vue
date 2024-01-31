@@ -4,6 +4,7 @@ import { LetgoEngine, material, project } from '@webank/letgo-engine';
 import { createRequest } from '@qlin/request';
 import assets from '../assets/assets';
 import icons from '../assets/icones-bags';
+import page from '../assets/page';
 
 export default defineComponent({
     components: { LetgoEngine },
@@ -12,7 +13,7 @@ export default defineComponent({
         project.setIcons(icons);
 
         const onReady = () => {
-            project.openDocument();
+            project.openDocument(page);
             console.log('project:', project);
         };
 

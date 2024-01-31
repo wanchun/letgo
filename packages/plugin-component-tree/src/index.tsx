@@ -33,16 +33,16 @@ export default definePlugin({
             })
             .link(pluginComponentTreePanel);
 
-        clearDragstart = designer.dragon.onDragstart(() => {
-            pluginComponentTreePanel.setParent(skeleton.rightArea);
-            pluginComponentTreePanel.show();
-        });
+        // clearDragstart = designer.dragon.onDragstart(() => {
+        //     pluginComponentTreePanel.setParent(skeleton.rightArea);
+        //     pluginComponentTreePanel.show();
+        // });
 
-        clearDragend = designer.dragon.onDragend(() => {
-            pluginComponentTreePanel.setParent(skeleton.leftFloatArea);
-            pluginComponentTreePanel.hide();
-            skeleton.rightArea.get('setterPanel').show();
-        });
+        // clearDragend = designer.dragon.onDragend(() => {
+        //     pluginComponentTreePanel.setParent(skeleton.leftFloatArea);
+        //     pluginComponentTreePanel.hide();
+        //     skeleton.rightArea.get('setterPanel').show();
+        // });
     },
     destroy() {
         clearDragstart?.();

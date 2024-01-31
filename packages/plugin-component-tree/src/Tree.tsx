@@ -26,30 +26,30 @@ interface Option {
     draggable?: boolean
 }
 
-interface DragTarget {
-    target: INode
-    index: number
-}
+// interface DragTarget {
+//     target: INode
+//     index: number
+// }
 
-function transformNode(node: INode, isSlot: boolean, dragTarget?: DragTarget): Option {
+function transformNode(node: INode, isSlot: boolean): Option {
     const option: Option = {
         value: node.id,
         label: `${node.ref} - ${node.title || node.componentName}`,
     };
     option.children = [
-        ...node.slots.map(node => transformNode(node, true, dragTarget)),
-        ...node.children.getNodes().map(node => transformNode(node, false, dragTarget)),
+        ...node.slots.map(node => transformNode(node, true)),
+        ...node.children.getNodes().map(node => transformNode(node, false)),
     ];
-    // 此节点是拖入目标
-    if (dragTarget && node.id === dragTarget.target.id) {
-        option.children.splice(dragTarget.index, 0, {
-            value: '',
-            label: '',
-            prefix: () => {
-                return <div class="letgo-comp-tree-drag" style={{ left: `${(node.zLevel + 1) * 16}px` }}></div>;
-            },
-        });
-    }
+    // // 此节点是拖入目标
+    // if (dragTarget && node.id === dragTarget.target.id) {
+    //     option.children.splice(dragTarget.index, 0, {
+    //         value: '',
+    //         label: '',
+    //         prefix: () => {
+    //             return <div class="letgo-comp-tree-drag" style={{ left: `${(node.zLevel + 1) * 16}px` }}></div>;
+    //         },
+    //     });
+    // }
 
     option.prefix = () => {
         if (node.componentName === 'Page')
@@ -80,47 +80,53 @@ export const TreeView = defineComponent({
         },
     },
     setup(props) {
-        const isSimulatorReady: Ref<boolean> = ref(props.designer.isRendererReady);
+        const { designer } = props;
 
-        const clear = props.designer.onRendererReady(() => {
+        const isSimulatorReady: Ref<boolean> = ref(designer.isRendererReady);
+
+        const clear = designer.onRendererReady(() => {
             isSimulatorReady.value = true;
         });
 
         onBeforeUnmount(clear);
 
-        const dragTargetRef = shallowRef<DragTarget>();
+        // const dragTargetRef = shallowRef<DragTarget>();
 
-        const clearDropLocationChange = props.designer.dragon.onDropLocationChange((loc) => {
-            if (loc && isLocationChildrenDetail(loc.detail) && loc.detail.valid !== false) {
-                const target = loc.target;
-                const index = loc.detail.index;
-                dragTargetRef.value = {
-                    target,
-                    index,
-                };
-            }
-        });
+        // const clearDropLocationChange = designer.dragon.onDropLocationChange((loc) => {
+        //     if (loc && isLocationChildrenDetail(loc.detail) && loc.detail.valid !== false) {
+        //         const target = loc.target;
+        //         const index = loc.detail.index;
+        //         const old = dragTargetRef.value;
+        //         if (old && old.target === target && old.index === index)
+        //             return;
 
-        onBeforeUnmount(clearDropLocationChange);
+        //         dragTargetRef.value = {
+        //             target,
+        //             index,
+        //         };
+        //     }
+        // });
+
+        // onBeforeUnmount(clearDropLocationChange);
 
         const data = computed(() => {
             // 必须等 RendererReady，才能正确拿到Page的schema
             if (!isSimulatorReady.value)
                 return [];
 
-            const currentRootNode = props.designer.currentDocument?.root;
+            const currentRootNode = designer.currentDocument?.root;
             if (!currentRootNode)
                 return [];
 
-            return [transformNode(currentRootNode, false, dragTargetRef.value)];
+            return [transformNode(currentRootNode, false)];
         });
 
         const selectedIds = computed(() => {
-            return props.designer.currentSelection?.getNodes().map(node => node.id) ?? [];
+            return designer.currentSelection?.getNodes().map(node => node.id) ?? [];
         });
 
         const onSelectNode = ({ node }: { node: { value: string } }) => {
-            props.designer.currentSelection.select(node.value);
+            designer.currentSelection.select(node.value);
         };
 
         const refTree = ref();
@@ -134,7 +140,7 @@ export const TreeView = defineComponent({
         };
 
         const onDrop = ({ originNode, originDragNode, position }: { originNode: Option, originDragNode: Option, position: 'before' | 'after' | 'inside' }) => {
-            const document = props.designer.currentDocument;
+            const document = designer.currentDocument;
             const targetNode = document.getNode(originNode.value);
             if ((position === 'before' || position === 'after') && targetNode.componentName === 'Page')
                 return;

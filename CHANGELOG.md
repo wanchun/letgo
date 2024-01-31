@@ -1,3 +1,19 @@
+## [0.0.3-beta.8](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.7...v0.0.3-beta.8) (2024-01-31)
+
+
+### Bug Fixes
+
+* 修复ArraySetter丢失焦点问题 ([a5a0f9a](https://git.weoa.com/mumblefe/letgo/commits/a5a0f9a32ab51fbbced852156fad4d8701cf9236))
+
+
+### Features
+
+*  拖拽时右侧设置区域换成大纲树，显示拖拽位置 ([0b5422a](https://git.weoa.com/mumblefe/letgo/commits/0b5422ab23713bf4a0c6866fe82b6f7bf4e30467))
+* Panel提供配置是否默认fixed ([66a5abc](https://git.weoa.com/mumblefe/letgo/commits/66a5abcaccfb3b77d358146aefaf77b18227fc73))
+* 优化Area & Widget中父子关系逻辑 ([679a788](https://git.weoa.com/mumblefe/letgo/commits/679a788e60c7fd7cb5d263d6c17fddb76c4a26a9))
+
+
+
 ## [0.0.3-beta.7](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.2...v0.0.3-beta.7) (2024-1-29)
 
 

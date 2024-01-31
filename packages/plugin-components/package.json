@@ -1,6 +1,6 @@
 {
     "name": "@webank/letgo-plugin-components",
-    "version": "0.0.3-beta.2",
+    "version": "0.0.3-beta.3",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -22,7 +22,7 @@
         "@icon-park/vue-next": "^1.4.2",
         "@webank/letgo-designer": "^0.0.3-beta.3",
         "@webank/letgo-editor-core": "^0.0.2-beta.6",
-        "@webank/letgo-engine-plugin": "^0.0.3-beta.0",
+        "@webank/letgo-engine-plugin": "^0.0.3-beta.1",
         "@webank/letgo-types": "^0.0.2-beta.1"
     },
     "publishConfig": {

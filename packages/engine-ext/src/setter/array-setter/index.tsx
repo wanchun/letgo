@@ -31,6 +31,9 @@ import './index.less';
 
 interface ItemType { main: SettingField, cols: SettingField[] }
 
+/**
+ *  配置类的参数不会变
+ */
 const ArraySetterView = defineComponent({
     name: 'ArraySetterView',
     props: {
@@ -79,15 +82,11 @@ const ArraySetterView = defineComponent({
             return props;
         });
 
-        const itemSetterRef = computed(() => {
-            return propsRef.value?.itemSetter ?? props.itemSetter;
-        });
+        const itemSetter = propsRef.value?.itemSetter ?? props.itemSetter;
 
-        const columnsRef = computed(() => {
-            return propsRef.value?.columns ?? props.columns;
-        });
+        const columns = propsRef.value?.columns ?? props.columns;
 
-        const hasCol = columnsRef.value && columnsRef.value.length;
+        const hasCol = columns && columns.length;
 
         const items: ShallowRef<Array<ItemType>> = shallowRef([]);
 
@@ -120,11 +119,13 @@ const ArraySetterView = defineComponent({
             }
         };
 
+        let isInnerChange = false;
+
         const createItem = (name: string | number): ItemType => {
             const value = isNil(props.value) ? props.defaultValue : props.value;
-            const colField = field.createField({
+            const mainField = field.createField({
                 name,
-                setter: itemSetterRef.value,
+                setter: itemSetter,
                 display: 'plain',
                 extraProps: {
                     setValue: onItemChange,
@@ -132,7 +133,7 @@ const ArraySetterView = defineComponent({
             });
             let cols: SettingField[];
             if (hasCol) {
-                cols = columnsRef.value.map((item) => {
+                cols = columns.map((item) => {
                     const colName = `${name}.${item.name}`;
                     const itemField = field.createField({
                         ...item,
@@ -140,16 +141,23 @@ const ArraySetterView = defineComponent({
                         display: 'plain',
                         extraProps: {
                             defaultValue: get(value, colName),
-                            setValue: onItemChange,
+                            setValue: (target) => {
+                                isInnerChange = true;
+                                onItemChange(target);
+                                setTimeout(() => {
+                                    isInnerChange = false;
+                                }, 0);
+                            },
                         },
                     });
                     return itemField;
                 });
             }
-            return {
-                main: colField,
+            const res = {
+                main: mainField,
                 cols: cols ?? [],
             };
+            return res;
         };
 
         const addItem = () => {
@@ -177,14 +185,41 @@ const ArraySetterView = defineComponent({
                 const item = items.value[i];
                 item.main.setKey(i);
                 item.cols.forEach((col, index) => {
-                    col.setKey(`${i}.${columnsRef.value[index].name}`);
+                    col.setKey(`${i}.${columns[index].name}`);
                 });
                 i++;
             }
             triggerRef(items);
         };
 
-        const init = () => {
+        const draggable = ref(false);
+
+        const onMousedown = () => {
+            draggable.value = true;
+        };
+
+        const onDragend = () => {
+            draggable.value = false;
+            // 这时候items的值是正确顺序
+            props.onChange(items.value.map(item => item.main.getValue()));
+            let i = 0;
+            const l = items.value.length;
+            while (i < l) {
+                const item = items.value[i];
+                item.main.setKey(i);
+                item.cols.forEach((col, index) => {
+                    col.setKey(`${i}.${columns[index].name}`);
+                });
+                i++;
+            }
+            triggerRef(items);
+        };
+
+        // 初始化
+        watch(() => props.value, () => {
+            if (isInnerChange)
+                return;
+
             items.value = [];
             const value = isNil(props.value) ? props.defaultValue : props.value;
 
@@ -192,11 +227,9 @@ const ArraySetterView = defineComponent({
 
             for (let i = 0; i < valueLength; i++)
                 addItem();
-        };
-
-        init();
-
-        watch(() => props.value, init);
+        }, {
+            immediate: true,
+        });
 
         onMounted(() => {
             props.onMounted?.();
@@ -209,13 +242,13 @@ const ArraySetterView = defineComponent({
         });
 
         const renderTitle = () => {
-            if (!columnsRef.value)
+            if (!hasCol)
                 return;
 
             return (
                 <div class="letgo-array-setter__header">
                     {
-                        columnsRef.value?.map((item) => {
+                        columns.map((item) => {
                             return <span class="letgo-array-setter__title">{item.title}</span>;
                         })
                     }
@@ -240,7 +273,7 @@ const ArraySetterView = defineComponent({
                     <>
                         <Config onClick={() => toggle()} class="letgo-array-setter__icon" theme="outline" />
                         {
-                            columnsRef.value.map((_item, index) => {
+                            columns.map((_item, index) => {
                                 const itemField = cols[index];
                                 if (!itemField)
                                     return null;
@@ -259,29 +292,6 @@ const ArraySetterView = defineComponent({
                     {createSettingFieldView(main)}
                 </div>
             );
-        };
-
-        const draggable = ref(false);
-
-        const onMousedown = () => {
-            draggable.value = true;
-        };
-
-        const onDragend = () => {
-            draggable.value = false;
-            // 这时候items的值是正确顺序
-            props.onChange(items.value.map(item => item.main.getValue()));
-            let i = 0;
-            const l = items.value.length;
-            while (i < l) {
-                const item = items.value[i];
-                item.main.setKey(i);
-                item.cols.forEach((col, index) => {
-                    col.setKey(`${i}.${columnsRef.value[index].name}`);
-                });
-                i++;
-            }
-            triggerRef(items);
         };
 
         const renderBody = () => {

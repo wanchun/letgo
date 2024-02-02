@@ -6,5 +6,5 @@ export const commonProps = {
     node: Object as PropType<INode>,
     placeholder: String,
     onMounted: Function as PropType<() => void>,
-    onChange: Function as PropType<(val: any) => void>,
+    onChange: Function as PropType<(val?: any) => void>,
 };

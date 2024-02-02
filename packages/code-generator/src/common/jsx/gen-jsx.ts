@@ -117,10 +117,14 @@ function compileProps(props?: IPublicTypePropsMap, refName = '') {
             }
 
             if (key.match(/^on[A-Z]/))
-                return `${key}={[${((propValue || []) as IPublicTypeJSFunction[]).map(funcSchemaToFunc).join(',')}]}`;
+                return `${key}={[${((propValue || []) as IPublicTypeJSFunction[]).map(funcSchemaToFunc).filter(Boolean).join(',')}]}`;
 
-            if (isJSFunction(propValue))
-                return `${key}={${propValue.value}`;
+            if (isJSFunction(propValue)) {
+                if (propValue.value)
+                    return `${key}={${propValue.value}}`;
+
+                return null;
+            }
 
             return normalProps(key, propValue, refName);
         }).filter(Boolean);

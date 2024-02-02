@@ -45,7 +45,7 @@ import {
     parseSlotScope,
 } from '../utils';
 import { funcSchemaToFunc, parseExpression, parseSchema } from '../parse';
-import type { LeafProps, PropSchemaMap, RendererProps, SlotSchemaMap } from './base';
+import type { PropSchemaMap, RendererProps, SlotSchemaMap } from './base';
 import { Live } from './live';
 
 export function isNodeData(val: unknown): val is IPublicTypeNodeData | IPublicTypeNodeData[] {

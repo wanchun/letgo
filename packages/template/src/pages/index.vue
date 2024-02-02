@@ -22,8 +22,8 @@ export default defineComponent({
                 vueRuntimeUrl:
                     'https://registry.npmmirror.com/vue/latest/files/dist/vue.global.js',
                 simulatorUrl: [
-                    `${process.env.FES_APP_SIMULATOR_PATH}/index.umd.js`,
-                    `${process.env.FES_APP_SIMULATOR_PATH}/style.css`,
+                    `${process.env.FES_APP_SIMULATOR_PATH}/letgo-render.umd.js`,
+                    `${process.env.FES_APP_SIMULATOR_PATH}/letgo-render.css`,
                 ],
                 letgoRequest: createRequest({
                     mode: 'cors',

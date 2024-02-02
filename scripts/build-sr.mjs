@@ -20,7 +20,7 @@ async function compiler(source, outDir, name) {
                 name,
                 formats: ['umd'],
                 // the proper extensions will be added
-                fileName: 'index',
+                fileName: 'letgo-render',
             },
             rollupOptions: {
                 external: ['vue'],
@@ -30,6 +30,11 @@ async function compiler(source, outDir, name) {
                         vue: 'Vue',
                     },
                     exports: 'named',
+                    assetFileNames: (assetInfo) => {
+                        if (assetInfo.name === 'style.css')
+                            return 'letgo-render.css';
+                        return assetInfo.name;
+                    },
                 },
             },
             watch: isWatch(),

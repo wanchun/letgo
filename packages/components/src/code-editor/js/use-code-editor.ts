@@ -115,6 +115,7 @@ export function useCodeEditor(props: CodeEditorProps) {
 
     watch(container, () => {
         if (container.value && !editorView) {
+            currentDoc = props.doc || '';
             editorView = new EditorView({
                 state: genState(),
                 parent: container.value,

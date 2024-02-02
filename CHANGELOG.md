@@ -1,3 +1,19 @@
+## [0.0.3-beta.10](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.9...v0.0.3-beta.10) (2024-02-02)
+
+
+### Bug Fixes
+
+* 优化 editor 异常提示, 修复部分问题 ([c675ca9](https://git.weoa.com/mumblefe/letgo/commits/c675ca917ea6d08201ed6b3af80d75d79a368b1c))
+* 修复 render 问题 ([562b3c1](https://git.weoa.com/mumblefe/letgo/commits/562b3c15f7a0240527c9cc4fa1b144c21eb9f51c))
+* 修复切换 schema 导致 code 编辑异常问题 ([0d99c70](https://git.weoa.com/mumblefe/letgo/commits/0d99c70110a783bdcc049fc0460d30885e0b81a2))
+
+
+### Features
+
+* 优化拖拽定位 ([627ec35](https://git.weoa.com/mumblefe/letgo/commits/627ec3596d9a6ad3189b1a8dcf9627781dc28cb2))
+
+
+
 ## [0.0.3-beta.9](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.8...v0.0.3-beta.9) (2024-01-31)
 
 

@@ -1,6 +1,6 @@
 {
     "name": "@webank/letgo-editor-core",
-    "version": "0.0.2-beta.6",
+    "version": "0.0.2-beta.7",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -17,7 +17,7 @@
     "dependencies": {
         "@qlin/request": "^0.1.4",
         "@webank/letgo-common": "^0.0.3-beta.2",
-        "@webank/letgo-components": "^0.0.3-beta.4",
+        "@webank/letgo-components": "^0.0.3-beta.5",
         "@webank/letgo-types": "^0.0.2-beta.1",
         "eventemitter3": "^4.0.0",
         "lodash-es": "^4.17.21",

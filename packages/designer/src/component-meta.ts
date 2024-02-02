@@ -16,7 +16,7 @@ import type { Designer } from './designer';
 import { Node, isNode } from './node';
 import addonCombine from './transducers/addon-combine';
 import parseJSFunc from './transducers/parse-func';
-import parseProps from './transducers/parse-props';
+import { parseProps } from './transducers/parse-props';
 import parseDefault from './transducers/parse-default';
 import type { INode } from './types';
 

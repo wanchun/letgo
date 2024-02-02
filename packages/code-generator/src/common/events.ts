@@ -70,6 +70,8 @@ export function compilerEventHandlers(ctx: Context, events: IEventHandler[]) {
 }
 
 export function funcSchemaToFunc(schema: IPublicTypeJSFunction) {
+    if (!schema.value?.trim())
+        return null;
     if (schema.params && schema.params.length > 0) {
         return `function (...args) {
             const params = [${handleParams(schema.params).join(', ')}]; 

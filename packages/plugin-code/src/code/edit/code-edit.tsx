@@ -1,4 +1,4 @@
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, watch } from 'vue';
 import type { PropType } from 'vue';
 import type { Designer } from '@webank/letgo-designer';
 import { IEnumCodeType } from '@webank/letgo-types';
@@ -19,9 +19,21 @@ export default defineComponent({
         const code = computed(() => {
             return currentDocument.value?.code;
         });
+
         const {
             currentCodeItem,
+            changeCurrentCodeItem,
         } = useCode();
+
+        watch(code, () => {
+            if (currentCodeItem.value) {
+                const codeItem = code.value.getCodeItem(currentCodeItem.value.id);
+                if (codeItem)
+                    changeCurrentCodeItem(codeItem);
+                else
+                    changeCurrentCodeItem(null);
+            }
+        });
 
         return () => {
             if (currentCodeItem.value) {

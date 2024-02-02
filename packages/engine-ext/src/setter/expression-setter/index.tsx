@@ -35,8 +35,8 @@ const ExpressionSetterView = defineComponent({
             return null;
         });
         const changeValue = (val: string) => {
-            if (isNil(val) || val === '') {
-                props.onChange(undefined);
+            if (isNil(val) || !val.trim()) {
+                props.onChange();
                 return;
             }
             props.onChange({

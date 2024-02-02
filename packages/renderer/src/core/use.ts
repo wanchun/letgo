@@ -45,7 +45,7 @@ import {
     parseSlotScope,
 } from '../utils';
 import { funcSchemaToFunc, parseExpression, parseSchema } from '../parse';
-import type { LeafProps, PropSchemaMap, RendererProps, SlotSchemaMap } from './base';
+import type { PropSchemaMap, RendererProps, SlotSchemaMap } from './base';
 import { Live } from './live';
 
 export function isNodeData(val: unknown): val is IPublicTypeNodeData | IPublicTypeNodeData[] {
@@ -246,7 +246,7 @@ function buildProp(
     else if (isArray(schema)) {
         // 属性值为 array，递归处理属性的每一项
         return schema.map((item, idx) =>
-            buildProp(render, item, scope, blockScope, prop?.get(idx)),
+            buildProp(render, item, scope, blockScope, prop?.get(idx, false)),
         );
     }
     else if (schema && isPlainObject(schema)) {
@@ -256,7 +256,7 @@ function buildProp(
             if (key.startsWith('__'))
                 return;
             const val = schema[key as keyof typeof schema];
-            const childProp = prop?.get(key);
+            const childProp = prop?.get(key, false);
             res[key] = buildProp(render, val, scope, blockScope, childProp);
         });
         return res;

@@ -12,7 +12,7 @@ const FunctionSetterView = defineComponent({
         ...commonProps,
         value: Object as PropType<IPublicTypeJSFunction>,
         defaultValue: Function,
-        onChange: Function as PropType<(val: IPublicTypeJSFunction) => void>,
+        onChange: Function as PropType<(val?: IPublicTypeJSFunction) => void>,
     },
     setup(props) {
         onMounted(() => {
@@ -27,10 +27,16 @@ const FunctionSetterView = defineComponent({
 
         const onChange = (val: string) => {
             try {
-                props.onChange({
-                    type: 'JSFunction',
-                    value: val,
-                });
+                if (val.trim()) {
+                    props.onChange({
+                        type: 'JSFunction',
+                        value: val,
+                    });
+                }
+                else {
+                    // 清空
+                    props.onChange();
+                }
             }
             catch (e) {}
         };

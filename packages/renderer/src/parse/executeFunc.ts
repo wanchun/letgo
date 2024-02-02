@@ -2,6 +2,8 @@ import type { IPublicTypeJSFunction } from '@webank/letgo-types';
 import { executeExpression } from '@webank/letgo-common';
 
 export function funcSchemaToFunc(schema: IPublicTypeJSFunction, ctx: Record<string, unknown>) {
+    if (!schema.value.trim())
+        return undefined;
     try {
         // eslint-disable-next-line no-new-func
         const fn = new Function('_ctx', 'params', `
@@ -20,7 +22,7 @@ export function funcSchemaToFunc(schema: IPublicTypeJSFunction, ctx: Record<stri
         };
     }
     catch (err) {
-        console.warn('executeFunc.error', err, schema.value, ctx);
+        console.warn('syntax error: ', schema.value);
         return undefined;
     }
 }
@@ -39,7 +41,7 @@ export function executeFunc(schema: IPublicTypeJSFunction, ctx: Record<string, u
         return fn(ctx, params);
     }
     catch (err) {
-        console.warn('executeFunc.error', err, schema.value, ctx);
+        console.warn('syntax error: ', schema.value);
         return undefined;
     }
 }

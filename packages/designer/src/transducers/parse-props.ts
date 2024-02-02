@@ -20,7 +20,7 @@ function propConfigToFieldConfig(propConfig: IPublicTypePropConfig): IPublicType
     };
 }
 
-function propTypeToSetter(propType: IPublicTypeProp): IPublicTypeSetterConfig {
+export function propTypeToSetter(propType: IPublicTypeProp): IPublicTypeSetterConfig {
     let typeName: string;
     let isRequired: boolean | undefined = false;
     if (typeof propType === 'string') {
@@ -185,7 +185,7 @@ function propTypeToSetter(propType: IPublicTypeProp): IPublicTypeSetterConfig {
 
 const EVENT_RE = /^on|after|before[A-Z][\w]*$/;
 
-export default function parseProps(
+export function parseProps(
     metadata: IPublicTypeTransformedComponentMetadata,
 ): IPublicTypeTransformedComponentMetadata {
     const { configure = {}, props } = metadata;
@@ -217,9 +217,9 @@ export default function parseProps(
         if (
             name === 'children'
             && (component.isContainer
-                || propType === 'node'
-                || propType === 'element'
-                || propType === 'any')
+            || propType === 'node'
+            || propType === 'element'
+            || propType === 'any')
         ) {
             if (component.isContainer !== false) {
                 component.isContainer = true;

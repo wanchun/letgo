@@ -33,7 +33,9 @@ function formatExpression(expression: string) {
     return result;
 }
 
-function formatDiagnostics(diagnostics: Diagnostic[] = [], doc: string) {
+function formatDiagnostics(diagnostics: Diagnostic[] = [], doc: string = '') {
+    if (!doc.trim())
+        return [];
     // 加两个括号的长度
     const len = doc.length + 2;
     return diagnostics.map(diagnostic => ({

@@ -38,15 +38,22 @@ export function useCodeEditor(props: CodeEditorProps) {
         },
     });
 
+    let currentDoc = props.doc || '';
     watch(oxcOutput, () => {
         if (oxcOutput.value && editorView) {
-            editorView.dispatch(
-                setDiagnostics(editorView.state, oxcOutput.value.diagnostics),
-            );
+            if (currentDoc.trim()) {
+                editorView.dispatch(
+                    setDiagnostics(editorView.state, oxcOutput.value.diagnostics),
+                );
+            }
+            else {
+                editorView.dispatch(setDiagnostics(editorView.state, []));
+            }
         }
     });
 
     const innerOnChange = (doc: string) => {
+        currentDoc = doc;
         updateCode(doc);
         if (isFunction(props.onChange))
             props.onChange(doc);
@@ -108,6 +115,7 @@ export function useCodeEditor(props: CodeEditorProps) {
 
     watch(container, () => {
         if (container.value && !editorView) {
+            currentDoc = props.doc || '';
             editorView = new EditorView({
                 state: genState(),
                 parent: container.value,

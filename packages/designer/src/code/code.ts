@@ -77,6 +77,10 @@ export class Code implements IPublicModelCode {
         };
     }
 
+    getCodeItem = (id: string) => {
+        return this.codeMap.get(id);
+    };
+
     hasCodeId = (id: string) => {
         return this.codeMap.has(id);
     };

@@ -74,7 +74,7 @@ export class JavascriptQueryBase {
             acc = acc.concat(jsExpressionMap[cur]);
             return acc;
         }, []);
-        return jsExpressions.map(item => funcSchemaToFunc(item, this.ctx));
+        return jsExpressions.map(item => funcSchemaToFunc(item, this.ctx)).filter(Boolean);
     }
 
     timeoutPromise(timeout: number) {

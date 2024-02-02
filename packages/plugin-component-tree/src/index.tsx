@@ -2,7 +2,7 @@ import { definePlugin } from '@webank/letgo-engine-plugin';
 import { TreeList } from '@icon-park/vue-next';
 import { FTooltip } from '@fesjs/fes-design';
 import './component-tree.less';
-import { TreeView } from './Tree';
+import { ContentView } from './content';
 
 let clearDragstart: () => void;
 let clearDragend: () => void;
@@ -14,7 +14,7 @@ export default definePlugin({
             type: 'Panel',
             area: 'leftFloatArea',
             name: 'PluginComponentTreePanel',
-            render: () => <TreeView editor={editor} designer={designer} />,
+            render: () => <ContentView editor={editor} designer={designer} />,
             props: {
                 width: 300,
                 title: '大纲树',
@@ -32,17 +32,6 @@ export default definePlugin({
                 ),
             })
             .link(pluginComponentTreePanel);
-
-        // clearDragstart = designer.dragon.onDragstart(() => {
-        //     pluginComponentTreePanel.setParent(skeleton.rightArea);
-        //     pluginComponentTreePanel.show();
-        // });
-
-        // clearDragend = designer.dragon.onDragend(() => {
-        //     pluginComponentTreePanel.setParent(skeleton.leftFloatArea);
-        //     pluginComponentTreePanel.hide();
-        //     skeleton.rightArea.get('setterPanel').show();
-        // });
     },
     destroy() {
         clearDragstart?.();

@@ -1,0 +1,140 @@
+.letgo-tree {
+    margin: 0;
+    padding-top: 8px;
+    outline: none;
+    color: #0f1222;
+    font-size: 14px;
+    font-variant: tabular-nums;
+    line-height: 22px;
+    font-feature-settings: "tnum";
+    position: relative;
+    overflow-y: auto;
+    box-sizing: border-box;
+    user-select: none;
+    &::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 5px;
+    }
+
+    &.is-dragging {
+        .letgo-tree-node {
+            cursor: move;
+        }
+    }
+}
+
+.letgo-tree-drag-node {
+    height: 32px;
+    border: 1px dashed var(--letgo-primary-color);
+    &.is-danger {
+        border-color: #ff4d4f;
+    }
+}
+
+.letgo-tree-node {
+    position: relative;
+    cursor: pointer;
+
+    &.is-hidden {
+        display: none;
+    }
+
+    &.is-highlight {
+        > .letgo-tree-node-highlight {
+            display: block;
+        }
+    }
+
+    &-highlight {
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 32px;
+        bottom: 0;
+        width: 0;
+        border-left: 1px dashed var(--letgo-primary-color);
+        z-index: 2;
+        &.is-danger {
+            border-left-color: #ff4d4f;
+        }
+    }
+
+    &-wrapper {
+        display: flex;
+        align-items: center;
+        height: 32px;
+        &:hover {
+            background-color: #f5f8ff;
+        }
+        &.is-selected {
+            background-color: #f5f8ff;
+            color: var(--letgo-primary-color);
+        }
+    }
+
+    &-switcher {
+        display: flex;
+        align-items: center;
+        width: 16px;
+        font-size: 16px;
+        margin-left: 4px;
+        margin-right: 0px;
+        &__tag {
+            display: block;
+            width: 16px;
+        }
+        &-icon {
+            transform: rotate(-90deg);
+            transition: all 0.2s cubic-bezier(0.9, 0, 0.3, 0.7);
+            &.is-expanded {
+                transform: rotate(0);
+            }
+        }
+    }
+
+    &-content {
+        display: flex;
+        flex-grow: 1;
+        min-width: 0;
+        align-items: center;
+        height: 32px;
+        &-prefix {
+            display: inline-flex;
+            margin-right: 4px;
+        }
+        &-label {
+            flex-grow: 1;
+        }
+        &-suffix {
+            display: inline-flex;
+        }
+    }
+
+    &-children {
+        position: relative;
+        &.is-hidden {
+            display: none;
+        }
+    }
+}
+
+.letgo-tree-drag-host {
+    position: fixed;
+    z-index: 99;
+    width: 100px;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+    transform: translate(-10%, -50%);
+    font-size: 14px;
+    text-overflow: ellipsis;
+    color: rgba(0, 0, 0, 0.5);
+    white-space: nowrap;
+    overflow: hidden;
+}

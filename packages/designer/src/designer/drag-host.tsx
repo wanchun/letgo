@@ -1,5 +1,5 @@
 import type { PropType } from 'vue';
-import { defineComponent, onBeforeUnmount, shallowRef } from 'vue';
+import { Teleport, defineComponent, onBeforeUnmount, shallowRef } from 'vue';
 import { isDragNodeDataObject, isDragNodeObject } from '@webank/letgo-types';
 import type { Designer } from './designer';
 import './drag-host.less';
@@ -80,15 +80,18 @@ export const DragHostView = defineComponent({
                 return null;
 
             return (
-                <div
-                    class="letgo-designer-drag"
-                    style={{
-                        left: `${x.value}px`,
-                        top: `${y.value}px`,
-                    }}
-                >
-                    {renderGhostGroup()}
-                </div>
+                <Teleport to={document.body}>
+                    <div
+                        class="letgo-designer-drag"
+                        style={{
+                            left: `${x.value}px`,
+                            top: `${y.value}px`,
+                        }}
+                    >
+                        {renderGhostGroup()}
+                    </div>
+                </Teleport>
+
             );
         };
     },

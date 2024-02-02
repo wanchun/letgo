@@ -1,5 +1,5 @@
 import { FigmaComponent, Page, Plug } from '@icon-park/vue-next';
-import type { PropType, Ref, VNodeChild } from 'vue';
+import type { PropType, Ref } from 'vue';
 import {
     computed,
     defineComponent,
@@ -11,28 +11,15 @@ import { canMoveNode, getClosestNode, insertChild } from '@webank/letgo-designer
 import { isLocationChildrenDetail } from '@webank/letgo-types';
 import type { Designer, INode } from '@webank/letgo-designer';
 import type { Editor } from '@webank/letgo-editor-core';
-import { FInput, FScrollbar, FTree } from '@fesjs/fes-design';
+import { FInput } from '@fesjs/fes-design';
 import { SearchOutlined } from '@fesjs/fes-design/icon';
 import { SuffixView } from './suffix';
 import './component-tree.less';
+import { TreeView } from './components/tree';
+import type { DropInfo, TreeNode } from './components/const';
 
-interface Option {
-    value: string
-    label: string
-    children?: Option[]
-    prefix?: () => VNodeChild
-    suffix?: () => VNodeChild
-    isLeaf?: boolean
-    draggable?: boolean
-}
-
-// interface DragTarget {
-//     target: INode
-//     index: number
-// }
-
-function transformNode(node: INode, isSlot: boolean): Option {
-    const option: Option = {
+function transformNode(node: INode, isSlot: boolean): TreeNode {
+    const option: TreeNode = {
         value: node.id,
         label: `${node.ref} - ${node.title || node.componentName}`,
     };
@@ -40,16 +27,6 @@ function transformNode(node: INode, isSlot: boolean): Option {
         ...node.slots.map(node => transformNode(node, true)),
         ...node.children.getNodes().map(node => transformNode(node, false)),
     ];
-    // // 此节点是拖入目标
-    // if (dragTarget && node.id === dragTarget.target.id) {
-    //     option.children.splice(dragTarget.index, 0, {
-    //         value: '',
-    //         label: '',
-    //         prefix: () => {
-    //             return <div class="letgo-comp-tree-drag" style={{ left: `${(node.zLevel + 1) * 16}px` }}></div>;
-    //         },
-    //     });
-    // }
 
     option.prefix = () => {
         if (node.componentName === 'Page')
@@ -63,14 +40,15 @@ function transformNode(node: INode, isSlot: boolean): Option {
     option.suffix = () => {
         return <SuffixView node={node} style={{ marginRight: '8px' }}></SuffixView>;
     };
-    option.isLeaf = !node.isContainer;
+
+    option.isContainer = node.isContainer();
 
     option.draggable = canMoveNode(node);
 
     return option;
 }
 
-export const TreeView = defineComponent({
+export const ContentView = defineComponent({
     props: {
         editor: {
             type: Object as PropType<Editor>,
@@ -90,24 +68,24 @@ export const TreeView = defineComponent({
 
         onBeforeUnmount(clear);
 
-        // const dragTargetRef = shallowRef<DragTarget>();
+        const dropInfo = shallowRef<DropInfo>();
 
-        // const clearDropLocationChange = designer.dragon.onDropLocationChange((loc) => {
-        //     if (loc && isLocationChildrenDetail(loc.detail) && loc.detail.valid !== false) {
-        //         const target = loc.target;
-        //         const index = loc.detail.index;
-        //         const old = dragTargetRef.value;
-        //         if (old && old.target === target && old.index === index)
-        //             return;
+        const clearDropLocationChange = designer.dragon.onDropLocationChange((loc) => {
+            if (loc && isLocationChildrenDetail(loc.detail) && loc.detail.valid !== false) {
+                const target = loc.target;
+                const index = loc.detail.index;
+                dropInfo.value = {
+                    dropNode: {
+                        value: target.id,
+                        label: `${target.ref} - ${target.title || target.componentName}`,
+                    },
+                    index,
+                    isAllow: true,
+                };
+            }
+        });
 
-        //         dragTargetRef.value = {
-        //             target,
-        //             index,
-        //         };
-        //     }
-        // });
-
-        // onBeforeUnmount(clearDropLocationChange);
+        onBeforeUnmount(clearDropLocationChange);
 
         const data = computed(() => {
             // 必须等 RendererReady，才能正确拿到Page的schema
@@ -125,7 +103,7 @@ export const TreeView = defineComponent({
             return designer.currentSelection?.getNodes().map(node => node.id) ?? [];
         });
 
-        const onSelectNode = ({ node }: { node: { value: string } }) => {
+        const onSelectNode = (node: TreeNode) => {
             designer.currentSelection.select(node.value);
         };
 
@@ -139,27 +117,10 @@ export const TreeView = defineComponent({
             return node?.label.includes(value);
         };
 
-        const onDrop = ({ originNode, originDragNode, position }: { originNode: Option, originDragNode: Option, position: 'before' | 'after' | 'inside' }) => {
+        const checkDrop = (dropNode: TreeNode, dragNode: TreeNode) => {
             const document = designer.currentDocument;
-            const targetNode = document.getNode(originNode.value);
-            if ((position === 'before' || position === 'after') && targetNode.componentName === 'Page')
-                return;
-
-            const dragNode = document.getNode(originDragNode.value);
-            let containerNode: INode;
-            let index: number;
-            if (position === 'inside') {
-                containerNode = targetNode;
-                index = 0;
-            }
-            else if (position === 'before') {
-                containerNode = targetNode.parent;
-                index = targetNode.parent.children.indexOf(targetNode);
-            }
-            else if (position === 'after') {
-                containerNode = targetNode.parent;
-                index = targetNode.parent.children.indexOf(targetNode) + 1;
-            }
+            const sourceNode = document.getNode(dragNode.value);
+            const containerNode = document.getNode(dropNode.value);
 
             // 如果放置节点父级有锁住的节点，则不能被放置
             const lockedNode = getClosestNode(
@@ -167,18 +128,29 @@ export const TreeView = defineComponent({
                 (node: INode) => node.isLocked,
             );
             if (lockedNode)
-                return;
+                return false;
 
             // 如果放置节点存在白名单而且拖拽节点不在白名单，则不能被放置
             const childWhitelist = containerNode?.componentMeta?.childWhitelist;
-            if (typeof childWhitelist === 'function' && !childWhitelist(dragNode))
-                return;
+            if (typeof childWhitelist === 'function' && !childWhitelist(sourceNode))
+                return false;
 
             // 检查父子关系是否满足Nesting配置
-            if (!document.checkNestingUp(containerNode, dragNode) || !document.checkNestingDown(containerNode, dragNode))
+            if (!document.checkNestingUp(containerNode, sourceNode) || !document.checkNestingDown(containerNode, sourceNode))
+                return false;
+
+            return true;
+        };
+
+        const onDrop = ({ dropNode, dragNode, index }: { dropNode: TreeNode, dragNode: TreeNode, index: number }) => {
+            const document = designer.currentDocument;
+            const sourceNode = document.getNode(dragNode.value);
+            const containerNode = document.getNode(dropNode.value);
+
+            if (!checkDrop(dropNode, dragNode))
                 return;
 
-            insertChild(containerNode, dragNode, index);
+            insertChild(containerNode, sourceNode, index);
         };
 
         return () => {
@@ -195,18 +167,18 @@ export const TreeView = defineComponent({
                         >
                         </FInput>
                     </div>
-                    <FScrollbar class="letgo-comp-tree__body" contentStyle={{ marginTop: '8px' }}>
-                        <FTree
-                            ref={refTree}
-                            data={data.value}
-                            selectedKeys={selectedIds.value}
-                            onSelect={onSelectNode}
-                            filterMethod={filterMethod}
-                            defaultExpandAll
-                            draggable
-                            onDrop={onDrop}
-                        />
-                    </FScrollbar>
+                    <TreeView
+                        ref={refTree}
+                        data={data.value}
+                        selectedKeys={selectedIds.value}
+                        onSelect={onSelectNode}
+                        filterMethod={filterMethod}
+                        draggable
+                        onDragstart={onSelectNode}
+                        onDrop={onDrop}
+                        checkDrop={checkDrop}
+                        v-model:dropInfo={dropInfo.value}
+                    />
                 </div>
             );
         };

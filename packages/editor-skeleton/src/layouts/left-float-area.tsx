@@ -50,7 +50,7 @@ export default defineComponent({
             };
         });
         const toggleFixed = () => {
-            area.current.toggleFixed();
+            area.current?.toggleFixed();
         };
         const handleClose = () => {
             area.unActiveAll();
@@ -59,7 +59,7 @@ export default defineComponent({
         const designer = area.skeleton.designer;
 
         const clear = designer.dragon.onDragstart(() => {
-            if (area.current.isFixed)
+            if (area.current?.isFixed)
                 handleClose();
         });
 

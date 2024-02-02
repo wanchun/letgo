@@ -122,7 +122,8 @@ export default function useDrag({
                     isAllow: true,
                 };
             }
-            if (clientY > rootRect.bottom) {
+            // 跟root的paddingBottom保持一致
+            if (clientY > rootRect.bottom - 16) {
                 const last = props.data[props.data.length - 1] as TreeNode;
                 dropInfo.value = {
                     dropNode: last,

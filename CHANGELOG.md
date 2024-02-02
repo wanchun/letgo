@@ -1,3 +1,12 @@
+## [0.0.3-beta.11](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.10...v0.0.3-beta.11) (2024-02-02)
+
+
+### Bug Fixes
+
+* 修复拖拽不到最底部问题 ([b2e17cc](https://git.weoa.com/mumblefe/letgo/commits/b2e17cc57457e19eec37c48058ebebb27c657c17))
+
+
+
 ## [0.0.3-beta.10](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.9...v0.0.3-beta.10) (2024-02-02)
 
 

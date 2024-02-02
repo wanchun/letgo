@@ -1,5 +1,5 @@
 import type { PropType } from 'vue';
-import { defineComponent } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import type { IPublicModelDocumentModel, ITemporaryState } from '@webank/letgo-types';
 import { ExpressionEditor } from '../../code-editor';
 import './state-edit.less';
@@ -18,7 +18,19 @@ export const StateEdit = defineComponent({
         changeContent: Function as PropType<(id: string, content: Partial<ITemporaryState>) => void>,
     },
     setup(props) {
+        const applyVertical = (val: string) => {
+            if (!val)
+                return false;
+            return val.includes('\n') || val.length > 25;
+        };
+        const isMore = ref(applyVertical(props.codeItem.initValue));
+
+        watch(() => props.codeItem.initValue, (val) => {
+            isMore.value = applyVertical(val);
+        });
+
         const changeInitValue = (value: string) => {
+            isMore.value = applyVertical(value);
             props.changeContent(props.codeItem.id, {
                 initValue: value,
             });
@@ -28,7 +40,7 @@ export const StateEdit = defineComponent({
             return (
                 <div class="letgo-comp-logic__state">
                     <div class="letgo-comp-logic__state-content">
-                        <div class="letgo-comp-logic__state-input">
+                        <div class={['letgo-comp-logic__state-input', isMore.value && 'letgo-comp-logic__state-input--more']}>
                             <label class="letgo-comp-logic__state-label">初始值</label>
                             <ExpressionEditor
                                 documentModel={props.documentModel}

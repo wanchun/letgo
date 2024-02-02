@@ -34,9 +34,10 @@ globalThis.addEventListener('message', async (e) => {
 
             oxc.runOxc(code);
 
+            const formatDoc = oxc.getFormat().trim();
             const oxcOutput: OxcOutput = {
                 diagnostics: oxc.getDiagnostics(),
-                formatter: oxc.getFormat(),
+                formatter: formatDoc.endsWith(';') ? formatDoc.slice(0, -1) : formatDoc,
             };
 
             globalThis.postMessage({

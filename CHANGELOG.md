@@ -1,3 +1,21 @@
+## [0.0.3-beta.12](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.11...v0.0.3-beta.12) (2024-2-4)
+
+
+### Bug Fixes
+
+* 优化变量编辑 ([43b9d1b](https://git.weoa.com/mumblefe/letgo/commits/43b9d1bc5ff2291dfb2c0cf05f7f26482403e8c4))
+* 修复函数调用问题 ([bc517e2](https://git.weoa.com/mumblefe/letgo/commits/bc517e2e7cc2e0eda65e2b8988b24b69cecf1d1f))
+* 修复原popup设计的带阿米 ([c967f13](https://git.weoa.com/mumblefe/letgo/commits/c967f13a1d201e6c711aff912c9d2d7abb30971c))
+* 更改构建输出文件名 ([42b0912](https://git.weoa.com/mumblefe/letgo/commits/42b0912f6c3e2a331114061472fcaa4a91005b7f))
+
+
+### Features
+
+* node.parent添加响应性 ([974a7a6](https://git.weoa.com/mumblefe/letgo/commits/974a7a65b64ffabe4371ef72d01e5ee9f9993e7a))
+* 当点击画布时,leftFloatArea如果是fixed状态则关闭 ([90f08a2](https://git.weoa.com/mumblefe/letgo/commits/90f08a2574e7d081420220ba5c3a315d37b8c308))
+
+
+
 ## [0.0.3-beta.11](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.10...v0.0.3-beta.11) (2024-02-02)
 
 

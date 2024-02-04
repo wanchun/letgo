@@ -20,7 +20,7 @@ export class JavascriptFunctionLive {
         this.deps = deps;
     }
 
-    async trigger(...args: any[]) {
+    trigger(...args: any[]) {
         if (this.funcBody) {
             try {
                 // eslint-disable-next-line no-new-func
@@ -31,7 +31,7 @@ export class JavascriptFunctionLive {
             }
             return result;
         `);
-                return await fn(this.ctx, args);
+                return fn(this.ctx, args);
             }
             catch (err) {
                 console.log(err);

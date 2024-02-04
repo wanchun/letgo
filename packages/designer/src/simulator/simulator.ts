@@ -292,6 +292,8 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
         const { designer, project } = this;
         const doc = this.contentDocument;
         doc.addEventListener('mousedown', (downEvent: MouseEvent) => {
+            this.postEvent('contentDocument.mousedown', downEvent);
+
             document.dispatchEvent(new Event('mousedown'));
             const documentModel = project.currentDocument;
             if (!documentModel)

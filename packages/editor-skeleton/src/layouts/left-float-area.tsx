@@ -6,7 +6,9 @@ import type {
 import {
     computed,
     defineComponent,
-    onUnmounted,
+    onBeforeUnmount,
+    ref,
+    watch,
 } from 'vue';
 import { Close, Lock, Unlock } from '@icon-park/vue-next';
 import { addUnit } from '@webank/letgo-common';
@@ -58,14 +60,33 @@ export default defineComponent({
 
         const designer = area.skeleton.designer;
 
-        const clear = designer.dragon.onDragstart(() => {
-            if (area.current?.isFixed)
-                handleClose();
+        const isSimulatorReady: Ref<boolean> = ref(designer.isRendererReady);
+
+        const disposeFunctions: Array<() => void> = [
+            // 开始拖拽，则关闭 fixed
+            designer.dragon.onDragstart(() => {
+                if (area.current?.isFixed)
+                    handleClose();
+            }),
+            designer.onRendererReady(() => {
+                isSimulatorReady.value = true;
+            }),
+        ];
+
+        watch(isSimulatorReady, () => {
+            if (isSimulatorReady.value) {
+                disposeFunctions.push(
+                    // 点击画布，则关闭 fixed
+                    designer.simulator.onEvent('contentDocument.mousedown', () => {
+                        if (area.current?.isFixed)
+                            handleClose();
+                    }),
+                );
+            }
         });
 
-        onUnmounted(() => {
-            if (clear)
-                clear();
+        onBeforeUnmount(() => {
+            disposeFunctions.forEach(clear => clear());
         });
 
         return () => {

@@ -217,10 +217,11 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
 
     constructor(readonly document: DocumentModel, nodeSchema: Schema) {
         markShallowReactive(this, {
+            _parent: null,
             ref: '',
             _slots: [],
         });
-        markComputed(this, ['computedSchema', 'slots', 'isLocked']);
+        markComputed(this, ['computedSchema', 'slots', 'isLocked', 'parent']);
 
         const { componentName, id, ref, children, props, ...extras } = nodeSchema;
         this.id = document.nextId(id, componentName);

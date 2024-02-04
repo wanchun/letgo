@@ -374,12 +374,6 @@ export class Designer implements IPublicModelDesigner<Project, DocumentModel, Co
         };
     }
 
-    purge() {
-        // 只清掉要换的部分
-        this._simulator = null;
-        this.clearOffsetObserverList(true);
-    }
-
     private offsetObserverList: OffsetObserver[] = [];
 
     createOffsetObserver(nodeInstance: INodeSelector) {
@@ -408,5 +402,11 @@ export class Designer implements IPublicModelDesigner<Project, DocumentModel, Co
 
     createSettingEntry(nodes: INode[]) {
         return new SettingTop(this.editor, nodes);
+    }
+
+    purge() {
+        // 只清掉要换的部分
+        this._simulator = null;
+        this.clearOffsetObserverList(true);
     }
 }

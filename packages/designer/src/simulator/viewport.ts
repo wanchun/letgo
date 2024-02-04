@@ -1,6 +1,6 @@
 import {
     markComputed,
-    markReactive,
+    markShallowReactive,
 } from '@webank/letgo-common';
 import { isNaN } from 'lodash-es';
 import type { IPublicTypeAutoFit, IPublicTypePoint } from '@webank/letgo-types';
@@ -127,7 +127,7 @@ export class Viewport implements IViewport {
     }
 
     constructor() {
-        markReactive(this, {
+        markShallowReactive(this, {
             rect: undefined,
             _scale: 1,
             _scrollX: 0,

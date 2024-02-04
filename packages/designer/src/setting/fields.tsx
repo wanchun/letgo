@@ -62,10 +62,10 @@ export const PopupFieldView = defineComponent({
 
         return () => {
             return (
-                <div class="letgo-designer-setting__popup" id={id} style={{ right: '400px' }}>
+                <div class="letgo-designer-setting__popup" id={id}>
                     <div class="letgo-designer-setting__header">{props.title}</div>
                     <div class="letgo-designer-setting__body">
-                        <EditOutlined class="letgo-designer-setting__icon" onClick={toggle}/>
+                        <EditOutlined class="letgo-designer-setting__icon" onClick={toggle} />
                     </div>
                 </div>
             );
@@ -103,7 +103,7 @@ export const AccordionFieldView = defineComponent({
             return (
                 <div class="letgo-designer-setting__accordion-field" id={id}>
                     <div class="letgo-designer-setting__header" onClick={onClickHeader}>
-                        <RightOutlined class={['letgo-designer-setting__icon', props.expanded && 'letgo-designer-setting__icon--show']}/>
+                        <RightOutlined class={['letgo-designer-setting__icon', props.expanded && 'letgo-designer-setting__icon--show']} />
                         <span>{props.title}</span>
                     </div>
                     <div class="letgo-designer-setting__body" v-show={props.expanded}>{slots.default?.()}</div>

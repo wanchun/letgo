@@ -88,7 +88,7 @@ export class Editor extends EventEmitter implements IPublicEditor {
                 // 如果有远程组件描述协议，则自动加载并补充到资产包中，同时出发 designer.incrementalAssetsReady 通知组件面板更新数据
                 if (
                     remoteComponentDescriptions
-                && remoteComponentDescriptions.length
+                    && remoteComponentDescriptions.length
                 ) {
                     await Promise.all(
                         remoteComponentDescriptions.map(async (component: IPublicTypeRemoteComponentDescription) => {

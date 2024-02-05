@@ -54,7 +54,7 @@ export default defineComponent({
         const searchText: Ref<string> = ref();
 
         const snippetsRef = computed(() => {
-            let arr: Array<IPublicTypeSnippet & { component: IPublicTypeComponentDescription, title: string, screenshot?: string, group?: string, category: string }> = [];
+            let arr: Array<IPublicTypeSnippet & { component: IPublicTypeComponentDescription, priority: number, title: string, screenshot?: string, group?: string, category: string }> = [];
             assetsRef.value.components.forEach((component) => {
                 if (!isComponentDescription(component))
                     return;
@@ -65,11 +65,14 @@ export default defineComponent({
                         screenshot: component.screenshot,
                         group: component.group,
                         category: component.category,
+                        priority: component.priority ?? 0,
                         ...snippet,
                     };
                 }));
             });
-            return arr;
+            return arr.sort((a, b) => {
+                return a.priority - b.priority;
+            });
         });
 
         const groupListRef: Ref<string[]> = computed(() => {

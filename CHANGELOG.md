@@ -1,3 +1,12 @@
+## [0.0.3-beta.13](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.12...v0.0.3-beta.13) (2024-2-5)
+
+
+### Features
+
+* snippet 支持排序 ([b0862df](https://git.weoa.com/mumblefe/letgo/commits/b0862dfac559c7bdd36b823e051225eef4288be0))
+
+
+
 ## [0.0.3-beta.12](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.11...v0.0.3-beta.12) (2024-2-4)
 
 

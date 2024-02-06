@@ -9,7 +9,7 @@
         ],
         "experimentalDecorators": true,
         "module": "ESNext",
-        "moduleResolution": "Node",
+        "moduleResolution": "NodeNext",
         "resolveJsonModule": true,
         "allowJs": false,
         "strict": true,

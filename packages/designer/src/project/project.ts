@@ -183,7 +183,7 @@ export class Project implements IBaseProject<DocumentModel, Code> {
 
     openDocument(doc?: string | DocumentModel | IPublicTypeRootSchema): DocumentModel | null {
         if (typeof doc === 'string') {
-            const got = this.documents.find(
+            let got = this.documents.find(
                 item => item.fileName === doc || item.id === doc,
             );
             if (got) {
@@ -196,7 +196,7 @@ export class Project implements IBaseProject<DocumentModel, Code> {
                 data => data.fileName === doc,
             );
             if (data) {
-                doc = this.createDocument(data);
+                got = this.createDocument(data);
                 this._currentDocument = got;
                 this.emitter.emit('current-document.change', this._currentDocument);
                 return got;

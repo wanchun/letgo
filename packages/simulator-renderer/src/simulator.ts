@@ -14,6 +14,7 @@ import {
     reactive,
     ref,
     shallowRef,
+    toRaw,
 } from 'vue';
 import { config } from '@webank/letgo-renderer';
 import { builtinComponents } from '@webank/letgo-components';
@@ -202,11 +203,6 @@ function createSimulatorRenderer() {
     }) as VueSimulatorRenderer;
 
     simulator.app = markRaw(createApp(SimulatorApp, { simulator }));
-    simulator.app.config.warnHandler = (msg: string) => {
-        // 忽略这个警告，生产不会遍历 component instance 的 keys
-        if (!msg.includes('enumerating keys'))
-            console.warn(msg);
-    };
 
     simulator.router = markRaw(
         createRouter({
@@ -253,10 +249,8 @@ function createSimulatorRenderer() {
             const documentInstance = documentInstanceMap.get(did);
             const instance
                 = documentInstance?.getComponentInstance(cid) ?? null;
-            return instance && Object.keys(instance).reduce((acc, key) => {
-                acc[key] = instance[key as keyof typeof instance];
-                return acc;
-            }, {} as Record<string, any>);
+            // setupState 为内部属性，因此类型识别不了
+            return instance ? { ...toRaw(instance.$props), ...toRaw(instance.$.setupState), ...toRaw(instance.$.exposed) } : {};
         }
         return {};
     };

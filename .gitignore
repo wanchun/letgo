@@ -5,6 +5,7 @@ node_modules
 .temp
 .fes
 .hound
+.vite-inspect
 dist
 es
 lib

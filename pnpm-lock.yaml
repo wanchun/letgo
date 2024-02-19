@@ -147,8 +147,8 @@ importers:
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
       '@qlin/oxc-wasm-web':
-        specifier: ^0.0.1
-        version: 0.0.1
+        specifier: ^0.0.2
+        version: 0.0.2
       '@replit/codemirror-vscode-keymap':
         specifier: ^6.0.2
         version: 6.0.2(@codemirror/autocomplete@6.11.0)(@codemirror/commands@6.3.2)(@codemirror/language@6.9.2)(@codemirror/lint@6.4.2)(@codemirror/search@6.5.5)(@codemirror/state@6.3.1)(@codemirror/view@6.22.0)
@@ -2972,8 +2972,8 @@ packages:
     resolution: {integrity: sha512-2LuNTFBIO0m7kKIQvvPHN6UE63VjpmL9rnEEaOOaiSPbZK+zUOYIzBAWcED+3XYzhYsd/0mD57VdxAEqqV52CQ==}
     dev: true
 
-  /@qlin/oxc-wasm-web@0.0.1:
-    resolution: {integrity: sha512-9Qto1PLejFccsY4Lv+S+IPwhlF5KT9hFpWjyhLwXeJTSfjAQqcFcNXgqRyUL6/jbstbt8Po6+VrgZBwjUViIUg==, tarball: https://registry.npmjs.org/@qlin/oxc-wasm-web/-/oxc-wasm-web-0.0.1.tgz}
+  /@qlin/oxc-wasm-web@0.0.2:
+    resolution: {integrity: sha512-QNzGBoAdu+lU3yYjnikLCI7w8eYLmWzAJoBHr2A4DNSmW/0SV/Dc6OAXznWL/EM3lkWGfa9zVKyHXUbzJeSPSw==}
     dev: false
 
   /@qlin/request@0.1.11:

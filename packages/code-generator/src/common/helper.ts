@@ -126,15 +126,17 @@ export function genImportCode(imports: ImportSource[]) {
 }
 
 export function genCodeMap(code: ICodeStruct, codeMap: Map<string, ICodeItem> = new Map<string, ICodeItem>()) {
-    code.code.forEach((item) => {
-        codeMap.set(item.id, item);
-    });
-
-    code.directories.forEach((directory) => {
-        directory.code.forEach((item) => {
+    if (code) {
+        code.code?.forEach((item) => {
             codeMap.set(item.id, item);
         });
-    });
+    
+        code.directories?.forEach((directory) => {
+            directory.code.forEach((item) => {
+                codeMap.set(item.id, item);
+            });
+        });
+    }
     return codeMap;
 }
 

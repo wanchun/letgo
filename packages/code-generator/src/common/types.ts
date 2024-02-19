@@ -13,7 +13,7 @@ export interface GenOptions {
 }
 
 export interface FileTree {
-    [key: string]: string | FileTree
+    [key: string]: string | FileTree | File
 }
 
 export enum ImportType {

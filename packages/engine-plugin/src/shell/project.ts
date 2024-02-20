@@ -56,8 +56,4 @@ export class Project {
     setUtils(utils: IPublicTypeUtilsMap) {
         this[projectSymbol].setUtils(utils);
     }
-
-    setIcons(icons: IPublicTypeIconSchema[]) {
-        this[projectSymbol].setIcons(icons);
-    }
 }

@@ -70,10 +70,6 @@ export class Project implements IBaseProject<DocumentModel, Code> {
         return this.data.utils;
     }
 
-    get icons(): IPublicTypeIconSchema[] | undefined {
-        return this.data.icons;
-    }
-
     constructor(readonly designer: Designer, schema?: IPublicTypeProjectSchema) {
         markShallowReactive(this, {
             _currentDocument: null,
@@ -98,10 +94,6 @@ export class Project implements IBaseProject<DocumentModel, Code> {
 
     setUtils(utils: IPublicTypeUtilsMap) {
         this.data.utils = utils;
-    }
-
-    setIcons(icons: IPublicTypeIconSchema[]) {
-        this.data.icons = icons;
     }
 
     private getComponentsMap(): IPublicTypeComponentsMap {
@@ -250,7 +242,6 @@ export class Project implements IBaseProject<DocumentModel, Code> {
             | 'componentsTree'
             | 'componentsMap'
             | 'utils'
-            | 'icons'
             | 'constants'
             | 'i18n'
             | 'css'

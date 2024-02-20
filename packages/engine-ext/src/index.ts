@@ -1,6 +1,8 @@
 import type { IPublicTypeSetter } from '@webank/letgo-types';
 import * as setters from './setter';
 
+export * from './setter';
+
 export const version = ENGINE_EXT_VERSION_PLACEHOLDER;
 
 const engineExt: {

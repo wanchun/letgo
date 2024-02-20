@@ -6,8 +6,7 @@ import {
     exportZip,
     gen,
 } from '@webank/letgo-code-generator';
-import { IPublicEnumTransformStage, isProCodeComponentType, isRestQueryResource } from '@webank/letgo-types';
-import { getIconSprite } from '@webank/letgo-common';
+import { IPublicEnumTransformStage, isProCodeComponentType } from '@webank/letgo-types';
 import { FButton, FMessage } from '@fesjs/fes-design';
 import { DownloadOutlined } from '@fesjs/fes-design/icon';
 import { forEach, isNil, isObject, isString, merge } from 'lodash-es';
@@ -97,7 +96,6 @@ export default defineComponent({
             });
 
             const customFiles = transform(codeTemplate, {
-                SVG_SPRITE: getIconSprite(schema.icons ?? []),
                 IS_MICRO: !isNil(schema.config.mainAppState),
             });
 

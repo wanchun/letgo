@@ -52,8 +52,6 @@ export interface IBaseProject<
 
     get utils(): IPublicTypeUtilsMap
 
-    get icons(): IPublicTypeIconSchema[] | undefined
-
     /**
      * 打开一个 document
      * open a document
@@ -108,8 +106,6 @@ export interface IBaseProject<
     importSchema(schema?: IPublicTypeProjectSchema): void
 
     setUtils(utils: IPublicTypeUtilsMap): void
-
-    setIcons(icons: IPublicTypeIconSchema[]): void
 }
 
 export interface IPublicModelProject extends IBaseProject<IPublicModelDocumentModel> {}

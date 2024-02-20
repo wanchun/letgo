@@ -1,7 +1,6 @@
 // NOTE: 仅用作类型标注，切勿作为实体使用
 import {
     assetItem,
-    getIconSprite,
     isAssetBundle,
     isAssetItem,
     isCSSUrl,
@@ -103,7 +102,6 @@ export function createSimulator(
     ${styleFrags}
   </head>
   <body>
-    ${simulator.project.icons ? getIconSprite(simulator.project.icons) : ''}
     ${scriptFrags}
     <script>
     window.dispatchEvent(new Event('load'));

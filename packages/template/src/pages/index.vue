@@ -2,6 +2,7 @@
 import { defineComponent } from 'vue';
 import { LetgoEngine, material, project } from '@webank/letgo-engine';
 import { createRequest } from '@qlin/request';
+import { IconSetter } from '@webank/letgo-engine-ext';
 import assets from '../assets/assets';
 import icons from '../assets/icones-bags';
 import page from '../assets/page';
@@ -10,10 +11,11 @@ export default defineComponent({
     components: { LetgoEngine },
     setup() {
         material.setAssets(assets);
-        project.setIcons(icons);
+
+        IconSetter.defaultIcons = icons;
 
         const onReady = () => {
-            project.openDocument(page);
+            project.openDocument();
             console.log('project:', project);
         };
 

@@ -33,10 +33,6 @@ export interface IPublicTypeProjectSchema {
      */
     utils?: IPublicTypeUtilsMap
     /**
-     * 应用使用的Icon
-     */
-    icons?: IPublicTypeIconSchema[]
-    /**
      * 应用范围内的全局常量
      */
     constants?: IPublicTypeJSONObject

@@ -1,12 +1,12 @@
 import type { CSSProperties, ComputedRef } from 'vue';
-import { computed, defineComponent, h } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { isNil } from 'lodash-es';
 import type { IPublicTypeComponentMetadata } from '@webank/letgo-types';
 
 export const Icon = defineComponent({
     name: 'Icon',
     props: {
-        type: String,
+        content: String,
         rotate: String,
         size: Number,
         color: String,
@@ -31,25 +31,12 @@ export const Icon = defineComponent({
             ];
         });
 
-        return {
-            svgStyle,
-        };
-    },
-    render() {
-        return h(
-            'span',
-            { style: this.svgStyle },
-            h(
-                'svg',
-                {
-                    style: {
-                        width: '1em',
-                        height: '1em',
-                    },
-                },
-                h('use', { href: `#${this.$props.type}` }),
-            ),
-        );
+        return ()=> {
+            return (
+                <span style={svgStyle.value} v-html={props.content}>
+                </span>
+            )
+        }
     },
 });
 
@@ -59,7 +46,7 @@ export const IconMeta: IPublicTypeComponentMetadata = {
     configure: {
         props: [
             {
-                name: 'type',
+                name: 'content',
                 title: '图标',
                 setter: 'IconSetter',
             },

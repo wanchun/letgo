@@ -1,47 +1,17 @@
-import type { Component, PropType } from 'vue';
+import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted, ref } from 'vue';
 import { isArray, isUndefined } from 'lodash-es';
 import { isJSSlot } from '@webank/letgo-types';
 import type { IPublicTypeJSSlot, IPublicTypeSetter } from '@webank/letgo-types';
+import { Icon } from '@webank/letgo-components'
 import { FGrid, FGridItem, FTooltip } from '@fesjs/fes-design';
 import { CloseCircleFilled } from '@fesjs/fes-design/icon';
 import { commonProps } from '../../common';
-import Icon from './icon';
 import './index.less';
 
-function getIconList() {
-    const iframe = document.querySelector<HTMLIFrameElement>(
-        'iframe[name=SimulatorRenderer]',
-    )!;
-
-    // 会在页面中添加svg元素
-    const symbols = Array.prototype.slice.call(
-        iframe.contentDocument!.querySelectorAll(
-            'svg[style="position: absolute; width: 0px; height: 0px; overflow: hidden;"][aria-hidden="true"] > symbol',
-        ),
-    );
-
-    return symbols.map((symbol) => {
-        const { id } = symbol;
-        const { x, y, width, height } = symbol?.viewBox?.baseVal ?? {};
-        return {
-            name: id,
-            icon: () => (
-                <span role="img">
-                    <svg
-                        viewBox={`${x},${y},${width},${height}`}
-                        style={{
-                            width: '1em',
-                            height: '1em',
-                            fill: 'none',
-                        }}
-                        v-html={symbol.innerHTML}
-                    >
-                    </svg>
-                </span>
-            ),
-        };
-    });
+interface IIcon {
+    name: string;
+    svg: string;
 }
 
 const IconSetterView = defineComponent({
@@ -58,8 +28,8 @@ const IconSetterView = defineComponent({
             type: Function as PropType<(icon: string | IPublicTypeJSSlot) => void>,
         },
         icons: {
-            type: Array as PropType<string[]>,
-            default: () => [] as string[],
+            type: Array as PropType<IIcon[]>,
+            default: () => [] as IIcon[],
         },
         placeholder: {
             type: String,
@@ -67,11 +37,6 @@ const IconSetterView = defineComponent({
         },
     },
     setup(props) {
-        const icons: Record<string, Component> = {};
-
-        getIconList().forEach((item) => {
-            icons[item.name] = item?.icon;
-        });
 
         onMounted(() => {
             props.onMounted?.();
@@ -79,7 +44,7 @@ const IconSetterView = defineComponent({
 
         const isHoverRef = ref(false);
 
-        const iconName = computed(() => {
+        const icon = computed(() => {
             const val = isUndefined(props.value)
                 ? props.defaultValue
                 : props.value;
@@ -91,7 +56,7 @@ const IconSetterView = defineComponent({
                 else
                     firstNodeData = val.value;
 
-                return firstNodeData?.props?.type;
+                return firstNodeData?.props?.content;
             }
 
             return val;
@@ -108,7 +73,7 @@ const IconSetterView = defineComponent({
                             value: {
                                 componentName: 'Icon',
                                 props: {
-                                    type: icon,
+                                    content: icon,
                                 },
                             },
                         }
@@ -117,12 +82,13 @@ const IconSetterView = defineComponent({
         };
 
         const renderIcons = () => {
+            const icons = [...props.icons, ...IconSetter.defaultIcons];
             return (
                 <FGrid class="letgo-color-setter__icons" wrap gutter={[10, 10]}>
-                    {Object.keys(icons).map((name) => {
+                    {icons.map((item) => {
                         return (
                             <FGridItem span={3}>
-                                <Icon type={name} size={20} icons={icons} onClick={() => handleChange(name)}/>
+                                <Icon content={item.svg} size={20} onClick={() => handleChange(item.svg)}/>
                             </FGridItem>
                         );
                     })}
@@ -138,15 +104,16 @@ const IconSetterView = defineComponent({
                         onMouseenter={() => { isHoverRef.value = true; }}
                         onMouseleave={() => { isHoverRef.value = false; }}
                     >
-                        <div class="letgo-color-setter__box">
-                            <Icon type={iconName.value} size={20} icons={icons} />
-                        </div>
-                        <div class={['letgo-color-setter__text', !iconName.value && 'letgo-color-setter__text--null']}>{iconName.value || props.placeholder}</div>
-                        <input
-                            class="letgo-color-setter__input"
-                            readonly
-                            value={iconName.value}
-                        ></input>
+                        {
+                            icon.value ? (
+                                <div class="letgo-color-setter__box">
+                                    <Icon content={icon.value} size={20} />
+                                </div>
+                            ) :
+                            (
+                                <div class="letgo-color-setter__text--null">{props.placeholder}</div>
+                            )
+                        }
                         <CloseCircleFilled
                             v-show={isHoverRef.value}
                             class="letgo-color-setter__icon"
@@ -159,8 +126,9 @@ const IconSetterView = defineComponent({
     },
 });
 
-export const IconSetter: IPublicTypeSetter = {
+export const IconSetter: IPublicTypeSetter & { defaultIcons: IIcon[] } = {
     type: 'IconSetter',
     title: '图标设置器',
     Component: IconSetterView,
+    defaultIcons: [],
 };

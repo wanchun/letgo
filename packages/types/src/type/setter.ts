@@ -1,4 +1,4 @@
-import type { Component, Slot } from 'vue';
+import type { Component } from 'vue';
 import type { IPublicModelSettingField } from '..';
 
 export interface IPublicTypeSetter {
@@ -18,4 +18,6 @@ export interface IPublicTypeSetter {
      * 给 MixedSetter 用于判断优先选中哪个
      */
     condition?: (target: IPublicModelSettingField) => boolean
+
+    [key: string]: any
 }

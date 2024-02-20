@@ -7,6 +7,7 @@ import { InputColor, InputUnit, Row } from '../../../component';
 import { addUnit, clearUnit, getPlaceholderPropertyValue } from '../../../common';
 import { styleKey } from '../const';
 import './background.less';
+import { StyleSetter } from '../index'
 
 enum EnumBackground {
     Image = 1,
@@ -144,16 +145,23 @@ export const BackgroundView = defineComponent({
                     {backgroundTypeRef.value === EnumBackground.Image && (
                         <>
                             <Row label="图片URL">
-                                <FInput
-                                    modelValue={getURL(currentValue.value.backgroundImage)}
-                                    placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'backgroundImage') ?? '请输入图片URL'}`}
-                                    onChange={(val: any) => {
-                                        onStyleChange({
-                                            backgroundImage: val ? `url("${val}")` : undefined,
-                                        });
-                                    }}
-                                >
-                                </FInput>
+                                {
+                                    StyleSetter.renderBackgroundImage?.({
+                                        value: getURL(currentValue.value.backgroundImage),
+                                        onStyleChange
+                                    }) ?? (
+                                        <FInput
+                                            modelValue={getURL(currentValue.value.backgroundImage)}
+                                            placeholder={`${getPlaceholderPropertyValue(provideStyle.style, 'backgroundImage') ?? '请输入图片URL'}`}
+                                            onChange={(val: any) => {
+                                                onStyleChange({
+                                                    backgroundImage: val ? `url("${val}")` : undefined,
+                                                });
+                                            }}
+                                        >
+                                        </FInput>
+                                    )
+                                }
                             </Row>
                             <Row label="尺寸">
                                 <FRadioGroup v-model={backgroundSizeRef.value}>

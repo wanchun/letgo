@@ -19,6 +19,7 @@ import PluginComponentTree from '@webank/letgo-plugin-component-tree';
 import PluginCode from '@webank/letgo-plugin-code';
 import './global.less';
 
+export { StyleSetter, IconSetter } from '@webank/letgo-engine-ext';
 export { definePlugin } from '@webank/letgo-engine-plugin';
 export type { IPluginConfig } from '@webank/letgo-engine-plugin';
 

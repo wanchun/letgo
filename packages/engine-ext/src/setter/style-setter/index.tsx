@@ -1,4 +1,4 @@
-import type { CSSProperties, PropType } from 'vue';
+import type { CSSProperties, PropType, VNodeChild } from 'vue';
 import { defineComponent, onMounted, provide, ref } from 'vue';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { cloneDeep, isNil } from 'lodash-es';
@@ -102,7 +102,7 @@ const StyleSetterView = defineComponent({
     },
 });
 
-export const StyleSetter: IPublicTypeSetter = {
+export const StyleSetter: IPublicTypeSetter & { renderBackgroundImage?: (props: { value: string, onStyleChange: (style: CSSProperties)=> void })=> VNodeChild } = {
     type: 'StyleSetter',
     title: '样式设置器',
     Component: StyleSetterView,

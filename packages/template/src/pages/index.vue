@@ -1,8 +1,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { LetgoEngine, material, project } from '@webank/letgo-engine';
+import { LetgoEngine, material, project, IconSetter, StyleSetter } from '@webank/letgo-engine';
 import { createRequest } from '@qlin/request';
-import { IconSetter } from '@webank/letgo-engine-ext';
 import assets from '../assets/assets';
 import icons from '../assets/icones-bags';
 import page from '../assets/page';

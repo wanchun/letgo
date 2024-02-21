@@ -43,6 +43,7 @@ const FunctionSetterView = defineComponent({
         return () => {
             return (
                 <CodeEditor
+                    documentModel={props.node.document}
                     doc={currentValue.value}
                     onChange={onChange}
                     compRef={props.node.ref}

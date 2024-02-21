@@ -1,7 +1,7 @@
 import type { IControlComponentAction, IControlQueryAction, IEventHandler, IPublicModelDocumentModel, IRunFunctionAction, ISetLocalStorageAction, ISetTemporaryStateAction } from '@webank/letgo-types';
 import { IEnumEventHandlerAction } from '@webank/letgo-types';
 import type { PropType } from 'vue';
-import { computed, defineComponent, ref } from 'vue';
+import { computed, defineComponent } from 'vue';
 
 import { FInput, FOption, FSelect } from '@fesjs/fes-design';
 import { DeleteOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
@@ -51,28 +51,32 @@ export default defineComponent({
                 };
             });
         });
-        const componentMethods = ref<{ label: string, value: string }[]>([]);
-        const selectComponent = (value: string) => {
-            const componentName = props.documentModel.state.componentsInstance[value].__componentName;
-            const metadata = props.documentModel.getComponentMeta(componentName).getMetadata();
-            componentMethods.value = (metadata.configure?.supports?.methods || []).map((item) => {
-                if (typeof item === 'string') {
+
+        const componentMethods = computed<{ label: string, value: string }[]>(() => {
+            if (props.componentEvent.action === IEnumEventHandlerAction.CONTROL_COMPONENT && props.componentEvent.namespace) {
+                const componentName = props.documentModel.state.componentsInstance[props.componentEvent.namespace].__componentName;
+                const metadata = props.documentModel.getComponentMeta(componentName).getMetadata();
+                return (metadata.configure?.supports?.methods || []).map((item) => {
+                    if (typeof item === 'string') {
+                        return {
+                            label: item,
+                            value: item,
+                        };
+                    }
                     return {
-                        label: item,
-                        value: item,
+                        label: item.name,
+                        value: item.name,
                     };
-                }
-                return {
-                    label: item.name,
-                    value: item.name,
-                };
-            });
-        };
+                });
+            }
+            return [];
+        })
+        
         const renderComponentMethod = (data: IControlComponentAction) => {
             return (
                 <>
                     <Label label="组件">
-                        <FSelect appendToContainer={false} onChange={selectComponent} v-model={data.namespace} filterable options={componentInstanceOptions.value} />
+                        <FSelect appendToContainer={false}  v-model={data.namespace} filterable options={componentInstanceOptions.value} />
                     </Label>
                     <Label label="方法">
                         <FSelect appendToContainer={false} v-model={data.method} options={componentMethods.value} />

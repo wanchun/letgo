@@ -1,3 +1,13 @@
+## [0.0.3-beta.15](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.14...v0.0.3-beta.15) (2024-02-21)
+
+
+### Bug Fixes
+
+* 优化出码中对属性是string的处理 ([fb8efe6](https://git.weoa.com/mumblefe/letgo/commits/fb8efe6e28b6c5da40065e4071ea47623ed76128))
+* 修复预览没有 ref 的问题 ([a5002fe](https://git.weoa.com/mumblefe/letgo/commits/a5002fec1be60aa640fb3d7b65fdff3013c1968e))
+
+
+
 ## [0.0.3-beta.14](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.13...v0.0.3-beta.14) (2024-02-21)
 
 

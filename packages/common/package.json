@@ -1,6 +1,6 @@
 {
     "name": "@webank/letgo-common",
-    "version": "0.0.3-beta.2",
+    "version": "0.0.3-beta.3",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -12,7 +12,7 @@
         "lib"
     ],
     "dependencies": {
-        "@webank/letgo-types": "^0.0.2-beta.1",
+        "@webank/letgo-types": "^0.0.2-beta.2",
         "acorn": "^8.8.2",
         "acorn-walk": "^8.2.0",
         "astring": "^1.8.6",

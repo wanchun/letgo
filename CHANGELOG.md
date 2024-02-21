@@ -1,3 +1,21 @@
+## [0.0.3-beta.14](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.13...v0.0.3-beta.14) (2024-02-21)
+
+
+### Bug Fixes
+
+* FileTree添加File类型 ([c02da72](https://git.weoa.com/mumblefe/letgo/commits/c02da721da1e959eba490062d17e70ddbb9f00c6))
+* 修复 document 问题 ([7dc30c0](https://git.weoa.com/mumblefe/letgo/commits/7dc30c048f6dcde75e6322c447620620d41a2b1e))
+* 修复 oxc 格式化参数丢失问题 ([7374430](https://git.weoa.com/mumblefe/letgo/commits/73744306207d222a338c53bac1f63c98f1addd8f))
+* 修复导出 code 可能为空问题 ([ad6cf57](https://git.weoa.com/mumblefe/letgo/commits/ad6cf577a45d162044356a353956671f76ca0443))
+* 解决 keys component instance 问题 ([ed80fc0](https://git.weoa.com/mumblefe/letgo/commits/ed80fc0622f1bce275b1fcd5f00b57f7e7aca6a2))
+
+
+### Features
+
+* StyleSetter中backgroundImage支持自定义配置 ([db4a2d6](https://git.weoa.com/mumblefe/letgo/commits/db4a2d642bfb6cc0dce1b4e6ddab7c1401c39da5))
+
+
+
 ## [0.0.3-beta.13](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.12...v0.0.3-beta.13) (2024-2-5)
 
 

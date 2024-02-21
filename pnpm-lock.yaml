@@ -635,9 +635,6 @@ importers:
       '@webank/letgo-engine':
         specifier: workspace:*
         version: link:../engine
-      '@webank/letgo-engine-ext':
-        specifier: workspace:*
-        version: link:../engine-ext
       '@webank/letgo-plugin-code':
         specifier: workspace:*
         version: link:../plugin-code

@@ -76,7 +76,7 @@ function normalProps(key: string, value: any, refName: string) {
         return '';
 
     if (typeof value === 'string' && value)
-        return `${key}="${value}"`;
+        return `${key}={\`${value}\`}`;
 
     if (value) {
         value = formatProps(key, value, refName);

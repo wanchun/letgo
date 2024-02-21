@@ -1,4 +1,7 @@
 import { Fragment, defineComponent, h } from 'vue';
+import type {
+    IPublicTypeComponentInstance,
+} from '@webank/letgo-types';
 import type { BlockScope } from '../utils';
 import { useRendererContext } from '../context';
 import {
@@ -16,7 +19,7 @@ export const Live = defineComponent({
     name: 'Live',
     props: leafProps,
     setup(props) {
-        const { executeCtx } = useRendererContext();
+        const { executeCtx, onCompGetCtx } = useRendererContext();
 
         const { renderComp } = useLeaf(props.scope, executeCtx);
 
@@ -30,6 +33,11 @@ export const Live = defineComponent({
             return buildSlots(renderComp, slots, blockScope);
         };
 
+        
+        const getRef = (inst: IPublicTypeComponentInstance) => {
+            onCompGetCtx(props.schema, inst);
+        };
+
         return {
             show,
             loop,
@@ -38,6 +46,7 @@ export const Live = defineComponent({
             compSlots,
             innerBuildSlots,
             executeCtx,
+            getRef,
             renderComp,
         };
     },
@@ -49,6 +58,7 @@ export const Live = defineComponent({
             loopArgs,
             compProps,
             compSlots,
+            getRef,
             innerBuildSlots,
             scope,
             executeCtx,
@@ -68,6 +78,7 @@ export const Live = defineComponent({
                     context: executeCtx,
                     scope,
                     propsSchema: compProps,
+                    extraProps: { ref: getRef },
                     render: renderComp,
                 }),
                 innerBuildSlots(compSlots),
@@ -92,6 +103,7 @@ export const Live = defineComponent({
                         context: executeCtx,
                         scope,
                         propsSchema: compProps,
+                        extraProps: { ref: getRef },
                         blockScope,
                         render: renderComp,
                     }),

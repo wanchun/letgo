@@ -1,7 +1,7 @@
 import type { IPublicTypeJSFunction } from '@webank/letgo-types';
 import { executeExpression } from '@webank/letgo-common';
 
-export function funcSchemaToFunc(schema: IPublicTypeJSFunction, ctx: Record<string, unknown>) {
+export function funcSchemaToFunc(schema: IPublicTypeJSFunction, ctx: Record<string, unknown>, scope?: Record<string, unknown>) {
     if (!schema.value.trim())
         return undefined;
     try {
@@ -14,6 +14,7 @@ export function funcSchemaToFunc(schema: IPublicTypeJSFunction, ctx: Record<stri
         return result;
 `);
         return (...args: any[]) => {
+            ctx = scope ? { ...ctx, ...scope } : ctx;
             try {
                 const params = (schema.params || []).map(param => executeExpression(param, {
                     ...ctx,

@@ -188,7 +188,16 @@ export function buildSchema(schema: IPublicTypeNodeSchema, node?: INode) {
  * @param blockScope - 当前块级作用域
  * @param prop - 属性对象，仅在 design 模式下有值
  */
-function buildProp(
+
+function buildProp({
+    context,
+    render,
+    schema,
+    scope,
+    blockScope,
+    prop
+}: {
+    context: Record<string, unknown>
     render: (
         nodeSchema: IPublicTypeNodeData,
         blockScope?: MaybeArray<BlockScope | undefined | null>,
@@ -198,12 +207,12 @@ function buildProp(
     scope: RuntimeScope,
     blockScope?: BlockScope | null,
     prop?: Prop | null,
-): any {
+}): any {
     if (isJSExpression(schema)) {
-        return parseExpression(schema, scope);
+        return parseExpression(schema, {...context, ...scope});
     }
     else if (isJSFunction(schema)) {
-        return funcSchemaToFunc(schema, scope);
+        return funcSchemaToFunc(schema, context, scope);
     }
     else if (isJSSlot(schema)) {
         // 处理属性插槽
@@ -246,7 +255,7 @@ function buildProp(
     else if (isArray(schema)) {
         // 属性值为 array，递归处理属性的每一项
         return schema.map((item, idx) =>
-            buildProp(render, item, scope, blockScope, prop?.get(idx, false)),
+            buildProp({context, render, schema: item, scope, blockScope, prop: prop?.get(idx, false)}),
         );
     }
     else if (schema && isPlainObject(schema)) {
@@ -257,7 +266,7 @@ function buildProp(
                 return;
             const val = schema[key as keyof typeof schema];
             const childProp = prop?.get(key, false);
-            res[key] = buildProp(render, val, scope, blockScope, childProp);
+            res[key] = buildProp({context, render, schema: val, scope, blockScope, prop: childProp});
         });
         return res;
     }
@@ -272,7 +281,15 @@ function buildProp(
  * @param blockScope - 当前块级作用域
  * @param prop - 属性对象，仅在 design 模式下有值
  */
-function buildRefProp(
+function buildRefProp({
+    context,
+    render,
+    schema,
+    scope,
+    blockScope,
+    prop
+}: {
+    context: Record<string, unknown>
     render: (
         nodeSchema: IPublicTypeNodeData,
         blockScope?: MaybeArray<BlockScope | undefined | null>,
@@ -282,7 +299,7 @@ function buildRefProp(
     scope: RuntimeScope,
     blockScope?: BlockScope | null,
     prop?: Prop | null,
-): any {
+}): any {
     if (isString(schema)) {
         const field = schema;
         let lastInst: unknown = null;
@@ -292,6 +309,7 @@ function buildRefProp(
                 refs = scope.$.refs = {};
 
             if (isNil(scope.__loopRefIndex)) {
+                console.log('ref', field);
                 refs[field] = inst;
                 if (field in scope)
                     scope[field] = inst;
@@ -326,9 +344,9 @@ function buildRefProp(
         };
     }
     else {
-        const propValue = buildProp(render, schema, scope, blockScope, prop);
+        const propValue = buildProp({context, render, schema, scope, blockScope, prop});
         return isString(propValue)
-            ? buildRefProp(render, propValue, scope, blockScope, prop)
+            ? buildRefProp({context, render, schema: propValue, scope, blockScope, prop})
             : propValue;
     }
 }
@@ -440,13 +458,12 @@ export function buildProps({
     const parsedProps: Record<string, unknown> = {};
     const mergedScope = blockScope ? mergeScope(scope, blockScope) : scope;
 
-    const currentContext = { ...mergedScope, ...context };
     Object.keys(processed).forEach((propName) => {
         const schema = processed[propName];
         parsedProps[propName]
             = propName === 'ref'
-                ? buildRefProp(render, schema, currentContext, blockScope, node?.getProp(propName, false))
-                : buildProp(render, schema, currentContext, blockScope, node?.getProp(propName, false));
+                ? buildRefProp({context, render, schema, scope: mergedScope, blockScope, prop: node?.getProp(propName, false)})
+                : buildProp({context, render, schema, scope: mergedScope, blockScope, prop: node?.getProp(propName, false)});
     });
 
     // 应用运行时附加的属性值

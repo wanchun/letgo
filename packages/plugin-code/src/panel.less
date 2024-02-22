@@ -12,21 +12,31 @@
     }
 
     & &__edit {
-        display: flex;
         width: 100%;
         height: 100%;
-    
-        &-left {
-            width: 240px;
-            height: 100%;
-            border-right: 1px solid var(--letgo-border-color);
-        }
-        
-        &-right {
-            flex: 1;
-            overflow: hidden;
-        }
+        position: relative;
     }
+
+    & &__search {
+        padding: 8px 16px;
+        border-bottom: 1px solid var(--letgo-border-color);
+    }
+
+}
+
+.letgo-plg-code__detail {
+    position: absolute;
+    top: calc(48px - 1px);
+    bottom: 0;
+    left: 348px;
+    width: 400px;
+    background: #fff;
+    z-index: 999;
+    border: 1px solid var(--letgo-border-color);
+    border-left: 0;
+    border-bottom: 0;
+    box-shadow: 4px 6px 6px 0 rgba(31, 50, 88, 0.08);
+    height: auto;
 }
 
 .letgo-plg-code__icon {

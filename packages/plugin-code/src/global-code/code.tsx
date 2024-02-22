@@ -1,4 +1,4 @@
-import { computed, defineComponent, ref, watch } from 'vue';
+import { Teleport, computed, defineComponent, ref, watch } from 'vue';
 import type { PropType } from 'vue';
 import {
     FScrollbar,
@@ -14,6 +14,8 @@ export const GlobalCode = defineComponent({
     props: {
         modelValue: Boolean,
         designer: Object as PropType<Designer>,
+        currentTab: String,
+        searchText: String,
     },
     setup(props) {
         const code = computed(() => {
@@ -45,7 +47,7 @@ export const GlobalCode = defineComponent({
         return () => {
             return (
                 <div class="letgo-plg-code__edit">
-                    <FScrollbar class="letgo-plg-code__edit-left">
+                    <FScrollbar>
                         <CodeList
                             hasFunction
                             code={code.value}
@@ -53,11 +55,14 @@ export const GlobalCode = defineComponent({
                             currentCodeItem={currentCodeItem.value}
                             onChangeCurrentCodeItem={changeCurrentCodeItem}
                             codesInstance={codesInstance.value}
+                            searchText={props.searchText}
                         />
                     </FScrollbar>
-                    <FScrollbar class="letgo-plg-code__edit-right">
-                        <CodeEdit project={props.designer.project} codeItem={currentCodeItem.value} />
-                    </FScrollbar>
+                    <Teleport to={document.body}>
+                        <FScrollbar v-show={props.currentTab === 'globalLogic' && currentCodeItem.value} class="letgo-plg-code__detail">
+                            <CodeEdit project={props.designer.project} codeItem={currentCodeItem.value} />
+                        </FScrollbar>
+                    </Teleport>
                 </div>
             );
         };

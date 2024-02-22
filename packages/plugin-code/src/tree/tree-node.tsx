@@ -23,7 +23,11 @@ const TreeNode = defineComponent({
         };
         const renderLabel = () => {
             return (
-                <div onClick={toggleExpend} style={`padding-left: ${props.level * 14}px`}>
+                <div
+                    class="letgo-plg-code-tree__node"
+                    onClick={toggleExpend}
+                    style={`padding-left: ${props.level * 14}px`}
+                >
                     <FillArrow class={['letgo-plg-code-tree__icon', expended.value && 'letgo-plg-code-tree__icon--active']} />
                     <span style="font-weight: 600">{props.label}</span>
                     <LabelTip value={props.value} />

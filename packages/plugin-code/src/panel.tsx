@@ -3,18 +3,20 @@ import type {
 } from 'vue';
 import {
     defineComponent,
+    ref,
 } from 'vue';
 import {
+    FInput,
     FScrollbar,
     FTabPane,
     FTabs,
 } from '@fesjs/fes-design';
 import type { Designer } from '@webank/letgo-designer';
 import type { Editor } from '@webank/letgo-editor-core';
+import { SearchOutlined } from '@fesjs/fes-design/icon';
 import State from './state/state';
 import { GlobalCode } from './global-code/code';
 import CodeSetting from './code/code';
-import CodeEdit from './code/edit/code-edit';
 import './panel.less';
 
 export default defineComponent({
@@ -27,30 +29,42 @@ export default defineComponent({
         },
     },
     setup(props) {
+        const current = ref('code');
+
+        const searchValue = ref();
+
+        const onSearch = (val: string) => {
+            searchValue.value = val;
+        };
+
         return () => {
             return (
                 <div class="letgo-plg-code">
-                    <FTabs class="letgo-plg-code__tabs">
+                    <div class="letgo-plg-code__search">
+                        <FInput
+                            placeholder="请输入"
+                            clearable
+                            onInput={onSearch}
+                            v-slots={{
+                                suffix: () => <SearchOutlined />,
+                            }}
+                        >
+                        </FInput>
+                    </div>
+                    <FTabs class="letgo-plg-code__tabs" v-model={current.value}>
                         <FTabPane
                             name="页面逻辑"
                             value="code"
                             displayDirective="show"
                         >
-                            <div class="letgo-plg-code__edit">
-                                <FScrollbar class="letgo-plg-code__edit-left">
-                                    <CodeSetting designer={props.designer} />
-                                </FScrollbar>
-                                <FScrollbar class="letgo-plg-code__edit-right">
-                                    <CodeEdit designer={props.designer} />
-                                </FScrollbar>
-                            </div>
+                            <CodeSetting searchText={searchValue.value} currentTab={current.value} designer={props.designer} />
                         </FTabPane>
                         <FTabPane
                             name="全局逻辑"
                             value="globalLogic"
                             displayDirective="show"
                         >
-                            <GlobalCode designer={props.designer} />
+                            <GlobalCode searchText={searchValue.value} currentTab={current.value} designer={props.designer} />
                         </FTabPane>
                         <FTabPane
                             name="查看"
@@ -58,7 +72,7 @@ export default defineComponent({
                             displayDirective="show"
                         >
                             <FScrollbar>
-                                <State designer={props.designer} />
+                                <State searchText={searchValue.value} designer={props.designer} />
                             </FScrollbar>
                         </FTabPane>
                     </FTabs>

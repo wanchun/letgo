@@ -30,7 +30,7 @@ export default definePlugin({
                 area: 'leftFloatArea',
                 render: () => <Panel editor={editor} designer={designer} />,
                 props: {
-                    width: 720,
+                    width: 300,
                     title: '逻辑',
                 },
             }),

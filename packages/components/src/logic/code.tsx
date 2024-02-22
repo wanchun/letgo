@@ -4,6 +4,7 @@ import { FDropdown } from '@fesjs/fes-design';
 import { MoreOutlined, PlusOutlined } from '@fesjs/fes-design/icon';
 import type { ICodeItem, IPublicModelCode } from '@webank/letgo-types';
 import { IEnumCodeType, IEnumResourceType } from '@webank/letgo-types';
+import { isNil } from 'lodash-es';
 import { ComputedIcon, FolderIcon, JsIcon, RestIcon, StateIcon } from '../icons';
 import CodeId from './code-id';
 import './code.less';
@@ -36,6 +37,7 @@ export const CodeList = defineComponent({
             default: true,
         },
         onCodeIdChange: Function as PropType<((id: string, preId: string) => void)>,
+        searchText: String,
     },
     setup(props) {
         const options = [
@@ -120,7 +122,9 @@ export const CodeList = defineComponent({
         };
 
         const renderCode = () => {
-            return props.code?.code.map((item: any) => {
+            return props.code?.code.filter((item) => {
+                return !isNil(props.searchText) ? item.id.includes(props.searchText) : true;
+            }).map((item: any) => {
                 return (
                     <li onClick={() => props.onChangeCurrentCodeItem(item)} class={['letgo-logic-code__item', props.currentCodeItem?.id === item.id ? 'letgo-logic-code__item--active' : '']}>
                         {renderCodeIcon(item)}

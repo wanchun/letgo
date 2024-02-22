@@ -71,13 +71,13 @@ function render({
     blockScope,
     comp,
 }: {
-    scope: RuntimeScope
-    context: Record<string, unknown>
-    schema: IPublicTypeNodeData
-    base: Component
-    components: Record<string, Component>
-    blockScope?: MaybeArray<BlockScope | undefined | null>
-    comp?: Component
+    scope: RuntimeScope;
+    context: Record<string, unknown>;
+    schema: IPublicTypeNodeData;
+    base: Component;
+    components: Record<string, Component>;
+    blockScope?: MaybeArray<BlockScope | undefined | null>;
+    comp?: Component;
 }) {
     const mergedScope = mergeScope(scope, blockScope);
 
@@ -195,21 +195,21 @@ function buildProp({
     schema,
     scope,
     blockScope,
-    prop
+    prop,
 }: {
-    context: Record<string, unknown>
+    context: Record<string, unknown>;
     render: (
         nodeSchema: IPublicTypeNodeData,
         blockScope?: MaybeArray<BlockScope | undefined | null>,
         comp?: Component,
-    ) => VNode | null,
-    schema: unknown,
-    scope: RuntimeScope,
-    blockScope?: BlockScope | null,
-    prop?: Prop | null,
+    ) => VNode | null;
+    schema: unknown;
+    scope: RuntimeScope;
+    blockScope?: BlockScope | null;
+    prop?: Prop | null;
 }): any {
     if (isJSExpression(schema)) {
-        return parseExpression(schema, {...context, ...scope});
+        return parseExpression(schema, { ...context, ...scope });
     }
     else if (isJSFunction(schema)) {
         return funcSchemaToFunc(schema, context, scope);
@@ -255,7 +255,7 @@ function buildProp({
     else if (isArray(schema)) {
         // 属性值为 array，递归处理属性的每一项
         return schema.map((item, idx) =>
-            buildProp({context, render, schema: item, scope, blockScope, prop: prop?.get(idx, false)}),
+            buildProp({ context, render, schema: item, scope, blockScope, prop: prop?.get(idx, false) }),
         );
     }
     else if (schema && isPlainObject(schema)) {
@@ -266,7 +266,7 @@ function buildProp({
                 return;
             const val = schema[key as keyof typeof schema];
             const childProp = prop?.get(key, false);
-            res[key] = buildProp({context, render, schema: val, scope, blockScope, prop: childProp});
+            res[key] = buildProp({ context, render, schema: val, scope, blockScope, prop: childProp });
         });
         return res;
     }
@@ -287,18 +287,18 @@ function buildRefProp({
     schema,
     scope,
     blockScope,
-    prop
+    prop,
 }: {
-    context: Record<string, unknown>
+    context: Record<string, unknown>;
     render: (
         nodeSchema: IPublicTypeNodeData,
         blockScope?: MaybeArray<BlockScope | undefined | null>,
         comp?: Component,
-    ) => VNode | null,
-    schema: unknown,
-    scope: RuntimeScope,
-    blockScope?: BlockScope | null,
-    prop?: Prop | null,
+    ) => VNode | null;
+    schema: unknown;
+    scope: RuntimeScope;
+    blockScope?: BlockScope | null;
+    prop?: Prop | null;
 }): any {
     if (isString(schema)) {
         const field = schema;
@@ -309,7 +309,6 @@ function buildRefProp({
                 refs = scope.$.refs = {};
 
             if (isNil(scope.__loopRefIndex)) {
-                console.log('ref', field);
                 refs[field] = inst;
                 if (field in scope)
                     scope[field] = inst;
@@ -344,9 +343,9 @@ function buildRefProp({
         };
     }
     else {
-        const propValue = buildProp({context, render, schema, scope, blockScope, prop});
+        const propValue = buildProp({ context, render, schema, scope, blockScope, prop });
         return isString(propValue)
-            ? buildRefProp({context, render, schema: propValue, scope, blockScope, prop})
+            ? buildRefProp({ context, render, schema: propValue, scope, blockScope, prop })
             : propValue;
     }
 }
@@ -436,17 +435,17 @@ export function buildProps({
     extraProps,
     node,
 }: {
-    context: Record<string, unknown>
-    scope: RuntimeScope
-    propsSchema: Record<string, unknown>
+    context: Record<string, unknown>;
+    scope: RuntimeScope;
+    propsSchema: Record<string, unknown>;
     render: (
         nodeSchema: IPublicTypeNodeData,
         blockScope?: MaybeArray<BlockScope | undefined | null>,
         comp?: Component,
-    ) => VNode | null
-    blockScope?: BlockScope | null
-    extraProps?: Record<string, unknown>
-    node?: INode | null
+    ) => VNode | null;
+    blockScope?: BlockScope | null;
+    extraProps?: Record<string, unknown>;
+    node?: INode | null;
 }): any {
     // 属性预处理
     const processed: Record<string, unknown> = {};
@@ -462,8 +461,8 @@ export function buildProps({
         const schema = processed[propName];
         parsedProps[propName]
             = propName === 'ref'
-                ? buildRefProp({context, render, schema, scope: mergedScope, blockScope, prop: node?.getProp(propName, false)})
-                : buildProp({context, render, schema, scope: mergedScope, blockScope, prop: node?.getProp(propName, false)});
+                ? buildRefProp({ context, render, schema, scope: mergedScope, blockScope, prop: node?.getProp(propName, false) })
+                : buildProp({ context, render, schema, scope: mergedScope, blockScope, prop: node?.getProp(propName, false) });
     });
 
     // 应用运行时附加的属性值

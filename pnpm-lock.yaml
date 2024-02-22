@@ -84,10 +84,10 @@ importers:
   packages/code-generator:
     dependencies:
       '@webank/letgo-common':
-        specifier: ^0.0.3-beta.2
+        specifier: ^0.0.3-beta.3
         version: link:../common
       '@webank/letgo-types':
-        specifier: ^0.0.2-beta.1
+        specifier: ^0.0.2-beta.2
         version: link:../types
       jszip:
         specifier: ^3.10.1
@@ -99,7 +99,7 @@ importers:
   packages/common:
     dependencies:
       '@webank/letgo-types':
-        specifier: ^0.0.2-beta.1
+        specifier: ^0.0.2-beta.2
         version: link:../types
       acorn:
         specifier: ^8.8.2
@@ -141,8 +141,8 @@ importers:
         specifier: ^6.22.0
         version: 6.22.0
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.3.9)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.3.9)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
@@ -159,10 +159,10 @@ importers:
         specifier: ^10.7.1
         version: 10.7.1(vue@3.3.9)
       '@webank/letgo-common':
-        specifier: ^0.0.3-beta.2
+        specifier: ^0.0.3-beta.3
         version: link:../common
       '@webank/letgo-types':
-        specifier: ^0.0.2-beta.1
+        specifier: ^0.0.2-beta.2
         version: link:../types
       codemirror:
         specifier: ^6.0.1
@@ -177,19 +177,19 @@ importers:
   packages/designer:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.4.15)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.4.15)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.4.15)
       '@webank/letgo-common':
-        specifier: ^0.0.3-beta.2
+        specifier: ^0.0.3-beta.3
         version: link:../common
       '@webank/letgo-editor-core':
-        specifier: ^0.0.3-beta.0
+        specifier: ^0.0.3-beta.1
         version: link:../editor-core
       '@webank/letgo-types':
-        specifier: ^0.0.2-beta.1
+        specifier: ^0.0.2-beta.2
         version: link:../types
       eventemitter3:
         specifier: ^4.0.0
@@ -204,13 +204,13 @@ importers:
         specifier: ^0.1.4
         version: 0.1.4
       '@webank/letgo-common':
-        specifier: ^0.0.3-beta.2
+        specifier: ^0.0.3-beta.3
         version: link:../common
       '@webank/letgo-components':
-        specifier: ^0.0.3-beta.6
+        specifier: ^0.0.3-beta.7
         version: link:../components
       '@webank/letgo-types':
-        specifier: ^0.0.2-beta.1
+        specifier: ^0.0.2-beta.2
         version: link:../types
       eventemitter3:
         specifier: ^4.0.0
@@ -225,8 +225,8 @@ importers:
   packages/editor-skeleton:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.3.9)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.3.9)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
@@ -234,16 +234,16 @@ importers:
         specifier: ^10.7.1
         version: 10.7.1(vue@3.3.9)
       '@webank/letgo-common':
-        specifier: ^0.0.3-beta.2
+        specifier: ^0.0.3-beta.3
         version: link:../common
       '@webank/letgo-designer':
-        specifier: ^0.0.3-beta.5
+        specifier: ^0.0.3-beta.6
         version: link:../designer
       '@webank/letgo-editor-core':
-        specifier: ^0.0.3-beta.0
+        specifier: ^0.0.3-beta.1
         version: link:../editor-core
       '@webank/letgo-types':
-        specifier: ^0.0.2-beta.1
+        specifier: ^0.0.2-beta.2
         version: link:../types
       vue:
         specifier: ^3.3.9
@@ -252,40 +252,40 @@ importers:
   packages/engine:
     dependencies:
       '@webank/letgo-common':
-        specifier: ^0.0.3-beta.2
+        specifier: ^0.0.3-beta.3
         version: link:../common
       '@webank/letgo-designer':
-        specifier: ^0.0.3-beta.5
+        specifier: ^0.0.3-beta.6
         version: link:../designer
       '@webank/letgo-editor-core':
-        specifier: ^0.0.3-beta.0
+        specifier: ^0.0.3-beta.1
         version: link:../editor-core
       '@webank/letgo-editor-skeleton':
-        specifier: ^0.0.3-beta.5
+        specifier: ^0.0.3-beta.6
         version: link:../editor-skeleton
       '@webank/letgo-engine-ext':
-        specifier: ^0.0.3-beta.6
+        specifier: ^0.0.3-beta.7
         version: link:../engine-ext
       '@webank/letgo-engine-plugin':
-        specifier: ^0.0.3-beta.3
+        specifier: ^0.0.3-beta.4
         version: link:../engine-plugin
       '@webank/letgo-plugin-code':
-        specifier: ^0.0.3-beta.5
+        specifier: ^0.0.3-beta.6
         version: link:../plugin-code
       '@webank/letgo-plugin-component-tree':
-        specifier: ^0.0.3-beta.7
+        specifier: ^0.0.3-beta.8
         version: link:../plugin-component-tree
       '@webank/letgo-plugin-components':
-        specifier: ^0.0.3-beta.6
+        specifier: ^0.0.3-beta.7
         version: link:../plugin-components
       '@webank/letgo-plugin-designer':
-        specifier: ^0.0.3-beta.5
+        specifier: ^0.0.3-beta.6
         version: link:../plugin-designer
       '@webank/letgo-plugin-setting':
-        specifier: ^0.0.3-beta.5
+        specifier: ^0.0.3-beta.6
         version: link:../plugin-setting
       '@webank/letgo-types':
-        specifier: ^0.0.2-beta.1
+        specifier: ^0.0.2-beta.2
         version: link:../types
       eventemitter3:
         specifier: ^4.0.0
@@ -313,22 +313,22 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.3.9)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.3.9)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
       '@webank/letgo-common':
-        specifier: ^0.0.3-beta.2
+        specifier: ^0.0.3-beta.3
         version: link:../common
       '@webank/letgo-components':
-        specifier: ^0.0.3-beta.6
+        specifier: ^0.0.3-beta.7
         version: link:../components
       '@webank/letgo-designer':
-        specifier: ^0.0.3-beta.5
+        specifier: ^0.0.3-beta.6
         version: link:../designer
       '@webank/letgo-types':
-        specifier: ^0.0.2-beta.1
+        specifier: ^0.0.2-beta.2
         version: link:../types
       lodash-es:
         specifier: ^4.17.21
@@ -344,19 +344,19 @@ importers:
   packages/engine-plugin:
     dependencies:
       '@webank/letgo-common':
-        specifier: ^0.0.3-beta.2
+        specifier: ^0.0.3-beta.3
         version: link:../common
       '@webank/letgo-designer':
-        specifier: ^0.0.3-beta.5
+        specifier: ^0.0.3-beta.6
         version: link:../designer
       '@webank/letgo-editor-core':
-        specifier: ^0.0.3-beta.0
+        specifier: ^0.0.3-beta.1
         version: link:../editor-core
       '@webank/letgo-editor-skeleton':
-        specifier: ^0.0.3-beta.5
+        specifier: ^0.0.3-beta.6
         version: link:../editor-skeleton
       '@webank/letgo-types':
-        specifier: ^0.0.2-beta.1
+        specifier: ^0.0.2-beta.2
         version: link:../types
       lodash-es:
         specifier: ^4.17.21
@@ -368,8 +368,8 @@ importers:
   packages/plugin-code:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.3.9)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.3.9)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
@@ -377,22 +377,22 @@ importers:
         specifier: ^10.7.1
         version: 10.7.1(vue@3.3.9)
       '@webank/letgo-common':
-        specifier: ^0.0.3-beta.2
+        specifier: ^0.0.3-beta.3
         version: link:../common
       '@webank/letgo-components':
-        specifier: ^0.0.3-beta.6
+        specifier: ^0.0.3-beta.7
         version: link:../components
       '@webank/letgo-designer':
-        specifier: ^0.0.3-beta.5
+        specifier: ^0.0.3-beta.6
         version: link:../designer
       '@webank/letgo-editor-core':
-        specifier: ^0.0.3-beta.0
+        specifier: ^0.0.3-beta.1
         version: link:../editor-core
       '@webank/letgo-engine-plugin':
-        specifier: ^0.0.3-beta.3
+        specifier: ^0.0.3-beta.4
         version: link:../engine-plugin
       '@webank/letgo-types':
-        specifier: ^0.0.2-beta.1
+        specifier: ^0.0.2-beta.2
         version: link:../types
       lodash-es:
         specifier: ^4.17.21
@@ -408,8 +408,8 @@ importers:
   packages/plugin-component-tree:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.3.9)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.3.9)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
@@ -417,16 +417,16 @@ importers:
         specifier: ^10.7.1
         version: 10.7.2(vue@3.3.9)
       '@webank/letgo-designer':
-        specifier: ^0.0.3-beta.5
+        specifier: ^0.0.3-beta.6
         version: link:../designer
       '@webank/letgo-editor-core':
-        specifier: ^0.0.3-beta.0
+        specifier: ^0.0.3-beta.1
         version: link:../editor-core
       '@webank/letgo-engine-plugin':
-        specifier: ^0.0.3-beta.3
+        specifier: ^0.0.3-beta.4
         version: link:../engine-plugin
       '@webank/letgo-types':
-        specifier: ^0.0.2-beta.1
+        specifier: ^0.0.2-beta.2
         version: link:../types
       vue:
         specifier: ^3.3.9
@@ -435,22 +435,22 @@ importers:
   packages/plugin-components:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.3.9)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.3.9)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
       '@webank/letgo-designer':
-        specifier: ^0.0.3-beta.5
+        specifier: ^0.0.3-beta.6
         version: link:../designer
       '@webank/letgo-editor-core':
-        specifier: ^0.0.3-beta.0
+        specifier: ^0.0.3-beta.1
         version: link:../editor-core
       '@webank/letgo-engine-plugin':
-        specifier: ^0.0.3-beta.3
+        specifier: ^0.0.3-beta.4
         version: link:../engine-plugin
       '@webank/letgo-types':
-        specifier: ^0.0.2-beta.1
+        specifier: ^0.0.2-beta.2
         version: link:../types
       vue:
         specifier: ^3.3.9
@@ -459,13 +459,13 @@ importers:
   packages/plugin-designer:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.3.9)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.3.9)
       '@webank/letgo-designer':
-        specifier: ^0.0.3-beta.5
+        specifier: ^0.0.3-beta.6
         version: link:../designer
       '@webank/letgo-engine-plugin':
-        specifier: ^0.0.3-beta.3
+        specifier: ^0.0.3-beta.4
         version: link:../engine-plugin
       vue:
         specifier: ^3.3.9
@@ -477,13 +477,13 @@ importers:
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
       '@webank/letgo-designer':
-        specifier: ^0.0.3-beta.5
+        specifier: ^0.0.3-beta.6
         version: link:../designer
       '@webank/letgo-engine-plugin':
-        specifier: ^0.0.3-beta.3
+        specifier: ^0.0.3-beta.4
         version: link:../engine-plugin
       '@webank/letgo-types':
-        specifier: ^0.0.2-beta.1
+        specifier: ^0.0.2-beta.2
         version: link:../types
     devDependencies:
       vue:
@@ -496,22 +496,22 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.3.9)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.3.9)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
       '@webank/letgo-components':
-        specifier: ^0.0.3-beta.6
+        specifier: ^0.0.3-beta.7
         version: link:../components
       '@webank/letgo-designer':
-        specifier: ^0.0.3-beta.5
+        specifier: ^0.0.3-beta.6
         version: link:../designer
       '@webank/letgo-engine-plugin':
-        specifier: ^0.0.3-beta.3
+        specifier: ^0.0.3-beta.4
         version: link:../engine-plugin
       '@webank/letgo-types':
-        specifier: ^0.0.2-beta.1
+        specifier: ^0.0.2-beta.2
         version: link:../types
       vue:
         specifier: ^3.3.9
@@ -520,28 +520,28 @@ importers:
   packages/plugin-setting:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.3.9)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.3.9)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
       '@webank/letgo-common':
-        specifier: ^0.0.3-beta.2
+        specifier: ^0.0.3-beta.3
         version: link:../common
       '@webank/letgo-components':
-        specifier: ^0.0.3-beta.6
+        specifier: ^0.0.3-beta.7
         version: link:../components
       '@webank/letgo-designer':
-        specifier: ^0.0.3-beta.5
+        specifier: ^0.0.3-beta.6
         version: link:../designer
       '@webank/letgo-editor-core':
-        specifier: ^0.0.3-beta.0
+        specifier: ^0.0.3-beta.1
         version: link:../editor-core
       '@webank/letgo-engine-plugin':
-        specifier: ^0.0.3-beta.3
+        specifier: ^0.0.3-beta.4
         version: link:../engine-plugin
       '@webank/letgo-types':
-        specifier: ^0.0.2-beta.1
+        specifier: ^0.0.2-beta.2
         version: link:../types
       eventemitter3:
         specifier: ^4.0.0
@@ -557,16 +557,16 @@ importers:
         specifier: ^0.1.4
         version: 0.1.4
       '@webank/letgo-common':
-        specifier: ^0.0.3-beta.2
+        specifier: ^0.0.3-beta.3
         version: link:../common
       '@webank/letgo-components':
-        specifier: ^0.0.3-beta.6
+        specifier: ^0.0.3-beta.7
         version: link:../components
       '@webank/letgo-designer':
-        specifier: ^0.0.3-beta.5
+        specifier: ^0.0.3-beta.6
         version: link:../designer
       '@webank/letgo-types':
-        specifier: ^0.0.2-beta.1
+        specifier: ^0.0.2-beta.2
         version: link:../types
       lodash-es:
         specifier: ^4.17.21
@@ -582,22 +582,22 @@ importers:
   packages/simulator-renderer:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.3.9)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.3.9)
       '@webank/letgo-common':
-        specifier: ^0.0.3-beta.2
+        specifier: ^0.0.3-beta.3
         version: link:../common
       '@webank/letgo-components':
-        specifier: ^0.0.3-beta.6
+        specifier: ^0.0.3-beta.7
         version: link:../components
       '@webank/letgo-designer':
-        specifier: ^0.0.3-beta.5
+        specifier: ^0.0.3-beta.6
         version: link:../designer
       '@webank/letgo-renderer':
-        specifier: ^0.0.3-beta.6
+        specifier: ^0.0.3-beta.8
         version: link:../renderer
       '@webank/letgo-types':
-        specifier: ^0.0.2-beta.1
+        specifier: ^0.0.2-beta.2
         version: link:../types
       lodash-es:
         specifier: ^4.17.21
@@ -618,8 +618,8 @@ importers:
         specifier: ^3.1.8
         version: 3.1.8(vue@3.4.14)
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.4.14)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.4.14)
       '@fesjs/plugin-request':
         specifier: 4.0.0-beta.6
         version: 4.0.0-beta.6(@fesjs/fes@3.1.8)(vue@3.4.14)
@@ -2596,8 +2596,8 @@ packages:
       - supports-color
     dev: false
 
-  /@fesjs/fes-design@0.8.25(vue@3.3.9):
-    resolution: {integrity: sha512-0/ovmfsPcY0AYB7tFy7+g76hHU03Ch19V6DFMbOzqgWO14lva+8fzASxt6/D920SVqEeP9md5GDuf+rsR5Eteg==}
+  /@fesjs/fes-design@0.8.31(vue@3.3.9):
+    resolution: {integrity: sha512-/9we6iKCoB35j3QdqumrsZTyWcNb9AtUaIPD7IB47ggLh9rxSm79BjGkd60i3xJW9YU6kZLCOZ8Zbj0isonEkw==}
     peerDependencies:
       vue: ^3.2.24
     dependencies:
@@ -2605,7 +2605,7 @@ packages:
       '@floating-ui/dom': 1.5.4
       '@juggle/resize-observer': 3.4.0
       '@types/lodash-es': 4.17.12
-      '@vue/shared': 3.4.14
+      '@vue/shared': 3.4.15
       '@vueuse/core': 9.13.0(vue@3.3.9)
       async-validator: 4.2.5
       csstype: 3.1.3
@@ -2617,8 +2617,8 @@ packages:
       - '@vue/composition-api'
     dev: false
 
-  /@fesjs/fes-design@0.8.25(vue@3.4.14):
-    resolution: {integrity: sha512-0/ovmfsPcY0AYB7tFy7+g76hHU03Ch19V6DFMbOzqgWO14lva+8fzASxt6/D920SVqEeP9md5GDuf+rsR5Eteg==}
+  /@fesjs/fes-design@0.8.31(vue@3.4.14):
+    resolution: {integrity: sha512-/9we6iKCoB35j3QdqumrsZTyWcNb9AtUaIPD7IB47ggLh9rxSm79BjGkd60i3xJW9YU6kZLCOZ8Zbj0isonEkw==}
     peerDependencies:
       vue: ^3.2.24
     dependencies:
@@ -2626,7 +2626,7 @@ packages:
       '@floating-ui/dom': 1.5.4
       '@juggle/resize-observer': 3.4.0
       '@types/lodash-es': 4.17.12
-      '@vue/shared': 3.4.14
+      '@vue/shared': 3.4.15
       '@vueuse/core': 9.13.0(vue@3.4.14)
       async-validator: 4.2.5
       csstype: 3.1.3
@@ -2638,8 +2638,8 @@ packages:
       - '@vue/composition-api'
     dev: false
 
-  /@fesjs/fes-design@0.8.25(vue@3.4.15):
-    resolution: {integrity: sha512-0/ovmfsPcY0AYB7tFy7+g76hHU03Ch19V6DFMbOzqgWO14lva+8fzASxt6/D920SVqEeP9md5GDuf+rsR5Eteg==}
+  /@fesjs/fes-design@0.8.31(vue@3.4.15):
+    resolution: {integrity: sha512-/9we6iKCoB35j3QdqumrsZTyWcNb9AtUaIPD7IB47ggLh9rxSm79BjGkd60i3xJW9YU6kZLCOZ8Zbj0isonEkw==}
     peerDependencies:
       vue: ^3.2.24
     dependencies:
@@ -2647,7 +2647,7 @@ packages:
       '@floating-ui/dom': 1.5.4
       '@juggle/resize-observer': 3.4.0
       '@types/lodash-es': 4.17.12
-      '@vue/shared': 3.4.14
+      '@vue/shared': 3.4.15
       '@vueuse/core': 9.13.0(vue@3.4.15)
       async-validator: 4.2.5
       csstype: 3.1.3

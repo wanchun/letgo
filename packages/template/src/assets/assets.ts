@@ -621,6 +621,7 @@ const assets: IPublicTypeAssetsJson = {
                             {
                                 name: 'throttle',
                                 title: '截流',
+                                description: '开启截流时，可以防止多次点击',
                                 setter: 'NumberSetter',
                                 defaultValue: 300,
                             },

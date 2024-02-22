@@ -1,7 +1,8 @@
+import { FTooltip } from '@fesjs/fes-design';
+import { EditOutlined, QuestionCircleOutlined, RightOutlined } from '@fesjs/fes-design/icon';
+import type { IPublicTypeFieldDisplay, IPublicTypeNpmInfo } from '@webank/letgo-types';
 import type { PropType } from 'vue';
 import { defineComponent, ref } from 'vue';
-import type { IPublicTypeFieldDisplay, IPublicTypeNpmInfo } from '@webank/letgo-types';
-import { EditOutlined, RightOutlined } from '@fesjs/fes-design/icon';
 import { usePopupManage } from './usePopup';
 
 import './fields.less';
@@ -10,6 +11,7 @@ export interface IFieldProps {
     meta?: IPublicTypeNpmInfo | string
     name?: string
     title?: string | null
+    description?: string
     display?: IPublicTypeFieldDisplay
     expanded?: boolean
     valueState?: number
@@ -20,6 +22,7 @@ export interface IFieldProps {
 const filedViewProps = {
     name: String,
     title: String,
+    description: String,
     meta: [String, Object] as PropType<IPublicTypeNpmInfo | string>,
     expanded: Boolean,
     valueState: Number,
@@ -39,6 +42,12 @@ function useId(props: IFieldProps) {
     const id = `${hostName}-${propName || title}`;
 
     return id;
+}
+
+function renderFieldDescView(desc: string) {
+    if (!desc)
+        return;
+    return <FTooltip content={desc}><QuestionCircleOutlined color="var(--f-primary-color)" style="margin-right: 3px;"></QuestionCircleOutlined></FTooltip>;
 }
 
 export const PopupFieldView = defineComponent({
@@ -63,7 +72,10 @@ export const PopupFieldView = defineComponent({
         return () => {
             return (
                 <div class="letgo-designer-setting__popup" id={id}>
-                    <div class="letgo-designer-setting__header">{props.title}</div>
+                    <div class="letgo-designer-setting__header">
+                        {renderFieldDescView(props.description)}
+                        {props.title}
+                    </div>
                     <div class="letgo-designer-setting__body">
                         <EditOutlined class="letgo-designer-setting__icon" onClick={toggle} />
                     </div>
@@ -104,6 +116,7 @@ export const AccordionFieldView = defineComponent({
                 <div class="letgo-designer-setting__accordion-field" id={id}>
                     <div class="letgo-designer-setting__header" onClick={onClickHeader}>
                         <RightOutlined class={['letgo-designer-setting__icon', props.expanded && 'letgo-designer-setting__icon--show']} />
+                        {renderFieldDescView(props.description)}
                         <span>{props.title}</span>
                     </div>
                     <div class="letgo-designer-setting__body" v-show={props.expanded}>{slots.default?.()}</div>
@@ -122,7 +135,10 @@ export const BlockFieldView = defineComponent({
         return () => {
             return (
                 <div class="letgo-designer-setting__field" id={id}>
-                    <div class="letgo-designer-setting__header">{props.title}</div>
+                    <div class="letgo-designer-setting__header">
+                        {renderFieldDescView(props.description)}
+                        {props.title}
+                    </div>
                     <div class="letgo-designer-setting__body">{slots.default?.()}</div>
                 </div>
             );
@@ -139,7 +155,10 @@ export const InlineFieldView = defineComponent({
         return () => {
             return (
                 <div class="letgo-designer-setting__inline-field" id={id}>
-                    <div class="letgo-designer-setting__header">{props.title}</div>
+                    <div class="letgo-designer-setting__header">
+                        {renderFieldDescView(props.description)}
+                        {props.title}
+                    </div>
                     <div class="letgo-designer-setting__body">{slots.default?.()}</div>
                 </div>
             );

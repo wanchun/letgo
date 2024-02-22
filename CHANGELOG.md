@@ -1,3 +1,19 @@
+## [0.0.3-beta.16](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.15...v0.0.3-beta.16) (2024-02-22)
+
+
+### Bug Fixes
+
+* function setter 缺少 hint ([57c765e](https://git.weoa.com/mumblefe/letgo/commits/57c765e587a47fb497220961bf6cb476c948c5ac))
+* 修复 renderer function ctx 不更新问题 ([f030934](https://git.weoa.com/mumblefe/letgo/commits/f0309342ed9beb3fd43beb397e9f83e57bc51039))
+* 修复事件绑定组件,方法选择问题 ([f455e84](https://git.weoa.com/mumblefe/letgo/commits/f455e84fa3b2df5e46e05960ddca667f7b938c24))
+
+
+### Features
+
+* 逻辑编排插件优化交互 & 新增过滤功能 ([32577d4](https://git.weoa.com/mumblefe/letgo/commits/32577d49d37cfb4f376662a323e403c83704282f))
+
+
+
 ## [0.0.3-beta.15](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.14...v0.0.3-beta.15) (2024-02-21)
 
 

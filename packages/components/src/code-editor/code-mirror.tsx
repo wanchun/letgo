@@ -78,7 +78,7 @@ export const CodeMirror = defineComponent({
                         <FDrawer
                             show={isFullScreen.value}
                             title="代码编辑"
-                            width={800}
+                            dimension={800}
                             contentClass="letgo-comp-code__full-screen"
                             onCancel={toggleFullScreen}
                             maskClosable={false}

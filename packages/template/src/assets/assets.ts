@@ -833,12 +833,22 @@ const assets: IPublicTypeAssetsJson = {
                     {
                         name: 'model',
                         title: '表项值对象',
-                        setter: 'ExpressionSetter',
+                        setter: {
+                            componentName: 'ExpressionSetter',
+                            props: {
+                                placeholder: 'formModel.value'
+                            }
+                        }
                     },
                     {
                         name: 'rules',
                         title: '规则对象',
-                        setter: 'JsonSetter',
+                        setter: {
+                            componentName: 'JsonSetter',
+                            props: {
+                                placeholder: JSON.stringify({ fileName: { required: true, message: '必填项' }, fileName2: [{ required: true, message: '必填项' }] }, null, 2),
+                            }
+                        }
                     },
                     {
                         name: 'disabled',
@@ -1755,7 +1765,13 @@ const assets: IPublicTypeAssetsJson = {
                             {
                                 name: 'filter',
                                 title: '过滤函数',
-                                setter: 'FunctionSetter',
+                                setter: {
+                                    componentName: 'FunctionSetter',
+                                    props: {
+                                        placeholder: 'function(pattern, option) {\n\t//todo filter\n\treturn true;\n}',
+                                    }
+                                },
+                                
                             },
                             {
                                 name: 'tag',

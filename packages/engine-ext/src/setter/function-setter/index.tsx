@@ -1,9 +1,9 @@
+import { CodeEditor } from '@webank/letgo-components';
+import type { IPublicTypeJSFunction, IPublicTypeSetter } from '@webank/letgo-types';
+import { isJSFunction } from '@webank/letgo-types';
+import { isFunction, isUndefined } from 'lodash-es';
 import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
-import { isJSFunction } from '@webank/letgo-types';
-import type { IPublicTypeJSFunction, IPublicTypeSetter } from '@webank/letgo-types';
-import { isFunction, isUndefined } from 'lodash-es';
-import { CodeEditor } from '@webank/letgo-components';
 import { commonProps } from '../../common';
 
 const FunctionSetterView = defineComponent({
@@ -45,6 +45,7 @@ const FunctionSetterView = defineComponent({
                 <CodeEditor
                     documentModel={props.node.document}
                     doc={currentValue.value}
+                    placeholder={props.placeholder}
                     onChange={onChange}
                     compRef={props.node.ref}
                 >

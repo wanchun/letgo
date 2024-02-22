@@ -1,3 +1,7 @@
+import type { Extension } from '@codemirror/state';
+import { FDrawer } from '@fesjs/fes-design';
+import { FullScreen } from '@icon-park/vue-next';
+import type { IPublicModelDocumentModel } from '@webank/letgo-types';
 import type {
     PropType,
     StyleValue,
@@ -6,12 +10,8 @@ import {
     defineComponent,
     ref,
 } from 'vue';
-import type { Extension } from '@codemirror/state';
-import { FullScreen } from '@icon-park/vue-next';
-import { FDrawer } from '@fesjs/fes-design';
-import type { IPublicModelDocumentModel } from '@webank/letgo-types';
-import { useCodeEditor } from './use-code-editor';
 import '../code-editor.less';
+import { useCodeEditor } from './use-code-editor';
 
 export const CodeEditor = defineComponent({
     props: {
@@ -46,6 +46,7 @@ export const CodeEditor = defineComponent({
         },
         compRef: String,
         id: String,
+        placeholder: String,
     },
     setup(props, { attrs }) {
         const [editorRefEl] = useCodeEditor(props);

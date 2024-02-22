@@ -1,8 +1,8 @@
-import { computed, defineComponent, onMounted } from 'vue';
-import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { json } from '@codemirror/lang-json';
-import { isEqual, isNil, isUndefined } from 'lodash-es';
 import { CodeMirror } from '@webank/letgo-components';
+import type { IPublicTypeSetter } from '@webank/letgo-types';
+import { isEqual, isNil, isUndefined } from 'lodash-es';
+import { computed, defineComponent, onMounted } from 'vue';
 import { commonProps } from '../../common';
 
 const JsonSetterView = defineComponent({
@@ -43,6 +43,7 @@ const JsonSetterView = defineComponent({
                 <CodeMirror
                     doc={currentValue.value}
                     onChange={onChange}
+                    placeholder={props.placeholder}
                     extensions={[json()]}
                 >
                 </CodeMirror>

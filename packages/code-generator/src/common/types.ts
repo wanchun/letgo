@@ -1,19 +1,19 @@
 import type { ICodeItem, IPublicTypeProjectSchema } from '@webank/letgo-types';
 
 export interface GenOptions {
-    schema: IPublicTypeProjectSchema
-    outDir?: string
-    pageDir?: string
-    extraPackageJSON?: Record<string, any>
-    pageTransform?: (filesStruct: FileStruct[]) => FileStruct[]
+    schema: IPublicTypeProjectSchema;
+    outDir?: string;
+    pageDir?: string;
+    extraPackageJSON?: Record<string, any>;
+    pageTransform?: (filesStruct: FileStruct[]) => FileStruct[];
     globalCodeCallback?: {
-        afterConfig?: (params: CallBackParam) => void
-    }
-    globalCssFileName?: string
+        afterConfig?: (params: CallBackParam) => void;
+    };
+    globalCssFileName?: string;
 }
 
 export interface FileTree {
-    [key: string]: string | FileTree | File
+    [key: string]: string | FileTree | File;
 }
 
 export enum ImportType {
@@ -23,16 +23,16 @@ export enum ImportType {
 }
 
 export interface ImportSource {
-    imported?: string
-    source: string
-    type: ImportType
-    alias?: string
-    main?: string
+    imported?: string;
+    source: string;
+    type: ImportType;
+    alias?: string;
+    main?: string;
 }
 
 export interface SetupCode {
-    importSources?: ImportSource[]
-    code: string
+    importSources?: ImportSource[];
+    code: string;
 }
 
 export enum PageFileType {
@@ -41,30 +41,30 @@ export enum PageFileType {
 }
 
 export interface FileStruct {
-    rawFileName: string
-    fileType: PageFileType
-    filename: string
-    routeName: string
-    pageTitle: string
-    afterImports: string[]
-    importSources?: ImportSource[]
-    codes?: string[]
-    jsx: string
+    rawFileName: string;
+    fileType: PageFileType;
+    filename: string;
+    routeName: string;
+    pageTitle: string;
+    afterImports: string[];
+    importSources?: ImportSource[];
+    codes?: string[];
+    jsx: string;
 }
 
 export interface GlobalStateCode {
-    filename: string
-    content: string
+    filename: string;
+    content: string;
 }
 
 export interface CallBackParam {
-    import: ImportSource[]
-    code: string
-    export: string[]
+    import: ImportSource[];
+    code: string;
+    export: string[];
 }
 
 export interface Context {
-    codes: Map<string, ICodeItem>
-    scope: string[]
-    refs?: Set<string>
+    codes: Map<string, ICodeItem>;
+    scope: string[];
+    refs?: Set<string>;
 }

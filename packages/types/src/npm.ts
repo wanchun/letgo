@@ -5,42 +5,46 @@ export interface IPublicTypeNpmInfo {
     /**
      * 源码组件库名
      */
-    package: string
+    package: string;
     /**
      * 源码组件版本号
      */
-    version?: string
+    version?: string;
     /**
      * 是否解构
      */
-    destructuring?: boolean
+    destructuring?: boolean;
+    /**
+     * 是否组装 * as 导入
+     */
+    assembling?: boolean;
     /**
      * 组件名
      */
-    componentName?: string
+    componentName?: string;
     /**
      * 源码组件名称
      */
-    exportName?: string
+    exportName?: string;
     /**
      * 子组件名
      */
-    subName?: string
+    subName?: string;
     /**
      * 组件路径
      */
-    main?: string
+    main?: string;
 }
 
 export interface IPublicTypeLowCodeComponent {
     /**
      * 研发模式
      */
-    devMode: 'lowCode'
+    devMode: 'lowCode';
     /**
      * 组件名称
      */
-    componentName: string
+    componentName: string;
 }
 
 export type IPublicTypeProCodeComponent = IPublicTypeNpmInfo;

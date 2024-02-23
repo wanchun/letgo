@@ -1,5 +1,5 @@
-import type { IPublicModelDocumentModel } from '@webank/letgo-types';
 import type { Extension } from '@codemirror/state';
+import type { IPublicModelDocumentModel } from '@webank/letgo-types';
 
 export interface CodeEditorProps {
     doc: string
@@ -10,6 +10,7 @@ export interface CodeEditorProps {
     theme?: Record<string, any>
     extensions?: Extension[]
     id?: string
+    placeholder?: string 
     onChange?: (doc: string) => void
     onFocus?: (doc: string) => void
     onBlur?: (doc: string) => void

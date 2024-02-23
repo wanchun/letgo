@@ -1,31 +1,27 @@
+import { FButton, FDraggable } from '@fesjs/fes-design';
+import { AddOne, Config, DeleteOne, Drag } from '@icon-park/vue-next';
+import type { IFieldConfig, ISettingField, SettingField } from '@webank/letgo-designer';
+import { createSettingFieldView, usePopupManage } from '@webank/letgo-designer';
+import type {
+    IPublicTypeSetter,
+    IPublicTypeSetterType
+} from '@webank/letgo-types';
+import { cloneDeep, get, isArray, isFunction, isNil, isUndefined } from 'lodash-es';
 import type {
     PropType,
     ShallowRef,
 } from 'vue';
 import {
-    computed,
     defineComponent,
     onBeforeMount,
     onMounted,
     reactive,
     ref,
     shallowRef,
+    toRaw,
     triggerRef,
-    watch,
+    watch
 } from 'vue';
-import { get, isArray, isFunction, isNil, isUndefined } from 'lodash-es';
-import {
-    isSetterConfig,
-} from '@webank/letgo-types';
-import type {
-    IPublicTypeSetter,
-    IPublicTypeSetterConfig,
-    IPublicTypeSetterType,
-} from '@webank/letgo-types';
-import { createSettingFieldView, isSettingField, usePopupManage } from '@webank/letgo-designer';
-import type { IFieldConfig, ISettingField, SettingField } from '@webank/letgo-designer';
-import { FButton, FDraggable } from '@fesjs/fes-design';
-import { AddOne, Config, DeleteOne, Drag } from '@icon-park/vue-next';
 import { commonProps } from '../../common';
 import './index.less';
 
@@ -61,30 +57,9 @@ const ArraySetterView = defineComponent({
 
         const popup = usePopupManage();
 
-        const propsRef = computed(() => {
-            if (!props.infinite)
-                return props;
+        const itemSetter = props.itemSetter;
 
-            const owner = field.parent?.parent;
-
-            if (!isSettingField(owner))
-                return props;
-
-            const setter = owner?.setter;
-
-            if (isArray(setter)) {
-                const arraySetter = setter.find(item => isSetterConfig(item) && item?.componentName === 'ArraySetter');
-                return ((arraySetter as IPublicTypeSetterConfig)?.props as typeof props) ?? props;
-            }
-            if (isSetterConfig(setter))
-                return (setter.props as typeof props) ?? props;
-
-            return props;
-        });
-
-        const itemSetter = propsRef.value?.itemSetter ?? props.itemSetter;
-
-        const columns = propsRef.value?.columns ?? props.columns;
+        const columns = props.columns;
 
         const hasCol = columns && columns.length;
 
@@ -123,6 +98,13 @@ const ArraySetterView = defineComponent({
 
         const createItem = (name: string | number): ItemType => {
             const value = isNil(props.value) ? props.defaultValue : props.value;
+            const infiniteItem = (itemSetter as any).props?.items?.find?.((item: any) => item.setter?.props?.infinite)
+            if (infiniteItem) { // 存在循环时，将当前配置拷贝到需要循环的子项
+                infiniteItem.setter.props = {
+                    columns: cloneDeep(toRaw(props.columns)),
+                    itemSetter: cloneDeep(toRaw(props.itemSetter)),
+                }
+            }
             const mainField = field.createField({
                 name,
                 setter: itemSetter,

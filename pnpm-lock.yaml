@@ -141,8 +141,8 @@ importers:
         specifier: ^6.22.0
         version: 6.22.0
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.3.9)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.3.9)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
@@ -177,8 +177,8 @@ importers:
   packages/designer:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.4.15)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.4.15)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.4.15)
@@ -225,8 +225,8 @@ importers:
   packages/editor-skeleton:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.3.9)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.3.9)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
@@ -313,8 +313,8 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.3.9)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.3.9)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
@@ -368,8 +368,8 @@ importers:
   packages/plugin-code:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.3.9)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.3.9)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
@@ -408,8 +408,8 @@ importers:
   packages/plugin-component-tree:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.3.9)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.3.9)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
@@ -435,8 +435,8 @@ importers:
   packages/plugin-components:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.3.9)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.3.9)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
@@ -459,8 +459,8 @@ importers:
   packages/plugin-designer:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.3.9)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.3.9)
       '@webank/letgo-designer':
         specifier: ^0.0.3-beta.6
         version: link:../designer
@@ -496,8 +496,8 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.3.9)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.3.9)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
@@ -520,8 +520,8 @@ importers:
   packages/plugin-setting:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.3.9)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.3.9)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.3.9)
@@ -553,6 +553,9 @@ importers:
 
   packages/plugin-undo-redo:
     dependencies:
+      '@fesjs/fes-design':
+        specifier: ^0.8.25
+        version: 0.8.31(vue@3.4.15)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.4.15)
@@ -601,8 +604,8 @@ importers:
   packages/simulator-renderer:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.3.9)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.3.9)
       '@webank/letgo-common':
         specifier: ^0.0.3-beta.3
         version: link:../common
@@ -637,8 +640,8 @@ importers:
         specifier: ^3.1.8
         version: 3.1.8(vue@3.4.14)
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.25(vue@3.4.14)
+        specifier: ^0.8.27
+        version: 0.8.31(vue@3.4.14)
       '@fesjs/plugin-request':
         specifier: 4.0.0-beta.6
         version: 4.0.0-beta.6(@fesjs/fes@3.1.8)(vue@3.4.14)
@@ -2618,8 +2621,8 @@ packages:
       - supports-color
     dev: false
 
-  /@fesjs/fes-design@0.8.25(vue@3.3.9):
-    resolution: {integrity: sha512-0/ovmfsPcY0AYB7tFy7+g76hHU03Ch19V6DFMbOzqgWO14lva+8fzASxt6/D920SVqEeP9md5GDuf+rsR5Eteg==}
+  /@fesjs/fes-design@0.8.31(vue@3.3.9):
+    resolution: {integrity: sha512-/9we6iKCoB35j3QdqumrsZTyWcNb9AtUaIPD7IB47ggLh9rxSm79BjGkd60i3xJW9YU6kZLCOZ8Zbj0isonEkw==}
     peerDependencies:
       vue: ^3.2.24
     dependencies:
@@ -2627,7 +2630,7 @@ packages:
       '@floating-ui/dom': 1.5.4
       '@juggle/resize-observer': 3.4.0
       '@types/lodash-es': 4.17.12
-      '@vue/shared': 3.4.14
+      '@vue/shared': 3.4.15
       '@vueuse/core': 9.13.0(vue@3.3.9)
       async-validator: 4.2.5
       csstype: 3.1.3
@@ -2639,8 +2642,8 @@ packages:
       - '@vue/composition-api'
     dev: false
 
-  /@fesjs/fes-design@0.8.25(vue@3.4.14):
-    resolution: {integrity: sha512-0/ovmfsPcY0AYB7tFy7+g76hHU03Ch19V6DFMbOzqgWO14lva+8fzASxt6/D920SVqEeP9md5GDuf+rsR5Eteg==}
+  /@fesjs/fes-design@0.8.31(vue@3.4.14):
+    resolution: {integrity: sha512-/9we6iKCoB35j3QdqumrsZTyWcNb9AtUaIPD7IB47ggLh9rxSm79BjGkd60i3xJW9YU6kZLCOZ8Zbj0isonEkw==}
     peerDependencies:
       vue: ^3.2.24
     dependencies:
@@ -2648,7 +2651,7 @@ packages:
       '@floating-ui/dom': 1.5.4
       '@juggle/resize-observer': 3.4.0
       '@types/lodash-es': 4.17.12
-      '@vue/shared': 3.4.14
+      '@vue/shared': 3.4.15
       '@vueuse/core': 9.13.0(vue@3.4.14)
       async-validator: 4.2.5
       csstype: 3.1.3
@@ -2660,8 +2663,8 @@ packages:
       - '@vue/composition-api'
     dev: false
 
-  /@fesjs/fes-design@0.8.25(vue@3.4.15):
-    resolution: {integrity: sha512-0/ovmfsPcY0AYB7tFy7+g76hHU03Ch19V6DFMbOzqgWO14lva+8fzASxt6/D920SVqEeP9md5GDuf+rsR5Eteg==}
+  /@fesjs/fes-design@0.8.31(vue@3.4.15):
+    resolution: {integrity: sha512-/9we6iKCoB35j3QdqumrsZTyWcNb9AtUaIPD7IB47ggLh9rxSm79BjGkd60i3xJW9YU6kZLCOZ8Zbj0isonEkw==}
     peerDependencies:
       vue: ^3.2.24
     dependencies:
@@ -2669,7 +2672,7 @@ packages:
       '@floating-ui/dom': 1.5.4
       '@juggle/resize-observer': 3.4.0
       '@types/lodash-es': 4.17.12
-      '@vue/shared': 3.4.14
+      '@vue/shared': 3.4.15
       '@vueuse/core': 9.13.0(vue@3.4.15)
       async-validator: 4.2.5
       csstype: 3.1.3

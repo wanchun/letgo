@@ -249,8 +249,8 @@ function createSimulatorRenderer() {
             const documentInstance = documentInstanceMap.get(did);
             const instance
                 = documentInstance?.getComponentInstance(cid) ?? null;
-            // setupState 为内部属性，因此类型识别不了
-            return instance ? { ...toRaw(instance.$props), ...toRaw(instance.$.setupState), ...toRaw(instance.$.exposed) } : {};
+            // @ts-expect-error setupState 为内部属性，因此类型识别不了
+            return instance ? { __scope: instance.__scope, ...toRaw(instance.$props), ...toRaw(instance.$.setupState), ...toRaw(instance.$.exposed) } : {};
         }
         return {};
     };

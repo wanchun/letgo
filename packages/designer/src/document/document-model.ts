@@ -419,6 +419,7 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
         this.code.purge();
         this.state.purge();
         this.selection.purge();
+        this.history.purge();
         this.offNodeRefChange();
         this.offGlobalStateIdChange();
         this.emitter.removeAllListeners();

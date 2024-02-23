@@ -27,17 +27,17 @@ export const UndoRedoView = defineComponent({
 
         const handleUndoClick = () => {
             if (undoEnable.value)
-                designer.currentHistory.back();
+                designer.currentHistory?.back();
         };
 
         const handleRedoClick = () => {
             if (redoEnable.value)
-                designer.currentHistory.forward();
+                designer.currentHistory?.forward();
         };
 
         let changeStateDispose: IPublicTypeDisposable | undefined;
 
-        changeStateDispose = designer.currentHistory.onStateChange(() => {
+        changeStateDispose = designer.currentHistory?.onStateChange(() => {
             updateState(designer.currentHistory?.getState() || 0);
         });
 

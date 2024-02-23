@@ -1,7 +1,7 @@
 import type { IPublicModelHistory, IPublicTypeDisposable, IPublicTypeNodeSchema } from '@webank/letgo-types';
 import { EventEmitter } from 'eventemitter3';
 import { nextTick, watch } from 'vue';
-import { isEqual } from 'lodash-es';
+import { isEqual, isNil } from 'lodash-es';
 import type { DocumentModel } from './document-model';
 
 export interface Serialization<K = IPublicTypeNodeSchema, T = string> {
@@ -59,6 +59,9 @@ export class History<T = IPublicTypeNodeSchema> implements IHistory {
         this.records = [this.session];
 
         watch(dataFn, (data: T, oldData: T) => {
+            if (isNil(data))
+                return;
+
             if (this.asleep)
                 return;
 
@@ -223,7 +226,7 @@ export class History<T = IPublicTypeNodeSchema> implements IHistory {
         };
     }
 
-    destroy() {
+    purge() {
         this.emitter.removeAllListeners();
         this.records = [];
     }

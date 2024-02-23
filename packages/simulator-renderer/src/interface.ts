@@ -16,41 +16,41 @@ import type {
 export type MixedComponent = IPublicTypeNpmInfo | Component | IPublicTypeComponentSchema;
 
 export interface SimulatorViewLayout {
-    Component?: Component
-    componentName?: string
-    props?: Record<string, unknown>
+    Component?: Component;
+    componentName?: string;
+    props?: Record<string, unknown>;
 }
 
 export interface VueSimulatorRenderer extends IPublicTypeSimulatorRenderer<INode> {
-    app: App
-    config: Config
-    router: Router
-    layout: SimulatorViewLayout
-    device: string
-    locale: string
-    designMode: 'design'
-    libraryMap: Record<string, string>
-    components: Record<string, Component>
-    autoRender: boolean
-    componentsMap: Record<string, MixedComponent>
-    documentInstances: DocumentInstance[]
-    dispose(): void
-    rerender(): void
-    getCurrentDocument(): DocumentInstance | undefined
-    initDocument(): void
+    app: App;
+    config: Config;
+    router: Router;
+    layout: SimulatorViewLayout;
+    device: string;
+    locale: string;
+    designMode: 'design';
+    libraryMap: Record<string, string>;
+    components: Record<string, Component>;
+    autoRender: boolean;
+    componentsMap: Record<string, MixedComponent>;
+    documentInstances: DocumentInstance[];
+    dispose: () => void;
+    rerender: () => void;
+    getCurrentDocument: () => DocumentInstance | undefined;
+    initDocument: () => void;
 }
 
 export interface DocumentInstance {
-    readonly id: string
-    readonly key: string
-    readonly path: string
-    readonly document: DocumentModel
-    readonly instancesMap: Map<string, IPublicTypeComponentInstance[]>
-    readonly vueInstanceMap: Map<number, IPublicTypeComponentInstance>
-    readonly schema: IPublicTypeRootSchema
-    getComponentInstance(id: number): IPublicTypeComponentInstance | null
-    mountInstance(id: string, instance: IPublicTypeComponentInstance): (() => void) | void
-    unmountInstance(id: string, instance: IPublicTypeComponentInstance): void
-    rerender(): void
-    getNode(id: string): INode | null
+    readonly id: string;
+    readonly key: string;
+    readonly path: string;
+    readonly document: DocumentModel;
+    readonly instancesMap: Map<string, IPublicTypeComponentInstance[]>;
+    readonly vueInstanceMap: Map<number, IPublicTypeComponentInstance>;
+    readonly schema: IPublicTypeRootSchema;
+    getComponentInstance: (id: number) => IPublicTypeComponentInstance | null;
+    mountInstance: (id: string, instance: IPublicTypeComponentInstance) => (() => void) | void;
+    unmountInstance: (id: string, instance: IPublicTypeComponentInstance) => void;
+    rerender: () => void;
+    getNode: (id: string) => INode | null;
 }

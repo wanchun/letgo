@@ -3,6 +3,7 @@ import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
 import { markComputed, uniqueId } from '@webank/letgo-common';
 import type {
     IPublicModelDocumentModel,
+    IPublicTypeComponentSchema,
     IPublicTypeComponentsMap,
     IPublicTypeDragNodeDataObject,
     IPublicTypeDragNodeObject,
@@ -29,6 +30,7 @@ import type { ComponentMeta } from '../component-meta';
 import { Code } from '../code/code';
 import { State } from '../state/state';
 import { Selection } from './selection';
+import { History } from './history';
 
 const componentUseTimes: Record<string, number> = {};
 
@@ -40,10 +42,10 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
     readonly code: Code;
     readonly state: State;
 
-    // /**
-    //  * 操作记录控制
-    //  */
-    // readonly history: History;
+    /**
+     * 操作记录控制
+     */
+    readonly history: History<IPublicTypePageSchema | IPublicTypeComponentSchema>;
 
     /**
      * 选区控制
@@ -92,7 +94,7 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
     get fileName(): string {
         return (
             this.rootNode?.getExtraProp('fileName', false)?.getAsString()
-                || this.id
+            || this.id
         );
     }
 
@@ -132,6 +134,17 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
 
         this.rootNode = this.createNode(currentSchema);
 
+        const rootSchema = this.rootNode.computedSchema;
+
+        this.history = new History(
+            () => this.exportSchema(IPublicEnumTransformStage.Serialize),
+            (schema) => {
+                this.importSchema(schema || rootSchema);
+                this.simulator?.rerender();
+            },
+            this,
+        );
+
         this.isMounted = true;
 
         this.offNodeRefChange = this.onNodeRefChange((ref: string, preRef: string) => {
@@ -141,6 +154,13 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
         this.offGlobalStateIdChange = this.project.code.onCodeIdChanged((id: string, preId: string) => {
             this.code.changeDepStateId(id, preId);
         });
+    }
+
+    /**
+     * 是否已修改
+     */
+    isModified(): boolean {
+        return this.history.isSavePoint();
     }
 
     scopeVariableChange(id: string, preId: string) {

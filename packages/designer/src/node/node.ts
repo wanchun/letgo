@@ -31,7 +31,7 @@ type IPropChangeOptions = Omit<
 >;
 
 export interface IBaseNode<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> extends IBaseModelNode<DocumentModel, Schema, INode, NodeChildren, ComponentMeta, SettingTop, Props, Prop> {
-    internalSetSlotFor(slotFor: Prop | null | undefined): void
+    internalSetSlotFor: (slotFor: Prop | null | undefined) => void;
 }
 
 export type IPageNode = IBaseNode<IPublicTypePageSchema>;
@@ -374,7 +374,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     }
 
     onChildrenChange(
-        fn: (param?: { type: string, node: INode }) => void,
+        fn: (param?: { type: string; node: INode }) => void,
     ): (() => void) | undefined {
         const wrappedFunc = wrapWithEventSwitch(fn);
         return this.children?.onChange(wrappedFunc);
@@ -419,8 +419,8 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
 
         if (
             this.isParental()
-                && this.children.size > 0
-                && !options.bypassChildren
+            && this.children.size > 0
+            && !options.bypassChildren
         )
             schema.children = this.children.export(stage);
 
@@ -523,12 +523,12 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
      * 获取磁贴相关信息
      */
     getRGL(): {
-        isContainerNode: boolean
-        isEmptyNode: boolean
-        isRGLContainerNode: boolean
-        isRGLNode: boolean
-        isRGL: boolean
-        rglNode: INode
+        isContainerNode: boolean;
+        isEmptyNode: boolean;
+        isRGLContainerNode: boolean;
+        isRGLNode: boolean;
+        isRGL: boolean;
+        rglNode: INode;
     } {
         const isContainerNode = this.isContainer();
         const isEmptyNode = this.isEmpty();

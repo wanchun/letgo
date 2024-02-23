@@ -86,7 +86,7 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
     private props: ShallowReactive<IPublicTypeSimulatorProps> = shallowReactive({});
 
     private _contentWindow?: Window & {
-        letgoRequest?: (...args: any[]) => Promise<any>
+        letgoRequest?: (...args: any[]) => Promise<any>;
     };
 
     private _contentDocument?: Document;
@@ -417,6 +417,10 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
             },
             true,
         );
+    }
+
+    rerender() {
+        this.renderer?.rerender?.();
     }
 
     onEvent(eventName: string, callback: (...args: any[]) => void) {
@@ -775,7 +779,7 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
     }
 
     private instancesMapRef: ShallowRef<{
-        [docId: string]: Map<string, IPublicTypeComponentRecord[]>
+        [docId: string]: Map<string, IPublicTypeComponentRecord[]>;
     }> = shallowRef({});
 
     onUpdateCodesInstance(func: (codesInstance: Record<string, any>) => void) {
@@ -950,7 +954,7 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
 
         const elemArray = elements.slice();
         let rects: DOMRect[] | undefined;
-        let last: { x: number, y: number, r: number, b: number } | undefined;
+        let last: { x: number; y: number; r: number; b: number } | undefined;
         let _computed = false;
         while (true) {
             if (!rects || rects.length < 1) {

@@ -170,8 +170,8 @@ export class Props implements IPropParent, IBaseModelProps<INode, Prop> {
     }
 
     export(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Save): {
-        props?: IPublicTypePropsMap | IPublicTypePropsList
-        extras?: IPublicExtrasObject
+        props?: IPublicTypePropsMap | IPublicTypePropsList;
+        extras?: IPublicExtrasObject;
     } {
         if (this.items.length < 1)
             return {};
@@ -183,6 +183,13 @@ export class Props implements IPropParent, IBaseModelProps<INode, Prop> {
             this.items.forEach((item) => {
                 const value = item.export(stage);
                 let name = item.key as string;
+
+                if (name == null || item.isUnset())
+                    return;
+
+                if (value === undefined)
+                    return;
+
                 if (
                     name
                     && typeof name === 'string'
@@ -203,11 +210,16 @@ export class Props implements IPropParent, IBaseModelProps<INode, Prop> {
             this.items.forEach((item) => {
                 const value = item.export(stage);
                 let name = item.key as string;
+
                 if (name == null || item.isUnset())
                     return;
+
+                if (value === undefined)
+                    return;
+
                 if (
                     typeof name === 'string'
-                        && name.startsWith(EXTRA_KEY_PREFIX)
+                    && name.startsWith(EXTRA_KEY_PREFIX)
                 ) {
                     name = getOriginalExtraKey(name);
                     extras[name] = value;

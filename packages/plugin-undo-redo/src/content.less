@@ -1,0 +1,15 @@
+.letgo-plg-undo-redo {
+    display: flex;
+    gap: 8px;
+    &__icon {
+        display: inline-block;
+        font-size: 20px;
+        line-height: 0;
+        color: var(--letgo-text-color);
+        cursor: pointer;
+        &.is-disabled {
+            color: rgba(0, 0, 0, 0.2);
+            cursor: not-allowed;
+        }
+    }
+}

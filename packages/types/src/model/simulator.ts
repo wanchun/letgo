@@ -16,85 +16,87 @@ export interface IPublicModelSimulator<
     DocumentModel = IPublicModelDocumentModel,
     Node = IPublicModelNode,
  > extends IPublicTypeSensor<DocumentModel, Node> {
-    readonly isSimulator: true
-    readonly viewport: IPublicTypeViewport
-    readonly contentWindow?: Window
-    readonly contentDocument?: Document
+    readonly isSimulator: true;
+    readonly viewport: IPublicTypeViewport;
+    readonly contentWindow?: Window;
+    readonly contentDocument?: Document;
 
-    readonly renderer?: IPublicTypeSimulatorRenderer<Node>
+    readonly renderer?: IPublicTypeSimulatorRenderer<Node>;
 
-    setProps(props: P): void
+    setProps: (props: P) => void;
 
-    onEvent(eventName: string, callback: (...args: any[]) => void): () => void
+    rerender: () => void;
+
+    onEvent: (eventName: string, callback: (...args: any[]) => void) => () => void;
 
     /**
      * 设置拖拽态
      */
-    setDraggingState(state: boolean): void
+    setDraggingState: (state: boolean) => void;
     /**
      * 设置拷贝态
      */
-    setCopyState(state: boolean): void
+    setCopyState: (state: boolean) => void;
     /**
      * 清除所有态：拖拽态、拷贝态
      */
-    clearState(): void
+    clearState: () => void;
 
-    onUpdateCodesInstance(func: (codesInstance: Record<string, any>) => void): () => void
+    onUpdateCodesInstance: (func: (codesInstance: Record<string, any>) => void) => () => void;
 
     /**
      * 缓存节点id的实例
      */
-    setInstance(
+    setInstance: (
         docId: string,
         id: string,
         instances: IPublicTypeComponentRecord[] | null,
-    ): void
+    ) => void;
 
     /**
      * 在组件实例上寻找子组件实例
      */
-    getClosestNodeInstance(
+    getClosestNodeInstance: (
         from: IPublicTypeComponentRecord,
         specId?: string,
-    ): IPublicTypeNodeInstance<IPublicTypeComponentRecord, Node> | null
+    ) => IPublicTypeNodeInstance<IPublicTypeComponentRecord, Node> | null;
 
-    getComponentInstancesExpose(instance: IPublicTypeComponentRecord): Record<string, any>
+    getComponentInstancesExpose: (instance: IPublicTypeComponentRecord) => Record<string, any>;
 
     /**
      * 获取节点实例
      */
-    getNodeInstanceFromElement(
+    getNodeInstanceFromElement: (
         e: Element | null,
-    ): IPublicTypeNodeInstance<IPublicTypeComponentRecord, Node> | null
+    ) => IPublicTypeNodeInstance<IPublicTypeComponentRecord, Node> | null;
     /**
      * 根据节点获取节点的组件实例
      */
-    getComponentInstances(node: Node): IPublicTypeComponentRecord[] | null
+    getComponentInstances: (node: Node) => IPublicTypeComponentRecord[] | null;
     /**
      * 查找合适的投放容器
      */
-    getDropContainer(e: IPublicTypeLocateEvent<DocumentModel, Node>): IPublicTypeDropContainer<Node> | null
+    getDropContainer: (e: IPublicTypeLocateEvent<DocumentModel, Node>) => IPublicTypeDropContainer<Node> | null;
     /**
      * 查找节点的 dom
      */
-    findDOMNodes(
+    findDOMNodes: (
         instance: IPublicTypeComponentRecord,
         selector?: string,
-    ): Array<Element | Text> | null
+    ) => Array<Element | Text> | null;
     /**
      * 计算节点位置
      */
-    computeComponentInstanceRect(
+    computeComponentInstanceRect: (
         instance: IPublicTypeComponentRecord,
         selector?: string,
-    ): DOMRect | null
+    ) => DOMRect | null;
     /**
      * 查找组件
      */
-    getComponent(componentName: string): Component | null
+    getComponent: (componentName: string) => Component | null;
 
-    computeRect(node: Node): DOMRect | null
+    computeRect: (node: Node) => DOMRect | null;
 }
 
 export function isSimulator(obj: any): obj is IPublicModelSimulator {

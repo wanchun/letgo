@@ -9,24 +9,25 @@ import type {
 export interface IPublicTypeSimulatorRenderer<
     Node = IPublicModelNode,
 > {
-    readonly isSimulatorRenderer: true
-    createComponent(schema: IPublicTypeNodeSchema): Component | null
-    getComponent(componentName: string): Component | null
-    getNodeInstanceExpose(instance: IPublicTypeComponentRecord): Record<string, any>
-    getClosestNodeInstance(
+    readonly isSimulatorRenderer: true;
+    createComponent: (schema: IPublicTypeNodeSchema) => Component | null;
+    getComponent: (componentName: string) => Component | null;
+    getNodeInstanceExpose: (instance: IPublicTypeComponentRecord) => Record<string, any>;
+    getClosestNodeInstance: (
         from: IPublicTypeComponentRecord | Element,
         nodeId?: string,
-    ): IPublicTypeNodeInstance<IPublicTypeComponentRecord, Node> | null
-    findDOMNodes(
+    ) => IPublicTypeNodeInstance<IPublicTypeComponentRecord, Node> | null;
+    findDOMNodes: (
         instance: IPublicTypeComponentRecord,
-    ): Array<Element | Text> | null
-    getClientRects(element: Element | Text): DOMRect[]
-    setNativeSelection(enableFlag: boolean): void
-    setDraggingState(state: boolean): void
-    setCopyState(state: boolean): void
-    clearState(): void
-    run(): void
-    loadAsyncLibrary: (library: { [key: string]: object }) => void
+    ) => Array<Element | Text> | null;
+    getClientRects: (element: Element | Text) => DOMRect[];
+    setNativeSelection: (enableFlag: boolean) => void;
+    setDraggingState: (state: boolean) => void;
+    setCopyState: (state: boolean) => void;
+    clearState: () => void;
+    run: () => void;
+    rerender: () => void;
+    loadAsyncLibrary: (library: { [key: string]: object }) => void;
 }
 
 export function isSimulatorRenderer(obj: any): obj is IPublicTypeSimulatorRenderer {

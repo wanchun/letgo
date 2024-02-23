@@ -38,7 +38,7 @@ import { createOffsetObserver } from './offset-observer';
 type IDesignerProps = IPublicTypeDesignerProps<DocumentModel, INode>;
 
 interface IPropsReducerContext {
-    stage: IPublicEnumTransformStage
+    stage: IPublicEnumTransformStage;
 }
 
 type IPropsReducer = (
@@ -80,9 +80,9 @@ export class Designer implements IPublicModelDesigner<Project, DocumentModel, Co
         return this.project.currentDocument;
     }
 
-    // get currentHistory() {
-    //     return this.currentDocument?.history;
-    // }
+    get currentHistory() {
+        return this.currentDocument?.history;
+    }
 
     get currentSelection() {
         return this.currentDocument?.selection;
@@ -99,8 +99,8 @@ export class Designer implements IPublicModelDesigner<Project, DocumentModel, Co
      * 模拟器参数
      */
     get simulatorProps(): IPublicTypeSimulatorProps & {
-        designer: Designer
-        onMount: (host: Simulator) => void
+        designer: Designer;
+        onMount: (host: Simulator) => void;
     } {
         let simulatorProps = this._simulatorProps;
         if (typeof simulatorProps === 'function')
@@ -133,6 +133,10 @@ export class Designer implements IPublicModelDesigner<Project, DocumentModel, Co
     get isRendererReady() {
         return !isNil(this._renderer);
     }
+
+    private selectionDispose: undefined | (() => void);
+
+    private historyDispose: undefined | (() => void);
 
     constructor(props: IDesignerProps) {
         markComputed(this, ['computedSchema']);
@@ -228,20 +232,39 @@ export class Designer implements IPublicModelDesigner<Project, DocumentModel, Co
                 this.currentDocument,
             );
             this.setupSelection();
+            this.setupHistory();
         });
 
         // TODO: 整理 designer 生命周期事件
         this.editor.emit('designer.init', this);
         this.setupSelection();
+        this.setupHistory();
     }
 
     setupSelection = () => {
+        if (this.selectionDispose) {
+            this.selectionDispose();
+            this.selectionDispose = undefined;
+        }
         const currentSelection = this.currentSelection;
         this.editor.emit('designer.selection.change', currentSelection);
         if (currentSelection) {
-            // TODO: 清理
-            currentSelection.onSelectionChange(() => {
+            this.selectionDispose = currentSelection.onSelectionChange(() => {
                 this.editor.emit('designer.selection.change', currentSelection);
+            });
+        }
+    };
+
+    setupHistory = () => {
+        if (this.historyDispose) {
+            this.historyDispose();
+            this.historyDispose = undefined;
+        }
+        const currentHistory = this.currentHistory;
+        this.editor.emit('designer.history.change', currentHistory);
+        if (currentHistory) {
+            this.historyDispose = currentHistory.onStateChange(() => {
+                this.editor.emit('designer.history.change', currentHistory);
             });
         }
     };

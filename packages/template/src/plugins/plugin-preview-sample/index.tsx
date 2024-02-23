@@ -20,7 +20,7 @@ export default definePlugin({
 
         skeleton.add({
             name: 'PluginPreviewSkeleton',
-            area: 'topArea',
+            area: 'toolbarArea',
             type: 'Widget',
             props: {
                 align: 'right',

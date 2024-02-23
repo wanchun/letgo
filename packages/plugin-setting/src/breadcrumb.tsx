@@ -1,6 +1,6 @@
-import type { PropType } from 'vue';
-import type { INode } from '@webank/letgo-designer';
 import { RightOutlined } from '@fesjs/fes-design/icon';
+import { canClickNode, type INode } from '@webank/letgo-designer';
+import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
 import NodeRef from './node-ref';
 
@@ -37,6 +37,36 @@ export default defineComponent({
 
             const len = parentNodeList.length;
 
+            const doClick = (node: INode, e: MouseEvent) => {
+                const canClick = canClickNode(node, e);
+
+                if (canClick) {
+                    node.document.selection.select(node.id);
+                    const editor = node.document.project.designer.editor;
+                    const npm = node?.componentMeta?.npm;
+                    const selected
+                        = [npm?.package, npm?.exportName]
+                            .filter(item => !!item)
+                            .join('-')
+                            || node?.componentMeta?.componentName
+                            || '';
+                    editor?.emit('designer.border.action', {
+                        name: 'select',
+                        selected,
+                    });
+                }
+            }
+
+            const onMouseOver = (node: INode) => {
+                if (node && typeof node.hover === 'function')
+                    node.hover(true);
+            };
+    
+            const onMouseOut = (node: INode) => {
+                if (node && typeof node.hover === 'function')
+                    node.hover(false);
+            };
+
             return (
                 <div class="letgo-plg-setting__navigator">
                     {parentNodeList
@@ -51,6 +81,13 @@ export default defineComponent({
                                             "letgo-plg-setting__navigator-item",
                                             isParentNode && 'letgo-plg-setting__navigator-item--parent',
                                         ]}
+                                        onClick={(e) => isParentNode && doClick(node, e)}
+                                        onMouseenter={() => {
+                                            onMouseOver(node);
+                                        }}
+                                        onMouseleave={() => {
+                                            onMouseOut(node);
+                                        }}
                                     >
                                         {node?.componentMeta?.title}
                                         {/* TODO refName 可更改 */}

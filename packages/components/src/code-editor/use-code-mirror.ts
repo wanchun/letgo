@@ -1,5 +1,5 @@
-import { onBeforeUnmount, ref, watch } from 'vue';
-import { basicSetup } from 'codemirror';
+import { autocompletion } from '@codemirror/autocomplete';
+import { deleteLine, indentWithTab } from '@codemirror/commands';
 import {
     Annotation,
     EditorState,
@@ -9,10 +9,10 @@ import {
     keymap,
     placeholder,
 } from '@codemirror/view';
-import { autocompletion } from '@codemirror/autocomplete';
 import { vscodeKeymap } from '@replit/codemirror-vscode-keymap';
-import { deleteLine, indentWithTab } from '@codemirror/commands';
+import { basicSetup } from 'codemirror';
 import { isFunction } from 'lodash-es';
+import { onBeforeUnmount, ref, watch } from 'vue';
 import type { CodeEditorProps } from './types';
 
 const External = Annotation.define<boolean>();
@@ -53,7 +53,7 @@ export function useCodeMirror(props: CodeEditorProps) {
                 autocompletion({
                     icons: false,
                 }),
-                placeholder('Enter your code here'),
+                placeholder(props.placeholder || 'Enter your code here'),
                 EditorView.updateListener.of(async (v) => {
                     if (v.docChanged && !v.transactions.some(tr => tr.annotation(External))) {
                         const doc = v.state.doc.toString();

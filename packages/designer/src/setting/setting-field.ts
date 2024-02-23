@@ -1,3 +1,4 @@
+import { markComputed, markShallowReactive, uniqueId } from '@webank/letgo-common';
 import type {
     IBaseModelSettingField,
     IPublicEditor,
@@ -7,12 +8,11 @@ import type {
     IPublicTypeSetValueOptions,
     IPublicTypeSetterType,
 } from '@webank/letgo-types';
-import { EventEmitter } from 'eventemitter3';
-import { markComputed, markShallowReactive, uniqueId } from '@webank/letgo-common';
 import { GlobalEvent, isJSExpression } from '@webank/letgo-types';
-import type { INode } from '../types';
-import type { Designer } from '../designer';
+import { EventEmitter } from 'eventemitter3';
 import type { ComponentMeta } from '../component-meta';
+import type { Designer } from '../designer';
+import type { INode } from '../types';
 import type { ISettingTop, SettingTop } from './setting-top';
 
 export interface ISettingField extends IBaseModelSettingField<SettingTop, SettingField, ComponentMeta, INode> {
@@ -101,6 +101,11 @@ export class SettingField implements ISettingField {
         );
     }
 
+    private _description?: string;
+    get description() {
+        return this._description;
+    }
+
     private _setter?: IPublicTypeSetterType;
 
     get setter(): IPublicTypeSetterType | null {
@@ -177,7 +182,7 @@ export class SettingField implements ISettingField {
             field: SettingField,
         ) => void,
     ) {
-        const { title, items, setter, name, type, extraProps, ...rest } = config;
+        const { title, items, setter, name, type, extraProps, description, ...rest } = config;
 
         if (type == null) {
             const c = typeof name === 'string' ? name.slice(0, 1) : '';
@@ -192,6 +197,7 @@ export class SettingField implements ISettingField {
         }
         this._config = config;
         this._title = title;
+        this._description = description;
         this._setter = setter;
         this.extraProps = {
             ...rest,

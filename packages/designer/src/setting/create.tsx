@@ -1,12 +1,12 @@
-import type { PropType, VNodeChild } from 'vue';
-import { computed, createVNode, defineComponent, h } from 'vue';
 import type { IPublicTypeCustomView, IPublicTypeFieldDisplay } from '@webank/letgo-types';
 import { isSetterConfig } from '@webank/letgo-types';
 import { isFunction } from 'lodash-es';
+import type { PropType, VNodeChild } from 'vue';
+import { computed, createVNode, defineComponent, h } from 'vue';
 import type { IFieldProps } from './fields';
 import { AccordionFieldView, BlockFieldView, InlineFieldView, PlainFieldView, PopupFieldView } from './fields';
-import type { SettingField } from './setting-field';
 import { SetterManager } from './setter-manager';
+import type { SettingField } from './setting-field';
 
 export function createFieldContent(
     props: IFieldProps,
@@ -65,6 +65,7 @@ export const SettingGroupView = defineComponent({
                 meta: field.componentMeta?.npm || field.componentMeta?.componentName || '',
                 title: field.title,
                 expanded: field.expanded,
+                description: field.description,
                 onExpandChange: expandState => field.setExpanded(expandState),
             },
             field.items.map((item) => {
@@ -170,6 +171,7 @@ export const SettingFieldView = defineComponent({
                 meta: field.componentMeta?.npm || field.componentMeta?.componentName || '',
                 title: field.title,
                 expanded: field.expanded,
+                description: field.description,
                 onExpandChange: expandState => field.setExpanded(expandState),
                 onClear: () => field.clearValue(),
                 // TODO: 暂时不知道要干嘛

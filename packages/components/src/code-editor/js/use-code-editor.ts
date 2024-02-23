@@ -1,5 +1,7 @@
-import { onBeforeUnmount, ref, watch } from 'vue';
-import { basicSetup } from '@uiw/codemirror-extensions-basic-setup';
+import { autocompletion } from '@codemirror/autocomplete';
+import { deleteLine, indentWithTab } from '@codemirror/commands';
+import { javascript, javascriptLanguage } from '@codemirror/lang-javascript';
+import { lintGutter, setDiagnostics } from '@codemirror/lint';
 import {
     Annotation,
     EditorState,
@@ -9,12 +11,10 @@ import {
     keymap,
     placeholder,
 } from '@codemirror/view';
-import { autocompletion } from '@codemirror/autocomplete';
-import { lintGutter, setDiagnostics } from '@codemirror/lint';
-import { javascript, javascriptLanguage } from '@codemirror/lang-javascript';
 import { vscodeKeymap } from '@replit/codemirror-vscode-keymap';
-import { deleteLine, indentWithTab } from '@codemirror/commands';
+import { basicSetup } from '@uiw/codemirror-extensions-basic-setup';
 import { isFunction } from 'lodash-es';
+import { onBeforeUnmount, ref, watch } from 'vue';
 import type { CodeEditorProps } from '../types';
 import { HintTheme, hintPlugin, useHint, useScopeVariables } from './use-hint';
 import { useOxcWorker } from './use-oxc';
@@ -93,7 +93,7 @@ export function useCodeEditor(props: CodeEditorProps) {
                     icons: false,
                 }),
                 lintGutter(),
-                placeholder('Enter your code here'),
+                placeholder(props.placeholder || 'Enter your code here'),
                 EditorView.updateListener.of(async (v) => {
                     if (v.docChanged && !v.transactions.some(tr => tr.annotation(External))) {
                         const doc = v.state.doc.toString();

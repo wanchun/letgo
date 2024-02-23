@@ -1,3 +1,21 @@
+## [0.0.3-beta.18](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.17...v0.0.3-beta.18) (2024-02-23)
+
+
+### Bug Fixes
+
+* ArraySetter循环问题 ([22c1dc2](https://git.weoa.com/mumblefe/letgo/commits/22c1dc21de3bec5bb54b9902924889298b59e500))
+* 修复 scope 丢失问题 ([dbbc969](https://git.weoa.com/mumblefe/letgo/commits/dbbc9693911749e46dbbb17f65d68ee77ab9b71c))
+* 移除 dimension 告警 ([05dfdf7](https://git.weoa.com/mumblefe/letgo/commits/05dfdf7ff1d4b42e3e8fc8632802894042d6d95d))
+
+
+### Features
+
+* FunctionSetter、JsonSetter支持placeholder ([8c7dcd3](https://git.weoa.com/mumblefe/letgo/commits/8c7dcd39f630499f23d3819778e4e5bceadfc307))
+* 新增tip属性 ([3acb6f7](https://git.weoa.com/mumblefe/letgo/commits/3acb6f7ba52238b1563bb456b799e81fbb57f92b))
+* 添加历史记录功能 ([ba214e9](https://git.weoa.com/mumblefe/letgo/commits/ba214e9b61867cb1d5d66279e01cbd243844c555))
+
+
+
 ## [0.0.3-beta.17](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.16...v0.0.3-beta.17) (2024-02-22)
 
 

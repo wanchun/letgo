@@ -4,7 +4,7 @@ import type { IFieldConfig, ISettingField, SettingField } from '@webank/letgo-de
 import { createSettingFieldView, usePopupManage } from '@webank/letgo-designer';
 import type {
     IPublicTypeSetter,
-    IPublicTypeSetterType
+    IPublicTypeSetterType,
 } from '@webank/letgo-types';
 import { cloneDeep, get, isArray, isFunction, isNil, isUndefined } from 'lodash-es';
 import type {
@@ -20,12 +20,12 @@ import {
     shallowRef,
     toRaw,
     triggerRef,
-    watch
+    watch,
 } from 'vue';
 import { commonProps } from '../../common';
 import './index.less';
 
-interface ItemType { main: SettingField, cols: SettingField[] }
+interface ItemType { main: SettingField; cols: SettingField[] }
 
 /**
  *  配置类的参数不会变
@@ -98,12 +98,12 @@ const ArraySetterView = defineComponent({
 
         const createItem = (name: string | number): ItemType => {
             const value = isNil(props.value) ? props.defaultValue : props.value;
-            const infiniteItem = (itemSetter as any).props?.items?.find?.((item: any) => item.setter?.props?.infinite)
+            const infiniteItem = (itemSetter as any).props?.items?.find?.((item: any) => item.setter?.props?.infinite);
             if (infiniteItem) { // 存在循环时，将当前配置拷贝到需要循环的子项
                 infiniteItem.setter.props = {
                     columns: cloneDeep(toRaw(props.columns)),
                     itemSetter: cloneDeep(toRaw(props.itemSetter)),
-                }
+                };
             }
             const mainField = field.createField({
                 name,
@@ -283,7 +283,7 @@ const ArraySetterView = defineComponent({
                     disabled={!draggable.value}
                     onDragend={onDragend}
                     v-slots={{
-                        default: ({ item, index }: { item: ItemType, index: number }) => {
+                        default: ({ item, index }: { item: ItemType; index: number }) => {
                             return (
                                 <div class={['letgo-array-setter__body', !hasCol && 'letgo-array-setter__body--big']}>
                                     <Drag class="letgo-array-setter__icon" theme="outline" onMousedown={onMousedown} />

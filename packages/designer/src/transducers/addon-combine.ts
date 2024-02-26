@@ -16,7 +16,7 @@ export default function (
         return metadata;
 
     const { props, supports = {} } = configure;
-    const isRoot: boolean = componentName === 'Page' || componentName === 'Component';
+    const isRoot: boolean = componentName === 'Page';
     const isSlot: boolean = componentName === 'Slot';
     const eventsDefinition: any[] = [];
     if (supports.events) {

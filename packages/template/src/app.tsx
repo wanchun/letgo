@@ -10,28 +10,28 @@ import PluginLogo from './plugins/plugin-logo';
 import PluginPreview from './plugins/plugin-preview-sample';
 import PluginCodeGenerator from './plugins/plugin-code-generator';
 
-const injectGroup: IPublicTypeFieldConfig = {
-    name: 'action',
-    title: '权限',
-    type: 'group',
-    extraProps: {
-        display: 'block',
-    },
-    items: [
-        {
-            name: 'v-access',
-            title: '资源ID',
-            setter: 'StringSetter',
-            defaultValue: '',
-            supportVariable: false,
-        },
-    ],
-};
-registerMetadataTransducer((metadata) => {
-    if (metadata.configure)
-        metadata.configure.props.push(injectGroup);
-    return metadata;
-}, 100, 'inject-custom');
+// const injectGroup: IPublicTypeFieldConfig = {
+//     name: 'action',
+//     title: '权限',
+//     type: 'group',
+//     extraProps: {
+//         display: 'block',
+//     },
+//     items: [
+//         {
+//             name: 'v-access',
+//             title: '资源ID',
+//             setter: 'StringSetter',
+//             defaultValue: '',
+//             supportVariable: false,
+//         },
+//     ],
+// };
+// registerMetadataTransducer((metadata) => {
+//     if (metadata.configure)
+//         metadata.configure.props.push(injectGroup);
+//     return metadata;
+// }, 100, 'inject-custom');
 
 plugins.register(PluginDevice);
 plugins.register(PluginSchema);

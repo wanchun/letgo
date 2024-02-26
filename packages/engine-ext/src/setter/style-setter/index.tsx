@@ -1,6 +1,7 @@
 import type { CSSProperties, PropType, VNodeChild } from 'vue';
 import { defineComponent, onMounted, provide, ref } from 'vue';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
+import { isJSExpression } from '@webank/letgo-types';
 import { cloneDeep, isNil } from 'lodash-es';
 import { FCollapse } from '@fesjs/fes-design';
 import { commonProps, getComputeStyle } from '../../common';
@@ -36,7 +37,7 @@ const StyleSetterView = defineComponent({
             style: getComputeStyle(props.node),
         });
 
-        const currentValue = ref(cloneDeep(props.value) ?? {});
+        const currentValue = ref(isJSExpression(props.value) ? {} : (cloneDeep(props.value) ?? {}));
 
         const onStyleChange = (changedStyle: Record<string, any>, assign = true) => {
             if (assign) {
@@ -102,7 +103,7 @@ const StyleSetterView = defineComponent({
     },
 });
 
-export const StyleSetter: IPublicTypeSetter & { renderBackgroundImage?: (props: { value: string, onStyleChange: (style: CSSProperties)=> void })=> VNodeChild } = {
+export const StyleSetter: IPublicTypeSetter & { renderBackgroundImage?: (props: { value: string; onStyleChange: (style: CSSProperties) => void }) => VNodeChild } = {
     type: 'StyleSetter',
     title: '样式设置器',
     Component: StyleSetterView,

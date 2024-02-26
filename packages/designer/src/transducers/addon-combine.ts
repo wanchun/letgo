@@ -62,7 +62,7 @@ export default function (
         stylesGroup.push({
             name: 'style',
             title: '行内样式',
-            setter: 'StyleSetter',
+            setter: ['StyleSetter', 'ExpressionSetter'],
             extraProps: {
                 display: 'block',
             },

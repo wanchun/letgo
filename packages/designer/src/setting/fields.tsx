@@ -8,15 +8,15 @@ import { usePopupManage } from './usePopup';
 import './fields.less';
 
 export interface IFieldProps {
-    meta?: IPublicTypeNpmInfo | string
-    name?: string
-    title?: string | null
-    description?: string
-    display?: IPublicTypeFieldDisplay
-    expanded?: boolean
-    valueState?: number
-    onExpandChange?: (expandState: boolean) => void
-    onClear?: () => void
+    meta?: IPublicTypeNpmInfo | string;
+    name?: string;
+    title?: string | null;
+    description?: string;
+    display?: IPublicTypeFieldDisplay;
+    expanded?: boolean;
+    valueState?: number;
+    onExpandChange?: (expandState: boolean) => void;
+    onClear?: () => void;
 }
 
 const filedViewProps = {
@@ -71,7 +71,7 @@ export const PopupFieldView = defineComponent({
 
         return () => {
             return (
-                <div class="letgo-designer-setting__popup" id={id}>
+                <div class="letgo-designer-setting__popup-field" id={id}>
                     <div class="letgo-designer-setting__header">
                         {renderFieldDescView(props.description)}
                         {props.title}
@@ -93,7 +93,7 @@ export const PlainFieldView = defineComponent({
 
         return () => {
             return (
-                <div class="letgo-designer-setting__plain" id={id}>
+                <div class="letgo-designer-setting__plain-field" id={id}>
                     <div class="letgo-designer-setting__body">{slots.default?.()}</div>
                 </div>
             );

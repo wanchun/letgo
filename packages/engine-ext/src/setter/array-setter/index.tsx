@@ -263,7 +263,7 @@ const ArraySetterView = defineComponent({
                 const toggle = () => {
                     drawerShowList[rowIndex] = !drawerShowList[rowIndex];
                     if (drawerShowList[rowIndex] && popup.openPopup) {
-                        popup.openPopup(`${field.name}.${main.name}`, createSettingFieldView(main), () => {
+                        popup.openPopup(`${field.path.join('.')}.${main.name}`, createSettingFieldView(main), () => {
                             drawerShowList[rowIndex] = !drawerShowList[rowIndex];
                         });
                     }

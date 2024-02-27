@@ -2,6 +2,9 @@ import { FButton, FDraggable } from '@fesjs/fes-design';
 import { AddOne, Config, DeleteOne, Drag } from '@icon-park/vue-next';
 import type { IFieldConfig, ISettingField, SettingField } from '@webank/letgo-designer';
 import { createSettingFieldView, usePopupManage } from '@webank/letgo-designer';
+import {
+    isSetterConfig,
+} from '@webank/letgo-types';
 import type {
     IPublicTypeSetter,
     IPublicTypeSetterType,
@@ -44,7 +47,7 @@ const ArraySetterView = defineComponent({
             type: [String, Object, Array] as PropType<IPublicTypeSetterType>,
         },
         columns: {
-            type: Array as PropType<IFieldConfig[]>,
+            type: Array as PropType<Array<IFieldConfig | string>>,
         },
         defaultItemValue: {
             type: [String, Number, Boolean, Object, Array, Function] as PropType<any | ((value: unknown) => unknown)>,
@@ -53,15 +56,34 @@ const ArraySetterView = defineComponent({
         infinite: Boolean,
     },
     setup(props) {
-        const { field } = props;
+        const { field, itemSetter } = props;
 
         const popup = usePopupManage();
 
-        const itemSetter = props.itemSetter;
+        const isObjectItem = isSetterConfig(itemSetter) && itemSetter.componentName === 'ObjectSetter';
 
-        const columns = props.columns;
+        if (isObjectItem) {
+            const infiniteItem = (itemSetter as any).props?.items?.find?.((item: any) => item.setter?.props?.infinite);
+            if (infiniteItem) { // 存在循环时，将当前配置拷贝到需要循环的子项
+                infiniteItem.setter.props = {
+                    columns: cloneDeep(toRaw(props.columns)),
+                    itemSetter: cloneDeep(toRaw(props.itemSetter)),
+                };
+            }
+        }
 
-        const hasCol = columns && columns.length;
+        const hasCol = isObjectItem && props.columns && props.columns.length;
+
+        let columns: IFieldConfig[] = [];
+
+        if (hasCol) {
+            columns = props.columns.map((item) => {
+                if (typeof item === 'string')
+                    return ((itemSetter.props as any)?.items as IFieldConfig[])?.find(_item => _item.name === item);
+
+                return item;
+            });
+        }
 
         const items: ShallowRef<Array<ItemType>> = shallowRef([]);
 
@@ -98,18 +120,12 @@ const ArraySetterView = defineComponent({
 
         const createItem = (name: string | number): ItemType => {
             const value = isNil(props.value) ? props.defaultValue : props.value;
-            const infiniteItem = (itemSetter as any).props?.items?.find?.((item: any) => item.setter?.props?.infinite);
-            if (infiniteItem) { // 存在循环时，将当前配置拷贝到需要循环的子项
-                infiniteItem.setter.props = {
-                    columns: cloneDeep(toRaw(props.columns)),
-                    itemSetter: cloneDeep(toRaw(props.itemSetter)),
-                };
-            }
             const mainField = field.createField({
                 name,
                 setter: itemSetter,
                 display: 'plain',
                 extraProps: {
+                    defaultValue: get(value, name),
                     setValue: onItemChange,
                 },
             });
@@ -203,6 +219,7 @@ const ArraySetterView = defineComponent({
                 return;
 
             items.value = [];
+
             const value = isNil(props.value) ? props.defaultValue : props.value;
 
             const valueLength = isArray(value) ? value.length : 0;

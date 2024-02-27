@@ -836,9 +836,9 @@ const assets: IPublicTypeAssetsJson = {
                         setter: {
                             componentName: 'ExpressionSetter',
                             props: {
-                                placeholder: 'formModel.value'
-                            }
-                        }
+                                placeholder: 'formModel.value',
+                            },
+                        },
                     },
                     {
                         name: 'rules',
@@ -847,8 +847,8 @@ const assets: IPublicTypeAssetsJson = {
                             componentName: 'JsonSetter',
                             props: {
                                 placeholder: JSON.stringify({ fileName: { required: true, message: '必填项' }, fileName2: [{ required: true, message: '必填项' }] }, null, 2),
-                            }
-                        }
+                            },
+                        },
                     },
                     {
                         name: 'disabled',
@@ -1635,19 +1635,8 @@ const assets: IPublicTypeAssetsJson = {
                                         },
                                     },
                                     columns: [
-                                        {
-                                            name: 'value',
-                                            title: '选项值',
-                                            setter: [
-                                                'StringSetter',
-                                                'NumberSetter',
-                                            ],
-                                        },
-                                        {
-                                            name: 'label',
-                                            title: '选项名',
-                                            setter: 'StringSetter',
-                                        },
+                                        'value',
+                                        'label',
                                     ],
                                 },
                             },
@@ -1769,9 +1758,9 @@ const assets: IPublicTypeAssetsJson = {
                                     componentName: 'FunctionSetter',
                                     props: {
                                         placeholder: 'function(pattern, option) {\n\t//todo filter\n\treturn true;\n}',
-                                    }
+                                    },
                                 },
-                                
+
                             },
                             {
                                 name: 'tag',

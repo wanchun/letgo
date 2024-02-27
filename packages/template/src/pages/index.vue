@@ -14,18 +14,7 @@ export default defineComponent({
         IconSetter.defaultIcons = icons;
 
         const onReady = () => {
-            project.openDocument({
-                componentName: 'Component',
-                id: 'root',
-                ref: 'root',
-                props: {},
-                fileName: 'comp1',
-                children: [],
-                code: {
-                    directories: [],
-                    code: [],
-                },
-            });
+            project.openDocument();
             console.log('project:', project);
         };
 

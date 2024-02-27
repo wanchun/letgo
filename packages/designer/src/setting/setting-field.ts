@@ -97,7 +97,7 @@ export class SettingField implements ISettingField {
         // FIXME! intl
         return (
             this._title
-                || (typeof this.name === 'number' ? `项目 ${this.name}` : this.name)
+            || (typeof this.name === 'number' ? `项目 ${this.name}` : this.name)
         );
     }
 
@@ -238,8 +238,8 @@ export class SettingField implements ISettingField {
     private initItems(
         items: Array<IFieldConfig>,
         settingFieldCollector?: {
-            (name: string | number, field: SettingField): void
-            (name: string, field: SettingField): void
+            (name: string | number, field: SettingField): void;
+            (name: string, field: SettingField): void;
         },
     ) {
         this._items = items.map((item) => {
@@ -502,6 +502,7 @@ export class SettingField implements ISettingField {
 
     purge() {
         this.disposeItems();
+        this.emitter.removeAllListeners();
     }
 }
 

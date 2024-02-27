@@ -93,8 +93,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
 
     private _settingEntry: SettingTop;
 
-    private offCodeIdChange: (() => void)[] = [];
-    private offNodeRefChange: (() => void)[] = [];
+    private offEvents: (() => void)[] = [];
 
     /**
      * 【响应式】获取符合搭建协议-节点 schema 结构
@@ -277,12 +276,12 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     }
 
     onCodeIdChanged(func: (id: string, preId: string) => void) {
-        this.offCodeIdChange.push(this.document.code.onCodeIdChanged(func));
-        this.offCodeIdChange.push(this.document.project.code.onCodeIdChanged(func));
+        this.offEvents.push(this.document.code.onCodeIdChanged(func));
+        this.offEvents.push(this.document.project.code.onCodeIdChanged(func));
     }
 
     onNodeRefChanged(func: (ref: string, preRef: string) => void) {
-        this.offNodeRefChange.push(this.document.onNodeRefChange(func));
+        this.offEvents.push(this.document.onNodeRefChange(func));
     }
 
     changeRef(ref: string) {
@@ -368,9 +367,11 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     onPropChange(func: (info: IPropChangeOptions) => void): () => void {
         const wrappedFunc = wrapWithEventSwitch(func);
         this.emitter.on('propChange', wrappedFunc);
-        return () => {
+        const offEvent = () => {
             this.emitter.off('propChange', wrappedFunc);
         };
+        this.offEvents.push(offEvent);
+        return offEvent;
     }
 
     onChildrenChange(
@@ -632,8 +633,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
             return;
 
         this.purged = true;
-        this.offCodeIdChange.forEach(fn => fn());
-        this.offNodeRefChange.forEach(fn => fn());
+        this.offEvents.forEach(fn => fn());
         this.props.purge();
         this.settingEntry?.purge();
         this.emitter.removeAllListeners();

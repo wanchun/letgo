@@ -1,7 +1,6 @@
 import type { DocumentModel } from '@webank/letgo-designer';
-import type { IPublicTypeComponentInstance } from '@webank/letgo-types';
-import { IPublicEnumTransformStage } from '@webank/letgo-types';
-import { buildComponents, cursor, getSubComponent, isElement, setNativeSelection } from '@webank/letgo-common';
+import { IPublicEnumTransformStage, type IPublicTypeComponentInstance } from '@webank/letgo-types';
+import { buildComponents, cursor, getConvertedExtraKey, getSubComponent, isElement, setNativeSelection } from '@webank/letgo-common';
 import type {
     Component,
     Ref,
@@ -10,6 +9,7 @@ import {
     computed,
     createApp,
     markRaw,
+    onBeforeUnmount,
     onUnmounted,
     reactive,
     ref,
@@ -19,6 +19,7 @@ import {
 import { config } from '@webank/letgo-renderer';
 import { builtinComponents } from '@webank/letgo-components';
 import { createMemoryHistory, createRouter } from 'vue-router';
+import { debounce } from 'lodash-es';
 import type {
     DocumentInstance,
     MixedComponent,
@@ -158,7 +159,16 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
         return id ? document.getNode(id) : null;
     };
 
+    const defaultProps = shallowRef(document.root.getExtraProp('defaultProps')?.getValue());
+    document.root.onPropChange(debounce((info) => {
+        const { prop } = info;
+        const rootPropKey: string = prop.path[0];
+        if (rootPropKey === getConvertedExtraKey('defaultProps'))
+            defaultProps.value = document.root.getExtraProp('defaultProps').getValue();
+    }, 300));
+
     return reactive({
+        defaultProps,
         id: computed(() => document.id),
         path: computed(() => {
             const { fileName } = document;

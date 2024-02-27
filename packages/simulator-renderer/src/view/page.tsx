@@ -43,6 +43,11 @@ export default defineComponent({
 
         const { executeCtx } = useContext(codesInstance, props.documentInstance);
 
+        watch(() => props.documentInstance.defaultProps, (val) => {
+            executeCtx.props = val || {};
+        }, {
+            immediate: true,
+        });
         initCodesInstance(code.value.codeMap, executeCtx);
 
         const offCodeChangedEvent: (() => void)[] = [];

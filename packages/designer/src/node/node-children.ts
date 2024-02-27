@@ -212,6 +212,7 @@ export class NodeChildren implements IPublicModelNodeChildren<INode> {
         this.children.forEach((child) => {
             child.purge();
         });
+        this.emitter.removeAllListeners();
     }
 
     /**

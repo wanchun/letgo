@@ -1,5 +1,5 @@
-import { debounce, isNil } from 'lodash-es';
-import type { ComputedRef, InjectionKey, Slot } from 'vue';
+import { isNil } from 'lodash-es';
+import type { ComputedRef, Slot } from 'vue';
 import {
     Fragment,
     computed,
@@ -7,10 +7,8 @@ import {
     h,
     inject,
     onUnmounted,
-    provide,
     reactive,
     ref,
-    watch,
 } from 'vue';
 import {
     buildProps,
@@ -33,7 +31,6 @@ import {
     IPublicEnumTransformStage,
     isJSSlot,
 } from '@webank/letgo-types';
-import { getConvertedExtraKey } from '@webank/letgo-designer';
 import type { INode, ISlotNode } from '@webank/letgo-designer';
 import type {
     BlockScope,
@@ -41,7 +38,7 @@ import type {
     RuntimeScope,
     SlotSchemaMap,
 } from '@webank/letgo-renderer';
-import { eventHandlersToJsFunction } from '@webank/letgo-common';
+import { eventHandlersToJsFunction, getConvertedExtraKey } from '@webank/letgo-common';
 import { BASE_COMP_CONTEXT } from '../constants';
 import { createAction } from './centerAction';
 
@@ -75,7 +72,7 @@ function buildCenterAction(node: INode, action?: IPublicTypeComponentAction) {
 
 function useSchema(props: LeafProps, node: INode) {
     const compProps: {
-        [x: string]: unknown
+        [x: string]: unknown;
     } = reactive({});
     const compSlots: SlotSchemaMap = reactive({});
 

@@ -1,5 +1,6 @@
 import { defineComponent, h } from 'vue';
 import type { IPublicModelSettingField, IPublicTypeComponentMetadata } from '@webank/letgo-types';
+import { getConvertedExtraKey } from '@webank/letgo-common';
 
 export const Component = defineComponent((props, { slots }) => {
     return () => h('div', { class: 'letgo-component', ...props }, slots);
@@ -20,7 +21,7 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
     configure: {
         props: [
             {
-                name: 'props',
+                name: 'propsDefinition',
                 title: '属性自定义',
                 display: 'block',
                 setter: [
@@ -426,13 +427,41 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
                 ],
                 supportVariable: false,
             },
+            {
+                name: getConvertedExtraKey('defaultProps'),
+                title: '默认值',
+                display: 'block',
+                setter: {
+                    componentName: 'ObjectSetter',
+                    props(field: IPublicModelSettingField) {
+                        const propsDefinition = field.parent.getPropValue('propsDefinition');
+                        return {
+                            items: (propsDefinition || []).filter((item: any) => item && item.name).map((item: any) => {
+                                const { name, title, type } = item;
+                                let setter = 'StringSetter';
+                                if (type)
+                                    setter = TYPE_TO_SETTER[type as keyof typeof TYPE_TO_SETTER][0];
+
+                                if (['ObjectSetter', 'ArraySetter'].includes(setter))
+                                    setter = 'JsonSetter';
+
+                                return {
+                                    name,
+                                    title,
+                                    setter,
+                                };
+                            }),
+                        };
+                    },
+                },
+            },
         ],
 
         supports: {
             style: true,
             condition: false,
             loop: false,
-
+            events: [],
         },
         component: {
             isContainer: true,

@@ -4,7 +4,7 @@ import type {
 } from '@webank/letgo-types';
 import { engineConfig } from '@webank/letgo-editor-core';
 import { isArray } from 'lodash-es';
-import { getConvertedExtraKey } from '../node';
+import { getConvertedExtraKey } from '@webank/letgo-common';
 
 export default function (
     metadata: IPublicTypeTransformedComponentMetadata,
@@ -19,7 +19,7 @@ export default function (
     const isRoot: boolean = componentName === 'Page';
     const isSlot: boolean = componentName === 'Slot';
     const eventsDefinition: any[] = [];
-    if (supports.events) {
+    if (supports.events?.length) {
         eventsDefinition.push({
             type: 'events',
             title: '事件',

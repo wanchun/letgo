@@ -47,6 +47,7 @@ export interface DocumentInstance {
     readonly document: DocumentModel;
     readonly instancesMap: Map<string, IPublicTypeComponentInstance[]>;
     readonly vueInstanceMap: Map<number, IPublicTypeComponentInstance>;
+    readonly defaultProps: Record<string, any>;
     readonly schema: IPublicTypeRootSchema;
     getComponentInstance: (id: number) => IPublicTypeComponentInstance | null;
     mountInstance: (id: string, instance: IPublicTypeComponentInstance) => (() => void) | void;

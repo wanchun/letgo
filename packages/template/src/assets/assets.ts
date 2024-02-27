@@ -3734,7 +3734,7 @@ const assets: IPublicTypeAssetsJson = {
                     defaultValue: true,
                 },
                 {
-                    name: 'addon',
+                    name: 'footer',
                     title: '自定义底部',
                     propType: 'node',
                 },

@@ -47,7 +47,11 @@ function useId(props: IFieldProps) {
 function renderFieldDescView(desc: string) {
     if (!desc)
         return;
-    return <FTooltip content={desc}><QuestionCircleOutlined color="var(--f-primary-color)" style="margin-right: 3px;"></QuestionCircleOutlined></FTooltip>;
+    const slots = {
+        default: () => <QuestionCircleOutlined color="var(--f-primary-color)" style="margin-left: 3px;"></QuestionCircleOutlined>,
+        content: () => <pre style="margin: 0;">{desc}</pre>
+    }
+    return <FTooltip v-slots={slots}></FTooltip>;
 }
 
 export const PopupFieldView = defineComponent({
@@ -73,8 +77,8 @@ export const PopupFieldView = defineComponent({
             return (
                 <div class="letgo-designer-setting__popup" id={id}>
                     <div class="letgo-designer-setting__header">
-                        {renderFieldDescView(props.description)}
                         {props.title}
+                        {renderFieldDescView(props.description)}
                     </div>
                     <div class="letgo-designer-setting__body">
                         <EditOutlined class="letgo-designer-setting__icon" onClick={toggle} />
@@ -116,8 +120,8 @@ export const AccordionFieldView = defineComponent({
                 <div class="letgo-designer-setting__accordion-field" id={id}>
                     <div class="letgo-designer-setting__header" onClick={onClickHeader}>
                         <RightOutlined class={['letgo-designer-setting__icon', props.expanded && 'letgo-designer-setting__icon--show']} />
-                        {renderFieldDescView(props.description)}
                         <span>{props.title}</span>
+                        {renderFieldDescView(props.description)}
                     </div>
                     <div class="letgo-designer-setting__body" v-show={props.expanded}>{slots.default?.()}</div>
                 </div>
@@ -136,8 +140,8 @@ export const BlockFieldView = defineComponent({
             return (
                 <div class="letgo-designer-setting__field" id={id}>
                     <div class="letgo-designer-setting__header">
-                        {renderFieldDescView(props.description)}
                         {props.title}
+                        {renderFieldDescView(props.description)}
                     </div>
                     <div class="letgo-designer-setting__body">{slots.default?.()}</div>
                 </div>
@@ -156,8 +160,8 @@ export const InlineFieldView = defineComponent({
             return (
                 <div class="letgo-designer-setting__inline-field" id={id}>
                     <div class="letgo-designer-setting__header">
-                        {renderFieldDescView(props.description)}
                         {props.title}
+                        {renderFieldDescView(props.description)}
                     </div>
                     <div class="letgo-designer-setting__body">{slots.default?.()}</div>
                 </div>

@@ -43,36 +43,36 @@ function genRefCode(filePath: string, componentRefs: Set<string>) {
         return `const [${item}RefEl, ${item}] = useInstance()`;
     }).join('\n');
 
-    const { outDir } = options;
+    const { letgoDir } = options;
 
     return {
         importSources: [{
             imported: 'useInstance',
             type: ImportType.ImportSpecifier,
-            source: relative(filePath, `${outDir}/useInstance`),
+            source: relative(filePath, `${letgoDir}/useInstance`),
         }],
         code,
     };
 }
 
 export function genScript({ ctx, componentMaps, rootSchema, componentRefs, fileName }: {
-    ctx: Context
-    componentMaps: IPublicTypeComponentMap[]
-    rootSchema: IPublicTypeRootSchema
-    componentRefs: Set<string>
-    fileName: string
+    ctx: Context;
+    componentMaps: IPublicTypeComponentMap[];
+    rootSchema: IPublicTypeRootSchema;
+    componentRefs: Set<string>;
+    fileName: string;
 },
 ): [ImportSource[], string[]] {
     const options = getOptions();
     if (!options)
         return;
 
-    const { pageDir } = options;
+    const { outDir } = options;
 
     const codeImports = genComponentImports(componentMaps);
-    const globalStateSnippet = applyGlobalState(`${pageDir}/${fileName}`);
-    const refCodeSnippet = genRefCode(`${pageDir}/${fileName}`, componentRefs);
-    const codesSnippet = genCode(ctx, `${pageDir}/${fileName}`, rootSchema.code);
+    const globalStateSnippet = applyGlobalState(`${outDir}/${fileName}`);
+    const refCodeSnippet = genRefCode(`${outDir}/${fileName}`, componentRefs);
+    const codesSnippet = genCode(ctx, `${outDir}/${fileName}`, rootSchema.code);
 
     const codes = [
         globalStateSnippet.code,

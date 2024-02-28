@@ -15,6 +15,8 @@ const TYPE_TO_SETTER = {
     function: ['FunctionSetter'],
 };
 
+const propsWeakMap = new WeakMap();
+
 export const ComponentMeta: IPublicTypeComponentMetadata = {
     title: '低代码组件',
     componentName: 'Component',
@@ -435,7 +437,7 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
                     componentName: 'ObjectSetter',
                     props(field: IPublicModelSettingField) {
                         const propsDefinition = field.parent.getPropValue('propsDefinition');
-                        return {
+                        const newProps = {
                             items: (propsDefinition || []).filter((item: any) => item && item.name).map((item: any) => {
                                 const { name, title, type } = item;
                                 let setter = 'StringSetter';
@@ -452,6 +454,13 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
                                 };
                             }),
                         };
+                        const preProps = propsWeakMap.get(field);
+                        if (!preProps || JSON.stringify(preProps) !== JSON.stringify(newProps)) {
+                            propsWeakMap.set(field, newProps);
+                            return newProps;
+                        }
+
+                        return preProps;
                     },
                 },
             },

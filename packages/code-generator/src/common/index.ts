@@ -39,7 +39,7 @@ function compileRootSchema(
     componentMaps: IPublicTypeComponentMap[],
     rootSchema: IPublicTypeRootSchema,
 ): FileStruct {
-    if (rootSchema.componentName === 'Page') {
+    if (['Page', 'Component'].includes(rootSchema.componentName)) {
         const componentRefs = getUseComponentRefs(ctx, rootSchema);
         const fileName = formatFileName(rootSchema.fileName);
 

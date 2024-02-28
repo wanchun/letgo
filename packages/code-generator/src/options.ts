@@ -3,8 +3,8 @@ import type { GenOptions } from './common/types';
 let options: GenOptions;
 
 const defaultOptions: Partial<GenOptions> = {
-    outDir: 'src/letgo',
-    pageDir: 'src/pages',
+    letgoDir: 'src/letgo',
+    outDir: 'src/pages',
     globalCssFileName: 'global.css',
 };
 

@@ -1,14 +1,4 @@
-export const defaultPackageJSON: Record<string, any> = {
-    dependencies: {
-        'core-js': '3.34.0',
-        'vue': '3.3.4',
-        '@vueuse/core': '10.7.1',
-        'lodash-es': '4.17.21',
-        '@qlin/request': '0.1.11',
-    },
-};
-
-export const defaultCodes = {
+export const LETGO_CODES = {
     'letgoConstants.js': `
 export const IEnumRunCondition = {
     MANUAL: 0,

@@ -2,10 +2,10 @@ import type { ICodeItem, IPublicTypeProjectSchema } from '@webank/letgo-types';
 
 export interface GenOptions {
     schema: IPublicTypeProjectSchema;
+    letgoDir?: string;
     outDir?: string;
-    pageDir?: string;
     extraPackageJSON?: Record<string, any>;
-    pageTransform?: (filesStruct: FileStruct[]) => FileStruct[];
+    transformJsx?: (filesStruct: FileStruct[]) => FileStruct[];
     globalCodeCallback?: {
         afterConfig?: (params: CallBackParam) => void;
     };

@@ -32,6 +32,7 @@ export function useCodeEditor(props: CodeEditorProps) {
 
     const theme = EditorView.theme({
         ...HintTheme,
+        ...props.theme,
         '&': {
             height: props.height,
             outline: 'none',

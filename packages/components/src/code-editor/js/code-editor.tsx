@@ -27,7 +27,6 @@ export const CodeEditor = defineComponent({
                 return [] as Extension[];
             },
         },
-
         bordered: {
             type: Boolean,
             default: true,

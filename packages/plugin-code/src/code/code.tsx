@@ -1,9 +1,10 @@
-import { Teleport, computed, defineComponent } from 'vue';
+import { Teleport, computed, defineComponent, watch } from 'vue';
 import type { PropType } from 'vue';
 import type { Designer } from '@webank/letgo-designer';
 import { CodeList } from '@webank/letgo-components';
 import { innerGlobalVariable } from '@webank/letgo-common';
 import { FScrollbar } from '@fesjs/fes-design';
+import { onClickOutside } from '@vueuse/core';
 import CodeEdit from './edit/code-edit';
 import useCode from './useCode';
 
@@ -15,6 +16,7 @@ export default defineComponent({
         },
         currentTab: String,
         searchText: String,
+        rootEl: HTMLElement,
     },
     setup(props) {
         const currentDocument = computed(() => {
@@ -36,6 +38,19 @@ export default defineComponent({
             changeCurrentCodeItem,
         } = useCode();
 
+        let initialized = false;
+
+        watch(() => props.rootEl, () => {
+            if (props.rootEl && !initialized) {
+                initialized = true;
+                onClickOutside(props.rootEl, () => {
+                    currentCodeItem.value = null;
+                });
+            }
+        }, {
+            immediate: true,
+        });
+
         return () => {
             return (
                 <div class="letgo-plg-code__edit">
@@ -50,11 +65,15 @@ export default defineComponent({
                             searchText={props.searchText}
                         />
                     </FScrollbar>
-                    <Teleport to={document.body}>
-                        <FScrollbar v-show={props.currentTab === 'code' && currentCodeItem.value} class="letgo-plg-code__detail">
-                            <CodeEdit designer={props.designer} />
-                        </FScrollbar>
-                    </Teleport>
+                    {
+                        props.rootEl && (
+                            <Teleport to={props.rootEl}>
+                                <div v-show={props.currentTab === 'code' && currentCodeItem.value} class="letgo-plg-code__detail">
+                                    <CodeEdit designer={props.designer} />
+                                </div>
+                            </Teleport>
+                        )
+                    }
                 </div>
 
             );

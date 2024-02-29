@@ -1,5 +1,6 @@
 import type { PropType } from 'vue';
 import { defineComponent, ref, watch } from 'vue';
+import { FScrollbar } from '@fesjs/fes-design';
 import type { IPublicModelDocumentModel, ITemporaryState } from '@webank/letgo-types';
 import { ExpressionEditor } from '../../code-editor';
 import './state-edit.less';
@@ -38,7 +39,7 @@ export const StateEdit = defineComponent({
 
         return () => {
             return (
-                <div class="letgo-comp-logic__state">
+                <FScrollbar containerClass="letgo-comp-logic__state">
                     <div class="letgo-comp-logic__state-content">
                         <div class={['letgo-comp-logic__state-input', isMore.value && 'letgo-comp-logic__state-input--more']}>
                             <label class="letgo-comp-logic__state-label">初始值</label>
@@ -52,7 +53,7 @@ export const StateEdit = defineComponent({
                             />
                         </div>
                     </div>
-                </div>
+                </FScrollbar>
             );
         };
     },

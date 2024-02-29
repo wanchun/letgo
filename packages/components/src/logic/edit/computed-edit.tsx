@@ -28,6 +28,8 @@ export const ComputedEdit = defineComponent({
             return (
                 <div class="letgo-comp-logic__computed">
                     <CodeEditor
+                        class="letgo-comp-logic__computed-editor"
+                        height="100%"
                         documentModel={props.documentModel}
                         hints={props.hints}
                         doc={props.codeItem.funcBody}

@@ -109,6 +109,8 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
 
     readonly asyncLibraryMap: { [key: string]: object } = {};
 
+    private disposes: Array<() => void> = [];
+
     /**
      * 是否为画布自动渲染
      */
@@ -291,7 +293,7 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
     setupDrag() {
         const { designer, project } = this;
         const doc = this.contentDocument;
-        doc.addEventListener('mousedown', (downEvent: MouseEvent) => {
+        const handler = (downEvent: MouseEvent) => {
             this.postEvent('contentDocument.mousedown', downEvent);
 
             document.dispatchEvent(new Event('mousedown'));
@@ -374,6 +376,10 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
             };
 
             doc.addEventListener('mouseup', checkSelect, true);
+        };
+        doc.addEventListener('mousedown', handler);
+        this.disposes.push(() => {
+            doc.removeEventListener('mousedown', handler);
         });
     }
 
@@ -406,17 +412,20 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
         };
         const leave = () => detecting.leave(this.project.currentDocument);
 
+        const move = (e: Event) => {
+            if (dragon.dragging)
+                e.stopPropagation();
+        };
+
         doc.addEventListener('mouseover', hover, true);
         doc.addEventListener('mouseleave', leave, false);
+        doc.addEventListener('mousemove', move, true);
 
-        doc.addEventListener(
-            'mousemove',
-            (e: Event) => {
-                if (dragon.dragging)
-                    e.stopPropagation();
-            },
-            true,
-        );
+        this.disposes.push(() => {
+            doc.removeEventListener('mouseover', hover, true);
+            doc.removeEventListener('mouseleave', leave, false);
+            doc.removeEventListener('mousemove', move, true);
+        });
     }
 
     rerender() {
@@ -1039,6 +1048,7 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
         this._contentWindow = null;
         this._renderer = null;
         this.emitter.removeAllListeners();
+        this.disposes.forEach(fn => fn());
     }
 }
 

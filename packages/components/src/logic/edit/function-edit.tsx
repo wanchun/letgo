@@ -23,8 +23,9 @@ export const FunctionEdit = defineComponent({
             return (
                 <div class="letgo-comp-logic__func">
                     <CodeEditor
+                        class="letgo-comp-logic__func-editor"
+                        height="100%"
                         documentModel={props.documentModel}
-                        height="200px"
                         hints={props.hints}
                         doc={props.codeItem.funcBody}
                         onChange={changeFuncBody}

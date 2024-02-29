@@ -6,7 +6,10 @@ import {
     computed,
     defineComponent,
     nextTick,
+    onBeforeUnmount,
     onUnmounted,
+    ref,
+    shallowRef,
     watch,
 } from 'vue';
 import type { IPublicTypeSimulatorProps } from '@webank/letgo-types';
@@ -24,6 +27,30 @@ const IframeView = defineComponent({
     },
     setup(props) {
         const { simulator } = props;
+        const contentWin = shallowRef<HTMLIFrameElement>();
+        const el = ref<HTMLElement>();
+
+        const trigger = () => {
+            el.value?.click();
+        };
+
+        let initialized = false;
+
+        watch(contentWin, () => {
+            if (contentWin.value && !initialized) {
+                initialized = true;
+                const doc = contentWin.value.contentWindow.document;
+                doc.addEventListener('click', trigger);
+            }
+        });
+
+        onBeforeUnmount(() => {
+            if (contentWin.value) {
+                const doc = contentWin.value.contentWindow.document;
+                doc.removeEventListener('click', trigger);
+            }
+        });
+
         return () => {
             const { viewport } = simulator;
             const frameStyle: CSSProperties = {
@@ -31,15 +58,18 @@ const IframeView = defineComponent({
                 height: viewport.contentHeight,
                 width: viewport.contentWidth,
             };
+
             return (
-                <div class="letgo-simulator__content">
+                <div ref={el} class="letgo-simulator__content">
                     <iframe
                         name="SimulatorRenderer"
                         class="letgo-simulator__content-iframe"
                         style={frameStyle}
                         onLoad={(e) => {
-                            if (e.target instanceof HTMLIFrameElement)
+                            if (e.target instanceof HTMLIFrameElement) {
+                                contentWin.value = e.target;
                                 simulator.mountContentFrame(e.target);
+                            }
                         }}
                     />
                 </div>
@@ -54,8 +84,8 @@ export const SimulatorView = defineComponent({
         simulatorProps: {
             type: Object as PropType<
                 IPublicTypeSimulatorProps & {
-                    designer: Designer
-                    onMount?: (host: Simulator) => void
+                    designer: Designer;
+                    onMount?: (host: Simulator) => void;
                 }
             >,
         },

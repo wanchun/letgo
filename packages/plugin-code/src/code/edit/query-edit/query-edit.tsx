@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, ref, watch } from 'vue';
-import { FButton } from '@fesjs/fes-design';
+import { FButton, FScrollbar } from '@fesjs/fes-design';
 import { cloneDeep, isEqual } from 'lodash-es';
 import { isRestQueryResource } from '@webank/letgo-types';
 import type { IJavascriptQuery, IPublicModelDocumentModel } from '@webank/letgo-types';
@@ -12,6 +12,7 @@ import Advance from './advance';
 import './query-edit.less';
 
 export default defineComponent({
+    name: 'QueryEditView',
     props: {
         documentModel: Object as PropType<IPublicModelDocumentModel>,
         codeItem: Object as PropType<IJavascriptQuery>,
@@ -66,9 +67,9 @@ export default defineComponent({
                             <FButton type="primary" size="small" disabled={!isChange.value} onClick={onSave}>保存</FButton>
                         </div>
                     </div>
-                    <div class="letgo-plg-code__query-content">
+                    <FScrollbar class="letgo-plg-code__query-content-wrapper" containerClass="letgo-plg-code__query-content">
                         {renderContent()}
-                    </div>
+                    </FScrollbar>
                 </>
             );
         };

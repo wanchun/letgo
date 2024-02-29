@@ -33,13 +33,15 @@ export default defineComponent({
 
         const searchValue = ref();
 
+        const rootEl = ref();
+
         const onSearch = (val: string) => {
             searchValue.value = val;
         };
 
         return () => {
             return (
-                <div class="letgo-plg-code">
+                <div ref={rootEl} class="letgo-plg-code">
                     <div class="letgo-plg-code__search">
                         <FInput
                             placeholder="请输入"
@@ -57,14 +59,14 @@ export default defineComponent({
                             value="code"
                             displayDirective="show"
                         >
-                            <CodeSetting searchText={searchValue.value} currentTab={current.value} designer={props.designer} />
+                            <CodeSetting rootEl={rootEl.value} searchText={searchValue.value} currentTab={current.value} designer={props.designer} />
                         </FTabPane>
                         <FTabPane
                             name="全局逻辑"
                             value="globalLogic"
                             displayDirective="show"
                         >
-                            <GlobalCode searchText={searchValue.value} currentTab={current.value} designer={props.designer} />
+                            <GlobalCode rootEl={rootEl.value} searchText={searchValue.value} currentTab={current.value} designer={props.designer} />
                         </FTabPane>
                         <FTabPane
                             name="查看"

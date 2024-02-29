@@ -1,5 +1,6 @@
 {
     "name": "@webank/letgo-engine",
+    "type": "module",
     "version": "0.0.2-beta.22",
     "description": "",
     "author": "",
@@ -10,9 +11,6 @@
         "es",
         "lib"
     ],
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
     "peerDependencies": {
         "vue": "^3.3.9"
     },

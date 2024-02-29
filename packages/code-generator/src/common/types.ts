@@ -43,7 +43,7 @@ export enum PageFileType {
 export interface FileStruct {
     rawFileName: string;
     fileType: PageFileType;
-    filename: string;
+    fileName: string;
     routeName: string;
     pageTitle: string;
     afterImports: string[];
@@ -53,7 +53,7 @@ export interface FileStruct {
 }
 
 export interface GlobalStateCode {
-    filename: string;
+    fileName: string;
     content: string;
 }
 

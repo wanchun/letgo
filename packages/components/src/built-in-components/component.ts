@@ -383,7 +383,6 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
                                                 },
                                             },
                                         },
-
                                         {
                                             name: 'objectItem',
                                             title: '对象属性设置器',

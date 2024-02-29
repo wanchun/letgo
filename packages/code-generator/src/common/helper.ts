@@ -2,6 +2,7 @@ import type {
     ICodeItem,
     ICodeStruct,
     IEventHandler,
+    IPublicTypeProjectSchema,
 } from '@webank/letgo-types';
 import { isSyntaxError, isExpression as rawIsExpression, replaceFunctionName, sortState } from '@webank/letgo-common';
 import {
@@ -26,6 +27,10 @@ export function isExpression(ctx: Context, code: string) {
     return rawIsExpression(code, (name: string) => {
         return ctx.codes.has(name) || ctx.refs?.has(name) || ctx.scope?.includes(name);
     });
+}
+
+export function findRootSchema(schema: IPublicTypeProjectSchema, fileName: string) {
+    return schema.componentsTree.find(item => item.fileName === fileName);
 }
 
 export function genSingleImport(imports: ImportSource[]) {

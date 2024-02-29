@@ -9,7 +9,7 @@ export function fileStructToString(fileStruct: FileStruct) {
         type: ImportType.ImportSpecifier,
         imported: 'defineComponent',
     });
-    const compName = genComponentName(fileStruct.filename);
+    const compName = genComponentName(fileStruct.fileName);
     return `
         ${genImportCode(fileStruct.importSources)}
 

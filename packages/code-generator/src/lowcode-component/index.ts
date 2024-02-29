@@ -4,25 +4,36 @@ import { schemaToCode } from '../common';
 import { injectLetgoCode } from '../common/inject-code';
 import { genGlobalStateCode } from '../common/global-state';
 import { setOptions } from '../options';
-import { genCodeMap } from '../common/helper';
+import { findRootSchema, genCodeMap } from '../common/helper';
 import { genPackageJSON } from '../common/pkg';
 
 import { fileStructToString } from './file-struct';
-import { compNameToFileName } from './file-name';
+import { compNameToFileName, genComponentName } from './file-name';
 import { COMMON_CODES } from './common-codes';
 
 function genComponent(ctx: Context, fileTree: FileTree, options: GenOptions) {
     const { transformJsx, outDir, schema } = options;
     const filesStruct = transformJsx ? transformJsx(schemaToCode(ctx, schema)) : schemaToCode(ctx, schema);
 
+    const componentsExport: string[] = [];
+
     const components = filesStruct.reduce((acc, cur) => {
-        const fileName = compNameToFileName(cur.filename);
+        const compName = genComponentName(cur.fileName);
+        const fileName = compNameToFileName(cur.fileName);
         acc[`${fileName}/${fileName}.jsx`] = fileStructToString(cur);
         acc[`${fileName}/index.js`] = `export * from './${fileName}';`;
+
+        componentsExport.push(`export { ${compName} } from './components/${fileName}'`);
         return acc;
     }, {} as Record<string, any>);
 
     set(fileTree, outDir.split('/'), components);
+
+    merge(fileTree, {
+        src: {
+            'components.js': componentsExport.join(';\n'),
+        },
+    });
 }
 
 export function genLowcodeComponent(_options: GenOptions): FileTree {

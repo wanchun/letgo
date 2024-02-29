@@ -54,7 +54,7 @@ function compileRootSchema(
         return {
             rawFileName: rootSchema.fileName,
             fileType: PageFileType.Jsx,
-            filename: fileName,
+            fileName,
             routeName: formatPageName(fileName),
             pageTitle: formatPageTitle(rootSchema.title),
             afterImports: [],

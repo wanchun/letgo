@@ -1,5 +1,10 @@
-import type { PropType, Ref } from 'vue';
-import { computed, defineComponent, ref } from 'vue';
+import { FDropdown, FTooltip } from '@fesjs/fes-design';
+import { CodeBrackets, Transform } from '@icon-park/vue-next';
+import type { SettingField } from '@webank/letgo-designer';
+import {
+    SetterManager,
+    createSetterContent,
+} from '@webank/letgo-designer';
 import type {
     IPublicTypeCustomView,
     IPublicTypeDynamicSetterProps,
@@ -9,14 +14,9 @@ import type {
 import {
     isSetterConfig,
 } from '@webank/letgo-types';
-import type { SettingField } from '@webank/letgo-designer';
-import {
-    SetterManager,
-    createSetterContent,
-} from '@webank/letgo-designer';
 import { cloneDeep } from 'lodash-es';
-import { FDropdown, FTooltip } from '@fesjs/fes-design';
-import { CodeBrackets, Transform } from '@icon-park/vue-next';
+import type { PropType, Ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import { commonProps } from '../../common';
 import './index.less';
 
@@ -122,19 +122,12 @@ const MixedSetterView = defineComponent({
 
         const getDefaultSetterName = () => {
             const { field } = props;
-            let firstMatched: SetterItem | undefined;
-            let firstDefault: SetterItem | undefined;
             for (const setter of setters.value) {
-                if (!setter.condition) {
-                    if (!firstDefault)
-                        firstDefault = setter;
-
-                    continue;
+                if (setter.condition?.(field)) {
+                    return setter.name;
                 }
-                if (!firstMatched && setter.condition(field))
-                    firstMatched = setter;
             }
-            return (firstMatched || firstDefault || setters.value[0])?.name;
+            return setters.value[0]?.name;
         };
 
         const currentSetterName: Ref<string> = ref(getDefaultSetterName());

@@ -24,13 +24,6 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
     configure: {
         props: [
             {
-                name: 'title',
-                title: '组名中文名',
-                setter: 'StringSetter',
-                defaultValue: '低代码组件',
-                supportVariable: false,
-            },
-            {
                 name: 'propsDefinition',
                 title: '属性自定义',
                 display: 'block',

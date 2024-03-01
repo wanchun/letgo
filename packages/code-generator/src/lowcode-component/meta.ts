@@ -139,9 +139,9 @@ export function genComponentMeta(fileStruct: FileStruct, rootSchema: IPublicType
     const compName = genComponentName(fileStruct.fileName);
     const metaName = `${compName}Meta`;
 
-    const { props, defaultProps = {} } = rootSchema;
+    const { title, props, defaultProps = {} } = rootSchema;
 
-    const compTitle = props.title || '低代码组件';
+    const compTitle = title || '低代码组件';
 
     return `
     export const ${metaName} = {

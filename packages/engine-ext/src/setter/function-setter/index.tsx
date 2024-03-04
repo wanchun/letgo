@@ -62,6 +62,6 @@ export const FunctionSetter: IPublicTypeSetter = {
     condition: (field) => {
         const v = field.getValue();
         const defaultValue = field.getDefaultValue();
-        return isUndefined(v) || isJSFunction(v) || isFunction(defaultValue);
+        return isJSFunction(v) || isFunction(defaultValue);
     },
 };

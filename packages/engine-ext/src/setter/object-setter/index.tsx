@@ -1,10 +1,9 @@
+import type { IFieldConfig } from '@webank/letgo-designer';
+import { createSettingFieldView } from '@webank/letgo-designer';
+import type { IPublicTypeSetter } from '@webank/letgo-types';
+import { isJSExpression } from '@webank/letgo-types';
 import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
-import type { IPublicTypeSetter, IPublicTypeSetterType } from '@webank/letgo-types';
-import type { IFieldConfig } from '@webank/letgo-designer';
-import { isUndefined } from 'lodash-es';
-import { createSettingFieldView } from '@webank/letgo-designer';
-import { isJSExpression } from '@webank/letgo-types';
 import { commonProps } from '../../common';
 import './index.less';
 
@@ -62,6 +61,6 @@ export const ObjectSetter: IPublicTypeSetter = {
         const v = field.getValue() ?? field.getDefaultValue();
         if (isJSExpression(v))
             return false;
-        return isUndefined(v) || typeof v === 'object';
+        return typeof v === 'object';
     },
 };

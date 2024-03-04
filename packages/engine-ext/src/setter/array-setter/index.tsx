@@ -324,6 +324,6 @@ export const ArraySetter: IPublicTypeSetter = {
     Component: ArraySetterView,
     condition: (field) => {
         const v = field.getValue() ?? field.getDefaultValue();
-        return isUndefined(v) || isArray(v);
+        return isArray(v);
     },
 };

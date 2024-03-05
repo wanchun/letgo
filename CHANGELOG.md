@@ -1,3 +1,26 @@
+## [0.0.3-beta.20](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.19...v0.0.3-beta.20) (2024-03-05)
+
+
+### Bug Fixes
+
+* mixed-setter默认值问题 ([1ea3754](https://git.weoa.com/mumblefe/letgo/commits/1ea3754dd0cb01611e768371407525c3804c33cc))
+* setter condition判断空值 ([fe0074b](https://git.weoa.com/mumblefe/letgo/commits/fe0074b20bd0aaa4a40db616810451408c9b0302))
+* 修复出码中因数组导致插槽名称重复问题 ([0bd12c0](https://git.weoa.com/mumblefe/letgo/commits/0bd12c0ffec7531c714e07372a5039e4b10a4271))
+* 修复出码问题 ([6cf5815](https://git.weoa.com/mumblefe/letgo/commits/6cf5815f947aecd0aec06c6b5e688c76ef9e7310))
+* 逻辑面板中创建按钮固定不跟随滚动 ([b9ac568](https://git.weoa.com/mumblefe/letgo/commits/b9ac568dd8c20d5c9514cd60977fe476de21be6d))
+
+
+### Features
+
+* ArraySetter columns支持仅配置列名 ([e313fe1](https://git.weoa.com/mumblefe/letgo/commits/e313fe1efef5d2227d5bbfc2c03a904df8028fd3))
+* npm type 添加 assembling 属性 ([73af44b](https://git.weoa.com/mumblefe/letgo/commits/73af44ba55ff82ef47281aa8c46c1b4e6fb0efb2))
+* 低代码组件支持 defaultProps ([9040161](https://git.weoa.com/mumblefe/letgo/commits/90401617801d3d3a80fd9ff689edc742408e64d0))
+* 查询固定面板title &  扩大函数和计算变量输入框 & 点击其他地方关闭编辑变量详情 ([2172bf4](https://git.weoa.com/mumblefe/letgo/commits/2172bf4626dd4b749b0a3cf7811a24c12a1f12f3))
+* 样式配置支持表达式 ([5792424](https://git.weoa.com/mumblefe/letgo/commits/5792424a02f4b7ec7660b5362f93dc0977e351b0))
+* 添加低代码组件 ([055868b](https://git.weoa.com/mumblefe/letgo/commits/055868b69efde1a12d88b9eedc07dee167210d40))
+
+
+
 ## [0.0.3-beta.19](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.18...v0.0.3-beta.19) (2024-02-23)
 
 

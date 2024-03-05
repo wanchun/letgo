@@ -2,18 +2,18 @@ import type { IPublicTypeCompositeValue, IPublicTypeJSSlot, IPublicTypeNodeData,
 import { isJSExpression, isJSFunction, isJSSlot, isNodeSchema } from '@webank/letgo-types';
 import { isPlainObject, isUndefined } from 'lodash-es';
 
-export function traverseNodePropsSlot(value: IPublicTypeCompositeValue, callback: (key: string, jsSlot: IPublicTypeJSSlot) => void, parentKey?: number | string) {
+export function traverseNodePropsSlot(value: IPublicTypeCompositeValue, callback: (key: string, jsSlot: IPublicTypeJSSlot) => void, parentPath?: number | string) {
     if (Array.isArray(value)) {
-        value.map((item, index) => traverseNodePropsSlot(item, callback, isUndefined(parentKey) ? index : `${parentKey}_${index}`));
+        value.map((item, index) => traverseNodePropsSlot(item, callback, isUndefined(parentPath) ? index : `${parentPath}_${index}`));
     }
     else if (!isJSSlot(value) && !isJSExpression(value) && !isJSFunction(value) && isPlainObject(value)) {
         return Object.keys(value).forEach((key) => {
             if (key !== 'children') {
                 const data = value[key as keyof typeof value];
                 if (isJSSlot(data))
-                    isUndefined(parentKey) ? callback(key, data) : callback(`${parentKey}_${key}`, data);
+                    callback(isUndefined(parentPath) ? key : `${parentPath}_${key}`, data);
                 else if (typeof data === 'object')
-                    traverseNodePropsSlot(data, callback, isUndefined(parentKey) ? key : `${parentKey}_${key}`);
+                    traverseNodePropsSlot(data, callback, isUndefined(parentPath) ? key : `${parentPath}_${key}`);
             }
         });
     }

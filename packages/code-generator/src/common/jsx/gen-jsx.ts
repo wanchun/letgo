@@ -25,9 +25,9 @@ import { compileDirectives } from './directives';
 function genPropSlotName(key: string, refName: string) {
     return camelCase(`${refName}_${key}_slots`);
 }
-function formatProps(key: string | number, value: any, refName: string): any {
+function formatProps(key: string | number, value: any, refName: string, path?: string): any {
     if (isJSSlot(value))
-        return genPropSlotName(key as string, refName);
+        return genPropSlotName(path ?? `${key}`, refName);
 
     if (isJSExpression(value))
         return value.value;
@@ -38,7 +38,7 @@ function formatProps(key: string | number, value: any, refName: string): any {
     else if (Array.isArray(value)) {
         return `
         [
-            ${value.map((item, index) => formatProps(`${key}_${index}`, item, refName)).join(',')}
+            ${value.map((item, index) => formatProps(index, item, refName, `${path ?? key}_${index}`)).join(',')}
         ]
         `;
     }
@@ -50,7 +50,7 @@ function formatProps(key: string | number, value: any, refName: string): any {
         return `
         {
             ${valueKeys.map((itemKey) => {
-                return `${itemKey}: ${formatProps(`${key}_${itemKey}`, value[itemKey], refName)}`;
+                return `${itemKey}: ${formatProps(itemKey, value[itemKey], refName, `${path ?? key}_${itemKey}`)}`;
             }).join(', ')}
         }
         `;

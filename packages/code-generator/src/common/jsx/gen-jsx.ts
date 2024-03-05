@@ -38,7 +38,7 @@ function formatProps(key: string | number, value: any, refName: string): any {
     else if (Array.isArray(value)) {
         return `
         [
-            ${value.map((item, index) => formatProps(index, item, refName)).join(',')}
+            ${value.map((item, index) => formatProps(`${key}_${index}`, item, refName)).join(',')}
         ]
         `;
     }
@@ -49,8 +49,8 @@ function formatProps(key: string | number, value: any, refName: string): any {
 
         return `
         {
-            ${valueKeys.map((key) => {
-                return `${key}: ${formatProps(key, value[key], refName)}`;
+            ${valueKeys.map((itemKey) => {
+                return `${itemKey}: ${formatProps(`${key}_${itemKey}`, value[itemKey], refName)}`;
             }).join(', ')}
         }
         `;

@@ -1,7 +1,7 @@
-import { defineComponent, onMounted } from 'vue';
+import { FInput } from '@fesjs/fes-design';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { isUndefined } from 'lodash-es';
-import { FInput } from '@fesjs/fes-design';
+import { defineComponent, onMounted } from 'vue';
 import { commonProps } from '../../common';
 
 const TextareaSetterView = defineComponent({
@@ -39,6 +39,6 @@ export const TextareaSetter: IPublicTypeSetter = {
     Component: TextareaSetterView,
     condition: (field) => {
         const v = field.getValue() ?? field.getDefaultValue();
-        return isUndefined(v) || typeof v === 'string';
+        return typeof v === 'string';
     },
 };

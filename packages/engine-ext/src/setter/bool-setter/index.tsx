@@ -1,9 +1,9 @@
+import { FSwitch } from '@fesjs/fes-design';
+import { createSetterContent } from '@webank/letgo-designer';
+import type { IPublicTypeSetter, IPublicTypeSetterConfig } from '@webank/letgo-types';
+import { isFunction, isNil, isUndefined } from 'lodash-es';
 import type { PropType } from 'vue';
 import { defineComponent, onMounted, ref } from 'vue';
-import type { IPublicTypeSetter, IPublicTypeSetterConfig } from '@webank/letgo-types';
-import { createSetterContent } from '@webank/letgo-designer';
-import { FSwitch } from '@fesjs/fes-design';
-import { isFunction, isNil, isUndefined } from 'lodash-es';
 import { commonProps } from '../../common';
 
 const BoolSetterView = defineComponent({
@@ -86,6 +86,6 @@ export const BoolSetter: IPublicTypeSetter = {
     Component: BoolSetterView,
     condition: (field) => {
         const v = field.getValue() ?? field.getDefaultValue();
-        return isUndefined(v) || typeof v === 'boolean';
+        return typeof v === 'boolean';
     },
 };

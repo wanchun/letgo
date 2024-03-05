@@ -1,9 +1,9 @@
+import { FSwitch } from '@fesjs/fes-design';
+import type { IPublicTypeJSSlot, IPublicTypeSetter } from '@webank/letgo-types';
+import { isJSSlot } from '@webank/letgo-types';
+import { isNil } from 'lodash-es';
 import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
-import { isJSSlot } from '@webank/letgo-types';
-import type { IPublicTypeJSSlot, IPublicTypeSetter } from '@webank/letgo-types';
-import { isNil, isUndefined } from 'lodash-es';
-import { FSwitch } from '@fesjs/fes-design';
 import { commonProps } from '../../common';
 
 type ValueType = IPublicTypeJSSlot & { visible: boolean, title: string };
@@ -97,6 +97,6 @@ export const SlotSetter: IPublicTypeSetter = {
     Component: SlotSetterView,
     condition: (field) => {
         const v = field.getValue() ?? field.getDefaultValue();
-        return isUndefined(v) || isJSSlot(v);
+        return isJSSlot(v);
     },
 };

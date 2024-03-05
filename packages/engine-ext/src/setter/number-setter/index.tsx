@@ -1,7 +1,7 @@
-import { computed, defineComponent, onMounted } from 'vue';
+import { FInputNumber } from '@fesjs/fes-design';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { isNumber, isUndefined } from 'lodash-es';
-import { FInputNumber } from '@fesjs/fes-design';
+import { computed, defineComponent, onMounted } from 'vue';
 import { commonProps } from '../../common';
 
 const NumberSetterView = defineComponent({
@@ -45,6 +45,6 @@ export const NumberSetter: IPublicTypeSetter = {
     Component: NumberSetterView,
     condition: (field) => {
         const v = field.getValue() ?? field.getDefaultValue();
-        return isUndefined(v) || typeof v === 'number';
+        return  typeof v === 'number';
     },
 };

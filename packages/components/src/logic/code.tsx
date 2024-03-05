@@ -1,6 +1,6 @@
 import { defineComponent, h } from 'vue';
 import type { PropType } from 'vue';
-import { FDropdown } from '@fesjs/fes-design';
+import { FDropdown, FScrollbar } from '@fesjs/fes-design';
 import { MoreOutlined, PlusOutlined } from '@fesjs/fes-design/icon';
 import type { ICodeItem, IPublicModelCode } from '@webank/letgo-types';
 import { IEnumCodeType, IEnumResourceType } from '@webank/letgo-types';
@@ -126,13 +126,13 @@ export const CodeList = defineComponent({
                 return !isNil(props.searchText) ? item.id.includes(props.searchText) : true;
             }).map((item: any) => {
                 return (
-                    <li onClick={() => props.onChangeCurrentCodeItem(item)} class={['letgo-logic-code__item', props.currentCodeItem?.id === item.id ? 'letgo-logic-code__item--active' : '']}>
+                    <div onClick={() => props.onChangeCurrentCodeItem(item)} class={['letgo-logic-code__item', props.currentCodeItem?.id === item.id ? 'letgo-logic-code__item--active' : '']}>
                         {renderCodeIcon(item)}
                         <CodeId id={item.id} hasCodeId={props.hasCodeId} onChange={changeCodeId} />
                         <FDropdown onClick={value => onCommonAction(value, item)} appendToContainer={false} trigger="click" placement="bottom-end" options={commonOptions}>
                             <MoreOutlined class="letgo-logic-code__icon-more" />
                         </FDropdown>
-                    </li>
+                    </div>
                 );
             });
         };
@@ -155,10 +155,10 @@ export const CodeList = defineComponent({
                             <PlusOutlined class="letgo-logic-code__header-icon" />
                         </FDropdown>
                     </div>
-                    <ul class="letgo-logic-code__body">
+                    <FScrollbar class="letgo-logic-code__body">
                         {renderFolders()}
                         {renderCode()}
-                    </ul>
+                    </FScrollbar>
                 </div>
             );
         };

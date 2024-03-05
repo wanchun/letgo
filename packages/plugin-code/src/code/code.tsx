@@ -3,7 +3,6 @@ import type { PropType } from 'vue';
 import type { Designer } from '@webank/letgo-designer';
 import { CodeList } from '@webank/letgo-components';
 import { innerGlobalVariable } from '@webank/letgo-common';
-import { FScrollbar } from '@fesjs/fes-design';
 import { onClickOutside } from '@vueuse/core';
 import CodeEdit from './edit/code-edit';
 import useCode from './useCode';
@@ -54,17 +53,15 @@ export default defineComponent({
         return () => {
             return (
                 <div class="letgo-plg-code__edit">
-                    <FScrollbar>
-                        <CodeList
-                            hasQuery
-                            code={code.value}
-                            hasCodeId={hasCodeId}
-                            currentCodeItem={currentCodeItem.value}
-                            onChangeCurrentCodeItem={changeCurrentCodeItem}
-                            codesInstance={codesInstance.value}
-                            searchText={props.searchText}
-                        />
-                    </FScrollbar>
+                    <CodeList
+                        hasQuery
+                        code={code.value}
+                        hasCodeId={hasCodeId}
+                        currentCodeItem={currentCodeItem.value}
+                        onChangeCurrentCodeItem={changeCurrentCodeItem}
+                        codesInstance={codesInstance.value}
+                        searchText={props.searchText}
+                    />
                     {
                         props.rootEl && (
                             <Teleport to={props.rootEl}>

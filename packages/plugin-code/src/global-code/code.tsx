@@ -1,8 +1,5 @@
 import { Teleport, computed, defineComponent, ref, watch } from 'vue';
 import type { PropType } from 'vue';
-import {
-    FScrollbar,
-} from '@fesjs/fes-design';
 import type { Designer } from '@webank/letgo-designer';
 import { CodeList } from '@webank/letgo-components';
 import type { ICodeItem } from '@webank/letgo-types';
@@ -62,17 +59,15 @@ export const GlobalCode = defineComponent({
         return () => {
             return (
                 <div class="letgo-plg-code__edit">
-                    <FScrollbar>
-                        <CodeList
-                            hasFunction
-                            code={code.value}
-                            hasCodeId={hasCodeId}
-                            currentCodeItem={currentCodeItem.value}
-                            onChangeCurrentCodeItem={changeCurrentCodeItem}
-                            codesInstance={codesInstance.value}
-                            searchText={props.searchText}
-                        />
-                    </FScrollbar>
+                    <CodeList
+                        hasFunction
+                        code={code.value}
+                        hasCodeId={hasCodeId}
+                        currentCodeItem={currentCodeItem.value}
+                        onChangeCurrentCodeItem={changeCurrentCodeItem}
+                        codesInstance={codesInstance.value}
+                        searchText={props.searchText}
+                    />
                     {
                         props.rootEl && (
                             <Teleport to={props.rootEl}>

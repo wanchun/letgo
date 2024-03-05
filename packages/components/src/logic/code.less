@@ -1,6 +1,7 @@
 
 .letgo-logic-code {
     width: 100%;
+    height: 100%;
     overflow: hidden;
 }
 
@@ -13,11 +14,18 @@
 
 .letgo-logic-code__header-icon {
     font-size: 16px;
-    color: #999;
+    color: #333;
     cursor: pointer;
     &:hover {
         color: var(--letgo-text-color-header);
     }
+}
+
+
+.letgo-logic-code__body {
+    height: calc(100% - 36px);
+    margin: 0;
+    padding: 0;
 }
 
 .letgo-logic-code__item {
@@ -41,25 +49,9 @@
     }
 }
 
-.letgo-logic-code__body {
-    margin: 0;
-    padding: 0;
-}
-
 .letgo-logic-code__item_id {
     margin: 0 6px;
     flex: 1;
-}
-
-.letgo-logic-code__icon {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    width: 15px;
-    height: 15px;
-    border-radius: 4px;
-    background-color: #ffcc66;  
 }
 
 .letgo-logic-code__icon-more {

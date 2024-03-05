@@ -4,7 +4,7 @@ import type { Designer } from '@webank/letgo-designer';
 import { CodeList } from '@webank/letgo-components';
 import type { ICodeItem } from '@webank/letgo-types';
 import { innerGlobalVariable } from '@webank/letgo-common';
-import { onClickOutside } from '@vueuse/core';
+import { useOnClickSim } from '../use';
 import CodeEdit from './edit/code-edit';
 
 export const GlobalCode = defineComponent({
@@ -17,11 +17,12 @@ export const GlobalCode = defineComponent({
         rootEl: HTMLElement,
     },
     setup(props) {
+        const { designer } = props;
         const code = computed(() => {
-            return props.designer.project.code;
+            return designer.project.code;
         });
         const codesInstance = computed(() => {
-            return props.designer.project.codesInstance;
+            return designer.project.codesInstance;
         });
 
         const currentCodeItem = ref<ICodeItem>();
@@ -40,20 +41,11 @@ export const GlobalCode = defineComponent({
         });
 
         const hasCodeId = (id: string) => {
-            return props.designer.project.code.hasCodeId(id) || innerGlobalVariable.includes(id);
+            return designer.project.code.hasCodeId(id) || innerGlobalVariable.includes(id);
         };
 
-        let initialized = false;
-
-        watch(() => props.rootEl, () => {
-            if (props.rootEl && !initialized) {
-                initialized = true;
-                onClickOutside(props.rootEl, () => {
-                    currentCodeItem.value = null;
-                });
-            }
-        }, {
-            immediate: true,
+        useOnClickSim(designer, () => {
+            currentCodeItem.value = null;
         });
 
         return () => {

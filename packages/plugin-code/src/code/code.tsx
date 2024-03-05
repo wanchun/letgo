@@ -1,9 +1,9 @@
-import { Teleport, computed, defineComponent, watch } from 'vue';
+import { Teleport, computed, defineComponent } from 'vue';
 import type { PropType } from 'vue';
 import type { Designer } from '@webank/letgo-designer';
 import { CodeList } from '@webank/letgo-components';
 import { innerGlobalVariable } from '@webank/letgo-common';
-import { onClickOutside } from '@vueuse/core';
+import { useOnClickSim } from '../use';
 import CodeEdit from './edit/code-edit';
 import useCode from './useCode';
 
@@ -18,8 +18,9 @@ export default defineComponent({
         rootEl: HTMLElement,
     },
     setup(props) {
+        const { designer } = props;
         const currentDocument = computed(() => {
-            return props.designer.currentDocument;
+            return designer.currentDocument;
         });
         const code = computed(() => {
             return currentDocument.value?.code;
@@ -29,7 +30,7 @@ export default defineComponent({
         });
 
         const hasCodeId = (id: string) => {
-            return currentDocument.value?.state.hasStateId(id) || props.designer.project.code.hasCodeId(id) || innerGlobalVariable.includes(id);
+            return currentDocument.value?.state.hasStateId(id) || designer.project.code.hasCodeId(id) || innerGlobalVariable.includes(id);
         };
 
         const {
@@ -37,17 +38,8 @@ export default defineComponent({
             changeCurrentCodeItem,
         } = useCode();
 
-        let initialized = false;
-
-        watch(() => props.rootEl, () => {
-            if (props.rootEl && !initialized) {
-                initialized = true;
-                onClickOutside(props.rootEl, () => {
-                    currentCodeItem.value = null;
-                });
-            }
-        }, {
-            immediate: true,
+        useOnClickSim(designer, () => {
+            currentCodeItem.value = null;
         });
 
         return () => {

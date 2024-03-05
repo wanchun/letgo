@@ -1,3 +1,12 @@
+## [0.0.3-beta.21](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.20...v0.0.3-beta.21) (2024-03-05)
+
+
+### Bug Fixes
+
+* 修复逻辑面板中状态详情不正常关闭问题 ([c21d18e](https://git.weoa.com/mumblefe/letgo/commits/c21d18e99e50057cb3554e56c84c039fbd20c160))
+
+
+
 ## [0.0.3-beta.20](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.19...v0.0.3-beta.20) (2024-03-05)
 
 

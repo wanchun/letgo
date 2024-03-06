@@ -40,18 +40,23 @@ function formatApplyUtils(applyUtils: Record<string, string[][]>) {
 
 export function parseUtils(rootSchema: IPublicTypeRootSchema) {
     const applyUtils: Record<string, string[][]> = {};
-    traverseLogic(rootSchema, (code: string) => {
-        ancestorWalkAst(code, {
-            MemberExpression: (node: any, _state: any, ancestor: any[]) => {
-                if (node.object.type === 'Identifier' && node.object.name === 'utils') {
-                    const members = parseMemberExpression(ancestor);
-                    if (!applyUtils[members[1]])
-                        applyUtils[members[1]] = [members.slice(2)];
-                    else
-                        applyUtils[members[1]].push(members.slice(2));
-                }
-            },
-        });
+    traverseLogic(rootSchema, (code: string, _, type) => {
+        try {
+            code = type === 'JSExpression' ? `(${code})` : code;
+            ancestorWalkAst(code, {
+                MemberExpression: (node: any, _state: any, ancestor: any[]) => {
+                    if (node.object.type === 'Identifier' && node.object.name === 'utils') {
+                        const members = parseMemberExpression(ancestor);
+                        if (!applyUtils[members[1]])
+                            applyUtils[members[1]] = [members.slice(2)];
+                        else
+                            applyUtils[members[1]].push(members.slice(2));
+                    }
+                },
+            });
+        }
+        catch (_) {
+        }
     });
 
     return formatApplyUtils(applyUtils);

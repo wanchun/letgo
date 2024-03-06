@@ -9,17 +9,17 @@ import type {
 import { IEnumEventHandlerAction, isJSExpression, isJSFunction, isJSSlot, isJavascriptComputed, isJavascriptFunction, isNodeSchema, isQueryResource, isRestQueryResource, isVariableState } from '@webank/letgo-types';
 import { isPlainObject } from 'lodash-es';
 
-type Callback = (code: string, parent: any) => void;
+type Callback = (code: string, parent: any, type: 'JSFunction' | 'JSExpression') => void;
 
 function handleEventDep(events: IEventHandler[], callback: Callback) {
     if (events) {
         for (const event of events) {
             if (event.params?.length) {
                 for (const param of event.params)
-                    callback(param, event);
+                    callback(param, event, 'JSExpression');
             }
             if (event.action === IEnumEventHandlerAction.RUN_FUNCTION)
-                callback(event.namespace, event);
+                callback(event.namespace, event, 'JSExpression');
         }
     }
 }
@@ -27,23 +27,23 @@ function handleEventDep(events: IEventHandler[], callback: Callback) {
 function traverseCode(code: ICodeStruct, callback: Callback) {
     for (const item of code.code || []) {
         if (isVariableState(item)) {
-            callback(item.initValue, item);
+            callback(item.initValue, item, 'JSExpression');
         }
         else if (isJavascriptComputed(item)) {
-            callback(item.funcBody, item);
+            callback(item.funcBody, item, 'JSFunction');
         }
         else if (isJavascriptFunction(item)) {
-            callback(item.funcBody, item);
+            callback(item.funcBody, item, 'JSFunction');
         }
         else if (isQueryResource(item)) {
             if (isRestQueryResource(item)) {
-                callback(item.api, item);
-                callback(item.params, item);
+                callback(item.api, item, 'JSExpression');
+                callback(item.params, item, 'JSExpression');
                 if (item.transformer)
-                    callback(item.transformer, item);
+                    callback(item.transformer, item, 'JSFunction');
             }
             else {
-                callback(item.query, callback);
+                callback(item.query, callback, 'JSFunction');
             }
 
             handleEventDep(item.failureEvent, callback);
@@ -57,10 +57,10 @@ function traverseNodeProps(value: IPublicTypeCompositeValue, callback: Callback)
         value.map(item => traverseNodeProps(item, callback));
     }
     else if (isJSExpression(value)) {
-        callback(value.value, value);
+        callback(value.value, value, 'JSExpression');
     }
     else if (isJSFunction(value)) {
-        callback(value.value, value);
+        callback(value.value, value, 'JSFunction');
     }
     else if (isJSSlot(value)) {
         traverseNodeSchema(value.value, callback);
@@ -70,7 +70,7 @@ function traverseNodeProps(value: IPublicTypeCompositeValue, callback: Callback)
             if (key !== 'children') {
                 const data = value[key as keyof typeof value];
                 if (isJSSlot(data))
-                    traverseNodeSchema(data.value, data);
+                    traverseNodeSchema(data.value, callback);
                 else if (typeof data === 'object')
                     traverseNodeProps(data, callback);
             }

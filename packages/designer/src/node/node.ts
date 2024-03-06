@@ -226,7 +226,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
 
         const { componentName, id, ref, children, props, ...extras } = nodeSchema;
         this.id = document.nextId(id, componentName);
-        this.ref = document.nextRef(ref, componentName);
+        this.ref = ref || document.nextRef(ref, componentName);
         this.componentName = componentName;
         if (this.componentName === 'Leaf') {
             this.props = new Props(this as INode, {

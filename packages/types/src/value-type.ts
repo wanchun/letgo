@@ -4,31 +4,31 @@ import type { IPublicTypeNodeData, IPublicTypeSlotSchema } from '.';
  * 变量表达式
  */
 export interface IPublicTypeJSExpression {
-    type: 'JSExpression'
+    type: 'JSExpression';
     /**
      * 表达式字符串
      */
-    value: string
+    value: string;
     /**
      * 模拟值
      */
-    mock?: any
+    mock?: any;
 }
 
 /**
  * 事件函数类型
  */
 export interface IPublicTypeJSFunction {
-    type: 'JSFunction'
-    params?: string[]
+    type: 'JSFunction';
+    params?: string[];
     /**
      * 函数定义，或直接函数表达式
      */
-    value: string
+    value: string;
     /**
      * 模拟值
      */
-    mock?: any
+    mock?: any;
 }
 
 /**
@@ -37,23 +37,24 @@ export interface IPublicTypeJSFunction {
  * 通常用于描述组件的某一个属性为 VNode 或 Function return VNode 的场景。
  */
 export interface IPublicTypeJSSlot {
-    type: 'JSSlot'
+    type: 'JSSlot';
     /**
      * 具体的值。
      */
-    value: IPublicTypeSlotSchema | IPublicTypeNodeData | IPublicTypeNodeData[]
+    value: IPublicTypeSlotSchema | IPublicTypeNodeData | IPublicTypeNodeData[];
     /**
      * 插槽名称
      */
-    title?: string
+    title?: string;
     /**
      * 插槽名
      */
-    name?: string
+    name?: string;
     /**
      * 插槽参数
      */
-    params?: string[]
+    params?: string[];
+    id?: string;
 }
 
 /**
@@ -75,7 +76,7 @@ export type IPublicTypeJSONValue =
 export type IPublicTypeJSONArray = IPublicTypeJSONValue[];
 
 export interface IPublicTypeJSONObject {
-    [key: string]: IPublicTypeJSONValue
+    [key: string]: IPublicTypeJSONValue;
 }
 
 /**
@@ -92,7 +93,7 @@ export type IPublicTypeCompositeValue =
 export type IPublicTypeCompositeArray = IPublicTypeCompositeValue[];
 
 export interface IPublicTypeCompositeObject {
-    [key: string]: IPublicTypeCompositeValue
+    [key: string]: IPublicTypeCompositeValue;
 }
 
 export function isJSExpression(data: any): data is IPublicTypeJSExpression {

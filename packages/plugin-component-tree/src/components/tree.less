@@ -38,8 +38,7 @@
 
 .letgo-tree-node {
     position: relative;
-    cursor: pointer;
-
+    
     &.is-hidden {
         display: none;
     }
@@ -68,7 +67,10 @@
         display: flex;
         align-items: center;
         height: 32px;
-        &:hover {
+        &.is-checkable {
+            cursor: pointer;
+        }
+        &.is-hovering {
             background-color: #f5f8ff;
         }
         &.is-selected {

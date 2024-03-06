@@ -321,6 +321,10 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
             if (!node)
                 return;
 
+            // 插槽不让点击
+            if (node.isSlot())
+                return;
+
             downEvent.stopPropagation();
             downEvent.preventDefault();
 

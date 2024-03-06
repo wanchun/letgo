@@ -32,6 +32,8 @@ type IPropChangeOptions = Omit<
 
 export interface IBaseNode<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> extends IBaseModelNode<DocumentModel, Schema, INode, NodeChildren, ComponentMeta, SettingTop, Props, Prop> {
     internalSetSlotFor: (slotFor: Prop | null | undefined) => void;
+
+    isSlot: () => boolean;
 }
 
 export type IPageNode = IBaseNode<IPublicTypePageSchema>;

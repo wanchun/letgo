@@ -139,23 +139,24 @@ export const TreeNodeView = defineComponent({
             );
         };
 
-        const dragNodeRef = ref();
+        const isHovering = ref(false);
 
-        // watch(() => props.node.vNode, () => {
-        //     nextTick(() => {
-        //         if (dragNodeRef.value)
-        //             dragNodeRef.value.scrollIntoView({ behavior: 'smooth' });
-        //     });
-        // }, {
-        //     immediate: true,
-        // });
+        const onMouseEnter = () => {
+            if (props.node.checkable)
+                isHovering.value = true;
+        };
+
+        const onMouseLeave = () => {
+            if (props.node.checkable)
+                isHovering.value = false;
+        };
 
         return () => {
             const { node, zIndex } = props;
 
             if (node.vNode) {
                 return (
-                    <div ref={dragNodeRef} class="letgo-tree-node" style={{ paddingLeft: `${zIndex * 16}px` }}>
+                    <div class="letgo-tree-node" style={{ paddingLeft: `${zIndex * 16}px` }}>
                         <div class={['letgo-tree-drag-node', !dropInfo.value?.isAllow && 'is-danger']}></div>
                     </div>
                 );
@@ -163,7 +164,6 @@ export const TreeNodeView = defineComponent({
 
             return (
                 <div
-                    draggable={false}
                     class={[
                         'letgo-tree-node',
                         (isDragNode.value || !isShow.value) && 'is-hidden',
@@ -179,9 +179,13 @@ export const TreeNodeView = defineComponent({
                         class={[
                             'letgo-tree-node-wrapper',
                             isSelected.value && 'is-selected',
+                            isHovering.value && 'is-hovering',
+                            node.checkable && 'is-checkable',
                         ]}
                         data-value={node.value}
                         style={{ paddingLeft: `${zIndex * 16}px` }}
+                        onMouseenter={onMouseEnter}
+                        onMouseleave={onMouseLeave}
                     >
                         {
                             (node.isContainer || children.value.length > 0)

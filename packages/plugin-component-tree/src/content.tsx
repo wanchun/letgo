@@ -43,7 +43,9 @@ function transformNode(node: INode, isSlot: boolean): TreeNode {
 
     option.isContainer = node.isContainer();
 
-    option.draggable = canMoveNode(node);
+    option.draggable = !isSlot && canMoveNode(node);
+
+    option.checkable = !isSlot;
 
     return option;
 }
@@ -104,7 +106,8 @@ export const ContentView = defineComponent({
         });
 
         const onSelectNode = (node: TreeNode) => {
-            designer.currentSelection.select(node.value);
+            if (node.checkable)
+                designer.currentSelection.select(node.value);
         };
 
         const refTree = ref();
@@ -142,7 +145,7 @@ export const ContentView = defineComponent({
             return true;
         };
 
-        const onDrop = ({ dropNode, dragNode, index }: { dropNode: TreeNode, dragNode: TreeNode, index: number }) => {
+        const onDrop = ({ dropNode, dragNode, index }: { dropNode: TreeNode; dragNode: TreeNode; index: number }) => {
             const document = designer.currentDocument;
             const sourceNode = document.getNode(dragNode.value);
             const containerNode = document.getNode(dropNode.value);

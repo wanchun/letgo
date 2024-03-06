@@ -1,16 +1,19 @@
-import type { IPublicTypeRootSchema } from '@webank/letgo-types';
+import type { IPublicTypeRootSchema, IPublicTypeUtilsMap } from '@webank/letgo-types';
 import { ImportType } from '../common/types';
 import type { FileStruct } from '../common/types';
 import { genImportCode } from '../common/helper';
 import { genComponentName } from './file-name';
 import { genProps } from './gen-props';
+import { genUtils } from './gen-utils';
 
-export function fileStructToString(fileStruct: FileStruct, rootSchema: IPublicTypeRootSchema) {
+export function fileStructToString(fileStruct: FileStruct, rootSchema: IPublicTypeRootSchema, utils: IPublicTypeUtilsMap) {
+    const { code, importSources } = genUtils(utils, rootSchema);
+
     fileStruct.importSources.push({
         source: 'vue',
         type: ImportType.ImportSpecifier,
         imported: 'defineComponent',
-    });
+    }, ...importSources);
     const compName = genComponentName(fileStruct.fileName);
 
     return `
@@ -18,6 +21,8 @@ export function fileStructToString(fileStruct: FileStruct, rootSchema: IPublicTy
 
         ${fileStruct.afterImports.join('\n')}
         
+        ${code}
+
         export const ${compName} = defineComponent({
             name: '${compName}',
             props: {

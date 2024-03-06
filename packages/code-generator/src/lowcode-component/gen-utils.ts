@@ -1,5 +1,6 @@
-import type { IPublicTypeProjectSchema, IPublicTypeUtilsMap } from '@webank/letgo-types';
+import type { IPublicTypeNpmInfo, IPublicTypeRootSchema, IPublicTypeUtilsMap } from '@webank/letgo-types';
 import { parseUtils } from '../common/parse-utils';
+import type { ImportSource } from '../common/types';
 import { ImportType } from '../common/types';
 
 function compilerNpmImports(npm: IPublicTypeNpmInfo): ImportSource {
@@ -10,20 +11,50 @@ function compilerNpmImports(npm: IPublicTypeNpmInfo): ImportSource {
     };
 }
 
-function genUtilsImports(utils: IPublicTypeUtilsMap): ImportSource[] {
-    return utils.filter(item => item.type !== 'function').map((item) => {
-        return compilerNpmImports(item.content as IPublicTypeNpmInfo);
-    });
+function genUtilsImports(utils: IPublicTypeUtilsMap, useUtils: Record<string, string[]>): ImportSource[] {
+    const importSources: ImportSource[] = [];
+    for (const item of utils) {
+        if (item.type !== 'function') {
+            const utilsMembers = useUtils[item.name];
+            if (utilsMembers) {
+                if (utilsMembers.length === 0 || !item.content.assembling)
+                    importSources.push(compilerNpmImports(item.content));
+
+                utilsMembers.forEach((member) => {
+                    importSources.push({
+                        source: item.content.package,
+                        imported: member,
+                        type: ImportType.ImportSpecifier,
+                    });
+                });
+            }
+        }
+    }
+
+    return importSources;
 }
 
-export function compilerUtils(utils: IPublicTypeUtilsMap, applyUtils: Record<string, any>) {
-    const importSources = genUtilsImports(utils);
+export function compilerUtils(utils: IPublicTypeUtilsMap, useUtils: Record<string, string[]>) {
+    const importSources = genUtilsImports(utils, useUtils);
     const code = utils.map((item) => {
         if (item.type === 'function')
             return `${item.name}: ${item.content.value}`;
-        else if (applyUtils[name])
-            return `${item.name}`;
-    }).join(',');
+
+        const utilsMembers = useUtils[item.name];
+        if (!utilsMembers)
+            return null;
+
+        if (utilsMembers.length === 0 || !item.content.assembling)
+            return item.name;
+
+        return `
+        ${item.name}: {
+            ${utilsMembers.map((member) => {
+                return member;
+            }).join(',\n')}
+        }
+        `;
+    }).filter(Boolean).join(',');
 
     return {
         code: `
@@ -35,7 +66,7 @@ export function compilerUtils(utils: IPublicTypeUtilsMap, applyUtils: Record<str
     };
 }
 
-export function genUtils(schema: IPublicTypeProjectSchema) {
-    const applyUtils = parseUtils(schema.componentsTree[0]);
-    compilerUtils(schema.utils, applyUtils);
+export function genUtils(utils: IPublicTypeUtilsMap, schema: IPublicTypeRootSchema) {
+    const useUtils = parseUtils(schema);
+    return compilerUtils(utils, useUtils);
 }

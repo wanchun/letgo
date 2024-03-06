@@ -20,7 +20,7 @@ function genComponent(ctx: Context, fileTree: FileTree, options: GenOptions) {
         const rootSchema = findRootSchema(schema, cur.rawFileName);
         const fileName = compNameToFileName(cur.fileName);
 
-        acc[`${fileName}/${fileName}.jsx`] = fileStructToString(cur, rootSchema);
+        acc[`${fileName}/${fileName}.jsx`] = fileStructToString(cur, rootSchema, schema.utils);
         acc[`${fileName}/index.js`] = `export * from './${fileName}';`;
         acc[`${fileName}/index.meta.js`] = genComponentMeta(cur, rootSchema);
 

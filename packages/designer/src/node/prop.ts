@@ -13,15 +13,15 @@ import {
     isSlotSchema,
 } from '@webank/letgo-types';
 import { markComputed, markShallowReactive, uniqueId, valueToSource } from '@webank/letgo-common';
-import { isNil, isPlainObject } from 'lodash-es';
+import { isNil, isPlainObject, isUndefined } from 'lodash-es';
 import type { INode, ISlotNode } from '../types';
 import type { Props } from './props';
 
 export interface IPropParent {
-    delete(prop: Prop): void
-    readonly props: Props
-    readonly owner: INode
-    readonly path: string[]
+    delete: (prop: Prop) => void;
+    readonly props: Props;
+    readonly owner: INode;
+    readonly path: string[];
 }
 
 type IValueTypes =
@@ -124,7 +124,7 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
         this._key = key;
         this.spread = spread;
         this.options = options;
-        if (!isNil(value))
+        if (!isUndefined(value))
             this.setValue(value);
     }
 
@@ -133,9 +133,6 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
     }
 
     setupItems() {
-        if (this._items)
-            this._items.forEach(prop => prop.purge());
-
         let items: Prop[] | null = null;
         const data = this._value;
         const type = this._type;
@@ -224,12 +221,14 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
     setAsSlot(data: IPublicTypeJSSlot) {
         this._type = 'slot';
         let slotSchema: IPublicTypeSlotSchema;
+        // 数据变更时，原Slot只是会被清除关联关系，通过id复用原组件
         // 当 data.value 的结构为 { componentName: 'Slot' } 时，直接当成 slotSchema 使用
         if (
             isSlotSchema(data.value)
         ) {
             const value = data.value;
             slotSchema = {
+                id: value.id,
                 componentName: 'Slot',
                 name: value.name || data.name,
                 title: value.title || data.title,
@@ -241,6 +240,7 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
         }
         else {
             slotSchema = {
+                id: data.id,
                 componentName: 'Slot',
                 name: data.name,
                 title: data.title,
@@ -312,10 +312,7 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
             };
         }
 
-        if (this._type !== 'slot' && this._slotNode) {
-            this._slotNode.remove();
-            this._slotNode = undefined;
-        }
+        this.dispose();
         this.setupItems();
 
         if (oldValue !== this._value) {
@@ -553,6 +550,18 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
         return this._type === undefined;
     }
 
+    private dispose() {
+        const items = this._items;
+        if (items)
+            items.forEach(prop => prop.purge());
+
+        this._items = null;
+        if (this._type !== 'slot' && this._slotNode) {
+            this._slotNode.remove();
+            this._slotNode = undefined;
+        }
+    }
+
     /**
      * 销毁
      */
@@ -561,7 +570,11 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
             return;
 
         this.purged = true;
-        if (this._slotNode) {
+        if (this._items)
+            this._items.forEach(item => item.purge());
+
+        this._items = null;
+        if (this._slotNode && this._slotNode.slotFor === this) {
             this._slotNode.remove();
             this._slotNode = undefined;
         }

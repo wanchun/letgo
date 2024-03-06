@@ -11,6 +11,18 @@ import {
 import { markComputed, markShallowReactive } from '@webank/letgo-common';
 import type { INode } from '../types';
 
+type IterableArray = NodeChildren | any[];
+
+export function foreachReverse(
+    arr: IterableArray,
+    action: (item: any) => void,
+    getter: (arr: IterableArray, index: number) => any,
+    context: any = {},
+) {
+    for (let i = arr.length - 1; i >= 0; i--)
+        action.call(context, getter(arr, i));
+}
+
 export class NodeChildren implements IPublicModelNodeChildren<INode> {
     private children: INode[];
 
@@ -30,6 +42,10 @@ export class NodeChildren implements IPublicModelNodeChildren<INode> {
      */
     get size(): number {
         return this.children.length;
+    }
+
+    get length(): number {
+        return this.size;
     }
 
     constructor(readonly owner: INode, data?: IPublicTypeNodeData | IPublicTypeNodeData[]) {
@@ -128,10 +144,24 @@ export class NodeChildren implements IPublicModelNodeChildren<INode> {
      * 删除一个子节点
      */
     deleteChild(node: INode, purge = false) {
-        // 需要在从 children 中删除 node 前记录下 index，internalSetParent 中会执行删除(unlink)操作
-        const i = this.indexOf(node);
+        if (node.isParental()) {
+            foreachReverse(
+                node.children,
+                (subNode: INode) => {
+                    subNode.remove(purge);
+                },
+                (iterable, idx) => (iterable as NodeChildren).get(idx),
+            );
+            foreachReverse(
+                node.slots,
+                (slotNode: INode) => {
+                    slotNode.remove(purge);
+                },
+                (iterable, idx) => (iterable as [])[idx],
+            );
+        }
+
         if (purge) {
-            node.setParent(null);
             try {
                 node.purge();
             }
@@ -144,8 +174,9 @@ export class NodeChildren implements IPublicModelNodeChildren<INode> {
         document.removeNode(node);
         document.selection.remove(node.id);
 
-        // purge 为 true 时，已在 internalSetParent 中删除了子节点
-        if (i > -1 && !purge) {
+        // 需要在从 children 中删除 node 前记录下 index，internalSetParent 中会执行删除(unlink)操作
+        const i = this.indexOf(node);
+        if (i > -1) {
             const children = this.children.slice();
             children.splice(i, 1);
             this.children = children;

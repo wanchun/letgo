@@ -302,15 +302,6 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
         if (this.hasNode(schema?.id))
             schema.id = null;
 
-        if (schema.id) {
-            node = this.getNode(schema.id);
-            if (node && node.componentName === schema.componentName)
-                node.importSchema(schema as any);
-
-            else if (node)
-                node = null;
-        }
-
         if (!node)
             node = new Node(this, schema);
 

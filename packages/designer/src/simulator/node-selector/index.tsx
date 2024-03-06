@@ -52,6 +52,9 @@ const NodeSelectorView = defineComponent({
             if (!node)
                 return;
 
+            if (node.isSlot())
+                return;
+
             const canClick = canClickNode(node, e);
 
             if (canClick) {

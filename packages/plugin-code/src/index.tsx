@@ -33,6 +33,7 @@ export default definePlugin({
                     width: 300,
                     title: '逻辑',
                 },
+                defaultFixed: false,
             }),
         );
     },

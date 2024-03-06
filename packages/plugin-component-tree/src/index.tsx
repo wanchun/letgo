@@ -19,6 +19,7 @@ export default definePlugin({
                 width: 300,
                 title: '大纲树',
             },
+            defaultFixed: false,
         });
         skeleton
             .add({

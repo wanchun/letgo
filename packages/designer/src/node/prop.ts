@@ -174,7 +174,7 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
                     title: schema.title,
                     params: schema.props.params,
                     value: schema,
-                    id: schema.id,
+                    ref: schema.ref,
                 };
             }
             return {
@@ -183,7 +183,7 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
                 title: schema.title,
                 params: schema.props.params,
                 value: schema.children,
-                id: schema.id,
+                ref: schema.ref,
             };
         }
         if (type === 'map') {
@@ -221,14 +221,14 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
     setAsSlot(data: IPublicTypeJSSlot) {
         this._type = 'slot';
         let slotSchema: IPublicTypeSlotSchema;
-        // 数据变更时，原Slot只是会被清除关联关系，通过id复用原组件
+        // 通过ref复用原组件
         // 当 data.value 的结构为 { componentName: 'Slot' } 时，直接当成 slotSchema 使用
         if (
             isSlotSchema(data.value)
         ) {
             const value = data.value;
             slotSchema = {
-                id: value.id,
+                ref: value.ref,
                 componentName: 'Slot',
                 name: value.name || data.name,
                 title: value.title || data.title,
@@ -240,7 +240,7 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
         }
         else {
             slotSchema = {
-                id: data.id,
+                ref: data.ref,
                 componentName: 'Slot',
                 name: data.name,
                 title: data.title,

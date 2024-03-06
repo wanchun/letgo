@@ -1,5 +1,6 @@
 import { generate } from 'astring';
 import { parse } from 'acorn';
+import { ancestor, simple } from 'acorn-walk';
 import {
     IEnumCodeType,
     IEnumEventHandlerAction,
@@ -19,6 +20,19 @@ export function innerParse(code: string) {
         allowHashBang: true,
         ecmaVersion: 2022,
     });
+}
+
+export function simpleWalkAst(code: string, param: Record<string, any>) {
+    const ast = innerParse(code);
+    simple(ast, param);
+    return ast;
+}
+
+export function ancestorWalkAst(code: string, param: Record<string, any>) {
+    const ast = innerParse(code);
+    ancestor(ast, param);
+
+    return ast;
 }
 
 export function replaceJSFunctionIdentifier(code: string, newName: string, preName: string) {
@@ -124,7 +138,7 @@ export function eventHandlerToJsFunction(item: IEventHandler): IPublicTypeJSFunc
 
 export function eventHandlersToJsFunction(handlers: IEventHandler[] = []) {
     const result: {
-        [key: string]: IPublicTypeJSFunction[]
+        [key: string]: IPublicTypeJSFunction[];
     } = {};
     handlers.forEach((item: IEventHandler) => {
         if ((item.namespace && item.method) || item.action === IEnumEventHandlerAction.RUN_FUNCTION) {

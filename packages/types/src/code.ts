@@ -13,9 +13,9 @@ export enum IEnumResourceType {
 }
 
 export interface IFailureCondition {
-    id: string
-    condition: string
-    message: string
+    id: string;
+    condition: string;
+    message: string;
 }
 
 export enum IEnumRunCondition {
@@ -24,64 +24,80 @@ export enum IEnumRunCondition {
 }
 
 export interface IQueryResourceBase {
-    type: IEnumCodeType.JAVASCRIPT_QUERY
-    id: string
-    resourceType: IEnumResourceType
-    enableTransformer?: boolean
-    transformer?: string
-    query: string
-    queryFailureCondition?: IFailureCondition[]
-    showFailureToaster?: boolean
-    showSuccessToaster?: boolean
-    successMessage?: string
-    runCondition: IEnumRunCondition
-    runWhenPageLoads?: boolean
-    enableCaching?: boolean
-    cacheDuration?: number
-    queryTimeout?: number
-    successEvent?: IEventHandler[]
-    failureEvent?: IEventHandler[]
+    type: IEnumCodeType.JAVASCRIPT_QUERY;
+    id: string;
+    resourceType: IEnumResourceType;
+    enableTransformer?: boolean;
+    transformer?: string;
+    query: string;
+    queryFailureCondition?: IFailureCondition[];
+    showFailureToaster?: boolean;
+    showSuccessToaster?: boolean;
+    successMessage?: string;
+    runCondition: IEnumRunCondition;
+    runWhenPageLoads?: boolean;
+    enableCaching?: boolean;
+    cacheDuration?: number;
+    queryTimeout?: number;
+    successEvent?: IEventHandler[];
+    failureEvent?: IEventHandler[];
 }
 
 export interface IRestQueryResource extends IQueryResourceBase {
-    resourceType: IEnumResourceType.RESTQuery
-    method: string
-    api: string
-    params?: string
+    resourceType: IEnumResourceType.RESTQuery;
+    method: string;
+    api: string;
+    params?: string;
 }
 
 export type IJavascriptQuery = IQueryResourceBase | IRestQueryResource;
+
+export function isQueryResource(obj: any): obj is IJavascriptQuery {
+    return obj && obj.type === IEnumCodeType.JAVASCRIPT_QUERY;
+}
 
 export function isRestQueryResource(obj: any): obj is IRestQueryResource {
     return obj && obj.resourceType === IEnumResourceType.RESTQuery;
 }
 
 export interface IJavascriptFunction {
-    id: string
-    type: IEnumCodeType.JAVASCRIPT_FUNCTION
-    funcBody: string
+    id: string;
+    type: IEnumCodeType.JAVASCRIPT_FUNCTION;
+    funcBody: string;
+}
+
+export function isJavascriptFunction(obj: any): obj is IJavascriptFunction {
+    return obj && obj.type === IEnumCodeType.JAVASCRIPT_FUNCTION;
 }
 
 export interface IJavascriptComputed {
-    id: string
-    type: IEnumCodeType.JAVASCRIPT_COMPUTED
-    funcBody: string
+    id: string;
+    type: IEnumCodeType.JAVASCRIPT_COMPUTED;
+    funcBody: string;
+}
+
+export function isJavascriptComputed(obj: any): obj is IJavascriptComputed {
+    return obj && obj.type === IEnumCodeType.JAVASCRIPT_COMPUTED;
 }
 
 export interface ITemporaryState {
-    id: string
-    type: IEnumCodeType.TEMPORARY_STATE
-    initValue: string
+    id: string;
+    type: IEnumCodeType.TEMPORARY_STATE;
+    initValue: string;
+}
+
+export function isVariableState(obj: any): obj is ITemporaryState {
+    return obj && obj.type === IEnumCodeType.TEMPORARY_STATE;
 }
 
 export type ICodeItem = ITemporaryState | IJavascriptComputed | IJavascriptFunction | IJavascriptQuery;
 
 export interface ICodeDirectory {
-    name: string
-    code: ICodeItem[]
+    name: string;
+    code: ICodeItem[];
 }
 
 export interface ICodeStruct {
-    directories: ICodeDirectory[]
-    code: ICodeItem[]
+    directories: ICodeDirectory[];
+    code: ICodeItem[];
 }

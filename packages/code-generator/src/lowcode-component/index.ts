@@ -2,7 +2,6 @@ import { merge, set } from 'lodash-es';
 import type { Context, FileTree, GenOptions } from '../common/types';
 import { schemaToCode } from '../common';
 import { injectLetgoCode } from '../common/inject-code';
-import { genGlobalStateCode } from '../common/global-state';
 import { setOptions } from '../options';
 import { findRootSchema, genCodeMap } from '../common/helper';
 import { genPackageJSON } from '../common/pkg';
@@ -60,9 +59,6 @@ export function genLowcodeComponent(_options: GenOptions): FileTree {
 
     // 处理内置代码
     injectLetgoCode(fileTree, options);
-
-    // 处理全局代码
-    genGlobalStateCode(ctx, fileTree, options);
 
     // 处理组件
     genComponent(ctx, fileTree, options);

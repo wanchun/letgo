@@ -4,10 +4,10 @@ import { isNil, isUndefined } from 'lodash-es';
 import { innerParse } from './ast';
 
 interface Identifier {
-    type: 'Identifier'
-    start: number
-    end: number
-    name: string
+    type: 'Identifier';
+    start: number;
+    end: number;
+    name: string;
 }
 
 type Callback = (identifier: Identifier) => void;

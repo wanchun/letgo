@@ -33,6 +33,7 @@ import { Selection } from './selection';
 import { History } from './history';
 
 const componentUseTimes: Record<string, number> = {};
+const componentRefTimes: Record<string, number> = {};
 
 export class DocumentModel implements IPublicModelDocumentModel<Project, ComponentMeta, Selection, INode, State, Code> {
     readonly project: Project;
@@ -270,6 +271,22 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
         }
 
         return id;
+    }
+
+    /**
+     * 生成唯一 ref
+     */
+    nextRef(possibleId: string | undefined, componentName: string) {
+        let ref = possibleId;
+
+        // 如果没有id，或者id已经被使用，则重新生成一个新的
+        while (!ref || this.state.componentsInstance[ref]) {
+            const count = componentRefTimes[componentName] || 1;
+            ref = `${camelCase(componentName)}${count}`;
+            componentRefTimes[componentName] = count + 1;
+        }
+
+        return ref;
     }
 
     /**

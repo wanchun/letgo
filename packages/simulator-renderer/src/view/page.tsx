@@ -8,6 +8,7 @@ import {
     type IPublicTypeComponentInstance,
     type IPublicTypeNodeSchema,
 } from '@webank/letgo-types';
+import { isEmpty } from 'lodash-es';
 import type { DocumentInstance, VueSimulatorRenderer } from '../interface';
 import { BASE_COMP_CONTEXT } from '../constants';
 import type { JavascriptFunctionImpl } from '../code-impl/javascript-function';
@@ -104,7 +105,7 @@ export default defineComponent({
             getNode: (id: string) => props.documentInstance.getNode(id),
             executeCtx,
             onCompGetCtx: (schema: IPublicTypeNodeSchema, ref: IPublicTypeComponentInstance, scope?: RuntimeScope) => {
-                if (ref) {
+                if (ref && isEmpty(props.documentInstance.document.state.componentsInstance[schema.ref])) {
                     if (schema.ref) {
                         (ref as any).__scope = scope;
                         nextTick(() => {

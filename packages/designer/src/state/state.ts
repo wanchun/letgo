@@ -96,9 +96,9 @@ export class State implements IPublicModelState {
     initComponentInstanceListen() {
         this.triggerAfterSimulatorReady(() => {
             this.offEvents.push(this.designer.simulator.onEvent('componentInstanceChange', (options: {
-                docId: string
-                id: string
-                instances: IPublicTypeComponentRecord[]
+                docId: string;
+                id: string;
+                instances: IPublicTypeComponentRecord[];
             }) => {
                 const currentDocument = this.designer.currentDocument;
                 const node = currentDocument.getNode(options.id);
@@ -111,7 +111,7 @@ export class State implements IPublicModelState {
                         if (offEvent)
                             offEvent();
 
-                        delete this.componentsInstance[node.ref];
+                        this.componentsInstance[node.ref] = {};
                     };
                     if (!options.instances || options.instances.length === 0) {
                         clearInstance();
@@ -144,7 +144,7 @@ export class State implements IPublicModelState {
                 else {
                     const refName = this.nodeIdToRef.get(options.id);
                     if (refName)
-                        delete this.componentsInstance[refName];
+                        this.componentsInstance[refName] = {};
                 }
             }));
         });

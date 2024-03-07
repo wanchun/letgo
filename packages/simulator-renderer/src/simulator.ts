@@ -133,22 +133,12 @@ function createDocumentInstance(document: DocumentModel): DocumentInstance {
             instance,
         });
 
-        let instances = instancesMap.get(id);
+        const instances = instancesMap.get(id) || [];
 
-        if (instances) {
-            const l = instances.length;
-            instances = instances.filter(checkInstanceMounted);
-            let updated = instances.length !== l;
-            if (!instances.includes(instance)) {
-                instances.push(instance);
-                updated = true;
-            }
-            if (!updated)
-                return;
-        }
-        else {
-            instances = [instance];
-        }
+        if (instances.includes(instance))
+            return;
+        else
+            instances.push(instance);
 
         vueInstanceMap.set(instance.$.uid, instance);
         instancesMap.set(id, instances);

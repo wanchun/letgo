@@ -30,10 +30,10 @@ function formatProps(key: string | number, value: any, refName: string, path?: s
         return genPropSlotName(path ?? `${key}`, refName);
 
     if (isJSExpression(value))
-        return value.value;
+        return value.value?.trim();
 
     if (isJSFunction(value)) {
-        return value.value;
+        return value.value?.trim();
     }
     else if (Array.isArray(value)) {
         return `
@@ -60,7 +60,7 @@ function formatProps(key: string | number, value: any, refName: string, path?: s
         `;
     }
     else if (typeof value === 'string') {
-        return JSON.stringify(value);
+        return JSON.stringify(value.trim());
     }
 
     return value;

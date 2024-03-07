@@ -37,17 +37,17 @@ export enum IPublicEnumAssetType {
 export type IPublicTypeURL = string;
 
 export interface IPublicTypeAssetBundle {
-    type: IPublicEnumAssetType.Bundle
-    level?: IPublicEnumAssetLevel
-    assets?: IPublicTypeAsset | IPublicTypeAssetList | null
+    type: IPublicEnumAssetType.Bundle;
+    level?: IPublicEnumAssetLevel;
+    assets?: IPublicTypeAsset | IPublicTypeAssetList | null;
 }
 
 export interface IPublicTypeAssetItem {
-    type: IPublicEnumAssetType
-    content?: string | null
-    device?: string
-    level?: IPublicEnumAssetLevel
-    id?: string
+    type: IPublicEnumAssetType;
+    content?: string | null;
+    device?: string;
+    level?: IPublicEnumAssetLevel;
+    id?: string;
 }
 
 export type IPublicTypeAsset = IPublicTypeAssetList | IPublicTypeAssetBundle | IPublicTypeAssetItem | IPublicTypeURL;
@@ -61,23 +61,23 @@ export interface IPublicTypeAssetsJson {
     /**
      * 资产包协议版本号
      */
-    version?: string
+    version?: string;
     /**
      * 大包列表
      */
-    packages?: IPublicTypePackage[]
+    packages?: IPublicTypePackage[];
     /**
      * 所有组件的描述协议列表所有组件的列表
      */
-    components?: Array<IPublicTypeComponentDescription | IPublicTypeRemoteComponentDescription>
+    components?: Array<IPublicTypeComponentDescription | IPublicTypeRemoteComponentDescription>;
     /**
      * 排序
      */
-    sort?: IPublicTypeComponentSort
+    sort?: IPublicTypeComponentSort;
     /**
      * 工具函数
      */
-    utils?: IPublicTypeUtilsMap
+    utils?: IPublicTypeUtilsMap;
 }
 
 /**
@@ -87,11 +87,11 @@ export interface IPublicTypeComponentSort {
     /**
      * 用于描述组件面板的 tab 项及其排序，例如：["精选组件", "原子组件"]
      */
-    groupList?: string[]
+    groupList?: string[];
     /**
      * 组件面板中同一个 tab 下的不同区间用 category 区分，category 的排序依照 categoryList 顺序排列；
      */
-    categoryList?: string[]
+    categoryList?: string[];
 }
 
 export type IPublicTypeCodeType = 'proCode' | 'lowCode';
@@ -104,58 +104,58 @@ export interface IPublicTypePackage {
     /**
      * 资源唯一标识，如果为空，则以 package 为唯一标识
      */
-    id?: string
-    /**
-     * 资源标题
-     */
-    title?: string
-    /**
-     * 类型
-     */
-    type?: IPublicTypeCodeType
+    id?: string;
     /**
      * 包名
      */
-    package: string
+    package: string;
     /**
      * 包版本号
      */
-    version: string
+    version: string;
+    /**
+     * 资源标题
+     */
+    title?: string;
+    /**
+     * 类型
+     */
+    type?: IPublicTypeCodeType;
     /**
      * 组件渲染态视图打包后的 CDN url 列表，包含 js 和 css
      */
-    urls?: string[] | any
+    urls?: string[] | any;
     /**
      * 组件编辑态视图打包后的 CDN url 列表，包含 js 和 css
      */
-    editUrls?: string[] | any
+    editUrls?: string[] | any;
     /**
      * 低代码组件的schema
      */
-    schema?: IPublicTypeProjectSchema
+    schema?: IPublicTypeProjectSchema;
     /**
      * 作为全局变量引用时的名称，和webpack output.library字段含义一样，用来定义全局变量名
      */
-    library: string
+    library: string;
     /**
      * 组件描述导出名字，可以通过 window[exportName] 获取到组件描述的 Object 内容；
      */
-    exportName?: string
+    exportName?: string;
     /**
      * 标识当前 package 资源加载在 window.library 上的是否是一个异步对象
      */
-    async?: boolean
+    async?: boolean;
     /**
      * 当前资源包的依赖资源的唯一标识列表
      */
-    deps?: string[]
+    deps?: string[];
 }
 
 /**
  * 本地物料描述
  */
 export interface IPublicTypeComponentDescription extends IPublicTypeComponentMetadata {
-    keywords?: string[]
+    keywords?: string[];
 }
 
 export function isComponentDescription(obj: any): obj is IPublicTypeComponentDescription {
@@ -171,15 +171,15 @@ export interface IPublicTypeRemoteComponentDescription {
     /**
      * 组件描述导出名字，可以通过 window[exportName] 获取到组件描述的 Object 内容；
      */
-    exportName?: string
+    exportName?: string;
     /**
      * 组件描述的资源链接；
      */
-    url?: string
+    url?: string;
     /**
      * 组件(库)的 npm 信息；
      */
     package?: {
-        npm?: string
-    }
+        npm?: string;
+    };
 }

@@ -4,7 +4,7 @@ import { FDropdown, FScrollbar } from '@fesjs/fes-design';
 import { MoreOutlined, PlusOutlined } from '@fesjs/fes-design/icon';
 import type { ICodeItem, IPublicModelCode } from '@webank/letgo-types';
 import { IEnumCodeType, IEnumResourceType } from '@webank/letgo-types';
-import { isNil } from 'lodash-es';
+import { cloneDeep, isNil } from 'lodash-es';
 import { ComputedIcon, FolderIcon, JsIcon, RestIcon, StateIcon } from '../icons';
 import CodeId from './code-id';
 import './code.less';
@@ -64,7 +64,6 @@ export const CodeList = defineComponent({
             },
         ].filter(Boolean);
 
-        // TODO 复制的功能
         const commonOptions = [
             {
                 value: 'duplicate',
@@ -79,7 +78,13 @@ export const CodeList = defineComponent({
         ];
 
         const onCommonAction = (value: string, item: ICodeItem) => {
-            if (value === 'delete') {
+            if (value === 'duplicate') {
+                const newItem = cloneDeep(item);
+                newItem.id = props.code.genCodeId(item.type);
+                props.code?.addCodeItem(newItem);
+                props.onChangeCurrentCodeItem(newItem);
+            }
+            else if (value === 'delete') {
                 props.code?.deleteCodeItem(item.id);
                 if (props.currentCodeItem?.id === item.id)
                     props.onChangeCurrentCodeItem(null);

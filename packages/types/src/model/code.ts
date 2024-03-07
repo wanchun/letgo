@@ -1,42 +1,44 @@
 import type { ICodeItem, ICodeStruct, IEnumCodeType, IEnumResourceType } from '..';
 
 export interface IPublicModelCode {
-    codeStruct: ICodeStruct
-    codeMap: Map<string, ICodeItem>
+    codeStruct: ICodeStruct;
+    codeMap: Map<string, ICodeItem>;
 
-    get directories(): ICodeStruct['directories']
+    get directories(): ICodeStruct['directories'];
 
-    get queries(): ICodeItem[]
+    get queries(): ICodeItem[];
 
-    get temporaryStates(): ICodeItem[]
+    get temporaryStates(): ICodeItem[];
 
-    get functions(): ICodeItem[]
+    get functions(): ICodeItem[];
 
-    get code(): ICodeItem[]
+    get code(): ICodeItem[];
 
-    addCodeItem(item: ICodeItem): void
+    genCodeId: (type: IEnumCodeType | 'variable') => string;
 
-    addCodeItemWithType(type: IEnumCodeType, resourceType?: IEnumResourceType): ICodeItem
+    addCodeItem: (item: ICodeItem) => void;
 
-    onCodeItemAdd(func: (codeItem: ICodeItem) => void): () => void
+    addCodeItemWithType: (type: IEnumCodeType, resourceType?: IEnumResourceType) => ICodeItem;
 
-    emitCodeItemAdd(codeItem: ICodeItem): void
+    onCodeItemAdd: (func: (codeItem: ICodeItem) => void) => () => void;
 
-    deleteCodeItem(id: string): void
+    emitCodeItemAdd: (codeItem: ICodeItem) => void;
 
-    changeCodeId(id: string, preId: string): void
+    deleteCodeItem: (id: string) => void;
 
-    emitCodeItemDelete(id: string): void
+    changeCodeId: (id: string, preId: string) => void;
 
-    onCodeItemDelete(func: (id: string) => void): () => void
+    emitCodeItemDelete: (id: string) => void;
 
-    scopeVariableChange(id: string, newVariable: string, oldVariable: string): void
+    onCodeItemDelete: (func: (id: string) => void) => () => void;
 
-    changeDepStateId(newVariable: string, oldVariable: string): void
+    scopeVariableChange: (id: string, newVariable: string, oldVariable: string) => void;
 
-    changeCodeItemContent(id: string, content: Record<string, any>): void
+    changeDepStateId: (newVariable: string, oldVariable: string) => void;
 
-    emitCodeItemChange(id: string, content: Record<string, any>): void
+    changeCodeItemContent: (id: string, content: Record<string, any>) => void;
 
-    onCodeItemChanged(func: (id: string, content: Record<string, any>) => void): () => void
+    emitCodeItemChange: (id: string, content: Record<string, any>) => void;
+
+    onCodeItemChanged: (func: (id: string, content: Record<string, any>) => void) => () => void;
 }

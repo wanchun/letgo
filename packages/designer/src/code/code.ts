@@ -116,7 +116,10 @@ export class Code implements IPublicModelCode {
         }
     };
 
-    genCodeId = (type: IEnumCodeType): string => {
+    genCodeId = (type: IEnumCodeType | 'variable'): string => {
+        if (type === IEnumCodeType.TEMPORARY_STATE)
+            type = 'variable';
+
         idCount[type] = (idCount[type] || 0) + 1;
         const newId = `${type}${idCount[type]}`;
         if (this.hasCodeId(newId))

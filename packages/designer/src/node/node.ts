@@ -226,7 +226,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
 
         const { componentName, id, ref, children, props, ...extras } = nodeSchema;
         this.id = document.nextId(id, componentName);
-        this.ref = ref || this.id;
+        this.ref = ref || document.nextRef(ref, componentName);
         this.componentName = componentName;
         if (this.componentName === 'Leaf') {
             this.props = new Props(this as INode, {
@@ -475,11 +475,13 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
 
     remove(purge = true) {
         if (this._parent) {
-            if (this.isSlot())
-                this._parent.removeSlot(this as INode);
-
-            else
-                this._parent.children?.deleteChild(this as INode, purge);
+            if (this.isSlot()) {
+                this._parent.removeSlot(this);
+                this._parent.children?.deleteChild(this, purge);
+            }
+            else {
+                this._parent.children?.deleteChild(this, purge);
+            }
         }
     }
 
@@ -639,6 +641,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         this.props.purge();
         this.settingEntry?.purge();
         this.emitter.removeAllListeners();
+        this._parent = null;
     }
 }
 

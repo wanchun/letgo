@@ -54,7 +54,8 @@ export interface IPublicTypeJSSlot {
      * 插槽参数
      */
     params?: string[];
-    id?: string;
+
+    ref?: string;
 }
 
 /**

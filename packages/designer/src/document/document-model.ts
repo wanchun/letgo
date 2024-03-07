@@ -33,6 +33,7 @@ import { Selection } from './selection';
 import { History } from './history';
 
 const componentUseTimes: Record<string, number> = {};
+const componentRefTimes: Record<string, number> = {};
 
 export class DocumentModel implements IPublicModelDocumentModel<Project, ComponentMeta, Selection, INode, State, Code> {
     readonly project: Project;
@@ -273,6 +274,22 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
     }
 
     /**
+     * 生成唯一 ref
+     */
+    nextRef(possibleId: string | undefined, componentName: string) {
+        let ref = possibleId;
+
+        // 如果没有id，或者id已经被使用，则重新生成一个新的
+        while (!ref || this.state.componentsInstance[ref]) {
+            const count = componentRefTimes[componentName] || 1;
+            ref = `${camelCase(componentName)}${count}`;
+            componentRefTimes[componentName] = count + 1;
+        }
+
+        return ref;
+    }
+
+    /**
      * 从项目中移除
      */
     remove() {
@@ -301,15 +318,6 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
         let node: INode | null = null;
         if (this.hasNode(schema?.id))
             schema.id = null;
-
-        if (schema.id) {
-            node = this.getNode(schema.id);
-            if (node && node.componentName === schema.componentName)
-                node.importSchema(schema as any);
-
-            else if (node)
-                node = null;
-        }
 
         if (!node)
             node = new Node(this, schema);

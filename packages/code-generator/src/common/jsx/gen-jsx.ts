@@ -38,7 +38,7 @@ function formatProps(key: string | number, value: any, refName: string, path?: s
     else if (Array.isArray(value)) {
         return `
         [
-            ${value.map((item, index) => formatProps(index, item, refName, `${path ?? key}_${index}`)).join(',')}
+            ${value.map((item, index) => formatProps(index, item, refName, `${path ?? key}_${index}`)).filter(item => item != null).join(',')}
         ]
         `;
     }
@@ -50,8 +50,12 @@ function formatProps(key: string | number, value: any, refName: string, path?: s
         return `
         {
             ${valueKeys.map((itemKey) => {
-                return `${itemKey}: ${formatProps(itemKey, value[itemKey], refName, `${path ?? key}_${itemKey}`)}`;
-            }).join(', ')}
+                const val = formatProps(itemKey, value[itemKey], refName, `${path ?? key}_${itemKey}`);
+                if (val != null && val !== '')
+                    return `${itemKey}: ${val}`;
+
+                return null;
+            }).filter(Boolean).join(', ')}
         }
         `;
     }

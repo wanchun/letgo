@@ -372,10 +372,18 @@ function getClassName(rootSchema: IPublicTypeRootSchema) {
     return 'letgo-page';
 }
 
+function genRootProps(rootSchema: IPublicTypeRootSchema) {
+    if (rootSchema.componentName === 'Page')
+        return compileProps(merge(rootSchema.defaultProps, rootSchema.props)).join(' ');
+
+    return '';
+}
+
 export function genPageJsx(ctx: Context, rootSchema: IPublicTypeRootSchema, componentRefs: Set<string>) {
     const nodeData = Array.isArray(rootSchema.children) ? rootSchema.children : [rootSchema.children];
+
     return `return () => {
-        return <div class="${getClassName(rootSchema)}" ${compileProps(merge(rootSchema.defaultProps, rootSchema.props)).join(' ')}>
+        return <div class="${getClassName(rootSchema)}" ${genRootProps(rootSchema)}>
             ${nodeData.map(item => compileNodeData(ctx, item, componentRefs)).join('\n')}
         </div>
     }`;

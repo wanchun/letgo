@@ -2,6 +2,7 @@ import type {
     PropType,
 } from 'vue';
 import {
+    computed,
     defineComponent,
     ref,
 } from 'vue';
@@ -30,6 +31,10 @@ export default defineComponent({
     },
     setup(props) {
         const current = ref('code');
+
+        const rootSchemaType = computed(() => {
+            return props.designer.currentDocument?.root.componentName;
+        });
 
         const searchValue = ref();
 
@@ -61,13 +66,15 @@ export default defineComponent({
                         >
                             <CodeSetting rootEl={rootEl.value} searchText={searchValue.value} currentTab={current.value} designer={props.designer} />
                         </FTabPane>
-                        <FTabPane
-                            name="全局逻辑"
-                            value="globalLogic"
-                            displayDirective="show"
-                        >
-                            <GlobalCode rootEl={rootEl.value} searchText={searchValue.value} currentTab={current.value} designer={props.designer} />
-                        </FTabPane>
+                        {rootSchemaType.value === 'Page' && (
+                            <FTabPane
+                                name="全局逻辑"
+                                value="globalLogic"
+                                displayDirective="show"
+                            >
+                                <GlobalCode rootEl={rootEl.value} searchText={searchValue.value} currentTab={current.value} designer={props.designer} />
+                            </FTabPane>
+                        )}
                         <FTabPane
                             name="查看"
                             value="state"

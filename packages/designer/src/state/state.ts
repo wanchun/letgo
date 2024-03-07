@@ -1,23 +1,25 @@
-import { markReactive, traverseNodeSchema } from '@webank/letgo-common';
+import { getConvertedExtraKey, markReactive, traverseNodeSchema } from '@webank/letgo-common';
 import { debounce } from 'lodash-es';
 import type { IPublicModelState, IPublicTypeComponentRecord, IPublicTypeRootSchema } from '@webank/letgo-types';
 import type { Designer } from '../designer';
-import type { Project } from '../project';
 import type { INode } from '../types';
+import type { DocumentModel } from '../document/document-model';
 
 export class State implements IPublicModelState {
     private designer: Designer;
     private nodeIdToRef = new Map<string, string>();
     private offEvents: (() => void)[] = [];
+    props: Record<string, any>;
     componentsInstance: Record<string, any>;
     codesInstance: Record<string, any>;
 
-    constructor(project: Project, schema?: IPublicTypeRootSchema) {
+    constructor(docModal: DocumentModel, schema?: IPublicTypeRootSchema) {
         markReactive(this, {
             codesInstance: {},
             componentsInstance: {},
+            props: {},
         });
-        this.designer = project.designer;
+        this.designer = docModal.designer;
 
         if (schema?.children) {
             traverseNodeSchema(schema.children, (item) => {
@@ -32,6 +34,19 @@ export class State implements IPublicModelState {
         this.initComponentInstanceListen();
 
         this.initCodesInstanceListen();
+
+        if (schema?.componentName === 'Component')
+            this.initRootProps(docModal.root);
+    }
+
+    private initRootProps(root: INode) {
+        this.props = root.getExtraProp('defaultProps').getValue() as Record<string, any>;
+        root.onPropChange(debounce((info) => {
+            const { prop } = info;
+            const rootPropKey: string = prop.path[0];
+            if (rootPropKey === getConvertedExtraKey('defaultProps'))
+                this.props = root.getExtraProp('defaultProps').getValue() as Record<string, any>;
+        }, 300));
     }
 
     hasStateId(id: string) {

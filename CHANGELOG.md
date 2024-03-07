@@ -1,3 +1,22 @@
+## [0.0.3-beta.22](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.21...v0.0.3-beta.22) (2024-03-07)
+
+
+### Bug Fixes
+
+* Slot更像时使用ref复原 ([a79d918](https://git.weoa.com/mumblefe/letgo/commits/a79d91881804a7990f613ebc6c4d6b6d2164c520))
+* 优化 ref 生成 ([6102521](https://git.weoa.com/mumblefe/letgo/commits/6102521c49cdf90faa348a784d05321b9cf8ac8d))
+* 优化 ref 生成 ([0099d5a](https://git.weoa.com/mumblefe/letgo/commits/0099d5ac112352c1edd0c0d38f87feb6b5e57d26))
+* 修复Node节点未正确清理 &  插槽未正确清理  &  插槽id会变 ([44dbd25](https://git.weoa.com/mumblefe/letgo/commits/44dbd257af9133f9d30062dd20e64ba3eeb7cb95))
+
+
+### Features
+
+* 大纲树和逻辑面板默认固定住 ([599d028](https://git.weoa.com/mumblefe/letgo/commits/599d0280adb8f9ef2abc809aa747b91d78732573))
+* 插槽不让点击和拓展 ([4ab5edf](https://git.weoa.com/mumblefe/letgo/commits/4ab5edf2ba2d3683df400ff407781640237c4db3))
+* 组件树中也无法选中插槽 ([840a9aa](https://git.weoa.com/mumblefe/letgo/commits/840a9aa4694a05c60174309ea8689c918b8bfec8))
+
+
+
 ## [0.0.3-beta.21](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.20...v0.0.3-beta.21) (2024-03-05)
 
 

@@ -52,7 +52,7 @@ const initOptions: any = {
     },
 };
 
-interface Option { label: string, value: string }
+interface Option { label: string; value: string }
 
 export default defineComponent({
     name: 'EventHandlerModify',
@@ -126,9 +126,9 @@ export default defineComponent({
                     <Separator text={firstSeparatorText.value} />
                     <RenderOptions documentModel={props.documentModel} onChange={changeCurrentEvent} componentEvent={innerEditEvent.value} />
                     <Separator text="高级" />
-                    <Label label="执行条件">
+                    {/* TODO <Label label="执行条件">
                         <FInput v-model={innerEditEvent.value.onlyRunWhen} />
-                    </Label>
+                    </Label> */}
                     <Label label="延迟">
                         <FInputNumber v-model={innerEditEvent.value.waitMs} />
                     </Label>

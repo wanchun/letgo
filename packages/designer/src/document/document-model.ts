@@ -132,9 +132,10 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
         } as IPublicTypePageSchema;
         this.code = new Code(currentSchema.code);
 
+        this.state = new State(this, currentSchema);
         this.rootNode = this.createNode(currentSchema);
 
-        this.state = new State(this, currentSchema);
+        this.state.init(this.rootNode);
 
         const rootSchema = this.rootNode.computedSchema;
 

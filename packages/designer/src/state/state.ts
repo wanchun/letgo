@@ -34,9 +34,11 @@ export class State implements IPublicModelState {
         this.initComponentInstanceListen();
 
         this.initCodesInstanceListen();
+    }
 
-        if (schema?.componentName === 'Component')
-            this.initRootProps(docModal.root);
+    init(root: INode) {
+        if (root.componentName === 'Component')
+            this.initRootProps(root);
     }
 
     private initRootProps(root: INode) {

@@ -7,9 +7,9 @@ import { SettingField } from './setting-field';
 
 export interface ISettingTop extends IPublicModelSettingTop<INode, SettingField > {
 
-    readonly top: ISettingTop
+    readonly top: ISettingTop;
 
-    readonly parent: ISettingTop
+    readonly parent: ISettingTop;
 }
 
 function generateSessionId(nodes: INode[]) {
@@ -248,7 +248,7 @@ export class SettingTop implements ISettingTop {
 }
 
 interface Purge {
-    purge(): void
+    purge: () => void;
 }
 
 function isPurge(obj: any): obj is Purge {

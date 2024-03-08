@@ -1,3 +1,12 @@
+## [0.0.3-beta.25](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.24...v0.0.3-beta.25) (2024-3-8)
+
+
+### Bug Fixes
+
+* state 初始化问题 ([5edbad1](https://git.weoa.com/mumblefe/letgo/commits/5edbad1d050761fd7385829f9d41d6f767365593))
+
+
+
 ## [0.0.3-beta.24](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.23...v0.0.3-beta.24) (2024-3-8)
 
 

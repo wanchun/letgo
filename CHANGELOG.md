@@ -1,3 +1,12 @@
+## [0.0.3-beta.24](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.23...v0.0.3-beta.24) (2024-3-8)
+
+
+### Bug Fixes
+
+* 修复ArraySetter未配置列时子项修改就丢失焦点 ([f8a4099](https://git.weoa.com/mumblefe/letgo/commits/f8a4099806c2491cc26eacb61eba449b3547b29c))
+
+
+
 ## [0.0.3-beta.23](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.22...v0.0.3-beta.23) (2024-3-8)
 
 

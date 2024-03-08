@@ -392,6 +392,19 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
                     'JsonSetter',
                 ],
                 supportVariable: false,
+                onChange(field: IPublicModelSettingField) {
+                    const top = field.top;
+                    const propsDefinition: Array<{ name: string; title: string }> = top.getPropValue('propsDefinition');
+                    const defaultProps = top.getExtraPropValue('defaultProps');
+                    const props: Record<string, any> = {};
+                    if (isObject(defaultProps)) {
+                        Object.keys(defaultProps).forEach((key) => {
+                            if (propsDefinition.find(item => item.name === key))
+                                props[key] = defaultProps[key as keyof typeof defaultProps];
+                        });
+                    }
+                    top.setExtraPropValue('defaultProps', props);
+                },
             },
             {
                 name: getConvertedExtraKey('defaultProps'),
@@ -434,19 +447,6 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
 
                         return preProps;
                     },
-                },
-                setValue(field: IPublicModelSettingField) {
-                    const top = field.top;
-                    const propsDefinition: Array<{ name: string; title: string }> = top.getPropValue('propsDefinition');
-                    const defaultProps = top.getExtraPropValue('defaultProps');
-                    const props: Record<string, any> = {};
-                    if (isObject(defaultProps)) {
-                        Object.keys(defaultProps).forEach((key) => {
-                            if (propsDefinition.find(item => item.name === key))
-                                props[key] = defaultProps[key as keyof typeof defaultProps];
-                        });
-                    }
-                    top.setExtraPropValue('defaultProps', props);
                 },
                 supportVariable: false,
             },

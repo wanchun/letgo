@@ -38,25 +38,40 @@ export default defineComponent({
             toggleExpend('code');
         };
 
-        const globalState = computed(() => {
-            const instances = Object.keys(props.designer.project.codesInstance).reduce((acc, cur) => {
-                if (isNil(props.searchText)) {
-                    acc[cur] = props.designer.project.codesInstance[cur].view;
-                }
-                else {
-                    if (cur.includes(props.searchText))
-                        acc[cur] = props.designer.project.codesInstance[cur].view;
-                }
-                return acc;
-            }, {} as Record<string, any>);
-            return {
-                ...instances,
-                ...props.designer.project.extraGlobalState,
-            };
+        const rootSchemaType = computed(() => {
+            return props.designer.currentDocument?.root.componentName;
         });
 
         const currentState = computed(() => {
             return props.designer.currentDocument?.state;
+        });
+
+        const globalState = computed(() => {
+            if (rootSchemaType.value === 'Page') {
+                const instances = Object.keys(props.designer.project.codesInstance).reduce((acc, cur) => {
+                    if (isNil(props.searchText)) {
+                        acc[cur] = props.designer.project.codesInstance[cur].view;
+                    }
+                    else {
+                        if (cur.includes(props.searchText))
+                            acc[cur] = props.designer.project.codesInstance[cur].view;
+                    }
+                    return acc;
+                }, {} as Record<string, any>);
+
+                return {
+                    ...instances,
+                    ...props.designer.project.extraGlobalState,
+
+                };
+            }
+            else if (rootSchemaType.value === 'Component') {
+                return {
+                    utils: props.designer.project.extraGlobalState.utils,
+                    props: currentState.value?.props,
+                };
+            }
+            return {};
         });
 
         const codesState = computed(() => {

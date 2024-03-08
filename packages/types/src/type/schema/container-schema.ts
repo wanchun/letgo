@@ -1,6 +1,5 @@
 import type {
     ICodeStruct,
-    IPublicTypeCompositeObject,
     IPublicTypeNodeSchema,
 } from '../..';
 
@@ -11,23 +10,19 @@ export interface IPublicTypeContainerSchema extends IPublicTypeNodeSchema {
     /**
      * 'Block' | 'Page' | 'Component';
      */
-    componentName: string
+    componentName: string;
     /**
      * 文件名称
      */
-    fileName: string
+    fileName: string;
 
     /**
      * 代码
      */
-    code: ICodeStruct
+    code: ICodeStruct;
 
     /**
      * 样式文件
      */
-    css?: string
-    /**
-     * 低代码业务组件默认属性
-     */
-    defaultProps?: IPublicTypeCompositeObject
+    css?: string;
 }

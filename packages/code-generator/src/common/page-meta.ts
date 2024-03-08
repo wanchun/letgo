@@ -20,5 +20,5 @@ export function formatPageTitle(title: string) {
 }
 
 export function genFileName(fileStruct: FileStruct) {
-    return `${fileStruct.filename}.jsx`;
+    return `${fileStruct.fileName}.jsx`;
 }

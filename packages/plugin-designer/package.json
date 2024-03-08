@@ -1,6 +1,7 @@
 {
     "name": "@webank/letgo-plugin-designer",
-    "version": "0.0.3-beta.10",
+    "type": "module",
+    "version": "0.0.3-beta.11",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -11,16 +12,13 @@
         "es",
         "lib"
     ],
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
     "peerDependencies": {
         "vue": "^3.3.9"
     },
     "dependencies": {
         "@fesjs/fes-design": "^0.8.27",
-        "@webank/letgo-designer": "^0.0.3-beta.10",
-        "@webank/letgo-engine-plugin": "^0.0.3-beta.8"
+        "@webank/letgo-designer": "^0.0.3-beta.11",
+        "@webank/letgo-engine-plugin": "^0.0.3-beta.9"
     },
     "publishConfig": {
         "access": "public"

@@ -365,10 +365,25 @@ export function genSlots(
     return slots;
 }
 
+function getClassName(rootSchema: IPublicTypeRootSchema) {
+    if (rootSchema.componentName === 'Component')
+        return 'letgo-component';
+
+    return 'letgo-page';
+}
+
+function genRootProps(rootSchema: IPublicTypeRootSchema) {
+    if (rootSchema.componentName === 'Page')
+        return compileProps(merge(rootSchema.defaultProps, rootSchema.props)).join(' ');
+
+    return '';
+}
+
 export function genPageJsx(ctx: Context, rootSchema: IPublicTypeRootSchema, componentRefs: Set<string>) {
     const nodeData = Array.isArray(rootSchema.children) ? rootSchema.children : [rootSchema.children];
+
     return `return () => {
-        return <div class="letgo-page" ${compileProps(merge(rootSchema.defaultProps, rootSchema.props)).join(' ')}>
+        return <div class="${getClassName(rootSchema)}" ${genRootProps(rootSchema)}>
             ${nodeData.map(item => compileNodeData(ctx, item, componentRefs)).join('\n')}
         </div>
     }`;

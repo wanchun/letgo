@@ -42,7 +42,7 @@ export class SettingsMain {
             _settings: undefined,
             _currentNode: undefined,
         });
-        markComputed(this, ['settings', 'currentNode', 'componentMeta', 'length']);
+        markComputed(this, ['componentMeta', 'length']);
 
         this.setupSelection(this.designer.currentSelection);
         // 监听选中变化

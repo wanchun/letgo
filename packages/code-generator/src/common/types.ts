@@ -2,10 +2,10 @@ import type { ICodeItem, IPublicTypeProjectSchema } from '@webank/letgo-types';
 
 export interface GenOptions {
     schema: IPublicTypeProjectSchema;
+    letgoDir?: string;
     outDir?: string;
-    pageDir?: string;
     extraPackageJSON?: Record<string, any>;
-    pageTransform?: (filesStruct: FileStruct[]) => FileStruct[];
+    transformJsx?: (filesStruct: FileStruct[]) => FileStruct[];
     globalCodeCallback?: {
         afterConfig?: (params: CallBackParam) => void;
     };
@@ -43,7 +43,7 @@ export enum PageFileType {
 export interface FileStruct {
     rawFileName: string;
     fileType: PageFileType;
-    filename: string;
+    fileName: string;
     routeName: string;
     pageTitle: string;
     afterImports: string[];
@@ -53,7 +53,7 @@ export interface FileStruct {
 }
 
 export interface GlobalStateCode {
-    filename: string;
+    fileName: string;
     content: string;
 }
 

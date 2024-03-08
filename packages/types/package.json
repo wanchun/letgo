@@ -1,6 +1,7 @@
 {
     "name": "@webank/letgo-types",
-    "version": "0.0.2-beta.5",
+    "type": "module",
+    "version": "0.0.3-beta.0",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -11,9 +12,6 @@
         "es",
         "lib"
     ],
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
     "dependencies": {
         "eventemitter3": "^4.0.0",
         "strict-event-emitter-types": "^2.0.0"

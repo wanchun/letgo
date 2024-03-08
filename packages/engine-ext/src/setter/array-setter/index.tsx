@@ -63,13 +63,16 @@ const ArraySetterView = defineComponent({
         const isObjectItem = isSetterConfig(itemSetter) && itemSetter.componentName === 'ObjectSetter';
 
         if (isObjectItem) {
-            const infiniteItem = (itemSetter as any).props?.items?.find?.((item: any) => item.setter?.props?.infinite);
-            if (infiniteItem) { // 存在循环时，将当前配置拷贝到需要循环的子项
-                infiniteItem.setter.props = {
-                    columns: cloneDeep(toRaw(props.columns)),
-                    itemSetter: cloneDeep(toRaw(props.itemSetter)),
-                };
-            }
+            // 存在循环时，将当前配置拷贝到需要循环的子项
+            ((itemSetter.props as any)?.items as IFieldConfig[])
+                ?.forEach((item: any) => {
+                    if (item.setter?.props?.infinite) {
+                        item.setter.props = {
+                            columns: cloneDeep(toRaw(props.columns)),
+                            itemSetter: cloneDeep(toRaw(props.itemSetter)),
+                        };
+                    }
+                });
         }
 
         const hasCol = isObjectItem && props.columns && props.columns.length;

@@ -1,4 +1,4 @@
-import type { ICodeItem, ICodeStruct, IEnumCodeType, IEnumResourceType } from '..';
+import type { ICodeDirectory, ICodeItem, ICodeStruct, IEnumCodeType, IEnumResourceType } from '..';
 
 export interface IPublicModelCode {
     codeStruct: ICodeStruct;
@@ -15,6 +15,8 @@ export interface IPublicModelCode {
     get code(): ICodeItem[];
 
     genCodeId: (type: IEnumCodeType | 'variable') => string;
+
+    addFolder: () => ICodeDirectory;
 
     addCodeItem: (item: ICodeItem) => void;
 

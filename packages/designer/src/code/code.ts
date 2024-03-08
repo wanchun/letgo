@@ -8,6 +8,7 @@ import {
 } from '@webank/letgo-common';
 import { IEnumCodeType } from '@webank/letgo-types';
 import type {
+    ICodeDirectory,
     ICodeItem,
     ICodeStruct,
     IEnumResourceType,
@@ -81,6 +82,10 @@ export class Code implements IPublicModelCode {
         return this.codeMap.get(id);
     };
 
+    getDirectory = (id: string) => {
+        return this.directories.find(item => item.id === id);
+    };
+
     hasCodeId = (id: string) => {
         return this.codeMap.has(id);
     };
@@ -116,7 +121,7 @@ export class Code implements IPublicModelCode {
         }
     };
 
-    genCodeId = (type: IEnumCodeType | 'variable'): string => {
+    genCodeId = (type: IEnumCodeType | 'variable' | 'folder'): string => {
         if (type === IEnumCodeType.TEMPORARY_STATE)
             type = 'variable';
 
@@ -134,6 +139,16 @@ export class Code implements IPublicModelCode {
 
     onCodeItemAdd = (func: (codeItem: ICodeItem) => void) => {
         return this.onEvent('codeItemAdd', func);
+    };
+
+    addFolder = () => {
+        const folder: ICodeDirectory = {
+            id: this.genCodeId('folder'),
+            code: [],
+        };
+        this.codeStruct.directories.push(folder);
+
+        return folder;
     };
 
     addCodeItemWithType = (type: IEnumCodeType, resourceType?: IEnumResourceType) => {

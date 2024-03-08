@@ -1,11 +1,12 @@
-import { Teleport, computed, defineComponent } from 'vue';
+import { Teleport, computed, defineComponent, ref, watch } from 'vue';
 import type { PropType } from 'vue';
 import type { Designer } from '@webank/letgo-designer';
 import { CodeList } from '@webank/letgo-components';
 import { innerGlobalVariable } from '@webank/letgo-common';
+import { isDirectory } from '@webank/letgo-types';
+import type { ICodeItemOrDirectory, IEnumCodeType } from '@webank/letgo-types';
 import { useOnClickSim } from '../use';
 import CodeEdit from './edit/code-edit';
-import useCode from './useCode';
 
 // TODO 拖拽交换 code 顺序
 export default defineComponent({
@@ -33,13 +34,24 @@ export default defineComponent({
             return currentDocument.value?.state.hasStateId(id) || designer.project.code.hasCodeId(id) || innerGlobalVariable.includes(id);
         };
 
-        const {
-            currentCodeItem,
-            changeCurrentCodeItem,
-        } = useCode();
+        const activeItem = ref<ICodeItemOrDirectory>();
+        const onSelectItem = (id: string, type?: IEnumCodeType) => {
+            if (id) {
+                if (type)
+                    activeItem.value = code.value.getCodeItem(id);
+                else
+                    activeItem.value = code.value.getDirectory(id);
+            }
+            else {
+                activeItem.value = null;
+            }
+        };
+        watch(code, () => {
+            activeItem.value = null;
+        });
 
         useOnClickSim(designer, () => {
-            currentCodeItem.value = null;
+            activeItem.value = null;
         });
 
         return () => {
@@ -49,16 +61,16 @@ export default defineComponent({
                         hasQuery
                         code={code.value}
                         hasCodeId={hasCodeId}
-                        currentCodeItem={currentCodeItem.value}
-                        onChangeCurrentCodeItem={changeCurrentCodeItem}
+                        currentValue={activeItem.value}
+                        onSelect={onSelectItem}
                         codesInstance={codesInstance.value}
                         searchText={props.searchText}
                     />
                     {
-                        props.rootEl && (
+                        props.rootEl && !isDirectory(activeItem.value) && (
                             <Teleport to={props.rootEl}>
-                                <div v-show={props.currentTab === 'code' && currentCodeItem.value} class="letgo-plg-code__detail">
-                                    <CodeEdit designer={props.designer} />
+                                <div v-show={props.currentTab === 'code' && activeItem.value} class="letgo-plg-code__detail">
+                                    <CodeEdit designer={props.designer} codeItem={activeItem.value} />
                                 </div>
                             </Teleport>
                         )

@@ -1,9 +1,9 @@
-import { computed, defineComponent, watch } from 'vue';
+import { computed, defineComponent } from 'vue';
 import type { PropType } from 'vue';
 import type { Designer } from '@webank/letgo-designer';
+import type { ICodeItem } from '@webank/letgo-types';
 import { IEnumCodeType } from '@webank/letgo-types';
 import { ComputedEdit, FunctionEdit, StateEdit } from '@webank/letgo-components';
-import useCode from '../useCode';
 import QueryEdit from './query-edit/query-edit';
 
 export default defineComponent({
@@ -11,6 +11,7 @@ export default defineComponent({
         designer: {
             type: Object as PropType<Designer>,
         },
+        codeItem: Object as PropType<ICodeItem>,
     },
     setup(props) {
         const currentDocument = computed(() => {
@@ -20,31 +21,16 @@ export default defineComponent({
             return currentDocument.value?.code;
         });
 
-        const {
-            currentCodeItem,
-            changeCurrentCodeItem,
-        } = useCode();
-
-        watch(code, () => {
-            if (currentCodeItem.value) {
-                const codeItem = code.value.getCodeItem(currentCodeItem.value.id);
-                if (codeItem)
-                    changeCurrentCodeItem(codeItem);
-                else
-                    changeCurrentCodeItem(null);
-            }
-        });
-
         return () => {
-            if (currentCodeItem.value) {
-                if (currentCodeItem.value.type === IEnumCodeType.TEMPORARY_STATE)
-                    return <StateEdit documentModel={props.designer.currentDocument} codeItem={currentCodeItem.value} changeContent={code.value?.changeCodeItemContent} />;
-                if (currentCodeItem.value.type === IEnumCodeType.JAVASCRIPT_COMPUTED)
-                    return <ComputedEdit documentModel={props.designer.currentDocument} codeItem={currentCodeItem.value} changeContent={code.value?.changeCodeItemContent} />;
-                if (currentCodeItem.value.type === IEnumCodeType.JAVASCRIPT_QUERY)
-                    return <QueryEdit documentModel={props.designer.currentDocument} codeItem={currentCodeItem.value} changeContent={code.value?.changeCodeItemContent} />;
-                if (currentCodeItem.value.type === IEnumCodeType.JAVASCRIPT_FUNCTION)
-                    return <FunctionEdit documentModel={props.designer.currentDocument} codeItem={currentCodeItem.value} changeContent={code.value?.changeCodeItemContent} />;
+            if (props.codeItem) {
+                if (props.codeItem.type === IEnumCodeType.TEMPORARY_STATE)
+                    return <StateEdit documentModel={props.designer.currentDocument} codeItem={props.codeItem} changeContent={code.value?.changeCodeItemContent} />;
+                if (props.codeItem.type === IEnumCodeType.JAVASCRIPT_COMPUTED)
+                    return <ComputedEdit documentModel={props.designer.currentDocument} codeItem={props.codeItem} changeContent={code.value?.changeCodeItemContent} />;
+                if (props.codeItem.type === IEnumCodeType.JAVASCRIPT_QUERY)
+                    return <QueryEdit documentModel={props.designer.currentDocument} codeItem={props.codeItem} changeContent={code.value?.changeCodeItemContent} />;
+                if (props.codeItem.type === IEnumCodeType.JAVASCRIPT_FUNCTION)
+                    return <FunctionEdit documentModel={props.designer.currentDocument} codeItem={props.codeItem} changeContent={code.value?.changeCodeItemContent} />;
             }
 
             return null;

@@ -1,8 +1,8 @@
-import { defineComponent, h } from 'vue';
+import { computed, defineComponent, h, reactive } from 'vue';
 import type { PropType } from 'vue';
 import { FDropdown, FScrollbar } from '@fesjs/fes-design';
 import { MoreOutlined, PlusOutlined } from '@fesjs/fes-design/icon';
-import type { ICodeItem, IPublicModelCode } from '@webank/letgo-types';
+import type { ICodeItem, ICodeItemOrDirectory, IPublicModelCode } from '@webank/letgo-types';
 import { IEnumCodeType, IEnumResourceType } from '@webank/letgo-types';
 import { cloneDeep, isNil } from 'lodash-es';
 import { ComputedIcon, FolderIcon, JsIcon, RestIcon, StateIcon } from '../icons';
@@ -13,6 +13,7 @@ const iconMap = {
     [IEnumCodeType.JAVASCRIPT_FUNCTION]: JsIcon,
     [IEnumCodeType.JAVASCRIPT_COMPUTED]: ComputedIcon,
     [IEnumCodeType.TEMPORARY_STATE]: StateIcon,
+    folder: FolderIcon,
 };
 
 const resourceTypeIcon = {
@@ -20,12 +21,42 @@ const resourceTypeIcon = {
     [IEnumResourceType.RESTQuery]: RestIcon,
 };
 
+const itemActionOptions = [
+    {
+        value: 'duplicate',
+        label: '复制',
+    },
+    {
+        value: 'rename',
+        label: '重命名',
+    },
+    {
+        value: 'delete',
+        label: () => h('span', {
+            style: 'color: #ff4d4f',
+        }, '删除'),
+    },
+];
+
+const folderActionOptions = [
+    {
+        value: 'unground',
+        label: '解除归类',
+    },
+    {
+        value: 'delete',
+        label: () => h('span', {
+            style: 'color: #ff4d4f',
+        }, '删除'),
+    },
+];
+
 // TODO 拖拽交换 code 顺序
 export const CodeList = defineComponent({
     name: 'CodeList',
     props: {
-        currentCodeItem: Object as PropType<ICodeItem>,
-        onChangeCurrentCodeItem: Function as PropType<((codeItem: ICodeItem) => void)>,
+        currentValue: Object as PropType<ICodeItemOrDirectory>,
+        onSelect: Function as PropType<((id?: string, type?: IEnumCodeType) => void)>,
         code: Object as PropType<IPublicModelCode>,
         codesInstance: {
             type: Object as PropType<Record<string, any>>,
@@ -40,7 +71,7 @@ export const CodeList = defineComponent({
         searchText: String,
     },
     setup(props) {
-        const options = [
+        const createdTypeOptions = [
             props.hasQuery && {
                 value: IEnumResourceType.RESTQuery,
                 codeType: IEnumCodeType.JAVASCRIPT_QUERY,
@@ -62,34 +93,12 @@ export const CodeList = defineComponent({
                 label: '变量',
                 icon: () => h(iconMap[IEnumCodeType.TEMPORARY_STATE]),
             },
+            {
+                value: 'folder',
+                label: '文件夹',
+                icon: () => h(iconMap.folder),
+            },
         ].filter(Boolean);
-
-        const commonOptions = [
-            {
-                value: 'duplicate',
-                label: '复制',
-            },
-            {
-                value: 'delete',
-                label: () => h('span', {
-                    style: 'color: #ff4d4f',
-                }, '删除'),
-            },
-        ];
-
-        const onCommonAction = (value: string, item: ICodeItem) => {
-            if (value === 'duplicate') {
-                const newItem = cloneDeep(item);
-                newItem.id = props.code.genCodeId(item.type);
-                props.code?.addCodeItem(newItem);
-                props.onChangeCurrentCodeItem(newItem);
-            }
-            else if (value === 'delete') {
-                props.code?.deleteCodeItem(item.id);
-                if (props.currentCodeItem?.id === item.id)
-                    props.onChangeCurrentCodeItem(null);
-            }
-        };
 
         const changeCodeId = (id: string, preId: string) => {
             props.code?.changeCodeId(id, preId);
@@ -105,17 +114,35 @@ export const CodeList = defineComponent({
         };
 
         const renderFolders = () => {
-            return props.code?.directories.map((item: any) => {
+            return props.code?.directories.map((item) => {
                 return (
                     <li class="letgo-logic-code__item">
                         <FolderIcon />
-                        <span class="letgo-logic-code__item_id">{item.name}</span>
-                        <FDropdown appendToContainer={false} trigger="click" placement="bottom-end" options={commonOptions}>
+                        <span class="letgo-logic-code__item_id">{item.id}</span>
+                        <FDropdown appendToContainer={false} trigger="click" placement="bottom-end" options={folderActionOptions}>
                             <MoreOutlined class="letgo-logic-code__icon-more" />
                         </FDropdown>
                     </li>
                 );
             });
+        };
+
+        const codeItemsEditing = reactive<Record<string, boolean>>({});
+        const onCodeItemAction = (value: string, item: ICodeItem) => {
+            if (value === 'duplicate') {
+                const newItem = cloneDeep(item);
+                newItem.id = props.code.genCodeId(item.type);
+                props.code.addCodeItem(newItem);
+                props.onSelect(newItem.id, newItem.type);
+            }
+            else if (value === 'rename') {
+                codeItemsEditing[item.id] = true;
+            }
+            else if (value === 'delete') {
+                props.code.deleteCodeItem(item.id);
+                if (props.currentValue?.id === item.id)
+                    props.onSelect(null);
+            }
         };
 
         const renderCodeIcon = (item: ICodeItem) => {
@@ -126,15 +153,25 @@ export const CodeList = defineComponent({
                 return h(iconMap[item.type]);
         };
 
-        const renderCode = () => {
-            return props.code?.code.filter((item) => {
+        const onSelectCodeItem = (codeItem: ICodeItem) => {
+            if (props.currentValue?.id === codeItem.id)
+                codeItemsEditing[codeItem.id] = true;
+            else
+                props.onSelect(codeItem.id, codeItem.type);
+        };
+        const innerCodeItems = computed<ICodeItem[]>(() => {
+            return props.code.code.filter((item) => {
                 return !isNil(props.searchText) ? item.id.includes(props.searchText) : true;
-            }).map((item: any) => {
+            });
+        });
+
+        const renderCode = () => {
+            return innerCodeItems.value.map((item) => {
                 return (
-                    <div onClick={() => props.onChangeCurrentCodeItem(item)} class={['letgo-logic-code__item', props.currentCodeItem?.id === item.id ? 'letgo-logic-code__item--active' : '']}>
+                    <div onClick={() => onSelectCodeItem(item)} class={['letgo-logic-code__item', props.currentValue?.id === item.id ? 'letgo-logic-code__item--active' : '']}>
                         {renderCodeIcon(item)}
-                        <CodeId id={item.id} hasCodeId={props.hasCodeId} onChange={changeCodeId} />
-                        <FDropdown onClick={value => onCommonAction(value, item)} appendToContainer={false} trigger="click" placement="bottom-end" options={commonOptions}>
+                        <CodeId id={item.id} v-model:isEditing={codeItemsEditing[item.id]} hasCodeId={props.hasCodeId} onChange={changeCodeId} />
+                        <FDropdown onClick={value => onCodeItemAction(value, item)} appendToContainer={false} trigger="click" placement="bottom-end" options={itemActionOptions}>
                             <MoreOutlined class="letgo-logic-code__icon-more" />
                         </FDropdown>
                     </div>
@@ -143,20 +180,27 @@ export const CodeList = defineComponent({
         };
 
         const addCodeItem = (val: string) => {
-            const option = options.find(item => item.value === val);
-            let item;
-            if (option.codeType)
-                item = props.code?.addCodeItemWithType(option.codeType, val as IEnumResourceType);
-            else
-                item = props.code?.addCodeItemWithType(val as IEnumCodeType);
-            props.onChangeCurrentCodeItem(item);
+            const option = createdTypeOptions.find(item => item.value === val);
+
+            if (option.codeType) {
+                const item = props.code.addCodeItemWithType(option.codeType, val as IEnumResourceType);
+                props.onSelect(item.id, item.type);
+            }
+            else if (val === 'folder') {
+                const item = props.code.addFolder();
+                props.onSelect(item.id);
+            }
+            else {
+                const item = props.code.addCodeItemWithType(val as IEnumCodeType);
+                props.onSelect(item.id, item.type);
+            }
         };
 
         return () => {
             return (
                 <div class="letgo-logic-code">
                     <div class="letgo-logic-code__header">
-                        <FDropdown trigger="click" onClick={addCodeItem} placement="bottom-start" options={options}>
+                        <FDropdown trigger="click" onClick={addCodeItem} placement="bottom-start" options={createdTypeOptions}>
                             <PlusOutlined class="letgo-logic-code__header-icon" />
                         </FDropdown>
                     </div>

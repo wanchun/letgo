@@ -1,7 +1,7 @@
 {
     "name": "@webank/letgo-plugin-components",
     "type": "module",
-    "version": "0.0.3-beta.11",
+    "version": "0.0.3-beta.12",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -18,10 +18,10 @@
     "dependencies": {
         "@fesjs/fes-design": "^0.8.27",
         "@icon-park/vue-next": "^1.4.2",
-        "@webank/letgo-designer": "^0.0.3-beta.10",
-        "@webank/letgo-editor-core": "^0.0.3-beta.5",
-        "@webank/letgo-engine-plugin": "^0.0.3-beta.8",
-        "@webank/letgo-types": "^0.0.2-beta.5"
+        "@webank/letgo-designer": "^0.0.3-beta.11",
+        "@webank/letgo-editor-core": "^0.0.3-beta.6",
+        "@webank/letgo-engine-plugin": "^0.0.3-beta.9",
+        "@webank/letgo-types": "^0.0.3-beta.0"
     },
     "publishConfig": {
         "access": "public"

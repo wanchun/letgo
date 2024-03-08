@@ -1,3 +1,26 @@
+## [0.0.3-beta.23](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.22...v0.0.3-beta.23) (2024-3-8)
+
+
+### Bug Fixes
+
+* ArraySetter支持多个字段可结构循环 ([8991a7f](https://git.weoa.com/mumblefe/letgo/commits/8991a7f826b73fdcc1075b16077444a968ad2a20))
+* props 数组里面包含空 JSFunction 导致出码异常问题 ([70ac343](https://git.weoa.com/mumblefe/letgo/commits/70ac343ad8fcc9f56afd4597d67f100ead2e555c))
+* 低代码组件配置时属性结构发生变化,默认值也要变更 ([30afea6](https://git.weoa.com/mumblefe/letgo/commits/30afea6780459e9bd410d13baee16300baac5c0d))
+* 低代码组件配置时属性结构发生变化,默认值也要变更 ([4d2a4d8](https://git.weoa.com/mumblefe/letgo/commits/4d2a4d839f4575107fec6cc13522321ec5a1bd91))
+* 修复 props 代码提示，隐藏低代码组件的全局逻辑 ([3ae2402](https://git.weoa.com/mumblefe/letgo/commits/3ae24020d35b7c65b8baabbb347a654249fd8df6))
+* 修复 utils 编译问题 ([15114f2](https://git.weoa.com/mumblefe/letgo/commits/15114f223e0087ab58c41f85f926124ba1d8e21f))
+* 修复运行时实例丢失问题 ([0dbb2bf](https://git.weoa.com/mumblefe/letgo/commits/0dbb2bfe0a4bd03d924dc121b9df5ddb8c1151c3))
+* 更改组件 title 配置方式 ([b075326](https://git.weoa.com/mumblefe/letgo/commits/b07532651a092010b1ec68329bf94e788f4807f2))
+* 隐藏事件的执行条件,以后有需求在补充 ([f5cd296](https://git.weoa.com/mumblefe/letgo/commits/f5cd2960d4e23190c682b367dd4e2484cc2c975c))
+
+
+### Features
+
+* 添加组件编译 ([4493094](https://git.weoa.com/mumblefe/letgo/commits/44930949d0435d2e8ad4ac4fee9b54aaf4b8e4f8))
+* 逻辑模块添加复制能力 ([725966b](https://git.weoa.com/mumblefe/letgo/commits/725966bf7f2bb2ec2d9363f20eef33139d618d00))
+
+
+
 ## [0.0.3-beta.22](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.21...v0.0.3-beta.22) (2024-03-07)
 
 

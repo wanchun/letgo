@@ -126,7 +126,13 @@ const ArraySetterView = defineComponent({
                 display: 'plain',
                 extraProps: {
                     defaultValue: get(value, name),
-                    setValue: onItemChange,
+                    setValue: (target) => {
+                        isInnerChange = true;
+                        onItemChange(target);
+                        setTimeout(() => {
+                            isInnerChange = false;
+                        }, 0);
+                    },
                 },
             });
             let cols: SettingField[];

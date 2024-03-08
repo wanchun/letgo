@@ -22,10 +22,10 @@ export function exportZip(code: Record<string, any>) {
         type: 'blob',
     }).then((content) => {
         // 下载的文件名
-        const filename = 'letgo-code.zip';
+        const fileName = 'letgo-code.zip';
         // 创建隐藏的可下载链接
         const eleLink = document.createElement('a');
-        eleLink.download = filename;
+        eleLink.download = fileName;
         eleLink.style.display = 'none';
         // 下载内容转变成blob地址
         eleLink.href = URL.createObjectURL(content);

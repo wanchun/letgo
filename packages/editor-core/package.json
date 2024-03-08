@@ -1,5 +1,6 @@
 {
     "name": "@webank/letgo-editor-core",
+    "type": "module",
     "version": "0.0.3-beta.5",
     "description": "",
     "author": "",

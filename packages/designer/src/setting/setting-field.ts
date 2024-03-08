@@ -233,6 +233,15 @@ export class SettingField implements ISettingField {
                 this,
             );
         }
+
+        if (this.extraProps.onChange) {
+            this.nodes.forEach((node) => {
+                node.onPropChange(({ prop }) => {
+                    if (prop.path.join('.') === this.path.join('.'))
+                        this.extraProps.onChange(this, this.getValue());
+                });
+            });
+        }
     }
 
     private initItems(

@@ -2,6 +2,7 @@ import type {
     ICodeItem,
     ICodeStruct,
     IEventHandler,
+    IPublicTypeProjectSchema,
 } from '@webank/letgo-types';
 import { isSyntaxError, isExpression as rawIsExpression, replaceFunctionName, sortState } from '@webank/letgo-common';
 import {
@@ -26,6 +27,10 @@ export function isExpression(ctx: Context, code: string) {
     return rawIsExpression(code, (name: string) => {
         return ctx.codes.has(name) || ctx.refs?.has(name) || ctx.scope?.includes(name);
     });
+}
+
+export function findRootSchema(schema: IPublicTypeProjectSchema, fileName: string) {
+    return schema.componentsTree.find(item => item.fileName === fileName);
 }
 
 export function genSingleImport(imports: ImportSource[]) {
@@ -109,8 +114,8 @@ export function genImportCode(imports: ImportSource[]) {
         })
         .sort(
             (
-                a: { source: string, priority: number },
-                b: { source: string, priority: number },
+                a: { source: string; priority: number },
+                b: { source: string; priority: number },
             ) => {
                 return a.priority - b.priority;
             },
@@ -130,7 +135,7 @@ export function genCodeMap(code: ICodeStruct, codeMap: Map<string, ICodeItem> = 
         code.code?.forEach((item) => {
             codeMap.set(item.id, item);
         });
-    
+
         code.directories?.forEach((directory) => {
             directory.code.forEach((item) => {
                 codeMap.set(item.id, item);
@@ -165,7 +170,7 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct)
     if (!options)
         return;
 
-    const { outDir } = options;
+    const { letgoDir } = options;
     const codeMap = genCodeMap(codeStruct);
     const sortResult = sortState(codeMap);
     const codeStr: string[] = [];
@@ -176,7 +181,7 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct)
             importSourceMap.set('useTemporaryState', {
                 imported: 'useTemporaryState',
                 type: ImportType.ImportSpecifier,
-                source: relative(filePath, `${outDir}/useTemporaryState`),
+                source: relative(filePath, `${letgoDir}/useTemporaryState`),
             });
             codeStr.push(`
     const ${item.id} = useTemporaryState({
@@ -189,7 +194,7 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct)
             importSourceMap.set('useComputed', {
                 imported: 'useComputed',
                 type: ImportType.ImportSpecifier,
-                source: relative(filePath, `${outDir}/useComputed`),
+                source: relative(filePath, `${letgoDir}/useComputed`),
             });
             codeStr.push(`
     const ${item.id} = useComputed({
@@ -207,12 +212,12 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct)
             importSourceMap.set('useJSQuery', {
                 imported: 'useJSQuery',
                 type: ImportType.ImportSpecifier,
-                source: relative(filePath, `${outDir}/useJSQuery`),
+                source: relative(filePath, `${letgoDir}/useJSQuery`),
             });
             if (isRestQueryResource(item)) {
                 importSourceMap.set('letgoRequest', {
                     type: ImportType.ImportSpecifier,
-                    source: relative(filePath, `${outDir}/letgoRequest`),
+                    source: relative(filePath, `${letgoDir}/letgoRequest`),
                     imported: 'letgoRequest',
                 });
                 const api = isSyntaxError(item.api) ? JSON.stringify(item.api) : item.api;

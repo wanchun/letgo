@@ -1,4 +1,5 @@
 import { json } from '@codemirror/lang-json';
+import JSON5 from 'json5';
 import { CodeMirror } from '@webank/letgo-components';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { isEqual, isNil, isUndefined } from 'lodash-es';
@@ -24,16 +25,16 @@ const JsonSetterView = defineComponent({
                 ? props.defaultValue
                 : props.value;
 
-            if (!isNil(cache) && isEqual(val, JSON.parse(cache)))
+            if (!isNil(cache) && isEqual(val, JSON5.parse(cache)))
                 return cache;
 
-            return JSON.stringify(val, null, 2);
+            return JSON5.stringify(val, null, 2);
         });
 
         const onChange = (val: string) => {
             try {
                 cache = val;
-                props.onChange(JSON.parse(val));
+                props.onChange(JSON5.parse(val));
             }
             catch (e) {}
         };

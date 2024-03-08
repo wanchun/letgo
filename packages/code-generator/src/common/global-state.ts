@@ -75,7 +75,7 @@ export function compilerUtils(utils: IPublicTypeUtilsMap) {
 }
 
 export function genGlobalStateCode(ctx: Context, fileTree: FileTree, options: GenOptions): void {
-    const { schema, outDir, globalCodeCallback } = options;
+    const { schema, letgoDir, globalCodeCallback } = options;
     globalStateKeys.length = 0;
     hasGlobal = !!(schema.code || schema.config || schema.utils);
     if (!hasGlobal)
@@ -111,7 +111,7 @@ export function genGlobalStateCode(ctx: Context, fileTree: FileTree, options: Ge
     }
 
     if (schema.code) {
-        const _result = genCode(ctx, `${outDir}/${GLOBAL_STATE_FILE_NAME}.js`, schema.code);
+        const _result = genCode(ctx, `${letgoDir}/${GLOBAL_STATE_FILE_NAME}.js`, schema.code);
         result.import.push(..._result.importSources);
         result.code += _result.code;
         result.export.push(...genGlobalStateKeys(schema.code));
@@ -123,11 +123,11 @@ export function genGlobalStateCode(ctx: Context, fileTree: FileTree, options: Ge
 
     globalStateKeys.push(...result.export);
 
-    set(fileTree, `${outDir}/${GLOBAL_STATE_FILE_NAME}.js`.split('/'), tmp);
+    set(fileTree, `${letgoDir}/${GLOBAL_STATE_FILE_NAME}.js`.split('/'), tmp);
 }
 
 export function applyGlobalState(filePath: string): SetupCode {
-    const { outDir } = getOptions();
+    const { letgoDir } = getOptions();
     if (!getGlobalFlag()) {
         return {
             importSources: [],
@@ -138,7 +138,7 @@ export function applyGlobalState(filePath: string): SetupCode {
         importSources: [{
             imported: 'useSharedLetgoGlobal',
             type: ImportType.ImportSpecifier,
-            source: relative(filePath, `${outDir}/${GLOBAL_STATE_FILE_NAME}`),
+            source: relative(filePath, `${letgoDir}/${GLOBAL_STATE_FILE_NAME}`),
         }],
         code: `const {${getGlobalContextKey().join(', ')}} = useSharedLetgoGlobal()`,
     };

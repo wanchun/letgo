@@ -1,5 +1,6 @@
 {
     "name": "@webank/letgo-designer",
+    "type": "module",
     "version": "0.0.3-beta.10",
     "description": "",
     "author": "",

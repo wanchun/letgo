@@ -1,18 +1,20 @@
 import type { IPublicTypeComponentRecord } from '..';
 
 export interface IPublicModelState {
-    componentsInstance: Record<string, any>
+    props: Record<string, any>;
 
-    codesInstance: Record<string, any>
+    componentsInstance: Record<string, any>;
 
-    hasStateId(id: string): any
+    codesInstance: Record<string, any>;
 
-    triggerAfterSimulatorReady(fn: () => void): void
+    hasStateId: (id: string) => any;
 
-    getInstances(instances: IPublicTypeComponentRecord[]): Record<string, any>[]
+    triggerAfterSimulatorReady: (fn: () => void) => void;
 
-    getCompScope(ref: string): Record<string, any>
+    getInstances: (instances: IPublicTypeComponentRecord[]) => Record<string, any>[];
 
-    changeNodeRef(ref: string, preRef: string): void
+    getCompScope: (ref: string) => Record<string, any>;
+
+    changeNodeRef: (ref: string, preRef: string) => void;
 
 }

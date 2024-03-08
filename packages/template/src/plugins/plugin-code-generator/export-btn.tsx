@@ -1,10 +1,11 @@
 import { defineComponent } from 'vue';
 import { material, project } from '@webank/letgo-engine';
-import type { IPublicTypePackage } from '@webank/letgo-types';
+import type { IPublicTypePackage, IPublicTypeProjectSchema } from '@webank/letgo-types';
 import {
     ImportType,
     exportZip,
-    gen,
+    genLowcodeComponent,
+    genProject,
 } from '@webank/letgo-code-generator';
 import { IPublicEnumTransformStage, isProCodeComponentType } from '@webank/letgo-types';
 import { FButton, FMessage } from '@fesjs/fes-design';
@@ -14,7 +15,7 @@ import Mustache from 'mustache';
 import codeTemplate from './template';
 
 interface Template {
-    [key: string]: string | Template
+    [key: string]: string | Template;
 }
 
 function transform(codeTemplate: Template, params?: Record<string, any>) {
@@ -25,6 +26,72 @@ function transform(codeTemplate: Template, params?: Record<string, any>) {
         else if (isObject(value))
             transform(value, params); // 递归遍历嵌套对象
     });
+}
+
+function genProjectCodes(schema: IPublicTypeProjectSchema) {
+    const fileTree = genProject({
+        schema,
+        transformJsx: (filesStruct) => {
+            return filesStruct.map((item) => {
+                item.importSources.unshift({
+                    imported: 'defineRouteMeta',
+                    type: ImportType.ImportSpecifier,
+                    source: '@fesjs/fes',
+                });
+                item.afterImports.push(`defineRouteMeta({
+                    name: '${item.routeName}',
+                    title: '${item.pageTitle}',
+                })`);
+                return item;
+            });
+        },
+        extraPackageJSON: {
+            scripts: {
+                'build:test': 'FES_ENV=test fes build',
+                'build:prod': 'FES_ENV=prod fes build',
+                'analyze': 'ANALYZE=1 fes build',
+                'dev': 'fes dev',
+                'lint': 'eslint .',
+                'lint:fix': 'eslint . --fix',
+            },
+            dependencies: {
+                '@qlin/request': '0.1.8',
+                'core-js': '3.33.0',
+                '@fesjs/builder-vite': '3.0.2',
+                '@fesjs/fes': '3.1.4',
+                '@fesjs/plugin-model': '3.0.1',
+                '@fesjs/plugin-qiankun': '3.1.1',
+                '@webank/fes-plugin-pmbank-um': '3.1.1',
+                '@fesjs/plugin-request': '4.0.0-beta.5',
+                '@fesjs/fes-design': '0.8.24',
+                'vue': '3.3.4',
+                '@webank/letgo-components': '0.0.2-beta.3',
+            },
+            devDependencies: {
+                '@webank/eslint-config-vue': '2.0.7',
+                'eslint': '8.47.0',
+                'typescript': '5.1.3',
+            },
+        },
+    });
+
+    const customFiles = transform(codeTemplate, {
+        IS_MICRO: !isNil(schema.config.mainAppState),
+    });
+
+    return merge({}, fileTree, customFiles);
+}
+
+function isLowcodeComponent(schema: IPublicTypeProjectSchema) {
+    return schema.componentsTree.some(item => item.componentName === 'Component');
+}
+
+function _genLowcodeComponent(schema: IPublicTypeProjectSchema) {
+    const fileTree = genLowcodeComponent({
+        schema,
+    });
+
+    return fileTree;
 }
 
 export default defineComponent({
@@ -49,59 +116,10 @@ export default defineComponent({
             }
             schema.packages = usedPackages;
 
-            const fileTree = gen({
-                schema,
-                pageTransform: (filesStruct) => {
-                    return filesStruct.map((item) => {
-                        item.importSources.unshift({
-                            imported: 'defineRouteMeta',
-                            type: ImportType.ImportSpecifier,
-                            source: '@fesjs/fes',
-                        });
-                        item.afterImports.push(`defineRouteMeta({
-                            name: '${item.routeName}',
-                            title: '${item.pageTitle}',
-                        })`);
-                        return item;
-                    });
-                },
-                extraPackageJSON: {
-                    scripts: {
-                        'build:test': 'FES_ENV=test fes build',
-                        'build:prod': 'FES_ENV=prod fes build',
-                        'analyze': 'ANALYZE=1 fes build',
-                        'dev': 'fes dev',
-                        'lint': 'eslint .',
-                        'lint:fix': 'eslint . --fix',
-                    },
-                    dependencies: {
-                        '@qlin/request': '0.1.8',
-                        'core-js': '3.33.0',
-                        '@fesjs/builder-vite': '3.0.2',
-                        '@fesjs/fes': '3.1.4',
-                        '@fesjs/plugin-model': '3.0.1',
-                        '@fesjs/plugin-qiankun': '3.1.1',
-                        '@webank/fes-plugin-pmbank-um': '3.1.1',
-                        '@fesjs/plugin-request': '4.0.0-beta.5',
-                        '@fesjs/fes-design': '0.8.24',
-                        'vue': '3.3.4',
-                        '@webank/letgo-components': '0.0.2-beta.3',
-                    },
-                    devDependencies: {
-                        '@webank/eslint-config-vue': '2.0.7',
-                        'eslint': '8.47.0',
-                        'typescript': '5.1.3',
-                    },
-                },
-            });
-
-            const customFiles = transform(codeTemplate, {
-                IS_MICRO: !isNil(schema.config.mainAppState),
-            });
-
-            const currentContent = merge({}, fileTree, customFiles);
-
-            exportZip(currentContent);
+            if (isLowcodeComponent(schema))
+                exportZip(_genLowcodeComponent(schema));
+            else
+                exportZip(genProjectCodes(schema));
         };
         return () => {
             return (

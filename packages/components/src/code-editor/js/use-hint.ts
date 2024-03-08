@@ -128,9 +128,9 @@ export function hintPlugin(hintPaths: ComputedRef<HintPathType[]>) {
 }
 
 export function useScopeVariables(props: {
-    scopeVariables?: Record<string, any>
-    compRef?: string
-    documentModel?: IPublicModelDocumentModel
+    scopeVariables?: Record<string, any>;
+    compRef?: string;
+    documentModel?: IPublicModelDocumentModel;
 }) {
     const innerScopeVariables = computed(() => {
         if (props.scopeVariables) {
@@ -143,6 +143,7 @@ export function useScopeVariables(props: {
             return {
                 codesInstance: Object.assign({}, state?.codesInstance, currentDocument.project.codesInstance),
                 componentsInstance: state?.componentsInstance,
+                props: state?.props,
                 scope,
                 ...currentDocument.project.extraGlobalState,
             };

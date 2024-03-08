@@ -1,5 +1,6 @@
 {
     "name": "@webank/letgo-plugin-components",
+    "type": "module",
     "version": "0.0.3-beta.11",
     "description": "",
     "author": "",
@@ -11,9 +12,6 @@
         "es",
         "lib"
     ],
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
     "peerDependencies": {
         "vue": "^3.3.9"
     },

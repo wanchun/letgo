@@ -1,5 +1,6 @@
 {
     "name": "@webank/letgo-code-generator",
+    "type": "module",
     "version": "0.0.3-beta.12",
     "description": "letgo code generator",
     "author": "",

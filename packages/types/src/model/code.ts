@@ -28,6 +28,8 @@ export interface IPublicModelCode {
 
     addCodeItem: (item: ICodeItem) => void;
 
+    addCodeItemInDirectory: (directoryId: string, type: IEnumCodeType, resourceType?: IEnumResourceType) => ICodeItem;
+
     addCodeItemWithType: (type: IEnumCodeType, resourceType?: IEnumResourceType) => ICodeItem;
 
     onCodeItemAdd: (func: (codeItem: ICodeItem) => void) => () => void;

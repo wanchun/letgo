@@ -8,7 +8,7 @@ import type {
 } from '@webank/letgo-types';
 
 export interface CodeBaseEdit {
-    addCode(id: string, resourceType?: IEnumResourceType): ICodeItem
+    addCode: (id: string, resourceType?: IEnumResourceType) => ICodeItem;
 }
 
 class TemporaryStateEdit implements CodeBaseEdit {

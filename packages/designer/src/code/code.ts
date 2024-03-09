@@ -173,6 +173,20 @@ export class Code implements IPublicModelCode {
         return folder;
     };
 
+    addCodeItemInDirectory = (directoryId: string, type: IEnumCodeType, resourceType?: IEnumResourceType) => {
+        const directory = this.getDirectory(directoryId);
+        const id = this.genCodeId(type);
+        const item = codeBaseEdit[type].addCode(id, resourceType);
+
+        directory.code.push(item);
+        // 取响应式变量
+        const newCodeItem = directory.code.at(-1);
+        this.codeMap.set(id, newCodeItem);
+        this.emitCodeItemAdd(newCodeItem);
+
+        return item;
+    };
+
     addCodeItemWithType = (type: IEnumCodeType, resourceType?: IEnumResourceType) => {
         const id = this.genCodeId(type);
         const item = codeBaseEdit[type].addCode(id, resourceType);

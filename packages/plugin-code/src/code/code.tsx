@@ -3,12 +3,11 @@ import type { PropType } from 'vue';
 import type { Designer } from '@webank/letgo-designer';
 import { CodeList } from '@webank/letgo-components';
 import { innerGlobalVariable } from '@webank/letgo-common';
-import { isDirectory } from '@webank/letgo-types';
+import { IEnumCodeType, isDirectory } from '@webank/letgo-types';
 import type { ICodeItemOrDirectory } from '@webank/letgo-types';
 import { useOnClickSim } from '../use';
 import CodeEdit from './edit/code-edit';
 
-// TODO 拖拽交换 code 顺序
 export default defineComponent({
     props: {
         designer: {
@@ -53,7 +52,7 @@ export default defineComponent({
             return (
                 <div class="letgo-plg-code__edit">
                     <CodeList
-                        hasQuery
+                        extendActions={[IEnumCodeType.JAVASCRIPT_QUERY]}
                         code={code.value}
                         hasCodeId={hasCodeId}
                         activeId={activeItem.value?.id}

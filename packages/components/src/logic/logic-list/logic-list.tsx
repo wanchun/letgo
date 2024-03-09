@@ -1,5 +1,5 @@
 import type { PropType } from 'vue';
-import { computed, defineComponent, h, reactive } from 'vue';
+import { computed, defineComponent, h, reactive, ref } from 'vue';
 import type { TreeProps } from '@fesjs/fes-design';
 import { FTree } from '@fesjs/fes-design';
 
@@ -35,13 +35,16 @@ function findSiblingsAndIndex(node: TreeNode, nodes: TreeNode[]): [TreeNode[], n
 /**
  * TODO
  * 1. 编辑 CodeId
- * 2. 文件夹新增逻辑
- * 3. 退拽
+ * 2. 退拽
  */
 
 export const LogicList = defineComponent({
     props: {
         activeId: String,
+        extendActions: {
+            type: Array as PropType<string[]>,
+            default: (): string[] => [],
+        },
         onSelect: Function as PropType<((id?: string) => void)>,
         code: Object as PropType<IPublicModelCode>,
         searchText: String,
@@ -56,6 +59,12 @@ export const LogicList = defineComponent({
             const ids = typeof id === 'string' ? [id] : id;
             if (ids.includes(props.activeId))
                 props.onSelect(null);
+        };
+
+        const expandedKeys = ref<string[]>([]);
+        const addExpanded = (id: string) => {
+            if (!expandedKeys.value.includes(id))
+                expandedKeys.value.push(id);
         };
 
         const onSelectCodeItemOrDirectory = (id: string) => {
@@ -88,19 +97,28 @@ export const LogicList = defineComponent({
 
         function formatCodeStruct(code: IPublicModelCode) {
             const treeData: TreeNode[] = code.directories.map((item) => {
+                const codeItems = item.code.filter((codeItem) => {
+                    return !isNil(props.searchText) ? codeItem.id.includes(props.searchText) : true;
+                }).map((codeItem) => {
+                    return formatCodeItem(codeItem, code);
+                });
+
+                // REFACTOR computed 内部不应该有副作用
+                if (!isNil(props.searchText) && codeItems.length && !expandedKeys.value.includes(item.id))
+                    expandedKeys.value.push(item.id);
+
                 return {
                     label: item.id,
                     value: item.id,
-                    children: item.code.filter((item) => {
-                        return !isNil(props.searchText) ? item.id.includes(props.searchText) : true;
-                    }).map((codeItem) => {
-                        return formatCodeItem(codeItem, code);
-                    }),
+                    children: codeItems,
                     prefix: () => h(FolderIcon),
                     suffix: () => h(DirectoryActions, {
                         id: item.id,
                         code,
                         onRename,
+                        extendActions: props.extendActions,
+                        onAdd: addExpanded,
+                        onSelect: onSelectCodeItemOrDirectory,
                         onDelete,
                     }),
                 };
@@ -156,12 +174,13 @@ export const LogicList = defineComponent({
             return (
                 <div class="letgo-logic-list">
                     <FTree
+                        v-model:expandedKeys={expandedKeys.value}
                         data={treeData.value}
-                        onSelect={onTreeSelect}
                         cancelable={false}
                         selectedKeys={[props.activeId]}
                         draggable
                         onDrop={onDrop}
+                        onSelect={onTreeSelect}
                     />
                 </div>
             );

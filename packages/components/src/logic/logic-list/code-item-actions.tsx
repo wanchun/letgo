@@ -50,7 +50,7 @@ export const CodeItemActions = defineComponent({
 
         return () => {
             return (
-                <FDropdown onClick={value => onCodeItemAction(value)} trigger="click" placement="bottom-end" options={ItemActionOptions}>
+                <FDropdown onClick={value => onCodeItemAction(value)} trigger="click" appendToContainer={false} placement="bottom-end" options={ItemActionOptions}>
                     <MoreOutlined class="letgo-logic-code__icon-more" />
                 </FDropdown>
             );

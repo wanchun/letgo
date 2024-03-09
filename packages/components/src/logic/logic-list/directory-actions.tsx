@@ -1,9 +1,10 @@
 import type { PropType } from 'vue';
-import { computed, defineComponent, h } from 'vue';
+import { Fragment, computed, defineComponent, h } from 'vue';
 import type { DropdownProps } from '@fesjs/fes-design';
 import { FDropdown, FModal } from '@fesjs/fes-design';
 import { MoreOutlined } from '@fesjs/fes-design/icon';
-import type { IPublicModelCode } from '@webank/letgo-types';
+import type { IEnumCodeType, IEnumResourceType, IPublicModelCode } from '@webank/letgo-types';
+import { AddAction } from './add';
 
 const FolderActionOptions = [
     {
@@ -26,7 +27,13 @@ export const DirectoryActions = defineComponent({
     props: {
         id: String,
         code: Object as PropType<IPublicModelCode>,
+        extendActions: {
+            type: Array as PropType<string[]>,
+            default: (): string[] => [],
+        },
+        onAdd: Function as PropType<(id: string) => void>,
         onRename: Function as PropType<(id: string) => void>,
+        onSelect: Function as PropType<((id?: string) => void)>,
         onDelete: Function as PropType<((id: string | string[]) => void)>,
     },
     setup(props) {
@@ -48,6 +55,7 @@ export const DirectoryActions = defineComponent({
 
             return FolderActionOptions;
         });
+
         const onAction = (value: string) => {
             if (value === 'rename') {
                 props.onRename(props.id);
@@ -74,11 +82,27 @@ export const DirectoryActions = defineComponent({
             }
         };
 
+        const addCodeItem = (val: string, codeType?: IEnumCodeType) => {
+            if (codeType) {
+                const item = props.code.addCodeItemInDirectory(props.id, codeType, val as IEnumResourceType);
+                props.onSelect(item.id);
+            }
+            else {
+                const item = props.code.addCodeItemInDirectory(props.id, val as IEnumCodeType);
+                props.onSelect(item.id);
+            }
+
+            props.onAdd(props.id);
+        };
+
         return () => {
             return (
-                <FDropdown onClick={value => onAction(value)} trigger="click" placement="bottom-end" options={options.value}>
-                    <MoreOutlined class="letgo-logic-code__icon-more" />
-                </FDropdown>
+                <Fragment>
+                    <AddAction extendActions={props.extendActions} onAdd={addCodeItem} />
+                    <FDropdown onClick={value => onAction(value)} trigger="click" placement="bottom-end" options={options.value}>
+                        <MoreOutlined class="letgo-logic-code__icon-more" />
+                    </FDropdown>
+                </Fragment>
             );
         };
     },

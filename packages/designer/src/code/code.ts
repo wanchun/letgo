@@ -86,6 +86,28 @@ export class Code implements IPublicModelCode {
         return this.directories.find(item => item.id === id);
     };
 
+    ungroundDirectory = (id: string) => {
+        const directoryIndex = this.directories.findIndex(item => item.id === id);
+        if (directoryIndex !== -1) {
+            const directory = this.directories[directoryIndex];
+            this.codeStruct.code = this.codeStruct.code.concat(directory.code);
+            this.codeStruct.directories.splice(directoryIndex, 1);
+        }
+    };
+
+    deleteDirectory = (id: string) => {
+        const directoryIndex = this.directories.findIndex(item => item.id === id);
+        if (directoryIndex !== -1) {
+            const directory = this.directories[directoryIndex];
+            this.codeStruct.directories.splice(directoryIndex, 1);
+
+            for (const item of directory.code) {
+                this.codeMap.delete(item.id);
+                this.emitCodeItemDelete(id);
+            }
+        }
+    };
+
     hasCodeId = (id: string) => {
         return this.codeMap.has(id);
     };
@@ -141,7 +163,7 @@ export class Code implements IPublicModelCode {
         return this.onEvent('codeItemAdd', func);
     };
 
-    addFolder = () => {
+    addDirectory = () => {
         const folder: ICodeDirectory = {
             id: this.genCodeId('folder'),
             code: [],
@@ -178,6 +200,7 @@ export class Code implements IPublicModelCode {
         if (index !== -1) {
             this.codeMap.delete(id);
             this.codeStruct.code.splice(index, 1);
+            this.emitCodeItemDelete(id);
         }
         else {
             for (const directory of this.codeStruct.directories) {
@@ -185,12 +208,12 @@ export class Code implements IPublicModelCode {
                     if (item.id === id) {
                         this.codeMap.delete(id);
                         directory.code.splice(index, 1);
+                        this.emitCodeItemDelete(id);
                         return;
                     }
                 }
             }
         }
-        this.emitCodeItemDelete(id);
     };
 
     emitCodeItemChange(id: string, content: Record<string, any>) {

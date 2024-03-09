@@ -3,7 +3,7 @@ import type { PropType } from 'vue';
 import type { Designer } from '@webank/letgo-designer';
 import { CodeList } from '@webank/letgo-components';
 import { isDirectory } from '@webank/letgo-types';
-import type { ICodeItemOrDirectory, IEnumCodeType } from '@webank/letgo-types';
+import type { ICodeItemOrDirectory } from '@webank/letgo-types';
 import { innerGlobalVariable } from '@webank/letgo-common';
 import { useOnClickSim } from '../use';
 import CodeEdit from './edit/code-edit';
@@ -27,16 +27,11 @@ export const GlobalCode = defineComponent({
         });
 
         const activeItem = ref<ICodeItemOrDirectory>();
-        const onSelectItem = (id: string, type?: IEnumCodeType) => {
-            if (id) {
-                if (type)
-                    activeItem.value = code.value.getCodeItem(id);
-                else
-                    activeItem.value = code.value.getDirectory(id);
-            }
-            else {
+        const onSelectItem = (id: string) => {
+            if (id)
+                activeItem.value = code.value.getCodeItem(id) || code.value.getDirectory(id);
+            else
                 activeItem.value = null;
-            }
         };
 
         const hasCodeId = (id: string) => {
@@ -54,7 +49,7 @@ export const GlobalCode = defineComponent({
                         hasFunction
                         code={code.value}
                         hasCodeId={hasCodeId}
-                        currentValue={activeItem.value}
+                        activeId={activeItem.value?.id}
                         onSelect={onSelectItem}
                         codesInstance={codesInstance.value}
                         searchText={props.searchText}

@@ -14,9 +14,17 @@ export interface IPublicModelCode {
 
     get code(): ICodeItem[];
 
+    getCodeItem: (id: string) => ICodeItem;
+
+    getDirectory: (id: string) => ICodeDirectory;
+
+    ungroundDirectory: (id: string) => void;
+
+    deleteDirectory: (id: string) => void;
+
     genCodeId: (type: IEnumCodeType | 'variable') => string;
 
-    addFolder: () => ICodeDirectory;
+    addDirectory: () => ICodeDirectory;
 
     addCodeItem: (item: ICodeItem) => void;
 

@@ -90,6 +90,11 @@ function render({
             ...context,
             ...mergedScope,
         });
+        if (result == null)
+            return null;
+        if (result.ctx)
+            return createTextVNode(toDisplayString(result.view));
+
         return createTextVNode(toDisplayString(result));
     }
 

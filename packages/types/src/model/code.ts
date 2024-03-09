@@ -18,6 +18,8 @@ export interface IPublicModelCode {
 
     getDirectory: (id: string) => ICodeDirectory;
 
+    changePosition: (id: string, referenceId: string, position: 'before' | 'inside' | 'after') => void;
+
     ungroundDirectory: (id: string) => void;
 
     deleteDirectory: (id: string) => void;

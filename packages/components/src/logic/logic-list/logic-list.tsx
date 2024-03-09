@@ -13,29 +13,13 @@ import { DirectoryActions } from './directory-actions';
 
 import './logic-list.less';
 
-type TreeNode = TreeProps['data'][number];
-
-function findSiblingsAndIndex(node: TreeNode, nodes: TreeNode[]): [TreeNode[], number | null] {
-    if (!nodes)
-        return [null, null];
-    for (let i = 0; i < nodes.length; ++i) {
-        const siblingNode = nodes[i];
-        if (siblingNode.value === node.value)
-            return [nodes, i];
-        const [siblings, index] = findSiblingsAndIndex(
-            node,
-            siblingNode.children,
-        );
-        if (siblings && index !== null)
-            return [siblings, index];
-    }
-    return [null, null];
-}
+type TreeNode = TreeProps['data'][number] & {
+    value: string;
+};
 
 /**
  * TODO
  * 1. 编辑 CodeId
- * 2. 退拽
  */
 
 export const LogicList = defineComponent({
@@ -110,6 +94,7 @@ export const LogicList = defineComponent({
                 return {
                     label: item.id,
                     value: item.id,
+                    draggable: false,
                     children: codeItems,
                     prefix: () => h(FolderIcon),
                     suffix: () => h(DirectoryActions, {
@@ -137,37 +122,10 @@ export const LogicList = defineComponent({
             originDragNode: TreeNode;
             position: 'before' | 'inside' | 'after';
         }) => {
-            const [dragNodeSiblings, dragNodeIndex] = findSiblingsAndIndex(
-                originDragNode,
-                treeData.value,
-            );
-            if (dragNodeSiblings === null || dragNodeIndex === null)
-                return;
-            dragNodeSiblings.splice(dragNodeIndex, 1);
-            if (position === 'before') {
-                const [nodeSiblings, nodeIndex] = findSiblingsAndIndex(
-                    originNode,
-                    treeData.value,
-                );
-                if (nodeSiblings === null || nodeIndex === null)
-                    return;
-                nodeSiblings.splice(nodeIndex, 0, originDragNode);
-            }
-            else if (position === 'after') {
-                const [nodeSiblings, nodeIndex] = findSiblingsAndIndex(
-                    originNode,
-                    treeData.value,
-                );
-                if (nodeSiblings === null || nodeIndex === null)
-                    return;
-                nodeSiblings.splice(nodeIndex + 1, 0, originDragNode);
-            }
-            else if (position === 'inside') {
-                if (!originNode.children)
-                    originNode.children = [];
+            if (!originNode.draggable && !expandedKeys.value.includes(originNode.value))
+                expandedKeys.value.push(originNode.value);
 
-                originNode.children.splice(0, 0, originDragNode);
-            }
+            props.code.changePosition(originDragNode.value, originNode.value, position);
         };
 
         return () => {

@@ -78,6 +78,43 @@ export class Code implements IPublicModelCode {
         };
     }
 
+    private findCodeItemsAndIndex(id: string): [ICodeItem[], number] {
+        const index = this.codeStruct.code.findIndex(item => item.id === id);
+        if (index !== -1) {
+            return [this.codeStruct.code, index];
+        }
+        else {
+            for (const directory of this.codeStruct.directories) {
+                if (directory.id === id)
+                    return [directory.code, -1];
+
+                for (const [index, item] of directory.code.entries()) {
+                    if (item.id === id)
+                        return [directory.code, index];
+                }
+            }
+        }
+    }
+
+    changePosition(id: string, referenceId: string, position: 'before' | 'inside' | 'after') {
+        const [codeItems, index] = this.findCodeItemsAndIndex(id);
+        if (codeItems && index != null)
+            codeItems.splice(index, 1);
+
+        const codeItem = this.getCodeItem(id);
+        const [referenceCodeItems, referenceIndex] = this.findCodeItemsAndIndex(referenceId);
+        if (referenceCodeItems && referenceIndex != null) {
+            if (position === 'inside')
+                referenceCodeItems.push(codeItem);
+            else if (referenceIndex === -1)
+                this.codeStruct.code.unshift(codeItem);
+            else if (position === 'before')
+                referenceCodeItems.splice(referenceIndex, 0, codeItem);
+            else if (position === 'after')
+                referenceCodeItems.splice(referenceIndex + 1, 0, codeItem);
+        }
+    }
+
     getCodeItem = (id: string) => {
         return this.codeMap.get(id);
     };

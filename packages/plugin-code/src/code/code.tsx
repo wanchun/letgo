@@ -2,7 +2,7 @@ import { Teleport, computed, defineComponent, ref, watch } from 'vue';
 import type { PropType } from 'vue';
 import type { Designer } from '@webank/letgo-designer';
 import { CodeList } from '@webank/letgo-components';
-import { innerGlobalVariable } from '@webank/letgo-common';
+import { InnerGlobalVariables } from '@webank/letgo-common';
 import { IEnumCodeType, isDirectory } from '@webank/letgo-types';
 import type { ICodeItemOrDirectory } from '@webank/letgo-types';
 import { useOnClickSim } from '../use';
@@ -30,7 +30,7 @@ export default defineComponent({
         });
 
         const hasCodeId = (id: string) => {
-            return currentDocument.value?.state.hasStateId(id) || code.value.hasCodeId(id) || designer.project.code.hasCodeId(id) || innerGlobalVariable.includes(id);
+            return currentDocument.value?.state.hasStateId(id) || code.value.hasCodeId(id) || designer.project.code.hasCodeId(id) || InnerGlobalVariables.includes(id);
         };
 
         const activeItem = ref<ICodeItemOrDirectory>();

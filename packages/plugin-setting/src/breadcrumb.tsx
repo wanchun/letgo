@@ -1,7 +1,8 @@
 import { RightOutlined } from '@fesjs/fes-design/icon';
-import { canClickNode, type INode } from '@webank/letgo-designer';
+import { type INode, canClickNode } from '@webank/letgo-designer';
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
+import { InnerGlobalVariables } from '@webank/letgo-common';
 import NodeRef from './node-ref';
 
 export default defineComponent({
@@ -13,8 +14,17 @@ export default defineComponent({
         const changeNodeRef = (ref: string) => {
             props.node.changeRef(ref);
         };
+
+        const hasCodeId = (id: string) => {
+            const doc = props.node.document;
+            if (doc)
+                return doc.state.hasStateId(id) || doc.code.hasCodeId(id) || doc.designer.project.code.hasCodeId(id) || InnerGlobalVariables.includes(id);
+
+            return false;
+        };
+
         const renderNodeRef = () => {
-            return <NodeRef id={props.node.ref} onChange={changeNodeRef} />;
+            return <NodeRef id={props.node.ref} hasCodeId={hasCodeId} onChange={changeNodeRef} />;
         };
 
         return () => {
@@ -55,13 +65,13 @@ export default defineComponent({
                         selected,
                     });
                 }
-            }
+            };
 
             const onMouseOver = (node: INode) => {
                 if (node && typeof node.hover === 'function')
                     node.hover(true);
             };
-    
+
             const onMouseOut = (node: INode) => {
                 if (node && typeof node.hover === 'function')
                     node.hover(false);
@@ -78,10 +88,10 @@ export default defineComponent({
                                 <>
                                     <span
                                         class={[
-                                            "letgo-plg-setting__navigator-item",
+                                            'letgo-plg-setting__navigator-item',
                                             isParentNode && 'letgo-plg-setting__navigator-item--parent',
                                         ]}
-                                        onClick={(e) => isParentNode && doClick(node, e)}
+                                        onClick={e => isParentNode && doClick(node, e)}
                                         onMouseenter={() => {
                                             onMouseOver(node);
                                         }}

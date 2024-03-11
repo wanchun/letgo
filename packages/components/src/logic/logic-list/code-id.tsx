@@ -27,10 +27,7 @@ export default defineComponent({
         });
 
         const hasRepeatIdError = ref(false);
-        const cancelEdit = () => {
-            editing.value = false;
-            hasRepeatIdError.value = false;
-        };
+
         const checkError = (event: Event) => {
             const val = (event.target as HTMLInputElement).value;
             currentValue.value = val;
@@ -41,12 +38,13 @@ export default defineComponent({
                 hasRepeatIdError.value = false;
         };
 
-        const changeId = (event: Event) => {
+        const cancelEdit = (event: Event) => {
             const newId = (event.target as HTMLInputElement).value;
-            if (!props.hasCodeId(newId)) {
+            editing.value = false;
+            hasRepeatIdError.value = false;
+
+            if (!props.hasCodeId(newId))
                 props.onChange(newId, props.id);
-                cancelEdit();
-            }
         };
 
         return () => {
@@ -62,7 +60,6 @@ export default defineComponent({
                         value={currentValue.value}
                         onInput={checkError}
                         onBlur={cancelEdit}
-                        onChange={changeId}
                     />
                 </div>
             );

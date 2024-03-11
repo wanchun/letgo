@@ -18,7 +18,7 @@ export default defineComponent({
         const hasCodeId = (id: string) => {
             const doc = props.node.document;
             if (doc)
-                return doc.state.hasStateId(id) || doc.code.hasCodeId(id) || doc.designer.project.code.hasCodeId(id) || InnerGlobalVariables.includes(id);
+                return doc.state.hasStateId(id) || doc.designer.project.code.hasCodeId(id) || InnerGlobalVariables.includes(id);
 
             return false;
         };

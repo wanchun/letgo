@@ -31,12 +31,12 @@ export const Icon = defineComponent({
             ];
         });
 
-        return ()=> {
+        return () => {
             return (
                 <span style={svgStyle.value} v-html={props.content}>
                 </span>
-            )
-        }
+            );
+        };
     },
 });
 
@@ -68,6 +68,7 @@ export const IconMeta: IPublicTypeComponentMetadata = {
         ],
         supports: {
             style: true,
+            events: ['onClick'],
         },
     },
     snippets: [

@@ -141,8 +141,8 @@ importers:
         specifier: ^6.22.0
         version: 6.24.1
       '@fesjs/fes-design':
-        specifier: ^0.8.27
-        version: 0.8.31(vue@3.4.21)
+        specifier: ^0.8.34
+        version: 0.8.34(vue@3.4.21)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.4.21)
@@ -177,8 +177,8 @@ importers:
   packages/designer:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.27
-        version: 0.8.31(vue@3.4.21)
+        specifier: ^0.8.34
+        version: 0.8.34(vue@3.4.21)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.4.21)
@@ -225,8 +225,8 @@ importers:
   packages/editor-skeleton:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.27
-        version: 0.8.31(vue@3.4.21)
+        specifier: ^0.8.34
+        version: 0.8.34(vue@3.4.21)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.4.21)
@@ -313,8 +313,8 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
       '@fesjs/fes-design':
-        specifier: ^0.8.27
-        version: 0.8.31(vue@3.4.21)
+        specifier: ^0.8.34
+        version: 0.8.34(vue@3.4.21)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.4.21)
@@ -371,8 +371,8 @@ importers:
   packages/plugin-code:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.27
-        version: 0.8.31(vue@3.4.21)
+        specifier: ^0.8.34
+        version: 0.8.34(vue@3.4.21)
       '@webank/letgo-common':
         specifier: ^0.0.3-beta.7
         version: link:../common
@@ -405,8 +405,8 @@ importers:
   packages/plugin-component-tree:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.27
-        version: 0.8.31(vue@3.4.21)
+        specifier: ^0.8.34
+        version: 0.8.34(vue@3.4.21)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.4.21)
@@ -432,8 +432,8 @@ importers:
   packages/plugin-components:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.27
-        version: 0.8.31(vue@3.4.21)
+        specifier: ^0.8.34
+        version: 0.8.34(vue@3.4.21)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.4.21)
@@ -456,8 +456,8 @@ importers:
   packages/plugin-designer:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.27
-        version: 0.8.31(vue@3.4.21)
+        specifier: ^0.8.34
+        version: 0.8.34(vue@3.4.21)
       '@webank/letgo-designer':
         specifier: ^0.0.3-beta.12
         version: link:../designer
@@ -493,8 +493,8 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
       '@fesjs/fes-design':
-        specifier: ^0.8.27
-        version: 0.8.31(vue@3.4.21)
+        specifier: ^0.8.34
+        version: 0.8.34(vue@3.4.21)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.4.21)
@@ -517,8 +517,8 @@ importers:
   packages/plugin-setting:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.27
-        version: 0.8.31(vue@3.4.21)
+        specifier: ^0.8.34
+        version: 0.8.34(vue@3.4.21)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.4.21)
@@ -551,8 +551,8 @@ importers:
   packages/plugin-undo-redo:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.25
-        version: 0.8.31(vue@3.4.21)
+        specifier: ^0.8.34
+        version: 0.8.34(vue@3.4.21)
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.4.21)
@@ -601,8 +601,8 @@ importers:
   packages/simulator-renderer:
     dependencies:
       '@fesjs/fes-design':
-        specifier: ^0.8.27
-        version: 0.8.31(vue@3.4.21)
+        specifier: ^0.8.34
+        version: 0.8.34(vue@3.4.21)
       '@webank/letgo-common':
         specifier: ^0.0.3-beta.7
         version: link:../common
@@ -637,8 +637,8 @@ importers:
         specifier: ^3.1.8
         version: 3.1.9(vue@3.4.21)
       '@fesjs/fes-design':
-        specifier: ^0.8.27
-        version: 0.8.31(vue@3.4.21)
+        specifier: ^0.8.34
+        version: 0.8.34(vue@3.4.21)
       '@fesjs/plugin-request':
         specifier: 4.0.0-beta.6
         version: 4.0.0-beta.6(@fesjs/fes@3.1.9)(vue@3.4.21)
@@ -2666,8 +2666,8 @@ packages:
       - supports-color
     dev: false
 
-  /@fesjs/fes-design@0.8.31(vue@3.4.21):
-    resolution: {integrity: sha512-/9we6iKCoB35j3QdqumrsZTyWcNb9AtUaIPD7IB47ggLh9rxSm79BjGkd60i3xJW9YU6kZLCOZ8Zbj0isonEkw==}
+  /@fesjs/fes-design@0.8.34(vue@3.4.21):
+    resolution: {integrity: sha512-yMXl5RPthKmaLVRS3DybekIuGhswgI05Hg+ZheIj0FUJDIJ1uPS8UVP4c3h9VCiMUQWuDFOdFciVXbCd5PvRww==}
     peerDependencies:
       vue: ^3.2.24
     dependencies:

@@ -72,7 +72,7 @@ export const DirectoryActions = defineComponent({
                 else {
                     const codeItemIds = currentFolder.value.code.map(item => item.id);
                     FModal.confirm({
-                        title: `这些逻辑 ${codeItemIds.join(', ')} 将随着一起删除`,
+                        title: `逻辑：${codeItemIds.join(', ')} 将随着一起删除`,
                         onOk() {
                             props.code.deleteDirectory(props.id);
                             props.onDelete(codeItemIds.concat(props.id));

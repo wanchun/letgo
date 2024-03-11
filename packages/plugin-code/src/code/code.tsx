@@ -30,7 +30,7 @@ export default defineComponent({
         });
 
         const hasCodeId = (id: string) => {
-            return currentDocument.value?.state.hasStateId(id) || designer.project.code.hasCodeId(id) || innerGlobalVariable.includes(id);
+            return currentDocument.value?.state.hasStateId(id) || code.value.hasCodeId(id) || designer.project.code.hasCodeId(id) || innerGlobalVariable.includes(id);
         };
 
         const activeItem = ref<ICodeItemOrDirectory>();

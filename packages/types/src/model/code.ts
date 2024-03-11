@@ -22,6 +22,8 @@ export interface IPublicModelCode {
 
     ungroundDirectory: (id: string) => void;
 
+    changeDirectoryId: (id: string, preId: string) => void;
+
     deleteDirectory: (id: string) => void;
 
     genCodeId: (type: IEnumCodeType | 'variable') => string;

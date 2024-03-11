@@ -20,23 +20,9 @@ export const CodeList = defineComponent({
             type: Array as PropType<string[]>,
             default: (): string[] => [],
         },
-        onCodeIdChange: Function as PropType<((id: string, preId: string) => void)>,
         searchText: String,
     },
     setup(props) {
-        const changeCodeId = (id: string, preId: string) => {
-            props.code.changeCodeId(id, preId);
-            if (props.codesInstance) {
-                const codesInstance = props.codesInstance as Record<string, any>;
-                Object.keys(codesInstance).forEach((currentId) => {
-                    if (codesInstance[currentId].deps.includes(preId))
-                        props.code.scopeVariableChange(currentId, id, preId);
-                });
-            }
-            if (props.onCodeIdChange)
-                props.onCodeIdChange(id, preId);
-        };
-
         const addCodeItem = (val: string, codeType?: IEnumCodeType) => {
             if (codeType) {
                 const item = props.code.addCodeItemWithType(codeType, val as IEnumResourceType);
@@ -64,6 +50,8 @@ export const CodeList = defineComponent({
                             code={props.code}
                             extendActions={props.extendActions}
                             searchText={props.searchText}
+                            codesInstance={props.codesInstance}
+                            hasCodeId={props.hasCodeId}
                             onSelect={props.onSelect}
                         />
                     </FScrollbar>

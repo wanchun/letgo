@@ -145,8 +145,14 @@ export class Code implements IPublicModelCode {
         }
     };
 
+    changeDirectoryId = (id: string, preId: string) => {
+        const directory = this.getDirectory(preId);
+        if (directory)
+            directory.id = id;
+    };
+
     hasCodeId = (id: string) => {
-        return this.codeMap.has(id);
+        return this.codeMap.has(id) || this.directories.some(item => item.id === id);
     };
 
     onCodesChanged = (func: (currentCodeMap: Map<string, ICodeItem>) => void) => {

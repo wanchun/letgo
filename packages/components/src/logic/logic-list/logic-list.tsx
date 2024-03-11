@@ -3,13 +3,14 @@ import { computed, defineComponent, h, reactive, ref } from 'vue';
 import type { TreeProps } from '@fesjs/fes-design';
 import { FTree } from '@fesjs/fes-design';
 
-import type { ICodeItem, IPublicModelCode } from '@webank/letgo-types';
+import type { ICodeItem, ICodeItemOrDirectory, IPublicModelCode } from '@webank/letgo-types';
 import { IEnumCodeType } from '@webank/letgo-types';
 import { isNil } from 'lodash-es';
 import { FolderIcon } from '../../icons';
 import { IconMap, ResourceTypeIcon } from '../constants';
 import { CodeItemActions } from './code-item-actions';
 import { DirectoryActions } from './directory-actions';
+import CodeId from './code-id';
 
 import './logic-list.less';
 
@@ -29,9 +30,13 @@ export const LogicList = defineComponent({
             type: Array as PropType<string[]>,
             default: (): string[] => [],
         },
-        onSelect: Function as PropType<((id?: string) => void)>,
+        codesInstance: {
+            type: Object as PropType<Record<string, any>>,
+        },
+        hasCodeId: Function as PropType<(id: string) => boolean>,
         code: Object as PropType<IPublicModelCode>,
         searchText: String,
+        onSelect: Function as PropType<((id?: string) => void)>,
     },
     setup(props) {
         const codeItemsEditing = reactive<Record<string, boolean>>({});
@@ -64,9 +69,38 @@ export const LogicList = defineComponent({
             onSelectCodeItemOrDirectory(selectedKeys[0]);
         };
 
+        const changeCodeId = (id: string, preId: string) => {
+            const directory = props.code.getDirectory(preId);
+            if (directory) {
+                props.code.changeDirectoryId(id, preId);
+            }
+            else {
+                props.code.changeCodeId(id, preId);
+                if (props.codesInstance) {
+                    const codesInstance = props.codesInstance as Record<string, any>;
+                    Object.keys(codesInstance).forEach((currentId) => {
+                        if (codesInstance[currentId].deps.includes(preId))
+                            props.code.scopeVariableChange(currentId, id, preId);
+                    });
+                }
+            }
+            codeItemsEditing[id] = codeItemsEditing[preId];
+            delete codeItemsEditing[preId];
+        };
+
+        function genLabel(item: ICodeItemOrDirectory) {
+            return () => h(CodeId, {
+                'isEditing': codeItemsEditing[item.id],
+                'id': item.id,
+                'hasCodeId': props.hasCodeId,
+                'onChange': changeCodeId,
+                'onUpdate:isEditing': (val: boolean) => codeItemsEditing[item.id] = val,
+            });
+        }
+
         function formatCodeItem(codeItem: ICodeItem, code: IPublicModelCode) {
             return {
-                label: codeItem.id,
+                label: genLabel(codeItem),
                 value: codeItem.id,
                 prefix: () => codeItem.type === IEnumCodeType.JAVASCRIPT_QUERY ? h(ResourceTypeIcon[codeItem.resourceType]) : h(IconMap[codeItem.type]),
                 suffix: () => h(CodeItemActions, {
@@ -92,7 +126,7 @@ export const LogicList = defineComponent({
                     expandedKeys.value.push(item.id);
 
                 return {
-                    label: item.id,
+                    label: genLabel(item),
                     value: item.id,
                     draggable: false,
                     children: codeItems,

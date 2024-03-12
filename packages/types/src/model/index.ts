@@ -19,3 +19,5 @@ export * from './scroller';
 export * from './drop-location';
 export * from './offset-observer';
 export * from './history';
+export * from './clipboard';
+export * from './canvas';

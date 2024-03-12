@@ -453,9 +453,8 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
                 return;
             }
 
-            editor?.eventBus.emit('designer.builtinSimulator.contextmenu', {
+            editor?.emit('designer.builtinSimulator.contextmenu', {
                 node,
-                instanceRect: this.computeComponentInstanceRect(nodeInst.instance),
                 originalEvent: e,
             });
         });

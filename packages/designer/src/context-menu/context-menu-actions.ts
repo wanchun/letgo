@@ -1,10 +1,9 @@
-import type { IPublicApiMaterial, IPublicModelNode, IPublicTypeContextMenuAction, IPublicTypeContextMenuItem } from '@webank/letgo-types';
-import { IPublicEnumContextMenuType } from '@webank/letgo-types';
+import { type IPublicApiMaterial, IPublicEnumContextMenuType, type IPublicModelNode, type IPublicTypeContextMenuAction } from '@webank/letgo-types';
 import { uniqueId } from '@webank/letgo-common';
 import { engineConfig } from '@webank/letgo-editor-core';
 import type { INode } from '../node';
 import type { Designer } from '../designer';
-import { createContextMenu, parseContextMenuAsReactNode, parseContextMenuProperties } from './context-menu';
+import { createContextMenu, parseContextMenuProperties } from './context-menu';
 
 export interface IContextMenuActions {
     actions: IPublicTypeContextMenuAction[];
@@ -12,11 +11,7 @@ export interface IContextMenuActions {
     addMenuAction: IPublicApiMaterial['addContextMenuOption'];
 
     removeMenuAction: IPublicApiMaterial['removeContextMenuOption'];
-
-    adjustMenuLayout: IPublicApiMaterial['adjustContextMenuLayout'];
 }
-
-let adjustMenuLayoutFn: Function = (actions: IPublicTypeContextMenuAction[]) => actions;
 
 export class GlobalContextMenuActions {
     enableContextMenu: boolean;
@@ -50,38 +45,15 @@ export class GlobalContextMenuActions {
             actions.push(...contextMenu.actions);
         });
 
-        let destroyFn: Function | undefined;
-
-        const destroy = () => {
-            destroyFn?.();
-        };
-
-        const menus: IPublicTypeContextMenuItem[] = parseContextMenuProperties(actions, {
+        const menus = parseContextMenuProperties(actions, {
             nodes: [],
-            destroy,
             event,
         });
 
         if (!menus.length)
             return;
 
-        const menuNode = parseContextMenuAsReactNode(menus, {
-            destroy,
-            nodes: [],
-        });
-
-        const target = event.target;
-
-        const { top, left } = (target as HTMLElement)?.getBoundingClientRect();
-
-        const menuInstance = Menu.create({
-            target: event.target,
-            offset: [event.clientX - left, event.clientY - top],
-            children: menuNode,
-            className: 'engine-context-menu',
-        });
-
-        destroyFn = (menuInstance as any).destroy;
+        createContextMenu(menus, event);
     };
 
     initEvent() {
@@ -145,35 +117,15 @@ export class ContextMenuActions implements IContextMenuActions {
 
         const actions = designer.contextMenuActions.actions;
 
-        const { bounds } = designer.simulator?.viewport || { bounds: { left: 0, top: 0 } };
-        const { left: simulatorLeft, top: simulatorTop } = bounds;
-
-        let destroyFn: Function | undefined;
-
-        const destroy = () => {
-            destroyFn?.();
-        };
-
-        const menus: IPublicTypeContextMenuItem[] = parseContextMenuProperties(actions, {
+        const menus = parseContextMenuProperties(actions, {
             nodes,
-            destroy,
             event,
         });
 
         if (!menus.length)
             return;
 
-        const layoutMenu = adjustMenuLayoutFn(menus);
-
-        const menuNode = parseContextMenuAsReactNode(layoutMenu, {
-            destroy,
-            nodes,
-        });
-
-        destroyFn = createContextMenu(menuNode, {
-            event,
-            offset: [simulatorLeft, simulatorTop],
-        });
+        createContextMenu(menus, event);
     };
 
     initEvent() {
@@ -210,9 +162,5 @@ export class ContextMenuActions implements IContextMenuActions {
         const i = this.actions.findIndex(action => action.name === name);
         if (i > -1)
             this.actions.splice(i, 1);
-    }
-
-    adjustMenuLayout(fn: (actions: IPublicTypeContextMenuItem[]) => IPublicTypeContextMenuItem[]) {
-        adjustMenuLayoutFn = fn;
     }
 }

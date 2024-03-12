@@ -21,3 +21,4 @@ export const componentMetaSymbol = Symbol('componentMeta');
 export const dropLocationSymbol = Symbol('dropLocation');
 export const simulatorHostSymbol = Symbol('simulatorHost');
 export const simulatorRendererSymbol = Symbol('simulatorRenderer');
+export const clipboardSymbol = Symbol('clipboard');

@@ -1,4 +1,4 @@
-import type { IPublicTypeAssetsJson, IPublicTypeContextMenuAction, IPublicTypeContextMenuItem, IPublicTypeDisposable } from '..';
+import type { IPublicTypeAssetsJson, IPublicTypeContextMenuAction, IPublicTypeDisposable } from '..';
 
 export interface IPublicApiMaterial {
     /**
@@ -33,10 +33,4 @@ export interface IPublicApiMaterial {
      * @param name
      */
     removeContextMenuOption: (name: string) => void;
-
-    /**
-     * 调整右键菜单项布局
-     * @param actions
-     */
-    adjustContextMenuLayout: (fn: (actions: IPublicTypeContextMenuItem[]) => IPublicTypeContextMenuItem[]) => void;
 }

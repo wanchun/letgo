@@ -1,7 +1,6 @@
 import type { IPublicModelNode } from '..';
 
 export enum IPublicEnumContextMenuType {
-    SEPARATOR = 'separator',
     // 'menuItem'
     MENU_ITEM = 'menuItem',
     // 'nodeTree'
@@ -47,6 +46,11 @@ export interface IPublicTypeContextMenuAction {
      * Sub-menu items or function to generate child node, optional
      */
     items?: Omit<IPublicTypeContextMenuAction, 'items'>[] | ((nodes?: IPublicModelNode[]) => Omit<IPublicTypeContextMenuAction, 'items'>[]);
+
+    /**
+     * 是否添加分隔线
+     */
+    separator?: boolean;
 
     /**
      * 显示条件函数

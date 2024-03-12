@@ -1,121 +1,25 @@
-import type { IPublicModelNode, IPublicTypeContextMenuAction, IPublicTypeContextMenuItem } from '@webank/letgo-types';
+import { render } from 'vue';
+import type { ComponentPublicInstance } from 'vue';
+import type { IPublicModelNode, IPublicTypeContextMenuAction } from '@webank/letgo-types';
 import { IPublicEnumContextMenuType } from '@webank/letgo-types';
 import { Logger } from '@webank/letgo-common';
-import './context-menu.scss';
+import ContextMenu from 'primevue/contextmenu';
+import type { ContextMenuProps } from 'primevue/contextmenu';
 
 const logger = new Logger({ level: 'warn', bizName: 'utils' });
 
 const MAX_LEVEL = 2;
+
+type MenuItem = ContextMenuProps['model'][number];
 
 interface IOptions {
     nodes?: IPublicModelNode[] | null;
     destroy?: Function;
 }
 
-function Tree(props: {
-    node?: IPublicModelNode | null;
-    children?: React.ReactNode;
-    options: IOptions;
-}) {
-    const { node } = props;
-
-    if (!node) {
-        return (
-            <div className="engine-context-menu-tree-wrap">{ props.children }</div>
-        );
-    }
-
-    const indent = node.zLevel * 8 + 32;
-    const style = {
-        paddingLeft: indent,
-        marginLeft: -indent,
-        marginRight: -10,
-        paddingRight: 10,
-    };
-
-    return (
-        <Tree {...props} node={node.parent}>
-            <div
-                className="engine-context-menu-title"
-                onClick={() => {
-                    props.options.destroy?.();
-                    node.select();
-                }}
-                style={style}
-            >
-                {props.options.nodes?.[0].id === node.id ? (<Icon className="engine-context-menu-tree-selecte-icon" size="small" type="success" />) : null}
-                {node.title}
-            </div>
-            <div
-                className="engine-context-menu-tree-children"
-            >
-                { props.children }
-            </div>
-        </Tree>
-    );
-}
-
-let destroyFn: Function | undefined;
-
-export function parseContextMenuAsReactNode(menus: IPublicTypeContextMenuItem[], options: IOptions): React.ReactNode[] {
-    const children: React.ReactNode[] = [];
-    menus.forEach((menu, index) => {
-        if (menu.type === IPublicEnumContextMenuType.SEPARATOR) {
-            children.push(<Divider key={menu.name || index} />);
-            return;
-        }
-
-        if (menu.type === IPublicEnumContextMenuType.MENU_ITEM) {
-            if (menu.items && menu.items.length) {
-                children.push((
-                    <PopupItem
-                        className={classNames('engine-context-menu-item', {
-                            disabled: menu.disabled,
-                        })}
-                        key={menu.name}
-                        label={<div className="engine-context-menu-text">{menu.title}</div>}
-                    >
-                        <Menu className="next-context engine-context-menu">
-                            { parseContextMenuAsReactNode(menu.items, options) }
-                        </Menu>
-                    </PopupItem>
-                ));
-            }
-            else {
-                children.push((
-                    <Item
-                        className={classNames('engine-context-menu-item', {
-                            disabled: menu.disabled,
-                        })}
-                        disabled={menu.disabled}
-                        onClick={() => {
-                            menu.action?.();
-                        }}
-                        key={menu.name}
-                    >
-                        <div className="engine-context-menu-text">
-                            { menu.title ? menu.title : null }
-                        </div>
-                    </Item>
-                ));
-            }
-        }
-
-        if (menu.type === IPublicEnumContextMenuType.NODE_TREE) {
-            children.push((
-                <Tree node={options.nodes?.[0]} options={options} />
-            ));
-        }
-    });
-
-    return children;
-}
-
 export function parseContextMenuProperties(menus: (IPublicTypeContextMenuAction | Omit<IPublicTypeContextMenuAction, 'items'>)[], options: IOptions & {
     event?: MouseEvent;
-}, level = 1): IPublicTypeContextMenuItem[] {
-    destroyFn?.();
-
+}, level = 1): MenuItem[] {
     const { nodes, destroy } = options;
     if (level > MAX_LEVEL) {
         logger.warn('context menu level is too deep, please check your context menu config');
@@ -131,15 +35,16 @@ export function parseContextMenuProperties(menus: (IPublicTypeContextMenuAction 
                 type = IPublicEnumContextMenuType.MENU_ITEM,
             } = menu;
 
-            const result: IPublicTypeContextMenuItem = {
+            const result: MenuItem = {
                 name,
-                title,
+                label: title,
                 type,
-                action: () => {
+                command: () => {
                     destroy?.();
                     menu.action?.(nodes || [], options.event);
                 },
                 disabled: menu.disabled && menu.disabled(nodes || []) || false,
+                separator: menu.separator,
             };
 
             if ('items' in menu && menu.items) {
@@ -152,7 +57,7 @@ export function parseContextMenuProperties(menus: (IPublicTypeContextMenuAction 
 
             return result;
         })
-        .reduce((menus: IPublicTypeContextMenuItem[], currentMenu: IPublicTypeContextMenuItem) => {
+        .reduce((menus: MenuItem[], currentMenu: MenuItem) => {
             if (!currentMenu.name)
                 return menus.concat([currentMenu]);
 
@@ -164,52 +69,25 @@ export function parseContextMenuProperties(menus: (IPublicTypeContextMenuAction 
         }, []);
 }
 
-let cachedMenuItemHeight: string | undefined;
-
-function getMenuItemHeight() {
-    if (cachedMenuItemHeight)
-        return cachedMenuItemHeight;
-
-    const root = document.documentElement;
-    const styles = getComputedStyle(root);
-    const menuItemHeight = styles.getPropertyValue('--context-menu-item-height').trim();
-    cachedMenuItemHeight = menuItemHeight;
-
-    return menuItemHeight;
-}
-
-export function createContextMenu(children: React.ReactNode[], {
-    event,
-    offset = [0, 0],
-}: {
-    event: MouseEvent | React.MouseEvent;
-    offset?: [number, number];
-}) {
+let container: HTMLDivElement;
+export function createContextMenu(items: MenuItem[], event: MouseEvent) {
     event.preventDefault();
     event.stopPropagation();
 
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    const dividerCount = React.Children.count(children.filter(child => React.isValidElement(child) && child.type === Divider));
-    const popupItemCount = React.Children.count(children.filter(child => React.isValidElement(child) && (child.type === PopupItem || child.type === Item)));
-    const menuHeight = popupItemCount * Number.parseInt(getMenuItemHeight(), 10) + dividerCount * 8 + 16;
-    const menuWidthLimit = 200;
-    let x = event.clientX + offset[0];
-    let y = event.clientY + offset[1];
-    if (x + menuWidthLimit > viewportWidth)
-        x = x - menuWidthLimit;
+    if (!container)
+        container = document.createElement('div');
 
-    if (y + menuHeight > viewportHeight)
-        y = y - menuHeight;
+    function getRef(inst: Element | ComponentPublicInstance) {
+        (inst as any).show(event);
+    }
 
-    const menuInstance = Menu.create({
-        target: document.body,
-        offset: [x, y],
-        children,
-        className: 'engine-context-menu',
-    });
+    function destroy() {
+        render(null, container);
+    }
 
-    destroyFn = (menuInstance as any).destroy;
+    render(<ContextMenu ref={getRef} model={items} />, container);
 
-    return destroyFn;
+    return {
+        destroy,
+    };
 }

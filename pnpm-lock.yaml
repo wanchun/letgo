@@ -197,6 +197,9 @@ importers:
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
+      primevue:
+        specifier: ^3.49.1
+        version: 3.49.1(vue@3.4.21)
 
   packages/editor-core:
     dependencies:
@@ -7784,6 +7787,14 @@ packages:
       ansi-styles: 5.2.0
       react-is: 18.2.0
     dev: true
+
+  /primevue@3.49.1(vue@3.4.21):
+    resolution: {integrity: sha512-OmUTqbKbPB63Zqf7uA49cipDi+Qh+/13AYJPwgvsVsI4QmAKIkeibBwkOgj1CNIFlopfF79YmyBshFUAPqlw9A==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      vue: 3.4.21(typescript@5.3.3)
+    dev: false
 
   /process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}

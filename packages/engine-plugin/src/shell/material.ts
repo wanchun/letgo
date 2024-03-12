@@ -1,7 +1,7 @@
 import type { Editor } from '@webank/letgo-editor-core';
 import type { Designer } from '@webank/letgo-designer';
-import type { IPublicApiMaterial, IPublicTypeAssetsJson, IPublicTypeContextMenuAction, IPublicTypeContextMenuItem } from '@webank/letgo-types';
-import { designerSymbol, editorSymbol } from './symbols';
+import type { IPublicApiMaterial, IPublicTypeAssetsJson, IPublicTypeContextMenuAction } from '@webank/letgo-types';
+import { designerSymbol, editorSymbol } from '../symbols';
 
 export class Material implements IPublicApiMaterial {
     private readonly [editorSymbol]: Editor;
@@ -43,9 +43,5 @@ export class Material implements IPublicApiMaterial {
 
     removeContextMenuOption(name: string) {
         this[designerSymbol].contextMenuActions.removeMenuAction(name);
-    }
-
-    adjustContextMenuLayout(fn: (actions: IPublicTypeContextMenuItem[]) => IPublicTypeContextMenuItem[]) {
-        this[designerSymbol].contextMenuActions.adjustMenuLayout(fn);
     }
 }

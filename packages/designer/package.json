@@ -22,7 +22,8 @@
         "@webank/letgo-editor-core": "^0.0.3-beta.6",
         "@webank/letgo-types": "^0.0.3-beta.0",
         "eventemitter3": "^5.0.1",
-        "lodash-es": "^4.17.21"
+        "lodash-es": "^4.17.21",
+        "primevue": "^3.49.1"
     },
     "publishConfig": {
         "access": "public"

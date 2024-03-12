@@ -602,6 +602,10 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     }
 
     isContainer(): boolean {
+        return this.isContainerNode;
+    }
+
+    get isContainerNode(): boolean {
         return this.isParental() && this.componentMeta.isContainer;
     }
 

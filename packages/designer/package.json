@@ -21,7 +21,7 @@
         "@webank/letgo-common": "^0.0.3-beta.7",
         "@webank/letgo-editor-core": "^0.0.3-beta.6",
         "@webank/letgo-types": "^0.0.3-beta.0",
-        "eventemitter3": "^4.0.0",
+        "eventemitter3": "^5.0.1",
         "lodash-es": "^4.17.21"
     },
     "publishConfig": {

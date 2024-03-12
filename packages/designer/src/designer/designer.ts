@@ -28,6 +28,7 @@ import type { Simulator } from '../simulator';
 import { SettingTop } from '../setting';
 import type { DocumentModel } from '../document';
 import type { Selection } from '../document/selection';
+import { ContextMenuActions, type IContextMenuActions } from '../context-menu/context-menu-actions';
 import {
     Dragon,
 } from './dragon';
@@ -53,6 +54,8 @@ export class Designer implements IPublicModelDesigner<Project, DocumentModel, Co
     readonly editor: IPublicEditor;
 
     readonly project: Project;
+
+    readonly contextMenuActions: IContextMenuActions;
 
     readonly dragon: Dragon = new Dragon(this);
 
@@ -164,6 +167,8 @@ export class Designer implements IPublicModelDesigner<Project, DocumentModel, Co
 
             this.editor.emit('designer.dragstart', e);
         });
+
+        this.contextMenuActions = new ContextMenuActions(this);
 
         this.dragon.onDrag((e) => {
             if (this.props?.onDrag)

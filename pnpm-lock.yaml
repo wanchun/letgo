@@ -192,8 +192,8 @@ importers:
         specifier: ^0.0.3-beta.0
         version: link:../types
       eventemitter3:
-        specifier: ^4.0.0
-        version: 4.0.7
+        specifier: ^5.0.1
+        version: 5.0.1
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -213,8 +213,8 @@ importers:
         specifier: ^0.0.3-beta.0
         version: link:../types
       eventemitter3:
-        specifier: ^4.0.0
-        version: 4.0.7
+        specifier: ^5.0.1
+        version: 5.0.1
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -288,8 +288,8 @@ importers:
         specifier: ^0.0.3-beta.0
         version: link:../types
       eventemitter3:
-        specifier: ^4.0.0
-        version: 4.0.7
+        specifier: ^5.0.1
+        version: 5.0.1
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -541,8 +541,8 @@ importers:
         specifier: ^0.0.3-beta.0
         version: link:../types
       eventemitter3:
-        specifier: ^4.0.0
-        version: 4.0.7
+        specifier: ^5.0.1
+        version: 5.0.1
     devDependencies:
       vue:
         specifier: ^3.3.9
@@ -688,8 +688,8 @@ importers:
   packages/types:
     dependencies:
       eventemitter3:
-        specifier: ^4.0.0
-        version: 4.0.7
+        specifier: ^5.0.1
+        version: 5.0.1
       strict-event-emitter-types:
         specifier: ^2.0.0
         version: 2.0.0
@@ -5633,6 +5633,11 @@ packages:
 
   /eventemitter3@4.0.7:
     resolution: {integrity: sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==}
+    dev: true
+
+  /eventemitter3@5.0.1:
+    resolution: {integrity: sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==}
+    dev: false
 
   /evtd@0.2.4:
     resolution: {integrity: sha512-qaeGN5bx63s/AXgQo8gj6fBkxge+OoLddLniox5qtLAEY5HSnuSlISXVPxnSae1dWblvTh4/HoMIB+mbMsvZzw==}

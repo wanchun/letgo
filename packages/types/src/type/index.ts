@@ -41,3 +41,5 @@ export * from './field-display';
 export * from './field-extra-props';
 export * from './icon';
 export * from './icon-schema';
+export * from './context-menu';
+export * from './material';

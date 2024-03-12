@@ -109,6 +109,13 @@ export class Editor extends EventEmitter implements IPublicEditor {
         this.set('assets', resultAsset);
     }
 
+    onEvent(name: string | symbol, fn: (...args: any[]) => void) {
+        this.on(name, fn);
+        return () => {
+            this.off(name, fn);
+        };
+    }
+
     get<T = undefined, KeyOrType = any>(
         keyOrType: KeyOrType,
     ): IPublicTypeEditorGetResult<T, KeyOrType> | undefined {
@@ -170,8 +177,8 @@ export class Editor extends EventEmitter implements IPublicEditor {
     private waits = new Map<
         IPublicTypeEditorValueKey,
         Array<{
-            once?: boolean
-            resolve: (data: any) => void
+            once?: boolean;
+            resolve: (data: any) => void;
         }>
     >();
 
@@ -223,6 +230,7 @@ export class Editor extends EventEmitter implements IPublicEditor {
 
     purge(): void {
         this.context.clear();
+        this.removeAllListeners();
     }
 }
 

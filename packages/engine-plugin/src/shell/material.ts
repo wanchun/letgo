@@ -1,9 +1,9 @@
 import type { Editor } from '@webank/letgo-editor-core';
 import type { Designer } from '@webank/letgo-designer';
-import type { IPublicTypeAssetsJson } from '@webank/letgo-types';
+import type { IPublicApiMaterial, IPublicTypeAssetsJson, IPublicTypeContextMenuAction, IPublicTypeContextMenuItem } from '@webank/letgo-types';
 import { designerSymbol, editorSymbol } from './symbols';
 
-export class Material {
+export class Material implements IPublicApiMaterial {
     private readonly [editorSymbol]: Editor;
     private readonly [designerSymbol]: Designer;
 
@@ -15,7 +15,6 @@ export class Material {
     /**
      * 设置「资产包」结构
      * @param assets
-     * @returns
      */
     async setAssets(assets: IPublicTypeAssetsJson[] | IPublicTypeAssetsJson) {
         return await this[editorSymbol].setAssets(assets);
@@ -35,6 +34,18 @@ export class Material {
      */
     onChangeAssets(fn: () => void) {
         // 设置 assets，经过 setAssets 赋值
-        this[editorSymbol].onChange('assets', fn);
+        return this[editorSymbol].onChange('assets', fn);
+    }
+
+    addContextMenuOption(option: IPublicTypeContextMenuAction) {
+        this[designerSymbol].contextMenuActions.addMenuAction(option);
+    }
+
+    removeContextMenuOption(name: string) {
+        this[designerSymbol].contextMenuActions.removeMenuAction(name);
+    }
+
+    adjustContextMenuLayout(fn: (actions: IPublicTypeContextMenuItem[]) => IPublicTypeContextMenuItem[]) {
+        this[designerSymbol].contextMenuActions.adjustMenuLayout(fn);
     }
 }

@@ -1,36 +1,38 @@
 import type EventEmitter from 'eventemitter3';
+import type { IPublicTypeDisposable } from '.';
 
 export type IPublicTypeEditorValueKey = (new (...args: any[]) => any) | symbol | string;
 
 export interface IPublicTypeEditorGetOptions {
-    forceNew?: boolean
-    sourceCls?: new (...args: any[]) => any
+    forceNew?: boolean;
+    sourceCls?: new (...args: any[]) => any;
 }
 
 export type IPublicTypeEditorGetResult<T, ClsType> = T extends undefined
     ? ClsType extends {
-        prototype: infer R
+        prototype: infer R;
     }
         ? R
         : any
     : T;
 
 export interface IPublicEditor extends EventEmitter {
+    onEvent: (name: string, fn: (...args: any[]) => void) => IPublicTypeDisposable;
     get: <T = undefined, KeyOrType = any>(
         keyOrType: KeyOrType,
         opt?: IPublicTypeEditorGetOptions,
-    ) => IPublicTypeEditorGetResult<T, KeyOrType> | undefined
+    ) => IPublicTypeEditorGetResult<T, KeyOrType> | undefined;
 
-    has: (keyOrType: IPublicTypeEditorValueKey) => boolean
+    has: (keyOrType: IPublicTypeEditorValueKey) => boolean;
 
-    set: (key: IPublicTypeEditorValueKey, data: any) => void
+    set: (key: IPublicTypeEditorValueKey, data: any) => void;
 
     onceGot: <T = undefined, KeyOrType extends IPublicTypeEditorValueKey = any>(
         keyOrType: KeyOrType,
-    ) => Promise<IPublicTypeEditorGetResult<T, KeyOrType>>
+    ) => Promise<IPublicTypeEditorGetResult<T, KeyOrType>>;
 
     onGot: <T = undefined, KeyOrType extends IPublicTypeEditorValueKey = any>(
         keyOrType: KeyOrType,
         fn: (data: IPublicTypeEditorGetResult<T, KeyOrType>) => void,
-    ) => () => void
+    ) => () => void;
 }

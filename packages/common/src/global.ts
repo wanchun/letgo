@@ -1,1 +1,1 @@
-export const innerGlobalVariable = ['utils', 'props', 'letgoContext', 'localStorage', 'sessionStorage'];
+export const InnerGlobalVariables = ['utils', 'props', 'letgoContext', 'localStorage', 'sessionStorage'];

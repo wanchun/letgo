@@ -8,6 +8,7 @@ import {
 } from '@webank/letgo-common';
 import { IEnumCodeType } from '@webank/letgo-types';
 import type {
+    ICodeDirectory,
     ICodeItem,
     ICodeStruct,
     IEnumResourceType,
@@ -39,19 +40,28 @@ export class Code implements IPublicModelCode {
     }
 
     get queries() {
-        return this.code.filter(item => item.type === IEnumCodeType.JAVASCRIPT_QUERY);
+        return this.findCodes(IEnumCodeType.JAVASCRIPT_QUERY);
     }
 
     get temporaryStates() {
-        return this.code.filter(item => item.type === IEnumCodeType.TEMPORARY_STATE);
+        return this.findCodes(IEnumCodeType.TEMPORARY_STATE);
     }
 
     get functions() {
-        return this.code.filter(item => item.type === IEnumCodeType.JAVASCRIPT_FUNCTION);
+        return this.findCodes(IEnumCodeType.JAVASCRIPT_FUNCTION);
     }
 
     get code() {
         return this.codeStruct.code;
+    }
+
+    private findCodes(type: IEnumCodeType) {
+        const result: ICodeItem[] = [];
+        this.codeMap.forEach((value) => {
+            if (value.type === type)
+                result.push(value);
+        });
+        return result;
     }
 
     private genCodeMap(code: ICodeStruct) {
@@ -77,12 +87,81 @@ export class Code implements IPublicModelCode {
         };
     }
 
+    private findCodeItemsAndIndex(id: string): [ICodeItem[], number] {
+        const index = this.codeStruct.code.findIndex(item => item.id === id);
+        if (index !== -1) {
+            return [this.codeStruct.code, index];
+        }
+        else {
+            for (const directory of this.codeStruct.directories) {
+                if (directory.id === id)
+                    return [directory.code, -1];
+
+                for (const [index, item] of directory.code.entries()) {
+                    if (item.id === id)
+                        return [directory.code, index];
+                }
+            }
+        }
+    }
+
+    changePosition(id: string, referenceId: string, position: 'before' | 'inside' | 'after') {
+        const [codeItems, index] = this.findCodeItemsAndIndex(id);
+        if (codeItems && index != null)
+            codeItems.splice(index, 1);
+
+        const codeItem = this.getCodeItem(id);
+        const [referenceCodeItems, referenceIndex] = this.findCodeItemsAndIndex(referenceId);
+        if (referenceCodeItems && referenceIndex != null) {
+            if (position === 'inside')
+                referenceCodeItems.push(codeItem);
+            else if (referenceIndex === -1)
+                this.codeStruct.code.unshift(codeItem);
+            else if (position === 'before')
+                referenceCodeItems.splice(referenceIndex, 0, codeItem);
+            else if (position === 'after')
+                referenceCodeItems.splice(referenceIndex + 1, 0, codeItem);
+        }
+    }
+
     getCodeItem = (id: string) => {
         return this.codeMap.get(id);
     };
 
+    getDirectory = (id: string) => {
+        return this.directories.find(item => item.id === id);
+    };
+
+    ungroundDirectory = (id: string) => {
+        const directoryIndex = this.directories.findIndex(item => item.id === id);
+        if (directoryIndex !== -1) {
+            const directory = this.directories[directoryIndex];
+            this.codeStruct.code = this.codeStruct.code.concat(directory.code);
+            this.codeStruct.directories.splice(directoryIndex, 1);
+        }
+    };
+
+    deleteDirectory = (id: string) => {
+        const directoryIndex = this.directories.findIndex(item => item.id === id);
+        if (directoryIndex !== -1) {
+            const directory = this.directories[directoryIndex];
+            this.codeStruct.directories.splice(directoryIndex, 1);
+
+            for (const item of directory.code) {
+                this.codeMap.delete(item.id);
+                this.emitCodeItemDelete(id);
+            }
+        }
+    };
+
+    changeDirectoryId = (id: string, preId: string) => {
+        const directory = this.getDirectory(preId);
+        if (directory)
+            directory.id = id;
+    };
+
     hasCodeId = (id: string) => {
-        return this.codeMap.has(id);
+        return this.codeMap.has(id) || this.directories.some(item => item.id === id);
     };
 
     onCodesChanged = (func: (currentCodeMap: Map<string, ICodeItem>) => void) => {
@@ -116,7 +195,7 @@ export class Code implements IPublicModelCode {
         }
     };
 
-    genCodeId = (type: IEnumCodeType | 'variable'): string => {
+    genCodeId = (type: IEnumCodeType | 'variable' | 'folder'): string => {
         if (type === IEnumCodeType.TEMPORARY_STATE)
             type = 'variable';
 
@@ -134,6 +213,30 @@ export class Code implements IPublicModelCode {
 
     onCodeItemAdd = (func: (codeItem: ICodeItem) => void) => {
         return this.onEvent('codeItemAdd', func);
+    };
+
+    addDirectory = () => {
+        const folder: ICodeDirectory = {
+            id: this.genCodeId('folder'),
+            code: [],
+        };
+        this.codeStruct.directories.push(folder);
+
+        return folder;
+    };
+
+    addCodeItemInDirectory = (directoryId: string, type: IEnumCodeType, resourceType?: IEnumResourceType) => {
+        const directory = this.getDirectory(directoryId);
+        const id = this.genCodeId(type);
+        const item = codeBaseEdit[type].addCode(id, resourceType);
+
+        directory.code.push(item);
+        // 取响应式变量
+        const newCodeItem = directory.code.at(-1);
+        this.codeMap.set(id, newCodeItem);
+        this.emitCodeItemAdd(newCodeItem);
+
+        return item;
     };
 
     addCodeItemWithType = (type: IEnumCodeType, resourceType?: IEnumResourceType) => {
@@ -163,6 +266,7 @@ export class Code implements IPublicModelCode {
         if (index !== -1) {
             this.codeMap.delete(id);
             this.codeStruct.code.splice(index, 1);
+            this.emitCodeItemDelete(id);
         }
         else {
             for (const directory of this.codeStruct.directories) {
@@ -170,12 +274,12 @@ export class Code implements IPublicModelCode {
                     if (item.id === id) {
                         this.codeMap.delete(id);
                         directory.code.splice(index, 1);
+                        this.emitCodeItemDelete(id);
                         return;
                     }
                 }
             }
         }
-        this.emitCodeItemDelete(id);
     };
 
     emitCodeItemChange(id: string, content: Record<string, any>) {

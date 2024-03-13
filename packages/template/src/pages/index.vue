@@ -1,9 +1,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { IconSetter, LetgoEngine, StyleSetter, material, project } from '@webank/letgo-engine';
+import { IconSetter, LetgoEngine, material, project } from '@webank/letgo-engine';
 import { createRequest } from '@qlin/request';
 import assets from '../assets/assets';
 import icons from '../assets/icones-bags';
+
 import page from '../assets/page';
 
 export default defineComponent({
@@ -14,19 +15,19 @@ export default defineComponent({
         IconSetter.defaultIcons = icons;
 
         const onReady = () => {
-            // project.openDocument();
-            project.openDocument({
-                componentName: 'Component',
-                id: 'root',
-                ref: 'root',
-                props: {},
-                fileName: 'compText',
-                children: [],
-                code: {
-                    directories: [],
-                    code: [],
-                },
-            });
+            project.openDocument();
+            // project.openDocument({
+            //     componentName: 'Component',
+            //     id: 'root',
+            //     ref: 'root',
+            //     props: {},
+            //     fileName: 'compText',
+            //     children: [],
+            //     code: {
+            //         directories: [],
+            //         code: [],
+            //     },
+            // });
             console.log('project:', project);
         };
 

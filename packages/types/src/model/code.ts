@@ -1,4 +1,4 @@
-import type { ICodeItem, ICodeStruct, IEnumCodeType, IEnumResourceType } from '..';
+import type { ICodeDirectory, ICodeItem, ICodeStruct, IEnumCodeType, IEnumResourceType } from '..';
 
 export interface IPublicModelCode {
     codeStruct: ICodeStruct;
@@ -14,9 +14,25 @@ export interface IPublicModelCode {
 
     get code(): ICodeItem[];
 
+    getCodeItem: (id: string) => ICodeItem;
+
+    getDirectory: (id: string) => ICodeDirectory;
+
+    changePosition: (id: string, referenceId: string, position: 'before' | 'inside' | 'after') => void;
+
+    ungroundDirectory: (id: string) => void;
+
+    changeDirectoryId: (id: string, preId: string) => void;
+
+    deleteDirectory: (id: string) => void;
+
     genCodeId: (type: IEnumCodeType | 'variable') => string;
 
+    addDirectory: () => ICodeDirectory;
+
     addCodeItem: (item: ICodeItem) => void;
+
+    addCodeItemInDirectory: (directoryId: string, type: IEnumCodeType, resourceType?: IEnumResourceType) => ICodeItem;
 
     addCodeItemWithType: (type: IEnumCodeType, resourceType?: IEnumResourceType) => ICodeItem;
 

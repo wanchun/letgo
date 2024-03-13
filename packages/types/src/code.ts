@@ -93,11 +93,17 @@ export function isVariableState(obj: any): obj is ITemporaryState {
 export type ICodeItem = ITemporaryState | IJavascriptComputed | IJavascriptFunction | IJavascriptQuery;
 
 export interface ICodeDirectory {
-    name: string;
+    id: string;
     code: ICodeItem[];
+}
+
+export function isDirectory(obj: any): obj is ICodeDirectory {
+    return obj && obj.code;
 }
 
 export interface ICodeStruct {
     directories: ICodeDirectory[];
     code: ICodeItem[];
 }
+
+export type ICodeItemOrDirectory = ICodeItem | ICodeDirectory;

@@ -52,7 +52,7 @@ export class State implements IPublicModelState {
     }
 
     hasStateId(id: string) {
-        return this.codesInstance[id] || this.componentsInstance[id];
+        return !!(this.codesInstance[id] || this.componentsInstance[id]);
     }
 
     triggerAfterSimulatorReady(fn: () => void) {

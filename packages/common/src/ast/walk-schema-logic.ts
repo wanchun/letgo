@@ -70,14 +70,14 @@ function traverseNodeProps(value: IPublicTypeCompositeValue, callback: Callback)
         callback(value.value, value, 'JSFunction');
     }
     else if (isJSSlot(value)) {
-        traverseNodeSchema(value.value, callback);
+        traverseNodeSchemaLogic(value.value, callback);
     }
     else if (isPlainObject(value)) {
         return Object.keys(value).forEach((key) => {
             if (key !== 'children') {
                 const data = value[key as keyof typeof value];
                 if (isJSSlot(data))
-                    traverseNodeSchema(data.value, callback);
+                    traverseNodeSchemaLogic(data.value, callback);
                 else if (typeof data === 'object')
                     traverseNodeProps(data, callback);
             }
@@ -90,13 +90,13 @@ function handleNodeSchema(node: IPublicTypeNodeSchema, callback: Callback) {
     traverseNodeProps(node.props, callback);
 
     if (node.props.children)
-        traverseNodeSchema(node.props.children, callback);
+        traverseNodeSchemaLogic(node.props.children, callback);
 
     if (node.children)
-        traverseNodeSchema(node.children, callback);
+        traverseNodeSchemaLogic(node.children, callback);
 }
 
-export function traverseNodeSchema(
+export function traverseNodeSchemaLogic(
     nodeData: IPublicTypeNodeData | IPublicTypeNodeData[],
     callback: Callback,
 ) {
@@ -106,7 +106,7 @@ export function traverseNodeSchema(
                 handleNodeSchema(item, callback);
             }
             else if (isJSSlot(item)) {
-                traverseNodeSchema(
+                traverseNodeSchemaLogic(
                     Array.isArray(item.value) ? item.value : [item.value],
                     callback,
                 );
@@ -121,5 +121,5 @@ export function traverseNodeSchema(
 export function walkSchemaLogic(rootSchema: IPublicTypeRootSchema, callback: Callback) {
     traverseCodeStruct(rootSchema.code, callback);
 
-    traverseNodeSchema(rootSchema.children, callback);
+    traverseNodeSchemaLogic(rootSchema.children, callback);
 }

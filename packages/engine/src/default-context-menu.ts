@@ -13,7 +13,7 @@ import type {
     IPluginContext,
 } from '@webank/letgo-engine-plugin';
 import { FMessage } from '@fesjs/fes-design';
-import { collectLogicFromIds, findSchemaLogic, isProjectSchema } from '@webank/letgo-common';
+import { collectLogicFromIds, findSchemaLogic, genCodeMap, isProjectSchema, sortState } from '@webank/letgo-common';
 
 interface CopyType {
     type: string;
@@ -68,8 +68,8 @@ export function defaultContextMenu(ctx: IPluginContext) {
     return {
         init() {
             material.addContextMenuOption({
-                name: 'selectComponent',
-                title: '选择组件',
+                name: 'selectParentComponent',
+                title: '选择父级组件',
                 condition: (nodes = []) => {
                     return nodes.length === 1;
                 },
@@ -132,6 +132,22 @@ export function defaultContextMenu(ctx: IPluginContext) {
                             FMessage.error(`${nodeSchema.map(d => d.title || d.componentName).join(',')}等组件无法放置到${node.title || node.componentName}内`);
                             return;
                         }
+
+                        const codeMap = genCodeMap(copyData.code);
+                        const sortResult = sortState(codeMap);
+                        sortResult.forEach((codeId) => {
+                            if (copyData.code.code.find(item => item.id === codeId)) {
+                                doc.code.addCodeItem(codeMap.get(codeId));
+                            }
+                            else {
+                                for (const directory of copyData.code.directories) {
+                                    if (directory.code.some(item => item.id === codeId)) {
+                                        doc.code.addDirectory(directory.id);
+                                        doc.code.addCodeItemInDirectory(directory.id, codeMap.get(codeId));
+                                    }
+                                }
+                            }
+                        });
 
                         const nodes: IPublicModelNode[] = [];
                         nodeSchema.forEach((schema, schemaIndex) => {

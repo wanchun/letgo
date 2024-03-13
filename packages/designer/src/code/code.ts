@@ -215,25 +215,37 @@ export class Code implements IPublicModelCode {
         return this.onEvent('codeItemAdd', func);
     };
 
-    addDirectory = () => {
+    addDirectory = (id?: string) => {
+        if (id) {
+            const directory = this.getDirectory(id);
+            if (directory)
+                return directory;
+        }
+
         const folder: ICodeDirectory = {
-            id: this.genCodeId('folder'),
+            id: id || this.genCodeId('folder'),
             code: [],
         };
         this.codeStruct.directories.push(folder);
 
-        return folder;
+        return this.codeStruct.directories.at(-1);
     };
 
-    addCodeItemInDirectory = (directoryId: string, type: IEnumCodeType, resourceType?: IEnumResourceType) => {
+    addCodeItemInDirectory = (directoryId: string, typeOrCodeItem: IEnumCodeType | ICodeItem, resourceType?: IEnumResourceType) => {
         const directory = this.getDirectory(directoryId);
-        const id = this.genCodeId(type);
-        const item = codeBaseEdit[type].addCode(id, resourceType);
+        let item: ICodeItem;
+        if (typeof typeOrCodeItem === 'string') {
+            const id = this.genCodeId(typeOrCodeItem);
+            item = codeBaseEdit[typeOrCodeItem].addCode(id, resourceType);
+        }
+        else {
+            item = typeOrCodeItem;
+        }
 
         directory.code.push(item);
         // 取响应式变量
         const newCodeItem = directory.code.at(-1);
-        this.codeMap.set(id, newCodeItem);
+        this.codeMap.set(item.id, newCodeItem);
         this.emitCodeItemAdd(newCodeItem);
 
         return item;

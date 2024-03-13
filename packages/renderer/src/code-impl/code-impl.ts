@@ -1,8 +1,8 @@
 import type { ComputedRef } from 'vue';
 import { watch } from 'vue';
-import type { ICodeStruct, ICodeItem } from '@webank/letgo-types';
+import type { ICodeItem, ICodeStruct } from '@webank/letgo-types';
 import { IEnumCodeType } from '@webank/letgo-types';
-import { calcDependencies, sortState } from '@webank/letgo-common';
+import { calcDependencies, genCodeMap, sortState } from '@webank/letgo-common';
 import { TemporaryStateLive } from './temporary-state';
 import { ComputedLive } from './computed';
 import type { JavascriptQueryBase } from './query/base';
@@ -11,28 +11,16 @@ import { JavascriptFunctionLive } from './javascript-function';
 
 export type CodeImplType = ComputedLive | TemporaryStateLive | JavascriptQueryBase | JavascriptFunctionLive;
 
-function genCodeMap(code: ICodeStruct, codeMap: Map<string, ICodeItem>) {
-    code.code.forEach((item) => {
-        codeMap.set(item.id, item);
-    });
-
-    code.directories.forEach((directory) => {
-        directory.code.forEach((item) => {
-            codeMap.set(item.id, item);
-        });
-    });
-}
-
 export function useCodesInstance({
     codeStruct,
     executeCtx,
     onSet,
     onClear,
 }: {
-    codeStruct: ComputedRef<ICodeStruct>
-    executeCtx: Record<string, any>
-    onSet: (key: string, value: CodeImplType) => void
-    onClear: (keys: string[]) => void
+    codeStruct: ComputedRef<ICodeStruct>;
+    executeCtx: Record<string, any>;
+    onSet: (key: string, value: CodeImplType) => void;
+    onClear: (keys: string[]) => void;
 }) {
     const codeMap = new Map<string, ICodeItem>();
     const dependencyMap = new Map<string, string[]>();

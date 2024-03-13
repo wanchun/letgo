@@ -1,10 +1,9 @@
 import type {
-    ICodeItem,
     ICodeStruct,
     IEventHandler,
     IPublicTypeProjectSchema,
 } from '@webank/letgo-types';
-import { isSyntaxError, isExpression as rawIsExpression, replaceFunctionName, sortState } from '@webank/letgo-common';
+import { genCodeMap, isSyntaxError, isExpression as rawIsExpression, replaceFunctionName, sortState } from '@webank/letgo-common';
 import {
     IEnumCodeType,
     isRestQueryResource,
@@ -128,21 +127,6 @@ export function genImportCode(imports: ImportSource[]) {
         result.push(genSingleImport(categorizeImports.get(source)));
 
     return result.join('\n');
-}
-
-export function genCodeMap(code: ICodeStruct, codeMap: Map<string, ICodeItem> = new Map<string, ICodeItem>()) {
-    if (code) {
-        code.code?.forEach((item) => {
-            codeMap.set(item.id, item);
-        });
-
-        code.directories?.forEach((directory) => {
-            directory.code.forEach((item) => {
-                codeMap.set(item.id, item);
-            });
-        });
-    }
-    return codeMap;
 }
 
 export function mergeCodeStruct(lCodeStruct: ICodeStruct, rCodeStruct: ICodeStruct): ICodeStruct {

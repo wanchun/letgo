@@ -3,9 +3,10 @@ import type {
     IPublicTypeNpmInfo,
     IPublicTypeUtilsMap,
 } from '@webank/letgo-types';
+import { genCodeMap } from '@webank/letgo-common';
 import { set } from 'lodash-es';
 import { getOptions, relative } from '../options';
-import { genCode, genCodeMap, genImportCode } from './helper';
+import { genCode, genImportCode } from './helper';
 import type { CallBackParam, Context, FileTree, GenOptions, ImportSource, SetupCode } from './types';
 import { ImportType } from './types';
 

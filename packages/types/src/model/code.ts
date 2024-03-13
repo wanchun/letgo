@@ -28,11 +28,11 @@ export interface IPublicModelCode {
 
     genCodeId: (type: IEnumCodeType | 'variable') => string;
 
-    addDirectory: () => ICodeDirectory;
+    addDirectory: (id?: string) => ICodeDirectory;
 
     addCodeItem: (item: ICodeItem) => void;
 
-    addCodeItemInDirectory: (directoryId: string, type: IEnumCodeType, resourceType?: IEnumResourceType) => ICodeItem;
+    addCodeItemInDirectory: (directoryId: string, typeOrCodeItem: IEnumCodeType | ICodeItem, resourceType?: IEnumResourceType) => ICodeItem;
 
     addCodeItemWithType: (type: IEnumCodeType, resourceType?: IEnumResourceType) => ICodeItem;
 

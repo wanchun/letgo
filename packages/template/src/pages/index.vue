@@ -33,6 +33,7 @@ export default defineComponent({
 
         return {
             options: {
+                enableContextMenu: true,
                 vueRuntimeUrl:
                     'https://registry.npmmirror.com/vue/latest/files/dist/vue.global.js',
                 simulatorUrl: [

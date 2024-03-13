@@ -24,3 +24,4 @@ export * from './createIconSprite';
 export * from './traverse-schema';
 export * from './extra-key';
 export * from './check-types';
+export * from './gen-code-map';

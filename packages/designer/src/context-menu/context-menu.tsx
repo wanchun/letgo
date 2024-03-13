@@ -17,6 +17,21 @@ interface IOptions {
     destroy?: Function;
 }
 
+function nodeToMenuItem(node: IPublicModelNode, level = 0): MenuItem[] {
+    const items: MenuItem[] = [];
+    if (!node || level >= 7)
+        return items;
+
+    items.push({
+        label: node.componentName,
+        type: IPublicEnumContextMenuType.MENU_ITEM,
+        command: () => {
+            node.select();
+        },
+    });
+    return items.concat(nodeToMenuItem(node.parent, level + 1));
+}
+
 export function parseContextMenuProperties(menus: (IPublicTypeContextMenuAction | Omit<IPublicTypeContextMenuAction, 'items'>)[], options: IOptions & {
     event?: MouseEvent;
 }, level = 1): MenuItem[] {
@@ -25,6 +40,9 @@ export function parseContextMenuProperties(menus: (IPublicTypeContextMenuAction 
         logger.warn('context menu level is too deep, please check your context menu config');
         return [];
     }
+
+    if (menus.length === 1 && menus[0].type === IPublicEnumContextMenuType.NODE_TREE)
+        return nodeToMenuItem(nodes[0].parent);
 
     return menus
         .filter(menu => !menu.condition || (menu.condition && menu.condition(nodes || [])))

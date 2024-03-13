@@ -1,4 +1,5 @@
 import type {
+    ICodeItem,
     ICodeStruct,
     IEventHandler,
     IPublicTypeCompositeValue,
@@ -24,8 +25,8 @@ function handleEventDep(events: IEventHandler[], callback: Callback) {
     }
 }
 
-function traverseCode(code: ICodeStruct, callback: Callback) {
-    for (const item of code.code || []) {
+export function traverseCodes(code: ICodeItem[], callback: Callback) {
+    for (const item of code || []) {
         if (isVariableState(item)) {
             callback(item.initValue, item, 'JSExpression');
         }
@@ -50,6 +51,12 @@ function traverseCode(code: ICodeStruct, callback: Callback) {
             handleEventDep(item.successEvent, callback);
         }
     }
+}
+
+export function traverseCodeStruct(code: ICodeStruct, callback: Callback) {
+    traverseCodes(code.code, callback);
+    for (const directory of code.directories)
+        traverseCodes(directory.code, callback);
 }
 
 function traverseNodeProps(value: IPublicTypeCompositeValue, callback: Callback) {
@@ -89,7 +96,7 @@ function handleNodeSchema(node: IPublicTypeNodeSchema, callback: Callback) {
         traverseNodeSchema(node.children, callback);
 }
 
-function traverseNodeSchema(
+export function traverseNodeSchema(
     nodeData: IPublicTypeNodeData | IPublicTypeNodeData[],
     callback: Callback,
 ) {
@@ -111,8 +118,8 @@ function traverseNodeSchema(
     }
 }
 
-export function traverseLogic(rootSchema: IPublicTypeRootSchema, callback: Callback) {
-    traverseCode(rootSchema.code, callback);
+export function walkSchemaLogic(rootSchema: IPublicTypeRootSchema, callback: Callback) {
+    traverseCodeStruct(rootSchema.code, callback);
 
     traverseNodeSchema(rootSchema.children, callback);
 }

@@ -1,4 +1,5 @@
 import type {
+    ICodeStruct,
     IPublicModelNode,
     IPublicTypeDragNodeDataObject,
     IPublicTypeNodeSchema,
@@ -12,23 +13,34 @@ import type {
     IPluginContext,
 } from '@webank/letgo-engine-plugin';
 import { FMessage } from '@fesjs/fes-design';
-import { isProjectSchema } from '@webank/letgo-common';
+import { collectLogicFromIds, findSchemaLogic, isProjectSchema } from '@webank/letgo-common';
+
+interface CopyType {
+    type: string;
+    code: ICodeStruct;
+    componentsTree: IPublicTypeNodeSchema[];
+}
 
 function getNodesSchema(nodes: IPublicModelNode[]) {
     const componentsTree = nodes.map(node => node?.exportSchema(IPublicEnumTransformStage.Clone));
-    const data = { type: 'nodeSchema', componentsMap: {}, componentsTree };
+    const codes = Array.from(new Set(componentsTree.map(item => findSchemaLogic(item)).flat()));
+    const [codeStruct, unMatchIds] = collectLogicFromIds(codes, nodes[0].document);
+    if (unMatchIds.size > 0)
+        FMessage.warn(`剪贴板内容中的含有非逻辑变量依赖：${Array.from(unMatchIds).join(', ')}`);
+
+    const data = { type: 'nodeSchema', code: codeStruct, componentsMap: {}, componentsTree };
     return data;
 }
 
-async function getClipboardText(): Promise<IPublicTypeNodeSchema[]> {
+async function getClipboardText(): Promise<CopyType> {
     return new Promise((resolve, reject) => {
     // 使用 Clipboard API 读取剪贴板内容
         navigator.clipboard.readText().then(
             (text) => {
                 try {
-                    const data = JSON.parse(text);
+                    const data = JSON.parse(text) as CopyType;
                     if (isProjectSchema(data)) {
-                        resolve(data.componentsTree);
+                        resolve(data);
                     }
                     else {
                         FMessage.error('不是有效的节点数据');
@@ -71,7 +83,7 @@ export function defaultContextMenu(ctx: IPluginContext) {
 
             material.addContextMenuOption({
                 name: 'copy',
-                title: '拷贝',
+                title: '拷贝(含逻辑)',
                 condition(nodes = []) {
                     return nodes?.length > 0;
                 },
@@ -103,8 +115,9 @@ export function defaultContextMenu(ctx: IPluginContext) {
                     const { document: doc } = node;
 
                     try {
-                        const nodeSchema = await getClipboardText();
+                        const copyData = await getClipboardText();
                         const index = node.children?.size || 0;
+                        const nodeSchema = copyData.componentsTree;
                         if (nodeSchema.length === 0)
                             return;
 

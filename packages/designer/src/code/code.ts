@@ -40,19 +40,28 @@ export class Code implements IPublicModelCode {
     }
 
     get queries() {
-        return this.code.filter(item => item.type === IEnumCodeType.JAVASCRIPT_QUERY);
+        return this.findCodes(IEnumCodeType.JAVASCRIPT_QUERY);
     }
 
     get temporaryStates() {
-        return this.code.filter(item => item.type === IEnumCodeType.TEMPORARY_STATE);
+        return this.findCodes(IEnumCodeType.TEMPORARY_STATE);
     }
 
     get functions() {
-        return this.code.filter(item => item.type === IEnumCodeType.JAVASCRIPT_FUNCTION);
+        return this.findCodes(IEnumCodeType.JAVASCRIPT_FUNCTION);
     }
 
     get code() {
         return this.codeStruct.code;
+    }
+
+    private findCodes(type: IEnumCodeType) {
+        const result: ICodeItem[] = [];
+        this.codeMap.forEach((value) => {
+            if (value.type === type)
+                result.push(value);
+        });
+        return result;
     }
 
     private genCodeMap(code: ICodeStruct) {

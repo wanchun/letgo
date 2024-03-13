@@ -9,7 +9,7 @@ export default defineComponent({
         id: String,
         isEditing: Boolean,
         onChange: Function as PropType<(id: string, preId: string) => void>,
-        hasCodeId: Function as PropType<(id: string) => boolean>,
+        isInValidateCodeId: Function as PropType<(id: string) => boolean>,
     },
     emits: ['update:isEditing'],
     setup(props, { emit }) {
@@ -31,7 +31,7 @@ export default defineComponent({
         const checkError = (event: Event) => {
             const val = (event.target as HTMLInputElement).value;
             currentValue.value = val;
-            if (props.hasCodeId(val) || !/^[a-zA-Z_][a-zA-Z_0-9]*$/.test(val))
+            if (props.isInValidateCodeId(val))
                 hasRepeatIdError.value = true;
 
             else
@@ -40,11 +40,12 @@ export default defineComponent({
 
         const cancelEdit = (event: Event) => {
             const newId = (event.target as HTMLInputElement).value;
+
+            if (!props.isInValidateCodeId(newId) && !hasRepeatIdError.value)
+                props.onChange(newId, props.id);
+
             editing.value = false;
             hasRepeatIdError.value = false;
-
-            if (!props.hasCodeId(newId))
-                props.onChange(newId, props.id);
         };
 
         return () => {

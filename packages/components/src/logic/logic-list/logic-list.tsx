@@ -4,7 +4,7 @@ import type { TreeProps } from '@fesjs/fes-design';
 import { FTree } from '@fesjs/fes-design';
 
 import type { ICodeItem, ICodeItemOrDirectory, IPublicModelCode } from '@webank/letgo-types';
-import { IEnumCodeType } from '@webank/letgo-types';
+import { IEnumCodeType, isDirectory } from '@webank/letgo-types';
 import { isNil } from 'lodash-es';
 import { FolderIcon } from '../../icons';
 import { IconMap, ResourceTypeIcon } from '../constants';
@@ -17,11 +17,6 @@ import './logic-list.less';
 type TreeNode = TreeProps['data'][number] & {
     value: string;
 };
-
-/**
- * TODO
- * 1. 编辑 CodeId
- */
 
 export const LogicList = defineComponent({
     props: {
@@ -88,11 +83,15 @@ export const LogicList = defineComponent({
             delete codeItemsEditing[preId];
         };
 
+        const isInValidateCodeId = (id: string) => {
+            return props.hasCodeId(id) || !/^[a-zA-Z_][a-zA-Z_0-9]*$/.test(id);
+        };
+
         function genLabel(item: ICodeItemOrDirectory) {
             return () => h(CodeId, {
                 'isEditing': codeItemsEditing[item.id],
                 'id': item.id,
-                'hasCodeId': props.hasCodeId,
+                'isInValidateCodeId': isDirectory(item) ? props.hasCodeId : isInValidateCodeId,
                 'onChange': changeCodeId,
                 'onUpdate:isEditing': (val: boolean) => codeItemsEditing[item.id] = val,
             });

@@ -40,16 +40,11 @@ export default defineComponent({
 
         const cancelEdit = (event: Event) => {
             const newId = (event.target as HTMLInputElement).value;
-            if (!props.hasCodeId(newId)) {
+            if (!props.hasCodeId(newId) && !hasRepeatIdError.value)
                 props.onChange(newId, props.id);
-                currentValue.value = newId;
-            }
-            else {
-                currentValue.value = props.id;
-            }
 
-            editing.value = false;
             hasRepeatIdError.value = false;
+            editing.value = false;
         };
 
         return () => {

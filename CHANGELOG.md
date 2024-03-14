@@ -1,3 +1,20 @@
+## [0.0.3-beta.26](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.25...v0.0.3-beta.26) (2024-3-14)
+
+
+### Bug Fixes
+
+* 添加修改 id 的能力 ([f4906e6](https://git.weoa.com/mumblefe/letgo/commits/f4906e6dd699c99a8517263c28b99570b2177804))
+* 修复部分问题 ([5d077df](https://git.weoa.com/mumblefe/letgo/commits/5d077df093df08c014c94ae8cd572e1033f8819c))
+* 修复Popup中MixSetter图标位置不正确问题 ([c29c996](https://git.weoa.com/mumblefe/letgo/commits/c29c996400ae641df96a62119172af5be0966d70))
+
+
+### Features
+
+* Icon支持事件 ([26d23d3](https://git.weoa.com/mumblefe/letgo/commits/26d23d3ddf9218182eef9bbc679656abb23b12f5))
+* node-ref 支持 id 重复校验提示 ([c41a4fd](https://git.weoa.com/mumblefe/letgo/commits/c41a4fd58d9a730c1fda79dae26126b01050123a))
+
+
+
 ## [0.0.3-beta.25](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.24...v0.0.3-beta.25) (2024-3-8)
 
 

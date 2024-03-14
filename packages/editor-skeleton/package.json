@@ -19,7 +19,7 @@
         "vue": "^3.3.9"
     },
     "dependencies": {
-        "@fesjs/fes-design": "^0.8.34",
+        "@fesjs/fes-design": "^0.8.37",
         "@icon-park/vue-next": "^1.4.2",
         "@vueuse/core": "^10.7.1",
         "@webank/letgo-common": "^0.0.3-beta.7",

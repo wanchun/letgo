@@ -17,7 +17,7 @@
     },
     "dependencies": {
         "@codemirror/lang-json": "^6.0.1",
-        "@fesjs/fes-design": "^0.8.34",
+        "@fesjs/fes-design": "^0.8.37",
         "@icon-park/vue-next": "^1.4.2",
         "@webank/letgo-components": "^0.0.3-beta.12",
         "@webank/letgo-designer": "^0.0.3-beta.12",

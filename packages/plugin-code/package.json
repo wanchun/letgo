@@ -16,7 +16,7 @@
         "vue": "^3.3.9"
     },
     "dependencies": {
-        "@fesjs/fes-design": "^0.8.34",
+        "@fesjs/fes-design": "^0.8.37",
         "@webank/letgo-common": "^0.0.3-beta.7",
         "@webank/letgo-components": "^0.0.3-beta.12",
         "@webank/letgo-designer": "^0.0.3-beta.12",

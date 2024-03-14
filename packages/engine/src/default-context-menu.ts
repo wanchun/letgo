@@ -12,6 +12,7 @@ import {
 import type {
     IPluginContext,
 } from '@webank/letgo-engine-plugin';
+import { definePlugin } from '@webank/letgo-engine-plugin';
 import { FMessage } from '@fesjs/fes-design';
 import { collectLogicFromIds, findSchemaLogic, genCodeMap, isProjectSchema, sortState } from '@webank/letgo-common';
 
@@ -61,121 +62,117 @@ async function getClipboardText(): Promise<CopyType> {
     });
 }
 
-export function defaultContextMenu(ctx: IPluginContext) {
-    const { material, canvas } = ctx;
-    const { clipboard } = canvas;
-
-    return {
-        init() {
-            material.addContextMenuOption({
-                name: 'selectParentComponent',
-                title: '选择父级组件',
-                condition: (nodes = []) => {
-                    return nodes.length === 1;
+export const DefaultContextMenu = definePlugin({
+    name: '___default_context_menu___',
+    init(ctx) {
+        const { material, canvas } = ctx;
+        const { clipboard } = canvas;
+        material.addContextMenuOption({
+            name: 'selectParentComponent',
+            title: '选择父级组件',
+            condition: (nodes = []) => {
+                return nodes.length === 1;
+            },
+            items: [
+                {
+                    name: 'nodeTree',
+                    type: IPublicEnumContextMenuType.NODE_TREE,
                 },
-                items: [
-                    {
-                        name: 'nodeTree',
-                        type: IPublicEnumContextMenuType.NODE_TREE,
-                    },
-                ],
-            });
+            ],
+        });
 
-            material.addContextMenuOption({
-                name: 'copy',
-                title: '拷贝(含逻辑)',
-                condition(nodes = []) {
-                    return nodes?.length > 0;
-                },
-                action(nodes) {
-                    if (!nodes || nodes.length < 1)
+        material.addContextMenuOption({
+            name: 'copy',
+            title: '拷贝(含逻辑)',
+            condition(nodes = []) {
+                return nodes?.length > 0;
+            },
+            action(nodes) {
+                if (!nodes || nodes.length < 1)
+                    return;
+
+                const data = getNodesSchema(nodes);
+                clipboard.setData(data);
+            },
+        });
+
+        material.addContextMenuOption({
+            name: 'pasteToInner',
+            title: '粘贴至内部',
+            condition: (nodes) => {
+                return nodes?.length === 1;
+            },
+            disabled: (nodes = []) => {
+                // 获取粘贴数据
+                const node = nodes?.[0];
+                return !node.isContainerNode;
+            },
+            async action(nodes) {
+                const node = nodes?.[0];
+                if (!node)
+                    return;
+
+                const { document: doc } = node;
+
+                try {
+                    const copyData = await getClipboardText();
+                    const index = node.children?.size || 0;
+                    const nodeSchema = copyData.componentsTree;
+                    if (nodeSchema.length === 0)
                         return;
 
-                    const data = getNodesSchema(nodes);
-                    clipboard.setData(data);
-                },
-            });
-
-            material.addContextMenuOption({
-                name: 'pasteToInner',
-                title: '粘贴至内部',
-                condition: (nodes) => {
-                    return nodes?.length === 1;
-                },
-                disabled: (nodes = []) => {
-                    // 获取粘贴数据
-                    const node = nodes?.[0];
-                    return !node.isContainerNode;
-                },
-                async action(nodes) {
-                    const node = nodes?.[0];
-                    if (!node)
+                    const canAddNodes = nodeSchema.filter((nodeSchema: IPublicTypeNodeSchema) => {
+                        const dragNodeObject: IPublicTypeDragNodeDataObject = {
+                            type: IPublicEnumDragObject.NodeData,
+                            data: nodeSchema,
+                        };
+                        return doc?.checkNesting(node, dragNodeObject);
+                    });
+                    if (canAddNodes.length === 0) {
+                        FMessage.error(`${nodeSchema.map(d => d.title || d.componentName).join(',')}等组件无法放置到${node.title || node.componentName}内`);
                         return;
+                    }
 
-                    const { document: doc } = node;
-
-                    try {
-                        const copyData = await getClipboardText();
-                        const index = node.children?.size || 0;
-                        const nodeSchema = copyData.componentsTree;
-                        if (nodeSchema.length === 0)
-                            return;
-
-                        const canAddNodes = nodeSchema.filter((nodeSchema: IPublicTypeNodeSchema) => {
-                            const dragNodeObject: IPublicTypeDragNodeDataObject = {
-                                type: IPublicEnumDragObject.NodeData,
-                                data: nodeSchema,
-                            };
-                            return doc?.checkNesting(node, dragNodeObject);
-                        });
-                        if (canAddNodes.length === 0) {
-                            FMessage.error(`${nodeSchema.map(d => d.title || d.componentName).join(',')}等组件无法放置到${node.title || node.componentName}内`);
-                            return;
+                    const codeMap = genCodeMap(copyData.code);
+                    const sortResult = sortState(codeMap);
+                    sortResult.forEach((codeId) => {
+                        if (copyData.code.code.find(item => item.id === codeId)) {
+                            doc.code.addCodeItem(codeMap.get(codeId));
                         }
-
-                        const codeMap = genCodeMap(copyData.code);
-                        const sortResult = sortState(codeMap);
-                        sortResult.forEach((codeId) => {
-                            if (copyData.code.code.find(item => item.id === codeId)) {
-                                doc.code.addCodeItem(codeMap.get(codeId));
-                            }
-                            else {
-                                for (const directory of copyData.code.directories) {
-                                    if (directory.code.some(item => item.id === codeId)) {
-                                        doc.code.addDirectory(directory.id);
-                                        doc.code.addCodeItemInDirectory(directory.id, codeMap.get(codeId));
-                                    }
+                        else {
+                            for (const directory of copyData.code.directories) {
+                                if (directory.code.some(item => item.id === codeId)) {
+                                    doc.code.addDirectory(directory.id);
+                                    doc.code.addCodeItemInDirectory(directory.id, codeMap.get(codeId));
                                 }
                             }
-                        });
-
-                        const nodes: IPublicModelNode[] = [];
-                        nodeSchema.forEach((schema, schemaIndex) => {
-                            const newNode = doc?.insertNode(node, schema, (index ?? 0) + 1 + schemaIndex, true);
-                            newNode && nodes.push(newNode);
-                        });
-                        doc?.selection.selectAll(nodes.map(node => node?.id));
-                    }
-                    catch (error) {
-                        console.error(error);
-                    }
-                },
-            });
-
-            material.addContextMenuOption({
-                name: 'delete',
-                title: '删除',
-                condition(nodes = []) {
-                    return nodes.length > 0;
-                },
-                action(nodes) {
-                    nodes?.forEach((node) => {
-                        node.remove();
+                        }
                     });
-                },
-            });
-        },
-    };
-}
 
-defaultContextMenu.pluginName = '___default_context_menu___';
+                    const nodes: IPublicModelNode[] = [];
+                    nodeSchema.forEach((schema, schemaIndex) => {
+                        const newNode = doc?.insertNode(node, schema, (index ?? 0) + 1 + schemaIndex, true);
+                        newNode && nodes.push(newNode);
+                    });
+                    doc?.selection.selectAll(nodes.map(node => node?.id));
+                }
+                catch (error) {
+                    console.error(error);
+                }
+            },
+        });
+
+        material.addContextMenuOption({
+            name: 'delete',
+            title: '删除',
+            condition(nodes = []) {
+                return nodes.length > 0;
+            },
+            action(nodes) {
+                nodes?.forEach((node) => {
+                    node.remove();
+                });
+            },
+        });
+    },
+});

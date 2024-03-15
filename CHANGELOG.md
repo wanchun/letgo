@@ -1,3 +1,12 @@
+## [0.0.3-beta.28](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.27...v0.0.3-beta.28) (2024-3-15)
+
+
+### Bug Fixes
+
+* 升级 fes-design 解决tab无法切换问题 ([8b43530](https://git.weoa.com/mumblefe/letgo/commits/8b43530c96938150b30204fd6f1179391c70bc58))
+
+
+
 ## [0.0.3-beta.27](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.26...v0.0.3-beta.27) (2024-03-15)
 
 

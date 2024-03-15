@@ -1,4 +1,4 @@
-import { markComputed, markShallowReactive, uniqueId } from '@webank/letgo-common';
+import { markShallowReactive, uniqueId } from '@webank/letgo-common';
 import type {
     IBaseModelSettingField,
     IPublicEditor,
@@ -220,8 +220,6 @@ export class SettingField implements ISettingField {
         markShallowReactive(this, {
             _expanded: true,
         });
-
-        markComputed(this, ['expanded']);
 
         // initial items
         if (items && items.length > 0)

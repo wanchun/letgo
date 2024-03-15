@@ -42,6 +42,8 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
 
     private _items: Prop[] | null;
 
+    private _maps: Map<string | number, Prop> = new Map();
+
     private _slotNode?: ISlotNode;
 
     private purged = false;
@@ -81,20 +83,6 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
         return this._items;
     }
 
-    get maps(): Map<string | number, Prop> | null {
-        if (!this.items)
-            return null;
-
-        const maps: Map<string | number, Prop> = new Map();
-        if (this.items.length > 0) {
-            this.items.forEach((prop) => {
-                if (!isNil(prop.key) && prop.key !== '')
-                    maps.set(prop.key, prop);
-            });
-        }
-        return maps;
-    }
-
     get slotNode() {
         return this._slotNode;
     }
@@ -118,7 +106,7 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
             _type: 'unset',
             _items: null,
         });
-        markComputed(this, ['key', 'type', 'value', 'items', 'maps', 'size']);
+        markComputed(this, ['key', 'type', 'value', 'size']);
         this.owner = parent.owner;
         this.props = parent.props;
         this._key = key;
@@ -154,6 +142,7 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
             items = null;
         }
         this._items = items;
+        this.resetMaps();
     }
 
     export(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Save): IPublicTypeCompositeValue {
@@ -392,7 +381,7 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
         )
             return null;
 
-        const maps = type === 'map' ? this.maps : null;
+        const maps = type === 'map' ? this._maps : null;
         const items = type === 'list' ? this.items : null;
 
         let entry = path;
@@ -430,6 +419,19 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
         return null;
     }
 
+    private resetMaps() {
+        this._maps.clear();
+        if (!this.items)
+            return;
+
+        if (this.items.length > 0) {
+            this.items.forEach((prop) => {
+                if (!isNil(prop.key) && prop.key !== '')
+                    this._maps.set(prop.key, prop);
+            });
+        }
+    }
+
     /**
      * 设置值到字典
      * @param force 强制
@@ -458,7 +460,7 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
             items[key] = prop;
         }
         else if (this.type === 'map') {
-            const maps = this.maps || new Map<string, Prop>();
+            const maps = this._maps || new Map<string, Prop>();
             const orig = maps?.get(key);
             if (orig) {
                 // replace
@@ -476,6 +478,7 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
         }
 
         this._items = items;
+        this.resetMaps();
 
         return prop;
     }
@@ -513,6 +516,7 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
         const i = this._items.indexOf(prop);
         if (i > -1) {
             this._items.splice(i, 1);
+            this._maps.delete(prop.key);
             prop.purge();
         }
 
@@ -556,6 +560,7 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
             items.forEach(prop => prop.purge());
 
         this._items = null;
+        this.resetMaps();
         if (this._type !== 'slot' && this._slotNode) {
             this._slotNode.remove();
             this._slotNode = undefined;
@@ -574,6 +579,7 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
             this._items.forEach(item => item.purge());
 
         this._items = null;
+        this.resetMaps();
         if (this._slotNode && this._slotNode.slotFor === this) {
             this._slotNode.remove();
             this._slotNode = undefined;

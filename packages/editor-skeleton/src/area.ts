@@ -1,4 +1,4 @@
-import { markComputed, markShallowReactive } from '@webank/letgo-common';
+import { markShallowReactive } from '@webank/letgo-common';
 import type { IBaseConfig, IBaseWidget } from './types';
 import { isPanel } from './types';
 import type { Skeleton } from './skeleton';
@@ -29,7 +29,6 @@ export class Area<C extends IBaseConfig, T extends IBaseWidget = IBaseWidget> {
             _items: [],
             _current: null,
         });
-        markComputed(this, ['items', 'current']);
 
         this.skeleton = skeleton;
         this.name = name;

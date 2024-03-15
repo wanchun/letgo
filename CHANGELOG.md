@@ -1,3 +1,18 @@
+## [0.0.3-beta.29](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.27...v0.0.3-beta.29) (2024-03-15)
+
+
+### Bug Fixes
+
+* Slot去掉多余的div,会造成影响 ([336fad2](https://git.weoa.com/mumblefe/letgo/commits/336fad2c066905447544ad9a782ceedfbd1f6bac))
+* 升级 fes-design 解决tab无法切换问题 ([8b43530](https://git.weoa.com/mumblefe/letgo/commits/8b43530c96938150b30204fd6f1179391c70bc58))
+
+
+### Features
+
+* 物料面板中切换优化 ([cd325fa](https://git.weoa.com/mumblefe/letgo/commits/cd325fa5d2fe075038fcf8ea0eb451daa1eb22af))
+
+
+
 ## [0.0.3-beta.28](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.27...v0.0.3-beta.28) (2024-3-15)
 
 

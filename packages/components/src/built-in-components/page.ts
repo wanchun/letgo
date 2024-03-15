@@ -2,7 +2,7 @@ import { defineComponent, h } from 'vue';
 import type { IPublicTypeComponentMetadata } from '@webank/letgo-types';
 
 export const Page = defineComponent((props, { slots }) => {
-    return () => h('div', { class: 'letgo-page', ...props }, slots);
+    return () => h('div', { class: 'letgo-page', style: { height: '100%' }, ...props }, slots);
 });
 
 export const PageMeta: IPublicTypeComponentMetadata = {

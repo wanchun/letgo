@@ -231,7 +231,7 @@ const assets: IPublicTypeAssetsJson = {
             group: '原子组件',
             category: '信息展示',
             priority: 3,
-        },        
+        },
         {
             title: '文本',
             componentName: 'FText',
@@ -9459,7 +9459,7 @@ const assets: IPublicTypeAssetsJson = {
         },
     }],
     sort: {
-        groupList: ['原子组件', '智能推导', '精选组件'],
+        groupList: ['原子组件', '智能推导', '精选组件', '业务组件'],
         categoryList: [
             '基础元素',
             '通用组件',

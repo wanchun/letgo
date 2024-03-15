@@ -227,6 +227,7 @@ export default defineComponent({
                                     <FTabPane
                                         name={group}
                                         value={group}
+                                        displayDirective="show"
                                     >
                                         <FScrollbar>
                                             {renderCategory(group)}

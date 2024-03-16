@@ -55,7 +55,7 @@ export default defineComponent({
                 return <ResponseEdit codeItem={tmpCodeItem.value} changeCodeItem={changeCodeItem} />;
             }
 
-            return <Advance codeItem={tmpCodeItem.value} />;
+            return <Advance documentModel={props.documentModel} changeCodeItem={changeCodeItem} codeItem={tmpCodeItem.value} />;
         };
 
         return () => {

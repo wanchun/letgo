@@ -4,10 +4,10 @@ import { isNil, isUndefined } from 'lodash-es';
 import { innerParse } from './ast';
 
 interface Identifier {
-    type: 'Identifier';
-    start: number;
-    end: number;
-    name: string;
+    type: 'Identifier'
+    start: number
+    end: number
+    name: string
 }
 
 type Callback = (identifier: Identifier) => void;
@@ -75,7 +75,7 @@ export function isExpression(code: string, isInclude: (name: string) => boolean)
 
 export function executeExpression(text: string | null, ctx: Record<string, any> = {}, whenErrorReturnRaw = false) {
     if (isNil(text))
-        return null;
+        return undefined;
     try {
         const exp = attachContext(`(${text})`, name => !isUndefined(ctx[name]));
         // eslint-disable-next-line no-new-func
@@ -85,6 +85,6 @@ export function executeExpression(text: string | null, ctx: Record<string, any> 
     catch (_) {
         if (whenErrorReturnRaw)
             return text;
-        return null;
+        return undefined;
     }
 }

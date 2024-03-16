@@ -8,8 +8,8 @@ import type {
 import {
     computed,
     createApp,
+    isReactive,
     markRaw,
-    onBeforeUnmount,
     onUnmounted,
     reactive,
     ref,
@@ -19,7 +19,7 @@ import {
 import { config } from '@webank/letgo-renderer';
 import { builtinComponents } from '@webank/letgo-components';
 import { createMemoryHistory, createRouter } from 'vue-router';
-import { debounce } from 'lodash-es';
+import { debounce, isPlainObject } from 'lodash-es';
 import type {
     DocumentInstance,
     MixedComponent,
@@ -250,7 +250,14 @@ function createSimulatorRenderer() {
             const instance
                 = documentInstance?.getComponentInstance(cid) ?? null;
             // @ts-expect-error setupState 为内部属性，因此类型识别不了
-            return instance ? { __scope: instance.__scope, ...toRaw(instance.$props), ...toRaw(instance.$.setupState), ...toRaw(instance.$.exposed) } : {};
+            const innerState = { ...toRaw(instance.$.setupState) };
+            Object.keys(innerState).forEach((key) => {
+                // 移除组件实例引用的内部 refEl
+                if (isPlainObject(innerState[key]) && innerState[key].__v_skip != null)
+                    delete innerState[key];
+            });
+            // @ts-expect-error __scope letgo 属性
+            return instance ? { __scope: instance.__scope, ...toRaw(instance.$props), ...innerState, ...toRaw(instance.$.exposed) } : {};
         }
         return {};
     };

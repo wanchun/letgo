@@ -6,8 +6,10 @@ import { lintGutter, setDiagnostics } from '@codemirror/lint';
 import { autocompletion } from '@codemirror/autocomplete';
 import type { ViewUpdate } from '@codemirror/view';
 import {
+    keymap,
     placeholder,
 } from '@codemirror/view';
+import { vscodeKeymap } from '@replit/codemirror-vscode-keymap';
 import type { IPublicModelDocumentModel } from '@webank/letgo-types';
 import type { PropType } from 'vue';
 import { isFunction } from 'lodash-es';
@@ -110,6 +112,9 @@ export const ExpressionEditor = defineComponent({
                 doc: props.doc,
                 extensions: [
                     minimalSetup,
+                    keymap.of([
+                        ...vscodeKeymap,
+                    ]),
                     Theme,
                     placeholder(props.placeholder || '表达式'),
                     autocompletion({

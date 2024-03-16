@@ -71,13 +71,13 @@ function render({
     blockScope,
     comp,
 }: {
-    scope: RuntimeScope;
-    context: Record<string, unknown>;
-    schema: IPublicTypeNodeData;
-    base: Component;
-    components: Record<string, Component>;
-    blockScope?: MaybeArray<BlockScope | undefined | null>;
-    comp?: Component;
+    scope: RuntimeScope
+    context: Record<string, unknown>
+    schema: IPublicTypeNodeData
+    base: Component
+    components: Record<string, Component>
+    blockScope?: MaybeArray<BlockScope | undefined | null>
+    comp?: Component
 }) {
     const mergedScope = mergeScope(scope, blockScope);
 
@@ -92,8 +92,6 @@ function render({
         });
         if (result == null)
             return null;
-        if (result.ctx)
-            return createTextVNode(toDisplayString(result.view));
 
         return createTextVNode(toDisplayString(result));
     }
@@ -202,16 +200,16 @@ function buildProp({
     blockScope,
     prop,
 }: {
-    context: Record<string, unknown>;
+    context: Record<string, unknown>
     render: (
         nodeSchema: IPublicTypeNodeData,
         blockScope?: MaybeArray<BlockScope | undefined | null>,
         comp?: Component,
-    ) => VNode | null;
-    schema: unknown;
-    scope: RuntimeScope;
-    blockScope?: BlockScope | null;
-    prop?: Prop | null;
+    ) => VNode | null
+    schema: unknown
+    scope: RuntimeScope
+    blockScope?: BlockScope | null
+    prop?: Prop | null
 }): any {
     if (isJSExpression(schema)) {
         return parseExpression(schema, { ...context, ...scope });
@@ -294,16 +292,16 @@ function buildRefProp({
     blockScope,
     prop,
 }: {
-    context: Record<string, unknown>;
+    context: Record<string, unknown>
     render: (
         nodeSchema: IPublicTypeNodeData,
         blockScope?: MaybeArray<BlockScope | undefined | null>,
         comp?: Component,
-    ) => VNode | null;
-    schema: unknown;
-    scope: RuntimeScope;
-    blockScope?: BlockScope | null;
-    prop?: Prop | null;
+    ) => VNode | null
+    schema: unknown
+    scope: RuntimeScope
+    blockScope?: BlockScope | null
+    prop?: Prop | null
 }): any {
     if (isString(schema)) {
         const field = schema;
@@ -440,17 +438,17 @@ export function buildProps({
     extraProps,
     node,
 }: {
-    context: Record<string, unknown>;
-    scope: RuntimeScope;
-    propsSchema: Record<string, unknown>;
+    context: Record<string, unknown>
+    scope: RuntimeScope
+    propsSchema: Record<string, unknown>
     render: (
         nodeSchema: IPublicTypeNodeData,
         blockScope?: MaybeArray<BlockScope | undefined | null>,
         comp?: Component,
-    ) => VNode | null;
-    blockScope?: BlockScope | null;
-    extraProps?: Record<string, unknown>;
-    node?: INode | null;
+    ) => VNode | null
+    blockScope?: BlockScope | null
+    extraProps?: Record<string, unknown>
+    node?: INode | null
 }): any {
     // 属性预处理
     const processed: Record<string, unknown> = {};

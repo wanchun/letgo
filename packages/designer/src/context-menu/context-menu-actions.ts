@@ -77,7 +77,7 @@ export class GlobalContextMenuActions {
     }
 }
 
-const globalContextMenuActions = new GlobalContextMenuActions();
+// const globalContextMenuActions = new GlobalContextMenuActions();
 
 export class ContextMenuActions implements IContextMenuActions {
     actions: IPublicTypeContextMenuAction[] = [];
@@ -103,8 +103,6 @@ export class ContextMenuActions implements IContextMenuActions {
             if (enable)
                 this.initEvent();
         });
-
-        globalContextMenuActions.registerContextMenuActions(this);
     }
 
     handleContextMenu = (
@@ -114,6 +112,9 @@ export class ContextMenuActions implements IContextMenuActions {
         const designer = this.designer;
         event.stopPropagation();
         event.preventDefault();
+
+        const { bounds } = designer.simulator?.viewport || { bounds: { left: 0, top: 0 } };
+        const { left: simulatorLeft, top: simulatorTop } = bounds;
 
         const actions = designer.contextMenuActions.actions;
 
@@ -125,7 +126,7 @@ export class ContextMenuActions implements IContextMenuActions {
         if (!menus.length)
             return;
 
-        createContextMenu(menus, event);
+        createContextMenu(menus, event, [simulatorLeft, simulatorTop]);
     };
 
     initEvent() {
@@ -143,7 +144,7 @@ export class ContextMenuActions implements IContextMenuActions {
                 originalEvent.preventDefault();
 
                 if (!node)
-                    return null;
+                    node = designer.currentDocument.root;
 
                 // 如果右键的节点不在 当前选中的节点中，选中该节点
                 if (!designer.currentSelection.has(node.id))

@@ -25,6 +25,7 @@ interface CopyType {
 function getNodesSchema(nodes: IPublicModelNode[]) {
     const componentsTree = nodes.map(node => node?.exportSchema(IPublicEnumTransformStage.Clone));
     const codes = Array.from(new Set(componentsTree.map(item => findSchemaLogic(item)).flat()));
+    debugger;
     const [codeStruct, unMatchIds] = collectLogicFromIds(codes, nodes[0].document);
     if (unMatchIds.size > 0)
         FMessage.warn(`剪贴板内容中的含有非逻辑变量依赖：${Array.from(unMatchIds).join(', ')}`);
@@ -71,7 +72,7 @@ export const DefaultContextMenu = definePlugin({
             name: 'selectParentComponent',
             title: '选择父级组件',
             condition: (nodes = []) => {
-                return nodes.length === 1;
+                return !!(nodes.length === 1 && nodes[0].parent);
             },
             items: [
                 {
@@ -166,7 +167,7 @@ export const DefaultContextMenu = definePlugin({
             name: 'delete',
             title: '删除',
             condition(nodes = []) {
-                return nodes.length > 0;
+                return nodes.length > 0 && nodes.some(node => !node.isRoot);
             },
             action(nodes) {
                 nodes?.forEach((node) => {

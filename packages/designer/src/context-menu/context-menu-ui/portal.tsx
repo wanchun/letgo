@@ -1,8 +1,6 @@
-<script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { Teleport, computed, defineComponent } from 'vue';
 
 export default defineComponent({
-    name: 'Portal',
     props: {
         appendTo: {
             type: [String, Object],
@@ -13,22 +11,15 @@ export default defineComponent({
             default: false,
         },
     },
-    setup(props) {
+    setup(props, { slots }) {
         const inline = computed(() => {
             return props.disabled || props.appendTo === 'self';
         });
-        return {
-            inline,
+        return () => {
+            if (inline.value)
+                return slots.default?.();
+
+            return <Teleport to={props.appendTo}>{slots.default?.()}</Teleport>;
         };
     },
 });
-</script>
-
-<template>
-    <template v-if="inline">
-        <slot />
-    </template>
-    <Teleport v-else :to="appendTo">
-        <slot />
-    </Teleport>
-</template>

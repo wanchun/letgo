@@ -25,3 +25,5 @@ export * from './traverse-schema';
 export * from './extra-key';
 export * from './check-types';
 export * from './gen-code-map';
+export * from './dom';
+export * from './utils';

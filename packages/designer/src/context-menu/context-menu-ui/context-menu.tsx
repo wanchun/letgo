@@ -1,13 +1,12 @@
-<script lang="ts">
+import { Transition, computed, defineComponent, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import type { PropType } from 'vue';
-import { computed, defineComponent, ref, watch } from 'vue';
 import { isEmpty } from 'lodash-es';
-import Portal from './portal.vue';
-import { addStyles, findSingle, focus, getHiddenElementOuterHeight, getHiddenElementOuterWidth, getViewport } from './dom';
+import { addStyles, findLastIndex, findSingle, focus, getHiddenElementOuterHeight, getHiddenElementOuterWidth, getViewport } from '@webank/letgo-common';
 import uniqueContextMenuId from './unique-context-menu-id';
-import { findLastIndex } from './utils';
+import Portal from './portal';
+import ContextMenuSub from './context-menu-sub';
 import type { InnerMenuItem, MenuItem } from './types';
-import ContextMenuSub from './context-menu-sub.vue';
+
 import './context-menu.less';
 
 interface ItemInfo {
@@ -16,15 +15,15 @@ interface ItemInfo {
     parentKey?: string;
 }
 
-export default defineComponent({
-    components: {
-        Portal,
-        ContextMenuSub,
-    },
+export const ContextMenuUI = defineComponent({
     props: {
         model: {
             type: Array as PropType<MenuItem[]>,
             default: () => [] as MenuItem[],
+        },
+        offset: {
+            type: Array as PropType<number[]>,
+            default: () => [0, 0],
         },
         appendTo: {
             type: [String, Object],
@@ -38,16 +37,15 @@ export default defineComponent({
             type: Number,
             default: 0,
         },
-        global: {
-            type: Boolean,
-            default: false,
-        },
         tabindex: {
             type: Number,
             default: 0,
         },
+        getExpose: {
+            type: Function as PropType<(expose: { show: (event: MouseEvent) => void }) => void>,
+        },
     },
-    setup(props, { expose }) {
+    setup(props) {
         let pageX: number;
         let pageY: number;
 
@@ -99,8 +97,8 @@ export default defineComponent({
         });
 
         function position() {
-            let left = pageX + 1;
-            let top = pageY + 1;
+            let left = pageX + 1 + props.offset[0];
+            let top = pageY + 1 + props.offset[1]; ;
             const width = containerRef.value.offsetParent ? containerRef.value.offsetWidth : getHiddenElementOuterWidth(containerRef.value);
             const height = containerRef.value.offsetParent ? containerRef.value.offsetHeight : getHiddenElementOuterHeight(containerRef.value);
             const viewport = getViewport();
@@ -128,7 +126,8 @@ export default defineComponent({
         function onEnter(el: Element) {
             if (el instanceof HTMLElement) {
                 addStyles(el, { position: 'absolute' });
-                position();
+                if (visible.value)
+                    nextTick(position);
 
                 if (props.autoZIndex)
                     el.style.zIndex = `${1000 + props.baseZIndex}`;
@@ -383,7 +382,7 @@ export default defineComponent({
             hide();
             event.preventDefault();
         }
-        function onTabKey(event: KeyboardEvent) {
+        function onTabKey() {
             if (focusedItemInfo.value.index !== -1) {
                 const processedItem = visibleItems.value[focusedItemInfo.value.index];
                 const grouped = isProccessedItemGroup(processedItem);
@@ -434,7 +433,7 @@ export default defineComponent({
                     break;
 
                 case 'Tab':
-                    onTabKey(event);
+                    onTabKey();
                     break;
 
                 case 'PageDown':
@@ -447,7 +446,7 @@ export default defineComponent({
             }
         }
 
-        function onItemClick(params: { processedItem: InnerMenuItem }) {
+        function onItemClick(params: { processedItem: InnerMenuItem; isFocus?: boolean }) {
             const { processedItem } = params;
             const grouped = isProccessedItemGroup(processedItem);
             const selected = isSelected(processedItem);
@@ -483,64 +482,46 @@ export default defineComponent({
                 unbindResizeListener();
             }
         });
-
-        expose({
-            show,
+        onMounted(() => {
+            props.getExpose({
+                show,
+            });
         });
 
-        return {
-            visible,
-            containerRef,
+        onBeforeUnmount(() => {
+            unbindResizeListener();
+            unbindOutsideClickListener();
+        });
 
-            id: menuId,
-            processedItems,
-
-            activeItemPath,
-            submenuVisible,
-
-            focused,
-            focusedItemIdx,
-
-            onEnter,
-            onAfterEnter,
-            onAfterLeave,
-
-            onFocus,
-            onBlur,
-            onKeyDown,
-
-            onItemClick,
-            onItemMouseMove,
-            onItemMouseEnter,
+        return () => {
+            return (
+                <Portal append-to={props.appendTo}>
+                    <Transition name="letgo-contextmenu" onEnter={onEnter} onAfterEnter={onAfterEnter} onAfterLeave={onAfterLeave}>
+                        {visible.value && (
+                            <div ref={containerRef} class="letgo-contextmenu">
+                                <ContextMenuSub
+                                    ref={listRefEl}
+                                    class="letgo-contextmenu-root-list"
+                                    root={true}
+                                    tabindex={props.tabindex}
+                                    menu-id={menuId}
+                                    focused-item-id={focused.value ? focusedItemIdx.value : undefined}
+                                    items={processedItems.value}
+                                    active-item-path={activeItemPath.value}
+                                    level={0}
+                                    visible={submenuVisible.value}
+                                    onFocus={onFocus}
+                                    onBlur={onBlur}
+                                    onKeydown={onKeyDown}
+                                    onItemClick={onItemClick}
+                                    onItemMouseenter={onItemMouseEnter}
+                                    onItemMousemove={onItemMouseMove}
+                                />
+                            </div>
+                        )}
+                    </Transition>
+                </Portal>
+            );
         };
     },
 });
-</script>
-
-<template>
-    <Portal :append-to="appendTo">
-        <transition name="p-contextmenu" @enter="onEnter" @after-enter="onAfterEnter" @after-leave="onAfterLeave">
-            <div v-if="visible" ref="containerRef" class="p-contextmenu">
-                <ContextMenuSub
-                    :id="`${id}_list`"
-                    ref="listRefEl"
-                    class="p-contextmenu-root-list"
-                    :root="true"
-                    :tabindex="tabindex"
-                    :menu-id="id"
-                    :focused-item-id="focused ? focusedItemIdx : undefined"
-                    :items="processedItems"
-                    :active-item-path="activeItemPath"
-                    :level="0"
-                    :visible="submenuVisible"
-                    @focus="onFocus"
-                    @blur="onBlur"
-                    @keydown="onKeyDown"
-                    @item-click="onItemClick"
-                    @item-mouseenter="onItemMouseEnter"
-                    @item-mousemove="onItemMouseMove"
-                />
-            </div>
-        </transition>
-    </Portal>
-</template>

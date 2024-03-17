@@ -1,16 +1,14 @@
-import { render } from 'vue';
+import { nextTick, render } from 'vue';
 import type { ComponentPublicInstance } from 'vue';
 import type { IPublicModelNode, IPublicTypeContextMenuAction } from '@webank/letgo-types';
 import { IPublicEnumContextMenuType } from '@webank/letgo-types';
 import { Logger } from '@webank/letgo-common';
-import ContextMenu from 'primevue/contextmenu';
-import type { ContextMenuProps } from 'primevue/contextmenu';
+import { ContextMenuUI } from './context-menu-ui/context-menu';
+import type { MenuItem } from './context-menu-ui/types';
 
 const logger = new Logger({ level: 'warn', bizName: 'utils' });
 
 const MAX_LEVEL = 2;
-
-type MenuItem = ContextMenuProps['model'][number];
 
 interface IOptions {
     nodes?: IPublicModelNode[] | null;
@@ -57,9 +55,11 @@ export function parseContextMenuProperties(menus: (IPublicTypeContextMenuAction 
                 name,
                 label: title,
                 type,
-                command: () => {
-                    destroy?.();
-                    menu.action?.(nodes || [], options.event);
+                command: (params) => {
+                    if (!params.item.disabled) {
+                        destroy?.();
+                        menu.action?.(nodes || [], options.event);
+                    }
                 },
                 disabled: menu.disabled && menu.disabled(nodes || []) || false,
                 separator: menu.separator,
@@ -88,22 +88,30 @@ export function parseContextMenuProperties(menus: (IPublicTypeContextMenuAction 
 }
 
 let container: HTMLDivElement;
-export function createContextMenu(items: MenuItem[], event: MouseEvent) {
+let showContextMenu: (event: MouseEvent) => void;
+export function createContextMenu(items: MenuItem[], event: MouseEvent, offset?: [number, number]) {
     event.preventDefault();
     event.stopPropagation();
 
     if (!container)
         container = document.createElement('div');
 
-    function getRef(inst: Element | ComponentPublicInstance) {
-        (inst as any).show(event);
+    function getExpose({ show }: { show: (event: MouseEvent) => void }) {
+        showContextMenu = show;
+        showContextMenu(event);
     }
 
     function destroy() {
         render(null, container);
     }
+    function renderContextMenu() {
+        render(<ContextMenuUI getExpose={getExpose} offset={offset} model={items} />, container);
+    }
 
-    render(<ContextMenu ref={getRef} model={items} />, container);
+    renderContextMenu();
+    setTimeout(() => {
+        showContextMenu && showContextMenu(event);
+    });
 
     return {
         destroy,

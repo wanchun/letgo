@@ -4,7 +4,7 @@ import type { IPublicTypeComponentInstance, IPublicTypeNodeSchema } from '@weban
 import type { InjectionKey } from 'vue';
 
 interface RendererContext extends LiveRendererContext {
-    onCompGetCtx(schema: IPublicTypeNodeSchema, val: IPublicTypeComponentInstance, scope?: RuntimeScope): void
+    onCompGetCtx: (schema: IPublicTypeNodeSchema, val: IPublicTypeComponentInstance, scope?: RuntimeScope) => void;
 }
 
 function getPageContextKey(): InjectionKey<RendererContext> {

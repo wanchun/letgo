@@ -8,7 +8,6 @@ import type {
 import {
     computed,
     createApp,
-    isReactive,
     markRaw,
     onUnmounted,
     reactive,

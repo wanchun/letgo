@@ -25,7 +25,6 @@ interface CopyType {
 function getNodesSchema(nodes: IPublicModelNode[]) {
     const componentsTree = nodes.map(node => node?.exportSchema(IPublicEnumTransformStage.Clone));
     const codes = Array.from(new Set(componentsTree.map(item => findSchemaLogic(item)).flat()));
-    debugger;
     const [codeStruct, unMatchIds] = collectLogicFromIds(codes, nodes[0].document);
     if (unMatchIds.size > 0)
         FMessage.warn(`剪贴板内容中的含有非逻辑变量依赖：${Array.from(unMatchIds).join(', ')}`);

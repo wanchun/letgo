@@ -1,7 +1,7 @@
 {
     "name": "@webank/letgo-code-generator",
     "type": "module",
-    "version": "0.0.3-beta.15",
+    "version": "0.0.3-beta.16",
     "description": "letgo code generator",
     "author": "",
     "license": "ISC",
@@ -13,7 +13,7 @@
         "lib"
     ],
     "dependencies": {
-        "@webank/letgo-common": "^0.0.3-beta.9",
+        "@webank/letgo-common": "^0.0.3-beta.10",
         "@webank/letgo-types": "^0.0.3-beta.2",
         "jszip": "^3.10.1",
         "lodash-es": "^4.17.21"

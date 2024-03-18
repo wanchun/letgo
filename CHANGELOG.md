@@ -1,3 +1,22 @@
+## [0.0.3-beta.31](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.30...v0.0.3-beta.31) (2024-03-18)
+
+
+### Bug Fixes
+
+* 修复 codes 响应性问题 ([30b44b5](https://git.weoa.com/mumblefe/letgo/commits/30b44b5151d97ede7aefd8dcf58c7118f30fc851))
+* 修复Porp删除未更新响应问题 ([2971c7d](https://git.weoa.com/mumblefe/letgo/commits/2971c7d7e205ce592dc454eec1933406e2e0b48f))
+* 修复组件实例未正确更新问题 ([73e4e82](https://git.weoa.com/mumblefe/letgo/commits/73e4e82415c42b742ac150b7f34a27464c26b807))
+* 修复组件树拖拽问题 ([47a1a34](https://git.weoa.com/mumblefe/letgo/commits/47a1a34a25a04d77374a3d1a183f37e083b242cd))
+* 添加 replaceFunctionName 的日志输出 ([8e57d37](https://git.weoa.com/mumblefe/letgo/commits/8e57d373c8c86ee7e31f8cfbf173863ad12626e0))
+* 解决新版本 vue 导致依赖收集异常问题 ([a4a3b8c](https://git.weoa.com/mumblefe/letgo/commits/a4a3b8c3527ffacdd418496efd5b861a7e1fd2f6))
+
+
+### Features
+
+* 更新packjson.lock ([9dac72e](https://git.weoa.com/mumblefe/letgo/commits/9dac72eb6feddd4d81ff24db99cc99aa9956a08c))
+
+
+
 ## [0.0.3-beta.30](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.27...v0.0.3-beta.30) (2024-3-16)
 
 

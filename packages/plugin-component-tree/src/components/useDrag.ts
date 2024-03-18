@@ -28,11 +28,11 @@ export default function useDrag({
     dropInfo,
     rootRef,
 }: {
-    nodeMap: Map<string, InnerTreeNode>
-    emit: any
-    dropInfo: Ref<DropInfo>
-    props: any
-    rootRef: Ref<HTMLElement>
+    nodeMap: Map<string, InnerTreeNode>;
+    emit: any;
+    dropInfo: Ref<DropInfo>;
+    props: any;
+    rootRef: Ref<HTMLElement>;
 }) {
     let overBeginTimeMap: { [propName: TreeNodeKey]: number } = {};
     let timer: number;

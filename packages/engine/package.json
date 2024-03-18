@@ -1,7 +1,7 @@
 {
     "name": "@webank/letgo-engine",
     "type": "module",
-    "version": "0.0.3-beta.8",
+    "version": "0.0.3-beta.9",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -21,7 +21,7 @@
         "@webank/letgo-editor-skeleton": "^0.0.3-beta.17",
         "@webank/letgo-engine-ext": "^0.0.3-beta.21",
         "@webank/letgo-engine-plugin": "^0.0.3-beta.15",
-        "@webank/letgo-plugin-code": "^0.0.3-beta.21",
+        "@webank/letgo-plugin-code": "^0.0.3-beta.22",
         "@webank/letgo-plugin-component-tree": "^0.0.3-beta.19",
         "@webank/letgo-plugin-components": "^0.0.3-beta.19",
         "@webank/letgo-plugin-designer": "^0.0.3-beta.17",

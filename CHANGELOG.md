@@ -1,3 +1,12 @@
+## [0.0.3-beta.32](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.31...v0.0.3-beta.32) (2024-03-18)
+
+
+### Features
+
+* 查询支持更多http请求类型 ([fd94d7e](https://git.weoa.com/mumblefe/letgo/commits/fd94d7e112e22e6a1321e546371bdf0b71638ff0))
+
+
+
 ## [0.0.3-beta.31](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.30...v0.0.3-beta.31) (2024-03-18)
 
 

@@ -14,6 +14,7 @@ import {
 } from '@webank/letgo-types';
 import { markComputed, markShallowReactive, uniqueId, valueToSource } from '@webank/letgo-common';
 import { isNil, isPlainObject, isUndefined } from 'lodash-es';
+import { it } from 'node:test';
 import type { INode, ISlotNode } from '../types';
 import type { Props } from './props';
 
@@ -513,12 +514,14 @@ export class Prop implements IPropParent, IPublicModelProp<INode> {
 
         const oldValue = this.getValue();
 
-        const i = this._items.indexOf(prop);
+        const items = [...(this._items || [])];
+        const i = items.indexOf(prop);
         if (i > -1) {
-            this._items.splice(i, 1);
+            items.splice(i, 1);
             this._maps.delete(prop.key);
             prop.purge();
         }
+        this._items = items;
 
         const newValue = this.getValue();
         if (oldValue !== newValue) {

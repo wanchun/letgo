@@ -31,16 +31,7 @@ export class Props implements IPropParent, IBaseModelProps<INode, Prop> {
      */
     private items: Prop[] = [];
 
-    get itemMap() {
-        const maps: Map<string | number, Prop> = new Map();
-        if (this.items.length > 0) {
-            this.items.forEach((prop) => {
-                if (!isNil(prop.key) && prop.key !== '')
-                    maps.set(prop.key, prop);
-            });
-        }
-        return maps;
-    }
+    private itemMap: Map<number | string, Prop> = new Map();
 
     private purged = false;
 
@@ -66,7 +57,7 @@ export class Props implements IPropParent, IBaseModelProps<INode, Prop> {
         markShallowReactive(this, {
             items: [],
         });
-        markComputed(this, ['itemMap', 'type']);
+        markComputed(this, ['type']);
 
         this.owner = owner;
         if (Array.isArray(value)) {
@@ -132,6 +123,7 @@ export class Props implements IPropParent, IBaseModelProps<INode, Prop> {
     import(value?: IPublicTypePropsMap | IPublicTypePropsList | null, extras?: IPublicExtrasObject) {
         this.items.forEach(item => item.purge());
         this.items = [];
+        this.itemMap.clear();
         if (Array.isArray(value)) {
             this._type = 'list';
             value.forEach((item) => {
@@ -245,6 +237,7 @@ export class Props implements IPropParent, IBaseModelProps<INode, Prop> {
         }
 
         let prop = this.itemMap.get(entry);
+
         if (!prop && createIfNone)
             prop = this.add(entry, undefined);
 
@@ -270,6 +263,9 @@ export class Props implements IPropParent, IBaseModelProps<INode, Prop> {
         const prop = new Prop(this, value, key);
         const items = [...this.items];
         items.push(prop);
+        if (!isNil(prop.key) && prop.key !== '')
+            this.itemMap.set(prop.key, prop);
+
         this.items = items;
         return prop;
     }
@@ -284,6 +280,9 @@ export class Props implements IPropParent, IBaseModelProps<INode, Prop> {
         if (i > -1) {
             items.splice(i, 1);
             this.items = items;
+            if (this.itemMap.has(prop.key))
+                this.itemMap.delete(prop.key);
+
             prop.purge();
         }
     }
@@ -295,5 +294,6 @@ export class Props implements IPropParent, IBaseModelProps<INode, Prop> {
         this.purged = true;
         this.items.forEach(item => item.purge());
         this.items = [];
+        this.itemMap.clear();
     }
 }

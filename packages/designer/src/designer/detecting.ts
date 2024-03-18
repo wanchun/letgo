@@ -1,5 +1,5 @@
 import { EventEmitter } from 'eventemitter3';
-import { markComputed, markShallowReactive } from '@webank/letgo-common';
+import { markShallowReactive } from '@webank/letgo-common';
 import type { IPublicModelDetecting } from '@webank/letgo-types';
 import type { DocumentModel } from '../document';
 import type { INode } from '../types';
@@ -31,7 +31,6 @@ export class Detecting implements IPublicModelDetecting<DocumentModel, INode> {
         markShallowReactive(this, {
             _current: null,
         });
-        markComputed(this, ['current']);
     }
 
     capture(node: INode | null) {

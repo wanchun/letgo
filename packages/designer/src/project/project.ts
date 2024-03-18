@@ -77,7 +77,7 @@ export class Project implements IBaseProject<DocumentModel, Code> {
             utilsInstance: {},
             css: '',
         });
-        markComputed(this, ['currentDocument', 'extraGlobalState']);
+        markComputed(this, ['extraGlobalState']);
         this.code = new Code();
         this.importSchema(schema);
     }

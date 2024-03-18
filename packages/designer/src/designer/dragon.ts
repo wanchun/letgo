@@ -5,7 +5,7 @@ import {
 import type {
     IPublicModelDragon,
 } from '@webank/letgo-types';
-import { cursor, markComputed, markShallowReactive } from '@webank/letgo-common';
+import { cursor, markShallowReactive } from '@webank/letgo-common';
 import type { DocumentModel } from '../document';
 import type { IDragObject, ILocateEvent, ILocationData, INode, ISensor, ISimulator } from '../types';
 import { isSimulator } from '../types';
@@ -101,7 +101,6 @@ export class Dragon implements IPublicModelDragon<DocumentModel, INode> {
             _activeSensor: undefined,
             _dropLocation: undefined,
         });
-        markComputed(this, ['activeSensor', 'dragging', 'dropLocation']);
     }
 
     /**
@@ -468,7 +467,7 @@ export class Dragon implements IPublicModelDragon<DocumentModel, INode> {
         };
     }
 
-    onDragend(func: (x: { dragObject: IDragObject, copy: boolean }) => any) {
+    onDragend(func: (x: { dragObject: IDragObject; copy: boolean }) => any) {
         this.emitter.on('dragend', func);
         return () => {
             this.emitter.off('dragend', func);

@@ -222,7 +222,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
             ref: '',
             _slots: [],
         });
-        markComputed(this, ['computedSchema', 'slots', 'isLocked', 'parent']);
+        markComputed(this, ['computedSchema', 'isLocked']);
 
         const { componentName, id, ref, children, props, ...extras } = nodeSchema;
         this.id = document.nextId(id, componentName);

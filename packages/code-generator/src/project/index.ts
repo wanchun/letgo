@@ -1,11 +1,11 @@
 import { set } from 'lodash-es';
+import { genCodeMap } from '@webank/letgo-common';
 import type { Context, FileTree, GenOptions } from '../common/types';
 import { genFileName } from '../common/page-meta';
 import { schemaToCode } from '../common';
 import { injectLetgoCode } from '../common/inject-code';
 import { genGlobalStateCode } from '../common/global-state';
 import { setOptions } from '../options';
-import { genCodeMap } from '../common/helper';
 import { genPackageJSON } from '../common/pkg';
 import { toAssemble } from './build';
 

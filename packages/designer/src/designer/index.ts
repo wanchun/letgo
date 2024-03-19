@@ -5,3 +5,4 @@ export * from './scroller';
 export * from './location';
 export * from './detecting';
 export * from './offset-observer';
+export * from './clipboard';

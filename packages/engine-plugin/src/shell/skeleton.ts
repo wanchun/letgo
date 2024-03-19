@@ -3,7 +3,7 @@ import type {
     Skeleton as InnerSkeleton,
     ReturnTypeOfCreateWidget,
 } from '@webank/letgo-editor-skeleton';
-import { skeletonSymbol } from './symbols';
+import { skeletonSymbol } from '../symbols';
 
 export class Skeleton {
     private readonly [skeletonSymbol]: InnerSkeleton;

@@ -1,0 +1,150 @@
+.letgo-contextmenu  {
+  box-sizing: border-box;
+}
+
+.letgo-contextmenu .letgo-submenu-list {
+  position: absolute;
+  min-width: 100%;
+  z-index: 1;
+}
+
+.letgo-contextmenu .letgo-menuitem-link {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  overflow: hidden;
+  position: relative;
+  font-size: 1em;
+  font-weight: normal;
+}
+
+.letgo-contextmenu .letgo-menuitem-text {
+  line-height: 1;
+}
+
+.letgo-contextmenu .letgo-menuitem {
+  position: relative;
+}
+
+.letgo-contextmenu .letgo-menuitem-link .letgo-submenu-icon {
+  margin-left: auto;
+}
+
+.letgo-contextmenu-enter-from,
+.letgo-contextmenu-leave-active {
+  opacity: 0;
+}
+
+.letgo-contextmenu-enter-active {
+  transition: opacity 250ms;
+}
+
+.letgo-contextmenu {
+  padding: 0.25rem 0.25rem;
+  background: #ffffff;
+  color: #334155;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  min-width: 12.5rem;
+  font-feature-settings: var(--font-feature-settings, normal);
+  font-size: 1rem;
+  font-weight: normal;
+}
+.letgo-contextmenu .letgo-contextmenu-root-list {
+  outline: 0 none;
+}
+.letgo-contextmenu .letgo-submenu-list {
+  padding: 0.25rem 0.25rem;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+}
+.letgo-contextmenu .letgo-menuitem {
+  margin: 2px 0;
+}
+.letgo-contextmenu .letgo-menuitem-disabled {
+  opacity: 0.6;
+}
+.letgo-contextmenu .letgo-menuitem:first-child {
+  margin-top: 0;
+}
+.letgo-contextmenu .letgo-menuitem:last-child {
+  margin-bottom: 0;
+}
+.letgo-contextmenu .letgo-menuitem > .letgo-menuitem-content {
+  color: #334155;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s, outline-color 0.2s;
+  border-radius: 4px;
+}
+.letgo-contextmenu .letgo-menuitem > .letgo-menuitem-content .letgo-menuitem-link {
+  color: #334155;
+  padding: 0.75rem 0.75rem;
+  user-select: none;
+}
+.letgo-contextmenu .letgo-menuitem > .letgo-menuitem-content .letgo-menuitem-link .letgo-menuitem-text {
+  color: #334155;
+}
+.letgo-contextmenu .letgo-menuitem > .letgo-menuitem-content .letgo-menuitem-link .letgo-menuitem-icon {
+  color: #94a3b8;
+  margin-right: 0.5rem;
+}
+.letgo-contextmenu .letgo-menuitem > .letgo-menuitem-content .letgo-menuitem-link .letgo-submenu-icon {
+  color: #94a3b8;
+}
+.letgo-contextmenu .letgo-menuitem.letgo-highlight > .letgo-menuitem-content {
+  color: #5384ff;
+  background: #eff6ff;
+}
+.letgo-contextmenu .letgo-menuitem.letgo-highlight > .letgo-menuitem-content .letgo-menuitem-link .letgo-menuitem-text {
+  color: #5384ff;
+}
+.letgo-contextmenu .letgo-menuitem.letgo-highlight > .letgo-menuitem-content .letgo-menuitem-link .letgo-menuitem-icon,
+.letgo-contextmenu .letgo-menuitem.letgo-highlight > .letgo-menuitem-content .letgo-menuitem-link .letgo-submenu-icon {
+  color: #5384ff;
+}
+.letgo-contextmenu .letgo-menuitem.letgo-highlight.letgo-focus > .letgo-menuitem-content {
+  background: rgba(59, 130, 246, 0.24);
+}
+.letgo-contextmenu .letgo-menuitem:not(.letgo-highlight):not(.letgo-menuitem-disabled).letgo-focus > .letgo-menuitem-content {
+  color: #334155;
+  background: #f1f5f9;
+}
+.letgo-contextmenu .letgo-menuitem:not(.letgo-highlight):not(.letgo-menuitem-disabled).letgo-focus > .letgo-menuitem-content .letgo-menuitem-link .letgo-menuitem-text {
+  color: #334155;
+}
+.letgo-contextmenu .letgo-menuitem:not(.letgo-highlight):not(.letgo-menuitem-disabled).letgo-focus > .letgo-menuitem-content .letgo-menuitem-link .letgo-menuitem-icon,
+.letgo-contextmenu .letgo-menuitem:not(.letgo-highlight):not(.letgo-menuitem-disabled).letgo-focus > .letgo-menuitem-content .letgo-menuitem-link .letgo-submenu-icon {
+  color: #334155;
+}
+.letgo-contextmenu .letgo-menuitem:not(.letgo-highlight):not(.letgo-menuitem-disabled).letgo-focus > .letgo-menuitem-content:hover {
+  color: #334155;
+  background: #f1f5f9;
+}
+.letgo-contextmenu .letgo-menuitem:not(.letgo-highlight):not(.letgo-menuitem-disabled).letgo-focus > .letgo-menuitem-content:hover .letgo-menuitem-link .letgo-menuitem-text {
+  color: #334155;
+}
+.letgo-contextmenu .letgo-menuitem:not(.letgo-highlight):not(.letgo-menuitem-disabled).letgo-focus > .letgo-menuitem-content:hover .letgo-menuitem-link .letgo-menuitem-icon,
+.letgo-contextmenu .letgo-menuitem:not(.letgo-highlight):not(.letgo-menuitem-disabled).letgo-focus > .letgo-menuitem-content:hover .letgo-menuitem-link .letgo-submenu-icon {
+  color: #334155;
+}
+.letgo-contextmenu .letgo-menuitem:not(.letgo-highlight):not(.letgo-menuitem-disabled) > .letgo-menuitem-content:hover {
+  color: #334155;
+  background: #f1f5f9;
+}
+.letgo-contextmenu .letgo-menuitem:not(.letgo-highlight):not(.letgo-menuitem-disabled) > .letgo-menuitem-content:hover .letgo-menuitem-link .letgo-menuitem-text {
+  color: #334155;
+}
+.letgo-contextmenu .letgo-menuitem:not(.letgo-highlight):not(.letgo-menuitem-disabled) > .letgo-menuitem-content:hover .letgo-menuitem-link .letgo-menuitem-icon,
+.letgo-contextmenu .letgo-menuitem:not(.letgo-highlight):not(.letgo-menuitem-disabled) > .letgo-menuitem-content:hover .letgo-menuitem-link .letgo-submenu-icon {
+  color: #334155;
+}
+.letgo-contextmenu .letgo-menuitem-separator {
+  border-top: 1px solid #e2e8f0;
+  margin: 2px 0;
+}
+.letgo-contextmenu .letgo-submenu-icon {
+  font-size: 0.875rem;
+}

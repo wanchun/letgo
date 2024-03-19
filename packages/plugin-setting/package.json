@@ -25,7 +25,7 @@
         "@webank/letgo-editor-core": "^0.0.3-beta.12",
         "@webank/letgo-engine-plugin": "^0.0.3-beta.15",
         "@webank/letgo-types": "^0.0.3-beta.2",
-        "eventemitter3": "^4.0.0"
+        "eventemitter3": "^5.0.1"
     },
     "devDependencies": {
         "vue": "^3.4.14"

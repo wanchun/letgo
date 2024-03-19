@@ -1,8 +1,7 @@
 import type {
     IPublicTypeRootSchema,
 } from '@webank/letgo-types';
-import { ancestorWalkAst } from '@webank/letgo-common';
-import { traverseLogic } from './traverse-logic';
+import { ancestorWalkAst, walkSchemaLogic } from '@webank/letgo-common';
 
 function parseMemberExpression(ancestor: any[]) {
     const len = ancestor.length - 1;
@@ -40,7 +39,7 @@ function formatApplyUtils(applyUtils: Record<string, string[][]>) {
 
 export function parseUtils(rootSchema: IPublicTypeRootSchema) {
     const applyUtils: Record<string, string[][]> = {};
-    traverseLogic(rootSchema, (code: string, _, type) => {
+    walkSchemaLogic(rootSchema, (code: string, _, type) => {
         try {
             code = type === 'JSExpression' ? `(${code})` : code;
             ancestorWalkAst(code, {

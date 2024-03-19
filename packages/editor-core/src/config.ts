@@ -4,38 +4,44 @@ import { isPlainObject, get as lodashGet } from 'lodash-es';
 import type { createRequest } from '@qlin/request';
 
 export interface IEngineOptions {
-    vueRuntimeUrl?: string
+    vueRuntimeUrl?: string;
     /**
      * 设置 simulator 相关的 url
      */
-    simulatorUrl?: string[]
+    simulatorUrl?: string[];
 
-    letgoRequest?: ReturnType<typeof createRequest>
+    letgoRequest?: ReturnType<typeof createRequest>;
 
     /**
      *
      * 设计模式，live 模式将会实时展示变量值，默认值：'design'
      */
-    designMode?: 'design' | 'live'
+    designMode?: 'design' | 'live';
     /**
      * 设备类型，默认值：'default'
      */
-    device?: IPublicTypeDevice
+    device?: IPublicTypeDevice;
     /**
      * 指定初始化的 deviceClassName，挂载到画布的顶层节点上
      */
-    deviceClassName?: string
+    deviceClassName?: string;
     /**
      * 设备类型映射器，处理设计器与渲染器中 device 的映射
      */
     deviceStyle?: {
-        canvas?: CSSProperties
-        viewport?: CSSProperties
-    }
+        canvas?: CSSProperties;
+        viewport?: CSSProperties;
+    };
     /**
      * 设置所有属性支持变量配置，默认值：true
      */
-    supportVariableGlobally?: boolean
+    supportVariableGlobally?: boolean;
+
+    /**
+     * @default false
+     * 开启右键菜单能力
+     */
+    enableContextMenu?: boolean;
 }
 
 export class EngineConfig {
@@ -44,8 +50,8 @@ export class EngineConfig {
     private waits = new Map<
         string,
         Array<{
-            once?: boolean
-            resolve: (data: any) => void
+            once?: boolean;
+            resolve: (data: any) => void;
         }>
     >();
 

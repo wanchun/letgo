@@ -4,6 +4,6 @@
         "outDir": "es"
     },
     "include": [
-        "src"
-    ],
+        "src",
+        "src/symbols.ts"]
 }

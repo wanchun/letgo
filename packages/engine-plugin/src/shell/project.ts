@@ -8,7 +8,7 @@ import type {
 } from '@webank/letgo-types';
 import { IPublicEnumTransformStage } from '@webank/letgo-types';
 
-import { projectSymbol } from './symbols';
+import { projectSymbol } from '../symbols';
 
 export class Project {
     static create(project: InnerProject) {

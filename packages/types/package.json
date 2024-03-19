@@ -13,7 +13,7 @@
         "lib"
     ],
     "dependencies": {
-        "eventemitter3": "^4.0.0",
+        "eventemitter3": "^5.0.1",
         "strict-event-emitter-types": "^2.0.0"
     },
     "devDependencies": {},

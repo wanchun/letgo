@@ -21,8 +21,11 @@
         "@webank/letgo-common": "^0.0.3-beta.10",
         "@webank/letgo-editor-core": "^0.0.3-beta.12",
         "@webank/letgo-types": "^0.0.3-beta.2",
-        "eventemitter3": "^4.0.0",
+        "eventemitter3": "^5.0.1",
         "lodash-es": "^4.17.21"
+    },
+    "devDependencies": {
+        "vue": "^3.3.9"
     },
     "publishConfig": {
         "access": "public"

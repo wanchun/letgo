@@ -1,4 +1,5 @@
 import type {
+    ICodeItem,
     ICodeStruct,
     IEventHandler,
     IPublicTypeCompositeValue,
@@ -6,7 +7,7 @@ import type {
     IPublicTypeNodeSchema,
     IPublicTypeRootSchema,
 } from '@webank/letgo-types';
-import { IEnumEventHandlerAction, isJSExpression, isJSFunction, isJSSlot, isJavascriptComputed, isJavascriptFunction, isNodeSchema, isQueryResource, isRestQueryResource, isVariableState } from '@webank/letgo-types';
+import { isJSExpression, isJSFunction, isJSSlot, isJavascriptComputed, isJavascriptFunction, isNodeSchema, isQueryResource, isRestQueryResource, isVariableState } from '@webank/letgo-types';
 import { isPlainObject } from 'lodash-es';
 
 type Callback = (code: string, parent: any, type: 'JSFunction' | 'JSExpression') => void;
@@ -18,14 +19,13 @@ function handleEventDep(events: IEventHandler[], callback: Callback) {
                 for (const param of event.params)
                     callback(param, event, 'JSExpression');
             }
-            if (event.action === IEnumEventHandlerAction.RUN_FUNCTION)
-                callback(event.namespace, event, 'JSExpression');
+            callback(event.namespace, event, 'JSExpression');
         }
     }
 }
 
-function traverseCode(code: ICodeStruct, callback: Callback) {
-    for (const item of code.code || []) {
+export function traverseCodes(code: ICodeItem[], callback: Callback) {
+    for (const item of code || []) {
         if (isVariableState(item)) {
             callback(item.initValue, item, 'JSExpression');
         }
@@ -52,6 +52,12 @@ function traverseCode(code: ICodeStruct, callback: Callback) {
     }
 }
 
+export function traverseCodeStruct(code: ICodeStruct, callback: Callback) {
+    traverseCodes(code.code, callback);
+    for (const directory of code.directories)
+        traverseCodes(directory.code, callback);
+}
+
 function traverseNodeProps(value: IPublicTypeCompositeValue, callback: Callback) {
     if (Array.isArray(value)) {
         value.map(item => traverseNodeProps(item, callback));
@@ -63,14 +69,14 @@ function traverseNodeProps(value: IPublicTypeCompositeValue, callback: Callback)
         callback(value.value, value, 'JSFunction');
     }
     else if (isJSSlot(value)) {
-        traverseNodeSchema(value.value, callback);
+        traverseNodeSchemaLogic(value.value, callback);
     }
     else if (isPlainObject(value)) {
         return Object.keys(value).forEach((key) => {
             if (key !== 'children') {
                 const data = value[key as keyof typeof value];
                 if (isJSSlot(data))
-                    traverseNodeSchema(data.value, callback);
+                    traverseNodeSchemaLogic(data.value, callback);
                 else if (typeof data === 'object')
                     traverseNodeProps(data, callback);
             }
@@ -83,13 +89,13 @@ function handleNodeSchema(node: IPublicTypeNodeSchema, callback: Callback) {
     traverseNodeProps(node.props, callback);
 
     if (node.props.children)
-        traverseNodeSchema(node.props.children, callback);
+        traverseNodeSchemaLogic(node.props.children, callback);
 
     if (node.children)
-        traverseNodeSchema(node.children, callback);
+        traverseNodeSchemaLogic(node.children, callback);
 }
 
-function traverseNodeSchema(
+export function traverseNodeSchemaLogic(
     nodeData: IPublicTypeNodeData | IPublicTypeNodeData[],
     callback: Callback,
 ) {
@@ -99,7 +105,7 @@ function traverseNodeSchema(
                 handleNodeSchema(item, callback);
             }
             else if (isJSSlot(item)) {
-                traverseNodeSchema(
+                traverseNodeSchemaLogic(
                     Array.isArray(item.value) ? item.value : [item.value],
                     callback,
                 );
@@ -109,10 +115,13 @@ function traverseNodeSchema(
     else if (isNodeSchema(nodeData)) {
         handleNodeSchema(nodeData, callback);
     }
+    else if (isJSExpression(nodeData)) {
+        callback(nodeData.value, nodeData, 'JSExpression');
+    }
 }
 
-export function traverseLogic(rootSchema: IPublicTypeRootSchema, callback: Callback) {
-    traverseCode(rootSchema.code, callback);
+export function walkSchemaLogic(rootSchema: IPublicTypeRootSchema, callback: Callback) {
+    traverseCodeStruct(rootSchema.code, callback);
 
-    traverseNodeSchema(rootSchema.children, callback);
+    traverseNodeSchemaLogic(rootSchema.children, callback);
 }

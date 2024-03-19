@@ -285,6 +285,7 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
     setupEvents() {
         this.setupDrag();
         this.setupDetecting();
+        this.setupContextMenu();
     }
 
     /**
@@ -429,6 +430,32 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
             doc.removeEventListener('mouseover', hover, true);
             doc.removeEventListener('mouseleave', leave, false);
             doc.removeEventListener('mousemove', move, true);
+        });
+    }
+
+    setupContextMenu() {
+        const doc = this.contentDocument!;
+        doc.addEventListener('contextmenu', (e: MouseEvent) => {
+            const targetElement = e.target as HTMLElement;
+            const nodeInst = this.getNodeInstanceFromElement(targetElement);
+            const editor = this.designer?.editor;
+            if (!nodeInst) {
+                editor?.emit('designer.builtinSimulator.contextmenu', {
+                    originalEvent: e,
+                });
+                return;
+            }
+            const node = nodeInst.node || this.project.currentDocument?.focusNode;
+            if (!node) {
+                editor?.emit('designer.builtinSimulator.contextmenu', {
+                    originalEvent: e,
+                });
+                return;
+            }
+            editor?.emit('designer.builtinSimulator.contextmenu', {
+                node,
+                originalEvent: e,
+            });
         });
     }
 

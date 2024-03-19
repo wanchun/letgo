@@ -3,7 +3,8 @@ import { getLogger } from '@webank/letgo-common';
 import type { Editor, EngineConfig } from '@webank/letgo-editor-core';
 import { engineConfig } from '@webank/letgo-editor-core';
 import type { Designer } from '@webank/letgo-designer';
-import { Hotkey, Material, Project, Setters, Skeleton } from '../shell';
+import type { IPublicApiCanvas } from '@webank/letgo-types';
+import { Canvas, Hotkey, Material, Project, Setters, Skeleton } from '../shell';
 import type {
     IPluginContext,
     IPluginContextOptions,
@@ -26,6 +27,7 @@ export class PluginContext implements IPluginContext {
     material: Material;
     project: Project;
     preference: IPluginPreferenceManager;
+    canvas: IPublicApiCanvas;
 
     constructor(plugins: IPluginManager, options: IPluginContextOptions) {
         const editor = plugins.editor;
@@ -40,6 +42,7 @@ export class PluginContext implements IPluginContext {
         this.skeleton = new Skeleton(skeleton);
         this.setters = new Setters();
         this.material = new Material(this.editor, designer);
+        this.canvas = new Canvas(this.editor);
         this.config = engineConfig;
         this.plugins = plugins;
         this.logger = getLogger({

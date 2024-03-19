@@ -1,9 +1,10 @@
 import { merge, set } from 'lodash-es';
+import { genCodeMap } from '@webank/letgo-common';
 import type { Context, FileTree, GenOptions } from '../common/types';
 import { schemaToCode } from '../common';
 import { injectLetgoCode } from '../common/inject-code';
 import { setOptions } from '../options';
-import { findRootSchema, genCodeMap } from '../common/helper';
+import { findRootSchema } from '../common/helper';
 import { genPackageJSON } from '../common/pkg';
 
 import { fileStructToString } from './file-struct';

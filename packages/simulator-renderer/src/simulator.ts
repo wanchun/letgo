@@ -248,6 +248,10 @@ function createSimulatorRenderer() {
             const documentInstance = documentInstanceMap.get(did);
             const instance
                 = documentInstance?.getComponentInstance(cid) ?? null;
+
+            if (!instance)
+                return {};
+
             // @ts-expect-error setupState 为内部属性，因此类型识别不了
             const innerState = { ...toRaw(instance.$.setupState) };
             Object.keys(innerState).forEach((key) => {
@@ -256,7 +260,7 @@ function createSimulatorRenderer() {
                     delete innerState[key];
             });
             // @ts-expect-error __scope letgo 属性
-            return instance ? { __scope: instance.__scope, ...toRaw(instance.$props), ...innerState, ...toRaw(instance.$.exposed) } : {};
+            return { __scope: instance.__scope, ...toRaw(instance.$props), ...innerState, ...toRaw(instance.$.exposed) };
         }
         return {};
     };

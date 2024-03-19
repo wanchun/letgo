@@ -1,7 +1,7 @@
 {
     "name": "@webank/letgo-common",
     "type": "module",
-    "version": "0.0.3-beta.10",
+    "version": "0.0.4-beta.0",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -13,7 +13,7 @@
         "lib"
     ],
     "dependencies": {
-        "@webank/letgo-types": "^0.0.3-beta.2",
+        "@webank/letgo-types": "^0.0.4-beta.0",
         "acorn": "^8.8.2",
         "acorn-walk": "^8.2.0",
         "astring": "^1.8.6",

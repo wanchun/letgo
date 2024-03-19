@@ -1,3 +1,22 @@
+## [0.0.4-beta.0](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.32...v0.0.4-beta.0) (2024-03-19)
+
+
+### Bug Fixes
+
+* 修复getNodeInstanceExpose未正确处理空状态 ([be168b7](https://git.weoa.com/mumblefe/letgo/commits/be168b7b9b1d321e9bfd786581e6b0240918df09))
+* 修复部分问题 ([a327801](https://git.weoa.com/mumblefe/letgo/commits/a327801b2e784341022eaed745171310fe112a7b))
+* 去除无用代码 ([4cee8a4](https://git.weoa.com/mumblefe/letgo/commits/4cee8a44fbab29ed7def259133cd7785756b0e82))
+* 逻辑拷贝 ([b03fcae](https://git.weoa.com/mumblefe/letgo/commits/b03fcaeac77259a5303a82c6451a54ab4085f315))
+
+
+### Features
+
+* Root节点无法拷贝 ([a6c353a](https://git.weoa.com/mumblefe/letgo/commits/a6c353a3530d465bf948589a8bf0b0affd5e3c93))
+* 优化细节 ([d340312](https://git.weoa.com/mumblefe/letgo/commits/d3403124e917a67a14d65562935aaffb60a76fd9))
+* 添加菜单 ([4de8a63](https://git.weoa.com/mumblefe/letgo/commits/4de8a63d2812eeda47469491fe02da47c1a1f2fe))
+
+
+
 ## [0.0.3-beta.32](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.31...v0.0.3-beta.32) (2024-03-18)
 
 

@@ -82,7 +82,7 @@ export const DefaultContextMenu = definePlugin({
             name: 'copy',
             title: '拷贝(含逻辑)',
             condition(nodes = []) {
-                return nodes?.length > 0;
+                return nodes?.length > 0 && !nodes[0].isRoot();
             },
             action(nodes) {
                 if (!nodes || nodes.length < 1)

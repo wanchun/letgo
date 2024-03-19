@@ -105,7 +105,7 @@ export default defineComponent({
             getNode: (id: string) => props.documentInstance.getNode(id),
             executeCtx,
             onCompGetCtx: (schema: IPublicTypeNodeSchema, ref: IPublicTypeComponentInstance, scope?: RuntimeScope) => {
-                if (ref && isEmpty(props.documentInstance.document.state.componentsInstance[schema.ref])) {
+                if (ref) {
                     if (schema.ref) {
                         (ref as any).__scope = scope;
                         nextTick(() => {

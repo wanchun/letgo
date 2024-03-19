@@ -3,6 +3,7 @@ import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
 import {
     markComputed,
     markReactive,
+    markShallowReactive,
     replaceExpressionIdentifier,
     replaceJSFunctionIdentifier,
 } from '@webank/letgo-common';
@@ -57,10 +58,16 @@ export class Code implements IPublicModelCode {
 
     private findCodes(type: IEnumCodeType) {
         const result: ICodeItem[] = [];
-        this.codeMap.forEach((value) => {
-            if (value.type === type)
-                result.push(value);
+        this.codeStruct.code.forEach((item) => {
+            if (item.type === type)
+                result.push(item);
         });
+        for (const directory of this.codeStruct.directories) {
+            for (const codeItem of directory.code) {
+                if (codeItem.type === type)
+                    result.push(codeItem);
+            }
+        }
         return result;
     }
 

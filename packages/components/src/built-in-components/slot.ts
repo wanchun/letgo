@@ -3,7 +3,7 @@ import type { IPublicTypeComponentMetadata } from '@webank/letgo-types';
 
 export const Slot = defineComponent({
     render() {
-        return h('div', { class: 'letgo-container' }, this.$slots);
+        return this.$slots?.default();
     },
 });
 

@@ -1,4 +1,5 @@
 import type { IEventHandler } from './event-handler';
+import type { IPublicTypeJSExpression } from '.';
 
 export enum IEnumCodeType {
     JAVASCRIPT_QUERY = 'query',
@@ -46,6 +47,7 @@ export interface IQueryResourceBase {
 export interface IRestQueryResource extends IQueryResourceBase {
     resourceType: IEnumResourceType.RESTQuery;
     method: string;
+    headers?: IPublicTypeJSExpression;
     api: string;
     params?: string;
 }

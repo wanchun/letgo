@@ -211,7 +211,8 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct)
         id: '${item.id}',
         query() {
             return letgoRequest(${api}${params}, {
-                method: '${item.method || 'POST'}'  
+                method: '${item.method || 'POST'}',
+                ${item.headers?.value ? `headers: ${item.headers.value},` : ''}  
             })
         },
         ${item.enableTransformer ? `enableTransformer: ${item.enableTransformer},` : ''}

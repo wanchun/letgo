@@ -1,3 +1,99 @@
+## [0.0.3-beta.32](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.31...v0.0.3-beta.32) (2024-03-18)
+
+
+### Features
+
+* 查询支持更多http请求类型 ([fd94d7e](https://git.weoa.com/mumblefe/letgo/commits/fd94d7e112e22e6a1321e546371bdf0b71638ff0))
+
+
+
+## [0.0.3-beta.31](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.30...v0.0.3-beta.31) (2024-03-18)
+
+
+### Bug Fixes
+
+* 修复 codes 响应性问题 ([30b44b5](https://git.weoa.com/mumblefe/letgo/commits/30b44b5151d97ede7aefd8dcf58c7118f30fc851))
+* 修复Porp删除未更新响应问题 ([2971c7d](https://git.weoa.com/mumblefe/letgo/commits/2971c7d7e205ce592dc454eec1933406e2e0b48f))
+* 修复组件实例未正确更新问题 ([73e4e82](https://git.weoa.com/mumblefe/letgo/commits/73e4e82415c42b742ac150b7f34a27464c26b807))
+* 修复组件树拖拽问题 ([47a1a34](https://git.weoa.com/mumblefe/letgo/commits/47a1a34a25a04d77374a3d1a183f37e083b242cd))
+* 添加 replaceFunctionName 的日志输出 ([8e57d37](https://git.weoa.com/mumblefe/letgo/commits/8e57d373c8c86ee7e31f8cfbf173863ad12626e0))
+* 解决新版本 vue 导致依赖收集异常问题 ([a4a3b8c](https://git.weoa.com/mumblefe/letgo/commits/a4a3b8c3527ffacdd418496efd5b861a7e1fd2f6))
+
+
+### Features
+
+* 更新packjson.lock ([9dac72e](https://git.weoa.com/mumblefe/letgo/commits/9dac72eb6feddd4d81ff24db99cc99aa9956a08c))
+
+
+
+## [0.0.3-beta.30](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.27...v0.0.3-beta.30) (2024-3-16)
+
+
+### Bug Fixes
+
+* 升级 fes-design 解决tab无法切换问题 ([8b43530](https://git.weoa.com/mumblefe/letgo/commits/8b43530c96938150b30204fd6f1179391c70bc58))
+* 修复属性表达式实例传入组件属性导致组件渲染失败问题 ([1655885](https://git.weoa.com/mumblefe/letgo/commits/165588543737415bc008961fcb8579276c28ef66))
+* Slot去掉多余的div,会造成影响 ([336fad2](https://git.weoa.com/mumblefe/letgo/commits/336fad2c066905447544ad9a782ceedfbd1f6bac))
+
+
+### Features
+
+* 添加 headers ([9201dc9](https://git.weoa.com/mumblefe/letgo/commits/9201dc92a5eafc280e6e494b171ae8180cb68d83))
+* 物料面板中切换优化 ([cd325fa](https://git.weoa.com/mumblefe/letgo/commits/cd325fa5d2fe075038fcf8ea0eb451daa1eb22af))
+
+
+
+## [0.0.3-beta.29](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.27...v0.0.3-beta.29) (2024-03-15)
+
+
+### Bug Fixes
+
+* Slot去掉多余的div,会造成影响 ([336fad2](https://git.weoa.com/mumblefe/letgo/commits/336fad2c066905447544ad9a782ceedfbd1f6bac))
+* 升级 fes-design 解决tab无法切换问题 ([8b43530](https://git.weoa.com/mumblefe/letgo/commits/8b43530c96938150b30204fd6f1179391c70bc58))
+
+
+### Features
+
+* 物料面板中切换优化 ([cd325fa](https://git.weoa.com/mumblefe/letgo/commits/cd325fa5d2fe075038fcf8ea0eb451daa1eb22af))
+
+
+
+## [0.0.3-beta.28](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.27...v0.0.3-beta.28) (2024-3-15)
+
+
+### Bug Fixes
+
+* 升级 fes-design 解决tab无法切换问题 ([8b43530](https://git.weoa.com/mumblefe/letgo/commits/8b43530c96938150b30204fd6f1179391c70bc58))
+
+
+
+## [0.0.3-beta.27](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.26...v0.0.3-beta.27) (2024-03-15)
+
+
+### Bug Fixes
+
+* letgo-page默认高度100% ([c27b73c](https://git.weoa.com/mumblefe/letgo/commits/c27b73cce35be63b35c56bfed43ffd23a693537a))
+* 屏蔽FTabs的bug ([2b9d484](https://git.weoa.com/mumblefe/letgo/commits/2b9d48441e6dfd3fe8f208daedd6276223b5dd17))
+
+
+
+## [0.0.3-beta.26](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.25...v0.0.3-beta.26) (2024-3-14)
+
+
+### Bug Fixes
+
+* 添加修改 id 的能力 ([f4906e6](https://git.weoa.com/mumblefe/letgo/commits/f4906e6dd699c99a8517263c28b99570b2177804))
+* 修复部分问题 ([5d077df](https://git.weoa.com/mumblefe/letgo/commits/5d077df093df08c014c94ae8cd572e1033f8819c))
+* 修复Popup中MixSetter图标位置不正确问题 ([c29c996](https://git.weoa.com/mumblefe/letgo/commits/c29c996400ae641df96a62119172af5be0966d70))
+
+
+### Features
+
+* Icon支持事件 ([26d23d3](https://git.weoa.com/mumblefe/letgo/commits/26d23d3ddf9218182eef9bbc679656abb23b12f5))
+* node-ref 支持 id 重复校验提示 ([c41a4fd](https://git.weoa.com/mumblefe/letgo/commits/c41a4fd58d9a730c1fda79dae26126b01050123a))
+
+
+
 ## [0.0.3-beta.25](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.24...v0.0.3-beta.25) (2024-3-8)
 
 

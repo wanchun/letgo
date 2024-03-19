@@ -4,6 +4,7 @@ import { ancestor, simple } from 'acorn-walk';
 import {
     IEnumCodeType,
     IEnumEventHandlerAction,
+    isJSExpression,
     isRestQueryResource,
     isRunFunctionEventHandler,
     isSetLocalStorageEventHandler,
@@ -82,7 +83,10 @@ export function calcDependencies(item: ICodeItem, ctx?: Record<string, any>) {
 
         if (item.type === IEnumCodeType.JAVASCRIPT_QUERY) {
             if (isRestQueryResource(item)) {
-                result = calcJSCodeDependencies(item.params ? `(${item.params})` : null, ctx);
+                result = item.params ? calcJSCodeDependencies(`(${item.params})`, ctx) : [];
+                if (isJSExpression(item.headers) && item.headers.value)
+                    result = result.concat(calcJSCodeDependencies(`(${item.headers.value})`, ctx));
+
                 result = result.concat(handleEventDep(item.failureEvent));
                 result = result.concat(handleEventDep(item.successEvent));
             }

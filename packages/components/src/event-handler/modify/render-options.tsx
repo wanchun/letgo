@@ -25,17 +25,22 @@ export default defineComponent({
                 };
             });
         });
+
+        const selectQuery = (data: IControlQueryAction) => {
+            if (!data.method)
+                data.method = 'trigger';
+        };
         const renderQuery = (data: IControlQueryAction) => {
             return (
                 <>
                     <Label label="查询">
-                        <FSelect v-model={data.namespace} filterable appendToContainer={false} options={queryOptions.value} />
+                        <FSelect v-model={data.namespace} onChange={() => selectQuery(data)} filterable appendToContainer={false} options={queryOptions.value} />
                     </Label>
                     <Label label="方法">
                         <FSelect v-model={data.method} appendToContainer={false}>
-                            <FOption value="trigger">Trigger</FOption>
-                            <FOption value="reset">Reset</FOption>
-                            <FOption value="clearCache">Clear Cache</FOption>
+                            <FOption value="trigger">执行</FOption>
+                            <FOption value="reset">重置</FOption>
+                            <FOption value="clearCache">清理缓存</FOption>
                         </FSelect>
                     </Label>
                 </>
@@ -52,7 +57,7 @@ export default defineComponent({
             });
         });
 
-        const componentMethods = computed<{ label: string, value: string }[]>(() => {
+        const componentMethods = computed<{ label: string; value: string }[]>(() => {
             if (props.componentEvent.action === IEnumEventHandlerAction.CONTROL_COMPONENT && props.componentEvent.namespace) {
                 const componentName = props.documentModel.state.componentsInstance[props.componentEvent.namespace].__componentName;
                 const metadata = props.documentModel.getComponentMeta(componentName).getMetadata();
@@ -70,13 +75,13 @@ export default defineComponent({
                 });
             }
             return [];
-        })
-        
+        });
+
         const renderComponentMethod = (data: IControlComponentAction) => {
             return (
                 <>
                     <Label label="组件">
-                        <FSelect appendToContainer={false}  v-model={data.namespace} filterable options={componentInstanceOptions.value} />
+                        <FSelect appendToContainer={false} v-model={data.namespace} filterable options={componentInstanceOptions.value} />
                     </Label>
                     <Label label="方法">
                         <FSelect appendToContainer={false} v-model={data.method} options={componentMethods.value} />

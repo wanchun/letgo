@@ -6,10 +6,10 @@ import type { RendererProps } from '../core/base';
 import { createExecuteContext } from './execute-context';
 
 export interface RendererContext {
-    readonly components?: ComputedRef<Record<string, Component>>
-    getNode?(id: string): INode | null
-    executeCtx: Record<string, any>
-    onCompGetCtx(schema: IPublicTypeNodeSchema, val: IPublicTypeComponentInstance): void
+    readonly components?: ComputedRef<Record<string, Component>>;
+    getNode?: (id: string) => INode | null;
+    executeCtx: Record<string, any>;
+    onCompGetCtx: (schema: IPublicTypeNodeSchema, val: IPublicTypeComponentInstance) => void;
 }
 
 export function getGlobalContextKey(): InjectionKey<Record<string, any>> {

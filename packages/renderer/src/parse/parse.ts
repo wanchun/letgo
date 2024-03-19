@@ -6,7 +6,13 @@ import { executeFunc, funcSchemaToFunc } from './executeFunc';
 
 export function parseExpression(schema: IPublicTypeJSExpression, ctx: Record<string, unknown>) {
     try {
-        return executeExpression(schema.value, ctx);
+        const result = executeExpression(schema.value, ctx);
+
+        // 不能直接访问逻辑实例
+        if (result?.ctx)
+            return undefined;
+
+        return result;
     }
     catch (err) {
         console.warn('parseExpression.error', err, schema.value, ctx);

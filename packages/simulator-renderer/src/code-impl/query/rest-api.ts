@@ -7,16 +7,23 @@ export class RestApiQueryImpl extends JavascriptQueryImpl {
     method: string;
     api: string;
     params: string;
+    headers?: IRestQueryResource['headers'];
     constructor(data: IRestQueryResource, deps: string[], ctx: Record<string, any>) {
         super(data, deps, ctx);
         markShallowReactive(this, {
             api: data.api,
             params: data.params,
             method: data.method,
+            headers: data.headers,
         });
     }
 
     genQueryFn() {
-        return genRestApiQueryFunc(this.api, this.method, this.params);
+        return genRestApiQueryFunc({
+            api: this.api,
+            method: this.method,
+            params: this.params,
+            headers: this.headers,
+        });
     }
 }

@@ -72,23 +72,6 @@ export const ContentView = defineComponent({
 
         const dropInfo = shallowRef<DropInfo>();
 
-        const clearDropLocationChange = designer.dragon.onDropLocationChange((loc) => {
-            if (loc && isLocationChildrenDetail(loc.detail) && loc.detail.valid !== false) {
-                const target = loc.target;
-                const index = loc.detail.index;
-                dropInfo.value = {
-                    dropNode: {
-                        value: target.id,
-                        label: `${target.ref} - ${target.title || target.componentName}`,
-                    },
-                    index,
-                    isAllow: true,
-                };
-            }
-        });
-
-        onBeforeUnmount(clearDropLocationChange);
-
         const data = computed(() => {
             // 必须等 RendererReady，才能正确拿到Page的schema
             if (!isSimulatorReady.value)
@@ -104,6 +87,33 @@ export const ContentView = defineComponent({
         const selectedIds = computed(() => {
             return designer.currentSelection?.getNodes().map(node => node.id) ?? [];
         });
+
+        const clearDropLocationChange = designer.dragon.onDropLocationChange((loc) => {
+            if (loc && isLocationChildrenDetail(loc.detail) && loc.detail.valid !== false) {
+                const target = loc.target;
+                const index = loc.detail.index;
+                dropInfo.value = {
+                    dropNode: {
+                        value: target.id,
+                        label: `${target.ref} - ${target.title || target.componentName}`,
+                    },
+                    dragNode: {
+                        value: selectedIds.value?.[0],
+                        label: selectedIds.value?.[0],
+                    },
+                    index,
+                    isAllow: true,
+                };
+            }
+        });
+
+        const clearDragEnd = designer.dragon.onDragend(() => {
+            dropInfo.value = null;
+        });
+
+        onBeforeUnmount(clearDropLocationChange);
+
+        onBeforeUnmount(clearDragEnd);
 
         const onSelectNode = (node: TreeNode) => {
             if (node.checkable)

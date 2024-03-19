@@ -34,9 +34,9 @@ import type { Editor } from '@webank/letgo-editor-core';
 import './panel.less';
 
 interface CategoryType {
-    category: string
-    snippets: IPublicTypeSnippet[]
-    show: Ref<boolean>
+    category: string;
+    snippets: IPublicTypeSnippet[];
+    show: Ref<boolean>;
 }
 
 export default defineComponent({
@@ -54,7 +54,7 @@ export default defineComponent({
         const searchText: Ref<string> = ref();
 
         const snippetsRef = computed(() => {
-            let arr: Array<IPublicTypeSnippet & { component: IPublicTypeComponentDescription, priority: number, title: string, screenshot?: string, group?: string, category: string }> = [];
+            let arr: Array<IPublicTypeSnippet & { component: IPublicTypeComponentDescription; priority: number; title: string; screenshot?: string; group?: string; category: string }> = [];
             assetsRef.value.components.forEach((component) => {
                 if (!isComponentDescription(component))
                     return;
@@ -80,7 +80,7 @@ export default defineComponent({
         });
 
         const categoryListRef: Ref<{
-            [propName: string]: Array<CategoryType>
+            [propName: string]: Array<CategoryType>;
         }> = computed(() => {
             const categoryList = assetsRef.value.sort?.categoryList ?? [];
             const res: { [propName: string]: Array<CategoryType> } = {};

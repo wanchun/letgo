@@ -43,13 +43,6 @@ plugins.register(PluginPreview);
 plugins.register(PluginCodeGenerator);
 
 export default defineRuntimeConfig({
-    onAppCreated({ app }: { app: App }) {
-        app.config.warnHandler = (msg: string) => {
-            // 忽略这个警告，生产不会遍历 component instance 的 keys
-            if (!msg.includes('enumerating keys'))
-                console.warn(msg);
-        };
-    },
     rootContainer(Container) {
         return () => {
             return (

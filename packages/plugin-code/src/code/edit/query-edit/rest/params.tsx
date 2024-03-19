@@ -12,6 +12,24 @@ const MethodOptions = [{
 }, {
     label: 'GET',
     value: 'GET',
+}, {
+    label: 'PUT',
+    value: 'PUT',
+}, {
+    label: 'PATCH',
+    value: 'PATCH',
+}, {
+    label: 'DELETE',
+    value: 'DELETE',
+}, {
+    label: 'HEAD',
+    value: 'HEAD',
+}, {
+    label: 'OPTIONS',
+    value: 'OPTIONS',
+}, {
+    label: 'TRACE',
+    value: 'TRACE',
 }];
 
 export default defineComponent({

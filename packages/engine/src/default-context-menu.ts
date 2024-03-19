@@ -9,9 +9,6 @@ import {
     IPublicEnumDragObject,
     IPublicEnumTransformStage,
 } from '@webank/letgo-types';
-import type {
-    IPluginContext,
-} from '@webank/letgo-engine-plugin';
 import { definePlugin } from '@webank/letgo-engine-plugin';
 import { FMessage } from '@fesjs/fes-design';
 import { collectLogicFromIds, findSchemaLogic, genCodeMap, isProjectSchema, sortState } from '@webank/letgo-common';

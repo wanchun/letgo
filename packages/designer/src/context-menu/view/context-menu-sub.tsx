@@ -109,13 +109,23 @@ const ContextMenuSub = defineComponent({
             return (
                 <Transition name="letgo-contextmenusub" onEnter={onEnter}>
                     {(props.root || props.visible) && (
-                        <ul ref={container} tabindex={props.tabindex}>
+                        <div ref={container} tabindex={props.tabindex}>
                             {props.items.map((processedItem) => {
                                 if (isItemVisible(processedItem) && !processedItem.item.separator) {
                                     return (
-                                        <li style={processedItem.item.style} class={genMenuItemCss(processedItem)}>
-                                            <div class="letgo-menuitem-content" onClick={$event => onInnerItemClick($event, processedItem)} onMouseenter={() => onInnerItemMouseEnter(processedItem)} onMousemove={() => onInnerItemMouseMove(processedItem)}>
-                                                <a href={processedItem.item.url} class="letgo-menuitem-link" target={processedItem.item.target} tabindex="-1">
+                                        <div style={processedItem.item.style} class={genMenuItemCss(processedItem)}>
+                                            <div
+                                                class="letgo-menuitem-content"
+                                                onClick={$event => onInnerItemClick($event, processedItem)}
+                                                onMouseenter={() => onInnerItemMouseEnter(processedItem)}
+                                                onMousemove={() => onInnerItemMouseMove(processedItem)}
+                                            >
+                                                <a
+                                                    href={processedItem.item.url}
+                                                    class="letgo-menuitem-link"
+                                                    target={processedItem.item.target}
+                                                    tabindex="-1"
+                                                >
                                                     <span class="letgo-menuitem-text">{ processedItem.item.label }</span>
                                                     {processedItem.items?.length && <ArrowRight /> }
                                                 </a>
@@ -136,16 +146,16 @@ const ContextMenuSub = defineComponent({
                                                     />
                                                 )
                                             }
-                                        </li>
+                                        </div>
                                     );
                                 }
                                 if (isItemVisible(processedItem) && processedItem.item.separator)
 
-                                    <li style={processedItem.item.style} class="letgo-menuitem-separator" />;
+                                    <div style={processedItem.item.style} class="letgo-menuitem-separator" />;
 
                                 return null;
                             })}
-                        </ul>
+                        </div>
                     )}
 
                 </Transition>

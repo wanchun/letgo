@@ -77,8 +77,6 @@ export class GlobalContextMenuActions {
     }
 }
 
-// const globalContextMenuActions = new GlobalContextMenuActions();
-
 export class ContextMenuActions implements IContextMenuActions {
     actions: IPublicTypeContextMenuAction[] = [];
 
@@ -88,7 +86,7 @@ export class ContextMenuActions implements IContextMenuActions {
 
     enableContextMenu: boolean;
 
-    id: string = uniqueId('contextMenu'); ;
+    id: string = uniqueId('contextMenu');
 
     constructor(designer: Designer) {
         this.designer = designer;

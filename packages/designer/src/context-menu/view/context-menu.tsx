@@ -15,7 +15,8 @@ interface ItemInfo {
     parentKey?: string;
 }
 
-export const ContextMenuUI = defineComponent({
+export const ContextMenuView = defineComponent({
+    name: 'ContextMenuView',
     props: {
         model: {
             type: Array as PropType<MenuItem[]>,

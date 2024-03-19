@@ -28,7 +28,7 @@ import type { Simulator } from '../simulator';
 import { SettingTop } from '../setting';
 import type { DocumentModel } from '../document';
 import type { Selection } from '../document/selection';
-import { ContextMenuActions, type IContextMenuActions } from '../context-menu/context-menu-actions';
+import { ContextMenuActions, type IContextMenuActions } from '../context-menu';
 import {
     Dragon,
 } from './dragon';

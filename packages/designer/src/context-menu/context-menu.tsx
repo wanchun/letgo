@@ -1,10 +1,9 @@
-import { nextTick, render } from 'vue';
-import type { ComponentPublicInstance } from 'vue';
+import { render } from 'vue';
 import type { IPublicModelNode, IPublicTypeContextMenuAction } from '@webank/letgo-types';
 import { IPublicEnumContextMenuType } from '@webank/letgo-types';
 import { Logger } from '@webank/letgo-common';
-import { ContextMenuUI } from './context-menu-ui/context-menu';
-import type { MenuItem } from './context-menu-ui/types';
+import { ContextMenuView } from './view/context-menu';
+import type { MenuItem } from './view/types';
 
 const logger = new Logger({ level: 'warn', bizName: 'utils' });
 
@@ -103,12 +102,15 @@ export function createContextMenu(items: MenuItem[], event: MouseEvent, offset?:
 
     function destroy() {
         render(null, container);
+        container = null;
     }
+
     function renderContextMenu() {
-        render(<ContextMenuUI getExpose={getExpose} offset={offset} model={items} />, container);
+        render(<ContextMenuView getExpose={getExpose} offset={offset} model={items} />, container);
     }
 
     renderContextMenu();
+
     setTimeout(() => {
         showContextMenu && showContextMenu(event);
     });

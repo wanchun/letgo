@@ -1,9 +1,15 @@
-import { defineComponent, h } from 'vue';
 import type { IPublicTypeComponentMetadata } from '@webank/letgo-types';
+import { defineComponent } from 'vue';
 
 export const Slot = defineComponent({
+    props: {
+        params: {
+            type: Object,
+            default: () => ({}),
+        },
+    },
     render() {
-        return this.$slots?.default();
+        return this.$slots?.default(this.params);
     },
 });
 

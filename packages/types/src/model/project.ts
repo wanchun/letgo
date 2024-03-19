@@ -3,7 +3,6 @@ import type {
     IPublicModelCode,
     IPublicModelDocumentModel,
     IPublicTypeAppConfig,
-    IPublicTypeIconSchema,
     IPublicTypeProjectSchema,
     IPublicTypeRootSchema,
     IPublicTypeUtilsMap,
@@ -13,44 +12,44 @@ export interface IBaseProject<
   DocumentModel,
   Code = IPublicModelCode,
 > {
-    css: string
+    css: string;
 
-    codesInstance: Record<string, any>
+    codesInstance: Record<string, any>;
 
-    utilsInstance: Record<string, any>
+    utilsInstance: Record<string, any>;
 
-    readonly code: Code
+    readonly code: Code;
 
     /**
      * 【响应式】获取 schema 数据
      */
-    get computedSchema(): IPublicTypeProjectSchema
+    get computedSchema(): IPublicTypeProjectSchema;
     /**
      * 获取当前的 document
      * get current document
      */
-    get currentDocument(): DocumentModel | null
+    get currentDocument(): DocumentModel | null;
 
     /**
      * 获取当前 project 下所有 documents
      * get all documents of this project
      * @returns
      */
-    get documents(): DocumentModel[]
+    get documents(): DocumentModel[];
 
     /**
      * 获取当前 project 下所有 documentsMap
      * get all documents of this project
      * @returns
      */
-    get documentsMap(): Map<string, DocumentModel>
+    get documentsMap(): Map<string, DocumentModel>;
 
     get extraGlobalState(): {
-        utils: Record<string, any>
-        letgoContext: IPublicTypeAppConfig
-    }
+        utils: Record<string, any>;
+        letgoContext: IPublicTypeAppConfig;
+    };
 
-    get utils(): IPublicTypeUtilsMap
+    get utils(): IPublicTypeUtilsMap;
 
     /**
      * 打开一个 document
@@ -58,7 +57,7 @@ export interface IBaseProject<
      * @param doc
      * @returns
      */
-    openDocument(doc?: string | IPublicTypeRootSchema | undefined): DocumentModel | null
+    openDocument: (doc?: string | IPublicTypeRootSchema | undefined) => DocumentModel | null;
 
     /**
      * 创建一个 document
@@ -66,14 +65,14 @@ export interface IBaseProject<
      * @param data
      * @returns
      */
-    createDocument(data?: IPublicTypeRootSchema): DocumentModel | null
+    createDocument: (data?: IPublicTypeRootSchema) => DocumentModel | null;
 
     /**
      * 删除一个 document
      * remove a document
      * @param doc
      */
-    removeDocument(doc: DocumentModel): void
+    removeDocument: (doc: DocumentModel) => void;
 
     /**
      * 根据 fileName 获取 document
@@ -81,7 +80,7 @@ export interface IBaseProject<
      * @param fileName
      * @returns
      */
-    getDocumentByFileName(fileName: string): DocumentModel | null
+    getDocumentByFileName: (fileName: string) => DocumentModel | null;
 
     /**
      * 根据 id 获取 document
@@ -89,23 +88,23 @@ export interface IBaseProject<
      * @param id
      * @returns
      */
-    getDocumentById(id: string): DocumentModel | null
+    getDocumentById: (id: string) => DocumentModel | null;
 
     /**
      * 导出 project
      * export project to schema
      * @returns
      */
-    exportSchema(stage: IPublicEnumTransformStage): IPublicTypeProjectSchema
+    exportSchema: (stage: IPublicEnumTransformStage) => IPublicTypeProjectSchema;
 
     /**
      * 导入 project schema
      * import schema to project
      * @param schema 待导入的 project 数据
      */
-    importSchema(schema?: IPublicTypeProjectSchema): void
+    importSchema: (schema?: IPublicTypeProjectSchema) => void;
 
-    setUtils(utils: IPublicTypeUtilsMap): void
+    setUtils: (utils: IPublicTypeUtilsMap) => void;
 }
 
 export interface IPublicModelProject extends IBaseProject<IPublicModelDocumentModel> {}

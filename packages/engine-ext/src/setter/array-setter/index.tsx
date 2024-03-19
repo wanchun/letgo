@@ -122,7 +122,7 @@ const ArraySetterView = defineComponent({
         let isInnerChange = false;
 
         const createItem = (name: string | number): ItemType => {
-            const value = isNil(props.value) ? props.defaultValue : props.value;
+            const value = isNil(props.value) ? cloneDeep(props.defaultValue) : props.value;
             const mainField = field.createField({
                 name,
                 setter: itemSetter,
@@ -229,7 +229,7 @@ const ArraySetterView = defineComponent({
 
             items.value = [];
 
-            const value = isNil(props.value) ? props.defaultValue : props.value;
+            const value = isNil(props.value) ? cloneDeep(props.defaultValue) : props.value;
 
             const valueLength = isArray(value) ? value.length : 0;
 

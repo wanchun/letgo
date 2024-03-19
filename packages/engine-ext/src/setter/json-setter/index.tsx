@@ -2,7 +2,7 @@ import { json } from '@codemirror/lang-json';
 import JSON5 from 'json5';
 import { CodeMirror } from '@webank/letgo-components';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
-import { isEqual, isNil, isUndefined } from 'lodash-es';
+import { cloneDeep, isEqual, isNil, isUndefined } from 'lodash-es';
 import { computed, defineComponent, onMounted } from 'vue';
 import { commonProps } from '../../common';
 
@@ -22,7 +22,7 @@ const JsonSetterView = defineComponent({
 
         const currentValue = computed(() => {
             const val = isUndefined(props.value)
-                ? props.defaultValue
+                ? cloneDeep(props.defaultValue)
                 : props.value;
 
             if (!isNil(cache) && isEqual(val, JSON5.parse(cache)))

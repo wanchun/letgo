@@ -90,7 +90,7 @@ export class NodeChildren implements IPublicModelNodeChildren<INode> {
                 && child.componentName === item.componentName
             ) {
                 node = child;
-                node.importSchema(item as any);
+                node.importSchema(item);
             }
             else {
                 node = this.owner.document.createNode(item);

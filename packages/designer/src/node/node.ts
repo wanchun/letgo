@@ -153,7 +153,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         if (!this.parent)
             return -1;
 
-        return this.parent.children.indexOf(this as INode);
+        return this.parent.children.indexOf(this);
     }
 
     /**
@@ -194,7 +194,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     get settingEntry(): SettingTop {
         if (this._settingEntry)
             return this._settingEntry;
-        this._settingEntry = this.document.designer.createSettingEntry([this as INode]);
+        this._settingEntry = this.document.designer.createSettingEntry([this]);
         return this._settingEntry;
     }
 
@@ -229,7 +229,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         this.ref = ref || document.nextRef(ref, componentName);
         this.componentName = componentName;
         if (this.componentName === 'Leaf') {
-            this.props = new Props(this as INode, {
+            this.props = new Props(this, {
                 children:
                     isDOMText(children) || (isJSExpression(children)
                         ? children
@@ -237,12 +237,12 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
             });
         }
         else {
-            this.props = new Props(this as INode, props, extras);
+            this.props = new Props(this, props, extras);
             this.props.merge(
                 this.upgradeProps(this.initProps(props || {})),
                 this.upgradeProps(extras),
             );
-            this._children = new NodeChildren(this as INode, children);
+            this._children = new NodeChildren(this, children);
             this._children.initParent();
         }
         this.initBuiltinProps();
@@ -251,7 +251,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     private initProps(props: any): any {
         return this.document.designer.transformProps(
             props,
-            this as INode,
+            this,
             IPublicEnumTransformStage.Init,
         );
     }
@@ -259,7 +259,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     private upgradeProps(props: any): any {
         return this.document.designer.transformProps(
             props,
-            this as INode,
+            this,
             IPublicEnumTransformStage.Upgrade,
         );
     }
@@ -295,8 +295,8 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     /**
      * 获取单个属性
      */
-    getProp(name: string, createIfNone = true) {
-        return this.props.getProp(name, createIfNone);
+    getProp(name: string | number, createIfNone = true) {
+        return this.props.getProp(`${name}`, createIfNone);
     }
 
     /**
@@ -316,7 +316,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     /**
      * 设置单个属性值
      */
-    setPropValue(path: string, value: any) {
+    setPropValue(path: string | number, value: any) {
         this.getProp(path, true).setValue(value);
     }
 
@@ -416,8 +416,8 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
 
         const schema: any = {
             ...baseSchema,
-            props: this.document.designer.transformProps(props, this as INode, stage),
-            ...this.document.designer.transformProps(_extras_, this as INode, stage),
+            props: this.document.designer.transformProps(props, this, stage),
+            ...this.document.designer.transformProps(_extras_, this, stage),
         };
 
         if (
@@ -433,7 +433,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     /**
      * 导入 schema
      */
-    importSchema(data: Schema) {
+    importSchema(data: IPublicTypeNodeSchema) {
         const { children, props, ...extras } = data;
         if (this.isParental()) {
             this.props.import(props, extras);
@@ -454,10 +454,10 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         // 解除老的父子关系，但不需要真的删除节点
         if (this._parent) {
             if (this.isSlot())
-                this._parent.removeSlot(this as INode);
+                this._parent.removeSlot(this);
 
             else
-                this._parent.children.unlinkChild(this as INode);
+                this._parent.children.unlinkChild(this);
         }
 
         if (parent) {
@@ -470,7 +470,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
      * 判断是否包含特定节点
      */
     contains(node: INode): boolean {
-        return contains(this as INode, node);
+        return contains(this, node);
     }
 
     remove(purge = true) {
@@ -514,10 +514,10 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
      */
     hover(flag = true) {
         if (flag)
-            this.document.designer.detecting.capture(this as INode);
+            this.document.designer.detecting.capture(this);
 
         else
-            this.document.designer.detecting.release(this as INode);
+            this.document.designer.detecting.release(this);
     }
 
     isEmpty(): boolean {
@@ -543,7 +543,7 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
             = isRGLContainerNode
             || (isRGLNode && (!isContainerNode || !isEmptyNode));
         const rglNode: INode | null = isRGLContainerNode
-            ? this as INode
+            ? this
             : isRGL
                 ? this.parent
                 : null;
@@ -578,10 +578,10 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     addSlot(slotNode: INode) {
         const slotName = slotNode?.getExtraProp('name')?.getAsString();
         // 一个组件下的所有 slot，相同 slotName 的 slot 应该是唯一的
-        if (includeSlot(this as INode, slotName))
-            removeSlot(this as INode, slotName);
+        if (includeSlot(this, slotName))
+            removeSlot(this, slotName);
 
-        slotNode.setParent(this as INode);
+        slotNode.setParent(this);
         const slots = this._slots.slice(0);
         slots.push(slotNode);
         this._slots = slots;

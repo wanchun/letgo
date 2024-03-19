@@ -202,7 +202,7 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
         this.code.initCode(schema.code);
         // 等 code 实例化滞以后再实例化 root
         setTimeout(() => {
-            this.rootNode?.importSchema(schema as any);
+            this.rootNode?.importSchema(schema);
         }, 4);
     }
 

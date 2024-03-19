@@ -1,12 +1,12 @@
 import { FSwitch } from '@fesjs/fes-design';
 import type { IPublicTypeJSSlot, IPublicTypeSetter } from '@webank/letgo-types';
 import { isJSSlot } from '@webank/letgo-types';
-import { isNil } from 'lodash-es';
+import { cloneDeep, isNil } from 'lodash-es';
 import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
 import { commonProps } from '../../common';
 
-type ValueType = IPublicTypeJSSlot & { visible: boolean, title: string };
+type ValueType = IPublicTypeJSSlot & { visible: boolean; title: string };
 
 const SlotSetterView = defineComponent({
     name: 'SlotSetterView',
@@ -43,7 +43,7 @@ const SlotSetterView = defineComponent({
             const { onChange, defaultValue, field } = props;
             if (checked) {
                 const value: IPublicTypeJSSlot = isJSSlot(defaultValue)
-                    ? defaultValue
+                    ? cloneDeep(defaultValue)
                     : {
                             type: 'JSSlot',
                             value: null,
@@ -52,7 +52,7 @@ const SlotSetterView = defineComponent({
                     value.title = field.title;
 
                 if (isNil(value.name))
-                    value.name = `${field.name}`;
+                    value.name = `${field.path.join('.')}`;
 
                 onChange?.(value);
             }

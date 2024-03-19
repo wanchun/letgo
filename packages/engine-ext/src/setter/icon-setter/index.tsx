@@ -1,9 +1,9 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted, ref } from 'vue';
-import { isArray, isUndefined } from 'lodash-es';
+import { cloneDeep, isArray, isUndefined } from 'lodash-es';
 import { isJSSlot } from '@webank/letgo-types';
 import type { IPublicTypeJSSlot, IPublicTypeSetter } from '@webank/letgo-types';
-import { Icon } from '@webank/letgo-components'
+import { Icon } from '@webank/letgo-components';
 import { FGrid, FGridItem, FTooltip } from '@fesjs/fes-design';
 import { CloseCircleFilled } from '@fesjs/fes-design/icon';
 import { commonProps } from '../../common';
@@ -37,7 +37,6 @@ const IconSetterView = defineComponent({
         },
     },
     setup(props) {
-
         onMounted(() => {
             props.onMounted?.();
         });
@@ -46,7 +45,7 @@ const IconSetterView = defineComponent({
 
         const icon = computed(() => {
             const val = isUndefined(props.value)
-                ? props.defaultValue
+                ? cloneDeep(props.defaultValue)
                 : props.value;
 
             if (isJSSlot(val)) {
@@ -88,7 +87,7 @@ const IconSetterView = defineComponent({
                     {icons.map((item) => {
                         return (
                             <FGridItem span={3}>
-                                <Icon content={item.svg} size={20} onClick={() => handleChange(item.svg)}/>
+                                <Icon content={item.svg} size={20} onClick={() => handleChange(item.svg)} />
                             </FGridItem>
                         );
                     })}
@@ -105,14 +104,15 @@ const IconSetterView = defineComponent({
                         onMouseleave={() => { isHoverRef.value = false; }}
                     >
                         {
-                            icon.value ? (
-                                <div class="letgo-color-setter__box">
-                                    <Icon content={icon.value} size={20} />
-                                </div>
-                            ) :
-                            (
-                                <div class="letgo-color-setter__text--null">{props.placeholder}</div>
-                            )
+                            icon.value
+                                ? (
+                                    <div class="letgo-color-setter__box">
+                                        <Icon content={icon.value} size={20} />
+                                    </div>
+                                    )
+                                : (
+                                    <div class="letgo-color-setter__text--null">{props.placeholder}</div>
+                                    )
                         }
                         <CloseCircleFilled
                             v-show={isHoverRef.value}

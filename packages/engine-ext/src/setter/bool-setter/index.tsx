@@ -1,7 +1,7 @@
 import { FSwitch } from '@fesjs/fes-design';
 import { createSetterContent } from '@webank/letgo-designer';
 import type { IPublicTypeSetter, IPublicTypeSetterConfig } from '@webank/letgo-types';
-import { isFunction, isNil, isUndefined } from 'lodash-es';
+import { cloneDeep, isFunction, isNil, isUndefined } from 'lodash-es';
 import type { PropType } from 'vue';
 import { defineComponent, onMounted, ref } from 'vue';
 import { commonProps } from '../../common';
@@ -19,7 +19,7 @@ const BoolSetterView = defineComponent({
     setup(props) {
         const { field, extraSetter } = props;
 
-        const value = isUndefined(props.value) ? props.defaultValue : props.value;
+        const value = isUndefined(props.value) ? cloneDeep(props.defaultValue) : props.value;
 
         const isChecked = ref(!isNil(value) && value !== false);
 

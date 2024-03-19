@@ -197,7 +197,7 @@ export interface IBaseModelNode<
      * import node schema
      * @param data
      */
-    importSchema: (data: Schema) => void;
+    importSchema: (data: IPublicTypeNodeSchema) => void;
 
     /**
      * 导出节点数据

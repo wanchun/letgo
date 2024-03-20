@@ -164,12 +164,12 @@ export const ContextMenuView = defineComponent({
                         hide();
                 };
 
-                document.addEventListener('click', outsideClickListener);
+                document.addEventListener('mousedown', outsideClickListener);
             }
         }
         function unbindOutsideClickListener() {
             if (outsideClickListener) {
-                document.removeEventListener('click', outsideClickListener);
+                document.removeEventListener('mousedown', outsideClickListener);
                 outsideClickListener = null;
             }
         }

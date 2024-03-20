@@ -1,3 +1,13 @@
+## [0.0.4-beta.1](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.0...v0.0.4-beta.1) (2024-03-20)
+
+
+### Bug Fixes
+
+*  slot没有定义参数警告 ([565ef41](https://git.weoa.com/mumblefe/letgo/commits/565ef410150e75ac257112315fc96a32f348d6c4))
+* 修复表格无法配置多列自定义渲染问题 ([1c8c2d0](https://git.weoa.com/mumblefe/letgo/commits/1c8c2d06503152cd990f695730f4b5badd9a65d5))
+
+
+
 ## [0.0.4-beta.0](https://git.weoa.com/mumblefe/letgo/compare/v0.0.3-beta.32...v0.0.4-beta.0) (2024-03-19)
 
 

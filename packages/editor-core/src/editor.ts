@@ -1,5 +1,7 @@
 import EventEmitter from 'eventemitter3';
 
+import { AssetLoader } from '@webank/letgo-common';
+import { builtinComponentsMeta } from '@webank/letgo-components';
 import type {
     IPublicEditor,
     IPublicTypeAssetsJson,
@@ -8,8 +10,6 @@ import type {
     IPublicTypeEditorValueKey,
     IPublicTypeRemoteComponentDescription,
 } from '@webank/letgo-types';
-import { AssetLoader } from '@webank/letgo-common';
-import { builtinComponentsMeta } from '@webank/letgo-components';
 import { get, isArray } from 'lodash-es';
 
 export class Editor extends EventEmitter implements IPublicEditor {
@@ -23,13 +23,13 @@ export class Editor extends EventEmitter implements IPublicEditor {
             utils: [],
             sort: {
                 groupList: builtinComponentsMeta.reduce((accumulator, currentValue) => {
-                    if (currentValue.group)
+                    if (currentValue.group && !accumulator.includes(currentValue.group))
                         accumulator.push(currentValue.group);
 
                     return accumulator;
                 }, []),
                 categoryList: builtinComponentsMeta.reduce((accumulator, currentValue) => {
-                    if (currentValue.category)
+                    if (currentValue.category && !accumulator.includes(currentValue.category))
                         accumulator.push(currentValue.category);
 
                     return accumulator;

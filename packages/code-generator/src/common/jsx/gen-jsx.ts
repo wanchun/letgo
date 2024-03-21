@@ -17,9 +17,10 @@ import {
     isNodeSchema,
 } from '@webank/letgo-types';
 import { camelCase, isArray, isEmpty, isNil, isPlainObject, merge } from 'lodash-es';
-import { ensureArray, traverseNodePropsSlot, traverseNodeSchema } from '@webank/letgo-common';
+import { ensureArray, isSyntaxError, traverseNodePropsSlot, traverseNodeSchema } from '@webank/letgo-common';
 import { compilerEventHandlers, funcSchemaToFunc } from '../events';
 import type { Context } from '../types';
+import { formatExpression } from '../format-expression';
 import { compileDirectives } from './directives';
 
 function genPropSlotName(key: string, refName: string) {
@@ -30,7 +31,7 @@ function formatProps(key: string | number, value: any, refName: string, path?: s
         return genPropSlotName(path ?? `${key}`, refName);
 
     if (isJSExpression(value))
-        return value.value?.trim();
+        return formatExpression(value);
 
     if (isJSFunction(value)) {
         return value.value?.trim();
@@ -107,14 +108,14 @@ function compileProps(props?: IPublicTypePropsMap, refName = '') {
             }
 
             if (key.startsWith('v-model')) {
-                const value = isJSExpression(propValue) ? propValue.value : propValue;
+                const value = isJSExpression(propValue) ? formatExpression(propValue) : propValue;
                 if (value)
                     return `${key}={${value}}`;
 
                 return null;
             }
             if (isJSExpression(propValue)) {
-                const value = propValue.value?.trim();
+                const value = formatExpression(propValue);
                 if (!value)
                     return null;
                 return `${key}={${value}}`;
@@ -154,12 +155,15 @@ function handleComponentRef(nodeSchema: IPublicTypeNodeSchema, componentRefs: Se
 }
 
 function compileJSExpression(expression: IPublicTypeJSExpression) {
-    return `{${expression.value}}`;
+    return `{${formatExpression(expression)}}`;
 }
 
 function wrapCondition(code: string, condition: IPublicTypeCompositeValue, isRoot = false) {
     if (!isNil(condition)) {
         if (isJSExpression(condition)) {
+            if (isSyntaxError(condition.value))
+                return code;
+
             if (isRoot) {
                 return `
                 if (${condition.value}) {
@@ -201,7 +205,7 @@ function wrapLoop(code: string, nodeSchema: IPublicTypeNodeData, isRoot = false)
 
         const result = `(${loopVariable}).map((${item}, ${index}) => ${code.replace(nodeSchema.componentName, `${nodeSchema.componentName} key={${keyProp}}`)})`;
 
-        if (isJSExpression(nodeSchema.condition)) {
+        if (isJSExpression(nodeSchema.condition) && nodeSchema.condition.value && isSyntaxError(nodeSchema.condition.value)) {
             if (isRoot) {
                 return `
                     if (${nodeSchema.condition.value}) {

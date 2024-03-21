@@ -1,10 +1,11 @@
 import type { IPublicTypeCompositeValue, IPublicTypeDirective } from '@webank/letgo-types';
 import { isJSExpression } from '@webank/letgo-types';
+import { formatExpression } from '../format-expression';
 
 function getCompileArg(arg?: IPublicTypeCompositeValue) {
     if (arg) {
         if (isJSExpression(arg))
-            return arg.value;
+            return formatExpression(arg);
 
         return arg;
     }
@@ -21,7 +22,7 @@ function getModifiers(modifiers?: string[]) {
 function getDirectiveValue(value?: IPublicTypeCompositeValue) {
     if (value) {
         if (isJSExpression(value))
-            return `={${value.value}}`;
+            return `={${formatExpression(value)}}`;
 
         return `={${value}}`;
     }

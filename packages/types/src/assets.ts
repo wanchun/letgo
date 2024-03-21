@@ -1,6 +1,7 @@
 import type { IPublicTypeComponentMetadata } from './metadata';
-import type { IPublicTypeUtilsMap } from './utils';
-import type { IPublicTypeProjectSchema } from '.';
+import type { EitherOr, IPublicTypeUtilsMap } from './utils';
+import type { IPublicTypeReference } from './reference';
+import type { IPublicTypeComponentSchema, IPublicTypeProjectSchema } from '.';
 
 export enum IPublicEnumAssetLevel {
     // 环境依赖库 比如 react, react-dom
@@ -100,11 +101,11 @@ export type IPublicTypeCodeType = 'proCode' | 'lowCode';
  * 定义组件大包及 external 资源的信息
  * 应该被编辑器默认加载
  */
-export interface IPublicTypePackage {
+export type IPublicTypePackage = EitherOr<{
     /**
      * 资源唯一标识，如果为空，则以 package 为唯一标识
      */
-    id?: string;
+    id: string;
     /**
      * 包名
      */
@@ -132,7 +133,7 @@ export interface IPublicTypePackage {
     /**
      * 低代码组件的schema
      */
-    schema?: IPublicTypeProjectSchema;
+    schema?: IPublicTypeProjectSchema<IPublicTypeComponentSchema>;
     /**
      * 作为全局变量引用时的名称，和webpack output.library字段含义一样，用来定义全局变量名
      */
@@ -149,13 +150,17 @@ export interface IPublicTypePackage {
      * 当前资源包的依赖资源的唯一标识列表
      */
     deps?: string[];
-}
+}, 'package', 'id'>;
 
 /**
  * 本地物料描述
  */
 export interface IPublicTypeComponentDescription extends IPublicTypeComponentMetadata {
     keywords?: string[];
+    /**
+     * 替代 npm 字段的升级版本
+     */
+    reference?: IPublicTypeReference;
 }
 
 export function isComponentDescription(obj: any): obj is IPublicTypeComponentDescription {
@@ -167,7 +172,7 @@ export function isComponentDescription(obj: any): obj is IPublicTypeComponentDes
 /**
  * 远程物料描述
  */
-export interface IPublicTypeRemoteComponentDescription {
+export interface IPublicTypeRemoteComponentDescription extends IPublicTypeComponentMetadata {
     /**
      * 组件描述导出名字，可以通过 window[exportName] 获取到组件描述的 Object 内容；
      */
@@ -182,4 +187,9 @@ export interface IPublicTypeRemoteComponentDescription {
     package?: {
         npm?: string;
     };
+
+    /**
+     * 替代 npm 字段的升级版本
+     */
+    reference?: IPublicTypeReference;
 }

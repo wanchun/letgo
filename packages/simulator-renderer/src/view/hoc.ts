@@ -9,6 +9,7 @@ import {
     onUnmounted,
     reactive,
     ref,
+    toRef,
 } from 'vue';
 import {
     buildProps,
@@ -148,7 +149,7 @@ export const Hoc = defineComponent({
         const { getNode, onCompGetCtx, executeCtx } = inject(BASE_COMP_CONTEXT);
         const node = props.schema.id ? getNode(props.schema.id) : null;
 
-        const { renderComp } = useLeaf(props.scope, executeCtx);
+        const { renderComp } = useLeaf(toRef(props, 'scope'), executeCtx);
 
         const { compProps, updateEvents, compSlots } = useSchema(props, node);
 

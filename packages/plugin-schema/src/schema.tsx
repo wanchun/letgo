@@ -16,7 +16,11 @@ export const SchemaView = defineComponent({
         const { designer } = props;
         const { project } = designer;
 
-        const tmp = ref('');
+        const currentSchema = computed(() => {
+            return JSON.stringify(project.currentDocument?.computedSchema ?? {}, null, 2);
+        });
+
+        const tmp = ref(currentSchema.value);
 
         const onChange = (val: string) => {
             tmp.value = val;
@@ -31,10 +35,6 @@ export const SchemaView = defineComponent({
                 console.error(e);
             }
         };
-
-        const currentSchema = computed(() => {
-            return JSON.stringify(project.currentDocument?.computedSchema ?? {}, null, 2);
-        });
 
         return () => {
             return (

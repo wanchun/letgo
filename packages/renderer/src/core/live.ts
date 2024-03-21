@@ -1,4 +1,4 @@
-import { Fragment, defineComponent, h } from 'vue';
+import { Fragment, defineComponent, h, toRef } from 'vue';
 import type {
     IPublicTypeComponentInstance,
 } from '@webank/letgo-types';
@@ -21,7 +21,7 @@ export const Live = defineComponent({
     setup(props) {
         const { executeCtx, onCompGetCtx } = useRendererContext();
 
-        const { renderComp } = useLeaf(props.scope, executeCtx);
+        const { renderComp } = useLeaf(toRef(props, 'scope'), executeCtx);
 
         const { show } = buildShow(props.scope, executeCtx, props.schema);
         const { loop, loopArgs } = buildLoop(props.scope, executeCtx, props.schema);
@@ -33,7 +33,6 @@ export const Live = defineComponent({
             return buildSlots(renderComp, slots, blockScope);
         };
 
-        
         const getRef = (inst: IPublicTypeComponentInstance) => {
             onCompGetCtx(props.schema, inst);
         };

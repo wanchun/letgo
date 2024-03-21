@@ -1,3 +1,15 @@
+## [0.0.4-beta.2](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.1...v0.0.4-beta.2) (2024-3-21)
+
+
+### Bug Fixes
+
+* 出码非法表达式转成 string ([030fa97](https://git.weoa.com/mumblefe/letgo/commits/030fa9786cf3b0d053752b6f9201fb7de1cf6899))
+* 项目配置添加响应式 ([2583021](https://git.weoa.com/mumblefe/letgo/commits/2583021f75a6844c9a0992abe7e59f660128eb36))
+* 修复 scope 丢失响应式问题 + schema 重复点保存异常问题 ([5e73670](https://git.weoa.com/mumblefe/letgo/commits/5e73670de66b5f884815f581d34e96f1c0de4445))
+* 右键菜单拖拽不会隐藏问题 ([1d5c5ce](https://git.weoa.com/mumblefe/letgo/commits/1d5c5ce75c9891b87980ffa87efccc082a3ba1b3))
+
+
+
 ## [0.0.4-beta.1](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.0...v0.0.4-beta.1) (2024-03-20)
 
 

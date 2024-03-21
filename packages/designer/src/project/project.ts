@@ -76,6 +76,7 @@ export class Project implements IBaseProject<DocumentModel, Code> {
             codesInstance: {},
             utilsInstance: {},
             css: '',
+            config: {},
         });
         markComputed(this, ['extraGlobalState']);
         this.code = new Code();
@@ -251,10 +252,11 @@ export class Project implements IBaseProject<DocumentModel, Code> {
     ): void {
         if (key === 'config') {
             this.config = value;
+            this.emitter.emit('config.change', value);
         }
         else if (key === 'css') {
             this.css = value;
-            this.emitter.emit('onCssChange', this);
+            this.emitter.emit('global.css.change', this);
         }
         else if (key === 'code') {
             this.code.initCode(value);
@@ -263,10 +265,17 @@ export class Project implements IBaseProject<DocumentModel, Code> {
         Object.assign(this.data, { [key]: value });
     }
 
-    onCssChange(fn: (doc: DocumentModel) => void): () => void {
-        this.emitter.on('onCssChange', fn);
+    onConfigChange(fn: (config: IPublicTypeAppConfig) => void) {
+        this.emitter.on('config.change', fn);
         return () => {
-            this.emitter.off('onCssChange', fn);
+            this.emitter.off('config.change', fn);
+        };
+    }
+
+    onCssChange(fn: (doc: DocumentModel) => void): () => void {
+        this.emitter.on('global.css.change', fn);
+        return () => {
+            this.emitter.off('global.css.change', fn);
         };
     }
 

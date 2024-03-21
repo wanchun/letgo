@@ -60,6 +60,11 @@ export default defineComponent({
         const globalContext: Record<string, any> = reactive({
             letgoContext: host.project.config || {},
         });
+
+        host.project.onConfigChange((config) => {
+            globalContext.letgoContext = config || {};
+        });
+
         const globalUtils = buildGlobalUtils(props.simulator.libraryMap, host.project.utils, globalContext);
         globalContext.utils = globalUtils;
 

@@ -6,7 +6,7 @@ export function useOnClickSim(designer: Designer, cb: () => void) {
     const isSimulatorReady: Ref<boolean> = ref(designer.isRendererReady);
 
     const disposeFunctions: Array<() => void> = [
-        designer.onRendererReady(() => {
+        designer.onSimulatorReady(() => {
             isSimulatorReady.value = true;
         }),
     ];

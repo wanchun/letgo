@@ -435,6 +435,7 @@ export class Designer implements IPublicModelDesigner<Project, DocumentModel, Co
     purge() {
         // 只清掉要换的部分
         this._simulator = null;
+        this._renderer = null;
         this.clearOffsetObserverList(true);
     }
 }

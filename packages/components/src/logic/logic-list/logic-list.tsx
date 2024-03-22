@@ -112,8 +112,8 @@ export const LogicList = defineComponent({
             };
         }
 
-        function formatCodeStruct(code: IPublicModelCode) {
-            const treeData: TreeNode[] = code.directories.map((item) => {
+        function formatCodeStruct(code?: IPublicModelCode) {
+            const treeData: TreeNode[] = code?.directories.map((item) => {
                 const codeItems = item.code.filter((codeItem) => {
                     return !isNil(props.searchText) ? codeItem.id.includes(props.searchText) : true;
                 }).map((codeItem) => {
@@ -140,7 +140,7 @@ export const LogicList = defineComponent({
                         onDelete,
                     }),
                 };
-            });
+            }) ?? [];
             return treeData.concat(code.code.filter((item) => {
                 return !isNil(props.searchText) ? item.id.includes(props.searchText) : true;
             }).map((codeItem) => {

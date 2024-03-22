@@ -1,25 +1,9 @@
-import type { IPublicTypeComponentSchema, IPublicTypeNpmInfo } from '@webank/letgo-types';
-import { isFunction, isObject } from 'lodash-es';
+import type { IPublicTypeComponentSchema, IPublicTypeNpmInfo, IPublicTypeProjectSchema } from '@webank/letgo-types';
 import type { Component } from 'vue';
 import { defineComponent, h } from 'vue';
-import { isESModule } from './is-es-module';
+import { isESModule, isLowcodeProjectSchema, isVueComponent } from './check-types';
 
 export const HtmlCompWhitelist = ['a', 'img', 'div', 'span', 'svg', 'div', 'span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'label', 'ul', 'li', 'ol', 'pre', 'code', 'blockquote', 'strong', 'em', 'i', 'address', 'article', 'aside', 'details', 'footer', 'header', 'hgroup', 'main', 'nav', 'section', 'summary', 'iframe'];
-
-export function isVueComponent(val: unknown): val is Component {
-    if (isFunction(val))
-        return true;
-    if (isObject(val) && ('render' in val || 'setup' in val))
-        return true;
-
-    return false;
-}
-
-export function isComponentSchema(val: unknown) {
-    return (
-        isObject(val) && (val as IPublicTypeComponentSchema).componentName === 'Component'
-    );
-}
 
 export function accessLibrary(library: string | Record<string, unknown>) {
     if (typeof library !== 'string')
@@ -93,17 +77,13 @@ export function findLibExport(
 export function buildComponents(
     libraryMap: Record<string, string>,
     componentsMap: Record<string, IPublicTypeNpmInfo | Component | IPublicTypeComponentSchema>,
-    createComponent?: (schema: IPublicTypeComponentSchema) => Component | null,
+    createComponent: (schema: IPublicTypeProjectSchema<IPublicTypeComponentSchema>) => Component | null,
 ) {
     const components: any = {};
     Object.keys(componentsMap).forEach((componentName) => {
         let component = componentsMap[componentName];
-        if (isComponentSchema(component)) {
-            if (createComponent) {
-                components[componentName] = createComponent(
-                    component as IPublicTypeComponentSchema,
-                );
-            }
+        if (isLowcodeProjectSchema(component)) {
+            components[componentName] = createComponent(component);
         }
         else if (isVueComponent(component)) {
             components[componentName] = component;

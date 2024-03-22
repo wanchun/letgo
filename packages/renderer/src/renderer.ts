@@ -1,17 +1,15 @@
-import type { Component, PropType } from 'vue';
-import { computed, defineComponent, h } from 'vue';
-import type { IPublicTypeAppConfig, IPublicTypeRootSchema } from '@webank/letgo-types';
+import type { Component, InjectionKey, PropType } from 'vue';
+import { computed, defineComponent, h, inject, provide, reactive } from 'vue';
+import type { IPublicTypeRootSchema } from '@webank/letgo-types';
 import config from './config';
 import { RENDERER_COMPS } from './renderers';
 
-interface RendererProps {
-    schema: IPublicTypeRootSchema
-    components: Record<string, Component>
-    config?: IPublicTypeAppConfig
-    device?: string
-}
+const rendererKey: InjectionKey<{
+    device?: string;
+    components?: Record<string, Component>;
+}> = Symbol('__renderer');
 
-const Renderer = defineComponent({
+export const Renderer = defineComponent({
     props: {
         schema: {
             type: Object as PropType<IPublicTypeRootSchema>,
@@ -19,22 +17,31 @@ const Renderer = defineComponent({
         },
         components: {
             type: Object as PropType<Record<string, Component>>,
-            required: true,
-        },
-        config: {
-            type: Object as PropType<IPublicTypeAppConfig>,
         },
         /** 设备信息 */
         device: {
             type: String,
             default: undefined,
         },
+        extraProps: {
+            type: Object as PropType<Record<string, any>>,
+            default: undefined,
+        },
     },
-    setup(props: RendererProps) {
+    setup(props) {
+        const provideContent = inject(rendererKey, {});
+
+        const innerDevice = computed(() => {
+            return props.device || provideContent.device;
+        });
+
         const componentsRef = computed(() => ({
             ...config.getRenderers(),
-            ...props.components,
+            ...(props.components || provideContent.components),
         }));
+
+        if (props.extraProps)
+            props.schema.props = Object.assign({}, props.schema.props, props.extraProps);
 
         const renderContent = () => {
             const { value: components } = componentsRef;
@@ -53,18 +60,21 @@ const Renderer = defineComponent({
                     key: schema.id,
                     __schema: schema,
                     __components: components,
+                    extraProps: props.extraProps,
                 } as any)
                 : null;
         };
 
+        provide(rendererKey, reactive({
+            device: innerDevice.value,
+            components: componentsRef.value,
+        }));
+
         return () => {
-            const { device } = props;
             const configProvider = config.getConfigProvider();
             return configProvider
-                ? h(configProvider, { device }, { default: renderContent })
+                ? h(configProvider, { device: innerDevice.value }, { default: renderContent })
                 : renderContent();
         };
     },
-}) as new (...args: any[]) => { $props: RendererProps };
-
-export { RendererProps, Renderer };
+});

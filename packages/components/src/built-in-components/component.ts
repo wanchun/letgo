@@ -4,7 +4,7 @@ import { getConvertedExtraKey } from '@webank/letgo-common';
 import { isEqual, isObject } from 'lodash-es';
 
 export const Component = defineComponent((props, { slots }) => {
-    return () => h('div', { class: 'letgo-component', ...props }, slots);
+    return () => h('div', { class: 'letgo-component', style: props.style }, slots);
 });
 
 const TYPE_TO_SETTER = {

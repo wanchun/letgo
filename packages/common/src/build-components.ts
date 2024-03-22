@@ -1,8 +1,10 @@
+import type { IPublicTypeComponentSchema, IPublicTypeNpmInfo } from '@webank/letgo-types';
+import { isFunction, isObject } from 'lodash-es';
 import type { Component } from 'vue';
 import { defineComponent, h } from 'vue';
-import { isFunction, isObject } from 'lodash-es';
-import type { IPublicTypeComponentSchema, IPublicTypeNpmInfo } from '@webank/letgo-types';
 import { isESModule } from './is-es-module';
+
+export const HtmlCompWhitelist = ['a', 'img', 'div', 'span', 'svg', 'div', 'span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'label', 'ul', 'li', 'ol', 'pre', 'code', 'blockquote', 'strong', 'em', 'i', 'address', 'article', 'aside', 'details', 'footer', 'header', 'hgroup', 'main', 'nav', 'section', 'summary', 'iframe'];
 
 export function isVueComponent(val: unknown): val is Component {
     if (isFunction(val))
@@ -27,7 +29,7 @@ export function accessLibrary(library: string | Record<string, unknown>) {
 }
 
 export function generateHtmlComp(library: string) {
-    if (['a', 'img', 'div', 'span', 'svg'].includes(library)) {
+    if (HtmlCompWhitelist.includes(library)) {
         return defineComponent((_, { attrs, slots }) => {
             return () => h(library, attrs, slots);
         });

@@ -6,3 +6,4 @@ export { RendererApp as default } from './app';
 export { default as config, Config } from './config';
 export * from './context';
 export { Renderer } from './renderer';
+export { createComponent } from './create-component';

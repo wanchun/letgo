@@ -10,14 +10,11 @@ export class Clipboard implements IPublicModelClipboard {
         this[clipboardSymbol] = clipboard;
     }
 
-    setData(data: any): void {
-        this[clipboardSymbol].setData(data);
+    setData(data: any): Promise<void> {
+        return this[clipboardSymbol].setData(data);
     }
 
-    waitPasteData(
-        keyboardEvent: KeyboardEvent,
-        cb: (data: any, clipboardEvent: ClipboardEvent) => void,
-    ): void {
-        this[clipboardSymbol].waitPasteData(keyboardEvent, cb);
+    getData(): Promise<string> {
+        return this[clipboardSymbol].getData();
     }
 }

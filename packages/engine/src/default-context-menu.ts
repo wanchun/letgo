@@ -1,5 +1,6 @@
 import type {
     ICodeStruct,
+    IPublicModelClipboard,
     IPublicModelNode,
     IPublicTypeDragNodeDataObject,
     IPublicTypeNodeSchema,
@@ -30,10 +31,10 @@ function getNodesSchema(nodes: IPublicModelNode[]) {
     return data;
 }
 
-async function getClipboardText(): Promise<CopyType> {
+async function getClipboardText(clipboard: IPublicModelClipboard): Promise<CopyType> {
     return new Promise((resolve, reject) => {
     // 使用 Clipboard API 读取剪贴板内容
-        navigator.clipboard.readText().then(
+        clipboard.getData().then(
             (text) => {
                 try {
                     const data = JSON.parse(text) as CopyType;
@@ -112,7 +113,7 @@ export const DefaultContextMenu = definePlugin({
                 const { document: doc } = node;
 
                 try {
-                    const copyData = await getClipboardText();
+                    const copyData = await getClipboardText(clipboard);
                     const index = node.children?.size || 0;
                     const nodeSchema = copyData.componentsTree;
                     if (nodeSchema.length === 0)

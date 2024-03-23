@@ -1,115 +1,79 @@
 import type { IPublicModelClipboard } from '@webank/letgo-types';
+import { isString } from 'lodash-es';
 
-function getDataFromPasteEvent(event: ClipboardEvent) {
-    const { clipboardData } = event;
-    if (!clipboardData)
-        return null;
+function initInputDom() {
+    const input = document.createElement('input');
+    input.style.top = '-999px';
+    input.style.left = '-999px';
+    input.style.position = 'fixed';
+    document.body.appendChild(input);
+    input.select();
 
+    return input;
+}
+
+function getPaste() {
+    const input = initInputDom();
     try {
-    // { componentsMap, componentsTree, ... }
-        const data = JSON.parse(clipboardData.getData('text/plain'));
-        if (!data)
-            return {};
-
-        if (data.componentsTree) {
-            return data;
-        }
-        else if (data.componentName) {
-            return {
-                componentsTree: [data],
-            };
-        }
+        document.execCommand('paste');
+        const { value } = input;
+        document.body.removeChild(input);
+        return value;
     }
     catch (error) {
-    // TODO: open the parser implement
-        return { };
+        console.error(error);
+        return null;
+    }
+}
+
+function copy(text: string) {
+    const input = initInputDom();
+    input.value = text;
+    input.setAttribute('value', text);
+    try {
+        const successful = document.execCommand('copy');
+        document.body.removeChild(input);
+        return successful;
+    }
+    catch (error) {
+        console.error(error);
+        return null;
     }
 }
 
 export interface IClipboard extends IPublicModelClipboard {
 
-    initCopyPaster: (el: HTMLTextAreaElement) => void;
+    setData: (data: any) => Promise<void>;
 
-    injectCopyPaster: (document: Document) => void;
+    getData: () => Promise<string>;
 }
 class Clipboard implements IClipboard {
-    private copyPasters: HTMLTextAreaElement[] = [];
+    async setData(data: any): Promise<void> {
+        const text = isString(data) ? data : JSON.stringify(data);
+        if (!navigator.clipboard) {
+            if (copy(text))
+                return Promise.resolve();
 
-    private waitFn?: (data: any, e: ClipboardEvent) => void;
-
-    constructor() {
-        this.injectCopyPaster(document);
-    }
-
-    isCopyPasteEvent(e: Event) {
-        this.isCopyPaster(e.target);
-    }
-
-    private isCopyPaster(el: any) {
-        return this.copyPasters.includes(el);
-    }
-
-    initCopyPaster(el: HTMLTextAreaElement) {
-        this.copyPasters.push(el);
-        const onPaste = (e: ClipboardEvent) => {
-            if (this.waitFn) {
-                this.waitFn(getDataFromPasteEvent(e), e);
-                this.waitFn = undefined;
-            }
-            el.blur();
-        };
-        el.addEventListener('paste', onPaste, false);
-        return () => {
-            el.removeEventListener('paste', onPaste, false);
-            const i = this.copyPasters.indexOf(el);
-            if (i > -1)
-                this.copyPasters.splice(i, 1);
-        };
-    }
-
-    injectCopyPaster(document: Document) {
-        if (this.copyPasters.find(x => x.ownerDocument === document))
-            return;
-
-        const copyPaster = document.createElement<'textarea'>('textarea');
-        copyPaster.style.cssText = 'position: absolute;left: -9999px;top:-100px';
-        if (document.body) {
-            document.body.appendChild(copyPaster);
+            throw new Error('clipboard failed');
         }
-        else {
-            document.addEventListener('DOMContentLoaded', () => {
-                document.body.appendChild(copyPaster);
-            });
-        }
-        const dispose = this.initCopyPaster(copyPaster);
-        return () => {
-            dispose();
-            document.removeChild(copyPaster);
-        };
+
+        return navigator.clipboard.writeText(text).catch((err) => {
+            err && console.warn('clipboard failed', err, err.message, err.name);
+
+            if (copy(text))
+                Promise.resolve();
+
+            throw new Error('clipboard failed');
+        });
     }
 
-    setData(data: any): void {
-        const copyPaster = this.copyPasters.find(x => x.ownerDocument);
-        if (!copyPaster)
-            return;
+    async getData(): Promise<string> {
+        if (!navigator.clipboard)
+            return getPaste();
 
-        copyPaster.value = typeof data === 'string' ? data : JSON.stringify(data);
-        copyPaster.select();
-        copyPaster.ownerDocument!.execCommand('copy');
-
-        copyPaster.blur();
-    }
-
-    waitPasteData(keyboardEvent: KeyboardEvent, cb: (data: any, e: ClipboardEvent) => void) {
-        const win = keyboardEvent.view;
-        if (!win)
-            return;
-
-        const copyPaster = this.copyPasters.find(cp => cp.ownerDocument === win.document);
-        if (copyPaster) {
-            copyPaster.select();
-            this.waitFn = cb;
-        }
+        return navigator.clipboard.readText().catch((_) => {
+            return getPaste();
+        });
     }
 }
 

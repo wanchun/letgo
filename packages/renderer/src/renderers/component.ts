@@ -1,7 +1,8 @@
-import { defineComponent, provide } from 'vue';
+import { defineComponent, provide, watch } from 'vue';
 import { Component } from '@webank/letgo-components';
 import { rendererProps, useRenderer } from '../core';
-import { getPageContextKey } from '..';
+import type { RendererContext } from '../context';
+import { getPageContextKey } from '../context';
 import { createExecuteContext } from '../context/execute-context';
 
 export const ComponentRenderer = defineComponent({
@@ -9,19 +10,19 @@ export const ComponentRenderer = defineComponent({
     props: rendererProps,
     __renderer__: true,
     setup(props) {
-        const contextKey = getPageContextKey();
-        const ctx = createExecuteContext(props);
+        let ctx: RendererContext;
+        if (!props.isRoot) {
+            ctx = createExecuteContext(props) as RendererContext;
 
-        ctx.executeCtx.props = props.__schema.props || {};
+            ctx.executeCtx.props = Object.assign({}, props.__schema.props, props.extraProps);
+            ctx.__BASE_COMP = null;
 
-        provide(
-            contextKey,
-            ctx,
-        );
+            watch(() => props.extraProps, () => {
+                ctx.executeCtx.props = Object.assign({}, props.__schema.props, props.extraProps || {});
+            });
+        }
 
-        const { renderComp } = useRenderer(props);
-
-        props.__components.__BASE_COMP = null;
+        const { renderComp } = useRenderer(props, ctx);
 
         return () => {
             const { __schema: schema } = props;

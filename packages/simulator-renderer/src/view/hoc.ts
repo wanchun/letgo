@@ -9,6 +9,7 @@ import {
     onUnmounted,
     reactive,
     ref,
+    shallowReactive,
     toRef,
 } from 'vue';
 import {
@@ -75,7 +76,7 @@ function useSchema(props: LeafProps, node: INode) {
     const compProps: {
         [x: string]: unknown;
     } = reactive({});
-    const compSlots: SlotSchemaMap = reactive({});
+    const compSlots: SlotSchemaMap = shallowReactive({});
 
     const result = buildSchema(node.computedSchema, node);
 

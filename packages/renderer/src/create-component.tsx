@@ -5,6 +5,6 @@ export function createComponent(schema: IPublicTypeProjectSchema<IPublicTypeComp
     const componentsTreeSchema = schema.componentsTree[0];
 
     return (props: Record<string, any>) => {
-        return <Renderer schema={componentsTreeSchema} extraProps={props}></Renderer>;
+        return <Renderer schema={componentsTreeSchema} extraProps={{ ...props }}></Renderer>;
     };
 }

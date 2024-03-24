@@ -1,6 +1,6 @@
 import type { IPublicTypeAppConfig, IPublicTypeRootSchema } from '@webank/letgo-types';
 import type { Component, InjectionKey, PropType } from 'vue';
-import { computed, defineComponent, h, inject, provide, reactive } from 'vue';
+import { computed, defineComponent, h, inject, provide, shallowRef, watch } from 'vue';
 import config from './config';
 import { RENDERER_COMPS } from './renderers';
 
@@ -42,13 +42,15 @@ export const Renderer = defineComponent({
             return props.device || provideContent.device;
         });
 
-        const componentsRef = computed(() => ({
-            ...config.getRenderers(),
-            ...(props.components || provideContent.components),
-        }));
-
-        if (props.extraProps)
-            props.schema.props = Object.assign({}, props.schema.props, props.extraProps);
+        const componentsRef = shallowRef<Record<string, Component>>({});
+        watch(() => props.components, () => {
+            componentsRef.value = {
+                ...config.getRenderers(),
+                ...(props.components || provideContent.components),
+            };
+        }, {
+            immediate: true,
+        });
 
         const renderContent = () => {
             const { value: components } = componentsRef;
@@ -62,17 +64,19 @@ export const Renderer = defineComponent({
                 || components[`${componentName}Renderer`];
             if (Comp && !(Comp as any).__renderer__)
                 Comp = RENDERER_COMPS[`${componentName}Renderer`];
+
             return Comp
                 ? h(Comp, {
                     key: schema.id,
                     __schema: schema,
                     __components: components,
                     extraProps: props.extraProps,
+                    isRoot: schema.id === 'root',
                 } as any)
                 : null;
         };
 
-        provide(rendererKey, reactive({
+        provide(rendererKey, ({
             device: innerDevice.value,
             components: componentsRef.value,
         }));

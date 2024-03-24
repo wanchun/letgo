@@ -121,7 +121,7 @@ export default defineComponent({
                             const index = executeCtx[schema.ref].findIndex((item: IPublicTypeComponentInstance) => item === ref);
                             executeCtx[schema.ref].splice(index, 1);
                         }
-                    }, ref.$);
+                    }, ref.$ || ref);
 
                     props.documentInstance.mountInstance(schema.id!, ref);
                 }

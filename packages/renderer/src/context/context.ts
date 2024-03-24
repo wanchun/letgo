@@ -1,15 +1,16 @@
-import type { Component, ComputedRef, InjectionKey } from 'vue';
-import { computed, inject, provide } from 'vue';
+import type { Component, ComputedRef, InjectionKey, ShallowRef } from 'vue';
+import { computed, inject, provide, shallowRef, watch } from 'vue';
 import type { INode } from '@webank/letgo-designer';
 import type { IPublicTypeComponentInstance, IPublicTypeNodeSchema } from '@webank/letgo-types';
 import type { RendererProps } from '../core/base';
 import { createExecuteContext } from './execute-context';
 
 export interface RendererContext {
-    readonly components?: ComputedRef<Record<string, Component>>;
-    getNode?: (id: string) => INode | null;
     executeCtx: Record<string, any>;
     onCompGetCtx: (schema: IPublicTypeNodeSchema, val: IPublicTypeComponentInstance) => void;
+    readonly components?: ShallowRef<Record<string, Component>>;
+    __BASE_COMP?: Component;
+    getNode?: (id: string) => INode | null;
 }
 
 export function getGlobalContextKey(): InjectionKey<Record<string, any>> {
@@ -30,20 +31,28 @@ export function getPageContextKey(): InjectionKey<RendererContext> {
     return context;
 }
 
-export function provideRenderContext(props: RendererProps) {
+export function provideRenderContext(props: RendererProps, ctx?: RendererContext): RendererContext {
     const contextKey = getPageContextKey();
 
-    const componentsRef = computed(() => props.__components);
-    const externalContext = inject(contextKey, () => {
+    const componentsRef = shallowRef<Record<string, Component>>(props.__components);
+    watch(() => props.__components, () => {
+        componentsRef.value = props.__components;
+    });
+    const externalContext = ctx || inject(contextKey, () => {
         return createExecuteContext(props);
     }, true);
 
+    const newCtx = Object.assign({
+        __BASE_COMP: props.__components.__BASE_COMP,
+        components: componentsRef,
+    }, externalContext);
+
     provide(
         contextKey,
-        Object.assign({
-            components: componentsRef,
-        }, externalContext),
+        newCtx,
     );
+
+    return newCtx;
 }
 
 export function useRendererContext() {

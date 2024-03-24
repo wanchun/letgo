@@ -19,8 +19,131 @@ const assets: IPublicTypeAssetsJson = {
             ],
             library: 'FesDesign',
         },
+        {
+            title: '低代码组件 A',
+            id: 'lcc-a',
+            version: '0.1.5',
+            type: 'lowCode',
+            schema: {
+                componentsMap: [
+                    {
+                        componentName: 'FButton',
+                        package: '@fesjs/fes-design',
+                        version: '0.8.38',
+                    },
+                    {
+                        componentName: 'FText',
+                        package: '@fesjs/fes-design',
+                        version: '0.8.38',
+                    },
+                ],
+                componentsTree: [{
+                    componentName: 'Component',
+                    id: 'lcc-a',
+                    props: {
+                        btnName: '确认',
+                    },
+                    fileName: 'compText',
+                    code: {
+                        directories: [],
+                        code: [
+                            {
+                                id: 'function1',
+                                type: 'function',
+                                funcBody: '// Tip: 函数\nfunction func() {\n  console.log("hello");\n}',
+                            },
+                        ],
+                    },
+                    isLocked: false,
+                    condition: true,
+                    title: '',
+                    children: [
+                        {
+                            componentName: 'FButton',
+                            id: 'fButton1',
+                            ref: 'fButton1',
+                            props: {
+                                children: {
+                                    type: 'JSExpression',
+                                    value: 'props.btnName',
+                                    mock: null,
+                                },
+                                type: 'primary',
+                            },
+                            isLocked: false,
+                            condition: true,
+                            title: '',
+                            events: [
+                                {
+                                    id: 'event_lu56ytlr',
+                                    name: 'onClick',
+                                    action: 'runFunction',
+                                    namespace: 'function1',
+                                    funcBody: '',
+                                    params: [],
+                                },
+                            ],
+                        },
+                        {
+                            componentName: 'FText',
+                            id: 'fText1',
+                            ref: 'fText1',
+                            props: {
+                                children: '文本内容',
+                            },
+                            isLocked: false,
+                            condition: true,
+                            title: '',
+                        },
+                    ],
+                },
+                ],
+            },
+            library: 'CompText',
+        },
     ],
     components: [
+        {
+            title: '低代码组件',
+            componentName: 'CompText',
+            reference: {
+                id: 'lcc-a',
+                exportName: 'CompText',
+                subName: '',
+                destructuring: false,
+                version: '0.1.0',
+            },
+            devMode: 'lowCode',
+            props: [
+            ],
+            configure: {
+                supports: {
+                    style: true,
+                },
+                props: [
+                    {
+                        name: 'btnName',
+                        title: '按钮文本',
+                        setter: 'StringSetter',
+                    },
+                ],
+            },
+            snippets: [
+                {
+                    title: '低代码组件',
+                    // screenshot:
+                    //     'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/text.svg',
+                    schema: {
+                        componentName: 'CompText',
+                        props: {
+                        },
+                    },
+                },
+            ],
+            category: '基础元素',
+            group: '低代码组件',
+            priority: 0,
+        },
         {
             title: '时间轴',
             description: '通过不同的配置，实现不同效果的时间轴',
@@ -9464,7 +9587,7 @@ const assets: IPublicTypeAssetsJson = {
         },
     }],
     sort: {
-        groupList: ['原子组件', '智能推导', '精选组件', '业务组件'],
+        groupList: ['原子组件', '低代码组件', '精选组件'],
         categoryList: [
             '基础元素',
             '通用组件',

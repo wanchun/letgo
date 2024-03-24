@@ -6,6 +6,19 @@ import type {
     RuntimeScope,
     SlotSchemaMap,
 } from '@webank/letgo-renderer';
+import { isNil } from 'lodash-es';
+import {
+    Fragment,
+    computed,
+    defineComponent,
+    h,
+    inject,
+    onUnmounted,
+    reactive,
+    ref,
+    shallowReactive,
+    toRef,
+} from 'vue';
 import {
     buildProps,
     buildSchema,
@@ -27,19 +40,7 @@ import {
     IPublicEnumTransformStage,
     isJSSlot,
 } from '@webank/letgo-types';
-import { isNil } from 'lodash-es';
 import type { ComputedRef, Slot } from 'vue';
-import {
-    Fragment,
-    computed,
-    defineComponent,
-    h,
-    inject,
-    onUnmounted,
-    reactive,
-    ref,
-    toRef,
-} from 'vue';
 import { BASE_COMP_CONTEXT } from '../constants';
 import { createAction } from './centerAction';
 
@@ -75,7 +76,7 @@ function useSchema(props: LeafProps, node: INode) {
     const compProps: {
         [x: string]: unknown;
     } = reactive({});
-    const compSlots: SlotSchemaMap = reactive({});
+    const compSlots: SlotSchemaMap = shallowReactive({});
 
     const result = buildSchema(node.computedSchema, node);
 

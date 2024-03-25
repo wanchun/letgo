@@ -123,7 +123,7 @@ export function genComponentMeta(schema: IPublicTypeProjectSchema, options: LowC
                             id: '${rootSchema.id}',
                             componentName: '${rootSchema.componentName}',
                             props: ${JSON.stringify(defaultProps)},
-                            fileName: ${rootSchema.fileName},
+                            fileName: '${rootSchema.fileName}',
                             code: ${JSON.stringify(rootSchema.code)},
                             title: '${compTitle}',
                             children: ${JSON.stringify(rootSchema.children)},
@@ -138,7 +138,7 @@ export function genComponentMeta(schema: IPublicTypeProjectSchema, options: LowC
                 title: '${compTitle}',
                 componentName: '${compName}',
                 reference: {
-                    id: '${rootSchema.id}'
+                    id: '${rootSchema.id}',
                     version: '${options.extraPackageJSON.version}',
                     subName: '',
                     exportName: '${compName}',

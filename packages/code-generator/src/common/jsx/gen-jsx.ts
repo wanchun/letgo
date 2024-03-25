@@ -382,9 +382,9 @@ function genRootProps(rootSchema: IPublicTypeRootSchema) {
     }
     else if (rootSchema.componentName === 'Component' && rootSchema.props?.style) {
         if (isJSExpression(rootSchema.props.style))
-            return `:style={${rootSchema.props.style.value}}`;
+            return `style={${rootSchema.props.style.value}}`;
 
-        return `:style={${JSON.stringify(rootSchema.props.style)}}`;
+        return `style={${JSON.stringify(rootSchema.props.style)}}`;
     }
     return '';
 }

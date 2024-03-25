@@ -1,4 +1,4 @@
-import { set } from 'lodash-es';
+import { merge, set } from 'lodash-es';
 import { genCodeMap } from '@webank/letgo-common';
 import type { IPublicTypeComponentSchema } from '@webank/letgo-types';
 import type { Context, FileTree, LowCodeComponentOptions } from '../common/types';
@@ -20,7 +20,7 @@ function genComponent(ctx: Context, fileTree: FileTree, options: LowCodeComponen
     const rootSchema = findRootSchema(schema, fileStruct.rawFileName) as IPublicTypeComponentSchema;
     const fileName = compNameToFileName(fileStruct.fileName);
 
-    set(fileTree, outDir.split('/'), {
+    merge(fileTree, set({}, outDir.split('/'), {
         [`${fileName}.jsx`]: fileStructToString(fileStruct, rootSchema, schema.utils),
         'index.js': `export * from './${fileName}';
 
@@ -29,7 +29,7 @@ function genComponent(ctx: Context, fileTree: FileTree, options: LowCodeComponen
         }
         `,
         'index.meta.js': genComponentMeta(schema, options),
-    });
+    }));
 }
 
 function genPkgName(fileName: string) {

@@ -1,3 +1,12 @@
+## [0.0.4-beta.4](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.3...v0.0.4-beta.4) (2024-03-25)
+
+
+### Bug Fixes
+
+* 修复逻辑编排已经初始化,再次进入编辑器出现的问题 ([3851c80](https://git.weoa.com/mumblefe/letgo/commits/3851c8006f96f3343d0bdbaa502e62a41451fff8))
+
+
+
 ## [0.0.4-beta.3](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.2...v0.0.4-beta.3) (2024-03-25)
 
 

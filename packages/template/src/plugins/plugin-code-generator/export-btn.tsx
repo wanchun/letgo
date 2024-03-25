@@ -116,6 +116,9 @@ export default defineComponent({
             }
             schema.packages = usedPackages;
 
+            console.log(schema);
+            return;
+
             if (isLowcodeComponent(schema))
                 exportZip(_genLowcodeComponent(schema));
             else

@@ -377,9 +377,15 @@ function getClassName(rootSchema: IPublicTypeRootSchema) {
 }
 
 function genRootProps(rootSchema: IPublicTypeRootSchema) {
-    if (rootSchema.componentName === 'Page')
-        return compileProps(merge(rootSchema.defaultProps, rootSchema.props)).join(' ');
+    if (rootSchema.componentName === 'Page') {
+        return compileProps(rootSchema.props).join(' ');
+    }
+    else if (rootSchema.componentName === 'Component' && rootSchema.props?.style) {
+        if (isJSExpression(rootSchema.props.style))
+            return `:style={${rootSchema.props.style.value}}`;
 
+        return `:style={${JSON.stringify(rootSchema.props.style)}}`;
+    }
     return '';
 }
 

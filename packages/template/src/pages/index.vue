@@ -15,19 +15,19 @@ export default defineComponent({
         IconSetter.defaultIcons = icons;
 
         const onReady = () => {
-            project.openDocument();
-            // project.openDocument({
-            //     componentName: 'Component',
-            //     id: 'root',
-            //     ref: 'root',
-            //     props: {},
-            //     fileName: 'compText',
-            //     children: [],
-            //     code: {
-            //         directories: [],
-            //         code: [],
-            //     },
-            // });
+            // project.openDocument();
+            project.openDocument({
+                componentName: 'Component',
+                id: 'hello',
+                ref: 'root',
+                props: {},
+                fileName: 'compText',
+                children: [],
+                code: {
+                    directories: [],
+                    code: [],
+                },
+            });
             console.log('project:', project);
         };
 

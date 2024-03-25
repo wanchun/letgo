@@ -12,6 +12,13 @@ export interface GenOptions {
     globalCssFileName?: string;
 }
 
+export interface LowCodeComponentOptions extends GenOptions {
+    pkgName?: string;
+    category?: string;
+    group?: string;
+    priority?: number;
+}
+
 export interface FileTree {
     [key: string]: string | FileTree | File;
 }

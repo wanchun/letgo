@@ -1,4 +1,4 @@
-import type { IPublicTypeRootSchema, IPublicTypeUtilsMap } from '@webank/letgo-types';
+import type { IPublicTypeComponentSchema, IPublicTypeUtilsMap } from '@webank/letgo-types';
 import { ImportType } from '../common/types';
 import type { FileStruct } from '../common/types';
 import { genImportCode } from '../common/helper';
@@ -6,7 +6,7 @@ import { genComponentName } from './file-name';
 import { genProps } from './gen-props';
 import { genUtils } from './gen-utils';
 
-export function fileStructToString(fileStruct: FileStruct, rootSchema: IPublicTypeRootSchema, utils: IPublicTypeUtilsMap) {
+export function fileStructToString(fileStruct: FileStruct, rootSchema: IPublicTypeComponentSchema, utils: IPublicTypeUtilsMap) {
     const { code, importSources } = genUtils(utils, rootSchema);
 
     fileStruct.importSources.push({

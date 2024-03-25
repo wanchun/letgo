@@ -113,7 +113,9 @@ export const LogicList = defineComponent({
         }
 
         function formatCodeStruct(code?: IPublicModelCode) {
-            const treeData: TreeNode[] = code?.directories.map((item) => {
+            if (!code)
+                return [];
+            const treeData: TreeNode[] = code.directories.map((item) => {
                 const codeItems = item.code.filter((codeItem) => {
                     return !isNil(props.searchText) ? codeItem.id.includes(props.searchText) : true;
                 }).map((codeItem) => {

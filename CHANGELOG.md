@@ -1,3 +1,18 @@
+## [0.0.4-beta.3](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.2...v0.0.4-beta.3) (2024-03-25)
+
+
+### Bug Fixes
+
+* 修复Code插件初始化好后退出编辑器又进来,触发找不到simulator问题 ([aa5f771](https://git.weoa.com/mumblefe/letgo/commits/aa5f771c1b29ee1629d27995ee2f13d7f43aa5ea))
+* 解决 http 协议无法粘贴问题 ([112599f](https://git.weoa.com/mumblefe/letgo/commits/112599f63bfea6af158e8b49241850409fdb9133))
+
+
+### Features
+
+* html原生标签扩展 ([de14f69](https://git.weoa.com/mumblefe/letgo/commits/de14f691581a90564d758b2bfc5b322c7378b0bd))
+
+
+
 ## [0.0.4-beta.2](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.1...v0.0.4-beta.2) (2024-3-21)
 
 

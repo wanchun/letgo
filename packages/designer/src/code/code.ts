@@ -248,6 +248,8 @@ export class Code implements IPublicModelCode {
         else {
             item = typeOrCodeItem;
         }
+        if (this.codeMap.has(item.id))
+            return item;
 
         directory.code.push(item);
         // 取响应式变量
@@ -266,6 +268,9 @@ export class Code implements IPublicModelCode {
     };
 
     addCodeItem = (item: ICodeItem) => {
+        if (this.codeMap.has(item.id))
+            return;
+
         this.codeStruct.code.push(item);
         const newCodeItem = this.codeStruct.code[this.codeStruct.code.length - 1];
         this.codeMap.set(item.id, newCodeItem);

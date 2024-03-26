@@ -28,11 +28,13 @@ const assets: IPublicTypeAssetsJson = {
                 componentsMap: [
                     {
                         componentName: 'FButton',
+                        exportName: 'FButton',
                         package: '@fesjs/fes-design',
                         version: '0.8.38',
                     },
                     {
                         componentName: 'FText',
+                        exportName: 'FText',
                         package: '@fesjs/fes-design',
                         version: '0.8.38',
                     },
@@ -43,6 +45,12 @@ const assets: IPublicTypeAssetsJson = {
                     props: {
                         btnName: '确认',
                     },
+                    definedProps: [
+                        {
+                            title: '文本',
+                            name: 'btnName',
+                        },
+                    ],
                     fileName: 'compText',
                     code: {
                         directories: [],
@@ -51,6 +59,11 @@ const assets: IPublicTypeAssetsJson = {
                                 id: 'function1',
                                 type: 'function',
                                 funcBody: '// Tip: 函数\nfunction func() {\n  console.log("hello");\n}',
+                            },
+                            {
+                                id: 'num',
+                                type: 'temporaryState',
+                                initValue: '2',
                             },
                         ],
                     },

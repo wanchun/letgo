@@ -1,7 +1,6 @@
 import type {
     IPublicTypeComponentMap,
     IPublicTypeNodeData,
-    IPublicTypeProjectSchema,
     IPublicTypeRootSchema,
 } from '@webank/letgo-types';
 import { genCodeMap, traverseNodeSchema } from '@webank/letgo-common';
@@ -93,8 +92,8 @@ function getUseComponents(
 }
 
 // TODO scope 放入 codes 或者另外加一个参数
-export function schemaToCode(ctx: Context, schema: IPublicTypeProjectSchema): FileStruct[] {
-    return schema.componentsTree.map((rootSchema) => {
+export function schemaToCode(ctx: Context): FileStruct[] {
+    return ctx.schema.componentsTree.map((rootSchema) => {
         const pageContext = {
             ...ctx,
             codes: genCodeMap(rootSchema.code, new Map(ctx.codes)),
@@ -102,7 +101,7 @@ export function schemaToCode(ctx: Context, schema: IPublicTypeProjectSchema): Fi
         };
         return compileRootSchema(
             pageContext,
-            getUseComponents(schema.componentsMap, rootSchema),
+            getUseComponents(ctx.schema.componentsMap, rootSchema),
             rootSchema,
         );
     }).filter(Boolean);

@@ -1,19 +1,18 @@
-import type { IPublicTypeComponentSchema, IPublicTypeProjectSchema } from '@webank/letgo-types';
+import { IPublicEnumJSType, type IPublicTypeComponentSchema, type IPublicTypeProjectSchema } from '@webank/letgo-types';
 import type { LowCodeComponentOptions } from '../common/types';
 import { genComponentName } from './file-name';
-import type { PropDefine } from './gen-props';
 import { normalizeProp } from './helper';
 
 const TYPE_TO_SETTER = {
-    string: ['StringSetter'],
-    number: ['NumberSetter'],
-    boolean: ['BoolSetter'],
-    object: ['ObjectSetter'],
-    array: ['ArraySetter'],
-    function: ['FunctionSetter'],
+    String: ['StringSetter'],
+    Number: ['NumberSetter'],
+    Boolean: ['BoolSetter'],
+    Object: ['ObjectSetter'],
+    Array: ['ArraySetter'],
+    Function: ['FunctionSetter'],
 };
 
-function propsTransformToMeta(props: PropDefine[], defaultProps: Record<string, any> = {}): string {
+function propsTransformToMeta(props: IPublicTypeComponentSchema['definedProps'], defaultProps: Record<string, any> = {}): string {
     return props.map((item) => {
         const setter = item.propSetter || 'StringSetter';
         if (['RadioGroupSetter', 'SelectSetter'].includes(setter)) {
@@ -52,7 +51,7 @@ function propsTransformToMeta(props: PropDefine[], defaultProps: Record<string, 
             `;
         }
         else if (setter === 'ArraySetter') {
-            if (item.arrayItemType === 'object') {
+            if (item.arrayItemType === IPublicEnumJSType.Object) {
                 return `{
                     name: '${item.name}',
                     title: '${item.title}',
@@ -99,7 +98,7 @@ export function genComponentMeta(schema: IPublicTypeProjectSchema, options: LowC
     const rootSchema = schema.componentsTree[0] as IPublicTypeComponentSchema;
     const compName = genComponentName(rootSchema.fileName);
 
-    const { title, props, defaultProps = {} } = rootSchema;
+    const { title, definedProps, defaultProps = {} } = rootSchema;
 
     const compTitle = title || compName;
 
@@ -127,6 +126,7 @@ export function genComponentMeta(schema: IPublicTypeProjectSchema, options: LowC
                             code: ${JSON.stringify(rootSchema.code)},
                             title: '${compTitle}',
                             children: ${JSON.stringify(rootSchema.children)},
+                            definedProps: ${JSON.stringify(rootSchema.definedProps || [])},
                         }
                     ]
                 },
@@ -149,7 +149,7 @@ export function genComponentMeta(schema: IPublicTypeProjectSchema, options: LowC
                     supports: {
                         style: true
                     },
-                    props: [${propsTransformToMeta((props.propsDefinition || []) as unknown as PropDefine[], defaultProps)}]
+                    props: [${propsTransformToMeta((definedProps || []), defaultProps)}]
                 },
                 sippets: [
                     {

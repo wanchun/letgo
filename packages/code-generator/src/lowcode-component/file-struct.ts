@@ -6,7 +6,7 @@ import { genComponentName } from './file-name';
 import { genProps } from './gen-props';
 import { genUtils } from './gen-utils';
 
-export function fileStructToString(fileStruct: FileStruct, rootSchema: IPublicTypeComponentSchema, utils: IPublicTypeUtilsMap) {
+export function fileStructToLowcodeComponent(fileStruct: FileStruct, rootSchema: IPublicTypeComponentSchema, utils: IPublicTypeUtilsMap) {
     const { code, importSources } = genUtils(utils, rootSchema);
 
     fileStruct.importSources.push({

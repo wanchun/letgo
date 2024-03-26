@@ -1,5 +1,5 @@
 import { defineComponent, h } from 'vue';
-import type { IPublicModelSettingField, IPublicTypeComponentMetadata } from '@webank/letgo-types';
+import { IPublicEnumJSType, type IPublicModelSettingField, type IPublicTypeComponentMetadata } from '@webank/letgo-types';
 import { getConvertedExtraKey } from '@webank/letgo-common';
 import { isEqual, isObject } from 'lodash-es';
 
@@ -7,13 +7,40 @@ export const Component = defineComponent((props, { slots }) => {
     return () => h('div', { class: 'letgo-component', style: props.style }, slots);
 });
 
+const JS_TYPE_OPTIONS = [
+    {
+        label: '文本',
+        value: IPublicEnumJSType.String,
+    },
+    {
+        label: '数字',
+        value: IPublicEnumJSType.Number,
+    },
+    {
+        label: '布尔',
+        value: IPublicEnumJSType.Boolean,
+    },
+    {
+        label: '函数',
+        value: IPublicEnumJSType.Function,
+    },
+    {
+        label: '数组',
+        value: IPublicEnumJSType.Array,
+    },
+    {
+        label: '对象',
+        value: IPublicEnumJSType.Object,
+    },
+];
+
 const TYPE_TO_SETTER = {
-    string: ['StringSetter', 'SelectSetter', 'RadioGroupSetter', 'TextAreaSetter', 'TimeSetter', 'ColorSetter', 'IconSetter'],
-    number: ['NumberSetter', 'SelectSetter', 'RadioGroupSetter', 'DateSetter'],
-    boolean: ['BoolSetter', 'RadioGroupSetter'],
-    object: ['ObjectSetter'],
-    array: ['ArraySetter'],
-    function: ['FunctionSetter'],
+    String: ['StringSetter', 'SelectSetter', 'RadioGroupSetter', 'TextAreaSetter', 'TimeSetter', 'ColorSetter', 'IconSetter'],
+    Number: ['NumberSetter', 'SelectSetter', 'RadioGroupSetter', 'DateSetter'],
+    Boolean: ['BoolSetter', 'RadioGroupSetter'],
+    Object: ['ObjectSetter'],
+    Array: ['ArraySetter'],
+    Function: ['FunctionSetter'],
 };
 
 const propsWeakMap = new WeakMap();
@@ -24,7 +51,7 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
     configure: {
         props: [
             {
-                name: 'propsDefinition',
+                name: getConvertedExtraKey('definedProps'),
                 title: '属性自定义',
                 display: 'block',
                 setter: [
@@ -69,32 +96,7 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
                                             setter: {
                                                 componentName: 'SelectSetter',
                                                 props: {
-                                                    options: [
-                                                        {
-                                                            label: '文本',
-                                                            value: 'string',
-                                                        },
-                                                        {
-                                                            label: '数字',
-                                                            value: 'number',
-                                                        },
-                                                        {
-                                                            label: '布尔',
-                                                            value: 'boolean',
-                                                        },
-                                                        {
-                                                            label: '函数',
-                                                            value: 'function',
-                                                        },
-                                                        {
-                                                            label: '数组',
-                                                            value: 'array',
-                                                        },
-                                                        {
-                                                            label: '对象',
-                                                            value: 'object',
-                                                        },
-                                                    ],
+                                                    options: JS_TYPE_OPTIONS,
                                                 },
                                             },
                                         },
@@ -102,12 +104,12 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
                                             name: 'propSetter',
                                             title: '设置器',
                                             condition(target: IPublicModelSettingField) {
-                                                return target.parent.getPropValue('type') === 'string';
+                                                return target.parent.getPropValue('type') === IPublicEnumJSType.String;
                                             },
                                             setter: {
                                                 componentName: 'SelectSetter',
                                                 props: {
-                                                    options: TYPE_TO_SETTER.string.map((item) => {
+                                                    options: TYPE_TO_SETTER.String.map((item) => {
                                                         return {
                                                             label: item,
                                                             value: item,
@@ -120,12 +122,12 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
                                             name: 'propSetter',
                                             title: '设置器',
                                             condition(target: IPublicModelSettingField) {
-                                                return target.parent.getPropValue('type') === 'number';
+                                                return target.parent.getPropValue('type') === IPublicEnumJSType.Number;
                                             },
                                             setter: {
                                                 componentName: 'SelectSetter',
                                                 props: {
-                                                    options: TYPE_TO_SETTER.number.map((item) => {
+                                                    options: TYPE_TO_SETTER.Number.map((item) => {
                                                         return {
                                                             label: item,
                                                             value: item,
@@ -138,12 +140,12 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
                                             name: 'propSetter',
                                             title: '设置器',
                                             condition(target: IPublicModelSettingField) {
-                                                return target.parent.getPropValue('type') === 'boolean';
+                                                return target.parent.getPropValue('type') === IPublicEnumJSType.Boolean;
                                             },
                                             setter: {
                                                 componentName: 'SelectSetter',
                                                 props: {
-                                                    options: TYPE_TO_SETTER.boolean.map((item) => {
+                                                    options: TYPE_TO_SETTER.Boolean.map((item) => {
                                                         return {
                                                             label: item,
                                                             value: item,
@@ -156,12 +158,12 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
                                             name: 'propSetter',
                                             title: '设置器',
                                             condition(target: IPublicModelSettingField) {
-                                                return target.parent.getPropValue('type') === 'function';
+                                                return target.parent.getPropValue('type') === IPublicEnumJSType.Function;
                                             },
                                             setter: {
                                                 componentName: 'SelectSetter',
                                                 props: {
-                                                    options: TYPE_TO_SETTER.function.map((item) => {
+                                                    options: TYPE_TO_SETTER.Function.map((item) => {
                                                         return {
                                                             label: item,
                                                             value: item,
@@ -174,12 +176,12 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
                                             name: 'propSetter',
                                             title: '设置器',
                                             condition(target: IPublicModelSettingField) {
-                                                return target.parent.getPropValue('type') === 'object';
+                                                return target.parent.getPropValue('type') === IPublicEnumJSType.Object;
                                             },
                                             setter: {
                                                 componentName: 'SelectSetter',
                                                 props: {
-                                                    options: TYPE_TO_SETTER.object.map((item) => {
+                                                    options: TYPE_TO_SETTER.Object.map((item) => {
                                                         return {
                                                             label: item,
                                                             value: item,
@@ -192,12 +194,12 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
                                             name: 'propSetter',
                                             title: '设置器',
                                             condition(target: IPublicModelSettingField) {
-                                                return target.parent.getPropValue('type') === 'array';
+                                                return target.parent.getPropValue('type') === IPublicEnumJSType.Array;
                                             },
                                             setter: {
                                                 componentName: 'SelectSetter',
                                                 props: {
-                                                    options: TYPE_TO_SETTER.array.map((item) => {
+                                                    options: TYPE_TO_SETTER.Array.map((item) => {
                                                         return {
                                                             label: item,
                                                             value: item,
@@ -211,7 +213,7 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
                                             title: '子项设置',
                                             display: 'block',
                                             condition(target: IPublicModelSettingField) {
-                                                return ['SelectSetter', 'RadioGroupSetter'].includes(target.parent.getPropValue('propSetter')) && target.parent.getPropValue('type') === 'string';
+                                                return ['SelectSetter', 'RadioGroupSetter'].includes(target.parent.getPropValue('propSetter')) && target.parent.getPropValue('type') === IPublicEnumJSType.String;
                                             },
                                             setter: {
                                                 componentName: 'ArraySetter',
@@ -242,7 +244,7 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
                                             title: '子项设置',
                                             display: 'block',
                                             condition(target: IPublicModelSettingField) {
-                                                return ['SelectSetter', 'RadioGroupSetter'].includes(target.parent.getPropValue('propSetter')) && target.parent.getPropValue('type') === 'boolean';
+                                                return ['SelectSetter', 'RadioGroupSetter'].includes(target.parent.getPropValue('propSetter')) && target.parent.getPropValue('type') === IPublicEnumJSType.Boolean;
                                             },
                                             setter: {
                                                 componentName: 'ArraySetter',
@@ -284,7 +286,7 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
                                             title: '子项设置',
                                             display: 'block',
                                             condition(target: IPublicModelSettingField) {
-                                                return ['SelectSetter', 'RadioGroupSetter'].includes(target.parent.getPropValue('propSetter')) && target.parent.getPropValue('type') === 'number';
+                                                return ['SelectSetter', 'RadioGroupSetter'].includes(target.parent.getPropValue('propSetter')) && target.parent.getPropValue('type') === IPublicEnumJSType.Number;
                                             },
                                             setter: {
                                                 componentName: 'ArraySetter',
@@ -330,28 +332,7 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
                                             setter: {
                                                 componentName: 'SelectSetter',
                                                 props: {
-                                                    options: [
-                                                        {
-                                                            title: '文本',
-                                                            value: 'string',
-                                                        },
-                                                        {
-                                                            title: '数字',
-                                                            value: 'number',
-                                                        },
-                                                        {
-                                                            title: '布尔',
-                                                            value: 'boolean',
-                                                        },
-                                                        {
-                                                            title: '函数',
-                                                            value: 'function',
-                                                        },
-                                                        {
-                                                            title: '对象',
-                                                            value: 'object',
-                                                        },
-                                                    ],
+                                                    options: JS_TYPE_OPTIONS.filter(item => item.value !== IPublicEnumJSType.Array),
                                                 },
                                             },
                                         },
@@ -360,7 +341,7 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
                                             title: '数组子项设置',
                                             display: 'block',
                                             condition(target: IPublicModelSettingField) {
-                                                return target.parent.getPropValue('propSetter') === 'ArraySetter' && target.parent.getPropValue('arrayItemType') === 'object';
+                                                return target.parent.getPropValue('propSetter') === 'ArraySetter' && target.parent.getPropValue('arrayItemType') === IPublicEnumJSType.Object;
                                             },
                                             setter: {
                                                 componentName: 'ArraySetter',
@@ -394,12 +375,12 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
                 supportVariable: false,
                 onChange(field: IPublicModelSettingField) {
                     const top = field.top;
-                    const propsDefinition: Array<{ name: string; title: string }> = top.getPropValue('propsDefinition');
+                    const definedProps = top.getExtraPropValue('definedProps');
                     const defaultProps = top.getExtraPropValue('defaultProps');
                     const props: Record<string, any> = {};
                     if (isObject(defaultProps)) {
                         Object.keys(defaultProps).forEach((key) => {
-                            if (propsDefinition.find(item => item.name === key))
+                            if ((definedProps as any[]).find(item => item.name === key))
                                 props[key] = defaultProps[key as keyof typeof defaultProps];
                         });
                     }
@@ -413,9 +394,9 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
                 setter: {
                     componentName: 'ObjectSetter',
                     props(field: IPublicModelSettingField) {
-                        const propsDefinition = field.parent.getPropValue('propsDefinition');
+                        const definedProps = field.parent.getExtraPropValue('definedProps');
                         const newProps = {
-                            items: (propsDefinition || []).filter((item: any) => item && item.name).map((item: any) => {
+                            items: (definedProps || []).filter((item: any) => item && item.name).map((item: any) => {
                                 const { name, title, propSetter, type, items } = item;
                                 let setter = propSetter;
                                 if (!setter)

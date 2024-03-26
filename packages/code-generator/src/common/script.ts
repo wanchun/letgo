@@ -1,9 +1,9 @@
-import path from 'node:path';
 import type {
     IPublicTypeComponentMap,
     IPublicTypeRootSchema,
 } from '@webank/letgo-types';
 import {
+    isLowCodeComponentType,
     isProCodeComponentType,
 } from '@webank/letgo-types';
 import { getOptions, relative } from '../options';
@@ -11,16 +11,27 @@ import { genCode } from './helper';
 import { ImportType } from './types';
 import type { Context, ImportSource } from './types';
 import { applyGlobalState } from './global-state';
+import { getLowComponentFilePath } from './lowcode-component';
 
-function genComponentImports(componentMaps: IPublicTypeComponentMap[]) {
+function genComponentImports(ctx: Context, componentMaps: IPublicTypeComponentMap[], filePath: string) {
     const importSources: ImportSource[] = [];
     componentMaps.forEach((componentMap) => {
         if (isProCodeComponentType(componentMap)) {
             importSources.push({
                 source: componentMap.package,
                 type: ImportType.ImportSpecifier,
-                imported: componentMap.exportName,
+                imported: componentMap.exportName || componentMap.componentName,
             });
+        }
+        else if (isLowCodeComponentType(componentMap)) {
+            const lowCodeCompSchema = ctx.schema.packages.find(item => item.type === 'lowCode' && item.library === componentMap.componentName);
+            if (lowCodeCompSchema) {
+                importSources.push({
+                    source: relative(filePath, getLowComponentFilePath(ctx, componentMap.componentName)),
+                    type: ImportType.ImportSpecifier,
+                    imported: componentMap.componentName,
+                });
+            }
         }
     });
 
@@ -68,11 +79,11 @@ export function genScript({ ctx, componentMaps, rootSchema, componentRefs, fileN
         return;
 
     const { outDir } = options;
-
-    const codeImports = genComponentImports(componentMaps);
-    const globalStateSnippet = applyGlobalState(`${outDir}/${fileName}`);
-    const refCodeSnippet = genRefCode(`${outDir}/${fileName}`, componentRefs);
-    const codesSnippet = genCode(ctx, `${outDir}/${fileName}`, rootSchema.code);
+    const filePath = `${outDir}/${fileName}`;
+    const codeImports = genComponentImports(ctx, componentMaps, filePath);
+    const globalStateSnippet = applyGlobalState(rootSchema, filePath);
+    const refCodeSnippet = genRefCode(filePath, componentRefs);
+    const codesSnippet = genCode(ctx, filePath, rootSchema.code);
 
     const codes = [
         globalStateSnippet.code,

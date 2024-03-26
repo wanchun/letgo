@@ -1,16 +1,11 @@
-import { isNil } from 'lodash-es';
-import type { ComputedRef, Slot } from 'vue';
-import {
-    Fragment,
-    computed,
-    defineComponent,
-    h,
-    inject,
-    onUnmounted,
-    reactive,
-    ref,
-    toRef,
-} from 'vue';
+import { eventHandlersToJsFunction, getConvertedExtraKey } from '@webank/letgo-common';
+import type { INode, ISlotNode } from '@webank/letgo-designer';
+import type {
+    BlockScope,
+    LeafProps,
+    RuntimeScope,
+    SlotSchemaMap,
+} from '@webank/letgo-renderer';
 import {
     buildProps,
     buildSchema,
@@ -32,14 +27,19 @@ import {
     IPublicEnumTransformStage,
     isJSSlot,
 } from '@webank/letgo-types';
-import type { INode, ISlotNode } from '@webank/letgo-designer';
-import type {
-    BlockScope,
-    LeafProps,
-    RuntimeScope,
-    SlotSchemaMap,
-} from '@webank/letgo-renderer';
-import { eventHandlersToJsFunction, getConvertedExtraKey } from '@webank/letgo-common';
+import { isNil } from 'lodash-es';
+import type { ComputedRef, Slot } from 'vue';
+import {
+    Fragment,
+    computed,
+    defineComponent,
+    h,
+    inject,
+    onUnmounted,
+    reactive,
+    ref,
+    toRef,
+} from 'vue';
 import { BASE_COMP_CONTEXT } from '../constants';
 import { createAction } from './centerAction';
 
@@ -216,6 +216,12 @@ export const Hoc = defineComponent({
                         else if (key === getConvertedExtraKey('loopArgs')) {
                             // 循环参数初始化 (item, index)
                             updateLoopArg(newValue);
+                        }
+                        else if (key === getConvertedExtraKey('isDialogOpen')) {
+                            // 控制显示
+                            const showName = node.componentMeta.dialogControlProp;
+                            if (showName)
+                                compProps[showName] = newValue;
                         }
                         else if (key === 'children') {
                             // 默认插槽更新

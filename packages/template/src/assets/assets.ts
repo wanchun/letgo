@@ -3385,6 +3385,7 @@ const assets: IPublicTypeAssetsJson = {
                 },
                 component: {
                     isContainer: true,
+                    dialogControlProp: 'visible',
                 },
             },
             snippets: [
@@ -7245,6 +7246,7 @@ const assets: IPublicTypeAssetsJson = {
                 ],
                 component: {
                     isContainer: true,
+                    dialogControlProp: 'modelValue',
                 },
                 supports: {
                     events: ['onOk', 'onCancel'],
@@ -7652,6 +7654,7 @@ const assets: IPublicTypeAssetsJson = {
                 ],
                 component: {
                     isContainer: true,
+                    dialogControlProp: 'show',
                 },
                 supports: {
                     // TODO: StyleSetter会出错
@@ -7899,6 +7902,7 @@ const assets: IPublicTypeAssetsJson = {
                 ],
                 component: {
                     isContainer: true,
+                    dialogControlProp: 'show',
                 },
                 supports: {
                     // TODO: StyleSetter会出错

@@ -123,6 +123,12 @@ export interface IBaseModelNode<
     get isLocked(): boolean;
 
     /**
+     * 控制节点弹层显示
+     * check if current node is locked
+     */
+    get isDialogOpen(): boolean;
+
+    /**
      * 节点上挂载的插槽节点们
      * get slots of this node
      */

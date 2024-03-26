@@ -1,14 +1,14 @@
+import type { IPublicTypeAppConfig, IPublicTypeRootSchema } from '@webank/letgo-types';
 import type { Component, PropType } from 'vue';
 import { computed, defineComponent, h } from 'vue';
-import type { IPublicTypeAppConfig, IPublicTypeRootSchema } from '@webank/letgo-types';
 import config from './config';
 import { RENDERER_COMPS } from './renderers';
 
 interface RendererProps {
-    schema: IPublicTypeRootSchema
-    components: Record<string, Component>
-    config?: IPublicTypeAppConfig
-    device?: string
+    schema: IPublicTypeRootSchema;
+    components: Record<string, Component>;
+    config?: IPublicTypeAppConfig;
+    device?: string;
 }
 
 const Renderer = defineComponent({
@@ -67,4 +67,4 @@ const Renderer = defineComponent({
     },
 }) as new (...args: any[]) => { $props: RendererProps };
 
-export { RendererProps, Renderer };
+export { Renderer, RendererProps };

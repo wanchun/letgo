@@ -1,6 +1,6 @@
 import type {
+    IPublicTypeComponentSchema,
     IPublicTypeJSFunction,
-    IPublicTypeRootSchema,
 } from '@webank/letgo-types';
 import { normalizeProp } from './helper';
 
@@ -28,7 +28,7 @@ export interface PropDefine {
     objectItems?: PropDefine[];
 }
 
-export function genProps(rootSchema: IPublicTypeRootSchema) {
+export function genProps(rootSchema: IPublicTypeComponentSchema) {
     const { props, defaultProps = {} } = rootSchema;
     const propsStr = ((props.propsDefinition || []) as unknown as PropDefine[]).map((item) => {
         const propType = TYPE_TO_PROP_TYPE[item.type || 'string'];

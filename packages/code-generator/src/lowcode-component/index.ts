@@ -1,6 +1,7 @@
 import { merge, set } from 'lodash-es';
 import { genCodeMap } from '@webank/letgo-common';
-import type { Context, FileTree, GenOptions } from '../common/types';
+import type { IPublicTypeComponentSchema } from '@webank/letgo-types';
+import type { Context, FileTree, LowCodeComponentOptions } from '../common/types';
 import { schemaToCode } from '../common';
 import { injectLetgoCode } from '../common/inject-code';
 import { setOptions } from '../options';
@@ -9,40 +10,38 @@ import { genPackageJSON } from '../common/pkg';
 
 import { fileStructToString } from './file-struct';
 import { compNameToFileName } from './file-name';
-import { COMMON_CODES } from './common-codes';
-import { genComponentsEntry } from './component';
-import { genComponentMeta, genComponentMetaEntry } from './meta';
+import { genComponentMeta } from './meta';
 
-function genComponent(ctx: Context, fileTree: FileTree, options: GenOptions) {
+function genComponent(ctx: Context, fileTree: FileTree, options: LowCodeComponentOptions) {
     const { transformJsx, outDir, schema } = options;
     const filesStruct = transformJsx ? transformJsx(schemaToCode(ctx, schema)) : schemaToCode(ctx, schema);
 
-    const components = filesStruct.reduce((acc, cur) => {
-        const rootSchema = findRootSchema(schema, cur.rawFileName);
-        const fileName = compNameToFileName(cur.fileName);
+    const fileStruct = filesStruct[0];
+    const rootSchema = findRootSchema(schema, fileStruct.rawFileName) as IPublicTypeComponentSchema;
+    const fileName = compNameToFileName(fileStruct.fileName);
 
-        acc[`${fileName}/${fileName}.jsx`] = fileStructToString(cur, rootSchema, schema.utils);
-        acc[`${fileName}/index.js`] = `export * from './${fileName}';`;
-        acc[`${fileName}/index.meta.js`] = genComponentMeta(cur, rootSchema);
+    merge(fileTree, set({}, outDir.split('/'), {
+        [`${fileName}.jsx`]: fileStructToString(fileStruct, rootSchema, schema.utils),
+        'index.js': `export * from './${fileName}';
 
-        return acc;
-    }, {} as Record<string, any>);
-
-    set(fileTree, outDir.split('/'), components);
-
-    genComponentMetaEntry(filesStruct, fileTree);
-    genComponentsEntry(filesStruct, fileTree);
+        export default {
+            version: '${options.extraPackageJSON.version}'
+        }
+        `,
+        'index.meta.js': genComponentMeta(schema, options),
+    }));
 }
 
 function genPkgName(fileName: string) {
     return `@webank/letgo-component-${compNameToFileName(fileName || 'test')}`;
 }
 
-export function genLowcodeComponent(_options: GenOptions): FileTree {
+export function genLowcodeComponent(_options: LowCodeComponentOptions): FileTree {
     const options = setOptions({
-        outDir: 'src/components',
+        outDir: 'src',
         ..._options,
-    });
+    }) as LowCodeComponentOptions;
+
     const fileTree: FileTree = {};
 
     const ctx: Context = {
@@ -51,7 +50,7 @@ export function genLowcodeComponent(_options: GenOptions): FileTree {
     };
 
     options.extraPackageJSON = {
-        name: genPkgName(options.schema.componentsTree[0]?.fileName),
+        name: options.pkgName || genPkgName(options.schema.componentsTree[0]?.fileName),
         version: '1.0.0',
         ...options.extraPackageJSON,
     };
@@ -64,5 +63,5 @@ export function genLowcodeComponent(_options: GenOptions): FileTree {
     // 处理组件
     genComponent(ctx, fileTree, options);
 
-    return merge(COMMON_CODES, fileTree);
+    return fileTree;
 }

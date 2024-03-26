@@ -1,48 +1,8 @@
-import { merge } from 'lodash-es';
-import type {
-    IPublicTypeRootSchema,
-} from '@webank/letgo-types';
-import type { FileStruct, FileTree } from '../common/types';
-import { compNameToFileName, genComponentName } from './file-name';
+import type { IPublicTypeComponentSchema, IPublicTypeProjectSchema } from '@webank/letgo-types';
+import type { LowCodeComponentOptions } from '../common/types';
+import { genComponentName } from './file-name';
 import type { PropDefine } from './gen-props';
 import { normalizeProp } from './helper';
-
-const ENTRY_TPL = `
-import { name, version } from '../package.json';
-import * as componentsMeta from './meta';
-
-export default {
-    packages: [
-        {
-            package: name,
-            version,
-            urls: [\`/material/\${name}@\${version}/index.js\`],
-            library: 'LIBRARY',
-        },
-    ],
-    components: Object.keys(componentsMeta).map((key) => componentsMeta[key]),
-    sort: {
-        groupList: ['低代码组件'],
-    },
-};
-`;
-
-export function genComponentMetaEntry(filesStruct: FileStruct[], fileTree: FileTree) {
-    const metaExports: string[] = [];
-    for (const fileStruct of filesStruct) {
-        const fileName = compNameToFileName(fileStruct.fileName);
-        const compName = genComponentName(fileStruct.fileName);
-        const metaName = `${compName}Meta`;
-        metaExports.push(`export { ${metaName} } from './components/${fileName}/index.meta'`);
-    }
-
-    merge(fileTree, {
-        src: {
-            'meta.js': metaExports.join(';\n'),
-            'index.meta.js': ENTRY_TPL.replace('LIBRARY', genComponentName(filesStruct[0].rawFileName || 'lg-comp')),
-        },
-    });
-}
 
 const TYPE_TO_SETTER = {
     string: ['StringSetter'],
@@ -135,37 +95,79 @@ function propsTransformToMeta(props: PropDefine[], defaultProps: Record<string, 
     }).join(',\n');
 }
 
-export function genComponentMeta(fileStruct: FileStruct, rootSchema: IPublicTypeRootSchema) {
-    const compName = genComponentName(fileStruct.fileName);
-    const metaName = `${compName}Meta`;
+export function genComponentMeta(schema: IPublicTypeProjectSchema, options: LowCodeComponentOptions) {
+    const rootSchema = schema.componentsTree[0] as IPublicTypeComponentSchema;
+    const compName = genComponentName(rootSchema.fileName);
 
     const { title, props, defaultProps = {} } = rootSchema;
 
-    const compTitle = title || '低代码组件';
+    const compTitle = title || compName;
 
     return `
-    export const ${metaName} = {
-        title: '${compTitle}',
-        componentName: '${compName}',
-        npm: {
-            package: '',
-            version: '',
-            exportName: '${compName}',
-            destructuring: true,
-        },
-        configure: {
-            props: [${propsTransformToMeta((props.propsDefinition || []) as unknown as PropDefine[], defaultProps)}]
-        },
-        sippets: [
+    export default {
+        packages: [
+            ${schema.packages.map((item) => {
+                return JSON.stringify(item);
+            }).join(',')}
+            ${schema.packages.length ? ',' : ''}
             {
                 title: '${compTitle}',
+                id: '${rootSchema.id}',
+                version: '${options.extraPackageJSON.version}',
+                type: 'lowCode',
                 schema: {
-                    componentName: '${compName}',
-                    props: {}
-                }
+                    utils: ${JSON.stringify(schema.utils || [])}, 
+                    componentsMap: ${JSON.stringify(schema.componentsMap)},
+                    componentsTree: [
+                        {
+                            id: '${rootSchema.id}',
+                            componentName: '${rootSchema.componentName}',
+                            props: ${JSON.stringify(defaultProps)},
+                            fileName: '${rootSchema.fileName}',
+                            code: ${JSON.stringify(rootSchema.code)},
+                            title: '${compTitle}',
+                            children: ${JSON.stringify(rootSchema.children)},
+                        }
+                    ]
+                },
+                library: '${compName}',
+            },
+        ],
+        components: [
+            {
+                title: '${compTitle}',
+                componentName: '${compName}',
+                reference: {
+                    id: '${rootSchema.id}',
+                    version: '${options.extraPackageJSON.version}',
+                    subName: '',
+                    exportName: '${compName}',
+                    destructuring: false,
+                },
+                devMode: 'lowCode',
+                configure: {
+                    supports: {
+                        style: true
+                    },
+                    props: [${propsTransformToMeta((props.propsDefinition || []) as unknown as PropDefine[], defaultProps)}]
+                },
+                sippets: [
+                    {
+                        title: '${compTitle}',
+                        schema: {
+                            componentName: '${compName}',
+                            props: {}
+                        }
+                    }
+                ],
+                category: '${options.category || '组件'}',
+                group: '${options.group || '低代码组件'}',
+                priority: ${options.priority || 0}
             }
         ],
-        group: '低代码组件',
-    }
+        sort: {
+            groupList: ['低代码组件'],
+        },
+    };
     `;
 }

@@ -1,14 +1,14 @@
 import { defineComponent } from 'vue';
-import { material, project } from '@webank/letgo-engine';
-import type { IPublicTypePackage, IPublicTypeProjectSchema } from '@webank/letgo-types';
+import { project } from '@webank/letgo-engine';
+import type { IPublicTypeProjectSchema } from '@webank/letgo-types';
 import {
     ImportType,
     exportZip,
     genLowcodeComponent,
     genProject,
 } from '@webank/letgo-code-generator';
-import { IPublicEnumTransformStage, isProCodeComponentType } from '@webank/letgo-types';
-import { FButton, FMessage } from '@fesjs/fes-design';
+import { IPublicEnumTransformStage } from '@webank/letgo-types';
+import { FButton } from '@fesjs/fes-design';
 import { DownloadOutlined } from '@fesjs/fes-design/icon';
 import { forEach, isNil, isObject, isString, merge } from 'lodash-es';
 import Mustache from 'mustache';
@@ -102,24 +102,8 @@ function _genLowcodeComponent(schema: IPublicTypeProjectSchema) {
 export default defineComponent({
     setup() {
         const handleGenCode = async () => {
-            const packages = material.getAssets().packages;
             const schema = project.exportSchema(IPublicEnumTransformStage.Save);
-            const usedPackages: IPublicTypePackage[] = [];
-            for (const component of schema.componentsMap) {
-                if (isProCodeComponentType(component)) {
-                    const pkg = packages.find(
-                        pkg =>
-                            pkg.package === component.package
-                            && pkg.version === component.version,
-                    );
-                    // if (!pkg) {
-                    //     FMessage.error('组件版本匹配异常，请联系开发处理');
-                    //     return;
-                    // }
-                    usedPackages.push(pkg);
-                }
-            }
-            schema.packages = usedPackages;
+            console.log(schema);
 
             if (isLowcodeComponent(schema))
                 exportZip(_genLowcodeComponent(schema));

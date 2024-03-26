@@ -71,7 +71,7 @@ export const Renderer = defineComponent({
                     __schema: schema,
                     __components: components,
                     extraProps: props.extraProps,
-                    isRoot: schema.id === 'root',
+                    isRoot: provideContent.components == null,
                 } as any)
                 : null;
         };

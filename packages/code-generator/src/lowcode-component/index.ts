@@ -8,20 +8,20 @@ import { setOptions } from '../options';
 import { findRootSchema } from '../common/helper';
 import { genPackageJSON } from '../common/pkg';
 
-import { fileStructToString } from './file-struct';
+import { fileStructToLowcodeComponent } from './file-struct';
 import { compNameToFileName } from './file-name';
 import { genComponentMeta } from './meta';
 
 function genComponent(ctx: Context, fileTree: FileTree, options: LowCodeComponentOptions) {
     const { transformJsx, outDir, schema } = options;
-    const filesStruct = transformJsx ? transformJsx(schemaToCode(ctx, schema)) : schemaToCode(ctx, schema);
+    const filesStruct = transformJsx ? transformJsx(schemaToCode(ctx)) : schemaToCode(ctx);
 
     const fileStruct = filesStruct[0];
     const rootSchema = findRootSchema(schema, fileStruct.rawFileName) as IPublicTypeComponentSchema;
     const fileName = compNameToFileName(fileStruct.fileName);
 
     merge(fileTree, set({}, outDir.split('/'), {
-        [`${fileName}.jsx`]: fileStructToString(fileStruct, rootSchema, schema.utils),
+        [`${fileName}.jsx`]: fileStructToLowcodeComponent(fileStruct, rootSchema, schema.utils),
         'index.js': `export * from './${fileName}';
 
         export default {
@@ -45,6 +45,8 @@ export function genLowcodeComponent(_options: LowCodeComponentOptions): FileTree
     const fileTree: FileTree = {};
 
     const ctx: Context = {
+        schema: options.schema,
+        config: options,
         codes: genCodeMap(options.schema.code),
         scope: [],
     };

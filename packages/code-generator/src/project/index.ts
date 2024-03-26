@@ -7,11 +7,12 @@ import { injectLetgoCode } from '../common/inject-code';
 import { genGlobalStateCode } from '../common/global-state';
 import { setOptions } from '../options';
 import { genPackageJSON } from '../common/pkg';
+import { genLowcodeComponent } from './gen-lowcode-component';
 import { toAssemble } from './build';
 
 function genPageCode(ctx: Context, fileTree: FileTree, options: GenOptions) {
-    const { transformJsx, outDir, schema } = options;
-    const filesStruct = transformJsx ? transformJsx(schemaToCode(ctx, schema)) : schemaToCode(ctx, schema);
+    const { transformJsx, outDir } = options;
+    const filesStruct = transformJsx ? transformJsx(schemaToCode(ctx)) : schemaToCode(ctx);
 
     const pages = filesStruct.reduce((acc, cur) => {
         acc[genFileName(cur)] = toAssemble(cur);
@@ -32,7 +33,9 @@ export function genProject(_options: GenOptions): FileTree {
     const fileTree: FileTree = {};
 
     const ctx: Context = {
+        config: options,
         codes: genCodeMap(options.schema.code),
+        schema: options.schema,
         scope: [],
         globalScope: {
             letgoContext: options.schema.config || {},
@@ -45,6 +48,9 @@ export function genProject(_options: GenOptions): FileTree {
 
     // 处理内置代码
     injectLetgoCode(fileTree, options);
+
+    // 处理低代码组件
+    genLowcodeComponent(ctx, fileTree);
 
     // 处理全局代码
     genGlobalStateCode(ctx, fileTree, options);

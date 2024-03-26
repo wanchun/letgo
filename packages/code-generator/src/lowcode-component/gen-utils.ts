@@ -34,7 +34,7 @@ function genUtilsImports(utils: IPublicTypeUtilsMap, useUtils: Record<string, st
     return importSources;
 }
 
-export function compilerUtils(utils: IPublicTypeUtilsMap, useUtils: Record<string, string[]>) {
+export function compilerUtils(utils: IPublicTypeUtilsMap = [], useUtils: Record<string, string[]>) {
     const importSources = genUtilsImports(utils, useUtils);
     const code = utils.map((item) => {
         if (item.type === 'function')

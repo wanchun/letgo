@@ -1,9 +1,10 @@
 import type {
     ICodeStruct,
     IPublicTypeNpmInfo,
+    IPublicTypeRootSchema,
     IPublicTypeUtilsMap,
 } from '@webank/letgo-types';
-import { genCodeMap } from '@webank/letgo-common';
+import { genCodeMap, isLowcodeProjectSchema } from '@webank/letgo-common';
 import { set } from 'lodash-es';
 import { getOptions, relative } from '../options';
 import { genCode, genImportCode } from './helper';
@@ -127,9 +128,9 @@ export function genGlobalStateCode(ctx: Context, fileTree: FileTree, options: Ge
     set(fileTree, `${letgoDir}/${GLOBAL_STATE_FILE_NAME}.js`.split('/'), tmp);
 }
 
-export function applyGlobalState(filePath: string): SetupCode {
+export function applyGlobalState(schema: IPublicTypeRootSchema, filePath: string): SetupCode {
     const { letgoDir } = getOptions();
-    if (!getGlobalFlag()) {
+    if (!getGlobalFlag() || isLowcodeProjectSchema(schema)) {
         return {
             importSources: [],
             code: '',

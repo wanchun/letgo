@@ -101,7 +101,7 @@ export default defineComponent({
                                 if (!searchText.value)
                                     return true;
                                 const regex = RegExp(searchText.value, 'i');
-                                return regex.test(snippet.title + snippet.component.componentName);
+                                return regex.test(snippet.title + snippet.component.componentName + snippet.keywords);
                             }),
                     );
                     if (categoryObj.snippets.length)

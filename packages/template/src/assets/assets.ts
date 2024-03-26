@@ -961,6 +961,7 @@ const assets: IPublicTypeAssetsJson = {
             },
             snippets: [
                 {
+                    keywords: 'btn',
                     title: '按钮',
                     // screenshot:
                     //     'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/button.png',

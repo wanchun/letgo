@@ -20,6 +20,10 @@ export interface IPublicTypeSnippet {
      */
     title?: string;
     /**
+     * 搜索关键词，如word1,word2...
+     */
+    keywords?: string;
+    /**
      * snippet 截图
      */
     screenshot?: string;

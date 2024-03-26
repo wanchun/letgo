@@ -192,7 +192,10 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     }
 
     get isDialogOpen(): boolean {
-        return !!this.getExtraProp('isDialogOpen')?.getValue();
+        const isOpen = this.getExtraProp('isDialogOpen')?.getValue() as boolean;
+        if (isOpen === undefined && this.componentMeta.dialogControlProp) // 默认是开启的
+            return true;
+        return isOpen;
     }
 
     get settingEntry(): SettingTop {

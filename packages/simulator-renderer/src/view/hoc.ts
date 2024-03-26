@@ -153,6 +153,11 @@ export const Hoc = defineComponent({
 
         const { compProps, updateEvents, compSlots } = useSchema(props, node);
 
+        // 控制显示
+        const dialogControlProp = node.componentMeta.dialogControlProp;
+        if (dialogControlProp)
+            compProps[dialogControlProp] = node.isDialogOpen;
+
         const innerScope: ComputedRef<RuntimeScope> = computed(() => {
             if (props.schema.componentName === 'Slot') {
                 const result: RuntimeScope = {
@@ -219,9 +224,8 @@ export const Hoc = defineComponent({
                         }
                         else if (key === getConvertedExtraKey('isDialogOpen')) {
                             // 控制显示
-                            const showName = node.componentMeta.dialogControlProp;
-                            if (showName)
-                                compProps[showName] = newValue;
+                            if (dialogControlProp)
+                                compProps[dialogControlProp] = newValue;
                         }
                         else if (key === 'children') {
                             // 默认插槽更新
@@ -252,6 +256,10 @@ export const Hoc = defineComponent({
                             delete compSlots[oldValue?.name || key];
                         }
                         else {
+                            // 是否要忽略设置器的值？
+                            if (dialogControlProp === rootPropKey)
+                                return;
+
                             // 普通根属性更新
                             compProps[key] = newValue;
                         }

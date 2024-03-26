@@ -13,8 +13,8 @@ import { compNameToFileName } from './file-name';
 import { genComponentMeta } from './meta';
 
 function genComponent(ctx: Context, fileTree: FileTree, options: LowCodeComponentOptions) {
-    const { transformJsx, outDir, schema } = options;
-    const filesStruct = transformJsx ? transformJsx(schemaToCode(ctx)) : schemaToCode(ctx);
+    const { outDir, schema } = options;
+    const filesStruct = schemaToCode(ctx);
 
     const fileStruct = filesStruct[0];
     const rootSchema = findRootSchema(schema, fileStruct.rawFileName) as IPublicTypeComponentSchema;

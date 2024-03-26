@@ -6,7 +6,7 @@ import {
     isLowCodeComponentType,
     isProCodeComponentType,
 } from '@webank/letgo-types';
-import { getOptions, relative } from '../options';
+import { relative } from '../options';
 import { genCode } from './helper';
 import { ImportType } from './types';
 import type { Context, ImportSource } from './types';
@@ -38,8 +38,8 @@ function genComponentImports(ctx: Context, componentMaps: IPublicTypeComponentMa
     return importSources;
 }
 
-function genRefCode(filePath: string, componentRefs: Set<string>) {
-    const options = getOptions();
+function genRefCode(ctx: Context, filePath: string, componentRefs: Set<string>) {
+    const options = ctx.config;
     if (!options)
         return;
 
@@ -74,15 +74,15 @@ export function genScript({ ctx, componentMaps, rootSchema, componentRefs, fileN
     fileName: string;
 },
 ): [ImportSource[], string[]] {
-    const options = getOptions();
+    const options = ctx.config;
     if (!options)
         return;
 
     const { outDir } = options;
     const filePath = `${outDir}/${fileName}`;
     const codeImports = genComponentImports(ctx, componentMaps, filePath);
-    const globalStateSnippet = applyGlobalState(rootSchema, filePath);
-    const refCodeSnippet = genRefCode(filePath, componentRefs);
+    const globalStateSnippet = applyGlobalState(ctx, rootSchema, filePath);
+    const refCodeSnippet = genRefCode(ctx, filePath, componentRefs);
     const codesSnippet = genCode(ctx, filePath, rootSchema.code);
 
     const codes = [

@@ -1,7 +1,5 @@
 import type { GenOptions } from './common/types';
 
-let options: GenOptions;
-
 const defaultOptions: Partial<GenOptions> = {
     letgoDir: 'src/letgo',
     outDir: 'src/pages',
@@ -9,12 +7,7 @@ const defaultOptions: Partial<GenOptions> = {
 };
 
 export function setOptions(_options: GenOptions) {
-    options = { ...defaultOptions, ..._options };
-    return options;
-}
-
-export function getOptions(): GenOptions | undefined {
-    return options;
+    return { ...defaultOptions, ..._options };
 }
 
 export function relative(from: string, to: string) {

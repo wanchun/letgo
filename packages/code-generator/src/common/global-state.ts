@@ -6,7 +6,7 @@ import type {
 } from '@webank/letgo-types';
 import { genCodeMap, isLowcodeProjectSchema } from '@webank/letgo-common';
 import { set } from 'lodash-es';
-import { getOptions, relative } from '../options';
+import { relative } from '../options';
 import { genCode, genImportCode } from './helper';
 import type { CallBackParam, Context, FileTree, GenOptions, ImportSource, SetupCode } from './types';
 import { ImportType } from './types';
@@ -128,8 +128,8 @@ export function genGlobalStateCode(ctx: Context, fileTree: FileTree, options: Ge
     set(fileTree, `${letgoDir}/${GLOBAL_STATE_FILE_NAME}.js`.split('/'), tmp);
 }
 
-export function applyGlobalState(schema: IPublicTypeRootSchema, filePath: string): SetupCode {
-    const { letgoDir } = getOptions();
+export function applyGlobalState(ctx: Context, schema: IPublicTypeRootSchema, filePath: string): SetupCode {
+    const { letgoDir } = ctx.config;
     if (!getGlobalFlag() || isLowcodeProjectSchema(schema)) {
         return {
             importSources: [],

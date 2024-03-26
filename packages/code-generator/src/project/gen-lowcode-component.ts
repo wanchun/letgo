@@ -17,7 +17,7 @@ export function genLowcodeComponent(ctx: Context, fileTree: FileTree) {
             const newCtx = {
                 ...ctx,
                 config: {
-                    ...ctx,
+                    ...ctx.config,
                     outDir: componentDir,
                 },
                 codes: genCodeMap(pkg.schema.code),

@@ -98,23 +98,7 @@ export default function (
         });
     }
 
-    if (isRoot) {
-        advancedGroup.push(
-            {
-                name: getConvertedExtraKey('fileName'),
-                title: '页面路径',
-                setter: 'StringSetter',
-            },
-        );
-        advancedGroup.push(
-            {
-                name: getConvertedExtraKey('title'),
-                title: '页面中文名',
-                setter: 'StringSetter',
-            },
-        );
-    }
-    else {
+    if (!isRoot) {
         if (!isSlot && supports.condition !== false) {
             advancedGroup.push({
                 name: getConvertedExtraKey('condition'),

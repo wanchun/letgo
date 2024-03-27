@@ -146,6 +146,13 @@ function eventSchemaToFunc(ctx: Context, events: IEventHandler[] = []) {
     }, [] as string[]);
 }
 
+function getApiPath(api: string) {
+    if (/^\w+\//.test(api))
+        return api;
+
+    return isSyntaxError(api) ? JSON.stringify(api) : api;
+}
+
 export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct): SetupCode {
     if (!codeStruct)
         return null;
@@ -204,7 +211,7 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct)
                     source: relative(filePath, `${letgoDir}/letgoRequest`),
                     imported: 'letgoRequest',
                 });
-                const api = isSyntaxError(item.api) ? JSON.stringify(item.api) : item.api;
+                const api = getApiPath(item.api);
                 const params = item.params ? `, ${item.params}` : ', null';
                 codeStr.push(`
     const ${item.id} = useJSQuery({

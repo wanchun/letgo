@@ -1,5 +1,5 @@
 import { computed } from 'vue';
-import { capitalize, get, isObject } from 'lodash-es';
+import { capitalize, get, isArray, isEmpty, isObject } from 'lodash-es';
 import { getVarType } from '@webank/letgo-common';
 import type { IPublicModelDocumentModel } from '@webank/letgo-types';
 
@@ -142,7 +142,16 @@ export function useScopeVariables(props: {
             const scope = props.compRef ? currentDocument.state.getCompScope(props.compRef) : {};
             return {
                 codesInstance: Object.assign({}, state?.codesInstance, currentDocument.project.codesInstance),
-                componentsInstance: state?.componentsInstance,
+                componentsInstance: state
+                    ? Object.keys(state.componentsInstance || {}).reduce((acc, cur) => {
+                        const val = state.componentsInstance[cur];
+                        if (isEmpty(val) || isArray(val))
+                            return acc;
+
+                        acc[cur] = val;
+                        return acc;
+                    }, {} as Record<string, any>)
+                    : {},
                 props: state?.props,
                 scope,
                 ...currentDocument.project.extraGlobalState,

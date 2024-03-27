@@ -72,6 +72,8 @@ export interface CallBackParam {
 
 export interface Context {
     codes: Map<string, ICodeItem>;
+    config: GenOptions;
     scope: string[];
+    schema: IPublicTypeProjectSchema;
     refs?: Set<string>;
 }

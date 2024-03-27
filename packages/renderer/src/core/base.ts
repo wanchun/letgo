@@ -1,4 +1,4 @@
-import type { Component, PropType, VNodeProps } from 'vue';
+import type { Component, ExtractPublicPropTypes, PropType, VNodeProps } from 'vue';
 import type {
     IPublicTypeNodeData,
     IPublicTypeNodeSchema,
@@ -16,20 +16,18 @@ export const rendererProps = {
         type: Object as PropType<Record<string, Component>>,
         required: true,
     },
+    extraProps: {
+        type: Object as PropType<Record<string, any>>,
+        default: undefined as Record<string, any>,
+    },
+    isRoot: Boolean,
 } as const;
 
-export interface RendererProps {
-    __schema: IPublicTypeRootSchema
-    __components: Record<string, Component>
-}
-
-export const baseRendererPropKeys = Object.keys(
-    rendererProps,
-) as (keyof RendererProps)[];
+export type RendererProps = ExtractPublicPropTypes<typeof rendererProps>;
 
 export const leafProps = {
     comp: {
-        type: Object as PropType<Component | null>,
+        type: [Object, Function] as PropType<Component | null>,
     },
     scope: {
         type: Object as PropType<RuntimeScope>,
@@ -42,23 +40,15 @@ export const leafProps = {
 } as const;
 
 export interface LeafProps {
-    comp?: Component | null
-    scope: RuntimeScope
-    schema: IPublicTypeNodeSchema
-}
-
-export const leafPropKeys = Object.keys(rendererProps) as (keyof LeafProps)[];
-
-export interface LeafComponent {
-    new (...args: any[]): {
-        $props: VNodeProps & LeafProps
-    }
+    comp?: Component | null;
+    scope: RuntimeScope;
+    schema: IPublicTypeNodeSchema;
 }
 
 export interface SlotSchemaMap {
-    [x: string]: IPublicTypeSlotSchema | IPublicTypeNodeData[] | undefined
+    [x: string]: IPublicTypeSlotSchema | IPublicTypeNodeData[] | undefined;
 }
 
 export interface PropSchemaMap {
-    [x: string]: unknown
+    [x: string]: unknown;
 }

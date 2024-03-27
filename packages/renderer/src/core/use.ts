@@ -37,6 +37,7 @@ import {
 } from '@webank/letgo-types';
 import { camelCase, isArray, isFunction, isNil, isPlainObject, isString } from 'lodash-es';
 import { eventHandlersToJsFunction } from '@webank/letgo-common';
+import type { RendererContext } from '../context';
 import { provideRenderContext, useRendererContext } from '../context';
 import type { BlockScope, MaybeArray, RuntimeScope } from '../utils';
 import {
@@ -574,7 +575,7 @@ export function buildSlots(
 }
 
 export function useLeaf(scope: Ref<RuntimeScope>, context: Record<string, unknown>) {
-    const { components } = useRendererContext();
+    const { components, __BASE_COMP } = useRendererContext();
 
     /**
      * 渲染节点vnode (live 模式)
@@ -592,7 +593,7 @@ export function useLeaf(scope: Ref<RuntimeScope>, context: Record<string, unknow
             context,
             schema: nodeSchema,
             components: components.value,
-            base: components.value.__BASE_COMP || Live,
+            base: __BASE_COMP || Live,
             blockScope,
             comp,
         });
@@ -603,14 +604,14 @@ export function useLeaf(scope: Ref<RuntimeScope>, context: Record<string, unknow
     };
 }
 
-export function useRenderer(props: RendererProps) {
-    provideRenderContext(props);
+export function useRenderer(props: RendererProps, ctx?: RendererContext) {
+    const newCtx = provideRenderContext(props, ctx);
 
     const renderComp = (
         nodeSchema: IPublicTypeRootSchema,
         comp: Component | typeof Fragment,
     ): VNode => {
-        return h(props.__components.__BASE_COMP || Live, {
+        return h(newCtx.__BASE_COMP || Live, {
             key: nodeSchema.id,
             comp,
             scope: null,

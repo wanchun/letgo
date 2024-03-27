@@ -1,17 +1,15 @@
-import type { Component, PropType } from 'vue';
-import { computed, defineComponent, h } from 'vue';
-import type { IPublicTypeAppConfig, IPublicTypeRootSchema } from '@webank/letgo-types';
+import type { Component, InjectionKey, PropType } from 'vue';
+import { computed, defineComponent, h, inject, provide, reactive, shallowRef, watch } from 'vue';
+import type { IPublicTypeRootSchema } from '@webank/letgo-types';
 import config from './config';
 import { RENDERER_COMPS } from './renderers';
 
-interface RendererProps {
-    schema: IPublicTypeRootSchema
-    components: Record<string, Component>
-    config?: IPublicTypeAppConfig
-    device?: string
-}
+const rendererKey: InjectionKey<{
+    device?: string;
+    components?: Record<string, Component>;
+}> = Symbol('__renderer');
 
-const Renderer = defineComponent({
+export const Renderer = defineComponent({
     props: {
         schema: {
             type: Object as PropType<IPublicTypeRootSchema>,
@@ -19,22 +17,33 @@ const Renderer = defineComponent({
         },
         components: {
             type: Object as PropType<Record<string, Component>>,
-            required: true,
-        },
-        config: {
-            type: Object as PropType<IPublicTypeAppConfig>,
         },
         /** 设备信息 */
         device: {
             type: String,
             default: undefined,
         },
+        extraProps: {
+            type: Object as PropType<Record<string, any>>,
+            default: undefined,
+        },
     },
-    setup(props: RendererProps) {
-        const componentsRef = computed(() => ({
-            ...config.getRenderers(),
-            ...props.components,
-        }));
+    setup(props) {
+        const provideContent = inject(rendererKey, {});
+
+        const innerDevice = computed(() => {
+            return props.device || provideContent.device;
+        });
+
+        const componentsRef = shallowRef<Record<string, Component>>({});
+        watch(() => props.components, () => {
+            componentsRef.value = {
+                ...config.getRenderers(),
+                ...(props.components || provideContent.components),
+            };
+        }, {
+            immediate: true,
+        });
 
         const renderContent = () => {
             const { value: components } = componentsRef;
@@ -48,23 +57,28 @@ const Renderer = defineComponent({
                 || components[`${componentName}Renderer`];
             if (Comp && !(Comp as any).__renderer__)
                 Comp = RENDERER_COMPS[`${componentName}Renderer`];
+
             return Comp
                 ? h(Comp, {
                     key: schema.id,
                     __schema: schema,
                     __components: components,
+                    extraProps: props.extraProps,
+                    isRoot: provideContent.components == null,
                 } as any)
                 : null;
         };
 
+        provide(rendererKey, ({
+            device: innerDevice.value,
+            components: componentsRef.value,
+        }));
+
         return () => {
-            const { device } = props;
             const configProvider = config.getConfigProvider();
             return configProvider
-                ? h(configProvider, { device }, { default: renderContent })
+                ? h(configProvider, { device: innerDevice.value }, { default: renderContent })
                 : renderContent();
         };
     },
-}) as new (...args: any[]) => { $props: RendererProps };
-
-export { RendererProps, Renderer };
+});

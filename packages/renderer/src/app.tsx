@@ -11,6 +11,7 @@ import { useCodesInstance } from './code-impl/code-impl';
 import type { CodeImplType } from './code-impl/code-impl';
 import { getGlobalContextKey } from './context';
 import { request } from './utils/request';
+import { createComponent } from './create-component';
 
 function useCssHandler(css?: string) {
     if (css) {
@@ -72,7 +73,6 @@ export const RendererApp = defineComponent({
         });
 
         onMounted(async () => {
-
             const assetLoader = new AssetLoader();
             await assetLoader.load(libraryAsset);
 
@@ -81,6 +81,7 @@ export const RendererApp = defineComponent({
                 ...buildComponents(
                     libraryMap,
                     componentsMap,
+                    createComponent,
                 ),
             };
 

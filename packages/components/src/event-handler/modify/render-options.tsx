@@ -5,7 +5,7 @@ import { computed, defineComponent } from 'vue';
 
 import { FInput, FOption, FSelect } from '@fesjs/fes-design';
 import { DeleteOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
-import { isFunction, isPlainObject } from 'lodash-es';
+import { isEmpty, isFunction, isPlainObject } from 'lodash-es';
 import Label from './label';
 import './render-options.less';
 
@@ -49,7 +49,7 @@ export default defineComponent({
 
         const componentInstanceOptions = computed(() => {
             const instances = props.documentModel.state.componentsInstance;
-            return Object.keys(instances).filter(key => !Array.isArray(instances[key])).map((key) => {
+            return Object.keys(instances).filter(key => !Array.isArray(instances[key]) && !isEmpty(instances[key])).map((key) => {
                 return {
                     label: key,
                     value: key,

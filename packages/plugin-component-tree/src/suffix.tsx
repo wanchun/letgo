@@ -1,8 +1,8 @@
+import { FDropdown, FForm, FFormItem, FInput, FModal } from '@fesjs/fes-design';
+import { Delete, Edit, Lock, MoreOne, PreviewClose, PreviewOpen, Unlock } from '@icon-park/vue-next';
+import type { INode } from '@webank/letgo-designer';
 import type { PropType } from 'vue';
 import { computed, defineComponent, reactive, ref } from 'vue';
-import { FDropdown, FForm, FFormItem, FInput, FModal } from '@fesjs/fes-design';
-import type { INode } from '@webank/letgo-designer';
-import { Delete, Edit, Lock, MoreOne, Unlock } from '@icon-park/vue-next';
 
 export const SuffixView = defineComponent({
     name: 'SuffixView',
@@ -16,6 +16,8 @@ export const SuffixView = defineComponent({
             const isSlot = node.componentName === 'Slot';
             const isContainer = node.isContainer();
             const isLocked = node.isLocked;
+            const isDialogOpen = node.isDialogOpen;
+            const isDialog = !!node.componentMeta.dialogControlProp;
             return [
                 {
                     value: 'change',
@@ -37,6 +39,16 @@ export const SuffixView = defineComponent({
                     label: '删除',
                     icon: () => <Delete class="letgo-comp-tree__icon letgo-comp-tree__icon--node" theme="outline"> </Delete>,
                 },
+                (isDialog && !isDialogOpen) && {
+                    value: 'dialogOpen',
+                    label: '弹层显示',
+                    icon: () => <PreviewOpen class="letgo-comp-tree__icon letgo-comp-tree__icon--node" theme="outline"> </PreviewOpen>,
+                },
+                (isDialog && isDialogOpen) && {
+                    value: 'dialogClose',
+                    label: '弹层关闭',
+                    icon: () => <PreviewClose class="letgo-comp-tree__icon letgo-comp-tree__icon--node" theme="outline"> </PreviewClose>,
+                },
             ].filter(Boolean);
         });
 
@@ -55,6 +67,10 @@ export const SuffixView = defineComponent({
 
             if (val === 'unlock')
                 node.setExtraPropValue('isLocked', false);
+            if (val === 'dialogOpen')
+                node.setExtraPropValue('isDialogOpen', true);
+            if (val === 'dialogClose')
+                node.setExtraPropValue('isDialogOpen', false);
         };
 
         const formModel = reactive({

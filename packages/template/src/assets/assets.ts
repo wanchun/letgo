@@ -961,6 +961,7 @@ const assets: IPublicTypeAssetsJson = {
             },
             snippets: [
                 {
+                    keywords: 'btn',
                     title: '按钮',
                     // screenshot:
                     //     'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/button.png',
@@ -3385,6 +3386,7 @@ const assets: IPublicTypeAssetsJson = {
                 },
                 component: {
                     isContainer: true,
+                    dialogControlProp: 'visible',
                 },
             },
             snippets: [
@@ -7245,6 +7247,7 @@ const assets: IPublicTypeAssetsJson = {
                 ],
                 component: {
                     isContainer: true,
+                    dialogControlProp: 'modelValue',
                 },
                 supports: {
                     events: ['onOk', 'onCancel'],
@@ -7652,6 +7655,7 @@ const assets: IPublicTypeAssetsJson = {
                 ],
                 component: {
                     isContainer: true,
+                    dialogControlProp: 'show',
                 },
                 supports: {
                     // TODO: StyleSetter会出错
@@ -7899,6 +7903,7 @@ const assets: IPublicTypeAssetsJson = {
                 ],
                 component: {
                     isContainer: true,
+                    dialogControlProp: 'show',
                 },
                 supports: {
                     // TODO: StyleSetter会出错

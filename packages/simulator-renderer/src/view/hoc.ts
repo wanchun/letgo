@@ -1,16 +1,11 @@
-import { isNil } from 'lodash-es';
-import type { ComputedRef, Slot } from 'vue';
-import {
-    Fragment,
-    computed,
-    defineComponent,
-    h,
-    inject,
-    onUnmounted,
-    reactive,
-    ref,
-    toRef,
-} from 'vue';
+import { eventHandlersToJsFunction, getConvertedExtraKey } from '@webank/letgo-common';
+import type { INode, ISlotNode } from '@webank/letgo-designer';
+import type {
+    BlockScope,
+    LeafProps,
+    RuntimeScope,
+    SlotSchemaMap,
+} from '@webank/letgo-renderer';
 import {
     buildProps,
     buildSchema,
@@ -32,14 +27,19 @@ import {
     IPublicEnumTransformStage,
     isJSSlot,
 } from '@webank/letgo-types';
-import type { INode, ISlotNode } from '@webank/letgo-designer';
-import type {
-    BlockScope,
-    LeafProps,
-    RuntimeScope,
-    SlotSchemaMap,
-} from '@webank/letgo-renderer';
-import { eventHandlersToJsFunction, getConvertedExtraKey } from '@webank/letgo-common';
+import { isNil } from 'lodash-es';
+import type { ComputedRef, Slot } from 'vue';
+import {
+    Fragment,
+    computed,
+    defineComponent,
+    h,
+    inject,
+    onUnmounted,
+    reactive,
+    ref,
+    toRef,
+} from 'vue';
 import { BASE_COMP_CONTEXT } from '../constants';
 import { createAction } from './centerAction';
 
@@ -153,6 +153,11 @@ export const Hoc = defineComponent({
 
         const { compProps, updateEvents, compSlots } = useSchema(props, node);
 
+        // 控制显示
+        const dialogControlProp = node.componentMeta.dialogControlProp;
+        if (dialogControlProp)
+            compProps[dialogControlProp] = node.isDialogOpen;
+
         const innerScope: ComputedRef<RuntimeScope> = computed(() => {
             if (props.schema.componentName === 'Slot') {
                 const result: RuntimeScope = {
@@ -217,6 +222,11 @@ export const Hoc = defineComponent({
                             // 循环参数初始化 (item, index)
                             updateLoopArg(newValue);
                         }
+                        else if (key === getConvertedExtraKey('isDialogOpen')) {
+                            // 控制显示
+                            if (dialogControlProp)
+                                compProps[dialogControlProp] = newValue;
+                        }
                         else if (key === 'children') {
                             // 默认插槽更新
                             if (isJSSlot(newValue)) {
@@ -246,6 +256,10 @@ export const Hoc = defineComponent({
                             delete compSlots[oldValue?.name || key];
                         }
                         else {
+                            // 是否要忽略设置器的值？
+                            if (dialogControlProp === rootPropKey)
+                                return;
+
                             // 普通根属性更新
                             compProps[key] = newValue;
                         }

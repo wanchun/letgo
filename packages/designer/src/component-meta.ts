@@ -1,4 +1,4 @@
-import { EventEmitter } from 'eventemitter3';
+import { Copy, Delete, Lock, PreviewClose, PreviewOpen, Unlock } from '@icon-park/vue-next';
 import type {
     IPublicModelComponentMeta,
     IPublicTypeComponentAction,
@@ -9,15 +9,15 @@ import type {
     IPublicTypeNpmInfo,
     IPublicTypeTransformedComponentMetadata,
 } from '@webank/letgo-types';
-import { h } from 'vue';
+import { EventEmitter } from 'eventemitter3';
 import { isRegExp } from 'lodash-es';
-import { Copy, Delete, FileHidingOne, Lock, Unlock } from '@icon-park/vue-next';
+import { h } from 'vue';
 import type { Designer } from './designer';
 import { Node, isNode } from './node';
 import addonCombine from './transducers/addon-combine';
+import parseDefault from './transducers/parse-default';
 import parseJSFunc from './transducers/parse-func';
 import { parseProps } from './transducers/parse-props';
-import parseDefault from './transducers/parse-default';
 import type { INode } from './types';
 
 export function ensureAList(list?: string | string[]): string[] | null {
@@ -68,17 +68,17 @@ function preprocessMetadata(
 }
 
 interface IMetadataTransducer {
-    (prev: IPublicTypeTransformedComponentMetadata): IPublicTypeTransformedComponentMetadata
+    (prev: IPublicTypeTransformedComponentMetadata): IPublicTypeTransformedComponentMetadata;
     /**
      * 0 - 9   system
      * 10 - 99 builtin-plugin
      * 100 -   app & plugin
      */
-    level?: number
+    level?: number;
     /**
      * use to replace TODO
      */
-    id?: string
+    id?: string;
 }
 
 const metadataTransducers: IMetadataTransducer[] = [];
@@ -113,20 +113,6 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
             action(node: INode) {
                 node.remove();
             },
-        },
-        important: true,
-    },
-    {
-        name: 'hide',
-        content: {
-            icon: () => h(FileHidingOne, { size: 14 }),
-            title: '隐藏',
-            action(node: INode) {
-                node.setVisible(false);
-            },
-        },
-        condition: (node: INode) => {
-            return node.componentMeta.isModal;
         },
         important: true,
     },
@@ -179,6 +165,34 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
         },
         important: true,
     },
+    {
+        name: 'dialogOpen',
+        content: {
+            icon: () => h(PreviewOpen, { size: 14 }),
+            title: '弹层显示',
+            action(node: INode) {
+                node.setExtraPropValue('isDialogOpen', true);
+            },
+        },
+        condition: (node: INode) => {
+            return !!node.componentMeta.dialogControlProp && !node.isDialogOpen;
+        },
+        important: true,
+    },
+    {
+        name: 'dialogClose',
+        content: {
+            icon: () => h(PreviewClose, { size: 14 }),
+            title: '弹层关闭',
+            action(node: INode) {
+                node.setExtraPropValue('isDialogOpen', false);
+            },
+        },
+        condition: (node: INode) => {
+            return !!node.componentMeta.dialogControlProp && node.isDialogOpen;
+        },
+        important: true,
+    },
 ];
 
 export class ComponentMeta implements IPublicModelComponentMeta<INode> {
@@ -197,6 +211,8 @@ export class ComponentMeta implements IPublicModelComponentMeta<INode> {
     private _isContainer?: boolean;
 
     private _isModal?: boolean;
+
+    private _dialogControlProp?: string;
 
     private _rootSelector?: string;
 
@@ -235,6 +251,10 @@ export class ComponentMeta implements IPublicModelComponentMeta<INode> {
 
     get isModal(): boolean {
         return this._isModal;
+    }
+
+    get dialogControlProp(): string | undefined {
+        return this._dialogControlProp;
     }
 
     get title(): string {
@@ -309,6 +329,7 @@ export class ComponentMeta implements IPublicModelComponentMeta<INode> {
             this._isModal = !!component.isModal;
             this._rootSelector = component.rootSelector;
             this._isNullNode = component.isNullNode;
+            this._dialogControlProp = component.dialogControlProp;
             this._isMinimalRenderUnit = component.isMinimalRenderUnit;
             this.disableBehaviors
                 = typeof component.disableBehaviors === 'string'
@@ -337,8 +358,8 @@ export class ComponentMeta implements IPublicModelComponentMeta<INode> {
     isRootComponent(includeBlock = true) {
         return (
             this.componentName === 'Page'
-                || this.componentName === 'Component'
-                || (includeBlock && this.componentName === 'Block')
+            || this.componentName === 'Component'
+            || (includeBlock && this.componentName === 'Block')
         );
     }
 

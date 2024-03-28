@@ -1,4 +1,5 @@
-import { EventEmitter } from 'eventemitter3';
+import { markComputed, markShallowReactive } from '@webank/letgo-common';
+import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
 import type {
     GlobalEvent,
     IBaseModelNode,
@@ -15,15 +16,14 @@ import {
     isDOMText,
     isJSExpression,
 } from '@webank/letgo-types';
-import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
-import { markComputed, markShallowReactive } from '@webank/letgo-common';
+import { EventEmitter } from 'eventemitter3';
 import type { ComponentMeta } from '../component-meta';
 import type { DocumentModel } from '../document';
 import type { SettingTop } from '../setting';
 import { includeSlot, removeSlot } from '../utils';
-import { Props } from './props';
-import type { Prop } from './prop';
 import { NodeChildren } from './node-children';
+import type { Prop } from './prop';
+import { Props } from './props';
 
 type IPropChangeOptions = Omit<
     GlobalEvent.Node.Prop.ChangeOptions,
@@ -189,6 +189,13 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
      */
     get isLocked(): boolean {
         return !!this.getExtraProp('isLocked')?.getValue();
+    }
+
+    get isDialogOpen(): boolean {
+        const isOpen = this.getExtraProp('isDialogOpen')?.getValue() as boolean;
+        if (isOpen === undefined && this.componentMeta.dialogControlProp) // 默认是开启的
+            return true;
+        return isOpen;
     }
 
     get settingEntry(): SettingTop {

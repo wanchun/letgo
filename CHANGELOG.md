@@ -1,3 +1,23 @@
+## [0.0.4-beta.5](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.4...v0.0.4-beta.5) (2024-3-28)
+
+
+### Bug Fixes
+
+* 修复 hint 时组件实例删除后还在的问题 ([5d60608](https://git.weoa.com/mumblefe/letgo/commits/5d6060855ac592dffee6471ce0c51a0bfc9bb012))
+* 修复绑定事件时组件实例删除后还在的问题 ([795e26e](https://git.weoa.com/mumblefe/letgo/commits/795e26e462a282eca0f1f0b25a7bc8694647c511))
+* 修复一些编译lowcode component 问题 ([6897a51](https://git.weoa.com/mumblefe/letgo/commits/6897a51763905d3279e4ed7631ef89d042cd90c8))
+* 修复状态问题 ([cd70aec](https://git.weoa.com/mumblefe/letgo/commits/cd70aec6ed76281851f3977f9c7be99aa172a99e))
+* 优化 api 路径识别 ([fe4c949](https://git.weoa.com/mumblefe/letgo/commits/fe4c9491a918db52cc14714333cac9e4547cd9ea))
+
+
+### Features
+
+* 优化低代码出码解构 ([df39fe6](https://git.weoa.com/mumblefe/letgo/commits/df39fe6249eddf569b1a968249ab8f17cdf24882))
+* 优化Page组件 ([15e3498](https://git.weoa.com/mumblefe/letgo/commits/15e3498a2e5fb294a3b567db415702a35a99d463))
+* 优化Page组件,支持配置间距 ([c4d75fe](https://git.weoa.com/mumblefe/letgo/commits/c4d75fe668c9b1b47aa8643e19b7fd4099c7f03c))
+
+
+
 ## [0.0.4-beta.4](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.3...v0.0.4-beta.4) (2024-03-25)
 
 

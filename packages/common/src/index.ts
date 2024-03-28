@@ -21,7 +21,7 @@ export * from './global';
 export * from './ensure-array';
 export * from './unit';
 export * from './createIconSprite';
-export * from './traverse-schema';
+export * from './schema';
 export * from './extra-key';
 export * from './check-types';
 export * from './gen-code-map';

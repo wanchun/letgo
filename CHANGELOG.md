@@ -1,3 +1,12 @@
+## [0.0.4-beta.6](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.5...v0.0.4-beta.6) (2024-3-29)
+
+
+### Bug Fixes
+
+* document 切换，有 nodeId 相同时，vue instance 实例卸载异常 ([dba696e](https://git.weoa.com/mumblefe/letgo/commits/dba696e1d690c0ed81d29a7a3781dc5cc2a0ebc2))
+
+
+
 ## [0.0.4-beta.5](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.4...v0.0.4-beta.5) (2024-3-28)
 
 

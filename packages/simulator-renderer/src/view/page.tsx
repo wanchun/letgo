@@ -15,6 +15,7 @@ import type { JavascriptFunctionImpl } from '../code-impl/javascript-function';
 import { useCodesInstance } from '../code-impl/code-impl';
 import { useContext } from '../context/context';
 import { host } from '../host';
+import { getVueInstance } from '../utils';
 import { Hoc } from './hoc';
 
 export default defineComponent({
@@ -113,15 +114,18 @@ export default defineComponent({
                             executeCtx[schema.ref] = props.documentInstance.document.state.componentsInstance[schema.ref];
                         });
                     }
-                    onUnmounted(() => {
-                        if (!Array.isArray(executeCtx[schema.ref])) {
-                            executeCtx[schema.ref] = {};
-                        }
-                        else {
-                            const index = executeCtx[schema.ref].findIndex((item: IPublicTypeComponentInstance) => item === ref);
-                            executeCtx[schema.ref].splice(index, 1);
-                        }
-                    }, ref.$ || ref);
+                    const instance = getVueInstance(ref);
+                    if (instance) {
+                        onUnmounted(() => {
+                            if (!Array.isArray(executeCtx[schema.ref])) {
+                                executeCtx[schema.ref] = {};
+                            }
+                            else {
+                                const index = executeCtx[schema.ref].findIndex((item: IPublicTypeComponentInstance) => item === ref);
+                                executeCtx[schema.ref].splice(index, 1);
+                            }
+                        }, instance.$);
+                    }
 
                     props.documentInstance.mountInstance(schema.id!, ref);
                 }

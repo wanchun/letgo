@@ -117,7 +117,7 @@ export class State implements IPublicModelState {
                 id: string;
                 instances: IPublicTypeComponentRecord[];
             }) => {
-                const currentDocument = this.designer.currentDocument;
+                const currentDocument = this.designer.project.getDocumentById(options.docId);
                 const node = currentDocument.getNode(options.id);
 
                 if (node) {

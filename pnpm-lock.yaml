@@ -444,6 +444,9 @@ importers:
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.4.21)
+      '@webank/letgo-common':
+        specifier: ^0.0.4-beta.2
+        version: link:../common
       '@webank/letgo-designer':
         specifier: ^0.0.4-beta.8
         version: link:../designer

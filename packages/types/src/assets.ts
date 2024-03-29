@@ -163,16 +163,10 @@ export interface IPublicTypeComponentDescription extends IPublicTypeComponentMet
     reference?: IPublicTypeReference;
 }
 
-export function isComponentDescription(obj: any): obj is IPublicTypeComponentDescription {
-    return (
-        obj && typeof obj === 'object' && typeof obj.componentName === 'string'
-    );
-}
-
 /**
  * 远程物料描述
  */
-export interface IPublicTypeRemoteComponentDescription extends IPublicTypeComponentMetadata {
+export interface IPublicTypeRemoteComponentDescription {
     /**
      * 组件描述导出名字，可以通过 window[exportName] 获取到组件描述的 Object 内容；
      */
@@ -187,9 +181,4 @@ export interface IPublicTypeRemoteComponentDescription extends IPublicTypeCompon
     package?: {
         npm?: string;
     };
-
-    /**
-     * 替代 npm 字段的升级版本
-     */
-    reference?: IPublicTypeReference;
 }

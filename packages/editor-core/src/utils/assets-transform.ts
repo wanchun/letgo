@@ -1,3 +1,4 @@
+import { isComponentDescription } from '@webank/letgo-common';
 import type { IPublicTypeAssetsJson, IPublicTypeComponentDescription, IPublicTypePackage, IPublicTypeRemoteComponentDescription } from '@webank/letgo-types';
 
 export function assetsTransform(assets: IPublicTypeAssetsJson) {
@@ -8,18 +9,20 @@ export function assetsTransform(assets: IPublicTypeAssetsJson) {
         return acc;
     }, {} as any);
     components.forEach((componentDesc: IPublicTypeComponentDescription | IPublicTypeRemoteComponentDescription) => {
-        let { devMode, schema, reference } = componentDesc;
-        if ((devMode as string) === 'lowcode')
-            devMode = 'lowCode';
-        else if (devMode === 'proCode')
-            devMode = 'proCode';
+        if (isComponentDescription(componentDesc)) {
+            let { devMode, schema, reference } = componentDesc;
+            if ((devMode as string) === 'lowcode')
+                devMode = 'lowCode';
+            else if (devMode === 'proCode')
+                devMode = 'proCode';
 
-        if (devMode)
-            componentDesc.devMode = devMode;
+            if (devMode)
+                componentDesc.devMode = devMode;
 
-        if (devMode === 'lowCode' && !schema && reference) {
-            const referenceId = reference.id || '';
-            componentDesc.schema = packageMaps[referenceId].schema;
+            if (devMode === 'lowCode' && !schema && reference) {
+                const referenceId = reference.id || '';
+                componentDesc.schema = packageMaps[referenceId].schema;
+            }
         }
     });
     return assets;

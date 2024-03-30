@@ -1,6 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
 import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
-import { markComputed, uniqueId } from '@webank/letgo-common';
+import { genSeed, markComputed, uniqueId } from '@webank/letgo-common';
 import type {
     IPublicModelDocumentModel,
     IPublicTypeComponentSchema,
@@ -34,6 +34,9 @@ import { History } from './history';
 
 const componentUseTimes: Record<string, number> = {};
 const componentRefTimes: Record<string, number> = {};
+
+// 给 ref 添加 seed 避免协同编辑 ref 容易冲突问题
+const refSeed = genSeed();
 
 export class DocumentModel implements IPublicModelDocumentModel<Project, ComponentMeta, Selection, INode, State, Code> {
     readonly project: Project;
@@ -284,7 +287,7 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
         // 如果没有id，或者id已经被使用，则重新生成一个新的
         while (!ref || this.state.componentsInstance[ref]) {
             const count = componentRefTimes[componentName] || 1;
-            ref = `${camelCase(componentName)}${count}`;
+            ref = camelCase(`${componentName}_${refSeed}_${count}`);
             componentRefTimes[componentName] = count + 1;
         }
 

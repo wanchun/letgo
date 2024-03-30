@@ -18,6 +18,7 @@
         "acorn-walk": "^8.2.0",
         "astring": "^1.8.6",
         "lodash-es": "^4.17.21",
+        "nanoid": "^5.0.6",
         "zen-logger": "^1.1.0"
     },
     "publishConfig": {

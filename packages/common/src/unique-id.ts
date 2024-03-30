@@ -1,4 +1,10 @@
-let guid = Date.now();
+import { customAlphabet, nanoid } from 'nanoid';
+
 export function uniqueId(prefix = '') {
-    return `${prefix ? `${prefix}_` : ''}${(guid++).toString(36).toLowerCase()}_${(Math.random() * 10000).toString(36).split('.')[0]}`;
+    return `${prefix ? `${prefix}_` : ''}${nanoid(10)}}`;
+}
+
+export function genSeed(count: number = 3) {
+    const seed = customAlphabet('abcdefghijklmnopqrstuvwxyz', count);
+    return seed();
 }

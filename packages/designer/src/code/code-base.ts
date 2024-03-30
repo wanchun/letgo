@@ -1,3 +1,4 @@
+import { uniqueId } from '@webank/letgo-common';
 import { IEnumCodeType, IEnumResourceType, IEnumRunCondition } from '@webank/letgo-types';
 import type {
     ICodeItem,
@@ -13,7 +14,9 @@ export interface CodeBaseEdit {
 
 class TemporaryStateEdit implements CodeBaseEdit {
     addCode(id: string): ITemporaryState {
+        const key = uniqueId(IEnumCodeType.TEMPORARY_STATE);
         return {
+            key,
             id,
             type: IEnumCodeType.TEMPORARY_STATE,
             initValue: '',
@@ -23,7 +26,9 @@ class TemporaryStateEdit implements CodeBaseEdit {
 
 class JavascriptComputedEdit implements CodeBaseEdit {
     addCode(id: string): IJavascriptComputed {
+        const key = uniqueId(IEnumCodeType.JAVASCRIPT_COMPUTED);
         return {
+            key,
             id,
             type: IEnumCodeType.JAVASCRIPT_COMPUTED,
             funcBody: '// Tip: 通过一个变量计算出新的变量，当依赖的变更更新时，新的变量自动更新 \nreturn 5',
@@ -33,7 +38,9 @@ class JavascriptComputedEdit implements CodeBaseEdit {
 
 class JavascriptFunctionEdit implements CodeBaseEdit {
     addCode(id: string): IJavascriptFunction {
+        const key = uniqueId(IEnumCodeType.JAVASCRIPT_FUNCTION);
         return {
+            key,
             id,
             type: IEnumCodeType.JAVASCRIPT_FUNCTION,
             funcBody: '// Tip: 函数 \nfunction func() {\n  \n}',
@@ -50,7 +57,10 @@ class JavascriptQueryEdit implements CodeBaseEdit {
             otherFields.transformer = '//变量data是原始响应结果  \nreturn data;';
         }
 
+        const key = uniqueId(IEnumCodeType.JAVASCRIPT_QUERY);
+
         return {
+            key,
             id,
             resourceType: resourceType || IEnumResourceType.Query,
             type: IEnumCodeType.JAVASCRIPT_QUERY,

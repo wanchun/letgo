@@ -24,9 +24,14 @@ export enum IEnumRunCondition {
     // DependStateChange = 'dependStateChange',
 }
 
-export interface IQueryResourceBase {
-    type: IEnumCodeType.JAVASCRIPT_QUERY;
+interface ILogicBase {
+    key: string;
     id: string;
+    type: IEnumCodeType;
+}
+
+export interface IQueryResourceBase extends ILogicBase {
+    type: IEnumCodeType.JAVASCRIPT_QUERY;
     resourceType: IEnumResourceType;
     enableTransformer?: boolean;
     transformer?: string;
@@ -62,8 +67,7 @@ export function isRestQueryResource(obj: any): obj is IRestQueryResource {
     return obj && obj.resourceType === IEnumResourceType.RESTQuery;
 }
 
-export interface IJavascriptFunction {
-    id: string;
+export interface IJavascriptFunction extends ILogicBase {
     type: IEnumCodeType.JAVASCRIPT_FUNCTION;
     funcBody: string;
 }
@@ -72,8 +76,7 @@ export function isJavascriptFunction(obj: any): obj is IJavascriptFunction {
     return obj && obj.type === IEnumCodeType.JAVASCRIPT_FUNCTION;
 }
 
-export interface IJavascriptComputed {
-    id: string;
+export interface IJavascriptComputed extends ILogicBase {
     type: IEnumCodeType.JAVASCRIPT_COMPUTED;
     funcBody: string;
 }
@@ -82,8 +85,7 @@ export function isJavascriptComputed(obj: any): obj is IJavascriptComputed {
     return obj && obj.type === IEnumCodeType.JAVASCRIPT_COMPUTED;
 }
 
-export interface ITemporaryState {
-    id: string;
+export interface ITemporaryState extends ILogicBase {
     type: IEnumCodeType.TEMPORARY_STATE;
     initValue: string;
 }

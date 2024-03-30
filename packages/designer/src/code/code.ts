@@ -3,9 +3,9 @@ import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
 import {
     markComputed,
     markReactive,
-    markShallowReactive,
     replaceExpressionIdentifier,
     replaceJSFunctionIdentifier,
+    uniqueId,
 } from '@webank/letgo-common';
 import { IEnumCodeType } from '@webank/letgo-types';
 import type {
@@ -24,16 +24,39 @@ export class Code implements IPublicModelCode {
     codeStruct: ICodeStruct;
     codeMap: Map<string, ICodeItem>;
     constructor(codeStruct?: ICodeStruct) {
-        codeStruct = codeStruct || {
+        codeStruct = this.formatCodeStruct(codeStruct || {
             directories: [],
             code: [],
-        };
+        });
         markReactive(this, {
             codeStruct,
         });
         markComputed(this, ['directories', 'code', 'queries', 'temporaryStates']);
 
         this.codeMap = this.genCodeMap(this.codeStruct);
+    }
+
+    private formatCodeStruct(codeStruct: ICodeStruct) {
+        // 兼容老的 codeStruct，附上唯一 key
+        let hasKey = false;
+        for (const item of codeStruct.code) {
+            if (item.key) {
+                hasKey = true;
+                break;
+            }
+            else {
+                item.key = item.id;
+            }
+        }
+        if (!hasKey) {
+            codeStruct.directories.forEach((directory) => {
+                directory.code.forEach((item) => {
+                    if (!item.key)
+                        item.key = item.id;
+                });
+            });
+        }
+        return codeStruct;
     }
 
     get directories() {

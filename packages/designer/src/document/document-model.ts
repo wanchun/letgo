@@ -32,7 +32,6 @@ import { State } from '../state/state';
 import { Selection } from './selection';
 import { History } from './history';
 
-const componentUseTimes: Record<string, number> = {};
 const componentRefTimes: Record<string, number> = {};
 
 // 给 ref 添加 seed 避免协同编辑 ref 容易冲突问题
@@ -269,11 +268,8 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
         let id = possibleId;
 
         // 如果没有id，或者id已经被使用，则重新生成一个新的
-        while (!id || this.nodesMap.get(id)) {
-            const count = componentUseTimes[componentName] || 1;
-            id = `${camelCase(componentName)}${count}`;
-            componentUseTimes[componentName] = count + 1;
-        }
+        while (!id || this.nodesMap.get(id))
+            id = uniqueId(componentName);
 
         return id;
     }

@@ -97,6 +97,7 @@ export function isVariableState(obj: any): obj is ITemporaryState {
 export type ICodeItem = ITemporaryState | IJavascriptComputed | IJavascriptFunction | IJavascriptQuery;
 
 export interface ICodeDirectory {
+    key: string;
     id: string;
     code: ICodeItem[];
 }

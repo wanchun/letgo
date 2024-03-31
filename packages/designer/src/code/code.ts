@@ -1,6 +1,7 @@
 import { EventEmitter } from 'eventemitter3';
 import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
 import {
+    genCodeMap,
     markComputed,
     markReactive,
     replaceExpressionIdentifier,
@@ -33,7 +34,7 @@ export class Code implements IPublicModelCode {
         });
         markComputed(this, ['directories', 'code', 'queries', 'temporaryStates']);
 
-        this.codeMap = this.genCodeMap(this.codeStruct);
+        this.codeMap = genCodeMap(this.codeStruct);
     }
 
     private formatCodeStruct(codeStruct: ICodeStruct) {
@@ -50,6 +51,7 @@ export class Code implements IPublicModelCode {
         }
         if (!hasKey) {
             codeStruct.directories.forEach((directory) => {
+                directory.key = directory.id;
                 directory.code.forEach((item) => {
                     if (!item.key)
                         item.key = item.id;
@@ -92,21 +94,6 @@ export class Code implements IPublicModelCode {
             }
         }
         return result;
-    }
-
-    private genCodeMap(code: ICodeStruct) {
-        const codeMap = new Map<string, ICodeItem>();
-        code.code.forEach((item) => {
-            codeMap.set(item.id, item);
-        });
-
-        code.directories.forEach((directory) => {
-            directory.code.forEach((item) => {
-                codeMap.set(item.id, item);
-            });
-        });
-
-        return codeMap;
     }
 
     private onEvent(name: string, func: (...args: any[]) => void) {
@@ -203,7 +190,7 @@ export class Code implements IPublicModelCode {
             directories: [],
             code: [],
         };
-        this.codeMap = this.genCodeMap(this.codeStruct);
+        this.codeMap = genCodeMap(this.codeStruct);
         this.emitter.emit('codesChanged', this.codeMap);
     }
 
@@ -253,6 +240,7 @@ export class Code implements IPublicModelCode {
         }
 
         const folder: ICodeDirectory = {
+            key: uniqueId('folder'),
             id: id || this.genCodeId('folder'),
             code: [],
         };

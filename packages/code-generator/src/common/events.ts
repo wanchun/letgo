@@ -41,12 +41,12 @@ function compilerEventHandler(ctx: Context, event: IEventHandler) {
 
     if (isSetTemporaryStateEventHandler(event)) {
         params.reverse();
-        return `(...args) => ${event.namespace}.${event.method}(${event.params.join(', ')})`;
+        return `(...args) => ${event.namespace}.${event.method}(${params.join(', ')})`;
     }
 
     if (isSetLocalStorageEventHandler(event)) {
         if (event.method === 'setValue')
-            return `(...args) => ${event.namespace}.${event.method}(${event.params[0]}, ${event.params[1]})`;
+            return `(...args) => ${event.namespace}.${event.method}(${params[0]}, ${params[1]})`;
 
         else
             return `()=> ${event.namespace}.${event.method}()`;
@@ -57,7 +57,7 @@ function compilerEventHandler(ctx: Context, event: IEventHandler) {
 
 export function compilerEventHandlers(ctx: Context, events: IEventHandler[]) {
     const result: {
-        [key: string]: string[]
+        [key: string]: string[];
     } = {};
     events.forEach((item: IEventHandler) => {
         if ((item.namespace && item.method) || item.action === IEnumEventHandlerAction.RUN_FUNCTION) {

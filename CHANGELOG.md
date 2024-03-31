@@ -1,3 +1,12 @@
+## [0.0.4-beta.7](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.6...v0.0.4-beta.7) (2024-3-31)
+
+
+### Bug Fixes
+
+* 修复出码 event 参数问题 ([f262c51](https://git.weoa.com/mumblefe/letgo/commits/f262c51a9b09d8d7500336ca9264291378b8ebbd))
+
+
+
 ## [0.0.4-beta.6](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.5...v0.0.4-beta.6) (2024-3-29)
 
 

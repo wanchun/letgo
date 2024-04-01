@@ -14,6 +14,7 @@
     ],
     "dependencies": {
         "@webank/letgo-common": "^0.0.4-beta.2",
+        "@webank/letgo-components": "^0.0.4-beta.3",
         "@webank/letgo-types": "^0.0.4-beta.2",
         "jszip": "^3.10.1",
         "lodash-es": "^4.17.21"

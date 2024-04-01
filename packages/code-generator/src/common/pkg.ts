@@ -10,6 +10,7 @@ export function genPackageJSON(fileTree: FileTree, options: GenOptions) {
             '@vueuse/core': '10.9.0',
             'lodash-es': '4.17.21',
             '@qlin/request': '0.1.14',
+            '@webank/letgo-components': '0.0.4-beta.2',
         },
     };
     schema?.packages.forEach((item) => {

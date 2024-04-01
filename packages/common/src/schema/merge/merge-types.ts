@@ -7,3 +7,13 @@ export interface CodeConflict {
     currentCode?: ICodeItem;
     currentNode?: IPublicTypeNodeSchema;
 }
+
+export enum ConfirmAction {
+    Reserve = 'reserved',
+    Delete = 'deleted',
+}
+
+export interface UserConfirm {
+    uid: string;
+    action: ConfirmAction;
+}

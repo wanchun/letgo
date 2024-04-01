@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash-es';
+import deepDiff from 'deep-diff';
 import type { ICodeItemWithDirectory } from '../code';
 import { DiffType } from './diff-types';
 
@@ -6,6 +6,7 @@ export interface CodeDifference {
     type: DiffType;
     current?: ICodeItemWithDirectory;
     next?: ICodeItemWithDirectory;
+    diff?: deepDiff.Diff<ICodeItemWithDirectory, ICodeItemWithDirectory>[];
 }
 
 export function diffCode(baseCodeMap: Map<string, ICodeItemWithDirectory>, targetCodeMap: Map<string, ICodeItemWithDirectory>) {
@@ -15,14 +16,15 @@ export function diffCode(baseCodeMap: Map<string, ICodeItemWithDirectory>, targe
         const targetCodeItem = targetCodeMap.get(key);
         if (targetCodeItem) {
             // 没有差异
-            if (isEqual(codeItem, targetCodeItem))
-                continue;
-
-            differenceMap.set(key, {
-                type: DiffType.Updated,
-                current: codeItem,
-                next: targetCodeItem,
-            });
+            const diffResult = deepDiff.diff(codeItem, targetCodeItem);
+            if (diffResult) {
+                differenceMap.set(key, {
+                    type: DiffType.Updated,
+                    current: codeItem,
+                    next: targetCodeItem,
+                    diff: diffResult,
+                });
+            }
         }
         else {
             // 没找到, 被删除了

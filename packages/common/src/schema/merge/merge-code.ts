@@ -6,7 +6,7 @@ import { DiffType } from '../diff/diff-types';
 import { compositeCodeStruct, flatCodeStruct } from '../code';
 import type { ICodeItemWithDirectory } from '../code';
 
-import type { CodeConflict } from './merge-types';
+import type { CodeConflict, UserConfirm } from './merge-types';
 
 function transformDiffToIdKey(codeDiff: Map<string, CodeDifference>, codeMap: Map<string, ICodeItemWithDirectory>) {
     const idDiffMap = new Map<string, ICodeItemWithDirectory>();
@@ -20,7 +20,7 @@ function transformDiffToIdKey(codeDiff: Map<string, CodeDifference>, codeMap: Ma
 
 /**
  * 判定冲突条件
- * 1. 同时新增了相同的 id，并且类型不一样，类型一样会进行覆盖
+ * 1. 同时新增了相同的 id
  * 2. currentCode 修改一个已有的 codeItem id, 和新增的 id 一致
  *
  * TODO 扩展冲突条件
@@ -31,11 +31,14 @@ function getCodeModifyConflict({
     nextCodeDiff,
     currentCodeMap,
     nextCodeMap,
+
+    userConfirmMap,
 }: {
     currentCodeDiff: Map<string, CodeDifference>;
     nextCodeDiff: Map<string, CodeDifference>;
     currentCodeMap: Map<string, ICodeItemWithDirectory>;
     nextCodeMap: Map<string, ICodeItemWithDirectory>;
+    userConfirmMap: Map<string, UserConfirm>;
 }) {
     const conflictMap = new Map<string, CodeConflict>();
 
@@ -49,13 +52,11 @@ function getCodeModifyConflict({
             if (currentCodeItem) {
                 const currentDiff = currentCodeDiff.get(currentCodeItem.key);
                 if (currentDiff.type === DiffType.Added) {
-                    if (currentCodeItem.type !== nextCodeItem.type) {
-                        conflictMap.set(key, {
-                            uid: key,
-                            type: DiffType.Added,
-                            currentCode: currentCodeItem,
-                        });
-                    }
+                    conflictMap.set(key, {
+                        uid: key,
+                        type: DiffType.Added,
+                        currentCode: currentCodeItem,
+                    });
                 }
                 else if (currentDiff.type === DiffType.Updated) {
                     conflictMap.set(key, {
@@ -74,28 +75,17 @@ function getCodeModifyConflict({
 function handleCodeMerged({
     currentDiffMap,
     nextDiffMap,
-
     currentCodeMap,
 }: {
     currentCodeMap: Map<string, ICodeItemWithDirectory>;
-
     currentDiffMap: Map<string, CodeDifference>;
     nextDiffMap: Map<string, CodeDifference>;
 }) {
     const resultCodeMap = cloneDeep(currentCodeMap);
 
-    const currentDiffIds = transformDiffToIdKey(currentDiffMap, currentCodeMap);
-
     for (const [key, nextDiff] of nextDiffMap) {
         if (nextDiff.type === DiffType.Added) {
-            const currentCodeItem = currentDiffIds.get(nextDiff.next.id);
-            if (currentCodeItem) {
-                // 更新
-                resultCodeMap.set(key, merge(currentCodeItem, nextDiff.next));
-            }
-            else {
-                resultCodeMap.set(key, nextDiff.next);
-            }
+            resultCodeMap.set(key, nextDiff.next);
         }
         else if (nextDiff.type === DiffType.Updated) {
             // 更新
@@ -103,29 +93,26 @@ function handleCodeMerged({
             if (!currentDiff || currentDiff.type === DiffType.Delete) {
                 resultCodeMap.set(key, nextDiff.next);
             }
-            else if (currentDiff.next.id !== nextDiff.next.id) {
-                // TODO change id 应用在所有代码上
-                resultCodeMap.set(key, merge(currentDiff.next, nextDiff.next));
-            }
             else {
+                // TODO diff 合并
                 resultCodeMap.set(key, merge(currentDiff.next, nextDiff.next));
+                // TODO 如果修改了 id，则需要把所有引用改成新的 id
             }
         }
         else if (nextDiff.type === DiffType.Delete) {
-            const currentDiff = currentDiffMap.get(key);
-            // currentCode 更新过了，不进行删除
-            if (!currentDiff || (currentDiff.type !== DiffType.Updated))
-                resultCodeMap.delete(key);
+            resultCodeMap.delete(key);
         }
     }
 
     return resultCodeMap;
 }
 
-export function mergeCode(baseCode: ICodeStruct, currentCode: ICodeStruct, nextCode: ICodeStruct) {
+export function mergeCode(baseCode: ICodeStruct, currentCode: ICodeStruct, nextCode: ICodeStruct, userConfirms: UserConfirm[] = []) {
     const baseCodeMap = flatCodeStruct(baseCode);
     const currentCodeMap = flatCodeStruct(currentCode);
     const nextCodeMap = flatCodeStruct(nextCode);
+
+    const userConfirmMap = new Map(userConfirms.map(item => [item.uid, item]));
 
     const currentCodeDiff = diffCode(baseCodeMap, currentCodeMap);
     const nextCodeDiff = diffCode(baseCodeMap, nextCodeMap);
@@ -135,27 +122,25 @@ export function mergeCode(baseCode: ICodeStruct, currentCode: ICodeStruct, nextC
         nextCodeDiff,
         currentCodeMap,
         nextCodeMap,
+        userConfirmMap,
     });
-
-    let isConflict: boolean = false;
-    let mergedCode: ICodeStruct;
+    if (codeModifyConflict.size) {
+        return {
+            isConflict: true,
+            codeModifyConflict,
+        };
+    }
     // 没有冲突，进行 merge
-    if (codeModifyConflict.size === 0) {
-        const resultCodeMap = handleCodeMerged({
-            currentCodeMap,
+    const resultCodeMap = handleCodeMerged({
+        currentCodeMap,
 
-            currentDiffMap: currentCodeDiff,
-            nextDiffMap: nextCodeDiff,
-        });
-        mergedCode = compositeCodeStruct(resultCodeMap, currentCode, nextCode);
-    }
-    else {
-        isConflict = true;
-    }
+        currentDiffMap: currentCodeDiff,
+        nextDiffMap: nextCodeDiff,
+    });
+    const mergedCode = compositeCodeStruct(resultCodeMap, currentCode, nextCode);
 
     return {
-        isConflict,
-        codeModifyConflict,
+        isConflict: false,
         mergedCode,
     };
 }

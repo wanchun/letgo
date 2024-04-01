@@ -2,6 +2,7 @@ import type { CSSProperties, ComputedRef } from 'vue';
 import { computed, defineComponent } from 'vue';
 import { isNil } from 'lodash-es';
 import type { IPublicTypeComponentMetadata } from '@webank/letgo-types';
+import { version } from '../version';
 
 export const Icon = defineComponent({
     name: 'Icon',
@@ -43,6 +44,12 @@ export const Icon = defineComponent({
 export const IconMeta: IPublicTypeComponentMetadata = {
     title: '图标',
     componentName: 'Icon',
+    npm: {
+        package: '@webank/letgo-components',
+        version,
+        exportName: 'Icon',
+        destructuring: true,
+    },
     configure: {
         props: [
             {

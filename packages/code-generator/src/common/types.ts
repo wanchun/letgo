@@ -4,6 +4,7 @@ export interface GenOptions {
     schema: IPublicTypeProjectSchema;
     letgoDir?: string;
     outDir?: string;
+    basePackageJSON?: Record<string, any>;
     extraPackageJSON?: Record<string, any>;
     transformJsx?: (filesStruct: FileStruct[]) => FileStruct[];
     globalCodeCallback?: {

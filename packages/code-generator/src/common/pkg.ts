@@ -2,7 +2,7 @@ import { merge } from 'lodash-es';
 import type { FileTree, GenOptions } from './types';
 
 export function genPackageJSON(fileTree: FileTree, options: GenOptions) {
-    const { schema, extraPackageJSON } = options;
+    const { schema, basePackageJSON, extraPackageJSON } = options;
     const packageJSON: Record<string, any> = {
         dependencies: {
             'core-js': '3.36.0',
@@ -16,8 +16,7 @@ export function genPackageJSON(fileTree: FileTree, options: GenOptions) {
         packageJSON.dependencies[item.package] = item.version;
     });
 
-    if (extraPackageJSON)
-        merge(packageJSON, extraPackageJSON);
+    const res = merge(basePackageJSON ?? {}, packageJSON, extraPackageJSON ?? {});
 
-    fileTree['package.json'] = JSON.stringify(packageJSON, null, 4);
+    fileTree['package.json'] = JSON.stringify(res, null, 4);
 }

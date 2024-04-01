@@ -45,6 +45,12 @@ function genProjectCodes(schema: IPublicTypeProjectSchema) {
                 return item;
             });
         },
+        basePackageJSON: {
+            dependencies: {
+                '@fesjs/fes-design': '0.8.1',
+                'x': '0.0.1',
+            },
+        },
         extraPackageJSON: {
             scripts: {
                 'build:test': 'FES_ENV=test fes build',
@@ -65,7 +71,6 @@ function genProjectCodes(schema: IPublicTypeProjectSchema) {
                 '@fesjs/plugin-request': '4.0.0-beta.5',
                 '@fesjs/fes-design': '0.8.24',
                 'vue': '3.3.4',
-                '@webank/letgo-components': '0.0.2-beta.3',
             },
             devDependencies: {
                 '@webank/eslint-config-vue': '2.0.7',

@@ -14,7 +14,6 @@ import {
 } from '@webank/letgo-types';
 import { markComputed, markShallowReactive, uniqueId, valueToSource } from '@webank/letgo-common';
 import { isNil, isPlainObject, isUndefined } from 'lodash-es';
-import { it } from 'node:test';
 import type { INode, ISlotNode } from '../types';
 import type { Props } from './props';
 

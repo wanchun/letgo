@@ -1,3 +1,23 @@
+import {
+    FButton,
+    FGrid,
+    FGridItem,
+    FInput,
+    FScrollbar,
+    FTabPane,
+    FTabs,
+} from '@fesjs/fes-design';
+import { SearchOutlined } from '@fesjs/fes-design/icon';
+import type { Designer } from '@webank/letgo-designer';
+import type { Editor } from '@webank/letgo-editor-core';
+import type {
+    IPublicTypeAssetsJson,
+    IPublicTypeComponentDescription,
+    IPublicTypeSnippet,
+} from '@webank/letgo-types';
+import {
+    isComponentDescription,
+} from '@webank/letgo-types';
 import type {
     PropType,
     Ref,
@@ -10,26 +30,6 @@ import {
     ref,
     shallowRef,
 } from 'vue';
-import {
-    FButton,
-    FGrid,
-    FGridItem,
-    FInput,
-    FScrollbar,
-    FTabPane,
-    FTabs,
-} from '@fesjs/fes-design';
-import { SearchOutlined } from '@fesjs/fes-design/icon';
-import type {
-    IPublicTypeAssetsJson,
-    IPublicTypeComponentDescription,
-    IPublicTypeSnippet,
-} from '@webank/letgo-types';
-import {
-    isComponentDescription,
-} from '@webank/letgo-types';
-import type { Designer } from '@webank/letgo-designer';
-import type { Editor } from '@webank/letgo-editor-core';
 
 import './panel.less';
 
@@ -100,10 +100,8 @@ export default defineComponent({
                             .filter((snippet) => {
                                 if (!searchText.value)
                                     return true;
-
-                                return (
-                                    snippet.title.includes(searchText.value)
-                                );
+                                const regex = RegExp(searchText.value, 'i');
+                                return regex.test(snippet.title + snippet.component.componentName + snippet.keywords);
                             }),
                     );
                     if (categoryObj.snippets.length)

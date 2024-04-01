@@ -1,5 +1,5 @@
-import { EventEmitter } from 'eventemitter3';
 import type { IPublicEditor, IPublicModelSettingTop } from '@webank/letgo-types';
+import { EventEmitter } from 'eventemitter3';
 import type { ComponentMeta } from '../component-meta';
 import type { Designer } from '../designer';
 import type { INode } from '../types';

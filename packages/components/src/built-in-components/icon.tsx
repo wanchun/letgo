@@ -43,6 +43,12 @@ export const Icon = defineComponent({
 export const IconMeta: IPublicTypeComponentMetadata = {
     title: '图标',
     componentName: 'Icon',
+    npm: {
+        package: '@webank/letgo-components',
+        version: '0.0.4-beta.3',
+        exportName: 'Icon',
+        destructuring: true,
+    },
     configure: {
         props: [
             {

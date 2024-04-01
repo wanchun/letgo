@@ -13,11 +13,7 @@ import type { Context, ImportSource } from './types';
 import { applyGlobalState } from './global-state';
 
 function genComponentImports(componentMaps: IPublicTypeComponentMap[]) {
-    const importSources: ImportSource[] = [{
-        source: '@webank/letgo-components',
-        type: ImportType.ImportSpecifier,
-        imported: 'Icon',
-    }];
+    const importSources: ImportSource[] = [];
     componentMaps.forEach((componentMap) => {
         if (isProCodeComponentType(componentMap)) {
             importSources.push({

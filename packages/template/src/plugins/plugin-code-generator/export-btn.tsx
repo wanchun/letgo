@@ -107,10 +107,10 @@ export default defineComponent({
                             pkg.package === component.package
                             && pkg.version === component.version,
                     );
-                    if (!pkg) {
-                        FMessage.error('组件版本匹配异常，请联系开发处理');
-                        return;
-                    }
+                    // if (!pkg) {
+                    //     FMessage.error('组件版本匹配异常，请联系开发处理');
+                    //     return;
+                    // }
                     usedPackages.push(pkg);
                 }
             }

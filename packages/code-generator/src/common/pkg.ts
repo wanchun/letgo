@@ -14,6 +14,9 @@ export function genPackageJSON(fileTree: FileTree, options: GenOptions) {
         },
     };
     schema?.packages.forEach((item) => {
+        if (!item)
+            return;
+
         packageJSON.dependencies[item.package] = item.version;
     });
 

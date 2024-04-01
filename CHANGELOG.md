@@ -1,3 +1,19 @@
+## [0.0.4-beta.8](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.7...v0.0.4-beta.8) (2024-04-01)
+
+
+### Bug Fixes
+
+* isDialogOpen默认值优化 ([67f9e8e](https://git.weoa.com/mumblefe/letgo/commits/67f9e8e57f36f1e4cb02ccd5c34f1997b47b2136))
+* 优化 ([fe836e1](https://git.weoa.com/mumblefe/letgo/commits/fe836e1f91bb68c898ca12fc6cdc47841b07b86b))
+* 修复纯净出码场景中package.json未更新问题 ([6ec98b7](https://git.weoa.com/mumblefe/letgo/commits/6ec98b73ed7c7aee4e83a434fce9663cb58d015b))
+
+
+### Features
+
+* 弹窗显示控制 ([4a6559d](https://git.weoa.com/mumblefe/letgo/commits/4a6559d41be463b79689d72b80abae5fb72da2b2))
+
+
+
 ## [0.0.4-beta.7](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.6...v0.0.4-beta.7) (2024-3-31)
 
 

@@ -1,7 +1,7 @@
-import type { ICodeItem, IPublicTypeNodeSchema, IPublicTypePageSchema, IPublicTypeRootSchema } from '@webank/letgo-types';
-import { isEqual, omit } from 'lodash-es';
+import type { IPublicTypeNodeSchema, IPublicTypePageSchema, IPublicTypeRootSchema } from '@webank/letgo-types';
+import { cloneDeep, isEqual, omit } from 'lodash-es';
 import { traverseNodeSchema } from '../traverse-schema';
-import { DiffType } from './merge-types';
+import { DiffType } from '../diff/diff-types';
 import type { CodeConflict } from './merge-types';
 
 function genNodeMap(schema: IPublicTypeRootSchema) {
@@ -69,6 +69,9 @@ function getNodeRef(nodeDiff: NodeDiff, diffMap: Map<string, NodeDiff>) {
  * 判定冲突的条件
  * 1. 同时新增了相同 ref Node
  * 2. 修改了同一个 node 的 ref，并且修改结果不一致
+ *
+ * TODO 拓展冲突节点
+ * 3. 一个修改，一个删除也算冲突
  */
 function getNodeModifyConflict({
     currentDiffMap,
@@ -108,10 +111,6 @@ function getNodeModifyConflict({
 }
 
 function handlePageSchemaMerged({
-    baseCodeMap,
-    currentCodeMap,
-    nextCodeMap,
-
     baseNodeMap,
     currentNodeMap,
     nextNodeMap,
@@ -120,10 +119,6 @@ function handlePageSchemaMerged({
     currentSchema,
     nextSchema,
 }: {
-    baseCodeMap: Map<string, ICodeItem>;
-    currentCodeMap: Map<string, ICodeItem>;
-    nextCodeMap: Map<string, ICodeItem>;
-
     baseNodeMap: Map<string, IPublicTypeNodeSchema>;
     currentNodeMap: Map<string, IPublicTypeNodeSchema>;
     nextNodeMap: Map<string, IPublicTypeNodeSchema>;
@@ -133,6 +128,11 @@ function handlePageSchemaMerged({
     nextSchema: IPublicTypePageSchema;
 }): IPublicTypePageSchema {
     // TODO merge
+    const resultSchema = cloneDeep(currentSchema);
+    Object.assign(resultSchema, {
+        fileName: nextSchema.fileName,
+        css: nextSchema.css,
+    });
 }
 
 export function mergePageSchema(baseSchema: IPublicTypePageSchema, currentSchema: IPublicTypePageSchema, nextSchema: IPublicTypePageSchema) {
@@ -153,10 +153,6 @@ export function mergePageSchema(baseSchema: IPublicTypePageSchema, currentSchema
     // 没有冲突，进行 merge
     if (nodeModifyConflict.size === 0) {
         mergedPageSchema = handlePageSchemaMerged({
-            baseCodeMap,
-            currentCodeMap,
-            nextCodeMap,
-
             baseNodeMap,
             currentNodeMap,
             nextNodeMap,

@@ -1,15 +1,9 @@
 import type { ICodeItem, IPublicTypeNodeSchema } from '@webank/letgo-types';
-
-export enum DiffType {
-    Added = 'added',
-    Updated = 'updated',
-    Delete = 'deleted',
-}
+import type { DiffType } from '../diff/diff-types';
 
 export interface CodeConflict {
-    key: string;
-    id: string;
-    diffType: DiffType;
+    uid: string;
+    type: DiffType;
     currentCode?: ICodeItem;
     currentNode?: IPublicTypeNodeSchema;
 }

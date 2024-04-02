@@ -1,3 +1,7 @@
+## [0.0.4-beta.10](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.9...v0.0.4-beta.10) (2024-4-2)
+
+
+
 ## [0.0.4-beta.9](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.8...v0.0.4-beta.9) (2024-4-2)
 
 

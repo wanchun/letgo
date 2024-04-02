@@ -6,7 +6,7 @@ export function formatExpression(val: IPublicTypeJSExpression) {
         return null;
 
     const expression = val.value.trim();
-    if (isSyntaxError(expression))
+    if (isSyntaxError(`(${expression})`))
         return JSON.stringify(expression);
 
     return expression;

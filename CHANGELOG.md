@@ -1,3 +1,13 @@
+## [0.0.4-beta.9](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.8...v0.0.4-beta.9) (2024-4-2)
+
+
+### Bug Fixes
+
+* 去掉无用代码 ([6c93b21](https://git.weoa.com/mumblefe/letgo/commits/6c93b210c3f18b799e84fe7cb7ff7f8fb8e57c00))
+* 修复出码 api 路径问题 ([ede0c1a](https://git.weoa.com/mumblefe/letgo/commits/ede0c1a862817fcf028d35d3cd2fae1b8605373f))
+
+
+
 ## [0.0.4-beta.8](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.7...v0.0.4-beta.8) (2024-04-01)
 
 

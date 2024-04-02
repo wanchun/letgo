@@ -82,6 +82,7 @@ function handleCodeMerged({
     nextDiffMap: Map<string, CodeDifference>;
 }) {
     const resultCodeMap = cloneDeep(currentCodeMap);
+    const changedIds: string[] = [];
 
     for (const [key, nextDiff] of nextDiffMap) {
         if (nextDiff.type === DiffType.Added) {
@@ -97,6 +98,7 @@ function handleCodeMerged({
                 // TODO diff 合并
                 resultCodeMap.set(key, merge(currentDiff.next, nextDiff.next));
                 // TODO 如果修改了 id，则需要把所有引用改成新的 id
+                // changedIds.push(key);
             }
         }
         else if (nextDiff.type === DiffType.Delete) {

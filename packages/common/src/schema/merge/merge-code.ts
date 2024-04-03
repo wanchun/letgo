@@ -1,6 +1,6 @@
 import type { ICodeStruct } from '@webank/letgo-types';
+import type { DiffEvent } from 'simple-diff';
 import { cloneDeep, merge } from 'lodash-es';
-import type { CodeDifference } from '../diff/diff-code';
 import { diffCode } from '../diff/diff-code';
 import { DiffType } from '../diff/diff-types';
 import { compositeCodeStruct, flatCodeStruct } from '../code';
@@ -34,8 +34,8 @@ function getCodeModifyConflict({
 
     userConfirmMap,
 }: {
-    currentCodeDiff: Map<string, CodeDifference>;
-    nextCodeDiff: Map<string, CodeDifference>;
+    currentCodeDiff: DiffEvent[];
+    nextCodeDiff: DiffEvent[];
     currentCodeMap: Map<string, ICodeItemWithDirectory>;
     nextCodeMap: Map<string, ICodeItemWithDirectory>;
     userConfirmMap: Map<string, UserConfirm>;

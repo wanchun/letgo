@@ -1,3 +1,12 @@
+## [0.0.4-beta.11](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.9...v0.0.4-beta.11) (2024-04-03)
+
+
+### Bug Fixes
+
+* 修复Page配置问题 ([c7a91f5](https://git.weoa.com/mumblefe/letgo/commits/c7a91f5fc343a4fa5a3defb0e2e7732fe6743bd0))
+
+
+
 ## [0.0.4-beta.10](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.9...v0.0.4-beta.10) (2024-4-2)
 
 

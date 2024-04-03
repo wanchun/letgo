@@ -1,5 +1,5 @@
 import type { CSSProperties, PropType } from 'vue';
-import { computed, defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref, watch } from 'vue';
 import { css } from '@codemirror/lang-css';
 import { CodeMirror } from '@webank/letgo-components';
 import { parseToCssCode, parseToStyleData } from '../../../common';
@@ -15,6 +15,10 @@ export const CodeView = defineComponent({
         const isFocus = ref(false);
 
         const initValue = ref(parseToCssCode(props.value));
+
+        watch(() => props.value, () => {
+            initValue.value = parseToCssCode(props.value);
+        });
 
         const currentValue = computed(() => {
             return isFocus.value ? initValue.value : parseToCssCode(props.value);

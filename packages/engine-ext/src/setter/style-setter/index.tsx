@@ -1,5 +1,5 @@
 import type { CSSProperties, PropType, VNodeChild } from 'vue';
-import { defineComponent, onMounted, provide, ref } from 'vue';
+import { defineComponent, onMounted, provide, ref, watch } from 'vue';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { isJSExpression } from '@webank/letgo-types';
 import { cloneDeep, isNil } from 'lodash-es';
@@ -39,6 +39,10 @@ const StyleSetterView = defineComponent({
 
         const currentValue = ref(isJSExpression(props.value) ? {} : (cloneDeep(props.value) ?? {}));
 
+        watch(() => props.value, () => {
+            currentValue.value = isJSExpression(props.value) ? {} : (cloneDeep(props.value) ?? {});
+        });
+
         const onStyleChange = (changedStyle: Record<string, any>, assign = true) => {
             if (assign) {
                 // 把属性值中的 ’‘，null 转换成 undefined
@@ -46,11 +50,9 @@ const StyleSetterView = defineComponent({
                     changedStyle[p] = (isNil(changedStyle[p]) || changedStyle[p] === '') ? undefined : changedStyle[p];
 
                 const styleData = { ...currentValue.value, ...changedStyle };
-                currentValue.value = styleData;
                 props.onChange(styleData);
             }
             else {
-                currentValue.value = changedStyle;
                 props.onChange(changedStyle);
             }
         };

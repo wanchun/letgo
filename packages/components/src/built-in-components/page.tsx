@@ -3,23 +3,10 @@ import { getConvertedExtraKey } from '@webank/letgo-common';
 import type { IPublicTypeComponentMetadata } from '@webank/letgo-types';
 
 export const Page = defineComponent({
-    props: {
-        margin: {
-            type: String,
-            default: '0',
-        },
-        padding: {
-            type: String,
-            default: '0',
-        },
-        background: {
-            type: String,
-        },
-    },
     setup(props, { slots }) {
         return () => {
             return (
-                <div class="letgo-page" style={{ height: '100%', ...props }}>
+                <div class="letgo-page">
                     { slots?.default() }
                 </div>
             );
@@ -38,7 +25,7 @@ export const PageMeta: IPublicTypeComponentMetadata = {
                 type: 'group',
                 items: [
                     {
-                        name: 'margin',
+                        name: 'style.margin',
                         title: '外间距',
                         setter: {
                             componentName: 'RadioGroupSetter',
@@ -59,7 +46,7 @@ export const PageMeta: IPublicTypeComponentMetadata = {
                         supportVariable: false,
                     },
                     {
-                        name: 'padding',
+                        name: 'style.padding',
                         title: '内间距',
                         setter: {
                             componentName: 'RadioGroupSetter',
@@ -84,7 +71,7 @@ export const PageMeta: IPublicTypeComponentMetadata = {
                         supportVariable: false,
                     },
                     {
-                        name: 'background',
+                        name: 'style.background',
                         title: '背景色',
                         setter: {
                             componentName: 'RadioGroupSetter',

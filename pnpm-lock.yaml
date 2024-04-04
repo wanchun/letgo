@@ -113,9 +113,6 @@ importers:
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
-      simple-diff:
-        specifier: ^1.7.2
-        version: 1.7.2
       zen-logger:
         specifier: ^1.1.0
         version: 1.1.4
@@ -8437,10 +8434,6 @@ packages:
     resolution: {integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==}
     engines: {node: '>=14'}
     dev: true
-
-  /simple-diff@1.7.2:
-    resolution: {integrity: sha512-7UPeBrh/I1zlY33vyUL5R0J1rP4HqP1zMpbuYw0+Lbq4OhWWadUi0dNziRMrQzjJsk2MoPwKDLHacjGpolUiqQ==}
-    dev: false
 
   /sirv@2.0.4:
     resolution: {integrity: sha512-94Bdh3cC2PKrbgSOUqTiGPWVZeSiXfKOVZNJniWoqrWrRkB1CJzBU3NEbiTsPcYy1lDsANA/THzS+9WBiy5nfQ==}

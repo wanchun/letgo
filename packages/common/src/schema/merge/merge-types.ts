@@ -1,19 +1,35 @@
-import type { ICodeItem, IPublicTypeNodeSchema } from '@webank/letgo-types';
-import type { DiffType } from '../diff/diff-types';
+import type { DiffType } from '../diff/diff';
 
-export interface CodeConflict {
-    uid: string;
+export interface SubConflict {
+    path: string;
+    newPath: string;
     type: DiffType;
-    currentCode?: ICodeItem;
-    currentNode?: IPublicTypeNodeSchema;
+    newType: DiffType;
+    value: any;
+    newValue: any;
+}
+
+interface MergeConflictBase {
+    type: DiffType;
+    newType: DiffType;
+    value: any;
+    newValue: any;
+    sub?: SubConflict[];
+}
+
+export interface MergeCodeConflict extends MergeConflictBase {
+    key: string;
 }
 
 export enum ConfirmAction {
-    Reserve = 'reserved',
     Delete = 'deleted',
+    Cover = 'cover',
 }
 
 export interface UserConfirm {
     uid: string;
-    action: ConfirmAction;
+    action?: ConfirmAction;
+    sub?: {
+        [path: string]: ConfirmAction;
+    };
 }

@@ -1,5 +1,5 @@
 import type { IPublicTypeNodeSchema, IPublicTypePageSchema, IPublicTypeRootSchema } from '@webank/letgo-types';
-import { cloneDeep, isEqual, omit } from 'lodash-es';
+import { cloneDeep, isEqual } from 'lodash-es';
 import { traverseNodeSchema } from '../traverse-schema';
 import type { DiffEvent } from '../diff/diff';
 import { DiffType, diff } from '../diff/diff';
@@ -22,13 +22,66 @@ interface NodeDifference {
     diff?: DiffEvent[];
 }
 
-function calcNodeModify(baseNodeMap: Map<string, IPublicTypeNodeSchema>, targetNodeMap: Map<string, IPublicTypeNodeSchema>) {
-    const diffResult = new Map<string, NodeDifference>();
+function calcNodeModify({
+    sourceNodeMap,
+    targetNodeMap,
+
+    sourceNodeSchema,
+    targetNodeSchema,
+}: {
+    differenceMap: Map<string, NodeDifference>;
+    sourceNodeMap: Map<string, IPublicTypeNodeSchema>;
+    targetNodeMap: Map<string, IPublicTypeNodeSchema>;
+    sourceNodeSchema: IPublicTypeNodeSchema;
+    targetNodeSchema: IPublicTypeNodeSchema;
+}) {
+    const { props: sourceProps, children: sourceChildren, ...sourceOtherData } = sourceNodeSchema;
+    const { props: targetProps, children: targetChildren, ...targetOtherData } = targetNodeSchema;
+
+    const otherDataDiff = diff(sourceOtherData, targetOtherData, {
+        comparators: {
+            'condition': isEqual,
+            'loop': isEqual,
+            'loopArgs': isEqual,
+            'events.*': isEqual,
+            'directives.*': isEqual,
+        },
+    });
+
+    // children、props、props.children 处理, children 里面包含不同类型的 node
+}
+
+function calcPageSchemaModify({
+    sourceNodeMap,
+    targetNodeMap,
+
+    sourcePageSchema,
+    targetPageSchema,
+}: {
+    sourceNodeMap: Map<string, IPublicTypeNodeSchema>;
+    targetNodeMap: Map<string, IPublicTypeNodeSchema>;
+    sourcePageSchema: IPublicTypePageSchema;
+    targetPageSchema: IPublicTypePageSchema;
+}) {
+    const differenceMap = new Map<string, NodeDifference>();
+
+    const { code: sourceCode, ...otherSourceData } = sourcePageSchema;
+    const { code: targetCode, ...otherTargetData } = targetPageSchema;
+
+    calcNodeModify({
+        differenceMap,
+        sourceNodeMap,
+        targetNodeMap,
+        sourceNodeSchema: otherSourceData,
+        targetNodeSchema: otherTargetData,
+    });
+
+    // TODO 计算 code 的差异
 
     for (const [id, sourceNode] of baseNodeMap) {
         const targetNode = targetNodeMap.get(id);
         if (targetNode) {
-            // children 和 props.children 处理
+            // children、props、props.children 处理, children 里面包含不同类型的 node
             const diffResult = diff(sourceNode, targetNode, {
                 comparators: {
                     'condition': isEqual,
@@ -39,13 +92,10 @@ function calcNodeModify(baseNodeMap: Map<string, IPublicTypeNodeSchema>, targetN
                     'directives.*': isEqual,
                 },
             });
-            diffResult.set(id, {
-
-                type: DiffType.Change,
-            });
+            // TODO change
         }
         else {
-            diffResult.set(id, {
+            differenceMap.set(id, {
                 type: DiffType.Change,
                 current: sourceNode,
             });
@@ -54,14 +104,14 @@ function calcNodeModify(baseNodeMap: Map<string, IPublicTypeNodeSchema>, targetN
 
     for (const [id, targetNode] of targetNodeMap) {
         if (!baseNodeMap.has(id)) {
-            diffResult.set(id, {
+            differenceMap.set(id, {
                 type: DiffType.Add,
                 next: targetNode,
             });
         }
     }
 
-    return diffResult;
+    return differenceMap;
 }
 
 function getNodeRef(nodeDiff: NodeDifference, diffMap: Map<string, NodeDifference>) {

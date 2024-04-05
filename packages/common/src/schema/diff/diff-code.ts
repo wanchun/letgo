@@ -16,7 +16,6 @@ export function diffCode(baseCodeMap: Map<string, ICodeItemWithDirectory>, targe
     for (const [key, codeItem] of baseCodeMap) {
         const targetCodeItem = targetCodeMap.get(key);
         if (targetCodeItem) {
-            // 没有差异
             const diffResult = diff(codeItem, targetCodeItem, {
                 comparators: {
                     'successEvent.*': isEqual,

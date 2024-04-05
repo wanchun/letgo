@@ -221,7 +221,10 @@ export function diff(oldObj: any, newObj: any, ops?: DiffOptions): DiffEvent[] {
                 });
                 continue;
             }
-            const comparator = comparators[oldPath.map(numberToAsterisk).join('.')] || comparators[oldPath.join('.')];
+            const comparator = comparators[oldPath.map(numberToAsterisk).join('.')]
+                || comparators[oldPath.join('.')]
+                || comparators[oldPath.concat(prop).map(numberToAsterisk).join('.')]
+                || comparators[oldPath.concat(prop).join('.')];
 
             if (comparator) {
                 if (!comparator(oldObj[prop], newObj[prop], {

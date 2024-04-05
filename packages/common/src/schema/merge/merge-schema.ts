@@ -1,8 +1,8 @@
 import type { IPublicTypeNodeSchema, IPublicTypePageSchema, IPublicTypeRootSchema } from '@webank/letgo-types';
 import { cloneDeep, isEqual, omit } from 'lodash-es';
 import { traverseNodeSchema } from '../traverse-schema';
-import { DiffType } from '../diff/diff-types';
-import type { CodeConflict } from './merge-types';
+import type { DiffEvent } from '../diff/diff';
+import { DiffType, diff } from '../diff/diff';
 
 function genNodeMap(schema: IPublicTypeRootSchema) {
     const nodeMap = new Map<string, IPublicTypeNodeSchema>();
@@ -15,41 +15,48 @@ function genNodeMap(schema: IPublicTypeRootSchema) {
     return nodeMap;
 }
 
-interface NodeDiff {
-    id: string;
-    diffType: DiffType;
-    ref: string;
-    nextRef?: string;
+interface NodeDifference {
+    type: DiffType;
+    current?: IPublicTypeNodeSchema;
+    next?: IPublicTypeNodeSchema;
+    diff?: DiffEvent[];
 }
 
 function calcNodeModify(baseNodeMap: Map<string, IPublicTypeNodeSchema>, targetNodeMap: Map<string, IPublicTypeNodeSchema>) {
-    const diffResult = new Map<string, NodeDiff>();
+    const diffResult = new Map<string, NodeDifference>();
 
-    for (const [id, value] of baseNodeMap) {
-        const targetCodeItem = targetNodeMap.get(id);
-        if (!targetCodeItem) {
+    for (const [id, sourceNode] of baseNodeMap) {
+        const targetNode = targetNodeMap.get(id);
+        if (targetNode) {
+            // children 和 props.children 处理
+            const diffResult = diff(sourceNode, targetNode, {
+                comparators: {
+                    'condition': isEqual,
+                    'loop': isEqual,
+                    'loopArgs': isEqual,
+                    'props.*': isEqual,
+                    'events.*': isEqual,
+                    'directives.*': isEqual,
+                },
+            });
             diffResult.set(id, {
-                id: value.id,
-                ref: value.ref,
-                diffType: DiffType.Delete,
+
+                type: DiffType.Change,
             });
         }
-        else if (!isEqual(omit(value, ['children']), omit(targetCodeItem, 'children'))) {
+        else {
             diffResult.set(id, {
-                id: value.id,
-                ref: value.ref,
-                nextRef: targetCodeItem.ref !== value.ref ? targetCodeItem.ref : undefined,
-                diffType: DiffType.Updated,
+                type: DiffType.Change,
+                current: sourceNode,
             });
         }
     }
 
-    for (const [id, value] of targetNodeMap) {
+    for (const [id, targetNode] of targetNodeMap) {
         if (!baseNodeMap.has(id)) {
             diffResult.set(id, {
-                id: value.id,
-                ref: value.ref,
-                diffType: DiffType.Added,
+                type: DiffType.Add,
+                next: targetNode,
             });
         }
     }
@@ -57,9 +64,9 @@ function calcNodeModify(baseNodeMap: Map<string, IPublicTypeNodeSchema>, targetN
     return diffResult;
 }
 
-function getNodeRef(nodeDiff: NodeDiff, diffMap: Map<string, NodeDiff>) {
+function getNodeRef(nodeDiff: NodeDifference, diffMap: Map<string, NodeDifference>) {
     for (const [_, value] of diffMap) {
-        if (value.ref === nodeDiff.ref && value.diffType === DiffType.Added)
+        if (value.ref === nodeDiff.ref && value.type === DiffType.Add)
             return value;
     }
     return null;
@@ -78,29 +85,29 @@ function getNodeModifyConflict({
     nextDiffMap,
     currentNodeMap,
 }: {
-    currentDiffMap: Map<string, NodeDiff>;
-    nextDiffMap: Map<string, NodeDiff>;
+    currentDiffMap: Map<string, NodeDifference>;
+    nextDiffMap: Map<string, NodeDifference>;
     currentNodeMap: Map<string, IPublicTypeNodeSchema>;
 }) {
     const conflictMap = new Map<string, CodeConflict>();
 
     for (const [key, value] of nextDiffMap) {
         const currentDiff = currentDiffMap.get(key);
-        if (currentDiff && currentDiff.diffType === DiffType.Updated && currentDiff.nextRef && value.nextRef && value.nextRef !== currentDiff.ref) {
+        if (currentDiff && currentDiff.type === DiffType.Change && currentDiff.nextRef && value.nextRef && value.nextRef !== currentDiff.ref) {
             conflictMap.set(key, {
                 key,
                 id: currentDiff.id,
-                diffType: DiffType.Updated,
+                type: DiffType.Change,
                 currentNode: currentNodeMap.get(key),
             });
         }
-        else if (value.diffType === DiffType.Added) {
+        else if (value.type === DiffType.Add) {
             const currentDiff = getNodeRef(value, currentDiffMap);
             if (currentDiff) {
                 conflictMap.set(key, {
                     key,
                     id: currentDiff.id,
-                    diffType: DiffType.Updated,
+                    diffType: DiffType.Change,
                     currentNode: currentNodeMap.get(currentDiff.id),
                 });
             }
@@ -148,27 +155,25 @@ export function mergePageSchema(baseSchema: IPublicTypePageSchema, currentSchema
         currentNodeMap,
     });
 
-    let isConflict: boolean = false;
-    let mergedPageSchema: IPublicTypePageSchema;
-    // 没有冲突，进行 merge
-    if (nodeModifyConflict.size === 0) {
-        mergedPageSchema = handlePageSchemaMerged({
-            baseNodeMap,
-            currentNodeMap,
-            nextNodeMap,
+    if (nodeModifyConflict.size) {
+        return {
+            isConflict: true,
+            nodeModifyConflict,
+        };
+    }
 
-            baseSchema,
-            currentSchema,
-            nextSchema,
-        });
-    }
-    else {
-        isConflict = true;
-    }
+    const mergedPageSchema = handlePageSchemaMerged({
+        baseNodeMap,
+        currentNodeMap,
+        nextNodeMap,
+
+        baseSchema,
+        currentSchema,
+        nextSchema,
+    });
 
     return {
-        isConflict,
-        codeModifyConflict,
+        isConflict: false,
         nodeModifyConflict,
         mergedPageSchema,
     };

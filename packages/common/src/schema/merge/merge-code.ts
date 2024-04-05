@@ -1,5 +1,5 @@
 import type { ICodeStruct, IEventHandler } from '@webank/letgo-types';
-import { cloneDeep, isEqual, merge, omit } from 'lodash-es';
+import { cloneDeep, isEqual, omit } from 'lodash-es';
 import type { CodeDifference } from '../diff/diff-code';
 import { diffCode } from '../diff/diff-code';
 import { compositeCodeStruct, flatCodeStruct } from '../code';

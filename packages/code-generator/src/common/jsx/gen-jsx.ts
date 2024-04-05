@@ -16,7 +16,7 @@ import {
     isJSSlot,
     isNodeSchema,
 } from '@webank/letgo-types';
-import { camelCase, isArray, isEmpty, isNil, isPlainObject, merge } from 'lodash-es';
+import { camelCase, isArray, isEmpty, isNil, isPlainObject } from 'lodash-es';
 import { ensureArray, isSyntaxError, traverseNodePropsSlot, traverseNodeSchema } from '@webank/letgo-common';
 import { compilerEventHandlers, funcSchemaToFunc } from '../events';
 import type { Context } from '../types';

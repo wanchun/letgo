@@ -19,41 +19,40 @@ export function traverseNodePropsSlot(value: IPublicTypeCompositeValue, callback
     }
 }
 
+function handleNodeSchema(nodeData: IPublicTypeNodeData, callback: (schema: IPublicTypeNodeSchema) => void) {
+    if (isNodeSchema(nodeData)) {
+        callback(nodeData);
+        traverseNodePropsSlot(nodeData.props, (key: string, jsSlot: IPublicTypeJSSlot) => {
+            traverseNodeSchema(jsSlot.value, callback);
+        });
+        if (nodeData.props.children) {
+            if (Array.isArray(nodeData.props.children))
+                traverseNodeSchema(nodeData.props.children, callback);
+
+            else
+                traverseNodeSchema([nodeData.props.children], callback);
+        }
+        if (nodeData.children)
+            traverseNodeSchema(nodeData.children, callback);
+    }
+    else if (isJSSlot(nodeData)) {
+        traverseNodeSchema(
+            Array.isArray(nodeData.value) ? nodeData.value : [nodeData.value],
+            callback,
+        );
+    }
+}
+
 export function traverseNodeSchema(
     nodeData: IPublicTypeNodeData | IPublicTypeNodeData[],
     callback: (schema: IPublicTypeNodeSchema) => void,
 ) {
     if (Array.isArray(nodeData)) {
         nodeData.forEach((item) => {
-            if (isNodeSchema(item)) {
-                callback(item);
-                traverseNodePropsSlot(item.props, (key: string, jsSlot: IPublicTypeJSSlot) => {
-                    traverseNodeSchema(jsSlot.value, callback);
-                });
-                if (item.props.children) {
-                    if (Array.isArray(item.props.children))
-                        traverseNodeSchema(item.props.children, callback);
-
-                    else
-                        traverseNodeSchema([item.props.children], callback);
-                }
-                if (item.children)
-                    traverseNodeSchema(item.children, callback);
-            }
-            else if (isJSSlot(item)) {
-                traverseNodeSchema(
-                    Array.isArray(item.value) ? item.value : [item.value],
-                    callback,
-                );
-            }
+            handleNodeSchema(item, callback);
         });
     }
-    else if (isNodeSchema(nodeData)) {
-        callback(nodeData);
-        traverseNodePropsSlot(nodeData.props, (key: string, jsSlot: IPublicTypeJSSlot) => {
-            traverseNodeSchema(jsSlot.value, callback);
-        });
-        if (nodeData.children)
-            traverseNodeSchema(nodeData.children, callback);
+    else {
+        handleNodeSchema(nodeData, callback);
     }
 }

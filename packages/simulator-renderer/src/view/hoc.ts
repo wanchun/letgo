@@ -195,7 +195,7 @@ export const Hoc = defineComponent({
             disposeFunctions.push(
                 node.onChildrenChange(() => {
                     const schema = node.exportSchema(IPublicEnumTransformStage.Render);
-                    compSlots.default = ensureArray(schema.children);
+                    compSlots.default = schema.children != null ? ensureArray(schema.children) : undefined;
                 }),
             );
             disposeFunctions.push(

@@ -34,6 +34,10 @@ export function genProject(_options: GenOptions): FileTree {
     const ctx: Context = {
         codes: genCodeMap(options.schema.code),
         scope: [],
+        globalScope: {
+            letgoContext: options.schema.config || {},
+            utils: {},
+        },
     };
 
     // 处理 package.json

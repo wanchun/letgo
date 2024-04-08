@@ -4,10 +4,10 @@ import { isNil, isUndefined } from 'lodash-es';
 import { innerParse } from './ast';
 
 interface Identifier {
-    type: 'Identifier'
-    start: number
-    end: number
-    name: string
+    type: 'Identifier';
+    start: number;
+    end: number;
+    name: string;
 }
 
 type Callback = (identifier: Identifier) => void;
@@ -54,6 +54,9 @@ export function attachContext(code: string, isInclude: (name: string) => boolean
 export function isExpression(code: string, isInclude: (name: string) => boolean) {
     try {
         let flag = false;
+        if (!code || !code.trim())
+            return false;
+        code = `(${code.trim()})`;
         transformExpression(code, (identifier) => {
             if (isInclude(identifier.name))
                 flag = true;

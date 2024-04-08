@@ -24,7 +24,7 @@ export function ensureArray(data?: string | string[]) {
 
 export function isExpression(ctx: Context, code: string) {
     return rawIsExpression(code, (name: string) => {
-        return ctx.codes.has(name) || ctx.refs?.has(name) || ctx.scope?.includes(name);
+        return ctx.codes.has(name) || ctx.refs?.has(name) || ctx.globalScope[name] !== undefined || ctx.scope?.includes(name);
     });
 }
 

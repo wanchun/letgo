@@ -74,5 +74,6 @@ export interface CallBackParam {
 export interface Context {
     codes: Map<string, ICodeItem>;
     scope: string[];
+    globalScope?: Record<string, any>;
     refs?: Set<string>;
 }

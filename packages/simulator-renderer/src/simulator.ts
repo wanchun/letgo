@@ -18,7 +18,7 @@ import {
 import { config } from '@webank/letgo-renderer';
 import { builtinComponents } from '@webank/letgo-components';
 import { createMemoryHistory, createRouter } from 'vue-router';
-import { debounce, isPlainObject } from 'lodash-es';
+import { debounce, isPlainObject, omit } from 'lodash-es';
 import type {
     DocumentInstance,
     MixedComponent,
@@ -242,6 +242,22 @@ function createSimulatorRenderer() {
             return getClosestNodeInstance(ins, specId);
     };
 
+    function removeVueInstance(data: Record<string, any>) {
+        const omitKeys: string[] = [];
+        for (const key in data) {
+            if (isPlainObject(data[key])) {
+                if (data[key].__v_skip != null)
+                    omitKeys.push(key);
+                else
+                    data[key] = removeVueInstance(data[key]);
+            }
+        }
+        if (omitKeys.length)
+            return omit({ ...data }, omitKeys);
+
+        return data;
+    }
+
     simulator.getNodeInstanceExpose = (ins) => {
         if (isComponentRecord(ins)) {
             const { cid, did } = ins;
@@ -252,15 +268,8 @@ function createSimulatorRenderer() {
             if (!instance)
                 return {};
 
-            // @ts-expect-error setupState 为内部属性，因此类型识别不了
-            const innerState = { ...toRaw(instance.$.setupState) };
-            Object.keys(innerState).forEach((key) => {
-                // 移除组件实例引用的内部 refEl
-                if (isPlainObject(innerState[key]) && innerState[key].__v_skip != null)
-                    delete innerState[key];
-            });
             // @ts-expect-error __scope letgo 属性
-            return { __scope: instance.__scope, ...toRaw(instance.$props), ...innerState, ...toRaw(instance.$.exposed) };
+            return removeVueInstance({ __scope: instance.__scope, ...toRaw(instance.$props), ...toRaw(instance.$.setupState), ...toRaw(instance.$.exposed) });
         }
         return {};
     };

@@ -9,20 +9,20 @@ const SYMBOL_VInstance = Symbol('_LCVueInstance');
 const SYMBOL_RECORD_FLAG = Symbol('_LCVueCompRecord');
 
 export interface VNodeHTMLElement extends HTMLElement {
-    __vnode: VNode
-    __vueParentComponent: ComponentInternalInstance
+    __vnode: VNode;
+    __vueParentComponent: ComponentInternalInstance;
 }
 
 export interface CompRootHTMLElement extends HTMLElement {
-    [SYMBOL_VDID]: string
-    [SYMBOL_VNID]: string
-    [SYMBOL_VInstance]: IPublicTypeComponentInstance
+    [SYMBOL_VDID]: string;
+    [SYMBOL_VNID]: string;
+    [SYMBOL_VInstance]: IPublicTypeComponentInstance;
 }
 
 export interface CompRootData {
-    docId: string
-    nodeId: string
-    instance: IPublicTypeComponentInstance
+    docId: string;
+    nodeId: string;
+    instance: IPublicTypeComponentInstance;
 }
 
 export class ComponentRecord implements IPublicTypeComponentRecord {
@@ -52,6 +52,17 @@ export function isVNodeHTMLElement(el: unknown): el is VNodeHTMLElement {
         && '__vueParentComponent' in el
         && !isNil(el.__vueParentComponent)
     );
+}
+
+export function getVueInstance(instanceOrEl: IPublicTypeComponentInstance | HTMLElement) {
+    let instance;
+    if ('$' in instanceOrEl)
+        instance = instanceOrEl;
+
+    else if (isVNodeHTMLElement(instanceOrEl))
+        instance = instanceOrEl.__vueParentComponent.proxy!;
+
+    return instance;
 }
 
 export function isCompRootHTMLElement(

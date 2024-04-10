@@ -9,7 +9,6 @@ export * from './asset';
 export * from './create-defer';
 export * from './script';
 export * from './native-selection';
-export * from './is-es-module';
 export * from './create-icon';
 export * from './useModel';
 export * from './reactive';

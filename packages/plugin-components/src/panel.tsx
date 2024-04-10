@@ -15,9 +15,6 @@ import type {
     IPublicTypeComponentDescription,
     IPublicTypeSnippet,
 } from '@webank/letgo-types';
-import {
-    isComponentDescription,
-} from '@webank/letgo-types';
 import type {
     PropType,
     Ref,
@@ -30,6 +27,9 @@ import {
     ref,
     shallowRef,
 } from 'vue';
+import {
+    isComponentDescription,
+} from '@webank/letgo-common';
 
 import './panel.less';
 

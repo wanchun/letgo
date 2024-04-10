@@ -11,6 +11,7 @@ import type {
     IPublicTypeRemoteComponentDescription,
 } from '@webank/letgo-types';
 import { get, isArray } from 'lodash-es';
+import { assetsTransform } from './utils/assets-transform';
 
 export class Editor extends EventEmitter implements IPublicEditor {
     private context = new Map<IPublicTypeEditorValueKey, any>();
@@ -106,7 +107,7 @@ export class Editor extends EventEmitter implements IPublicEditor {
             }
         }));
 
-        this.set('assets', resultAsset);
+        this.set('assets', assetsTransform(resultAsset));
     }
 
     onEvent(name: string | symbol, fn: (...args: any[]) => void) {

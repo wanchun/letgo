@@ -15,7 +15,7 @@ import {
     shallowRef,
     toRaw,
 } from 'vue';
-import { config } from '@webank/letgo-renderer';
+import { config, createComponent } from '@webank/letgo-renderer';
 import { builtinComponents } from '@webank/letgo-components';
 import { createMemoryHistory, createRouter } from 'vue-router';
 import { debounce, isPlainObject, omit } from 'lodash-es';
@@ -341,7 +341,7 @@ function createSimulatorRenderer() {
             ...buildComponents(
                 libraryMap.value,
                 componentsMap.value,
-                simulator.createComponent,
+                createComponent,
             ),
         };
 

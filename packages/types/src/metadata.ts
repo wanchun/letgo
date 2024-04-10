@@ -1,13 +1,14 @@
 import type { Slot } from 'vue';
+import type { IPublicTypeNpmInfo } from './npm';
+import type { IPublicTypeProp, IPublicTypePropConfig } from './prop-config';
+import type { IPublicTypeCompositeValue } from './value-type';
 import type {
     IPublicTypeComponentSchema,
     IPublicTypeFieldConfig,
     IPublicTypeIcon,
     IPublicTypeNodeSchema,
+    IPublicTypeProjectSchema,
 } from '.';
-import type { IPublicTypeNpmInfo } from './npm';
-import type { IPublicTypeProp, IPublicTypePropConfig } from './prop-config';
-import type { IPublicTypeCompositeValue } from './value-type';
 
 /**
  * 可用片段
@@ -98,7 +99,7 @@ export interface IPublicTypeComponentMetadata {
     /**
      * lowCode组件的 schema
      */
-    schema?: IPublicTypeComponentSchema;
+    schema?: IPublicTypeProjectSchema<IPublicTypeComponentSchema>;
     /**
      * 组件属性信息
      */

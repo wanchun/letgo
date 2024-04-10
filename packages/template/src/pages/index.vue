@@ -15,14 +15,7 @@ export default defineComponent({
         IconSetter.defaultIcons = icons;
 
         const onReady = () => {
-            project.openDocument({
-                componentName: 'Page',
-                props: {
-                    style: {
-                        height: '100%',
-                    },
-                },
-            });
+            project.openDocument();
             // project.openDocument({
             //     componentName: 'Component',
             //     id: 'hello',

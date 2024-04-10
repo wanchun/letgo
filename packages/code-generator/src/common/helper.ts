@@ -8,7 +8,7 @@ import {
     IEnumCodeType,
     isRestQueryResource,
 } from '@webank/letgo-types';
-import { getOptions, relative } from '../options';
+import { relative } from '../options';
 import type { Context, ImportSource, SetupCode } from './types';
 import { ImportType } from './types';
 import { compilerEventHandlers } from './events';
@@ -158,7 +158,7 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct)
     if (!codeStruct)
         return null;
 
-    const options = getOptions();
+    const options = ctx.config;
     if (!options)
         return;
 

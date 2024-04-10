@@ -24,6 +24,8 @@ export default defineComponent({
                     inputRefEl.value.focus();
                 });
             }
+        }, {
+            immediate: true,
         });
 
         const hasRepeatIdError = ref(false);

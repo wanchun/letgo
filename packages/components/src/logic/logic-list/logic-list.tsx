@@ -33,7 +33,7 @@ export const LogicList = defineComponent({
         searchText: String,
         onSelect: Function as PropType<((id?: string) => void)>,
     },
-    setup(props) {
+    setup(props, { expose }) {
         const codeItemsEditing = reactive<Record<string, boolean>>({});
         const onRename = (id: string) => {
             codeItemsEditing[id] = true;
@@ -46,9 +46,12 @@ export const LogicList = defineComponent({
         };
 
         const expandedKeys = ref<string[]>([]);
-        const addExpanded = (id: string) => {
-            if (!expandedKeys.value.includes(id))
-                expandedKeys.value.push(id);
+
+        const addExpanded = (dId: string, cId: string) => {
+            if (!expandedKeys.value.includes(dId))
+                expandedKeys.value.push(dId);
+
+            codeItemsEditing[cId] = true;
         };
 
         const onSelectCodeItemOrDirectory = (id: string) => {
@@ -162,6 +165,12 @@ export const LogicList = defineComponent({
 
             props.code.changePosition(originDragNode.value, originNode.value, position);
         };
+
+        expose({
+            toEdit(id: string) {
+                codeItemsEditing[id] = true;
+            },
+        });
 
         return () => {
             return (

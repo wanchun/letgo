@@ -3,7 +3,7 @@ import { Fragment, computed, defineComponent, h } from 'vue';
 import type { DropdownProps } from '@fesjs/fes-design';
 import { FDropdown, FModal } from '@fesjs/fes-design';
 import { MoreOutlined } from '@fesjs/fes-design/icon';
-import type { IEnumCodeType, IEnumResourceType, IPublicModelCode } from '@webank/letgo-types';
+import type { ICodeItem, IEnumCodeType, IEnumResourceType, IPublicModelCode } from '@webank/letgo-types';
 import { AddAction } from './add';
 
 const FolderActionOptions = [
@@ -31,7 +31,7 @@ export const DirectoryActions = defineComponent({
             type: Array as PropType<string[]>,
             default: (): string[] => [],
         },
-        onAdd: Function as PropType<(id: string) => void>,
+        onAdd: Function as PropType<(directoryId: string, itemId: string) => void>,
         onRename: Function as PropType<(id: string) => void>,
         onSelect: Function as PropType<((id?: string) => void)>,
         onDelete: Function as PropType<((id: string | string[]) => void)>,
@@ -83,16 +83,15 @@ export const DirectoryActions = defineComponent({
         };
 
         const addCodeItem = (val: string, codeType?: IEnumCodeType) => {
-            if (codeType) {
-                const item = props.code.addCodeItemInDirectory(props.id, codeType, val as IEnumResourceType);
-                props.onSelect(item.id);
-            }
-            else {
-                const item = props.code.addCodeItemInDirectory(props.id, val as IEnumCodeType);
-                props.onSelect(item.id);
-            }
+            let item: ICodeItem;
+            if (codeType)
+                item = props.code.addCodeItemInDirectory(props.id, codeType, val as IEnumResourceType);
 
-            props.onAdd(props.id);
+            else
+                item = props.code.addCodeItemInDirectory(props.id, val as IEnumCodeType);
+
+            props.onSelect(item.id);
+            props.onAdd(props.id, item.id);
         };
 
         return () => {

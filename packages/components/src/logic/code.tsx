@@ -1,7 +1,7 @@
-import { defineComponent, h } from 'vue';
+import { defineComponent, ref } from 'vue';
 import type { PropType } from 'vue';
 import { FScrollbar } from '@fesjs/fes-design';
-import type { IEnumCodeType, IEnumResourceType, IPublicModelCode } from '@webank/letgo-types';
+import type { ICodeItemOrDirectory, IEnumCodeType, IEnumResourceType, IPublicModelCode } from '@webank/letgo-types';
 import { LogicList } from './logic-list/logic-list';
 import { AddAction } from './logic-list/add';
 import './code.less';
@@ -23,19 +23,18 @@ export const CodeList = defineComponent({
         searchText: String,
     },
     setup(props) {
+        const logicListRef = ref();
         const addCodeItem = (val: string, codeType?: IEnumCodeType) => {
-            if (codeType) {
-                const item = props.code.addCodeItemWithType(codeType, val as IEnumResourceType);
-                props.onSelect(item.id);
-            }
-            else if (val !== 'directory') {
-                const item = props.code.addCodeItemWithType(val as IEnumCodeType);
-                props.onSelect(item.id);
-            }
-            else {
-                const item = props.code.addDirectory();
-                props.onSelect(item.id);
-            }
+            let item: ICodeItemOrDirectory;
+            if (codeType)
+                item = props.code.addCodeItemWithType(codeType, val as IEnumResourceType);
+            else if (val !== 'directory')
+                item = props.code.addCodeItemWithType(val as IEnumCodeType);
+            else
+                item = props.code.addDirectory();
+
+            props.onSelect(item.id);
+            logicListRef.value.toEdit(item.id);
         };
 
         return () => {
@@ -46,6 +45,7 @@ export const CodeList = defineComponent({
                     </div>
                     <FScrollbar class="letgo-logic-code__body">
                         <LogicList
+                            ref={logicListRef}
                             activeId={props.activeId}
                             code={props.code}
                             extendActions={props.extendActions}

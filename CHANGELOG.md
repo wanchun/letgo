@@ -1,3 +1,12 @@
+## [0.0.4-beta.13](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.12...v0.0.4-beta.13) (2024-4-10)
+
+
+### Bug Fixes
+
+* scope 出栈问题 ([c7a42d5](https://git.weoa.com/mumblefe/letgo/commits/c7a42d5747b7a0d3eebdbfd3c5d8fa3d07d87479))
+
+
+
 ## [0.0.4-beta.12](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.11...v0.0.4-beta.12) (2024-4-10)
 
 

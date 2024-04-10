@@ -148,7 +148,7 @@ function eventSchemaToFunc(ctx: Context, events: IEventHandler[] = []) {
 
 function getApiPath(api: string = '') {
     api = api.trim();
-    if (/^\w+\//.test(api))
+    if (/^[\/]?\w+\//.test(api))
         return JSON.stringify(api);
 
     return isSyntaxError(api) ? JSON.stringify(api) : api;

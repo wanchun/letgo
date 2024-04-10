@@ -1,3 +1,17 @@
+## [0.0.4-beta.12](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.11...v0.0.4-beta.12) (2024-4-10)
+
+
+### Bug Fixes
+
+* 解决表达式识别失败问题 ([cf0d0ba](https://git.weoa.com/mumblefe/letgo/commits/cf0d0ba3d94684673e64931a5e2ff5e39bd6b1d9))
+* 修复 props 里面有 vue 实例，导致引擎渲染失败问题 ([9beb423](https://git.weoa.com/mumblefe/letgo/commits/9beb4239ca6ac30a29f0a86eea5588778d85a4d2))
+* 修复出码路径问题 ([e924787](https://git.weoa.com/mumblefe/letgo/commits/e924787049ca4278f99e325e495606f4dc8e5101))
+* 修复Setter配置时的样式问题 ([f2205a8](https://git.weoa.com/mumblefe/letgo/commits/f2205a8a00d8f18e48308c0833f02337f487f911))
+* 优化 node schema 遍历 ([f9db85a](https://git.weoa.com/mumblefe/letgo/commits/f9db85accbb4278395fcdcd0d36989588dc34f25))
+* default slot undefined 问题 ([da701a7](https://git.weoa.com/mumblefe/letgo/commits/da701a760bb07aceba4d53e4327a1028898590eb))
+
+
+
 ## [0.0.4-beta.11](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.9...v0.0.4-beta.11) (2024-04-03)
 
 

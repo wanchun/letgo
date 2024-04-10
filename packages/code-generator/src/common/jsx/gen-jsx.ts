@@ -254,7 +254,7 @@ function compileNodeSchema(ctx: Context, nodeSchema: IPublicTypeNodeData, compon
                 : ' />'
         }`;
         if (nodeSchema.loop) {
-            ctx.scope = ctx.scope.splice(0, ctx.scope.length - loopParams.length);
+            ctx.scope = ctx.scope.slice(0, ctx.scope.length - loopParams.length);
             return wrapLoop(code, nodeSchema, isRoot);
         }
 
@@ -326,7 +326,7 @@ function genSlotDirective(ctx: Context, item: IPublicTypeNodeSchema, componentRe
                 return ${wrapFragment(compileNodeData(ctx, cur.value, componentRefs, !hasMoreComp))}
             }
             `;
-            ctx.scope.splice(0, ctx.scope.length - params.length);
+            ctx.scope = ctx.scope.slice(0, ctx.scope.length - params.length);
         }
     });
     if (Object.keys(slotDefine).length) {
@@ -362,7 +362,7 @@ export function genSlots(
                 return ${wrapFragment(compileNodeData(ctx, value.value, componentRefs, !hasMoreComp))}
             }
             `);
-            ctx.scope = ctx.scope.splice(0, ctx.scope.length - params.length);
+            ctx.scope = ctx.scope.slice(0, ctx.scope.length - params.length);
         });
     });
 

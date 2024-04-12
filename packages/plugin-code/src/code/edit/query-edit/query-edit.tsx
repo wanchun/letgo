@@ -1,7 +1,6 @@
 import type { PropType } from 'vue';
-import { computed, defineComponent, ref, watch } from 'vue';
-import { FButton, FScrollbar } from '@fesjs/fes-design';
-import { cloneDeep, isEqual } from 'lodash-es';
+import { defineComponent, ref } from 'vue';
+import { FScrollbar } from '@fesjs/fes-design';
 import { isRestQueryResource } from '@webank/letgo-types';
 import type { IJavascriptQuery, IPublicModelDocumentModel } from '@webank/letgo-types';
 import LeftTabs from './left-tabs';
@@ -19,24 +18,11 @@ export default defineComponent({
         changeContent: Function as PropType<(id: string, content: Partial<IJavascriptQuery>) => void>,
     },
     setup(props) {
-        const tmpCodeItem = ref(cloneDeep(props.codeItem));
-        const onSave = () => {
+        const changeCodeItem = (data: Partial<IJavascriptQuery>) => {
             props.changeContent(props.codeItem.id, {
-                ...tmpCodeItem.value,
+                ...data,
             });
         };
-        const changeCodeItem = (data: Partial<IJavascriptQuery>) => {
-            Object.assign(tmpCodeItem.value, data);
-        };
-        watch(() => props.codeItem, () => {
-            tmpCodeItem.value = cloneDeep(props.codeItem);
-        }, {
-            deep: true,
-        });
-
-        const isChange = computed(() => {
-            return !isEqual(tmpCodeItem.value, props.codeItem);
-        });
 
         const currentTab = ref('general');
         const changeTab = (tab: string) => {
@@ -45,17 +31,17 @@ export default defineComponent({
 
         const renderContent = () => {
             if (currentTab.value === 'general') {
-                if (isRestQueryResource(tmpCodeItem.value))
-                    return <RestGeneral documentModel={props.documentModel} codeItem={tmpCodeItem.value} changeCodeItem={changeCodeItem} />;
+                if (isRestQueryResource(props.codeItem))
+                    return <RestGeneral documentModel={props.documentModel} codeItem={props.codeItem} changeCodeItem={changeCodeItem} />;
 
-                return <General documentModel={props.documentModel} codeItem={tmpCodeItem.value} changeCodeItem={changeCodeItem} />;
+                return <General documentModel={props.documentModel} codeItem={props.codeItem} changeCodeItem={changeCodeItem} />;
             }
 
             else if (currentTab.value === 'response') {
-                return <ResponseEdit codeItem={tmpCodeItem.value} changeCodeItem={changeCodeItem} />;
+                return <ResponseEdit codeItem={props.codeItem} changeCodeItem={changeCodeItem} />;
             }
 
-            return <Advance documentModel={props.documentModel} changeCodeItem={changeCodeItem} codeItem={tmpCodeItem.value} />;
+            return <Advance documentModel={props.documentModel} changeCodeItem={changeCodeItem} codeItem={props.codeItem} />;
         };
 
         return () => {
@@ -63,9 +49,6 @@ export default defineComponent({
                 <>
                     <div class="letgo-plg-code__query-header">
                         <LeftTabs tab={currentTab.value} changeTab={changeTab} />
-                        <div>
-                            <FButton type="primary" size="small" disabled={!isChange.value} onClick={onSave}>保存</FButton>
-                        </div>
                     </div>
                     <FScrollbar class="letgo-plg-code__query-content-wrapper" containerClass="letgo-plg-code__query-content">
                         {renderContent()}

@@ -1,4 +1,4 @@
-import type { PropType } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import { defineComponent } from 'vue';
 import type { IPublicModelDocumentModel, IRestQueryResource } from '@webank/letgo-types';
 import { FCheckbox, FSelect } from '@fesjs/fes-design';
@@ -32,13 +32,17 @@ const MethodOptions = [{
     value: 'TRACE',
 }];
 
+const paramsProps = {
+    documentModel: Object as PropType<IPublicModelDocumentModel>,
+    codeItem: Object as PropType<IRestQueryResource>,
+    changeCodeItem: Function as PropType<(content: Partial<IRestQueryResource>) => void>,
+} as const;
+
+export type ParamsProps = ExtractPropTypes<typeof paramsProps>;
+
 export default defineComponent({
     name: 'RESTParams',
-    props: {
-        documentModel: Object as PropType<IPublicModelDocumentModel>,
-        codeItem: Object as PropType<IRestQueryResource>,
-        changeCodeItem: Function as PropType<(content: Partial<IRestQueryResource>) => void>,
-    },
+    props: paramsProps,
     setup(props) {
         const changeApiPath = (newApi: string) => {
             props.changeCodeItem({

@@ -1,7 +1,7 @@
-import type { Component } from 'vue';
+import type { DefineComponent } from 'vue';
 
-export const CustomComponent: Record<string, Component> = {};
+export const CustomComponent: Record<string, DefineComponent> = {};
 
-export function registerComponent(name: string, component: Component) {
+export function registerComponent(name: string, component: DefineComponent) {
     CustomComponent[name] = component;
 }

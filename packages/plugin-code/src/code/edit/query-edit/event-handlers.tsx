@@ -3,7 +3,7 @@ import type { PropType } from 'vue';
 import { genEventId } from '@webank/letgo-common';
 import { EventHandlerList } from '@webank/letgo-components';
 import type { IEventHandler, IPublicModelProject, IQueryResourceBase } from '@webank/letgo-types';
-import { IEnumEventHandlerAction } from '@webank/letgo-types';
+import { IEnumEventHandlerAction, isRunFunctionEventHandler } from '@webank/letgo-types';
 import './event-handlers.less';
 import EventHeader from './event-header';
 
@@ -84,8 +84,15 @@ export default defineComponent({
         };
 
         const onClose = () => {
-            if (currentEditEvent.value && !currentEditEvent.value.namespace)
-                onDelete(currentEditEvent.value);
+            if (currentEditEvent.value) {
+                if (isRunFunctionEventHandler(currentEditEvent.value)) {
+                    if (!currentEditEvent.value.namespace && !currentEditEvent.value.funcBody)
+                        onDelete(currentEditEvent.value);
+                }
+                else if (!currentEditEvent.value.namespace) {
+                    onDelete(currentEditEvent.value);
+                }
+            }
         };
 
         return () => {

@@ -2,7 +2,7 @@ import { defineComponent, ref } from 'vue';
 import type { PropType } from 'vue';
 import { genEventId } from '@webank/letgo-common';
 import { EventHandlerList } from '@webank/letgo-components';
-import type { IEventHandler, IPublicModelDocumentModel, IQueryResourceBase } from '@webank/letgo-types';
+import type { IEventHandler, IPublicModelProject, IQueryResourceBase } from '@webank/letgo-types';
 import { IEnumEventHandlerAction } from '@webank/letgo-types';
 import './event-handlers.less';
 import EventHeader from './event-header';
@@ -17,7 +17,8 @@ const EventNameToField = {
 export default defineComponent({
     name: 'EventHandler',
     props: {
-        documentModel: Object as PropType<IPublicModelDocumentModel>,
+        isGlobal: Boolean,
+        project: Object as PropType<IPublicModelProject>,
         codeItem: Object as PropType<IQueryResourceBase>,
         changeCodeItem: Function as PropType<(content: Partial<IQueryResourceBase>) => void>,
     },
@@ -95,7 +96,8 @@ export default defineComponent({
                         <EventHeader
                             ref={successPopperRef}
                             title="成功"
-                            documentModel={props.documentModel}
+                            isGlobal={props.isGlobal}
+                            project={props.project}
                             eventHandler={currentEditEvent.value}
                             onChangeEventHandler={changeEventHandler}
                             addEventHandler={addSuccessEventHandler}
@@ -116,7 +118,8 @@ export default defineComponent({
                         <EventHeader
                             ref={failurePopperRef}
                             title="失败"
-                            documentModel={props.documentModel}
+                            isGlobal={props.isGlobal}
+                            project={props.project}
                             eventHandler={currentEditEvent.value}
                             onChangeEventHandler={changeEventHandler}
                             addEventHandler={addFailureEventHandler}

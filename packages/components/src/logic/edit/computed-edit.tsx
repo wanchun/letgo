@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
-import type { IJavascriptComputed, IPublicModelDocumentModel } from '@webank/letgo-types';
+import type { IJavascriptComputed } from '@webank/letgo-types';
 import { CodeEditor } from '../../code-editor';
 import './computed-edit.less';
 
@@ -12,7 +12,6 @@ import './computed-edit.less';
 export const ComputedEdit = defineComponent({
     name: 'ComputedEdit',
     props: {
-        documentModel: Object as PropType<IPublicModelDocumentModel>,
         hints: Object as PropType<Record<string, any>>,
         codeItem: Object as PropType<IJavascriptComputed>,
         changeContent: Function as PropType<(id: string, content: Partial<IJavascriptComputed>) => void>,
@@ -30,7 +29,6 @@ export const ComputedEdit = defineComponent({
                     <CodeEditor
                         class="letgo-comp-logic__computed-editor"
                         height="100%"
-                        documentModel={props.documentModel}
                         hints={props.hints}
                         doc={props.codeItem.funcBody}
                         onChange={changeFuncBody}

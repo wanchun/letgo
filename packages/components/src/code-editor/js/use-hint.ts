@@ -115,7 +115,7 @@ export function hintPlugin(hintPaths: ComputedRef<HintPathType[]>) {
                         const label = latestChar === '.' ? `.${key}` : key;
                         return snippetCompletion(label, {
                             label,
-                            detail: getVarType(value[key]),
+                            detail: getVarType(value[key as keyof typeof value]),
                             type: 'property',
                         });
                     }) || [],
@@ -128,13 +128,13 @@ export function hintPlugin(hintPaths: ComputedRef<HintPathType[]>) {
 }
 
 export function useScopeVariables(props: {
-    scopeVariables?: Record<string, any>;
+    hints?: Record<string, any>;
     compRef?: string;
     documentModel?: IPublicModelDocumentModel;
 }) {
     const innerScopeVariables = computed(() => {
-        if (props.scopeVariables) {
-            return props.scopeVariables;
+        if (props.hints) {
+            return props.hints;
         }
         else if (props.documentModel) {
             const currentDocument = props.documentModel;

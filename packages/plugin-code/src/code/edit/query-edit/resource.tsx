@@ -26,8 +26,15 @@ export default defineComponent({
     name: 'Resource',
     props: {
         codeItem: Object as PropType<IJavascriptQuery>,
+        changeCodeItem: Function as PropType<(content: Partial<IJavascriptQuery>) => void>,
     },
     setup(props) {
+        const changeResourceType = (val: IEnumResourceType) => {
+            props.changeCodeItem({
+                resourceType: val,
+            });
+        };
+
         return () => {
             return (
                 <div class="letgo-plg-code__query-resource">
@@ -38,7 +45,7 @@ export default defineComponent({
                             content: () => {
                                 return (
                                     <div class="letgo-plg-code__query-resource-content">
-                                        <FSelect style="width: 130px" v-model={props.codeItem.resourceType} options={Options} />
+                                        <FSelect style="width: 130px" v-model={props.codeItem.resourceType} onChange={changeResourceType} options={Options} />
                                     </div>
                                 );
                             },

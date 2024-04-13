@@ -148,7 +148,7 @@ const EventSetterView = defineComponent({
                         onDelete={deleteComponentEvent}
                         onEdit={onEdit}
                     />
-                    <EventHandlerModify onChange={changeComponentEvent} documentModel={props.node.document} editEvent={currentEditEvent.value} events={eventData.value} />
+                    <EventHandlerModify onChange={changeComponentEvent} project={props.node.document.project} editEvent={currentEditEvent.value} events={eventData.value} />
                 </>
             );
         };

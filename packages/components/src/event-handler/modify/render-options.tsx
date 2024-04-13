@@ -1,31 +1,33 @@
-import type { IControlComponentAction, IControlQueryAction, IEventHandler, IPublicModelDocumentModel, IRunFunctionAction, ISetLocalStorageAction, ISetTemporaryStateAction } from '@webank/letgo-types';
+import type { IControlComponentAction, IControlQueryAction, IEventHandler, IPublicModelProject, IRunFunctionAction, ISetLocalStorageAction, ISetTemporaryStateAction } from '@webank/letgo-types';
 import { IEnumEventHandlerAction, IEnumRunScript, isRunFunctionEventHandler } from '@webank/letgo-types';
 import { CodeBrackets } from '@icon-park/vue-next';
 import type { PropType } from 'vue';
-import { computed, defineComponent } from 'vue';
+import { defineComponent } from 'vue';
 
 import { FInput, FOption, FSelect, FTooltip } from '@fesjs/fes-design';
 import { DeleteOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
-import { isEmpty, isFunction, isPlainObject } from 'lodash-es';
 import { CodeEditor } from '../../code-editor';
+import { useCodeHints } from '../../use/use-code-hints';
 import Label from './label';
 import './render-options.less';
+import { useStateOptions } from './use-state-options';
 
 export default defineComponent({
     name: 'RenderOptions',
     props: {
-        documentModel: Object as PropType<IPublicModelDocumentModel>,
+        project: Object as PropType<IPublicModelProject>,
+        isGlobal: Boolean,
         componentEvent: Object as PropType<IEventHandler>,
     },
     setup(props) {
-        const queryOptions = computed(() => {
-            return props.documentModel.code.queries.map((item) => {
-                return {
-                    label: item.id,
-                    value: item.id,
-                };
-            });
-        });
+        const {
+            queryOptions,
+            variableOptions,
+            functionOptions,
+            componentInstanceOptions,
+            componentMethods,
+        } = useStateOptions(props);
+        const hints = useCodeHints(props);
 
         const selectQuery = (data: IControlQueryAction) => {
             if (!data.method)
@@ -48,36 +50,6 @@ export default defineComponent({
             );
         };
 
-        const componentInstanceOptions = computed(() => {
-            const instances = props.documentModel.state.componentsInstance;
-            return Object.keys(instances).filter(key => !Array.isArray(instances[key]) && !isEmpty(instances[key])).map((key) => {
-                return {
-                    label: key,
-                    value: key,
-                };
-            });
-        });
-
-        const componentMethods = computed<{ label: string; value: string }[]>(() => {
-            if (props.componentEvent.action === IEnumEventHandlerAction.CONTROL_COMPONENT && props.componentEvent.namespace) {
-                const componentName = props.documentModel.state.componentsInstance[props.componentEvent.namespace].__componentName;
-                const metadata = props.documentModel.getComponentMeta(componentName).getMetadata();
-                return (metadata.configure?.supports?.methods || []).map((item) => {
-                    if (typeof item === 'string') {
-                        return {
-                            label: item,
-                            value: item,
-                        };
-                    }
-                    return {
-                        label: item.name,
-                        value: item.name,
-                    };
-                });
-            }
-            return [];
-        });
-
         const renderComponentMethod = (data: IControlComponentAction) => {
             return (
                 <>
@@ -91,19 +63,6 @@ export default defineComponent({
             );
         };
 
-        const stateOptions = computed(() => {
-            return props.documentModel.code.temporaryStates.map((item) => {
-                return {
-                    label: item.id,
-                    value: item.id,
-                };
-            }).concat(props.documentModel.project.code.temporaryStates.map((item) => {
-                return {
-                    label: item.id,
-                    value: `${item.id}.value`,
-                };
-            }));
-        });
         const changeVariablePath = (data: ISetTemporaryStateAction) => {
             if (data.params[1])
                 data.method = 'setIn';
@@ -111,11 +70,11 @@ export default defineComponent({
             else
                 data.method = 'setValue';
         };
-        const renderSetTemporaryState = (data: ISetTemporaryStateAction) => {
+        const renderVariables = (data: ISetTemporaryStateAction) => {
             return (
                 <>
                     <Label label="变量">
-                        <FSelect appendToContainer={false} v-model={data.namespace} filterable options={stateOptions.value} />
+                        <FSelect appendToContainer={false} v-model={data.namespace} filterable options={variableOptions.value} />
                     </Label>
                     <Label label="值">
                         <FInput v-model={data.params[0]} />
@@ -145,49 +104,6 @@ export default defineComponent({
             );
         };
 
-        function pickFuncFromObj(data: Record<string, any>, parent: string[] = []) {
-            let funcs: string[] = [];
-            for (const key of Object.keys(data)) {
-                if (key.startsWith('__'))
-                    continue;
-
-                if (isFunction(data[key]))
-                    funcs.push([...parent, key].join('.'));
-
-                if (isPlainObject(data[key]) && parent.length < 2)
-                    funcs = funcs.concat(pickFuncFromObj(data[key], parent.concat(key)));
-            }
-            return funcs;
-        }
-        const contextFuncs = computed(() => {
-            const extraGlobalState = props.documentModel.project.extraGlobalState;
-            const utilsFunc = pickFuncFromObj(extraGlobalState.utils, ['utils']);
-            const contextFuncs = pickFuncFromObj(extraGlobalState.letgoContext, ['letgoContext']);
-
-            return utilsFunc.concat(contextFuncs).map((item) => {
-                return {
-                    label: item,
-                    value: item,
-                };
-            });
-        });
-        const globalFunction = computed(() => {
-            return props.documentModel.project.code.functions.map((item) => {
-                return {
-                    label: item.id,
-                    value: item.id,
-                };
-            });
-        });
-        const functionOptions = computed(() => {
-            return props.documentModel.code.functions.map((item) => {
-                return {
-                    label: item.id,
-                    value: item.id,
-                };
-            }).concat(globalFunction.value).concat(contextFuncs.value);
-        });
-
         const addFunctionParam = (data: IRunFunctionAction) => {
             data.params.push('');
         };
@@ -201,7 +117,7 @@ export default defineComponent({
                     <CodeEditor
                         height="128px"
                         placeholder="// 输入代码，可输入函数体"
-                        documentModel={props.documentModel}
+                        hints={hints.value}
                         doc={data.funcBody}
                         onChange={(doc) => {
                             data.funcBody = doc;
@@ -274,7 +190,7 @@ export default defineComponent({
                 return renderComponentMethod(props.componentEvent as IControlComponentAction);
 
             if (props.componentEvent.action === IEnumEventHandlerAction.SET_TEMPORARY_STATE)
-                return renderSetTemporaryState(props.componentEvent as ISetTemporaryStateAction);
+                return renderVariables(props.componentEvent as ISetTemporaryStateAction);
 
             if (props.componentEvent.action === IEnumEventHandlerAction.SET_LOCAL_STORAGE)
                 return renderSetLocalStorage(props.componentEvent as ISetLocalStorageAction);

@@ -1,6 +1,6 @@
 import type { ExtractPropTypes, PropType } from 'vue';
 import { defineComponent } from 'vue';
-import type { IPublicModelDocumentModel, IRestQueryResource } from '@webank/letgo-types';
+import type { IPublicModelProject, IRestQueryResource } from '@webank/letgo-types';
 import { FCheckbox, FSelect } from '@fesjs/fes-design';
 import { CodeEditor, ExpressionEditor } from '@webank/letgo-components';
 import ContentItem from '../content-item';
@@ -33,7 +33,9 @@ const MethodOptions = [{
 }];
 
 const paramsProps = {
-    documentModel: Object as PropType<IPublicModelDocumentModel>,
+    isGlobal: Boolean,
+    project: Object as PropType<IPublicModelProject>,
+    hints: Object as PropType<Record<string, any>>,
     codeItem: Object as PropType<IRestQueryResource>,
     changeCodeItem: Function as PropType<(content: Partial<IRestQueryResource>) => void>,
 } as const;
@@ -74,7 +76,7 @@ export default defineComponent({
                                     <div class="letgo-plg-code__query-params-content">
                                         <FSelect class="letgo-plg-code__query-method" placeholder="" v-model={props.codeItem.method} options={MethodOptions} />
                                         <ExpressionEditor
-                                            documentModel={props.documentModel}
+                                            hints={props.hints}
                                             placeholder="/api/path/to/get/data"
                                             class="letgo-plg-code__query-api"
                                             doc={props.codeItem.api}
@@ -93,7 +95,7 @@ export default defineComponent({
                             content: () => {
                                 return (
                                     <ExpressionEditor
-                                        documentModel={props.documentModel}
+                                        hints={props.hints}
                                         style="width: 0; flex: 1;"
                                         placeholder="params"
                                         doc={props.codeItem.params}
@@ -113,7 +115,7 @@ export default defineComponent({
                                     <div style="width: 0; flex: 1;">
                                         <FCheckbox v-model={props.codeItem.enableTransformer}>开启数据转换</FCheckbox>
                                         {!props.codeItem.enableTransformer && <p class="letgo-plg-code__query-tip">开始数据转换，将请求数据转换成不同的格式</p>}
-                                        {props.codeItem.enableTransformer && <CodeEditor documentModel={props.documentModel} doc={props.codeItem.transformer} id={props.codeItem.id} onChange={changeTransformer} />}
+                                        {props.codeItem.enableTransformer && <CodeEditor hints={props.hints} doc={props.codeItem.transformer} id={props.codeItem.id} onChange={changeTransformer} />}
                                     </div>
                                 );
                             },

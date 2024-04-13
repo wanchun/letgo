@@ -40,6 +40,14 @@ export function useCodesInstance() {
 
     const changeCodeInstance = (id: string, content: Record<string, any>, ctx: Record<string, any>) => {
         const item = codeMap.get(id);
+
+        if (item.type === IEnumCodeType.JAVASCRIPT_QUERY) {
+            if (content.resourceType) {
+                codesInstance[item.id] = createQueryImpl(item, dependencyMap.get(item.id), ctx);
+                ctx[item.id] = codesInstance[item.id];
+            }
+        }
+
         const currentInstance = codesInstance[id];
 
         if ((currentInstance instanceof TemporaryStateImpl && !isNil(content.initValue))

@@ -1,9 +1,11 @@
 import { generate } from 'astring';
+import type { ExpressionStatement } from 'acorn';
 import { parse } from 'acorn';
 import { ancestor, simple } from 'acorn-walk';
 import {
     IEnumCodeType,
     IEnumEventHandlerAction,
+    IEnumRunScript,
     isJSExpression,
     isRestQueryResource,
     isRunFunctionEventHandler,
@@ -21,6 +23,22 @@ export function innerParse(code: string) {
         allowHashBang: true,
         ecmaVersion: 2022,
     });
+}
+
+export function isFunction(code: string) {
+    try {
+        if (!code || !code.trim())
+            return false;
+        const ast = innerParse(code);
+
+        if (ast.body[0].type === 'FunctionDeclaration' || (ast.body[0] as ExpressionStatement).expression?.type === 'ArrowFunctionExpression')
+            return true;
+
+        return false;
+    }
+    catch (_) {
+        return false;
+    }
 }
 
 export function simpleWalkAst(code: string, param: Record<string, any>) {
@@ -61,12 +79,19 @@ export function calcJSCodeDependencies(code: string, ctx?: Record<string, any>) 
     return dependencies;
 }
 
-function handleEventDep(events: IEventHandler[]) {
-    const result: string[] = [];
+function handleEventDep(events: IEventHandler[], ctx?: Record<string, any>) {
+    let result: string[] = [];
     if (events) {
         events.forEach((event) => {
-            if ([IEnumEventHandlerAction.SET_TEMPORARY_STATE, IEnumEventHandlerAction.CONTROL_QUERY, IEnumEventHandlerAction.RUN_FUNCTION].includes(event.action))
+            if (isRunFunctionEventHandler(event)) {
+                if (event.type === IEnumRunScript.PLAIN)
+                    result = result.concat(calcJSCodeDependencies(event.funcBody, ctx));
+                else if (event.namespace)
+                    result.push(event.namespace);
+            }
+            else if (event.namespace && [IEnumEventHandlerAction.SET_TEMPORARY_STATE, IEnumEventHandlerAction.CONTROL_QUERY].includes(event.action)) {
                 result.push(event.namespace);
+            }
         });
     }
     return result;
@@ -87,8 +112,8 @@ export function calcDependencies(item: ICodeItem, ctx?: Record<string, any>) {
                 if (isJSExpression(item.headers) && item.headers.value)
                     result = result.concat(calcJSCodeDependencies(`(${item.headers.value})`, ctx));
 
-                result = result.concat(handleEventDep(item.failureEvent));
-                result = result.concat(handleEventDep(item.successEvent));
+                result = result.concat(handleEventDep(item.failureEvent, ctx));
+                result = result.concat(handleEventDep(item.successEvent, ctx));
             }
             else {
                 result = calcJSCodeDependencies(item.query, ctx);
@@ -107,7 +132,10 @@ export function eventHandlerToJsFunction(item: IEventHandler): IPublicTypeJSFunc
     let expression: string;
     const params: string[] = item.params ? item.params.filter(item => item) : [];
     if (isRunFunctionEventHandler(item)) {
-        expression = `${item.namespace}(...Array.prototype.slice.call(arguments))`;
+        if (item.type === IEnumRunScript.PLAIN)
+            expression = item.funcBody;
+        else
+            expression = `${item.namespace}(...Array.prototype.slice.call(arguments))`;
     }
     else if (item.action === IEnumEventHandlerAction.CONTROL_QUERY) {
         expression = `${item.namespace}.${item.method}.apply(${item.namespace}, Array.prototype.slice.call(arguments))`;
@@ -128,14 +156,11 @@ export function eventHandlerToJsFunction(item: IEventHandler): IPublicTypeJSFunc
         else
             expression = `${item.namespace}.${item.method}()`;
     }
-    else {
-        // TODO 支持用户自定义方法
-    }
 
     return {
         type: 'JSFunction',
         // 需要传下入参
-        value: /^\s*function\s+/.test(expression) ? expression : `function(){${expression}}`,
+        value: isFunction(expression) ? expression : `() => {${expression}}`,
         params,
     };
 }
@@ -145,10 +170,14 @@ export function eventHandlersToJsFunction(handlers: IEventHandler[] = []) {
         [key: string]: IPublicTypeJSFunction[];
     } = {};
     handlers.forEach((item: IEventHandler) => {
-        if ((item.namespace && item.method) || item.action === IEnumEventHandlerAction.RUN_FUNCTION) {
-            const jsExpression = eventHandlerToJsFunction(item);
-            result[item.name] = (result[item.name] || []).concat(jsExpression);
-        }
+        const jsFuncs: IPublicTypeJSFunction[] = result[item.name] || [];
+        if (isRunFunctionEventHandler(item) && (item.namespace || item.funcBody))
+            jsFuncs.push(eventHandlerToJsFunction(item));
+
+        else if ((item.namespace && item.method))
+            jsFuncs.push(eventHandlerToJsFunction(item));
+
+        result[item.name] = jsFuncs;
     });
     return result;
 }

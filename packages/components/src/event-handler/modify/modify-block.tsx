@@ -87,7 +87,6 @@ export default defineComponent({
                 : null;
         };
 
-        const currentAction = ref();
         const changeAction = (action: string) => {
             innerEditEvent.value = {
                 ...innerEditEvent.value,
@@ -104,7 +103,7 @@ export default defineComponent({
             );
         };
         const firstSeparatorText = computed(() => {
-            const item = actions.find(item => item.value === currentAction.value);
+            const item = actions.find(item => item.value === innerEditEvent.value.action);
             return item ? `${item.label}选项` : '选项';
         });
 

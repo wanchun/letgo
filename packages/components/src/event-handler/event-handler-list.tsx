@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
-import { IEnumEventHandlerAction } from '@webank/letgo-types';
+import { IEnumRunScript, isRunFunctionEventHandler } from '@webank/letgo-types';
 import type { IEventHandler } from '@webank/letgo-types';
 import { DeleteOutlined } from '@fesjs/fes-design/icon';
 import './event-handler-list.less';
@@ -22,8 +22,8 @@ export default defineComponent({
     },
     setup(props) {
         const getMethodCall = (item: IEventHandler) => {
-            if (item.namespace && item.action === IEnumEventHandlerAction.RUN_FUNCTION)
-                return `${item.namespace}()`;
+            if (isRunFunctionEventHandler(item))
+                return item.type === IEnumRunScript.PLAIN ? '运行代码' : `${item.namespace}()`;
 
             if (item.namespace && item.method)
                 return `${item.namespace}.${item.method}()`;

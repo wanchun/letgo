@@ -9,6 +9,11 @@ import EventHeader from './event-header';
 
 type EventType = 'successEvent' | 'failureEvent';
 
+const EventNameToField = {
+    onSuccess: 'successEvent',
+    onFailure: 'failureEvent',
+};
+
 export default defineComponent({
     name: 'EventHandler',
     props: {
@@ -19,8 +24,9 @@ export default defineComponent({
     setup(props) {
         const currentEditEvent = ref<IEventHandler>();
 
-        const onDelete = (eventType: EventType, event: IEventHandler) => {
-            const eventList = [...props.codeItem[eventType]];
+        const onDelete = (event: IEventHandler) => {
+            const eventType = EventNameToField[event.name as keyof typeof EventNameToField] as EventType;
+            const eventList = [...(props.codeItem[eventType] || [])];
             const index = eventList.findIndex(item => item.id === event.id);
             if (index !== -1) {
                 eventList.splice(index, 1);
@@ -29,7 +35,11 @@ export default defineComponent({
                 });
             }
         };
-        const changeEventHandler = (eventType: EventType, event: IEventHandler) => {
+        const changeEventHandler = (event: IEventHandler) => {
+            const eventType = EventNameToField[event.name as keyof typeof EventNameToField] as EventType;
+
+            currentEditEvent.value = event;
+
             const eventList = [...(props.codeItem[eventType] || [])];
             const index = eventList.findIndex(item => item.id === event.id);
             if (index === -1)
@@ -58,34 +68,23 @@ export default defineComponent({
         const addSuccessEventHandler = () => {
             addEventHandler('onSuccess');
         };
-        const onDeleteSuccessEvent = (event: IEventHandler) => {
-            onDelete('successEvent', event);
-        };
         const onEditSuccessEvent = (event: IEventHandler) => {
             currentEditEvent.value = event;
             successPopperRef.value.showPopper();
-        };
-        const changeSuccessEventHandler = (event: IEventHandler) => {
-            changeEventHandler('successEvent', event);
         };
 
         const failurePopperRef = ref();
         const addFailureEventHandler = () => {
             addEventHandler('onFailure');
         };
-        const onDeleteFailureEvent = (event: IEventHandler) => {
-            onDelete('failureEvent', event);
-        };
         const onEditFailureEvent = (event: IEventHandler) => {
             currentEditEvent.value = event;
             failurePopperRef.value.showPopper();
         };
-        const changeFailureEventHandler = (event: IEventHandler) => {
-            changeEventHandler('failureEvent', event);
-        };
 
         const onClose = () => {
-            currentEditEvent.value = null;
+            if (currentEditEvent.value && !currentEditEvent.value.namespace)
+                onDelete(currentEditEvent.value);
         };
 
         return () => {
@@ -96,11 +95,11 @@ export default defineComponent({
                         <EventHeader
                             ref={successPopperRef}
                             title="成功"
-                            onClose={onClose}
                             documentModel={props.documentModel}
                             eventHandler={currentEditEvent.value}
-                            onChangeEventHandler={changeSuccessEventHandler}
+                            onChangeEventHandler={changeEventHandler}
                             addEventHandler={addSuccessEventHandler}
+                            onClose={onClose}
                         />
                         <div class="letgo-plg-code__event-content">
                             <EventHandlerList
@@ -108,7 +107,7 @@ export default defineComponent({
                                 class="letgo-plg-code__event-list"
                                 eventHandlers={props.codeItem.successEvent}
                                 currentEventHandler={currentEditEvent.value}
-                                onDelete={onDeleteSuccessEvent}
+                                onDelete={onDelete}
                                 onEdit={onEditSuccessEvent}
                             />
                         </div>
@@ -117,11 +116,11 @@ export default defineComponent({
                         <EventHeader
                             ref={failurePopperRef}
                             title="失败"
-                            onClose={onClose}
                             documentModel={props.documentModel}
                             eventHandler={currentEditEvent.value}
-                            onChangeEventHandler={changeFailureEventHandler}
+                            onChangeEventHandler={changeEventHandler}
                             addEventHandler={addFailureEventHandler}
+                            onClose={onClose}
                         />
                         <div class="letgo-plg-code__event-content">
                             <EventHandlerList
@@ -129,7 +128,7 @@ export default defineComponent({
                                 class="letgo-plg-code__event-list"
                                 eventHandlers={props.codeItem.failureEvent}
                                 currentEventHandler={currentEditEvent.value}
-                                onDelete={onDeleteFailureEvent}
+                                onDelete={onDelete}
                                 onEdit={onEditFailureEvent}
                             />
                         </div>

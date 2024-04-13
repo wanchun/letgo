@@ -22,14 +22,9 @@ export default defineComponent({
             popperVisible.value = false;
         };
 
-        const changeEventHandler = (event: IEventHandler) => {
-            props.onChangeEventHandler(event);
-            closePopper();
-        };
-
         watch(popperVisible, () => {
             if (!popperVisible.value)
-                props.onClose?.();
+                props.onClose();
         });
 
         expose({
@@ -54,7 +49,7 @@ export default defineComponent({
                                             <CloseOutlined onClick={closePopper} class="letgo-plg-code__event-icon" />
                                         </div>
                                         <EventHandlerModify
-                                            onChange={changeEventHandler}
+                                            onChange={props.onChangeEventHandler}
                                             documentModel={props.documentModel}
                                             editEvent={props.eventHandler}
                                         />

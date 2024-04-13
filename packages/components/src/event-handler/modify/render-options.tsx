@@ -14,7 +14,6 @@ export default defineComponent({
     props: {
         documentModel: Object as PropType<IPublicModelDocumentModel>,
         componentEvent: Object as PropType<IEventHandler>,
-        onChange: Function as PropType<((content: Record<string, any>) => void)>,
     },
     setup(props) {
         const queryOptions = computed(() => {
@@ -130,7 +129,7 @@ export default defineComponent({
                 <>
                     <Label label="方法">
                         <FSelect appendToContainer={false} v-model={data.method}>
-                            <FOption value="setValue">set Value</FOption>
+                            <FOption value="setValue">setValue</FOption>
                             <FOption value="clear">Clear</FOption>
                         </FSelect>
                     </Label>

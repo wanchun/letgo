@@ -1,8 +1,9 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, ref, watch } from 'vue';
-import { FButton, FInput, FInputNumber, FOption, FSelect, FSpace } from '@fesjs/fes-design';
+import { FInputNumber, FOption, FSelect } from '@fesjs/fes-design';
 import type { IEventHandler, IPublicModelDocumentModel } from '@webank/letgo-types';
 import { IEnumEventHandlerAction } from '@webank/letgo-types';
+import { cloneDeep, isEqual } from 'lodash-es';
 import Label from './label';
 import Separator from './separator';
 import RenderOptions from './render-options';
@@ -66,12 +67,15 @@ export default defineComponent({
         onChange: Function as PropType<(data: IEventHandler) => void>,
     },
     setup(props) {
-        const innerEditEvent = ref({ ...props.editEvent });
-
+        const innerEditEvent = ref(cloneDeep(props.editEvent));
         watch(() => props.editEvent, () => {
-            innerEditEvent.value = {
-                ...props.editEvent,
-            };
+            if (!isEqual(innerEditEvent.value, props.editEvent))
+                innerEditEvent.value = cloneDeep(props.editEvent);
+        });
+        watch(innerEditEvent, () => {
+            props.onChange(innerEditEvent.value);
+        }, {
+            deep: true,
         });
         const renderEvent = () => {
             return props.events.length
@@ -84,15 +88,11 @@ export default defineComponent({
         };
 
         const currentAction = ref();
-        const changeAction = () => {
-            innerEditEvent.value = {
-                id: innerEditEvent.value.id,
-                name: innerEditEvent.value.name,
-                onlyRunWhen: innerEditEvent.value.onlyRunWhen,
-                waitMs: innerEditEvent.value.waitMs,
-                action: innerEditEvent.value.action,
-                ...initOptions[innerEditEvent.value.action],
-            };
+        const changeAction = (action: string) => {
+            props.onChange({
+                ...innerEditEvent.value,
+                ...initOptions[action],
+            });
         };
         const renderAction = () => {
             return (
@@ -108,36 +108,20 @@ export default defineComponent({
             return item ? `${item.label}选项` : '选项';
         });
 
-        const onSave = () => {
-            props.onChange({
-                ...innerEditEvent.value,
-            });
-        };
-
-        const changeCurrentEvent = (content: Record<string, any>) => {
-            Object.assign(innerEditEvent.value, content);
-        };
-
         return () => {
             return (
-                <div class="letgo-comp-event__modify">
-                    {renderEvent()}
-                    {renderAction()}
-                    <Separator text={firstSeparatorText.value} />
-                    <RenderOptions documentModel={props.documentModel} onChange={changeCurrentEvent} componentEvent={innerEditEvent.value} />
-                    <Separator text="高级" />
-                    {/* TODO <Label label="执行条件">
-                        <FInput v-model={innerEditEvent.value.onlyRunWhen} />
-                    </Label> */}
-                    <Label label="延迟">
-                        <FInputNumber v-model={innerEditEvent.value.waitMs} />
-                    </Label>
-                    <FSpace justify="end">
-                        <FButton type="primary" size="small" onClick={onSave}>
-                            保存
-                        </FButton>
-                    </FSpace>
-                </div>
+                innerEditEvent.value && (
+                    <div class="letgo-comp-event__modify">
+                        {renderEvent()}
+                        {renderAction()}
+                        <Separator text={firstSeparatorText.value} />
+                        <RenderOptions documentModel={props.documentModel} componentEvent={innerEditEvent.value} />
+                        <Separator text="高级" />
+                        <Label label="延迟">
+                            <FInputNumber v-model={innerEditEvent.value.waitMs} />
+                        </Label>
+                    </div>
+                )
             );
         };
     },

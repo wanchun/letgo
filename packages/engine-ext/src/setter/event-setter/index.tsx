@@ -12,12 +12,12 @@ import { commonProps } from '../../common';
 import type { EventOptionList } from './interface';
 import './index.less';
 
-type EventList = Array<{ name: string, description?: string }>;
+type EventList = Array<{ name: string; description?: string }>;
 
 interface EventDefinition {
-    type: 'events' | 'nativeEvents' | 'lifeCycleEvent'
-    title: string
-    list: EventList
+    type: 'events' | 'nativeEvents' | 'lifeCycleEvent';
+    title: string;
+    list: EventList;
 }
 
 function transformList(list: EventList): EventOptionList {
@@ -43,6 +43,19 @@ const EventSetterView = defineComponent({
         const eventData: Ref<EventOptionList> = ref([]);
 
         const selectedEventData = ref<IEventHandler[]>(props.value || []);
+        const getInitComponentEvent = (): IEventHandler => {
+            return {
+                id: genEventId(),
+                name: eventData.value[0].value,
+                waitType: 'debounce',
+                waitMs: null,
+                action: IEnumEventHandlerAction.CONTROL_QUERY,
+                namespace: null,
+                method: null,
+            };
+        };
+
+        const currentEditEvent = ref<IEventHandler>();
 
         watch(
             () => props.definition,
@@ -63,20 +76,6 @@ const EventSetterView = defineComponent({
             props.onMounted?.();
         });
 
-        const getInitComponentEvent = (): IEventHandler => {
-            return {
-                id: genEventId(),
-                name: eventData.value[0].value,
-                waitType: 'debounce',
-                waitMs: null,
-                action: IEnumEventHandlerAction.CONTROL_QUERY,
-                namespace: null,
-                method: null,
-            };
-        };
-
-        const currentEditEvent = ref<IEventHandler>(getInitComponentEvent());
-
         watch(() => props.value, () => {
             selectedEventData.value = props.value || [];
             if (currentEditEvent.value) {
@@ -85,7 +84,10 @@ const EventSetterView = defineComponent({
                     currentEditEvent.value = matchEvent;
 
                 else
-                    currentEditEvent.value = getInitComponentEvent();
+                    currentEditEvent.value = selectedEventData.value[0];
+            }
+            else {
+                currentEditEvent.value = selectedEventData.value[0];
             }
         });
 
@@ -116,8 +118,8 @@ const EventSetterView = defineComponent({
         const deleteComponentEvent = (event: IEventHandler) => {
             const index = selectedEventData.value.findIndex(item => item.id === event.id);
             selectedEventData.value.splice(index, 1);
-            if (currentEditEvent.value.id === event.id)
-                currentEditEvent.value = getInitComponentEvent();
+            if (currentEditEvent.value?.id === event.id)
+                currentEditEvent.value = null;
             emitChangeEventData();
         };
 

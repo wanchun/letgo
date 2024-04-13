@@ -89,10 +89,10 @@ export default defineComponent({
 
         const currentAction = ref();
         const changeAction = (action: string) => {
-            props.onChange({
+            innerEditEvent.value = {
                 ...innerEditEvent.value,
                 ...initOptions[action],
-            });
+            };
         };
         const renderAction = () => {
             return (

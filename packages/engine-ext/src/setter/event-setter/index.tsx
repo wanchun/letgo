@@ -105,13 +105,16 @@ const EventSetterView = defineComponent({
             emitChangeEventData();
         };
 
-        const changeComponentEvent = (changedEvent: IEventHandler) => {
-            const index = selectedEventData.value.findIndex(item => item.id === changedEvent.id);
+        const changeComponentEvent = (val: IEventHandler) => {
+            currentEditEvent.value = val;
+
+            const index = selectedEventData.value.findIndex(item => item.id === val.id);
             if (index === -1)
-                selectedEventData.value.push(changedEvent);
+                selectedEventData.value.push(val);
 
             else
-                selectedEventData.value.splice(index, 1, changedEvent);
+                selectedEventData.value.splice(index, 1, val);
+
             emitChangeEventData();
         };
 

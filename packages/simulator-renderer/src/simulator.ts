@@ -249,7 +249,7 @@ function createSimulatorRenderer() {
                 if (data[key].__v_skip != null)
                     omitKeys.push(key);
                 else
-                    data[key] = removeVueInstance(data[key]);
+                    data[key] = removeVueInstance({ ...data[key] });
             }
         }
         if (omitKeys.length)

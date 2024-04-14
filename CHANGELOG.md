@@ -1,3 +1,26 @@
+## [0.0.4-beta.14](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.13...v0.0.4-beta.14) (2024-4-14)
+
+
+### Bug Fixes
+
+* query 去掉保存 ([6c2138a](https://git.weoa.com/mumblefe/letgo/commits/6c2138ae009f3f4f58e435ff7c3ea2ec3ae159c8))
+* 修复 component ref 问题 ([87fa5af](https://git.weoa.com/mumblefe/letgo/commits/87fa5af1fd84ffb1d13b4958f08b21388dd2f810))
+* 修复 lowcode component 渲染问题 ([dae3bb8](https://git.weoa.com/mumblefe/letgo/commits/dae3bb885304edee3093cb0da5979211aee628b3))
+* 修复事件类型切换导致的异常 ([061786b](https://git.weoa.com/mumblefe/letgo/commits/061786b774bd74db2416a08794ab0308f0c0a823))
+* 修复低代码组件状态依赖路径问题 ([6a04611](https://git.weoa.com/mumblefe/letgo/commits/6a046119745f81827260810a53fa6d5fb6c83c29))
+* 修复实例告警问题 ([5313bb6](https://git.weoa.com/mumblefe/letgo/commits/5313bb6e9b0d7e3c40c242425322b1cf97e64eb1))
+* 修复类型问题 ([8a98b15](https://git.weoa.com/mumblefe/letgo/commits/8a98b15565322c2883b3f2be37d90bc333ae918d))
+
+
+### Features
+
+* event 可以不用保存 ([63913d7](https://git.weoa.com/mumblefe/letgo/commits/63913d793346560bf6ac21754953a2a6bd52f240))
+* 优化变量交互 ([4966f28](https://git.weoa.com/mumblefe/letgo/commits/4966f283fd85851414f1d14818ba39ee881c10c1))
+* 修复一些问题: ([0f562f9](https://git.weoa.com/mumblefe/letgo/commits/0f562f9703000fbb5ff50599dd43e218846f8d39))
+* 项目包含低代码组件的出码 ([783600c](https://git.weoa.com/mumblefe/letgo/commits/783600c9a436af6d271457acdd2e7c422eb650b0))
+
+
+
 ## [0.0.4-beta.13](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.12...v0.0.4-beta.13) (2024-4-10)
 
 

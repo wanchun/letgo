@@ -11,7 +11,7 @@ const FunctionSetterView = defineComponent({
     props: {
         ...commonProps,
         value: Object as PropType<IPublicTypeJSFunction>,
-        defaultValue: Function,
+        defaultValue: [Function, String],
         onChange: Function as PropType<(val?: IPublicTypeJSFunction) => void>,
     },
     setup(props) {

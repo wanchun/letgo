@@ -78,6 +78,7 @@ const EventSetterView = defineComponent({
 
         watch(() => props.value, () => {
             selectedEventData.value = props.value || [];
+
             if (currentEditEvent.value) {
                 const matchEvent = selectedEventData.value.find(item => item.id === currentEditEvent.value.id);
                 if (matchEvent)
@@ -106,16 +107,18 @@ const EventSetterView = defineComponent({
         };
 
         const changeComponentEvent = (val: IEventHandler) => {
-            currentEditEvent.value = val;
+            if (val) {
+                currentEditEvent.value = val;
 
-            const index = selectedEventData.value.findIndex(item => item.id === val.id);
-            if (index === -1)
-                selectedEventData.value.push(val);
+                const index = selectedEventData.value.findIndex(item => item.id === val.id);
+                if (index === -1)
+                    selectedEventData.value.push(val);
 
-            else
-                selectedEventData.value.splice(index, 1, val);
+                else
+                    selectedEventData.value.splice(index, 1, val);
 
-            emitChangeEventData();
+                emitChangeEventData();
+            }
         };
 
         const deleteComponentEvent = (event: IEventHandler) => {
@@ -123,6 +126,7 @@ const EventSetterView = defineComponent({
             selectedEventData.value.splice(index, 1);
             if (currentEditEvent.value?.id === event.id)
                 currentEditEvent.value = null;
+
             emitChangeEventData();
         };
 
@@ -136,7 +140,14 @@ const EventSetterView = defineComponent({
                             <PlusOutlined />
                         </FButton>
                     </div>
-                    <EventHandlerList class="letgo-event-setter__list" style="margin-bottom: 8px; padding-bottom: 8px;" eventHandlers={selectedEventData.value} currentEventHandler={currentEditEvent.value} onDelete={deleteComponentEvent} onEdit={onEdit} />
+                    <EventHandlerList
+                        class="letgo-event-setter__list"
+                        style="margin-bottom: 8px; padding-bottom: 8px;"
+                        eventHandlers={selectedEventData.value}
+                        currentEventHandler={currentEditEvent.value}
+                        onDelete={deleteComponentEvent}
+                        onEdit={onEdit}
+                    />
                     <EventHandlerModify onChange={changeComponentEvent} documentModel={props.node.document} editEvent={currentEditEvent.value} events={eventData.value} />
                 </>
             );

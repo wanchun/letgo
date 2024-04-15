@@ -99,7 +99,7 @@ export const ExpressionEditor = defineComponent({
         };
 
         const innerOnBlur = (doc: string) => {
-            const formattedDoc = oxcOutput.value.diagnostics?.some(item => item.severity === 'error') ? doc : (formatExpression(oxcOutput.value?.formatter) || doc);
+            const formattedDoc = oxcOutput.value?.diagnostics?.some(item => item.severity === 'error') ? doc : (formatExpression(oxcOutput.value?.formatter) || doc);
             if (isFunction(props.onChange) && formattedDoc !== doc)
                 props.onChange(formattedDoc);
 

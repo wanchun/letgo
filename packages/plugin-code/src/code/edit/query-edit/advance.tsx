@@ -1,7 +1,7 @@
 import { defineComponent } from 'vue';
 import type { PropType } from 'vue';
 import { isRestQueryResource } from '@webank/letgo-types';
-import type { IJavascriptQuery, IPublicModelDocumentModel, IRestQueryResource } from '@webank/letgo-types';
+import type { IJavascriptQuery, IRestQueryResource } from '@webank/letgo-types';
 import { FCheckbox, FInputNumber } from '@fesjs/fes-design';
 import { ExpressionEditor } from '@webank/letgo-components';
 import Category from './category';
@@ -10,7 +10,7 @@ import './advance.less';
 
 export default defineComponent({
     props: {
-        documentModel: Object as PropType<IPublicModelDocumentModel>,
+        hints: Object as PropType<Record<string, any>>,
         codeItem: Object as PropType<IJavascriptQuery>,
         changeCodeItem: Function as PropType<(content: Partial<IRestQueryResource>) => void>,
     },
@@ -18,7 +18,7 @@ export default defineComponent({
         const renderCacheDuration = () => {
             if (props.codeItem.enableCaching) {
                 return (
-                    <div class="letgo-plg-code__query-cache">
+                    <div class="letgo-plg-code__query-cache-time">
                         <label>缓存时间(单位:秒):</label>
                         <FInputNumber v-model={props.codeItem.cacheDuration} />
                     </div>
@@ -44,7 +44,7 @@ export default defineComponent({
                             content: () => {
                                 return (
                                     <ExpressionEditor
-                                        documentModel={props.documentModel}
+                                        hints={props.hints}
                                         style="width: 0; flex: 1;"
                                         placeholder="{}"
                                         doc={(props.codeItem as IRestQueryResource).headers?.value}
@@ -81,7 +81,7 @@ export default defineComponent({
                                         v-slots={{
                                             content: () => {
                                                 return (
-                                                    <div>
+                                                    <div class="letgo-plg-code__query-cache">
                                                         <FCheckbox v-model={props.codeItem.enableCaching}>缓存请求结果</FCheckbox>
                                                         {renderCacheDuration()}
                                                     </div>

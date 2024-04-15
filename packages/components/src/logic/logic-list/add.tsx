@@ -16,7 +16,7 @@ export const AddAction = defineComponent({
     },
     setup(props) {
         const options = [
-            props.extendActions.includes(IEnumCodeType.JAVASCRIPT_QUERY) && {
+            {
                 value: IEnumResourceType.RESTQuery,
                 codeType: IEnumCodeType.JAVASCRIPT_QUERY,
                 label: '查询',

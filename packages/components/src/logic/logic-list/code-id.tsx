@@ -33,7 +33,7 @@ export default defineComponent({
         const checkError = (event: Event) => {
             const val = (event.target as HTMLInputElement).value;
             currentValue.value = val;
-            if (props.isInValidateCodeId(val))
+            if (val !== props.id && props.isInValidateCodeId(val))
                 hasRepeatIdError.value = true;
 
             else

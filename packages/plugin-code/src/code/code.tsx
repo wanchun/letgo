@@ -52,7 +52,6 @@ export default defineComponent({
             return (
                 <div class="letgo-plg-code__edit">
                     <CodeList
-                        extendActions={[IEnumCodeType.JAVASCRIPT_QUERY]}
                         code={code.value}
                         hasCodeId={hasCodeId}
                         activeId={activeItem.value?.id}
@@ -64,7 +63,7 @@ export default defineComponent({
                         props.rootEl && !isDirectory(activeItem.value) && (
                             <Teleport to={props.rootEl}>
                                 <div v-show={props.currentTab === 'code' && activeItem.value} class="letgo-plg-code__detail">
-                                    <CodeEdit designer={props.designer} codeItem={activeItem.value} />
+                                    <CodeEdit project={props.designer.project} codeItem={activeItem.value} />
                                 </div>
                             </Teleport>
                         )

@@ -1,13 +1,12 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
-import type { IJavascriptFunction, IPublicModelDocumentModel } from '@webank/letgo-types';
+import type { IJavascriptFunction } from '@webank/letgo-types';
 import { CodeEditor } from '../../code-editor';
 import './function-edit.less';
 
 export const FunctionEdit = defineComponent({
     name: 'FunctionEdit',
     props: {
-        documentModel: Object as PropType<IPublicModelDocumentModel>,
         hints: Object as PropType<Record<string, any>>,
         codeItem: Object as PropType<IJavascriptFunction>,
         changeContent: Function as PropType<(id: string, content: Partial<IJavascriptFunction>) => void>,
@@ -25,7 +24,6 @@ export const FunctionEdit = defineComponent({
                     <CodeEditor
                         class="letgo-comp-logic__func-editor"
                         height="100%"
-                        documentModel={props.documentModel}
                         hints={props.hints}
                         doc={props.codeItem.funcBody}
                         onChange={changeFuncBody}

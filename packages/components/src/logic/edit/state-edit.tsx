@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { defineComponent, ref, watch } from 'vue';
 import { FScrollbar } from '@fesjs/fes-design';
-import type { IPublicModelDocumentModel, ITemporaryState } from '@webank/letgo-types';
+import type { ITemporaryState } from '@webank/letgo-types';
 import { ExpressionEditor } from '../../code-editor';
 import './state-edit.less';
 
@@ -13,7 +13,6 @@ import './state-edit.less';
 export const StateEdit = defineComponent({
     name: 'StateEdit',
     props: {
-        documentModel: Object as PropType<IPublicModelDocumentModel>,
         hints: Object as PropType<Record<string, any>>,
         codeItem: Object as PropType<ITemporaryState>,
         changeContent: Function as PropType<(id: string, content: Partial<ITemporaryState>) => void>,
@@ -44,7 +43,6 @@ export const StateEdit = defineComponent({
                         <div class={['letgo-comp-logic__state-input', isMore.value && 'letgo-comp-logic__state-input--more']}>
                             <label class="letgo-comp-logic__state-label">初始值</label>
                             <ExpressionEditor
-                                documentModel={props.documentModel}
                                 placeholder="请输入变量初始值"
                                 hints={props.hints}
                                 doc={props.codeItem.initValue}

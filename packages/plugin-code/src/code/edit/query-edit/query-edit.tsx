@@ -34,7 +34,7 @@ export default defineComponent({
         const renderContent = () => {
             if (currentTab.value === 'general') {
                 if (isRestQueryResource(props.codeItem))
-                    return <RestGeneral isGlobal={props.isGlobal} project={props.project} codeItem={props.codeItem} changeCodeItem={changeCodeItem} />;
+                    return <RestGeneral isGlobal={props.isGlobal} project={props.project} hints={props.hints} codeItem={props.codeItem} changeCodeItem={changeCodeItem} />;
 
                 return <General isGlobal={props.isGlobal} project={props.project} hints={props.hints} codeItem={props.codeItem} changeCodeItem={changeCodeItem} />;
             }

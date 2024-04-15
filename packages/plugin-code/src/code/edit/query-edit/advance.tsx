@@ -18,7 +18,7 @@ export default defineComponent({
         const renderCacheDuration = () => {
             if (props.codeItem.enableCaching) {
                 return (
-                    <div class="letgo-plg-code__query-cache">
+                    <div class="letgo-plg-code__query-cache-time">
                         <label>缓存时间(单位:秒):</label>
                         <FInputNumber v-model={props.codeItem.cacheDuration} />
                     </div>
@@ -81,7 +81,7 @@ export default defineComponent({
                                         v-slots={{
                                             content: () => {
                                                 return (
-                                                    <div>
+                                                    <div class="letgo-plg-code__query-cache">
                                                         <FCheckbox v-model={props.codeItem.enableCaching}>缓存请求结果</FCheckbox>
                                                         {renderCacheDuration()}
                                                     </div>

@@ -1,11 +1,13 @@
 import type { IControlComponentAction, IControlQueryAction, IEventHandler, IPublicModelDocumentModel, IRunFunctionAction, ISetLocalStorageAction, ISetTemporaryStateAction } from '@webank/letgo-types';
-import { IEnumEventHandlerAction } from '@webank/letgo-types';
+import { IEnumEventHandlerAction, IEnumRunScript, isRunFunctionEventHandler } from '@webank/letgo-types';
+import { CodeBrackets } from '@icon-park/vue-next';
 import type { PropType } from 'vue';
 import { computed, defineComponent } from 'vue';
 
-import { FInput, FOption, FSelect } from '@fesjs/fes-design';
+import { FInput, FOption, FSelect, FTooltip } from '@fesjs/fes-design';
 import { DeleteOutlined, PlusCircleOutlined } from '@fesjs/fes-design/icon';
 import { isEmpty, isFunction, isPlainObject } from 'lodash-es';
+import { CodeEditor } from '../../code-editor';
 import Label from './label';
 import './render-options.less';
 
@@ -192,7 +194,22 @@ export default defineComponent({
         const deleteFunctionParam = (data: IRunFunctionAction, index: number) => {
             data.params.splice(index, 1);
         };
+
         const renderRunFunction = (data: IRunFunctionAction) => {
+            if (data.type === IEnumRunScript.PLAIN) {
+                return (
+                    <CodeEditor
+                        height="128px"
+                        placeholder="// 输入代码，可输入函数体"
+                        documentModel={props.documentModel}
+                        doc={data.funcBody}
+                        onChange={(doc) => {
+                            data.funcBody = doc;
+                        }}
+                        id={data.id}
+                    />
+                );
+            }
             return (
                 <>
                     <Label label="函数名">
@@ -219,6 +236,36 @@ export default defineComponent({
             );
         };
 
+        function renderSwitchAction(data: IRunFunctionAction) {
+            const onClick = () => {
+                if (data.type === IEnumRunScript.PLAIN)
+                    data.type = IEnumRunScript.BIND;
+                else
+                    data.type = IEnumRunScript.PLAIN;
+            };
+            return (
+                <FTooltip content={data.type === IEnumRunScript.PLAIN ? '绑定函数' : '输入脚本'}>
+                    <CodeBrackets
+                        onClick={onClick}
+                        class={['letgo-comp-event-mixed__icon', data.type === IEnumRunScript.PLAIN && 'letgo-comp-event-mixed__icon--active']}
+                        theme="outline"
+                        size="14"
+                    />
+                </FTooltip>
+            );
+        }
+
+        const renderFunction = (data: IRunFunctionAction) => {
+            return (
+                <div class="letgo-comp-event-mixed">
+                    <div class="letgo-comp-event-mixed__content">
+                        {renderRunFunction(data)}
+                    </div>
+                    <div class="letgo-comp-event-mixed__actions">{renderSwitchAction(data)}</div>
+                </div>
+            );
+        };
+
         return () => {
             if (props.componentEvent.action === IEnumEventHandlerAction.CONTROL_QUERY)
                 return renderQuery(props.componentEvent as IControlQueryAction);
@@ -232,8 +279,8 @@ export default defineComponent({
             if (props.componentEvent.action === IEnumEventHandlerAction.SET_LOCAL_STORAGE)
                 return renderSetLocalStorage(props.componentEvent as ISetLocalStorageAction);
 
-            if (props.componentEvent.action === IEnumEventHandlerAction.RUN_FUNCTION)
-                return renderRunFunction(props.componentEvent as IRunFunctionAction);
+            if (isRunFunctionEventHandler(props.componentEvent))
+                return renderFunction(props.componentEvent);
         };
     },
 });

@@ -1,5 +1,6 @@
 import {
     IEnumEventHandlerAction,
+    IEnumRunScript,
     type IEventHandler,
     type IPublicTypeJSFunction,
     isRunFunctionEventHandler,
@@ -7,6 +8,7 @@ import {
     isSetTemporaryStateEventHandler,
 } from '@webank/letgo-types';
 import { camelCase } from 'lodash-es';
+import { isFunction } from '@webank/letgo-common';
 import { isExpression } from './helper';
 import type { Context } from './types';
 
@@ -29,8 +31,18 @@ function compilerEventHandler(ctx: Context, event: IEventHandler) {
     });
 
     if (isRunFunctionEventHandler(event)) {
-        params = params.concat('...args');
-        return `(...args) => ${event.namespace}(${params.join(', ')})`;
+        if (event.type === IEnumRunScript.PLAIN) {
+            if (isFunction(event.funcBody))
+                return event.funcBody;
+
+            return `() => {
+                ${event.funcBody}
+            }`;
+        }
+        else {
+            params = params.concat('...args');
+            return `(...args) => ${event.namespace}(${params.join(', ')})`;
+        }
     }
 
     if (event.action === IEnumEventHandlerAction.CONTROL_QUERY)
@@ -60,10 +72,13 @@ export function compilerEventHandlers(ctx: Context, events: IEventHandler[]) {
         [key: string]: string[];
     } = {};
     events.forEach((item: IEventHandler) => {
-        if ((item.namespace && item.method) || item.action === IEnumEventHandlerAction.RUN_FUNCTION) {
-            const jsExpression = compilerEventHandler(ctx, item);
-            result[item.name] = (result[item.name] || []).concat(jsExpression);
-        }
+        const jsFuncsStr: string[] = result[item.name] || [];
+        if (isRunFunctionEventHandler(item) && (item.namespace || item.funcBody))
+            jsFuncsStr.push(compilerEventHandler(ctx, item));
+        else if ((item.namespace && item.method))
+            jsFuncsStr.push(compilerEventHandler(ctx, item));
+
+        result[item.name] = jsFuncsStr;
     });
 
     return result;

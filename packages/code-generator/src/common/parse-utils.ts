@@ -1,7 +1,7 @@
 import type {
     IPublicTypeRootSchema,
 } from '@webank/letgo-types';
-import { ancestorWalkAst, walkSchemaLogic } from '@webank/letgo-common';
+import { ancestorWalkAst, findGlobals, walkSchemaLogic } from '@webank/letgo-common';
 
 function parseMemberExpression(ancestor: any[]) {
     const len = ancestor.length - 1;
@@ -16,7 +16,7 @@ function parseMemberExpression(ancestor: any[]) {
     return members;
 }
 
-function formatApplyUtils(applyUtils: Record<string, string[][]>) {
+function formatApplyVariables(applyUtils: Record<string, string[][]>) {
     const usedUtils: Record<string, string[]> = {};
     for (const name of Object.keys(applyUtils)) {
         const useMembers = new Set<string>();
@@ -37,10 +37,13 @@ function formatApplyUtils(applyUtils: Record<string, string[][]>) {
     return usedUtils;
 }
 
-export function parseUtils(rootSchema: IPublicTypeRootSchema) {
+export function parseUseUtils(rootSchema: IPublicTypeRootSchema) {
     const applyUtils: Record<string, string[][]> = {};
     walkSchemaLogic(rootSchema, (code: string, _, type) => {
         try {
+            if (!code)
+                return;
+
             code = type === 'JSExpression' ? `(${code})` : code;
             ancestorWalkAst(code, {
                 MemberExpression: (node: any, _state: any, ancestor: any[]) => {
@@ -58,5 +61,24 @@ export function parseUtils(rootSchema: IPublicTypeRootSchema) {
         }
     });
 
-    return formatApplyUtils(applyUtils);
+    return formatApplyVariables(applyUtils);
+}
+
+export function parseUseVariables(rootSchema: IPublicTypeRootSchema) {
+    const useVariables = new Set<string>();
+    walkSchemaLogic(rootSchema, (code: string, _, type) => {
+        try {
+            if (code) {
+                code = type === 'JSExpression' ? `(${code})` : code;
+                const globalNodes = findGlobals(code);
+                globalNodes.forEach((item) => {
+                    useVariables.add(item.name);
+                });
+            }
+        }
+        catch (_) {
+        }
+    });
+
+    return useVariables;
 }

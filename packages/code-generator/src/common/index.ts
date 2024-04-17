@@ -9,6 +9,7 @@ import { formatFileName, formatPageName, formatPageTitle } from './page-meta';
 import { PageFileType } from './types';
 import type { Context, FileStruct } from './types';
 import { genPageJsx, genSlots } from './jsx/gen-jsx';
+import { parseUseVariables } from './parse-utils';
 
 function getComponentRefs(
     nodeData: IPublicTypeNodeData | IPublicTypeNodeData[],
@@ -20,13 +21,11 @@ function getComponentRefs(
     return componentRefs;
 }
 
-function getUseComponentRefs(ctx: Context, rootSchema: IPublicTypeRootSchema) {
+function getUseComponentRefs(ctx: Context) {
     const componentRefs = ctx.refs;
     const usedComponents = new Set<string>();
-    const schemaStr = JSON.stringify(rootSchema);
     for (const refName of componentRefs.values()) {
-        // REFACTOR 有可能误杀
-        if (schemaStr.includes(`${refName}.`) || schemaStr.includes(`${refName}?`))
+        if (ctx.useVariables.has(refName))
             usedComponents.add(refName);
     }
     return usedComponents;
@@ -38,7 +37,7 @@ function compileRootSchema(
     rootSchema: IPublicTypeRootSchema,
 ): FileStruct {
     if (['Page', 'Component'].includes(rootSchema.componentName)) {
-        const componentRefs = getUseComponentRefs(ctx, rootSchema);
+        const componentRefs = getUseComponentRefs(ctx);
         const fileName = formatFileName(rootSchema.fileName);
 
         const [importSources, codes] = genScript({
@@ -94,11 +93,13 @@ function getUseComponents(
 // TODO scope 放入 codes 或者另外加一个参数
 export function schemaToCode(ctx: Context): FileStruct[] {
     return ctx.schema.componentsTree.map((rootSchema) => {
-        const pageContext = {
+        const pageContext: Context = {
             ...ctx,
             codes: genCodeMap(rootSchema.code, new Map(ctx.codes)),
             refs: getComponentRefs(rootSchema.children),
+            useVariables: parseUseVariables(rootSchema),
         };
+
         return compileRootSchema(
             pageContext,
             getUseComponents(ctx.schema.componentsMap, rootSchema),

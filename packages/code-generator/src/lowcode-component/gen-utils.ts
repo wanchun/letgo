@@ -1,5 +1,5 @@
 import type { IPublicTypeNpmInfo, IPublicTypeRootSchema, IPublicTypeUtilsMap } from '@webank/letgo-types';
-import { parseUtils } from '../common/parse-utils';
+import { parseUseUtils } from '../common/parse-utils';
 import type { ImportSource } from '../common/types';
 import { ImportType } from '../common/types';
 
@@ -67,6 +67,6 @@ export function compilerUtils(utils: IPublicTypeUtilsMap = [], useUtils: Record<
 }
 
 export function genUtils(utils: IPublicTypeUtilsMap, schema: IPublicTypeRootSchema) {
-    const useUtils = parseUtils(schema);
+    const useUtils = parseUseUtils(schema);
     return compilerUtils(utils, useUtils);
 }

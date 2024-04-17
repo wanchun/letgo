@@ -128,20 +128,32 @@ export function genGlobalStateCode(ctx: Context, fileTree: FileTree, options: Ge
     set(fileTree, `${letgoDir}/${GLOBAL_STATE_FILE_NAME}.js`.split('/'), tmp);
 }
 
+function getUsedGlobalVariables(ctx: Context) {
+    if (ctx.useVariables) {
+        return getGlobalContextKey().filter((key) => {
+            return ctx.useVariables.has(key);
+        });
+    }
+
+    return getGlobalContextKey();
+}
+
 export function applyGlobalState(ctx: Context, schema: IPublicTypeRootSchema, filePath: string): SetupCode {
     const { letgoDir } = ctx.config;
-    if (!getGlobalFlag() || isLowcodeProjectSchema(schema)) {
+    const useGlobalVariables = getUsedGlobalVariables(ctx);
+    if (!getGlobalFlag() || isLowcodeProjectSchema(schema) || useGlobalVariables.length === 0) {
         return {
             importSources: [],
             code: '',
         };
     }
+
     return {
         importSources: [{
             imported: 'useSharedLetgoGlobal',
             type: ImportType.ImportSpecifier,
             source: relative(filePath, `${letgoDir}/${GLOBAL_STATE_FILE_NAME}`),
         }],
-        code: `const {${getGlobalContextKey().join(', ')}} = useSharedLetgoGlobal()`,
+        code: `const {${useGlobalVariables.join(', ')}} = useSharedLetgoGlobal()`,
     };
 }

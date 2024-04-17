@@ -78,4 +78,5 @@ export interface Context {
     globalScope?: Record<string, any>;
     schema: IPublicTypeProjectSchema;
     refs?: Set<string>;
+    useVariables: Set<string>;
 }

@@ -7,7 +7,7 @@ import type {
     IPublicTypeNodeSchema,
     IPublicTypeRootSchema,
 } from '@webank/letgo-types';
-import { isJSExpression, isJSFunction, isJSSlot, isJavascriptComputed, isJavascriptFunction, isNodeSchema, isQueryResource, isRestQueryResource, isVariableState } from '@webank/letgo-types';
+import { IEnumRunScript, isJSExpression, isJSFunction, isJSSlot, isJavascriptComputed, isJavascriptFunction, isNodeSchema, isQueryResource, isRestQueryResource, isRunFunctionEventHandler, isVariableState } from '@webank/letgo-types';
 import { isPlainObject } from 'lodash-es';
 
 type Callback = (code: string, parent: any, type: 'JSFunction' | 'JSExpression') => void;
@@ -15,6 +15,12 @@ type Callback = (code: string, parent: any, type: 'JSFunction' | 'JSExpression')
 function handleEventDep(events: IEventHandler[], callback: Callback) {
     if (events) {
         for (const event of events) {
+            if (isRunFunctionEventHandler(event)) {
+                if (event.type === IEnumRunScript.PLAIN) {
+                    callback(event.funcBody, event, 'JSFunction');
+                    continue;
+                }
+            }
             if (event.params?.length) {
                 for (const param of event.params)
                     callback(param, event, 'JSExpression');

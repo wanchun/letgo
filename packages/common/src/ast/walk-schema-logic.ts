@@ -59,6 +59,8 @@ export function traverseCodes(code: ICodeItem[], callback: Callback) {
 }
 
 export function traverseCodeStruct(code: ICodeStruct, callback: Callback) {
+    if (!code)
+        return;
     traverseCodes(code.code, callback);
     for (const directory of code.directories)
         traverseCodes(directory.code, callback);
@@ -93,6 +95,8 @@ function traverseNodeProps(value: IPublicTypeCompositeValue, callback: Callback)
 function handleNodeSchema(node: IPublicTypeNodeSchema, callback: Callback) {
     handleEventDep(node.events, callback);
     traverseNodeProps(node.props, callback);
+    if (isJSExpression(node.condition))
+        callback(node.condition.value, node.condition, 'JSExpression');
 
     if (node.props.children)
         traverseNodeSchemaLogic(node.props.children, callback);

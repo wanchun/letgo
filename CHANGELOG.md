@@ -1,3 +1,12 @@
+## [0.0.4-beta.17](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.16...v0.0.4-beta.17) (2024-4-17)
+
+
+### Bug Fixes
+
+* 权限包含表达式 ([fc2e32a](https://git.weoa.com/mumblefe/letgo/commits/fc2e32a9d2e373c91ebe5cf6a1bff4c674ca4739))
+
+
+
 ## [0.0.4-beta.16](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.15...v0.0.4-beta.16) (2024-4-17)
 
 

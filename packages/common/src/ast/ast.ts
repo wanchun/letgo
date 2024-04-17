@@ -135,23 +135,23 @@ export function eventHandlerToJsFunction(item: IEventHandler): IPublicTypeJSFunc
         if (item.type === IEnumRunScript.PLAIN)
             expression = item.funcBody;
         else
-            expression = `${item.namespace}(...Array.prototype.slice.call(arguments))`;
+            expression = `${item.namespace}(...args)`;
     }
     else if (item.action === IEnumEventHandlerAction.CONTROL_QUERY) {
-        expression = `${item.namespace}.${item.method}.apply(${item.namespace}, Array.prototype.slice.call(arguments))`;
+        expression = `${item.namespace}.${item.method}(...args)`;
     }
     else if (item.action === IEnumEventHandlerAction.CONTROL_COMPONENT) {
-        expression = `${item.namespace}.${item.method}(Array.prototype.slice.call(arguments))`;
+        expression = `${item.namespace}.${item.method}(...args)`;
     }
     else if (isSetTemporaryStateEventHandler(item)) {
         // param: 0 value, 1: path，因此需要对数组进行倒序
         params.reverse();
-        expression = `${item.namespace}.${item.method}.apply(${item.namespace}, Array.prototype.slice.call(arguments))`;
+        expression = `${item.namespace}.${item.method}(...args)`;
     }
     else if (isSetLocalStorageEventHandler(item)) {
         // TODO 支持其他方法
         if (item.method === 'setValue')
-            expression = `${item.namespace}.${item.method}.apply(null, Array.prototype.slice.call(arguments))`;
+            expression = `${item.namespace}.${item.method}(...args)`;
 
         else
             expression = `${item.namespace}.${item.method}()`;
@@ -160,7 +160,7 @@ export function eventHandlerToJsFunction(item: IEventHandler): IPublicTypeJSFunc
     return {
         type: 'JSFunction',
         // 需要传下入参
-        value: isFunction(expression) ? expression : `() => {${expression}}`,
+        value: isFunction(expression) ? expression : `(...args) => {${expression}}`,
         params,
     };
 }

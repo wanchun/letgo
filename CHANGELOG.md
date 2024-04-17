@@ -1,3 +1,12 @@
+## [0.0.4-beta.18](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.17...v0.0.4-beta.18) (2024-4-17)
+
+
+### Bug Fixes
+
+* loop 包含表达式 ([4a3465f](https://git.weoa.com/mumblefe/letgo/commits/4a3465f1e4b891f18a8c3b4cf6f777cfba1a42b6))
+
+
+
 ## [0.0.4-beta.17](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.16...v0.0.4-beta.17) (2024-4-17)
 
 

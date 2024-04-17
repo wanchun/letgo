@@ -98,6 +98,9 @@ function handleNodeSchema(node: IPublicTypeNodeSchema, callback: Callback) {
     if (isJSExpression(node.condition))
         callback(node.condition.value, node.condition, 'JSExpression');
 
+    if (isJSExpression(node.loop))
+        callback(node.loop.value, node.loop, 'JSExpression');
+
     if (node.props.children)
         traverseNodeSchemaLogic(node.props.children, callback);
 

@@ -1,3 +1,22 @@
+## [0.0.4-beta.15](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.14...v0.0.4-beta.15) (2024-4-17)
+
+
+### Bug Fixes
+
+* 出码添加日志输出 ([cd953f9](https://git.weoa.com/mumblefe/letgo/commits/cd953f93888e3a6ff0276b251d8d782e3a93ba9b))
+* 解决query配置函数体删除问题 ([08a6294](https://git.weoa.com/mumblefe/letgo/commits/08a6294b9cac42971ae842913e7473e2de24f77b))
+* 修复代码提示问题 ([176b7e7](https://git.weoa.com/mumblefe/letgo/commits/176b7e72d8f6a2f4dac0645c814f7888d93d6118))
+* 修复事件删除问题 ([8130805](https://git.weoa.com/mumblefe/letgo/commits/8130805e7bfc962c716e457824c8eddb9f31d347))
+
+
+### Features
+
+* 出码按需引入全局变量和 ref ([aa525bb](https://git.weoa.com/mumblefe/letgo/commits/aa525bb394ed291ca8292c93b7d59b9ebbd94fd7))
+* 全局逻辑添加 query ([b7edb0c](https://git.weoa.com/mumblefe/letgo/commits/b7edb0c0bc7eed06a30f8ad01ee347aecba8a964))
+* 事件绑定支持直接输入函数 ([1c08330](https://git.weoa.com/mumblefe/letgo/commits/1c08330df952d4fdf2ecc5d6a5aeabdd207f4942))
+
+
+
 ## [0.0.4-beta.14](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.13...v0.0.4-beta.14) (2024-4-14)
 
 

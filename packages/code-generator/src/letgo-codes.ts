@@ -179,6 +179,8 @@ class JSQuery {
                 });
                 if (err instanceof Error)
                     this.error = err.message;
+
+                console.warn(err);
             } finally {
                 this.loading = false;
             }

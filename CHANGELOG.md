@@ -1,3 +1,12 @@
+## [0.0.4-beta.19](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.18...v0.0.4-beta.19) (2024-4-18)
+
+
+### Bug Fixes
+
+* 修复函数提示问题 ([3a25093](https://git.weoa.com/mumblefe/letgo/commits/3a250936065f3cfe624202aaf4e0c66220691d99))
+
+
+
 ## [0.0.4-beta.18](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.17...v0.0.4-beta.18) (2024-4-17)
 
 

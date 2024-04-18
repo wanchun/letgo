@@ -1,6 +1,5 @@
-import { isFunction } from '@webank/letgo-common';
 import { IEnumEventHandlerAction, type IEventHandler, type IPublicModelProject } from '@webank/letgo-types';
-import { isEmpty, isPlainObject } from 'lodash-es';
+import { isEmpty, isFunction, isPlainObject } from 'lodash-es';
 import { computed } from 'vue';
 
 function pickFuncFromObj(data: Record<string, any>, parent: string[] = []) {

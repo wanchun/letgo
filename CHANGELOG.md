@@ -1,3 +1,12 @@
+## [0.0.4-beta.20](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.19...v0.0.4-beta.20) (2024-4-20)
+
+
+### Bug Fixes
+
+* node schema 遍历优化 ([2a5fb03](https://git.weoa.com/mumblefe/letgo/commits/2a5fb031f9b61daa8d73e65b2943b6484dabf46d))
+
+
+
 ## [0.0.4-beta.19](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.18...v0.0.4-beta.19) (2024-4-18)
 
 

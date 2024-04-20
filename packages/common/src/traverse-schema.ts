@@ -25,7 +25,7 @@ function handleNodeSchema(nodeData: IPublicTypeNodeData, callback: (schema: IPub
         traverseNodePropsSlot(nodeData.props, (key: string, jsSlot: IPublicTypeJSSlot) => {
             traverseNodeSchema(jsSlot.value, callback);
         });
-        if (nodeData.props.children) {
+        if (nodeData.props?.children) {
             if (Array.isArray(nodeData.props.children))
                 traverseNodeSchema(nodeData.props.children, callback);
 

@@ -25,8 +25,9 @@ function transformNode(node: INode, isSlot: boolean): TreeNode {
     };
     option.children = [
         ...node.slots.map(node => transformNode(node, true)),
-        ...node.children.getNodes().map(node => transformNode(node, false)),
     ];
+    if (node.children)
+        option.children.push(...node.children.getNodes().map(node => transformNode(node, false)));
 
     option.prefix = () => {
         if (node.componentName === 'Page')

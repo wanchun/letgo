@@ -1,3 +1,12 @@
+## [0.0.4-beta.21](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.20...v0.0.4-beta.21) (2024-4-20)
+
+
+### Bug Fixes
+
+* 修复 tree 问题 ([de85b74](https://git.weoa.com/mumblefe/letgo/commits/de85b74c3db1b89e97cdaef781011b5dc5c47636))
+
+
+
 ## [0.0.4-beta.20](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.19...v0.0.4-beta.20) (2024-4-20)
 
 

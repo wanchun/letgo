@@ -25,7 +25,7 @@ function ${GLOBAL_STATE_FILE_NAME}() {
     };
 }
 
-export const useSharedLetgoGlobal = createSharedComposable(${GLOBAL_STATE_FILE_NAME});
+export const useSharedLetgoGlobal = createGlobalState(${GLOBAL_STATE_FILE_NAME});
 `;
 
 const globalStateKeys: string[] = [];
@@ -86,7 +86,7 @@ export function genGlobalStateCode(ctx: Context, fileTree: FileTree, options: Ge
     const result: CallBackParam = {
         import: [{
             source: '@vueuse/core',
-            imported: 'createSharedComposable',
+            imported: 'createGlobalState',
             type: ImportType.ImportSpecifier,
         }, {
             source: 'vue',

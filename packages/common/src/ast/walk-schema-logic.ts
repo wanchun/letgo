@@ -47,6 +47,10 @@ export function traverseCodes(code: ICodeItem[], callback: Callback) {
                 callback(item.params, item, 'JSExpression');
                 if (item.transformer)
                     callback(item.transformer, item, 'JSFunction');
+                if (item.headers) {
+                    if (isJSExpression(item.headers) && item.headers.value)
+                        callback(item.headers.value, item, 'JSExpression');
+                }
             }
             else {
                 callback(item.query, callback, 'JSFunction');

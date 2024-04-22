@@ -6,19 +6,6 @@ import type {
     RuntimeScope,
     SlotSchemaMap,
 } from '@webank/letgo-renderer';
-import { isNil } from 'lodash-es';
-import {
-    Fragment,
-    computed,
-    defineComponent,
-    h,
-    inject,
-    onUnmounted,
-    reactive,
-    ref,
-    shallowReactive,
-    toRef,
-} from 'vue';
 import {
     buildProps,
     buildSchema,
@@ -40,7 +27,20 @@ import {
     IPublicEnumTransformStage,
     isJSSlot,
 } from '@webank/letgo-types';
+import { isNil } from 'lodash-es';
 import type { ComputedRef, Slot } from 'vue';
+import {
+    Fragment,
+    computed,
+    defineComponent,
+    h,
+    inject,
+    onUnmounted,
+    reactive,
+    ref,
+    shallowReactive,
+    toRef,
+} from 'vue';
 import { BASE_COMP_CONTEXT } from '../constants';
 import { createAction } from './centerAction';
 
@@ -165,7 +165,7 @@ export const Hoc = defineComponent({
                     ...props.scope,
                 };
                 ensureArray(compProps.params).forEach((item, idx) => {
-                    result[item as string] = (props.scope.__slot_args as any[])[idx];
+                    result[item as string] = (props.scope.__slot_args as any[])?.[idx];
                 });
                 return result;
             }

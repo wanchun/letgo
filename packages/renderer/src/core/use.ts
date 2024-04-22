@@ -1,21 +1,5 @@
+import { eventHandlersToJsFunction } from '@webank/letgo-common';
 import type { INode, Prop } from '@webank/letgo-designer';
-import type {
-    Component,
-    ComputedRef,
-    Fragment,
-    Ref,
-    Slot,
-    VNode,
-} from 'vue';
-import {
-    computed,
-    createTextVNode,
-    getCurrentInstance,
-    h,
-    ref,
-    toDisplayString,
-    toValue,
-} from 'vue';
 import type {
     IEventHandler,
     IPublicTypeCompositeValue,
@@ -36,16 +20,32 @@ import {
     isSlotSchema,
 } from '@webank/letgo-types';
 import { camelCase, isArray, isFunction, isNil, isPlainObject, isString } from 'lodash-es';
-import { eventHandlersToJsFunction } from '@webank/letgo-common';
+import type {
+    Component,
+    ComputedRef,
+    Fragment,
+    Ref,
+    Slot,
+    VNode,
+} from 'vue';
+import {
+    computed,
+    createTextVNode,
+    getCurrentInstance,
+    h,
+    ref,
+    toDisplayString,
+    toValue,
+} from 'vue';
 import type { RendererContext } from '../context';
 import { provideRenderContext, useRendererContext } from '../context';
+import { funcSchemaToFunc, parseExpression, parseSchema } from '../parse';
 import type { BlockScope, MaybeArray, RuntimeScope } from '../utils';
 import {
     ensureArray,
     mergeScope,
     parseSlotScope,
 } from '../utils';
-import { funcSchemaToFunc, parseExpression, parseSchema } from '../parse';
 import type { PropSchemaMap, RendererProps, SlotSchemaMap } from './base';
 import { Live } from './live';
 
@@ -552,6 +552,7 @@ export function buildSlots(
                 const vNode = render(slotSchema, [
                     blockScope,
                     parseSlotScope(args, slotSchema.props.params ?? []),
+                    { __slot_args: args },
                 ]);
                 if (vNode)
                     vNodes.push(vNode);

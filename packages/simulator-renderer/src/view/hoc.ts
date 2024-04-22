@@ -165,9 +165,7 @@ export const Hoc = defineComponent({
                     ...props.scope,
                 };
                 ensureArray(compProps.params).forEach((item, idx) => {
-                    const args = (props.scope.__slot_args as any[])?.[idx];
-                    if (args)
-                        result[item as string] = args;
+                    result[item as string] = (props.scope.__slot_args as any[])?.[idx];
                 });
                 return result;
             }

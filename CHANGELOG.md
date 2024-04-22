@@ -1,3 +1,13 @@
+## [0.0.4-beta.23](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.22...v0.0.4-beta.23) (2024-04-22)
+
+
+### Bug Fixes
+
+* slot参数问题 ([65e4e03](https://git.weoa.com/mumblefe/letgo/commits/65e4e0386e66f6a30bfae38db36386db10026669))
+* slot参数问题 ([1176f84](https://git.weoa.com/mumblefe/letgo/commits/1176f848ef345c5a14e0904a8ba0bf177e1b4bf0))
+
+
+
 ## [0.0.4-beta.22](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.21...v0.0.4-beta.22) (2024-4-22)
 
 

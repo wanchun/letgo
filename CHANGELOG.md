@@ -1,3 +1,12 @@
+## [0.0.4-beta.22](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.21...v0.0.4-beta.22) (2024-4-22)
+
+
+### Bug Fixes
+
+* query headers 问题 ([fd23588](https://git.weoa.com/mumblefe/letgo/commits/fd2358828d0e6f7483b28d938b9e2cd708117bcb))
+
+
+
 ## [0.0.4-beta.21](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.20...v0.0.4-beta.21) (2024-4-20)
 
 

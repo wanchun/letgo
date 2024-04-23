@@ -2,6 +2,7 @@ import type {
     ICodeStruct,
     IEventHandler,
     IPublicTypeProjectSchema,
+    ITemporaryState,
 } from '@webank/letgo-types';
 import { genCodeMap, isSyntaxError, isExpression as rawIsExpression, replaceFunctionName, sortState } from '@webank/letgo-common';
 import {
@@ -154,6 +155,15 @@ function getApiPath(api: string = '') {
     return isSyntaxError(api) ? JSON.stringify(api) : api;
 }
 
+function formatVariableInitValue(variable: ITemporaryState) {
+    const initValue = variable.initValue.trim();
+
+    if (initValue === '')
+        return JSON.stringify(initValue);
+
+    return initValue;
+}
+
 export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct): SetupCode {
     if (!codeStruct)
         return null;
@@ -178,7 +188,7 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct)
             codeStr.push(`
     const ${item.id} = useTemporaryState({
         id: '${item.id}',
-        initValue: ${item.initValue.trim()},
+        initValue: ${formatVariableInitValue(item)},
     });
             `);
         }

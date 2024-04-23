@@ -29,11 +29,16 @@ export function createExecuteContext(props: RendererProps) {
 
     const onCompGetCtx = (schema: IPublicTypeNodeSchema, ref: IPublicTypeComponentInstance) => {
         if (ref) {
-            if (schema.ref && schema.loop)
-                executeCtx[schema.ref] = (executeCtx[schema.ref] || []).concat(ref);
-
-            else
+            if (schema.ref && schema.loop) {
+                const instances = executeCtx[schema.ref] || [];
+                if (!instances.includes(ref)) {
+                    instances.push(ref);
+                    executeCtx[schema.ref] = instances;
+                }
+            }
+            else {
                 executeCtx[schema.ref] = ref;
+            }
 
             onUnmounted(() => {
                 if (!schema.loop) {

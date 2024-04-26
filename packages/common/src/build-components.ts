@@ -80,6 +80,11 @@ export function buildComponents(
     createComponent: (schema: IPublicTypeProjectSchema<IPublicTypeComponentSchema>) => Component | null,
 ) {
     const components: any = {};
+    // 内置html组件
+    HtmlCompWhitelist.forEach((key) => {
+        components[key] = generateHtmlComp(key);
+    });
+
     Object.keys(componentsMap).forEach((componentName) => {
         let component = componentsMap[componentName];
         if (isLowcodeProjectSchema(component)) {

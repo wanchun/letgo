@@ -5,14 +5,14 @@ import type { MaybeArray } from './array';
 import { ensureArray } from './array';
 
 export interface BlockScope {
-    [x: string]: unknown
+    [x: string]: unknown;
 }
 
 export interface RuntimeScope extends BlockScope, ComponentPublicInstance {
-    currentLocale: string
-    __loopScope?: boolean
-    __loopRefIndex?: number
-    __loopRefOffset?: number
+    currentLocale: string;
+    __loopScope?: boolean;
+    __loopRefIndex?: number;
+    __loopRefOffset?: number;
 }
 
 function isRuntimeScope(scope: any): scope is RuntimeScope {
@@ -70,8 +70,7 @@ export function mergeScope(
             }
         }
 
-        const descriptors = Object.getOwnPropertyDescriptors(scope);
-        result = Object.create(result, descriptors);
+        result = Object.assign(result, scope);
         return isProxy(scope) ? reactive(result) : result;
     }, rootScope);
 }

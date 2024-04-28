@@ -1,3 +1,16 @@
+## [0.0.4-beta.24](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.23...v0.0.4-beta.24) (2024-4-28)
+
+
+### Bug Fixes
+
+*  createSharedComposable change to createGlobalState ([3655bf5](https://git.weoa.com/mumblefe/letgo/commits/3655bf51fd791c20aeb469a2dff5e850e646c3d1))
+* 解决 scope 问题 ([f336343](https://git.weoa.com/mumblefe/letgo/commits/f3363433a17493cc5b3f6e9ed286097ec86f51ae))
+* 修复 Live 组件渲染 loop 无限循环问题 ([cff9dc0](https://git.weoa.com/mumblefe/letgo/commits/cff9dc02ce8e0518b219105ea1ceeffca0d59b68))
+* 修复出码 variable 不填初始值,导致出码异常问题 ([e7fdc01](https://git.weoa.com/mumblefe/letgo/commits/e7fdc01be1da7ed146dc554912ca7ddd1e95ca3f))
+* html标签内置 ([2501563](https://git.weoa.com/mumblefe/letgo/commits/2501563600c9dd5638e82729d46bdd04a0ea8230))
+
+
+
 ## [0.0.4-beta.23](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.22...v0.0.4-beta.23) (2024-04-22)
 
 

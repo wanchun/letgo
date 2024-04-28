@@ -60,9 +60,9 @@ function useLastUsed(key: string, snippetsRef: Ref<IPublicTypeSnippet[]>) {
         const snippets: IPublicTypeSnippet[] = [];
         usedList.forEach((item, index) => {
             if (index < lastLimit) {
-                const snippet = snippetsRef.value.find(s => s.schema.componentName === item.name);
-                if (snippet)
-                    snippets.push(snippet);
+                const founds = snippetsRef.value.filter(s => s.schema.componentName === item.name);
+                if (founds?.length)
+                    snippets.push(...founds);
             }
         });
         return snippets;

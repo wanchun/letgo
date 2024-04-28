@@ -3,7 +3,7 @@ import { Edit } from '@icon-park/vue-next';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { isUndefined } from 'lodash-es';
 import type { PropType } from 'vue';
-import { computed, defineComponent, onMounted, ref } from 'vue';
+import { computed, defineComponent, onMounted, ref, watch } from 'vue';
 import { commonProps } from '../../common';
 import './index.less';
 
@@ -36,6 +36,10 @@ const RatioSetterView = defineComponent({
         });
 
         const currVal = ref(isUndefined(props.value) ? props.defaultValue : props.value);
+
+        watch(() => props.value, (val) => {
+            currVal.value = val;
+        });
 
         const doChange = (val: string) => {
             currVal.value = val;

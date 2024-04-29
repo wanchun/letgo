@@ -3,8 +3,8 @@ import type { PropType } from 'vue';
 import { defineComponent, ref } from 'vue';
 import FadeInExpandTransition from '../fade-in-expand-transition';
 import FillArrow from './fill-arrow';
-import LeafNode from './leaf-node';
 import LabelTip from './label-tip';
+import LeafNode from './leaf-node';
 import './tree-node.less';
 
 const TreeNode = defineComponent({
@@ -21,6 +21,7 @@ const TreeNode = defineComponent({
         const toggleExpend = () => {
             expended.value = !expended.value;
         };
+        const showAll = ref(false);
         const renderLabel = () => {
             return (
                 <div
@@ -34,24 +35,42 @@ const TreeNode = defineComponent({
                 </div>
             );
         };
-        return () => {
-            if (isArray(props.value) && props.value.length) {
-                return (
-                    <>
-                        {renderLabel()}
-                        <FadeInExpandTransition>
-                            <div v-show={expended.value}>
-                                {
-                                Array.from(props.value.keys()).map((key) => {
-                                    return <TreeNode label={key} level={props.level + 1} value={props.value[key]} />;
-                                })
-                            }
-                            </div>
-                        </FadeInExpandTransition>
-                    </>
+
+        const renderArray = () => {
+            const children = [];
+            const len = showAll.value ? props.value.length : 3;
+            for (let index = 0; index < len; index++)
+                children.push(<TreeNode label={index} level={props.level + 1} value={props.value[index]} />);
+
+            if (!showAll.value) {
+                children.push(
+                    <div
+                        class="letgo-plg-code-tree__node"
+                        onClick={() => showAll.value = true}
+                        style={`padding-left: ${(props.level + 1) * 14}px`}
+                    >
+                        <FillArrow class={['letgo-plg-code-tree__icon', showAll.value && 'letgo-plg-code-tree__icon--active']} />
+                        <span style="font-weight: 600">展示全部</span>
+                    </div>,
                 );
             }
 
+            return (
+                <>
+                    {renderLabel()}
+                    <FadeInExpandTransition>
+                        <div v-show={expended.value}>
+                            {children}
+                        </div>
+                    </FadeInExpandTransition>
+                </>
+            );
+        };
+
+        return () => {
+            if (isArray(props.value) && props.value.length) {
+                return renderArray();
+            }
             else if (isPlainObject(props.value)) {
                 return (
                     <>

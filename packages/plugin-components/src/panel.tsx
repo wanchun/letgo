@@ -8,6 +8,9 @@ import {
     FTabs,
 } from '@fesjs/fes-design';
 import { SearchOutlined } from '@fesjs/fes-design/icon';
+import {
+    isComponentDescription,
+} from '@webank/letgo-common';
 import type { Designer } from '@webank/letgo-designer';
 import type { Editor } from '@webank/letgo-editor-core';
 import type {
@@ -27,16 +30,53 @@ import {
     ref,
     shallowRef,
 } from 'vue';
-import {
-    isComponentDescription,
-} from '@webank/letgo-common';
 
+import { CloseOne } from '@icon-park/vue-next';
+import { useStorage, useUrlSearchParams } from '@vueuse/core';
 import './panel.less';
 
 interface CategoryType {
     category: string;
     snippets: IPublicTypeSnippet[];
     show: Ref<boolean>;
+}
+
+function useLastUsed(key: string, snippetsRef: Ref<IPublicTypeSnippet[]>) {
+    const lastLimit = 10;
+    const lastUsed: Ref<Record<string, { name: string; count: number }>> = useStorage(`LAST_USED_${key}`, {}, localStorage);
+
+    const addLastUsed = (snippet: IPublicTypeSnippet) => {
+        const componentName = snippet.schema.componentName;
+        let log = lastUsed.value[componentName];
+        if (log)
+            log.count = log.count + 1;
+        else log = { name: componentName, count: 1 };
+        lastUsed.value[componentName] = log;
+    };
+
+    /** 最近使用的组件 */
+    const lastUsedSnippets = computed(() => {
+        const usedList = Object.values(lastUsed.value).sort((a, b) => b.count - a.count);
+        const snippets: IPublicTypeSnippet[] = [];
+        usedList.forEach((item, index) => {
+            if (index < lastLimit) {
+                const founds = snippetsRef.value.filter(s => s.schema.componentName === item.name);
+                if (founds?.length)
+                    snippets.push(...founds);
+            }
+        });
+        return snippets;
+    });
+
+    const clearLastUsed = () => {
+        lastUsed.value = {};
+    };
+
+    return {
+        lastUsedSnippets,
+        addLastUsed,
+        clearLastUsed,
+    };
 }
 
 export default defineComponent({
@@ -111,6 +151,10 @@ export default defineComponent({
             return res;
         });
 
+        // 最近使用
+        const urlParams = useUrlSearchParams('hash');
+        const { lastUsedSnippets, addLastUsed, clearLastUsed } = useLastUsed(urlParams.id as string || '', snippetsRef);
+
         const onSearch = (val: string) => {
             searchText.value = val;
         };
@@ -144,6 +188,7 @@ export default defineComponent({
                     type: 'nodeData',
                     data: snippet.schema,
                 };
+                addLastUsed(snippet);
                 return dragTarget;
             });
             dragonMap.set(el, clear);
@@ -204,6 +249,29 @@ export default defineComponent({
             });
         };
 
+        const renderLastUsedCategory = (index: number) => {
+            if (!lastUsedSnippets.value?.length || index !== 0)
+                return;
+            return (
+                <div class="letgo-components__category">
+                    <div class="letgo-components__title" style="display: flex; align-items: center;">
+                        <div>最近常用</div>
+                        <FButton type="link" size="small" title="清空最近常用" onClick={clearLastUsed}>
+                            <CloseOne theme="outline" size="16" />
+                        </FButton>
+                    </div>
+                    <FGrid
+                        wrap
+                        gutter={[10, 10]}
+                        class="letgo-components__body"
+                        v-show={index === 0}
+                    >
+                        {renderSnippet(lastUsedSnippets.value)}
+                    </FGrid>
+                </div>
+            );
+        };
+
         return () => {
             return (
                 <div class="letgo-components">
@@ -220,7 +288,7 @@ export default defineComponent({
                     </div>
                     <FTabs class="letgo-components__tabs">
                         {{
-                            default: () => groupListRef.value.map((group) => {
+                            default: () => groupListRef.value.map((group, index) => {
                                 return (
                                     <FTabPane
                                         name={group}
@@ -228,6 +296,7 @@ export default defineComponent({
                                         displayDirective="show"
                                     >
                                         <FScrollbar>
+                                            {renderLastUsedCategory(index)}
                                             {renderCategory(group)}
                                         </FScrollbar>
                                     </FTabPane>

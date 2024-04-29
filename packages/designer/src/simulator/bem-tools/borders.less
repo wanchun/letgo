@@ -73,4 +73,24 @@
         background: rgba(182, 178, 178, 0.8);
         border: none;
     }
+
+    &-add-next {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        pointer-events: none;
+        width: 100%;
+        left: 0;
+        bottom: 0;
+        background-color: aquamarine;
+        height: 50px;
+        transform: translateY(50%);
+        pointer-events: auto;
+
+        .i-icon {
+            cursor: pointer;
+            pointer-events: all;
+            line-height: 1em;
+        }
+    }
 }

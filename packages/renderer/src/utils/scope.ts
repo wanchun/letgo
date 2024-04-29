@@ -57,8 +57,7 @@ export function mergeScope(
     if (normalizedScope.length <= 1)
         return normalizedScope[0];
 
-    const [rootScope, ...resScopes] = normalizedScope;
-    return resScopes.reduce((result, scope) => {
+    return normalizedScope.reduce((result, scope) => {
         if (isRuntimeScope(scope)) {
             if (!isRuntimeScope(result)) {
                 const temp = result;
@@ -72,7 +71,7 @@ export function mergeScope(
 
         result = Object.assign(result, scope);
         return isProxy(scope) ? reactive(result) : result;
-    }, rootScope);
+    }, {});
 }
 
 export function parseSlotScope(args: unknown[], params: string[]): BlockScope {

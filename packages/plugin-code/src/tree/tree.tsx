@@ -14,8 +14,9 @@ export default defineComponent({
     },
     setup(props) {
         return () => {
-            return <div class="letgo-plg-code-tree">
-                {
+            return (
+                <div class="letgo-plg-code-tree">
+                    {
                     props.value && Object.keys(props.value).map((key) => {
                         if (isFunction(props.value[key]))
                             return null;
@@ -23,7 +24,8 @@ export default defineComponent({
                         return <TreeNode label={key} level={0} value={props.value[key]} />;
                     })
                 }
-            </div>;
+                </div>
+            );
         };
     },
 });

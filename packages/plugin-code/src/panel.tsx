@@ -1,3 +1,12 @@
+import {
+    FInput,
+    FScrollbar,
+    FTabPane,
+    FTabs,
+} from '@fesjs/fes-design';
+import { SearchOutlined } from '@fesjs/fes-design/icon';
+import type { Designer } from '@webank/letgo-designer';
+import type { Editor } from '@webank/letgo-editor-core';
 import type {
     PropType,
 } from 'vue';
@@ -6,19 +15,10 @@ import {
     defineComponent,
     ref,
 } from 'vue';
-import {
-    FInput,
-    FScrollbar,
-    FTabPane,
-    FTabs,
-} from '@fesjs/fes-design';
-import type { Designer } from '@webank/letgo-designer';
-import type { Editor } from '@webank/letgo-editor-core';
-import { SearchOutlined } from '@fesjs/fes-design/icon';
-import State from './state/state';
-import { GlobalCode } from './global-code/code';
 import CodeSetting from './code/code';
+import { GlobalCode } from './global-code/code';
 import './panel.less';
+import State from './state/state';
 
 export default defineComponent({
     props: {
@@ -78,7 +78,7 @@ export default defineComponent({
                         <FTabPane
                             name="查看"
                             value="state"
-                            displayDirective="show"
+                            displayDirective="show:lazy"
                         >
                             <FScrollbar>
                                 <State searchText={searchValue.value} designer={props.designer} />

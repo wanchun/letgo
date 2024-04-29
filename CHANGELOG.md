@@ -1,3 +1,25 @@
+## [0.0.4-beta.25](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.23...v0.0.4-beta.25) (2024-4-29)
+
+
+### Bug Fixes
+
+*  createSharedComposable change to createGlobalState ([3655bf5](https://git.weoa.com/mumblefe/letgo/commits/3655bf51fd791c20aeb469a2dff5e850e646c3d1))
+* 查看状态，大数组卡顿问题 ([f7a6d26](https://git.weoa.com/mumblefe/letgo/commits/f7a6d266067bcf294b532012918dcba473fafe81))
+* 解决 scope 问题 ([4607e53](https://git.weoa.com/mumblefe/letgo/commits/4607e538376b1701d7496578b1c508766a7272a8))
+* 解决 scope 问题 ([f336343](https://git.weoa.com/mumblefe/letgo/commits/f3363433a17493cc5b3f6e9ed286097ec86f51ae))
+* 修复 Live 组件渲染 loop 无限循环问题 ([cff9dc0](https://git.weoa.com/mumblefe/letgo/commits/cff9dc02ce8e0518b219105ea1ceeffca0d59b68))
+* 修复 scope merge问题 ([db69da5](https://git.weoa.com/mumblefe/letgo/commits/db69da5160f3e27714e8e848ed6680e475f53873))
+* 修复出码 variable 不填初始值,导致出码异常问题 ([e7fdc01](https://git.weoa.com/mumblefe/letgo/commits/e7fdc01be1da7ed146dc554912ca7ddd1e95ca3f))
+* html标签内置 ([2501563](https://git.weoa.com/mumblefe/letgo/commits/2501563600c9dd5638e82729d46bdd04a0ea8230))
+
+
+### Features
+
+* 添加最近常用功能 ([ec49480](https://git.weoa.com/mumblefe/letgo/commits/ec49480087d2bf54b74e7c04fe7c5225ceff44c1))
+* add ratio setter ([afa3d98](https://git.weoa.com/mumblefe/letgo/commits/afa3d981eff4668c00ed292c1200c134063954d7))
+
+
+
 ## [0.0.4-beta.24](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.23...v0.0.4-beta.24) (2024-4-28)
 
 

@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import RendererApp from '@webank/letgo-renderer';
+import { createRequest } from '@qlin/request';
 
 const getScenarioName = function () {
     if (location.search)
@@ -29,6 +30,11 @@ export function getProjectSchemaFromLocalStorage(scenarioName: string) {
     return undefined;
 }
 
+window.letgoRequest = createRequest({
+    mode: 'cors',
+    credentials: 'same-origin',
+});
+
 export default defineComponent({
     components: {
         RendererApp,
@@ -51,7 +57,7 @@ export default defineComponent({
 </script>
 
 <template>
-    <RendererApp class="engine" :page-schema="pageSchema" :project-schema="projectSchema">
+    <RendererApp :page-schema="pageSchema" :project-schema="projectSchema">
         <template #loading>
             正在加载中...
         </template>

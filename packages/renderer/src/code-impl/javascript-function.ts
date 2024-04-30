@@ -34,7 +34,7 @@ export class JavascriptFunctionLive {
                 return fn(this.ctx, args);
             }
             catch (err) {
-                console.log(err);
+                console.warn(err);
             }
         }
     }

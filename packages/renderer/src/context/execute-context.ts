@@ -8,7 +8,7 @@ import { JavascriptFunctionLive } from '../code-impl';
 import { getGlobalContextKey } from './context';
 
 export function createExecuteContext(props: RendererProps) {
-    const executeCtx: Record<string, any> = reactive({ });
+    const executeCtx: Record<string, any> = { };
 
     const globalContext = inject(getGlobalContextKey(), {});
     watch(globalContext, () => {

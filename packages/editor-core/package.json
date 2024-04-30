@@ -16,7 +16,7 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
-        "@qlin/request": "^0.1.4",
+        "@qlin/request": "^0.2.2",
         "@webank/letgo-common": "^0.0.4-beta.13",
         "@webank/letgo-components": "^0.0.4-beta.16",
         "@webank/letgo-types": "^0.0.4-beta.6",

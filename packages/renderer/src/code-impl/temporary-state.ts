@@ -1,5 +1,5 @@
 import { isNil, isPlainObject, set } from 'lodash-es';
-import { attachContext } from '@webank/letgo-common';
+import { attachContext, markReactive } from '@webank/letgo-common';
 import type { ITemporaryState } from '@webank/letgo-types';
 import { IEnumCodeType } from '@webank/letgo-types';
 
@@ -16,7 +16,10 @@ export class TemporaryStateLive {
         this.deps = deps || [];
         this.ctx = ctx;
         this.initValue = data.initValue;
-        this.value = this.initValue ? this.executeInput(this.initValue) : null;
+
+        markReactive(this, {
+            value: this.initValue ? this.executeInput(this.initValue) : null,
+        });
     }
 
     changeDeps(deps: string[]) {

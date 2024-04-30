@@ -1,3 +1,12 @@
+## [0.0.4-beta.26](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.25...v0.0.4-beta.26) (2024-4-30)
+
+
+### Bug Fixes
+
+* 预览问题 ([b224756](https://git.weoa.com/mumblefe/letgo/commits/b224756cb6aa64c00af881ce1ae9b4e0b9fdc390))
+
+
+
 ## [0.0.4-beta.25](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.23...v0.0.4-beta.25) (2024-4-29)
 
 

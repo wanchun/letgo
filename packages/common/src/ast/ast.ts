@@ -79,13 +79,14 @@ export function calcJSCodeDependencies(code: string, ctx?: Record<string, any>) 
     return dependencies;
 }
 
-function handleEventDep(events: IEventHandler[], ctx?: Record<string, any>) {
+function handleEventDep(events: IEventHandler[], item: ICodeItem, ctx?: Record<string, any>) {
     let result: string[] = [];
     if (events) {
         events.forEach((event) => {
             if (isRunFunctionEventHandler(event)) {
+                // 事件绑定是函数的时候，支持写自身，以实现轮询等场景
                 if (event.type === IEnumRunScript.PLAIN)
-                    result = result.concat(calcJSCodeDependencies(event.funcBody, ctx));
+                    result = result.concat(calcJSCodeDependencies(event.funcBody, ctx).filter(name => item.id !== name));
                 else if (event.namespace)
                     result.push(event.namespace);
             }
@@ -112,8 +113,8 @@ export function calcDependencies(item: ICodeItem, ctx?: Record<string, any>) {
                 if (isJSExpression(item.headers) && item.headers.value)
                     result = result.concat(calcJSCodeDependencies(`(${item.headers.value})`, ctx));
 
-                result = result.concat(handleEventDep(item.failureEvent, ctx));
-                result = result.concat(handleEventDep(item.successEvent, ctx));
+                result = result.concat(handleEventDep(item.failureEvent, item, ctx));
+                result = result.concat(handleEventDep(item.successEvent, item, ctx));
             }
             else {
                 result = calcJSCodeDependencies(item.query, ctx);

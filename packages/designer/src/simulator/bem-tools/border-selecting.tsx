@@ -191,12 +191,14 @@ export const AddNextComponent = defineComponent({
 
         // 下一个推荐的组件
         const nextSnippets = computed(() => {
-            const limitNum = 10; // 最多暂时数量
+            const limitNum = 10; // 最多推荐数量
             // 获取相同分组组件
             const { group, category } = snippetsRef.value.find((item => item.component.componentName === props.node?.componentName)) || {};
             const snippets = snippetsRef.value.filter(item => item.group === group && item.category === category);
             if (snippets.length >= limitNum)
                 return snippets;
+
+            // 用最近常用的组件补充
             let index = 0;
             while (limitNum - snippets.length > 0 && index < lastUsedSnippets.value.length) {
                 const snippet = lastUsedSnippets.value[index];

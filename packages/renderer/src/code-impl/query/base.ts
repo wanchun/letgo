@@ -153,7 +153,7 @@ export class JavascriptQueryBase {
                 else
                     this.error = err.toString();
 
-                return Promise.reject(err);
+                console.warn(err);
             }
             finally {
                 this.loading = false;

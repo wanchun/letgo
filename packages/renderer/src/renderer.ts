@@ -67,7 +67,7 @@ export const Renderer = defineComponent({
 
             return Comp
                 ? h(Comp, {
-                    key: schema.id,
+                    key: schema.fileName,
                     __schema: schema,
                     __components: components,
                     extraProps: props.extraProps,

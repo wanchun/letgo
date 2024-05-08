@@ -24,10 +24,11 @@ export class Code implements IPublicModelCode {
     codeStruct: ICodeStruct;
     codeMap: Map<string, ICodeItem>;
     constructor(codeStruct?: ICodeStruct) {
-        codeStruct = codeStruct || {
+        codeStruct = Object.assign({
             directories: [],
             code: [],
-        };
+        }, codeStruct);
+
         markReactive(this, {
             codeStruct,
         });

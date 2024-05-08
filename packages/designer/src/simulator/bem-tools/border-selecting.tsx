@@ -1,23 +1,31 @@
+import { FButton, FGrid, FGridItem, FInput, FTooltip } from '@fesjs/fes-design';
+import { AddOne } from '@icon-park/vue-next';
+import { createIcon, isComponentDescription } from '@webank/letgo-common';
+import { useLastUsed } from '@webank/letgo-components';
+import type { IPublicTypeAssetsJson, IPublicTypeComponentActionContent, IPublicTypeComponentDescription, IPublicTypeSnippet } from '@webank/letgo-types';
+import {
+    isActionContentObject,
+} from '@webank/letgo-types';
 import type {
     CSSProperties,
     PropType,
+    Ref,
     VNodeChild,
 } from 'vue';
 import {
     computed,
     defineComponent,
+    onBeforeMount,
     onBeforeUnmount,
+    onUnmounted,
+    ref,
+    shallowRef,
 } from 'vue';
-import { FTooltip } from '@fesjs/fes-design';
-import type { IPublicTypeComponentActionContent } from '@webank/letgo-types';
-import {
-    isActionContentObject,
-} from '@webank/letgo-types';
-import { createIcon } from '@webank/letgo-common';
-import type { Simulator } from '../simulator';
-import NodeSelectorView from '../node-selector';
-import type { INode } from '../../types';
 import type { OffsetObserver } from '../../designer';
+import { insertChild } from '../../node';
+import type { INode } from '../../types';
+import NodeSelectorView from '../node-selector';
+import type { Simulator } from '../simulator';
 import './borders.less';
 
 export function createAction(content: IPublicTypeComponentActionContent, key: string, node: INode, simulator: Simulator) {
@@ -136,6 +144,158 @@ export const Toolbar = defineComponent({
     },
 });
 
+export const AddNextComponent = defineComponent({
+    name: 'AddNextComponent',
+    props: {
+        simulator: {
+            type: Object as PropType<Simulator>,
+        },
+        node: {
+            type: Object as PropType<INode>,
+        },
+        isInline: Boolean,
+    },
+    setup(props) {
+        const editor = props.simulator.designer.editor;
+        const assetsRef: Ref<IPublicTypeAssetsJson> = shallowRef({});
+        const isInsertNext = ref(false);
+        const searchText: Ref<string> = ref();
+
+        const snippetsRef = computed(() => {
+            let arr: Array<IPublicTypeSnippet & { component: IPublicTypeComponentDescription; priority: number; title: string; screenshot?: string; group?: string; category: string }> = [];
+            assetsRef.value.components.forEach((component: IPublicTypeComponentDescription) => {
+                if (!isComponentDescription(component))
+                    return;
+                arr = arr.concat((component.snippets ?? []).map((snippet: IPublicTypeSnippet) => {
+                    return {
+                        component,
+                        title: component.title,
+                        screenshot: component.screenshot,
+                        group: component.group,
+                        category: component.category,
+                        priority: component.priority ?? 0,
+                        ...snippet,
+                    };
+                }));
+            });
+            return arr.sort((a, b) => {
+                return a.priority - b.priority;
+            }).filter((snippet) => {
+                if (!searchText.value)
+                    return true;
+                const regex = RegExp(searchText.value, 'i');
+                return regex.test(snippet.title + snippet.component.componentName + snippet.keywords);
+            });
+        });
+        const { addLastUsed, lastUsedSnippets } = useLastUsed(snippetsRef);
+
+        // 下一个推荐的组件
+        const nextSnippets = computed(() => {
+            const limitNum = 10; // 最多暂时数量
+            // 获取相同分组组件
+            const { group, category } = snippetsRef.value.find((item => item.component.componentName === props.node?.componentName)) || {};
+            const snippets = snippetsRef.value.filter(item => item.group === group && item.category === category);
+            if (snippets.length >= limitNum)
+                return snippets;
+            let index = 0;
+            while (limitNum - snippets.length > 0 && index < lastUsedSnippets.value.length) {
+                const snippet = lastUsedSnippets.value[index];
+                if (snippet.group !== group || snippet.category !== category)
+                    snippets.push(snippet);
+
+                index++;
+            }
+            return snippets;
+        });
+
+        const addNode = (snippet: IPublicTypeSnippet) => {
+            const parent = props.node?.parent;
+            if (!parent)
+                return;
+            addLastUsed(snippet);
+            const index = isInsertNext.value ? props.node.index + 1 : props.node.index;
+            const newNode = insertChild(parent, snippet.schema, index);
+            newNode.document.selection.select(newNode.id);
+            const editor = newNode.document.project.designer.editor;
+            const npm = newNode?.componentMeta?.npm;
+            const selected
+                = [npm?.package, npm?.exportName]
+                    .filter(item => !!item)
+                    .join('-')
+                    || newNode?.componentMeta?.componentName
+                    || '';
+            editor?.emit('designer.border.action', {
+                name: 'select',
+                selected,
+            });
+        };
+
+        let unwatch: () => void;
+        onBeforeMount(() => {
+            unwatch = editor.onChange('assets', (assets: IPublicTypeAssetsJson) => {
+                assetsRef.value = assets;
+            });
+        });
+
+        onUnmounted(() => {
+            if (unwatch)
+                unwatch();
+        });
+
+        const renderSnippet = (snippets: IPublicTypeSnippet[]) => {
+            return snippets.map((snippet) => {
+                const renderIcon = () => {
+                    return (
+                        snippet.screenshot && (
+                            <img
+                                class="letgo-components__icon"
+                                src={snippet.screenshot}
+                                draggable="false"
+                            />
+                        )
+                    );
+                };
+                return (
+                    <FGridItem span={12}>
+                        <FButton class="letgo-components__item" v-slots={{ icon: renderIcon }} onClick={() => addNode(snippet)}>
+                            {snippet.title}
+                        </FButton>
+                    </FGridItem>
+                );
+            });
+        };
+
+        const contentSlot = () => {
+            return (
+                <div class="letgo-designer-sim__border-add-next-components">
+                    <FInput v-model={searchText.value} placeholder="搜索组件" style="margin-bottom: 12px"></FInput>
+                    <FGrid wrap gutter={[10, 10]}>
+                        {renderSnippet(nextSnippets.value)}
+                    </FGrid>
+                </div>
+            );
+        };
+
+        return () => {
+            return (
+                <>
+                    <span class={['letgo-designer-sim__border-add-next', props.isInline ? 'left' : 'top']} title="向前添加一个组件">
+                        <FTooltip mode="popover" v-slots={{ content: contentSlot }} trigger="click">
+                            <AddOne theme="filled" size="16" fill="#5384ff" onClick={() => isInsertNext.value = false}></AddOne>
+                        </FTooltip>
+                    </span>
+                    <span class={['letgo-designer-sim__border-add-next', props.isInline ? 'right' : 'bottom']} title="向后添加一个组件">
+                        <FTooltip mode="popover" v-slots={{ content: contentSlot }} trigger="click">
+                            <AddOne theme="filled" size="16" fill="#5384ff" onClick={() => isInsertNext.value = true}></AddOne>
+                        </FTooltip>
+                    </span>
+                </>
+
+            );
+        };
+    },
+});
+
 export const BorderSelectingInstance = defineComponent({
     name: 'BorderSelectingInstance',
     props: {
@@ -159,8 +319,9 @@ export const BorderSelectingInstance = defineComponent({
             if (!observed.hasOffset)
                 return null;
 
-            const { offsetWidth, offsetHeight, offsetTop, offsetLeft }
+            const { offsetWidth, offsetHeight, offsetTop, offsetLeft, node }
                 = observed;
+            const isInline = offsetWidth < props.simulator.viewport.width;
 
             const style: CSSProperties = {
                 width: `${offsetWidth}px`,
@@ -178,7 +339,10 @@ export const BorderSelectingInstance = defineComponent({
                     style={style}
                 >
                     {!dragging && (
-                        <Toolbar observed={observed} simulator={props.simulator} />
+                        <>
+                            { !node.isRoot() && <AddNextComponent simulator={props.simulator} node={node} isInline={isInline} />}
+                            <Toolbar observed={observed} simulator={props.simulator} />
+                        </>
                     )}
                 </div>
             );

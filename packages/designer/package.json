@@ -19,6 +19,8 @@
         "@fesjs/fes-design": "^0.8.38",
         "@icon-park/vue-next": "^1.4.2",
         "@webank/letgo-common": "^0.0.4-beta.13",
+        "@webank/letgo-components": "^0.0.4-beta.16",
+        "@webank/letgo-designer": "^0.0.4-beta.18",
         "@webank/letgo-editor-core": "^0.0.4-beta.17",
         "@webank/letgo-types": "^0.0.4-beta.6",
         "eventemitter3": "^5.0.1",

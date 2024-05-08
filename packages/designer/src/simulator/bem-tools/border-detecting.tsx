@@ -1,8 +1,6 @@
-import { AddOne } from '@icon-park/vue-next';
 import type { IPublicTypeComponentRecord } from '@webank/letgo-types';
 import type { PropType } from 'vue';
 import { computed, defineComponent } from 'vue';
-import type { INode } from '../..';
 import type { Simulator } from '../simulator';
 import './borders.less';
 
@@ -15,7 +13,6 @@ export const BorderDetectingInstance = defineComponent({
         scrollX: Number as PropType<number>,
         scrollY: Number as PropType<number>,
         isLocked: Boolean as PropType<boolean>,
-        node: Object as PropType<INode>,
     },
     setup(props) {
         const style = computed(() => {
@@ -28,18 +25,6 @@ export const BorderDetectingInstance = defineComponent({
             };
         });
 
-        const onMouseOver = (node: INode) => {
-            debugger;
-            console.log(node);
-            if (node && typeof node.hover === 'function')
-                node.hover(true);
-        };
-
-        const onMouseOut = (node: INode) => {
-            if (node && typeof node.hover === 'function')
-                node.hover(false);
-        };
-
         return () => {
             if (!props.rect)
                 return null;
@@ -51,24 +36,6 @@ export const BorderDetectingInstance = defineComponent({
                 >
                     <span title={props.title} class="letgo-designer-sim__border-title">
                         {props.title}
-                    </span>
-                    <span
-                        class="letgo-designer-sim__border-add-next"
-
-                        onMouseover={() => {
-                            onMouseOver(props.node);
-                        }}
-                        onMouseleave={() => {
-                            onMouseOut(props.node);
-                        }}
-                        title="添加下一个组件"
-                    >
-                        <AddOne
-                            theme="filled"
-                            size="18"
-                            fill="#5384ff"
-                        >
-                        </AddOne>
                     </span>
                     {props.isLocked
                         ? (
@@ -107,6 +74,7 @@ export const BorderDetectingView = defineComponent({
                 || selection.has(current.id)
             )
                 return null;
+
             return current;
         });
 
@@ -140,7 +108,6 @@ export const BorderDetectingView = defineComponent({
                         scale={scale}
                         scrollX={scrollX}
                         scrollY={scrollY}
-                        node={currentNode}
                         rect={new DOMRect(0, 0, bounds.width, bounds.height)}
                     />
                 );
@@ -165,7 +132,6 @@ export const BorderDetectingView = defineComponent({
                             scale={scale}
                             scrollX={scrollX}
                             scrollY={scrollY}
-                            node={currentNode}
                             rect={getReact(inst)}
                         />
                     ))}

@@ -32,51 +32,13 @@ import {
 } from 'vue';
 
 import { CloseOne } from '@icon-park/vue-next';
-import { useStorage, useUrlSearchParams } from '@vueuse/core';
+import { useLastUsed } from '@webank/letgo-components';
 import './panel.less';
 
 interface CategoryType {
     category: string;
     snippets: IPublicTypeSnippet[];
     show: Ref<boolean>;
-}
-
-function useLastUsed(key: string, snippetsRef: Ref<IPublicTypeSnippet[]>) {
-    const lastLimit = 10;
-    const lastUsed: Ref<Record<string, { name: string; count: number }>> = useStorage(`LAST_USED_${key}`, {}, localStorage);
-
-    const addLastUsed = (snippet: IPublicTypeSnippet) => {
-        const componentName = snippet.schema.componentName;
-        let log = lastUsed.value[componentName];
-        if (log)
-            log.count = log.count + 1;
-        else log = { name: componentName, count: 1 };
-        lastUsed.value[componentName] = log;
-    };
-
-    /** 最近使用的组件 */
-    const lastUsedSnippets = computed(() => {
-        const usedList = Object.values(lastUsed.value).sort((a, b) => b.count - a.count);
-        const snippets: IPublicTypeSnippet[] = [];
-        usedList.forEach((item, index) => {
-            if (index < lastLimit) {
-                const founds = snippetsRef.value.filter(s => s.schema.componentName === item.name);
-                if (founds?.length)
-                    snippets.push(...founds);
-            }
-        });
-        return snippets;
-    });
-
-    const clearLastUsed = () => {
-        lastUsed.value = {};
-    };
-
-    return {
-        lastUsedSnippets,
-        addLastUsed,
-        clearLastUsed,
-    };
 }
 
 export default defineComponent({
@@ -152,8 +114,7 @@ export default defineComponent({
         });
 
         // 最近使用
-        const urlParams = useUrlSearchParams('hash');
-        const { lastUsedSnippets, addLastUsed, clearLastUsed } = useLastUsed(urlParams.id as string || '', snippetsRef);
+        const { lastUsedSnippets, addLastUsed, clearLastUsed } = useLastUsed(snippetsRef, 10);
 
         const onSearch = (val: string) => {
             searchText.value = val;

@@ -187,7 +187,9 @@ export const AddNextComponent = defineComponent({
                 return regex.test(snippet.title + snippet.component.componentName + snippet.keywords);
             });
         });
-        const { addLastUsed, lastUsedSnippets } = useLastUsed(snippetsRef);
+
+        const projectId = props.simulator.project.id;
+        const { addLastUsed, lastUsedSnippets } = useLastUsed(snippetsRef, null, projectId as string);
 
         // 下一个推荐的组件
         const nextSnippets = computed(() => {
@@ -279,14 +281,18 @@ export const AddNextComponent = defineComponent({
         };
 
         return () => {
+            const left = `letgo-designer-sim__border-add-next-left`;
+            const top = `letgo-designer-sim__border-add-next-top`;
+            const right = `letgo-designer-sim__border-add-next-right`;
+            const bottom = `letgo-designer-sim__border-add-next-bottom`;
             return (
                 <>
-                    <span class={['letgo-designer-sim__border-add-next', props.isInline ? 'left' : 'top']} title="向前添加一个组件">
+                    <span class={['letgo-designer-sim__border-add-next', props.isInline ? left : top]} title="向前添加一个组件">
                         <FTooltip mode="popover" v-slots={{ content: contentSlot }} trigger="click">
                             <AddOne theme="filled" size="16" fill="#5384ff" onClick={() => isInsertNext.value = false}></AddOne>
                         </FTooltip>
                     </span>
-                    <span class={['letgo-designer-sim__border-add-next', props.isInline ? 'right' : 'bottom']} title="向后添加一个组件">
+                    <span class={['letgo-designer-sim__border-add-next', props.isInline ? right : bottom]} title="向后添加一个组件">
                         <FTooltip mode="popover" v-slots={{ content: contentSlot }} trigger="click">
                             <AddOne theme="filled" size="16" fill="#5384ff" onClick={() => isInsertNext.value = true}></AddOne>
                         </FTooltip>

@@ -1,14 +1,20 @@
-import { useStorage, useUrlSearchParams } from '@vueuse/core';
+import { createGlobalState, useStorage, useUrlSearchParams } from '@vueuse/core';
 import type { IPublicTypeSnippet } from '@webank/letgo-types';
 import type { Ref } from 'vue';
 import { computed } from 'vue';
 
-const urlParams = useUrlSearchParams('hash');
-const key = `LAST_USED_${urlParams.id as string || ''}`;
-// 数据需要共享
-const lastUsed: Ref<Record<string, { name: string; count: number }>> = useStorage(key, {}, localStorage);
+interface UsedLog {
+    name: string;
+    count: number;
+};
 
-export function useLastUsed(snippetsRef: Ref<IPublicTypeSnippet[]>, limit?: number) {
+const useGlobalState = createGlobalState(key => useStorage(key, {}, localStorage));
+
+export function useLastUsed(snippetsRef: Ref<IPublicTypeSnippet[]>, limit?: number, projectId?: string) {
+    const urlParams = useUrlSearchParams('hash');
+    const key = `LAST_USED_${projectId || urlParams.id as string || ''}`;
+    const lastUsed: Ref<Record<string, UsedLog>> = useGlobalState(key);
+
     const addLastUsed = (snippet: IPublicTypeSnippet) => {
         const componentName = snippet.schema.componentName;
         let log = lastUsed.value[componentName];

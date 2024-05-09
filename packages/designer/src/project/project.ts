@@ -1,12 +1,10 @@
-import { EventEmitter } from 'eventemitter3';
-import type { ShallowReactive } from 'vue';
-import { shallowReactive } from 'vue';
+import { markComputed, markShallowReactive, uniqueId } from '@webank/letgo-common';
+import { editor } from '@webank/letgo-editor-core';
 import type {
     IBaseProject,
     IPublicTypeAppConfig,
     IPublicTypeAssetsJson,
     IPublicTypeComponentsMap,
-    IPublicTypeIconSchema,
     IPublicTypeProjectSchema,
     IPublicTypeRootSchema,
     IPublicTypeUtilsMap,
@@ -16,15 +14,17 @@ import {
     isLowCodeComponentType,
     isProCodeComponentType,
 } from '@webank/letgo-types';
-import { markComputed, markShallowReactive, uniqueId } from '@webank/letgo-common';
-import { editor } from '@webank/letgo-editor-core';
+import { EventEmitter } from 'eventemitter3';
+import type { ShallowReactive } from 'vue';
+import { shallowReactive } from 'vue';
 import { isDocumentModel } from '../types';
+import { Code } from '../code/code';
 import type { Designer } from '../designer';
 import { DocumentModel } from '../document';
-import { Code } from '../code/code';
 
 export class Project implements IBaseProject<DocumentModel, Code> {
-    id: string | number;
+    id: number | string;
+
     css: string;
 
     codesInstance: Record<string, any> = {};
@@ -249,6 +249,7 @@ export class Project implements IBaseProject<DocumentModel, Code> {
             | 'i18n'
             | 'css'
             | 'code'
+            | 'id'
             | string,
         value: any,
     ): void {
@@ -262,6 +263,9 @@ export class Project implements IBaseProject<DocumentModel, Code> {
         }
         else if (key === 'code') {
             this.code.initCode(value);
+        }
+        else if (key === 'id') {
+            this.id = value;
         }
 
         Object.assign(this.data, { [key]: value });

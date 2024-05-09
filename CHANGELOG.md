@@ -1,3 +1,18 @@
+## [0.0.4-beta.27](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.26...v0.0.4-beta.27) (2024-5-9)
+
+
+### Bug Fixes
+
+* 兼容 directories 不存在的问题 ([e3ae2d8](https://git.weoa.com/mumblefe/letgo/commits/e3ae2d8fda309c45dfe41a6175780d2709f88e7c))
+* 修复 renderer page id一样的问题 ([d79508b](https://git.weoa.com/mumblefe/letgo/commits/d79508bd32bf92823d9caae79a5c731d3f40d537))
+
+
+### Features
+
+* query 的事件绑定，如果是个函数，可以包含自身，用于实现轮询场景 ([98ca5c1](https://git.weoa.com/mumblefe/letgo/commits/98ca5c15e5756d9b6580f9c561887133bf67026a))
+
+
+
 ## [0.0.4-beta.26](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.25...v0.0.4-beta.26) (2024-4-30)
 
 

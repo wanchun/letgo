@@ -1,7 +1,7 @@
 {
     "name": "@webank/letgo-plugin-designer",
     "type": "module",
-    "version": "0.0.3-beta.28",
+    "version": "0.0.3-beta.29",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -17,8 +17,8 @@
     },
     "dependencies": {
         "@fesjs/fes-design": "^0.8.38",
-        "@webank/letgo-designer": "^0.0.4-beta.18",
-        "@webank/letgo-engine-plugin": "^0.0.4-beta.18"
+        "@webank/letgo-designer": "^0.0.4-beta.20",
+        "@webank/letgo-engine-plugin": "^0.0.4-beta.20"
     },
     "publishConfig": {
         "access": "public"

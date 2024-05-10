@@ -1,7 +1,7 @@
 {
     "name": "@webank/letgo-engine-ext",
     "type": "module",
-    "version": "0.0.4-beta.21",
+    "version": "0.0.4-beta.22",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -25,7 +25,7 @@
         "@icon-park/vue-next": "^1.4.2",
         "@webank/letgo-common": "^0.0.4-beta.14",
         "@webank/letgo-components": "^0.0.4-beta.17",
-        "@webank/letgo-designer": "^0.0.4-beta.20",
+        "@webank/letgo-designer": "^0.0.4-beta.21",
         "@webank/letgo-types": "^0.0.4-beta.6",
         "json5": "^2.2.3",
         "lodash-es": "^4.17.21",

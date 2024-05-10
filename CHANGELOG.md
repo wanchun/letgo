@@ -1,3 +1,12 @@
+## [0.0.4-beta.28](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.27...v0.0.4-beta.28) (2024-05-10)
+
+
+### Features
+
+* device=mobile时把px单位转换成vw ([8ef41c7](https://git.weoa.com/mumblefe/letgo/commits/8ef41c72b4530b358a4c488e6181ebfd962738ab))
+
+
+
 ## [0.0.4-beta.27](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.26...v0.0.4-beta.27) (2024-5-9)
 
 

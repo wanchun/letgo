@@ -14,7 +14,7 @@ export const InputUnit = defineComponent({
         units: {
             type: Array as PropType<string[]>,
             default() {
-                return ['px', '%'];
+                return ['px', '%', 'vw'];
             },
         },
         type: {

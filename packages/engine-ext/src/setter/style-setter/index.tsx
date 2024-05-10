@@ -4,7 +4,7 @@ import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { isJSExpression } from '@webank/letgo-types';
 import { cloneDeep, isNil } from 'lodash-es';
 import { FCollapse } from '@fesjs/fes-design';
-import { commonProps, getComputeStyle } from '../../common';
+import { commonProps, convertPxToVw, getComputeStyle } from '../../common';
 import { BackgroundView, BorderView, CodeView, FontView, LayoutView, PositionView } from './pro';
 import { styleKey } from './const';
 import './index.less';
@@ -37,23 +37,32 @@ const StyleSetterView = defineComponent({
             style: getComputeStyle(props.node),
         });
 
-        const currentValue = ref(isJSExpression(props.value) ? {} : (cloneDeep(props.value) ?? {}));
+        function computeCurrentValue() {
+            return isJSExpression(props.value) ? {} : (cloneDeep(props.value) ?? {});
+        }
+
+        const currentValue = ref(computeCurrentValue());
 
         watch(() => props.value, () => {
-            currentValue.value = isJSExpression(props.value) ? {} : (cloneDeep(props.value) ?? {});
+            currentValue.value = computeCurrentValue();
         });
 
         const onStyleChange = (changedStyle: Record<string, any>, assign = true) => {
+            let transformedStyle = changedStyle;
+            const sim = props.field.designer.simulator;
+            if (sim.device === 'mobile')
+                transformedStyle = convertPxToVw(changedStyle, 375);
+
             if (assign) {
                 // 把属性值中的 ’‘，null 转换成 undefined
-                for (const p in changedStyle)
-                    changedStyle[p] = (isNil(changedStyle[p]) || changedStyle[p] === '') ? undefined : changedStyle[p];
+                for (const p in transformedStyle)
+                    transformedStyle[p] = (isNil(transformedStyle[p]) || transformedStyle[p] === '') ? undefined : transformedStyle[p];
 
-                const styleData = { ...currentValue.value, ...changedStyle };
+                const styleData = { ...currentValue.value, ...transformedStyle };
                 props.onChange(styleData);
             }
             else {
-                props.onChange(changedStyle);
+                props.onChange(transformedStyle);
             }
         };
 

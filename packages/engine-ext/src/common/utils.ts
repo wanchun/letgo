@@ -155,3 +155,18 @@ export function parseToStyleData(cssCode: string) {
         return null;
     }
 }
+
+export function convertPxToVw(style: Record<string, any>, screenWidth: number = 375) {
+    const newStyle: Record<string, any> = {};
+    for (const key in style) {
+        if (typeof style[key] === 'string' && style[key].endsWith('px')) {
+            const pxValue = Number.parseFloat(style[key]);
+            if (pxValue !== 1)
+                newStyle[key] = `${(pxValue / screenWidth) * 100}vw`;
+        }
+        else {
+            newStyle[key] = style[key];
+        }
+    }
+    return newStyle;
+}

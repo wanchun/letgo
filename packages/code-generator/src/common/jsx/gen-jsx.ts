@@ -1,3 +1,4 @@
+import { ensureArray, isSyntaxError, traverseNodePropsSlot, traverseNodeSchema } from '@webank/letgo-common';
 import type {
     IPublicTypeCompositeValue,
     IPublicTypeDOMText,
@@ -17,10 +18,9 @@ import {
     isNodeSchema,
 } from '@webank/letgo-types';
 import { camelCase, isArray, isEmpty, isNil, isPlainObject } from 'lodash-es';
-import { ensureArray, isSyntaxError, traverseNodePropsSlot, traverseNodeSchema } from '@webank/letgo-common';
 import { compilerEventHandlers, funcSchemaToFunc } from '../events';
-import type { Context } from '../types';
 import { formatExpression } from '../format-expression';
+import type { Context } from '../types';
 import { compileDirectives } from './directives';
 
 function genPropSlotName(key: string, refName: string) {
@@ -173,7 +173,7 @@ function wrapCondition(code: string, condition: IPublicTypeCompositeValue, isRoo
                 `;
             }
             return `{
-                ${condition.value} && ${code}
+                (${condition.value}) && ${code}
             }`;
         }
         if (condition)

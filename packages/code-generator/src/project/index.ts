@@ -1,14 +1,14 @@
-import { set } from 'lodash-es';
 import { genCodeMap } from '@webank/letgo-common';
-import type { Context, FileTree, GenOptions } from '../common/types';
-import { genFileName } from '../common/page-meta';
+import { set } from 'lodash-es';
 import { schemaToCode } from '../common';
-import { injectLetgoCode } from '../common/inject-code';
 import { genGlobalStateCode } from '../common/global-state';
-import { setOptions } from '../options';
+import { injectLetgoCode } from '../common/inject-code';
+import { genFileName } from '../common/page-meta';
 import { genPackageJSON } from '../common/pkg';
-import { genLowcodeComponent } from './gen-lowcode-component';
+import type { Context, FileTree, GenOptions } from '../common/types';
+import { setOptions } from '../options';
 import { toAssemble } from './build';
+import { genLowcodeComponent } from './gen-lowcode-component';
 
 function genPageCode(ctx: Context, fileTree: FileTree, options: GenOptions) {
     const { transformJsx, outDir } = options;

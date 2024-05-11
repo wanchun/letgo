@@ -1,3 +1,12 @@
+## [0.0.4-beta.29](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.28...v0.0.4-beta.29) (2024-05-11)
+
+
+### Bug Fixes
+
+* condition问题 ([1e5fd03](https://git.weoa.com/mumblefe/letgo/commits/1e5fd038d339dde704c82f6b440c1081a7671517))
+
+
+
 ## [0.0.4-beta.28](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.27...v0.0.4-beta.28) (2024-05-10)
 
 

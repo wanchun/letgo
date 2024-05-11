@@ -1,3 +1,12 @@
+## [0.0.4-beta.30](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.29...v0.0.4-beta.30) (2024-05-11)
+
+
+### Bug Fixes
+
+* 优化styleSetter处理h5 ([baec955](https://git.weoa.com/mumblefe/letgo/commits/baec955d4011dc3e4600cb0e85aab727f9a6fb33))
+
+
+
 ## [0.0.4-beta.29](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.28...v0.0.4-beta.29) (2024-05-11)
 
 

@@ -44,6 +44,7 @@ const fontWeight = [
 
 export const FontView = defineComponent({
     props: {
+        isMobile: Boolean,
         value: {
             type: Object as PropType<CSSProperties>,
         },
@@ -67,6 +68,7 @@ export const FontView = defineComponent({
                 <FCollapseItem name="font" title="文字">
                     <Row label="字体大小">
                         <InputUnit
+                            isMobile={props.isMobile}
                             modelValue={currentValue.value.fontSize}
                             onChange={(val) => {
                                 onStyleChange({
@@ -78,6 +80,7 @@ export const FontView = defineComponent({
                     </Row>
                     <Row label="字体行高">
                         <InputUnit
+                            isMobile={props.isMobile}
                             modelValue={currentValue.value.lineHeight}
                             onChange={(val) => {
                                 onStyleChange({

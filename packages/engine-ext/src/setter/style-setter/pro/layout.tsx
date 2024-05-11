@@ -134,6 +134,7 @@ const flexWrap = [
 
 export const LayoutView = defineComponent({
     props: {
+        isMobile: Boolean,
         value: {
             type: Object as PropType<CSSProperties>,
         },
@@ -177,8 +178,8 @@ export const LayoutView = defineComponent({
                                     value,
                                     description,
                                 }: {
-                                    value: string
-                                    description: string
+                                    value: string;
+                                    description: string;
                                 }) => {
                                     return (
                                         <FSpace>
@@ -213,8 +214,8 @@ export const LayoutView = defineComponent({
                                             value,
                                             description,
                                         }: {
-                                            value: string
-                                            description: string
+                                            value: string;
+                                            description: string;
                                         }) => {
                                             return (
                                                 <FSpace>
@@ -247,8 +248,8 @@ export const LayoutView = defineComponent({
                                             value,
                                             description,
                                         }: {
-                                            value: string
-                                            description: string
+                                            value: string;
+                                            description: string;
                                         }) => {
                                             return (
                                                 <FSpace>
@@ -279,8 +280,8 @@ export const LayoutView = defineComponent({
                                             value,
                                             description,
                                         }: {
-                                            value: string
-                                            description: string
+                                            value: string;
+                                            description: string;
                                         }) => {
                                             return (
                                                 <FSpace>
@@ -311,8 +312,8 @@ export const LayoutView = defineComponent({
                                             value,
                                             description,
                                         }: {
-                                            value: string
-                                            description: string
+                                            value: string;
+                                            description: string;
                                         }) => {
                                             return (
                                                 <FSpace>
@@ -334,6 +335,7 @@ export const LayoutView = defineComponent({
                             <FGridItem span={12}>
                                 <Row label="上" labelWidth={15} labelAlign="right" margin={false}>
                                     <InputUnit
+                                        isMobile={props.isMobile}
                                         modelValue={currentValue.value.marginTop}
                                         onChange={(val) => {
                                             onStyleChange({
@@ -347,6 +349,7 @@ export const LayoutView = defineComponent({
                             <FGridItem span={12}>
                                 <Row label="下" labelWidth={15} labelAlign="right" margin={false}>
                                     <InputUnit
+                                        isMobile={props.isMobile}
                                         modelValue={currentValue.value.marginBottom}
                                         onChange={(val) => {
                                             onStyleChange({
@@ -361,6 +364,7 @@ export const LayoutView = defineComponent({
                             <FGridItem span={12}>
                                 <Row label="左" labelWidth={15} labelAlign="right" margin={false}>
                                     <InputUnit
+                                        isMobile={props.isMobile}
                                         modelValue={currentValue.value.marginLeft}
                                         onChange={(val) => {
                                             onStyleChange({
@@ -375,6 +379,7 @@ export const LayoutView = defineComponent({
                             <FGridItem span={12}>
                                 <Row label="右" labelWidth={15} labelAlign="right" margin={false}>
                                     <InputUnit
+                                        isMobile={props.isMobile}
                                         modelValue={currentValue.value.marginRight}
                                         onChange={(val) => {
                                             onStyleChange({
@@ -393,6 +398,7 @@ export const LayoutView = defineComponent({
                             <FGridItem span={12}>
                                 <Row label="上" labelWidth={15} labelAlign="right" margin={false}>
                                     <InputUnit
+                                        isMobile={props.isMobile}
                                         modelValue={currentValue.value.paddingTop}
                                         onChange={(val) => {
                                             onStyleChange({
@@ -407,6 +413,7 @@ export const LayoutView = defineComponent({
                             <FGridItem span={12}>
                                 <Row label="下" labelWidth={15} labelAlign="right" margin={false}>
                                     <InputUnit
+                                        isMobile={props.isMobile}
                                         modelValue={currentValue.value.paddingBottom}
                                         onChange={(val) => {
                                             onStyleChange({
@@ -421,6 +428,7 @@ export const LayoutView = defineComponent({
                             <FGridItem span={12}>
                                 <Row label="左" labelWidth={15} labelAlign="right" margin={false}>
                                     <InputUnit
+                                        isMobile={props.isMobile}
                                         modelValue={currentValue.value.paddingLeft}
                                         onChange={(val) => {
                                             onStyleChange({
@@ -435,6 +443,7 @@ export const LayoutView = defineComponent({
                             <FGridItem span={12}>
                                 <Row label="右" labelWidth={15} labelAlign="right" margin={false}>
                                     <InputUnit
+                                        isMobile={props.isMobile}
                                         modelValue={currentValue.value.paddingRight}
                                         onChange={(val) => {
                                             onStyleChange({
@@ -453,6 +462,7 @@ export const LayoutView = defineComponent({
                             <FGridItem span={12}>
                                 <Row label="宽" labelWidth={15} labelAlign="right" margin={false}>
                                     <InputUnit
+                                        isMobile={props.isMobile}
                                         modelValue={currentValue.value.width}
                                         onChange={(val) => {
                                             onStyleChange({
@@ -466,6 +476,7 @@ export const LayoutView = defineComponent({
                             <FGridItem span={12}>
                                 <Row label="高" labelWidth={15} labelAlign="right" margin={false}>
                                     <InputUnit
+                                        isMobile={props.isMobile}
                                         modelValue={currentValue.value.height}
                                         onChange={(val) => {
                                             onStyleChange({

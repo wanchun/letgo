@@ -36,6 +36,7 @@ const positionList = [
 
 export const PositionView = defineComponent({
     props: {
+        isMobile: Boolean,
         value: {
             type: Object as PropType<CSSProperties>,
         },
@@ -72,8 +73,8 @@ export const PositionView = defineComponent({
                                     value,
                                     description,
                                 }: {
-                                    value: string
-                                    description: string
+                                    value: string;
+                                    description: string;
                                 }) => {
                                     return (
                                         <FSpace>
@@ -92,6 +93,7 @@ export const PositionView = defineComponent({
                             <FGridItem span={12}>
                                 <Row label="上" labelWidth={15} labelAlign="right" margin={false}>
                                     <InputUnit
+                                        isMobile={props.isMobile}
                                         modelValue={currentValue.value.top}
                                         onChange={(val) => {
                                             onStyleChange({
@@ -105,6 +107,7 @@ export const PositionView = defineComponent({
                             <FGridItem span={12}>
                                 <Row label="下" labelWidth={15} labelAlign="right" margin={false}>
                                     <InputUnit
+                                        isMobile={props.isMobile}
                                         modelValue={currentValue.value.bottom}
                                         onChange={(val) => {
                                             onStyleChange({
@@ -119,6 +122,7 @@ export const PositionView = defineComponent({
                             <FGridItem span={12}>
                                 <Row label="左" labelWidth={15} labelAlign="right" margin={false}>
                                     <InputUnit
+                                        isMobile={props.isMobile}
                                         modelValue={currentValue.value.left}
                                         onChange={(val) => {
                                             onStyleChange({
@@ -133,6 +137,7 @@ export const PositionView = defineComponent({
                             <FGridItem span={12}>
                                 <Row label="右" labelWidth={15} labelAlign="right" margin={false}>
                                     <InputUnit
+                                        isMobile={props.isMobile}
                                         modelValue={currentValue.value.right}
                                         onChange={(val) => {
                                             onStyleChange({

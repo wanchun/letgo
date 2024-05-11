@@ -66,16 +66,17 @@ const svgList = {
 };
 
 interface IBoxShadow {
-    inset?: string
-    offsetX?: string
-    offsetY?: string
-    blurRadius?: string
-    spreadRadius?: string
-    color?: string
+    inset?: string;
+    offsetX?: string;
+    offsetY?: string;
+    blurRadius?: string;
+    spreadRadius?: string;
+    color?: string;
 }
 
 export const BorderView = defineComponent({
     props: {
+        isMobile: Boolean,
         value: {
             type: Object as PropType<CSSProperties>,
         },
@@ -239,6 +240,7 @@ export const BorderView = defineComponent({
                                 </Row>
                                 <Row label="粗细" labelWidth={30} labelAlign="right">
                                     <InputUnit
+                                        isMobile={props.isMobile}
                                         modelValue={`${borderStyleRef.value.width ?? ''}`}
                                         onChange={val => onBorderStyleChange('Width', val)}
                                         units={['px']}
@@ -263,6 +265,7 @@ export const BorderView = defineComponent({
                                                 {svgList[type]}
                                             </span>
                                             <InputUnit
+                                                isMobile={props.isMobile}
                                                 modelValue={currentValue.value[`border${type}Radius`]}
                                                 onChange={val => onBorderRadiusChange(type, val)}
                                                 units={['px']}
@@ -295,6 +298,7 @@ export const BorderView = defineComponent({
                             <FGridItem span={12}>
                                 <Row label="x偏移" labelWidth={40} labelAlign="right" margin={false}>
                                     <InputUnit
+                                        isMobile={props.isMobile}
                                         v-model={boxShadowStyleRef.value.offsetX}
                                         units={['px']}
                                     />
@@ -303,6 +307,7 @@ export const BorderView = defineComponent({
                             <FGridItem span={12}>
                                 <Row label="y偏移" labelWidth={40} labelAlign="right" margin={false}>
                                     <InputUnit
+                                        isMobile={props.isMobile}
                                         v-model={boxShadowStyleRef.value.offsetY}
                                         units={['px']}
                                     />
@@ -311,6 +316,7 @@ export const BorderView = defineComponent({
                             <FGridItem span={12}>
                                 <Row label="模糊" labelWidth={40} labelAlign="right" margin={false}>
                                     <InputUnit
+                                        isMobile={props.isMobile}
                                         v-model={boxShadowStyleRef.value.blurRadius}
                                         units={['px']}
                                     />
@@ -319,6 +325,7 @@ export const BorderView = defineComponent({
                             <FGridItem span={12}>
                                 <Row label="扩展" labelWidth={40} labelAlign="right" margin={false}>
                                     <InputUnit
+                                        isMobile={props.isMobile}
                                         v-model={boxShadowStyleRef.value.spreadRadius}
                                         units={['px']}
                                     />

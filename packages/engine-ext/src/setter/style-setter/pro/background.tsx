@@ -7,7 +7,7 @@ import { InputColor, InputUnit, Row } from '../../../component';
 import { addUnit, clearUnit, getPlaceholderPropertyValue } from '../../../common';
 import { styleKey } from '../const';
 import './background.less';
-import { StyleSetter } from '../index'
+import { StyleSetter } from '../index';
 
 enum EnumBackground {
     Image = 1,
@@ -30,6 +30,7 @@ function getURL(str?: string) {
 // TODO: 背景图片支持多个
 export const BackgroundView = defineComponent({
     props: {
+        isMobile: Boolean,
         value: {
             type: Object as PropType<CSSProperties>,
         },
@@ -148,7 +149,7 @@ export const BackgroundView = defineComponent({
                                 {
                                     StyleSetter.renderBackgroundImage?.({
                                         value: getURL(currentValue.value.backgroundImage),
-                                        onStyleChange
+                                        onStyleChange,
                                     }) ?? (
                                         <FInput
                                             modelValue={getURL(currentValue.value.backgroundImage)}
@@ -172,12 +173,14 @@ export const BackgroundView = defineComponent({
                                 <FGrid v-show={!backgroundSizeRef.value} gutter={[8]} style={{ marginTop: '8px' }}>
                                     <FGridItem span={12}>
                                         <InputUnit
+                                            isMobile={props.isMobile}
                                             v-model={backgroundSizeWidthRef.value}
                                             placeholder={defaultBackgroundSizeWidthRef.value ?? '宽度'}
                                         />
                                     </FGridItem>
                                     <FGridItem span={12}>
                                         <InputUnit
+                                            isMobile={props.isMobile}
                                             v-model={backgroundSizeHeightRef.value}
                                             placeholder={defaultBackgroundSizeHeightRef.value ?? '宽度'}
                                         />
@@ -200,11 +203,13 @@ export const BackgroundView = defineComponent({
                                     <div class="letgo-setter-style__background-custom">
                                         <Row label="左" labelWidth={20}>
                                             <InputUnit
+                                                isMobile={props.isMobile}
                                                 v-model={backgroundPositionLeftRef.value}
                                             />
                                         </Row>
                                         <Row label="顶" labelWidth={20} margin={false}>
                                             <InputUnit
+                                                isMobile={props.isMobile}
                                                 v-model={backgroundPositionTopRef.value}
                                             />
                                         </Row>

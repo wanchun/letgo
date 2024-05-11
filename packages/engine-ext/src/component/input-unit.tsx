@@ -1,8 +1,8 @@
 import type { PropType, Ref } from 'vue';
-import { defineComponent, ref, watch } from 'vue';
+import { computed, defineComponent, ref, watch } from 'vue';
 import { useModel } from '@webank/letgo-common';
 import { FDropdown, FInput, FInputNumber } from '@fesjs/fes-design';
-import { addUnit, clearUnit, clearUnit2 } from '../common';
+import { addUnit, clearUnit, clearUnit2, convertPxToVw } from '../common';
 
 export const InputUnit = defineComponent({
     props: {
@@ -14,13 +14,14 @@ export const InputUnit = defineComponent({
         units: {
             type: Array as PropType<string[]>,
             default() {
-                return ['px', '%', 'vw'];
+                return ['px', '%'];
             },
         },
         type: {
             type: String,
             default: 'input',
         },
+        isMobile: Boolean,
     },
     emits: ['update:modelValue', 'change'],
     setup(props, { emit }) {
@@ -28,13 +29,19 @@ export const InputUnit = defineComponent({
 
         const unitRef: Ref<string> = ref();
 
+        const currentUnits = computed(() => {
+            if (!props.isMobile)
+                return props.units;
+            return [...props.units, 'vw'];
+        });
+
         const getUnit = () => {
             if (!currentValue.value)
-                return props.units[0];
+                return currentUnits.value[0];
 
-            for (let i = 0; i < props.units.length; i++) {
-                if (currentValue.value.includes(props.units[i]))
-                    return props.units[i];
+            for (let i = 0; i < currentUnits.value.length; i++) {
+                if (currentValue.value.includes(currentUnits.value[i]))
+                    return currentUnits.value[i];
             }
             return null;
         };
@@ -45,10 +52,18 @@ export const InputUnit = defineComponent({
             immediate: true,
         });
 
-        const onChangeUnit = (val: string) => {
-            unitRef.value = val;
-            emit('change', addUnit(clearUnit(currentValue.value), val));
-            updateCurrentValue(addUnit(clearUnit(currentValue.value), val));
+        const onChangeUnit = (unit: string) => {
+            let val = clearUnit(currentValue.value);
+            if (props.isMobile) {
+                if (unitRef.value === 'px' && unit === 'vw')
+                    val = val / 375 * 100;
+
+                if (unitRef.value === 'vw' && unit === 'px')
+                    val = val * 375 / 100;
+            }
+            unitRef.value = unit;
+            emit('change', addUnit(val, unit));
+            updateCurrentValue(addUnit(val, unit));
         };
 
         return () => {
@@ -72,15 +87,19 @@ export const InputUnit = defineComponent({
                         modelValue={clearUnit(currentValue.value)}
                         placeholder={`${clearUnit2(props.placeholder)}`}
                         onChange={(val) => {
-                            emit('change', addUnit(val, unitRef.value));
-                            updateCurrentValue(addUnit(val, unitRef.value));
+                            let innerVal = addUnit(val, unitRef.value);
+                            if (props.isMobile)
+                                innerVal = convertPxToVw(innerVal);
+
+                            emit('change', innerVal);
+                            updateCurrentValue(innerVal);
                         }}
                         max={unitRef.value === '%' ? 100 : undefined}
                         min={0}
                         v-slots={{
                             suffix: () => (
                                 <FDropdown
-                                    options={props.units.map(item => ({ value: item, label: item }))}
+                                    options={currentUnits.value.map(item => ({ value: item, label: item }))}
                                     onClick={((val) => { unitRef.value = val; })}
                                 >
                                     <span>{unitRef.value}</span>
@@ -97,14 +116,18 @@ export const InputUnit = defineComponent({
                     modelValue={clearUnit(currentValue.value)}
                     placeholder={`${clearUnit2(props.placeholder)}`}
                     onChange={(val) => {
-                        emit('change', addUnit(val, unitRef.value));
-                        updateCurrentValue(addUnit(val, unitRef.value));
+                        let innerVal = addUnit(val, unitRef.value);
+                        if (props.isMobile)
+                            innerVal = convertPxToVw(innerVal);
+
+                        emit('change', innerVal);
+                        updateCurrentValue(innerVal);
                     }}
                     v-slots={{
                         suffix: () => (
                             <FDropdown
                                 trigger="click"
-                                options={props.units.map(item => ({ value: item, label: item }))}
+                                options={currentUnits.value.map(item => ({ value: item, label: item }))}
                                 onClick={onChangeUnit}
                             >
                                 <span style={{ cursor: 'pointer' }}>{unitRef.value}</span>

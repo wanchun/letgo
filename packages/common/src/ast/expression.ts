@@ -36,19 +36,31 @@ export function transformExpression(code: string, callback: Callback) {
 export function replaceExpressionIdentifier(code: string, newName: string, preName: string) {
     if (!code)
         return code;
-    const ast = transformExpression(code, (identifier) => {
-        if (identifier.name === preName)
-            identifier.name = newName;
-    });
-    return generate((ast as any).body[0]).replace(';', '');
+    try {
+        const ast = transformExpression(code, (identifier) => {
+            if (identifier.name === preName)
+                identifier.name = newName;
+        });
+        return generate((ast as any).body[0]).replace(';', '');
+    }
+    catch (err) {
+        console.warn(err);
+        return code;
+    }
 }
 
 export function attachContext(code: string, isInclude: (name: string) => boolean) {
-    const ast = transformExpression(code, (identifier) => {
-        if (isInclude(identifier.name))
-            identifier.name = `_ctx.${identifier.name}`;
-    });
-    return generate((ast as any).body[0]).replace(';', '');
+    try {
+        const ast = transformExpression(code, (identifier) => {
+            if (isInclude(identifier.name))
+                identifier.name = `_ctx.${identifier.name}`;
+        });
+        return generate((ast as any).body[0]).replace(';', '');
+    }
+    catch (err) {
+        console.warn(err);
+        return code;
+    }
 }
 
 export function isExpression(code: string, isInclude: (name: string) => boolean) {

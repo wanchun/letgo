@@ -128,8 +128,8 @@ export const Toolbar = defineComponent({
             });
             return (
                 <div class="letgo-designer-sim__border-actions" style={style}>
-                    {actions}
                     <NodeSelectorView node={node} />
+                    {actions}
                 </div>
             );
         };

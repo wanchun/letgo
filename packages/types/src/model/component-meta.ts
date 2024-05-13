@@ -101,7 +101,7 @@ export interface IPublicModelComponentMeta<
      * @param parent 父节点
      */
     checkNestingDown: (
-        my: Node | IPublicTypeNodeData,
+        my: Node,
         target: IPublicTypeNodeSchema | Node | IPublicTypeNodeSchema[],
     ) => boolean;
 

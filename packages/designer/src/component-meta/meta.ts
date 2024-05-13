@@ -12,13 +12,14 @@ import type {
 import { EventEmitter } from 'eventemitter3';
 import { isRegExp } from 'lodash-es';
 import { h } from 'vue';
-import type { Designer } from './designer';
-import { Node, isNode } from './node';
-import addonCombine from './transducers/addon-combine';
-import parseDefault from './transducers/parse-default';
-import parseJSFunc from './transducers/parse-func';
-import { parseProps } from './transducers/parse-props';
-import type { INode } from './types';
+import type { Designer } from '../designer';
+import { Node, isNode } from '../node';
+import addonCombine from '../transducers/addon-combine';
+import parseDefault from '../transducers/parse-default';
+import parseJSFunc from '../transducers/parse-func';
+import { parseProps } from '../transducers/parse-props';
+import type { INode } from '../types';
+import Switch from './components/switch';
 
 export function ensureAList(list?: string | string[]): string[] | null {
     if (!list)
@@ -106,17 +107,6 @@ export function getRegisteredMetadataTransducers(): IMetadataTransducer[] {
 
 const builtinComponentActions: IPublicTypeComponentAction[] = [
     {
-        name: 'remove',
-        content: {
-            icon: () => h(Delete, { size: 14 }),
-            title: '删除',
-            action(node: INode) {
-                node.remove();
-            },
-        },
-        important: true,
-    },
-    {
         name: 'copy',
         content: {
             icon: () => h(Copy, { size: 14 }),
@@ -133,6 +123,24 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
                     doc.selection.select(newNode.id);
                 }
                 // TODO
+            },
+        },
+        important: true,
+    },
+    {
+        name: 'switch',
+        content: ({ node }: { node: INode }) => {
+            return [h(Switch, { node })];
+        },
+        important: true,
+    },
+    {
+        name: 'remove',
+        content: {
+            icon: () => h(Delete, { size: 14 }),
+            title: '删除',
+            action(node: INode) {
+                node.remove();
             },
         },
         important: true,

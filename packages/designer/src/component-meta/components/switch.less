@@ -1,0 +1,27 @@
+.letgo-switch-popover {
+    box-sizing: border-box;
+    font-size: var(--letgo-font-size);
+
+    &__header {
+        font-size: calc(var(--letgo-font-size) + 2px);
+        margin-bottom: 12px;
+    }
+
+    &__header-desc {
+        color: var(--letgo-text-color-caption);
+        font-size: var(--letgo-font-size);
+    }
+
+    &__body {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* 创建两列，每列的宽度是可用空间的一半 */
+        gap: 10px; /* 设置网格项之间的间隙 */
+        width: 300px;
+
+        & &-item {
+            justify-content: flex-start;
+            padding: 0 8px;
+        }
+    }
+
+}

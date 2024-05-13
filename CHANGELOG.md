@@ -1,3 +1,19 @@
+## [0.0.4-beta.31](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.30...v0.0.4-beta.31) (2024-05-13)
+
+
+### Bug Fixes
+
+* transformExpression 语法异常 catch ([1791e8a](https://git.weoa.com/mumblefe/letgo/commits/1791e8abf4c7dd33e143a33df95adbbe0acaf5fe))
+* 修复大纲树滚动过快问题 ([89994bd](https://git.weoa.com/mumblefe/letgo/commits/89994bdcbf3857da8f15c8b15f17e915d533fc2f))
+
+
+### Features
+
+* 组件树添加复制功能 ([095f284](https://git.weoa.com/mumblefe/letgo/commits/095f284e70186bf3a4d35659e1bb86eea25bc079))
+* 选中工具添加切换组件功能 ([889d2cc](https://git.weoa.com/mumblefe/letgo/commits/889d2ccb8909e889cf838c83160aea5eada43ef8))
+
+
+
 ## [0.0.4-beta.30](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.29...v0.0.4-beta.30) (2024-05-11)
 
 

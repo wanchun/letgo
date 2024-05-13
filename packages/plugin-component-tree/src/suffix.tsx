@@ -1,5 +1,5 @@
 import { FDropdown, FForm, FFormItem, FInput, FModal } from '@fesjs/fes-design';
-import { Delete, Edit, Lock, MoreOne, PreviewClose, PreviewOpen, Unlock } from '@icon-park/vue-next';
+import { Copy, Delete, Edit, Lock, MoreOne, PreviewClose, PreviewOpen, Unlock } from '@icon-park/vue-next';
 import type { INode } from '@webank/letgo-designer';
 import type { PropType } from 'vue';
 import { computed, defineComponent, reactive, ref } from 'vue';
@@ -19,6 +19,12 @@ export const SuffixView = defineComponent({
             const isDialogOpen = node.isDialogOpen;
             const isDialog = !!node.componentMeta.dialogControlProp;
             return [
+                !isRoot
+                && {
+                    value: 'copy',
+                    label: '复制',
+                    icon: () => <Copy class="letgo-comp-tree__icon letgo-comp-tree__icon--node" theme="outline"> </Copy>,
+                },
                 {
                     value: 'change',
                     label: '修改',
@@ -56,6 +62,19 @@ export const SuffixView = defineComponent({
 
         const onClick = (val: string) => {
             const node = props.node;
+            if (val === 'copy') {
+                const { document: doc, parent, index } = node;
+                if (parent) {
+                    const newNode = doc.insertNode(
+                        parent,
+                        node,
+                        index + 1,
+                        true,
+                    );
+                    doc.selection.select(newNode.id);
+                }
+            }
+
             if (val === 'change')
                 isEdit.value = true;
 

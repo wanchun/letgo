@@ -92,13 +92,13 @@ export default function useDrag({
             if (event.clientY > rootRect.bottom - offset) {
                 rootRef.value.scrollTo({
                     left: 0,
-                    top: rootRef.value.scrollTop + offset / 2,
+                    top: rootRef.value.scrollTop + 8,
                 });
             }
             if (event.clientY < rootRect.top + offset) {
                 rootRef.value.scrollTo({
                     left: 0,
-                    top: rootRef.value.scrollTop - offset / 2,
+                    top: rootRef.value.scrollTop - 8,
                 });
             }
         }

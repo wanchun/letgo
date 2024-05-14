@@ -14,7 +14,7 @@ export interface IEventHandler {
     method?: string;
     onlyRunWhen?: string;
     waitMs?: number;
-    waitType: string;
+    waitType?: string;
     params?: string[];
 }
 

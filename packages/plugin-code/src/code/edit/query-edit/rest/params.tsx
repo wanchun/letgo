@@ -64,6 +64,16 @@ export default defineComponent({
             });
         };
 
+        const onApiInputBlur = (api: string) => {
+            if (api) {
+                api = api.trim();
+                if (/^[\/]?\w+\//.test(api)) {
+                    api = api.replace(/\s/g, '');
+                    changeApiPath(JSON.stringify(api));
+                }
+            }
+        };
+
         return () => {
             return (
                 <div>
@@ -80,6 +90,7 @@ export default defineComponent({
                                             placeholder="/api/path/to/get/data"
                                             class="letgo-plg-code__query-api"
                                             doc={props.codeItem.api}
+                                            onBlur={onApiInputBlur}
                                             onChange={changeApiPath}
                                         />
                                     </div>

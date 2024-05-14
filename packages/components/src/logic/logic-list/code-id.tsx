@@ -50,6 +50,13 @@ export default defineComponent({
             hasRepeatIdError.value = false;
         };
 
+        const handleKeydown = (event: KeyboardEvent) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                inputRefEl.value.blur();
+            }
+        };
+
         return () => {
             return (
                 <div class="letgo-comp-code__id">
@@ -63,6 +70,7 @@ export default defineComponent({
                         value={currentValue.value}
                         onInput={checkError}
                         onBlur={cancelEdit}
+                        onKeydown={handleKeydown}
                     />
                 </div>
             );

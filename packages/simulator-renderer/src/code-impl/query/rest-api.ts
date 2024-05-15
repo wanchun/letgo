@@ -18,11 +18,12 @@ export class RestApiQueryImpl extends JavascriptQueryImpl {
         });
     }
 
-    genQueryFn() {
+    genQueryFn(extraParams?: Record<string, any>) {
         return genRestApiQueryFunc({
             api: this.api,
             method: this.method,
             params: this.params,
+            extraParams,
             headers: this.headers,
         });
     }

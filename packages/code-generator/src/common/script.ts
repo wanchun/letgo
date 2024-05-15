@@ -1,17 +1,27 @@
 import type {
     IPublicTypeComponentMap,
+    IPublicTypeNpmInfo,
     IPublicTypeRootSchema,
 } from '@webank/letgo-types';
 import {
     isLowCodeComponentType,
     isProCodeComponentType,
 } from '@webank/letgo-types';
+import { startCase } from 'lodash-es';
 import { relative } from '../options';
 import { genCode } from './helper';
 import { ImportType } from './types';
 import type { Context, ImportSource } from './types';
 import { applyGlobalState } from './global-state';
 import { getLowComponentFilePath } from './lowcode-component';
+
+function getAliasExportName(componentMap: IPublicTypeNpmInfo) {
+    const cName = startCase(componentMap.componentName).replace(/ /g, '');
+    if (componentMap.exportName.toLowerCase() === cName.toLowerCase())
+        return null;
+
+    return cName;
+}
 
 function genComponentImports(ctx: Context, componentMaps: IPublicTypeComponentMap[], filePath: string) {
     const importSources: ImportSource[] = [];
@@ -21,6 +31,7 @@ function genComponentImports(ctx: Context, componentMaps: IPublicTypeComponentMa
                 source: componentMap.package,
                 type: ImportType.ImportSpecifier,
                 imported: componentMap.exportName || componentMap.componentName,
+                alias: getAliasExportName(componentMap),
             });
         }
         else if (isLowCodeComponentType(componentMap)) {

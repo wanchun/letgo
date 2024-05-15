@@ -150,6 +150,10 @@ export type IPublicTypePackage = EitherOr<{
      * 当前资源包的依赖资源的唯一标识列表
      */
     deps?: string[];
+    /**
+     * 按需加载时，样式引入
+     */
+    cssResolver?: (name: string) => string | string[];
 }, 'package', 'id'>;
 
 /**

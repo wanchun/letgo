@@ -58,6 +58,9 @@ export function genSingleImport(imports: ImportSource[]) {
 
     const importPath = `'${source}${mainPath}'`;
 
+    if (imports.find(item => item.type === ImportType.ImportNull))
+        return `import ${importPath};`;
+
     if (imports.find(item => item.type === ImportType.ImportAll))
         return `import * as ${defaultImport} from ${importPath};`;
 

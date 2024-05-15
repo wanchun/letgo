@@ -28,6 +28,7 @@ export enum ImportType {
     ImportDefaultSpecifier = 'ImportDefaultSpecifier',
     ImportAll = 'ImportAll',
     ImportSpecifier = 'ImportSpecifier',
+    ImportNull = 'ImportNull',
 }
 
 export interface ImportSource {
@@ -78,5 +79,5 @@ export interface Context {
     globalScope?: Record<string, any>;
     schema: IPublicTypeProjectSchema;
     refs?: Set<string>;
-    useVariables: Set<string>;
+    useVariables?: Set<string>;
 }

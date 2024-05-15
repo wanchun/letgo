@@ -135,17 +135,6 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
         important: true,
     },
     {
-        name: 'remove',
-        content: {
-            icon: () => h(Delete, { size: 14 }),
-            title: '删除',
-            action(node: INode) {
-                node.remove();
-            },
-        },
-        important: true,
-    },
-    {
         name: 'lock',
         content: {
             icon: () => h(Lock, { size: 14 }),
@@ -198,6 +187,17 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
         },
         condition: (node: INode) => {
             return !!node.componentMeta.dialogControlProp && node.isDialogOpen;
+        },
+        important: true,
+    },
+    {
+        name: 'remove',
+        content: {
+            icon: () => h(Delete, { size: 14 }),
+            title: '删除',
+            action(node: INode) {
+                node.remove();
+            },
         },
         important: true,
     },

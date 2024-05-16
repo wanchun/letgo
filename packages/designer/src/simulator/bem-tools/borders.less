@@ -73,4 +73,63 @@
         background: rgba(182, 178, 178, 0.8);
         border: none;
     }
+
+    &-add-next {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &-right {
+            height: 100%;
+            right: -1px;
+            top: 0;
+            transform: translateX(50%);
+        }
+
+        &-left {
+            height: 100%;
+            left: -1px;
+            top: 0;
+            transform: translateX(-50%);
+        }
+
+        &-top {
+            width: 100%;
+            left: 0;
+            top: -1px;
+            transform: translateY(-50%);
+        }
+
+        &-bottom {
+            width: 100%;
+            left: 0;
+            bottom: -1px;
+            transform: translateY(50%);
+        }
+        
+
+
+        .i-icon {
+            cursor: pointer;
+            pointer-events: all;
+            line-height: 1em;
+        }
+    }
+
+    &-add-next-components {
+        width: 300px;
+
+        .letgo-components__item {
+            width: 100%;
+            justify-content: flex-start;
+            padding: 0 8px;
+        }
+    
+        .letgo-components__icon {
+            height: 100%;
+            width: auto;
+            margin-right: 4px;
+        }
+    }
 }

@@ -1,7 +1,6 @@
 import type { DocumentModel, Project as InnerProject } from '@webank/letgo-designer';
 import type {
     IPublicTypeAppConfig,
-    IPublicTypeIconSchema,
     IPublicTypeProjectSchema,
     IPublicTypeRootSchema,
     IPublicTypeUtilsMap,

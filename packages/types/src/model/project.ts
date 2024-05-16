@@ -12,6 +12,9 @@ export interface IBaseProject<
   DocumentModel,
   Code = IPublicModelCode,
 > {
+
+    id: string | number;
+
     css: string;
 
     codesInstance: Record<string, any>;

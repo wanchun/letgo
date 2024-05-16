@@ -188,6 +188,12 @@ importers:
       '@webank/letgo-common':
         specifier: ^0.0.4-beta.14
         version: link:../common
+      '@webank/letgo-components':
+        specifier: ^0.0.4-beta.16
+        version: link:../components
+      '@webank/letgo-designer':
+        specifier: ^0.0.4-beta.18
+        version: 'link:'
       '@webank/letgo-editor-core':
         specifier: ^0.0.4-beta.19
         version: link:../editor-core
@@ -444,12 +450,12 @@ importers:
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.4.21)
-      '@vueuse/core':
-        specifier: ^10.7.1
-        version: 10.9.0(vue@3.4.21)
       '@webank/letgo-common':
         specifier: ^0.0.4-beta.14
         version: link:../common
+      '@webank/letgo-components':
+        specifier: ^0.0.4-beta.16
+        version: link:../components
       '@webank/letgo-designer':
         specifier: ^0.0.4-beta.21
         version: link:../designer

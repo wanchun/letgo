@@ -16,7 +16,7 @@ function formatRestParams(ctx: Record<string, any>, params: string, extraParams:
     if (!_params)
         return extraParams || null;
 
-    if (isPlainObject(_params))
+    if (isPlainObject(_params) && isPlainObject(extraParams))
         return { ..._params, ...extraParams };
 
     return _params;

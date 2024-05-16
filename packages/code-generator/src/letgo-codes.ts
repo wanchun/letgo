@@ -156,7 +156,7 @@ class JSQuery {
             return extraParams || null;
         }
     
-        if (isPlainObject(params))
+        if (isPlainObject(params) && isPlainObject(extraParams))
             return { ...params, ...extraParams };
     
         return params;

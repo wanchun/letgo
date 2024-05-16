@@ -89,7 +89,7 @@ export class JavascriptQueryBase {
         });
     }
 
-    genQueryFn() {
+    genQueryFn(_extraParams?: Record<string, any>) {
         if (this.query) {
             // eslint-disable-next-line no-new-func
             return new Function('_ctx', `
@@ -104,10 +104,10 @@ export class JavascriptQueryBase {
         }
     }
 
-    trigger = async () => {
+    trigger = async (extraParams?: Record<string, any>) => {
         if (this.enableCaching && this.cacheTime && (Date.now() - this.cacheTime) < this.cacheDuration * 1000)
             return;
-        const fn = this.genQueryFn();
+        const fn = this.genQueryFn(extraParams);
         if (fn) {
             try {
                 this.loading = true;

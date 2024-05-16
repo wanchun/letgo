@@ -1,6 +1,7 @@
 import { executeExpression } from '@webank/letgo-common';
 
 import { type IRestQueryResource, isJSExpression } from '@webank/letgo-types';
+import { isPlainObject } from 'lodash-es';
 import { JavascriptQueryBase } from './base';
 
 function handleHeaders(headers: IRestQueryResource['headers'], ctx: Record<string, any>) {
@@ -10,16 +11,29 @@ function handleHeaders(headers: IRestQueryResource['headers'], ctx: Record<strin
     return {};
 }
 
+function formatRestParams(ctx: Record<string, any>, params: string, extraParams: Record<string, any>) {
+    const _params = executeExpression(params, ctx);
+    if (!_params)
+        return extraParams || null;
+
+    if (isPlainObject(_params) && isPlainObject(extraParams))
+        return { ..._params, ...extraParams };
+
+    return _params;
+}
+
 export function genRestApiQueryFunc({
     api,
     params,
     method,
     headers,
+    extraParams,
 }: {
     api: string;
     params: string;
     method: string;
     headers?: IRestQueryResource['headers'];
+    extraParams?: Record<string, any>;
 }) {
     if (api) {
         // eslint-disable-next-line no-new-func
@@ -31,11 +45,14 @@ export function genRestApiQueryFunc({
                     return result;
                 `);
         return (ctx: Record<string, any>) => {
-            const _params = [executeExpression(api, ctx, true), executeExpression(params, ctx), {
-                method,
-                headers: headers ? handleHeaders(headers, ctx) : undefined,
-            }];
-            return fn(ctx, _params);
+            return fn(ctx, [
+                executeExpression(api, ctx, true),
+                formatRestParams(ctx, params, extraParams),
+                {
+                    method,
+                    headers: headers ? handleHeaders(headers, ctx) : undefined,
+                },
+            ]);
         };
     }
 }
@@ -54,11 +71,12 @@ export class RestApiQuery extends JavascriptQueryBase {
         this.headers = data.headers;
     }
 
-    genQueryFn() {
+    genQueryFn(extraParams?: Record<string, any>) {
         return genRestApiQueryFunc({
             api: this.api,
             method: this.method,
             params: this.params,
+            extraParams,
             headers: this.headers,
         });
     }

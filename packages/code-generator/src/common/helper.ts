@@ -226,11 +226,11 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct)
                     imported: 'letgoRequest',
                 });
                 const api = getApiPath(item.api);
-                const params = item.params ? `, ${item.params}` : ', null';
+                const params = item.params ? `, this.formatParams(${item.params}, extraParams)` : ', this.formatParams(extraParams)';
                 codeStr.push(`
     const ${item.id} = useJSQuery({
         id: '${item.id}',
-        query() {
+        query(extraParams) {
             return letgoRequest(${api}${params}, {
                 method: '${item.method || 'POST'}',
                 ${item.headers?.value ? `headers: ${item.headers.value},` : ''}  

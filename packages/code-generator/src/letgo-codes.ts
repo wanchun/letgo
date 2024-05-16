@@ -111,6 +111,7 @@ export function useInstance() {
     return [refEl, proxy];
 }`,
     'useJSQuery.js': `
+import { isPlainObject } from 'lodash-es';
 import { markReactive } from './reactive';
 import { IEnumRunCondition } from './letgoConstants';
 
@@ -149,8 +150,19 @@ class JSQuery {
             }, timeout);
         });
     }
+    
+    formatParams(params, extraParams) {
+        if (!params) {
+            return extraParams || null;
+        }
+    
+        if (isPlainObject(params) && isPlainObject(extraParams))
+            return { ...params, ...extraParams };
+    
+        return params;
+    }
 
-    async trigger() {
+    async trigger(extraParams) {
         if (this.enableCaching && this.cacheTime && (Date.now() - this.cacheTime) < this.cacheDuration * 1000)
             return;
 
@@ -159,9 +171,9 @@ class JSQuery {
                 this.loading = true;
                 let response;
                 if (this.queryTimeout)
-                    response = await Promise.race([this.timeoutPromise(this.queryTimeout), this.query()]);
+                    response = await Promise.race([this.timeoutPromise(this.queryTimeout), this.query(extraParams)]);
                 else
-                    response = await this.query();
+                    response = await this.query(extraParams);
 
                 this.response = response;
                 let data = response?.data;

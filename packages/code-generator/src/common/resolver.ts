@@ -6,7 +6,7 @@ export function cssResolver(npm: IPublicTypeNpmInfo, schema: IPublicTypeProjectS
     const importSources: ImportSource[] = [];
     const _package = schema.packages?.filter(item => item.package === npm.package)?.[0];
     if (_package?.cssResolver) {
-        let res = _package.cssResolver(npm.componentName || npm.exportName);
+        let res = _package.cssResolver(npm.exportName || npm.componentName);
         res = Array.isArray(res) ? res : [res];
         res.forEach((item) => {
             importSources.push({

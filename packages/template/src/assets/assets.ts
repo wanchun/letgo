@@ -20,6 +20,21 @@ const assets: IPublicTypeAssetsJson = {
             library: 'FesDesign',
         },
         {
+            package: 'vant',
+            version: '4.9.0',
+            urls: [
+                'https://registry.npmmirror.com/vant/4.9.0/files/lib/vant.min.js',
+                'https://registry.npmmirror.com/vant/4.9.0/files/lib/index.css',
+            ],
+            library: 'vant',
+            cssResolver: (componentName: string) => {
+                if (componentName === 'showToast')
+                    return `vant/lib/toast/style`;
+
+                return `vant/lib/${componentName}/style`;
+            },
+        },
+        {
             title: '低代码组件 A',
             id: 'lcc-a',
             version: '0.1.5',
@@ -116,6 +131,39 @@ const assets: IPublicTypeAssetsJson = {
         },
     ],
     components: [
+        {
+            title: 'vant按钮',
+            componentName: 'van-button',
+            npm: {
+                package: 'vant',
+                version: '4.9.0',
+                exportName: 'Button',
+                destructuring: true,
+            },
+            props: [
+                {
+                    name: 'text',
+                    title: '文字',
+                    propType: 'string',
+                },
+            ],
+            snippets: [
+                {
+                    title: 'vant按钮',
+                    schema: {
+                        componentName: 'van-button',
+                        props: {
+                            type: 'primary',
+                            size: 'normal',
+                            text: '按钮',
+                        },
+                    },
+                },
+            ],
+            category: '基础元素',
+            group: '原子组件',
+            priority: 0,
+        },
         {
             title: '拖拽',
             componentName: 'FDraggable',
@@ -9699,6 +9747,15 @@ const assets: IPublicTypeAssetsJson = {
             package: '@fesjs/fes-design',
             version: '0.8.38',
             exportName: 'FModal',
+            destructuring: true,
+        },
+    }, {
+        name: 'showToast',
+        type: 'npm',
+        content: {
+            package: 'vant',
+            version: '4.9.0',
+            exportName: 'showToast',
             destructuring: true,
         },
     }],

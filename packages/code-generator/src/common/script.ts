@@ -14,6 +14,7 @@ import { ImportType } from './types';
 import type { Context, ImportSource } from './types';
 import { applyGlobalState } from './global-state';
 import { getLowComponentFilePath } from './lowcode-component';
+import { cssResolver } from './resolver';
 
 function getAliasExportName(componentMap: IPublicTypeNpmInfo) {
     const cName = startCase(componentMap.componentName).replace(/ /g, '');
@@ -32,6 +33,9 @@ function genComponentImports(ctx: Context, componentMaps: IPublicTypeComponentMa
                 type: ImportType.ImportSpecifier,
                 imported: componentMap.exportName || componentMap.componentName,
                 alias: getAliasExportName(componentMap),
+            });
+            cssResolver(componentMap, ctx.schema).forEach((importSource) => {
+                importSources.push(importSource);
             });
         }
         else if (isLowCodeComponentType(componentMap)) {

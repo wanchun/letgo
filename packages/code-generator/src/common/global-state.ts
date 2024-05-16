@@ -10,6 +10,7 @@ import { relative } from '../options';
 import { genCode, genImportCode } from './helper';
 import type { CallBackParam, Context, FileTree, GenOptions, ImportSource, SetupCode } from './types';
 import { ImportType } from './types';
+import { cssResolver } from './resolver';
 
 export const GLOBAL_STATE_FILE_NAME = 'useLetgoGlobal';
 
@@ -51,14 +52,20 @@ function compilerNpmImports(npm: IPublicTypeNpmInfo): ImportSource {
     };
 }
 
-function genUtilsImports(utils: IPublicTypeUtilsMap): ImportSource[] {
-    return utils.filter(item => item.type !== 'function').map((item) => {
-        return compilerNpmImports(item.content as IPublicTypeNpmInfo);
+function genUtilsImports(utils: IPublicTypeUtilsMap, schema: Context['schema']): ImportSource[] {
+    const importSources: ImportSource[] = [];
+    utils.filter(item => item.type !== 'function').forEach((item) => {
+        const content = item.content as IPublicTypeNpmInfo;
+        importSources.push(compilerNpmImports(content));
+        cssResolver(content, schema).forEach((importSource) => {
+            importSources.push(importSource);
+        });
     });
+    return importSources;
 }
 
-export function compilerUtils(utils: IPublicTypeUtilsMap) {
-    const importSources = genUtilsImports(utils);
+export function compilerUtils(utils: IPublicTypeUtilsMap, schema: Context['schema']) {
+    const importSources = genUtilsImports(utils, schema);
     const code = utils.map((item) => {
         if (item.type === 'function')
             return `${item.name}: ${item.content.value}`;
@@ -106,7 +113,7 @@ export function genGlobalStateCode(ctx: Context, fileTree: FileTree, options: Ge
     }
 
     if (schema.utils) {
-        const _result = compilerUtils(schema.utils);
+        const _result = compilerUtils(schema.utils, schema);
         result.import.push(..._result.importSources);
         result.code += _result.code;
         result.export.push('utils');

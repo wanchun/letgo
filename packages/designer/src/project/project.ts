@@ -16,7 +16,7 @@ import {
     isLowCodeComponentType,
     isProCodeComponentType,
 } from '@webank/letgo-types';
-import { markComputed, markShallowReactive } from '@webank/letgo-common';
+import { markComputed, markShallowReactive, uniqueId } from '@webank/letgo-common';
 import { editor } from '@webank/letgo-editor-core';
 import { isDocumentModel } from '../types';
 import type { Designer } from '../designer';
@@ -24,6 +24,7 @@ import { DocumentModel } from '../document';
 import { Code } from '../code/code';
 
 export class Project implements IBaseProject<DocumentModel, Code> {
+    id: string | number;
     css: string;
 
     codesInstance: Record<string, any> = {};
@@ -143,6 +144,7 @@ export class Project implements IBaseProject<DocumentModel, Code> {
         };
         this.config = schema?.config || this.config;
         this.css = schema?.css;
+        this.id = schema?.id || uniqueId('project');
         this.code.initCode(schema?.code);
 
         // TODO: 可以不用都初始化，导出时想办法用documents和componentsTree合并

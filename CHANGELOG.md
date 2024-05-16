@@ -1,3 +1,21 @@
+## [0.0.4-beta.32](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.31...v0.0.4-beta.32) (2024-05-16)
+
+
+### Bug Fixes
+
+* change waitType ([03db215](https://git.weoa.com/mumblefe/letgo/commits/03db21559489d8e51c308ba0d1000c338e6264c1))
+* 优化 ([32d6121](https://git.weoa.com/mumblefe/letgo/commits/32d61217e58ae3bd3189b4f0b84cda1f68ca8c48))
+
+
+### Features
+
+* code 编辑,回车自动失焦点 ([c63c48f](https://git.weoa.com/mumblefe/letgo/commits/c63c48fd469298176cfafe525fdb97759df6be46))
+* query  api 输入失去焦点的时候，自动加“”包裹 ([a253a68](https://git.weoa.com/mumblefe/letgo/commits/a253a6868d569a6bd02d2f8492d1a88eda835c7c))
+* 出码支持 exportName 和 componentName 不同名 ([01e62fc](https://git.weoa.com/mumblefe/letgo/commits/01e62fc7d8701c4a565245342da76865bb7dd6d4))
+* 出码支持按需加载css ([91b3c84](https://git.weoa.com/mumblefe/letgo/commits/91b3c84d2667fd39927d176f19b7d225471a6ef8))
+
+
+
 ## [0.0.4-beta.31](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.30...v0.0.4-beta.31) (2024-05-13)
 
 

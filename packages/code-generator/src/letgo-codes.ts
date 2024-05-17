@@ -86,6 +86,7 @@ export function useComputed({
             try {
                 return func();
             } catch (_) {
+                console.warn(_);
                 return null;
             }
         }),

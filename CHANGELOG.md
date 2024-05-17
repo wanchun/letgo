@@ -1,3 +1,24 @@
+## [0.0.4-beta.33](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.32...v0.0.4-beta.33) (2024-5-17)
+
+
+### Bug Fixes
+
+* 强化 extraParams 参数校验 ([a97a2b8](https://git.weoa.com/mumblefe/letgo/commits/a97a2b8d8030df8347454eae6c6408df61b15257))
+* 文件夹内逻辑执行复制,依旧在文件夹内 ([2af2c02](https://git.weoa.com/mumblefe/letgo/commits/2af2c02910836f06bba17c665b4067e06ff6b670))
+* 修复cssReslover处理组件名问题 ([963da24](https://git.weoa.com/mumblefe/letgo/commits/963da24de192c9401c23e47ef907539540c6672d))
+* computed 出码向外抛运行异常警告 ([e792665](https://git.weoa.com/mumblefe/letgo/commits/e792665761c1073d84f69192f85b334629833ac6))
+* remove shell project set ([172364b](https://git.weoa.com/mumblefe/letgo/commits/172364ba45276a6808066804cee9fcc2ac4a0a94))
+
+
+### Features
+
+* 添加下一个组件 ([ce47389](https://git.weoa.com/mumblefe/letgo/commits/ce473890168852d626ed3c5ce21c807b9fcf8350))
+* project add id ([dac2336](https://git.weoa.com/mumblefe/letgo/commits/dac2336690f36c30686410ec60bc6158805397cc))
+* query.trigger 支持直接传参 ([fc07d68](https://git.weoa.com/mumblefe/letgo/commits/fc07d68aae0ca4e3270b09cd079495b3036ff1c0))
+* update lock ([c7315c3](https://git.weoa.com/mumblefe/letgo/commits/c7315c39b546b7ba020c287349df035693cb23ea))
+
+
+
 ## [0.0.4-beta.32](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.31...v0.0.4-beta.32) (2024-05-16)
 
 

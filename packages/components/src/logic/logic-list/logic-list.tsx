@@ -100,13 +100,14 @@ export const LogicList = defineComponent({
             });
         }
 
-        function formatCodeItem(codeItem: ICodeItem, code: IPublicModelCode) {
+        function formatCodeItem(codeItem: ICodeItem, code: IPublicModelCode, dId?: string) {
             return {
                 label: genLabel(codeItem),
                 value: codeItem.id,
                 prefix: () => codeItem.type === IEnumCodeType.JAVASCRIPT_QUERY ? h(ResourceTypeIcon[codeItem.resourceType]) : h(IconMap[codeItem.type]),
                 suffix: () => h(CodeItemActions, {
                     id: codeItem.id,
+                    directoryId: dId,
                     code,
                     onRename,
                     onSelect: onSelectCodeItemOrDirectory,
@@ -122,7 +123,7 @@ export const LogicList = defineComponent({
                 const codeItems = item.code.filter((codeItem) => {
                     return !isNil(props.searchText) ? codeItem.id.includes(props.searchText) : true;
                 }).map((codeItem) => {
-                    return formatCodeItem(codeItem, code);
+                    return formatCodeItem(codeItem, code, item.id);
                 });
 
                 // REFACTOR computed 内部不应该有副作用

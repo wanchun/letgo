@@ -108,6 +108,13 @@ export function getRegisteredMetadataTransducers(): IMetadataTransducer[] {
 
 const builtinComponentActions: IPublicTypeComponentAction[] = [
     {
+        name: 'next',
+        content: ({ node }: { node: INode }) => {
+            return [h(AddNextComponent, { node })];
+        },
+        import: true,
+    },
+    {
         name: 'copy',
         content: {
             icon: () => h(Copy, { size: 14 }),
@@ -134,13 +141,6 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
             return [h(Switch, { node })];
         },
         important: true,
-    },
-    {
-        name: 'next',
-        content: ({ node }: { node: INode }) => {
-            return [h(AddNextComponent, { node })];
-        },
-        import: true,
     },
     {
         name: 'lock',

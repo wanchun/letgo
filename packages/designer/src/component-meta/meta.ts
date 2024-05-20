@@ -19,6 +19,7 @@ import parseDefault from '../transducers/parse-default';
 import parseJSFunc from '../transducers/parse-func';
 import { parseProps } from '../transducers/parse-props';
 import type { INode } from '../types';
+import AddNextComponent from './components/add-next-component';
 import Switch from './components/switch';
 
 export function ensureAList(list?: string | string[]): string[] | null {
@@ -133,6 +134,13 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
             return [h(Switch, { node })];
         },
         important: true,
+    },
+    {
+        name: 'next',
+        content: ({ node }: { node: INode }) => {
+            return [h(AddNextComponent, { node })];
+        },
+        import: true,
     },
     {
         name: 'lock',

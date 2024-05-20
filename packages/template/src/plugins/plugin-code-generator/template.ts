@@ -62,7 +62,7 @@ import CustomHeader from '@/components/customHeader.vue';
 
 export default defineRuntimeConfig({
     onAppCreated: ({ app }) => {
-        app.component('Icon', builtinComponents.Icon);
+        app.component('LetgoIcon', builtinComponents.LetgoIcon);
     },
     beforeRender: {
         async action() {

@@ -4,8 +4,8 @@ import { isNil } from 'lodash-es';
 import type { IPublicTypeComponentMetadata } from '@webank/letgo-types';
 import { version } from '../version';
 
-export const Icon = defineComponent({
-    name: 'Icon',
+export const LetgoIcon = defineComponent({
+    name: 'LetgoIcon',
     props: {
         content: String,
         rotate: String,
@@ -41,13 +41,13 @@ export const Icon = defineComponent({
     },
 });
 
-export const IconMeta: IPublicTypeComponentMetadata = {
+export const LetgoIconMeta: IPublicTypeComponentMetadata = {
     title: '图标',
-    componentName: 'Icon',
+    componentName: 'LetgoIcon',
     npm: {
         package: '@webank/letgo-components',
         version,
-        exportName: 'Icon',
+        exportName: 'LetgoIcon',
         destructuring: true,
     },
     configure: {
@@ -82,7 +82,7 @@ export const IconMeta: IPublicTypeComponentMetadata = {
         {
             title: '图标',
             schema: {
-                componentName: 'Icon',
+                componentName: 'LetgoIcon',
                 props: {
                 },
             },

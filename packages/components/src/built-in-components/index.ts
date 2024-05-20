@@ -1,19 +1,19 @@
-import { Icon, IconMeta } from './icon';
+import { LetgoIcon, LetgoIconMeta } from './icon';
 import { Page, PageMeta } from './page';
 import { Component, ComponentMeta } from './component';
 import { Slot, SlotMeta } from './slot';
 import { Leaf, LeafMeta } from './leaf';
 
-export const builtinComponents = { Icon, Page, Component, Slot, Leaf };
-export const builtinComponentsMeta = [IconMeta, PageMeta, ComponentMeta, SlotMeta, LeafMeta];
+export const builtinComponents = { LetgoIcon, Page, Component, Slot, Leaf };
+export const builtinComponentsMeta = [LetgoIconMeta, PageMeta, ComponentMeta, SlotMeta, LeafMeta];
 
 export {
-    Icon,
+    LetgoIcon,
     Page,
     Component,
     Slot,
     Leaf,
-    IconMeta,
+    LetgoIconMeta,
     PageMeta,
     ComponentMeta,
     SlotMeta,

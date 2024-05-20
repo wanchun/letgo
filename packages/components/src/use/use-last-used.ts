@@ -1,19 +1,37 @@
-import { createGlobalState, useStorage, useUrlSearchParams } from '@vueuse/core';
-import type { IPublicTypeSnippet } from '@webank/letgo-types';
+import { createGlobalState } from '@vueuse/core';
+import type { IPublicTypeProjectSchema, IPublicTypeSnippet } from '@webank/letgo-types';
 import type { Ref } from 'vue';
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 interface UsedLog {
     name: string;
     count: number;
 };
 
-const useGlobalState = createGlobalState(key => useStorage(key, {}, localStorage));
+function _useLastUsedComp(project?: IPublicTypeProjectSchema) {
+    const lastUsed = ref({});
 
-export function useLastUsed(snippetsRef: Ref<IPublicTypeSnippet[]>, limit?: number, projectId?: string) {
-    const urlParams = useUrlSearchParams('hash');
-    const key = `LAST_USED_${projectId || urlParams.id as string || ''}`;
-    const lastUsed: Ref<Record<string, UsedLog>> = useGlobalState(key);
+    watch(() => project.id, (val) => {
+        const key = `LAST_USED_${val}`;
+        lastUsed.value = JSON.parse(localStorage.getItem(key));
+    }, {
+        immediate: true,
+    });
+
+    watch(lastUsed, () => {
+        const key = `LAST_USED_${project?.id}`;
+        localStorage.setItem(key, JSON.stringify(lastUsed.value));
+    }, {
+        deep: true,
+    });
+
+    return lastUsed;
+}
+
+const useGlobalState = createGlobalState(_useLastUsedComp);
+
+export function useLastUsed(snippetsRef: Ref<IPublicTypeSnippet[]>, limit?: number, project?: IPublicTypeProjectSchema) {
+    const lastUsed: Ref<Record<string, UsedLog>> = useGlobalState(project);
 
     const addLastUsed = (snippet: IPublicTypeSnippet) => {
         const componentName = snippet.schema.componentName;

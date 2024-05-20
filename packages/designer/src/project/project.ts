@@ -78,6 +78,7 @@ export class Project implements IBaseProject<DocumentModel, Code> {
             utilsInstance: {},
             css: '',
             config: {},
+            id: '',
         });
         markComputed(this, ['extraGlobalState']);
         this.code = new Code();

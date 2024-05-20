@@ -2,7 +2,7 @@ import type { DefineComponent, PropType } from 'vue';
 import { defineComponent } from 'vue';
 import type { IJavascriptQuery, IPublicModelProject, IRestQueryResource } from '@webank/letgo-types';
 import CommonGeneral from '../common-general';
-import { CustomComponent } from '../../../../common/register';
+import { CustomComponent } from '../../../register';
 import ParamsConfig from './params';
 import type { ParamsProps } from './params';
 

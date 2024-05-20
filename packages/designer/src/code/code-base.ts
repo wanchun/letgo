@@ -4,6 +4,7 @@ import type {
     IJavascriptComputed,
     IJavascriptFunction,
     IJavascriptQuery,
+    ILifecycle,
     ITemporaryState,
 } from '@webank/letgo-types';
 
@@ -67,9 +68,21 @@ class JavascriptQueryEdit implements CodeBaseEdit {
     }
 }
 
+class Lifecycle implements CodeBaseEdit {
+    addCode(id: string): ILifecycle {
+        return {
+            id,
+            type: IEnumCodeType.LIFECYCLE_HOOK,
+            hookName: '',
+            funcBody: '// Tip: 函数 \nfunction func() {\n  \n}',
+        };
+    }
+}
+
 export const codeBaseEdit = {
     [IEnumCodeType.JAVASCRIPT_QUERY]: new JavascriptQueryEdit(),
     [IEnumCodeType.JAVASCRIPT_COMPUTED]: new JavascriptComputedEdit(),
     [IEnumCodeType.TEMPORARY_STATE]: new TemporaryStateEdit(),
     [IEnumCodeType.JAVASCRIPT_FUNCTION]: new JavascriptFunctionEdit(),
+    [IEnumCodeType.LIFECYCLE_HOOK]: new Lifecycle(),
 };

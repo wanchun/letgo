@@ -4,7 +4,7 @@ import { FScrollbar } from '@fesjs/fes-design';
 import type { ICodeItemOrDirectory, IEnumCodeType, IEnumResourceType, IPublicModelCode } from '@webank/letgo-types';
 import { LogicList } from './logic-list/logic-list';
 import { AddAction } from './logic-list/add';
-import './code.less';
+import './code-list.less';
 
 export const CodeList = defineComponent({
     name: 'CodeList',

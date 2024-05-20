@@ -1,12 +1,12 @@
 import { Teleport, computed, defineComponent, ref, watch } from 'vue';
 import type { PropType } from 'vue';
 import type { Designer } from '@webank/letgo-designer';
-import { CodeList } from '@webank/letgo-components';
 import { InnerGlobalVariables } from '@webank/letgo-common';
-import { IEnumCodeType, isDirectory } from '@webank/letgo-types';
+import { isDirectory } from '@webank/letgo-types';
 import type { ICodeItemOrDirectory } from '@webank/letgo-types';
+import { CodeList } from '../common';
 import { useOnClickSim } from '../use';
-import CodeEdit from './edit/code-edit';
+import CodeEdit from './code-edit';
 
 export default defineComponent({
     props: {

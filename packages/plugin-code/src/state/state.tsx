@@ -6,8 +6,8 @@ import {
 } from 'vue';
 import { isNil } from 'lodash-es';
 import type { Designer } from '@webank/letgo-designer';
-import FadeInExpandTransition from '../fade-in-expand-transition';
-import Tree from '../tree/tree';
+import FadeInExpandTransition from './fade-in-expand-transition';
+import Tree from './tree/tree';
 import StateHeader from './state-header';
 
 import './state.less';

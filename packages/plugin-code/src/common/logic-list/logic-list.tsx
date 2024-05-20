@@ -6,7 +6,7 @@ import { FTree } from '@fesjs/fes-design';
 import type { ICodeItem, ICodeItemOrDirectory, IPublicModelCode } from '@webank/letgo-types';
 import { IEnumCodeType, isDirectory } from '@webank/letgo-types';
 import { isNil } from 'lodash-es';
-import { FolderIcon } from '../../icons';
+import { FolderIcon } from '@webank/letgo-components';
 import { IconMap, ResourceTypeIcon } from '../constants';
 import { CodeItemActions } from './code-item-actions';
 import { DirectoryActions } from './directory-actions';

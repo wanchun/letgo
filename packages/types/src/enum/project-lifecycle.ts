@@ -1,5 +1,10 @@
 export enum IPublicEnumProjectLifecycle {
-    BeforeRouterEach = 'beforeEach',
-    AfterRouterEach = 'afterEach',
     BeforeRender = 'beforeRender',
 }
+
+export const IPublicProjectLifecycleList = [
+    {
+        value: 'beforeRender',
+        label: '渲染前',
+    },
+];

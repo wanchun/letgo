@@ -5,7 +5,7 @@ import type { IJavascriptQuery, IRestQueryResource } from '@webank/letgo-types';
 import { FCheckbox, FInputNumber } from '@fesjs/fes-design';
 import { ExpressionEditor } from '@webank/letgo-components';
 import Category from './category';
-import ContentItem from './content-item';
+import ContentItem from '../../content-item';
 import './advance.less';
 
 export default defineComponent({

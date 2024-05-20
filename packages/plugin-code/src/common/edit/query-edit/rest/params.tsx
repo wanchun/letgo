@@ -3,7 +3,7 @@ import { defineComponent } from 'vue';
 import type { IPublicModelProject, IRestQueryResource } from '@webank/letgo-types';
 import { FCheckbox, FSelect } from '@fesjs/fes-design';
 import { CodeEditor, ExpressionEditor } from '@webank/letgo-components';
-import ContentItem from '../content-item';
+import ContentItem from '../../../content-item';
 import './params.less';
 
 const MethodOptions = [{

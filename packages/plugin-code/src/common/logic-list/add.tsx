@@ -3,8 +3,8 @@ import { defineComponent, h } from 'vue';
 import { FDropdown } from '@fesjs/fes-design';
 import { PlusOutlined } from '@fesjs/fes-design/icon';
 import { IEnumCodeType, IEnumResourceType } from '@webank/letgo-types';
+import { FolderIcon } from '@webank/letgo-components';
 import { IconMap, ResourceTypeIcon } from '../constants';
-import { FolderIcon } from '../../icons';
 
 export const AddAction = defineComponent({
     props: {
@@ -28,14 +28,19 @@ export const AddAction = defineComponent({
                 icon: () => h(IconMap[IEnumCodeType.JAVASCRIPT_FUNCTION]),
             },
             {
+                value: IEnumCodeType.TEMPORARY_STATE,
+                label: '变量',
+                icon: () => h(IconMap[IEnumCodeType.TEMPORARY_STATE]),
+            },
+            {
                 value: IEnumCodeType.JAVASCRIPT_COMPUTED,
                 label: '计算变量',
                 icon: () => h(IconMap[IEnumCodeType.JAVASCRIPT_COMPUTED]),
             },
             {
-                value: IEnumCodeType.TEMPORARY_STATE,
-                label: '变量',
-                icon: () => h(IconMap[IEnumCodeType.TEMPORARY_STATE]),
+                value: IEnumCodeType.LIFECYCLE_HOOK,
+                label: '生命周期',
+                icon: () => h(IconMap[IEnumCodeType.LIFECYCLE_HOOK]),
             },
             props.extendActions.includes('directory') && {
                 value: 'directory',

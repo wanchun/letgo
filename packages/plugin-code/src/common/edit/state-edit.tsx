@@ -2,7 +2,7 @@ import type { PropType } from 'vue';
 import { defineComponent, ref, watch } from 'vue';
 import { FScrollbar } from '@fesjs/fes-design';
 import type { ITemporaryState } from '@webank/letgo-types';
-import { ExpressionEditor } from '../../code-editor';
+import { ExpressionEditor } from '@webank/letgo-components';
 import './state-edit.less';
 
 /**

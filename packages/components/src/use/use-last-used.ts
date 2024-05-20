@@ -13,7 +13,7 @@ function _useLastUsedComp(project?: IPublicTypeProjectSchema) {
 
     watch(() => project.id, (val) => {
         const key = `LAST_USED_${val}`;
-        lastUsed.value = JSON.parse(localStorage.getItem(key));
+        lastUsed.value = JSON.parse(localStorage.getItem(key)) || {};
     }, {
         immediate: true,
     });

@@ -21,6 +21,8 @@ function _useLastUsedComp(project?: IPublicTypeProjectSchema) {
     watch(lastUsed, () => {
         const key = `LAST_USED_${project?.id}`;
         localStorage.setItem(key, JSON.stringify(lastUsed.value));
+    }, {
+        deep: true,
     });
 
     return lastUsed;

@@ -114,8 +114,7 @@ export default defineComponent({
         });
 
         // 最近使用
-        const projectId = props.designer.project.id;
-        const { lastUsedSnippets, addLastUsed, clearLastUsed } = useLastUsed(snippetsRef, 10, projectId as string);
+        const { lastUsedSnippets, addLastUsed, clearLastUsed } = useLastUsed(snippetsRef, 10, props.designer.project);
 
         const onSearch = (val: string) => {
             searchText.value = val;

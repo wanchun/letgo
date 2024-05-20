@@ -188,8 +188,7 @@ export const AddNextComponent = defineComponent({
             });
         });
 
-        const projectId = props.simulator.project.id;
-        const { addLastUsed, lastUsedSnippets } = useLastUsed(snippetsRef, null, projectId as string);
+        const { addLastUsed, lastUsedSnippets } = useLastUsed(snippetsRef, null, props.simulator.project);
 
         // 下一个推荐的组件
         const nextSnippets = computed(() => {

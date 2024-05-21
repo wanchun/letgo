@@ -1,3 +1,17 @@
+## [0.0.4-beta.34](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.33...v0.0.4-beta.34) (2024-5-21)
+
+
+### Bug Fixes
+
+* 初始化 directory 为空的情况 ([09d35b9](https://git.weoa.com/mumblefe/letgo/commits/09d35b9841091cc2486ce2f63d06d6276f5945a1))
+* 兼容 directories 只有 name 的情况 ([9d96cb1](https://git.weoa.com/mumblefe/letgo/commits/9d96cb10db1bd21299b74da9b1d05738a6b3ea9a))
+* 迁移到操作按钮上 ([dd89b62](https://git.weoa.com/mumblefe/letgo/commits/dd89b62f79cde2d30ab3a6d909bff7cafb6c859b))
+* 最近使用 component key 切换无效问题 ([e9511f3](https://git.weoa.com/mumblefe/letgo/commits/e9511f3dde13bf872945e1efd34900a4060662f0))
+* add default value ([1cebd1c](https://git.weoa.com/mumblefe/letgo/commits/1cebd1c509f7f2ea3ffffd4c355c30e2449d1d31))
+* watch add deep ([57d1e0f](https://git.weoa.com/mumblefe/letgo/commits/57d1e0f52d0d2f7bb262b3a710276cb992283a3e))
+
+
+
 ## [0.0.4-beta.33](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.32...v0.0.4-beta.33) (2024-5-17)
 
 

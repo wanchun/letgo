@@ -79,7 +79,8 @@ export class Code implements IPublicModelCode {
         });
 
         code.directories.forEach((directory) => {
-            (directory.code || []).forEach((item) => {
+            directory.code = directory.code || [];
+            directory.code.forEach((item) => {
                 codeMap.set(item.id, item);
             });
         });

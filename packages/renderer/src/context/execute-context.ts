@@ -1,5 +1,6 @@
-import { computed, inject, onUnmounted, reactive, watch } from 'vue';
+import { computed, inject, onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, watch } from 'vue';
 import { traverseNodeSchema } from '@webank/letgo-common';
+import { IEnumCodeType } from '@webank/letgo-types';
 import type { IPublicTypeComponentInstance, IPublicTypeNodeSchema } from '@webank/letgo-types';
 import type { RendererProps } from '../core';
 import type { CodeImplType } from '../code-impl/code-impl';
@@ -68,6 +69,48 @@ export function createExecuteContext(props: RendererProps) {
                 delete executeCtx[key];
             });
         },
+    });
+
+    onBeforeMount(() => {
+        Object.keys(executeCtx).forEach((id) => {
+            const ins = executeCtx[id];
+            if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
+                if (ins.hookName === 'beforeMount')
+                    ins.run();
+            }
+        });
+    });
+
+    onMounted(() => {
+        Object.keys(executeCtx).forEach((id) => {
+            const ins = executeCtx[id];
+            if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
+                if (ins.hookName === 'mounted')
+                    ins.run();
+            }
+        });
+    });
+
+    onBeforeUnmount(() => {
+        Object.keys(executeCtx).forEach((id) => {
+            const ins = executeCtx[id];
+            if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
+                if (ins.hookName === 'beforeUnMount')
+                    ins.run();
+                ins.run();
+            }
+        });
+    });
+
+    onUnmounted(() => {
+        Object.keys(executeCtx).forEach((id) => {
+            const ins = executeCtx[id];
+            if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
+                if (ins.hookName === 'unMounted')
+                    ins.run();
+                ins.run();
+            }
+        });
     });
 
     return {

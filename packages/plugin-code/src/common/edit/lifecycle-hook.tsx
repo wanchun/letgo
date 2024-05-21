@@ -17,10 +17,22 @@ export const HookEdit = defineComponent({
     },
     setup(props) {
         const hookList = computed(() => {
-            if (props.type === 'project')
-                return IPublicProjectLifecycleList;
-            if (props.type === 'page')
-                return IPublicPageLifecycleList;
+            if (props.type === 'project') {
+                return IPublicProjectLifecycleList.map((item) => {
+                    return {
+                        ...item,
+                        label: `${item.value} - ${item.label}`,
+                    };
+                });
+            }
+            if (props.type === 'page') {
+                return IPublicPageLifecycleList.map((item) => {
+                    return {
+                        ...item,
+                        label: `${item.value} - ${item.label}`,
+                    };
+                });
+            }
             return [];
         });
 
@@ -30,11 +42,17 @@ export const HookEdit = defineComponent({
             });
         };
 
+        const changeHookName = (value: string) => {
+            props.changeContent(props.codeItem.id, {
+                hookName: value,
+            });
+        };
+
         return () => {
             return (
                 <div class="letgo-comp-logic__hook">
                     <ContentItem label="触发时机：">
-                        <FSelect options={hookList.value} />
+                        <FSelect modelValue={props.codeItem.hookName} options={hookList.value} onChange={changeHookName} />
                     </ContentItem>
                     <CodeEditor
                         class="letgo-comp-logic__hook-editor"

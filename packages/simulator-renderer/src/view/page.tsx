@@ -1,4 +1,4 @@
-import { computed, defineComponent, h, nextTick, onUnmounted, provide, watch } from 'vue';
+import { computed, defineComponent, h, nextTick, onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, provide, watch } from 'vue';
 import type { PropType } from 'vue';
 import type { RuntimeScope } from '@webank/letgo-renderer';
 import { Renderer } from '@webank/letgo-renderer';
@@ -8,7 +8,6 @@ import {
     type IPublicTypeComponentInstance,
     type IPublicTypeNodeSchema,
 } from '@webank/letgo-types';
-import { isEmpty } from 'lodash-es';
 import type { DocumentInstance, VueSimulatorRenderer } from '../interface';
 import { BASE_COMP_CONTEXT } from '../constants';
 import type { JavascriptFunctionImpl } from '../code-impl/javascript-function';
@@ -84,7 +83,46 @@ export default defineComponent({
             delete executeCtx[preRef];
         });
 
+        onBeforeMount(() => {
+            Object.keys(codesInstance).forEach((id) => {
+                const ins = codesInstance[id];
+                if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
+                    if (ins.hookName === 'beforeMount')
+                        ins.run();
+                }
+            });
+        });
+
+        onMounted(() => {
+            Object.keys(codesInstance).forEach((id) => {
+                const ins = codesInstance[id];
+                if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
+                    if (ins.hookName === 'mounted')
+                        ins.run();
+                }
+            });
+        });
+
+        onBeforeUnmount(() => {
+            Object.keys(codesInstance).forEach((id) => {
+                const ins = codesInstance[id];
+                if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
+                    if (ins.hookName === 'beforeUnMount')
+                        ins.run();
+                    ins.run();
+                }
+            });
+        });
+
         onUnmounted(() => {
+            Object.keys(codesInstance).forEach((id) => {
+                const ins = codesInstance[id];
+                if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
+                    if (ins.hookName === 'unMounted')
+                        ins.run();
+                    ins.run();
+                }
+            });
             offNodeRefChange();
             offCodeChangedEvent.forEach(fn => fn());
         });

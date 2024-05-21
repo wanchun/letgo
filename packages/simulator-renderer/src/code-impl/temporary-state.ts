@@ -2,11 +2,10 @@ import { TemporaryStateLive } from '@webank/letgo-renderer';
 import { markComputed, markReactive } from '@webank/letgo-common';
 import { clone } from 'lodash-es';
 import { IEnumCodeType, type ITemporaryState } from '@webank/letgo-types';
-import type { ITemporaryStateImpl } from '@webank/letgo-designer';
 import type { WatchStopHandle } from 'vue';
 import { watch } from 'vue';
 
-export class TemporaryStateImpl extends TemporaryStateLive implements ITemporaryStateImpl {
+export class TemporaryStateImpl extends TemporaryStateLive {
     unwatch: WatchStopHandle;
     constructor(data: ITemporaryState, deps: string[], ctx: Record<string, any>) {
         super(data, deps, ctx);

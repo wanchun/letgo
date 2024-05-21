@@ -8,7 +8,6 @@ import {
     type IPublicTypeComponentInstance,
     type IPublicTypeNodeSchema,
 } from '@webank/letgo-types';
-import { isEmpty } from 'lodash-es';
 import type { DocumentInstance, VueSimulatorRenderer } from '../interface';
 import { BASE_COMP_CONTEXT } from '../constants';
 import type { JavascriptFunctionImpl } from '../code-impl/javascript-function';

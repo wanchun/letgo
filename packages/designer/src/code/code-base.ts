@@ -1,4 +1,4 @@
-import { IEnumCodeType, IEnumResourceType, IEnumRunCondition } from '@webank/letgo-types';
+import { IEnumCacheType, IEnumCodeType, IEnumResourceType, IEnumRunCondition } from '@webank/letgo-types';
 import type {
     ICodeItem,
     IJavascriptComputed,
@@ -46,6 +46,7 @@ class JavascriptQueryEdit implements CodeBaseEdit {
         const otherFields: Record<string, any> = {};
         if (resourceType === IEnumResourceType.RESTQuery) {
             otherFields.method = 'POST';
+            otherFields.cacheType = IEnumCacheType.RAM;
             otherFields.enableTransformer = false;
             otherFields.transformer = '//变量data是原始响应结果  \nreturn data;';
         }

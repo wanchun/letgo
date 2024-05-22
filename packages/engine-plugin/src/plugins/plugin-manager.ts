@@ -1,4 +1,4 @@
-import type { Editor } from '@webank/letgo-editor-core';
+import type { Editor, Hotkey } from '@webank/letgo-editor-core';
 import { editor, engineConfig } from '@webank/letgo-editor-core';
 import { getLogger } from '@webank/letgo-common';
 import semverSatisfies from 'semver/functions/satisfies';
@@ -28,6 +28,7 @@ export class PluginManager implements IPluginManager {
     readonly editor: Editor;
     readonly designer: Designer;
     readonly skeleton: Skeleton;
+    readonly hotkey: Hotkey;
 
     private plugins: IPlugin[] = [];
 
@@ -35,10 +36,11 @@ export class PluginManager implements IPluginManager {
 
     private pluginPreference?: IPluginPreference = new Map();
 
-    constructor(designer: Designer, skeleton: Skeleton) {
+    constructor(designer: Designer, skeleton: Skeleton, hotkey: Hotkey) {
         this.editor = editor;
         this.designer = designer;
         this.skeleton = skeleton;
+        this.hotkey = hotkey;
     }
 
     private _getPluginContext(options: IPluginContextOptions) {

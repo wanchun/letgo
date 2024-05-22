@@ -2,7 +2,7 @@ import type { PropType } from 'vue';
 import { defineComponent, onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import { Designer, registerMetadataTransducer } from '@webank/letgo-designer';
 import type { IEngineOptions } from '@webank/letgo-editor-core';
-import { editor, engineConfig } from '@webank/letgo-editor-core';
+import { Hotkey, editor, engineConfig } from '@webank/letgo-editor-core';
 import { Skeleton, WorkbenchView } from '@webank/letgo-editor-skeleton';
 import engineExt from '@webank/letgo-engine-ext';
 import type {
@@ -27,8 +27,9 @@ export type { IPluginConfig } from '@webank/letgo-engine-plugin';
 const innerDesigner = new Designer({ editor });
 
 const innerSkeleton = new Skeleton(editor, innerDesigner);
+const innerHotKey = new Hotkey();
 
-const innerPlugins = new PluginManager(innerDesigner, innerSkeleton).toProxy();
+const innerPlugins = new PluginManager(innerDesigner, innerSkeleton, innerHotKey).toProxy();
 
 export const version = ENGINE_VERSION_PLACEHOLDER;
 

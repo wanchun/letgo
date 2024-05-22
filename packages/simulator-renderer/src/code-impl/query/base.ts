@@ -1,32 +1,11 @@
-import { markComputed, markShallowReactive } from '@webank/letgo-common';
+import { markComputed } from '@webank/letgo-common';
 import type { IJavascriptQuery } from '@webank/letgo-types';
-import { IEnumCacheType, IEnumRunCondition } from '@webank/letgo-types';
 import { JavascriptQueryBase } from '@webank/letgo-renderer';
 
 // 解析执行
 export class JavascriptQueryImpl extends JavascriptQueryBase {
     constructor(data: IJavascriptQuery, deps: string[], ctx: Record<string, any>) {
         super(data, deps, ctx);
-        // markShallowReactive(this, {
-        //     id: data.id,
-
-        //     enableTransformer: data.enableTransformer,
-        //     transformer: data.transformer,
-
-        //     query: data.query,
-        //     enableCaching: this.enableCaching,
-        //     cacheDuration: data.cacheDuration,
-        //     cacheType: data.cacheType || IEnumCacheType.RAM,
-
-        //     showFailureToaster: data.showFailureToaster || false,
-        //     showSuccessToaster: data.showSuccessToaster || false,
-        //     successMessage: data.successMessage || '',
-        //     queryTimeout: data.queryTimeout,
-        //     runCondition: data.runCondition || IEnumRunCondition.Manual,
-        //     queryFailureCondition: data.queryFailureCondition || [],
-        //     successEvent: data.successEvent,
-        //     failureEvent: data.failureEvent,
-        // });
         markComputed(this, ['view']);
     }
 

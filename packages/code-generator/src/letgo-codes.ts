@@ -119,11 +119,15 @@ export function useInstance() {
     return [refEl, proxy];
 }`,
     'cache-control.js': `
-
-    import { isPlainObject, isString } from 'lodash-es';
+import { isPlainObject, isString } from 'lodash-es';
 import { IEnumCacheType } from './letgoConstants';
 
 const CACHE_KEY_PREFIX = 'letgo-query_';
+
+
+function isURLSearchParams(obj) {
+    return Object.prototype.toString.call(obj) === '[object URLSearchParams]';
+}
 
 function stringifyParams(params) {
     if (isURLSearchParams(params))
@@ -151,12 +155,8 @@ function getFormattedCache(config) {
         id: config.id,
         enableCaching: config.enableCaching || true,
         type: config.type || IEnumCacheType.RAM,
-        cacheDuration: config.cacheDuration,
+        cacheDuration: (config.cacheDuration || 0) * 1000,
     };
-}
-
-export function isURLSearchParams(obj) {
-    return Object.prototype.toString.call(obj) === '[object URLSearchParams]';
 }
 
 function canCache(data) {
@@ -307,8 +307,8 @@ function handleCachingQueueError(key) {
 }
 
 export function clearCache(id, type) {
-    const prefix = \`\${CACHE_KEY_PREFIX}_\${id}_\`;
     if (type !== IEnumCacheType.RAM) {
+        const prefix = \`\${CACHE_KEY_PREFIX}\${id}_\`;
         const storage = window[type];
         for (const key in storage) {
             if (key.startsWith(prefix) && Object.prototype.hasOwnProperty.call(storage, key))
@@ -316,7 +316,7 @@ export function clearCache(id, type) {
         }
     }
     else {
-        rawCacheImpl.deleteWithPrefix(prefix);
+        rawCacheImpl.deleteWithPrefix(\`\${id}_\`);
     }
 }
 

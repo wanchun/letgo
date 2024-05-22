@@ -242,6 +242,9 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct)
         ${item.showSuccessToaster ? `showSuccessToaster: ${item.showSuccessToaster},` : ''}
         ${item.successMessage ? `successMessage: '${item.successMessage}',` : ''}
         ${item.queryTimeout ? `queryTimeout: ${item.queryTimeout},` : ''}
+        ${item.enableCaching ? `enableCaching: ${item.enableCaching},` : ''}
+        ${item.cacheDuration ? `cacheDuration: ${item.cacheDuration},` : ''}
+        ${item.cacheType ? `cacheType: '${item.cacheType}',` : ''}
         ${item.runCondition ? `runCondition: '${item.runCondition}',` : ''}
         ${item.runWhenPageLoads ? `runWhenPageLoads: ${item.runWhenPageLoads},` : ''}
         ${(item.queryFailureCondition && item.queryFailureCondition.length) ? `queryFailureCondition: ${item.queryFailureCondition},` : ''}

@@ -7,7 +7,7 @@ export const Page = defineComponent({
         return () => {
             return (
                 <div class="letgo-page">
-                    { slots?.default() }
+                    { slots?.default?.() }
                 </div>
             );
         };

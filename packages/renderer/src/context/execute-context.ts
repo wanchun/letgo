@@ -71,14 +71,14 @@ export function createExecuteContext(props: RendererProps) {
         },
     });
 
-    onBeforeMount(() => {
-        Object.keys(executeCtx).forEach((id) => {
+    onBeforeMount(async () => {
+        await Promise.all(Object.keys(executeCtx).map(async (id) => {
             const ins = executeCtx[id];
             if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
                 if (ins.hookName === 'beforeMount')
-                    ins.run();
+                    await ins.run();
             }
-        });
+        }));
     });
 
     onMounted(() => {
@@ -97,7 +97,6 @@ export function createExecuteContext(props: RendererProps) {
             if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
                 if (ins.hookName === 'beforeUnMount')
                     ins.run();
-                ins.run();
             }
         });
     });
@@ -108,7 +107,6 @@ export function createExecuteContext(props: RendererProps) {
             if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
                 if (ins.hookName === 'unMounted')
                     ins.run();
-                ins.run();
             }
         });
     });

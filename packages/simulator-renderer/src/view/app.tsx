@@ -1,5 +1,5 @@
 import type { PropType } from 'vue';
-import { computed, defineComponent, onUnmounted, provide, reactive, watch } from 'vue';
+import { computed, defineComponent, onBeforeMount, onUnmounted, provide, reactive, watch } from 'vue';
 import { type ICodeItem, IEnumCodeType } from '@webank/letgo-types';
 import { buildGlobalUtils } from '@webank/letgo-renderer';
 import { RouterView } from 'vue-router';
@@ -99,6 +99,16 @@ export default defineComponent({
                 delete globalContext[preId];
             }),
         );
+
+        onBeforeMount(async () => {
+            await Promise.all(Object.keys(codesInstance).map(async (id) => {
+                const ins = codesInstance[id];
+                if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
+                    if (ins.hookName === 'beforeRender')
+                        await ins.run();
+                }
+            }));
+        });
 
         onUnmounted(() => {
             offCodeChangedEvent.forEach(fn => fn());

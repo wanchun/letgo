@@ -4,8 +4,24 @@ import { IconSetter, LetgoEngine, material, project } from '@webank/letgo-engine
 import { createRequest } from '@qlin/request';
 import assets from '../assets/assets';
 import icons from '../assets/icones-bags';
-
 import page from '../assets/page';
+
+project.importSchema({
+    version: '1.0.0',
+    componentsMap: [],
+    componentsTree: [],
+    code: {
+        directories: [],
+        code: [
+            {
+                id: 'lifecycleHook1',
+                type: 'lifecycleHook',
+                hookName: 'beforeRender',
+                funcBody: '// Tip: 编写代码\nconsole.log("beforeRender");\nconsole.log(utils);',
+            },
+        ],
+    },
+});
 
 export default defineComponent({
     components: { LetgoEngine },
@@ -15,19 +31,33 @@ export default defineComponent({
         IconSetter.defaultIcons = icons;
 
         const onReady = () => {
-            project.openDocument();
-            // project.openDocument({
-            //     componentName: 'Component',
-            //     id: 'hello',
-            //     ref: 'root',
-            //     props: {},
-            //     fileName: 'compText',
-            //     children: [],
-            //     code: {
-            //         directories: [],
-            //         code: [],
-            //     },
-            // });
+            project.openDocument({
+                componentName: 'Page',
+                id: 'hello',
+                ref: 'root',
+                props: {},
+                fileName: 'compText',
+                code: {
+                    directories: [],
+                    code: [],
+                },
+                isLocked: false,
+                condition: true,
+                title: '',
+                children: [
+                    {
+                        componentName: 'FButton',
+                        id: 'fButton2',
+                        ref: 'fButton2',
+                        props: {
+                            children: '按钮',
+                        },
+                        isLocked: false,
+                        condition: true,
+                        title: '',
+                    },
+                ],
+            });
             console.log('project:', project);
         };
 

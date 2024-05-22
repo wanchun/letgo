@@ -22,18 +22,20 @@ export class LifecycleHookLive {
         this.deps = deps;
     }
 
-    run() {
+    async run() {
         if (this.funcBody) {
             try {
                 // eslint-disable-next-line no-new-func
                 const fn = new Function('_ctx', `
             let result;
             with(_ctx) {
-                result = (${this.funcBody})();
+                result = (async () => {
+                    ${this.funcBody}
+                })();
             }
             return result;
         `);
-                fn(this.ctx);
+                return await fn(this.ctx);
             }
             catch (err) {
                 console.warn(err);

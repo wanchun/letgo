@@ -2,7 +2,7 @@ export enum IPublicEnumPageLifecycle {
     BeforeMount = 'beforeMount',
     Mounted = 'mounted',
     BeforeUnMount = 'beforeUnMount',
-    UnMount = 'unMount',
+    UnMounted = 'unMounted',
 }
 
 export const IPublicPageLifecycleList = [
@@ -19,7 +19,7 @@ export const IPublicPageLifecycleList = [
         label: '卸载前',
     },
     {
-        value: 'unMount',
+        value: 'unMounted',
         label: '卸载后',
     },
 ];

@@ -74,7 +74,7 @@ class Lifecycle implements CodeBaseEdit {
             id,
             type: IEnumCodeType.LIFECYCLE_HOOK,
             hookName: '',
-            funcBody: '// Tip: 函数 \nfunction func() {\n  \n}',
+            funcBody: '// Tip: 编写代码',
         };
     }
 }

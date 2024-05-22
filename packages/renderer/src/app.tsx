@@ -1,8 +1,8 @@
 import type { Component, PropType } from 'vue';
 import { computed, defineComponent, onMounted, provide, reactive, ref, shallowRef } from 'vue';
+import { IEnumCodeType } from '@webank/letgo-types';
 import type { IPublicTypeAsset, IPublicTypePageSchema, IPublicTypeProjectSchema } from '@webank/letgo-types';
 import { AssetLoader, buildComponents } from '@webank/letgo-common';
-
 import { builtinComponents } from '@webank/letgo-components';
 import { Renderer } from './renderer';
 import { JavascriptFunctionLive } from './code-impl';
@@ -72,23 +72,6 @@ export const RendererApp = defineComponent({
             utils: {},
         });
 
-        onMounted(async () => {
-            const assetLoader = new AssetLoader();
-            await assetLoader.load(libraryAsset);
-
-            components.value = {
-                ...builtinComponents,
-                ...buildComponents(
-                    libraryMap,
-                    componentsMap,
-                    createComponent,
-                ),
-            };
-
-            isReady.value = true;
-            globalContext.utils = buildGlobalUtils(libraryMap, props.projectSchema.utils, globalContext);
-        });
-
         useCodesInstance({
             executeCtx: globalContext,
             codeStruct: computed(() => props.projectSchema.code),
@@ -104,6 +87,32 @@ export const RendererApp = defineComponent({
                     delete globalContext[key];
                 });
             },
+        });
+
+        onMounted(async () => {
+            const assetLoader = new AssetLoader();
+            await assetLoader.load(libraryAsset);
+
+            components.value = {
+                ...builtinComponents,
+                ...buildComponents(
+                    libraryMap,
+                    componentsMap,
+                    createComponent,
+                ),
+            };
+
+            globalContext.utils = buildGlobalUtils(libraryMap, props.projectSchema.utils, globalContext);
+
+            await Promise.all(Object.keys(globalContext).map(async (id) => {
+                const ins = globalContext[id];
+                if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
+                    if (ins.hookName === 'beforeRender')
+                        await ins.run();
+                }
+            }));
+
+            isReady.value = true;
         });
 
         provide(getGlobalContextKey(), globalContext);

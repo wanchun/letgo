@@ -83,14 +83,14 @@ export default defineComponent({
             delete executeCtx[preRef];
         });
 
-        onBeforeMount(() => {
-            Object.keys(codesInstance).forEach((id) => {
+        onBeforeMount(async () => {
+            await Promise.all(Object.keys(codesInstance).map(async (id) => {
                 const ins = codesInstance[id];
                 if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
                     if (ins.hookName === 'beforeMount')
-                        ins.run();
+                        await ins.run();
                 }
-            });
+            }));
         });
 
         onMounted(() => {
@@ -109,7 +109,6 @@ export default defineComponent({
                 if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
                     if (ins.hookName === 'beforeUnMount')
                         ins.run();
-                    ins.run();
                 }
             });
         });
@@ -120,7 +119,6 @@ export default defineComponent({
                 if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
                     if (ins.hookName === 'unMounted')
                         ins.run();
-                    ins.run();
                 }
             });
             offNodeRefChange();

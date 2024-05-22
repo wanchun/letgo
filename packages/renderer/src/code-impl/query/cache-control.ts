@@ -39,7 +39,7 @@ function getFormattedCache(config: CacheConfig): CacheConfig {
         id: config.id,
         enableCaching: config.enableCaching || true,
         type: config.type || IEnumCacheType.RAM,
-        cacheDuration: config.cacheDuration,
+        cacheDuration: (config.cacheDuration || 0) * 1000,
     };
 }
 

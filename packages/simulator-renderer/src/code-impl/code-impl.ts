@@ -43,7 +43,7 @@ export function useCodesInstance() {
         const item = codeMap.get(id);
 
         if (item.type === IEnumCodeType.JAVASCRIPT_QUERY) {
-            if (content.resourceType) {
+            if (item.resourceType !== content.resourceType) {
                 codesInstance[item.id] = createQueryImpl(item, dependencyMap.get(item.id), ctx);
                 ctx[item.id] = codesInstance[item.id];
             }

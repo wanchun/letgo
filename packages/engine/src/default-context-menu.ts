@@ -163,8 +163,9 @@ export const DefaultContextMenu = definePlugin({
         material.addContextMenuOption({
             name: 'delete',
             title: '删除',
+            style: '--letgo-context-menu-color: #f5222d',
             condition(nodes = []) {
-                return nodes.length > 0 && nodes.some(node => !node.isRoot);
+                return nodes.length > 0 && nodes.some(node => !node.isRoot());
             },
             action(nodes) {
                 nodes?.forEach((node) => {

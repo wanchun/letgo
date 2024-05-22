@@ -1,4 +1,4 @@
-import { Copy, Delete, Lock, PreviewClose, PreviewOpen, Unlock } from '@icon-park/vue-next';
+import { Copy, Lock, PreviewClose, PreviewOpen, Unlock } from '@icon-park/vue-next';
 import type {
     IPublicModelComponentMeta,
     IPublicTypeComponentAction,
@@ -112,7 +112,7 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
         content: ({ node }: { node: INode }) => {
             return [h(AddNextComponent, { node })];
         },
-        import: true,
+        important: true,
     },
     {
         name: 'copy',
@@ -195,17 +195,6 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
         },
         condition: (node: INode) => {
             return !!node.componentMeta.dialogControlProp && node.isDialogOpen;
-        },
-        important: true,
-    },
-    {
-        name: 'remove',
-        content: {
-            icon: () => h(Delete, { size: 14 }),
-            title: '删除',
-            action(node: INode) {
-                node.remove();
-            },
         },
         important: true,
     },

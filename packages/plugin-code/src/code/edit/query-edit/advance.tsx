@@ -36,6 +36,7 @@ export default defineComponent({
                         <label>缓存时间:</label>
                         <FInputNumber
                             v-model={innerCodeItem.value.cacheDuration}
+                            placeholder="非必填"
                             v-slots={{
                                 suffix() {
                                     return '秒';
@@ -56,8 +57,8 @@ export default defineComponent({
                         <label>缓存类型:</label>
                         <FSelect v-model={innerCodeItem.value.cacheType}>
                             <FOption value="ram">内存</FOption>
-                            <FOption value="sessionStorage">session</FOption>
-                            <FOption value="localStorage">local</FOption>
+                            <FOption value="sessionStorage">会话</FOption>
+                            <FOption value="localStorage">本地</FOption>
                         </FSelect>
                     </div>
                 );
@@ -132,8 +133,8 @@ export default defineComponent({
                                                 return (
                                                     <div class="letgo-plg-code__query-cache">
                                                         <FCheckbox v-model={innerCodeItem.value.enableCaching}>缓存请求结果</FCheckbox>
-                                                        {renderCacheDuration()}
                                                         {renderCacheType()}
+                                                        {renderCacheDuration()}
                                                     </div>
                                                 );
                                             },

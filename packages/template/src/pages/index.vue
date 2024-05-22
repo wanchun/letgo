@@ -39,7 +39,14 @@ export default defineComponent({
                 fileName: 'compText',
                 code: {
                     directories: [],
-                    code: [],
+                    code: [
+                        {
+                            id: 'lifecycleHook2',
+                            type: 'lifecycleHook',
+                            hookName: 'onMounted',
+                            funcBody: '// Tip: 编写代码\nconsole.log("mounted")',
+                        },
+                    ],
                 },
                 isLocked: false,
                 condition: true,

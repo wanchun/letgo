@@ -1,6 +1,6 @@
 import { computed, inject, onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, watch } from 'vue';
 import { traverseNodeSchema } from '@webank/letgo-common';
-import { IEnumCodeType } from '@webank/letgo-types';
+import { IEnumCodeType, IPublicEnumPageLifecycle } from '@webank/letgo-types';
 import type { IPublicTypeComponentInstance, IPublicTypeNodeSchema } from '@webank/letgo-types';
 import type { RendererProps } from '../core';
 import type { CodeImplType } from '../code-impl/code-impl';
@@ -75,7 +75,7 @@ export function createExecuteContext(props: RendererProps) {
         await Promise.all(Object.keys(executeCtx).map(async (id) => {
             const ins = executeCtx[id];
             if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
-                if (ins.hookName === 'beforeMount')
+                if (ins.hookName === IPublicEnumPageLifecycle.BeforeMount)
                     await ins.run();
             }
         }));
@@ -85,8 +85,9 @@ export function createExecuteContext(props: RendererProps) {
         Object.keys(executeCtx).forEach((id) => {
             const ins = executeCtx[id];
             if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
-                if (ins.hookName === 'mounted')
+                if (ins.hookName === IPublicEnumPageLifecycle.Mounted)
                     ins.run();
+                ins.run();
             }
         });
     });
@@ -95,7 +96,7 @@ export function createExecuteContext(props: RendererProps) {
         Object.keys(executeCtx).forEach((id) => {
             const ins = executeCtx[id];
             if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
-                if (ins.hookName === 'beforeUnMount')
+                if (ins.hookName === IPublicEnumPageLifecycle.BeforeUnMount)
                     ins.run();
             }
         });
@@ -105,7 +106,7 @@ export function createExecuteContext(props: RendererProps) {
         Object.keys(executeCtx).forEach((id) => {
             const ins = executeCtx[id];
             if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
-                if (ins.hookName === 'unMounted')
+                if (ins.hookName === IPublicEnumPageLifecycle.UnMounted)
                     ins.run();
             }
         });

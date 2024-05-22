@@ -145,7 +145,7 @@ function getUsedGlobalVariables(ctx: Context) {
     return getGlobalContextKey();
 }
 
-export function applyGlobalState(ctx: Context, schema: IPublicTypeRootSchema, filePath: string): SetupCode {
+export function genGlobalState(ctx: Context, filePath: string, schema: IPublicTypeRootSchema): SetupCode {
     const { letgoDir } = ctx.config;
     const useGlobalVariables = getUsedGlobalVariables(ctx);
     if (!getGlobalFlag() || isLowcodeProjectSchema(schema) || useGlobalVariables.length === 0) {

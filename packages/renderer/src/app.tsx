@@ -1,6 +1,6 @@
 import type { Component, PropType } from 'vue';
 import { computed, defineComponent, onMounted, provide, reactive, ref, shallowRef } from 'vue';
-import { IEnumCodeType } from '@webank/letgo-types';
+import { IEnumCodeType, IPublicEnumProjectLifecycle } from '@webank/letgo-types';
 import type { IPublicTypeAsset, IPublicTypePageSchema, IPublicTypeProjectSchema } from '@webank/letgo-types';
 import { AssetLoader, buildComponents } from '@webank/letgo-common';
 import { builtinComponents } from '@webank/letgo-components';
@@ -107,7 +107,7 @@ export const RendererApp = defineComponent({
             await Promise.all(Object.keys(globalContext).map(async (id) => {
                 const ins = globalContext[id];
                 if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
-                    if (ins.hookName === 'beforeRender')
+                    if (ins.hookName === IPublicEnumProjectLifecycle.BeforeRender)
                         await ins.run();
                 }
             }));

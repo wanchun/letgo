@@ -5,6 +5,7 @@ import { Renderer } from '@webank/letgo-renderer';
 import {
     type ICodeItem,
     IEnumCodeType,
+    IPublicEnumPageLifecycle,
     type IPublicTypeComponentInstance,
     type IPublicTypeNodeSchema,
 } from '@webank/letgo-types';
@@ -87,7 +88,7 @@ export default defineComponent({
             await Promise.all(Object.keys(codesInstance).map(async (id) => {
                 const ins = codesInstance[id];
                 if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
-                    if (ins.hookName === 'beforeMount')
+                    if (ins.hookName === IPublicEnumPageLifecycle.BeforeMount)
                         await ins.run();
                 }
             }));
@@ -97,7 +98,7 @@ export default defineComponent({
             Object.keys(codesInstance).forEach((id) => {
                 const ins = codesInstance[id];
                 if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
-                    if (ins.hookName === 'mounted')
+                    if (ins.hookName === IPublicEnumPageLifecycle.Mounted)
                         ins.run();
                 }
             });
@@ -107,7 +108,7 @@ export default defineComponent({
             Object.keys(codesInstance).forEach((id) => {
                 const ins = codesInstance[id];
                 if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
-                    if (ins.hookName === 'beforeUnMount')
+                    if (ins.hookName === IPublicEnumPageLifecycle.BeforeUnMount)
                         ins.run();
                 }
             });
@@ -117,7 +118,7 @@ export default defineComponent({
             Object.keys(codesInstance).forEach((id) => {
                 const ins = codesInstance[id];
                 if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
-                    if (ins.hookName === 'unMounted')
+                    if (ins.hookName === IPublicEnumPageLifecycle.UnMounted)
                         ins.run();
                 }
             });

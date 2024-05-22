@@ -11,10 +11,11 @@ import { startCase } from 'lodash-es';
 import { relative } from '../options';
 import { genCode } from './helper';
 import { ImportType } from './types';
-import type { Context, ImportSource } from './types';
-import { applyGlobalState } from './global-state';
+import { genGlobalState } from './global-state';
 import { getLowComponentFilePath } from './lowcode-component';
+import { genHook } from './hook';
 import { cssResolver } from './resolver';
+import type { Context, ImportSource } from './types';
 
 function getAliasExportName(componentMap: IPublicTypeNpmInfo) {
     const cName = startCase(componentMap.componentName).replace(/ /g, '');
@@ -96,18 +97,26 @@ export function genScript({ ctx, componentMaps, rootSchema, componentRefs, fileN
     const { outDir } = options;
     const filePath = `${outDir}/${fileName}`;
     const codeImports = genComponentImports(ctx, componentMaps, filePath);
-    const globalStateSnippet = applyGlobalState(ctx, rootSchema, filePath);
+    const globalStateSnippet = genGlobalState(ctx, filePath, rootSchema);
     const refCodeSnippet = genRefCode(ctx, filePath, componentRefs);
     const codesSnippet = genCode(ctx, filePath, rootSchema.code);
+    const hookSnippet = genHook(ctx, filePath, rootSchema.code);
 
     const codes = [
         globalStateSnippet.code,
         refCodeSnippet.code,
         codesSnippet?.code,
+        hookSnippet?.code,
     ].filter(Boolean);
 
     return [
-        globalStateSnippet.importSources.concat(codeImports, refCodeSnippet.importSources, codesSnippet?.importSources).filter(Boolean),
+        [].concat(
+            codeImports,
+            globalStateSnippet.importSources,
+            refCodeSnippet.importSources,
+            hookSnippet.importSources,
+            codesSnippet?.importSources,
+        ).filter(Boolean),
         codes,
     ];
 }

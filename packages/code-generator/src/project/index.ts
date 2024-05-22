@@ -19,6 +19,8 @@ function genPageCode(ctx: Context, fileTree: FileTree, options: GenOptions) {
         return acc;
     }, {} as Record<string, any>);
 
+    debugger;
+
     set(fileTree, outDir.split('/'), pages);
 }
 

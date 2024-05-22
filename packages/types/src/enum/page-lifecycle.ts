@@ -1,25 +1,25 @@
 export enum IPublicEnumPageLifecycle {
-    BeforeMount = 'beforeMount',
-    Mounted = 'mounted',
-    BeforeUnMount = 'beforeUnMount',
-    UnMounted = 'unMounted',
+    BeforeMount = 'onBeforeMount',
+    Mounted = 'onMounted',
+    BeforeUnMount = 'onBeforeUnmount',
+    UnMounted = 'onUnmounted',
 }
 
 export const IPublicPageLifecycleList = [
     {
-        value: 'beforeMount',
+        value: IPublicEnumPageLifecycle.BeforeMount,
         label: '挂载前',
     },
     {
-        value: 'mounted',
+        value: IPublicEnumPageLifecycle.Mounted,
         label: '挂载后',
     },
     {
-        value: 'beforeUnMount',
+        value: IPublicEnumPageLifecycle.Mounted,
         label: '卸载前',
     },
     {
-        value: 'unMounted',
+        value: IPublicEnumPageLifecycle.UnMounted,
         label: '卸载后',
     },
 ];

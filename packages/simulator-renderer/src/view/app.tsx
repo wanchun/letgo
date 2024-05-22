@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, onBeforeMount, onUnmounted, provide, reactive, watch } from 'vue';
-import { type ICodeItem, IEnumCodeType } from '@webank/letgo-types';
+import { type ICodeItem, IEnumCodeType, IPublicEnumProjectLifecycle } from '@webank/letgo-types';
 import { buildGlobalUtils } from '@webank/letgo-renderer';
 import { RouterView } from 'vue-router';
 import { BASE_GLOBAL_CONTEXT } from '../constants';
@@ -104,7 +104,7 @@ export default defineComponent({
             await Promise.all(Object.keys(codesInstance).map(async (id) => {
                 const ins = codesInstance[id];
                 if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
-                    if (ins.hookName === 'beforeRender')
+                    if (ins.hookName === IPublicEnumProjectLifecycle.BeforeRender)
                         await ins.run();
                 }
             }));

@@ -5,6 +5,6 @@ export enum IPublicEnumProjectLifecycle {
 export const IPublicProjectLifecycleList = [
     {
         value: IPublicEnumProjectLifecycle.BeforeRender,
-        label: '渲染前',
+        label: '应用渲染前',
     },
 ];

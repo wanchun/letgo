@@ -15,7 +15,7 @@ export const IPublicPageLifecycleList = [
         label: '挂载后',
     },
     {
-        value: IPublicEnumPageLifecycle.Mounted,
+        value: IPublicEnumPageLifecycle.BeforeUnMount,
         label: '卸载前',
     },
     {

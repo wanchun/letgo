@@ -240,6 +240,12 @@ export interface IBaseModelNode<
      */
     contains: (node: Node) => boolean;
 
+    insert: (node: Node, ref?: Node) => void;
+
+    insertBefore: (node: Node, ref?: Node) => void;
+
+    insertAfter: (node: any, ref?: Node) => void;
+
     /**
      * 是否为父级节点
      */
@@ -253,6 +259,12 @@ export interface IBaseModelNode<
     isRoot: () => boolean;
 
     isLeaf: () => boolean;
+
+    isSlot: () => boolean;
+
+    isModal: () => boolean;
+
+    canPerformAction: (actionName: string) => boolean;
 
     purge: () => void;
 

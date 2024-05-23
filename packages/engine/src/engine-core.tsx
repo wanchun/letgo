@@ -18,6 +18,7 @@ import PluginComponents from '@webank/letgo-plugin-components';
 import PluginComponentTree from '@webank/letgo-plugin-component-tree';
 import PluginCode from '@webank/letgo-plugin-code';
 import { DefaultContextMenu } from './default-context-menu';
+import { BuiltinHotkey } from './builtin-hotkey';
 import './global.less';
 
 export { StyleSetter, IconSetter } from '@webank/letgo-engine-ext';
@@ -70,6 +71,7 @@ export { editor, config, designer, plugins, skeleton, material, project, hotkey,
     innerPlugins.register(PluginDesigner);
     innerPlugins.register(PluginSetting);
     innerPlugins.register(DefaultContextMenu);
+    innerPlugins.register(BuiltinHotkey);
 })();
 
 export function destroy() {

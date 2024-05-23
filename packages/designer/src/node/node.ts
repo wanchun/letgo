@@ -3,6 +3,7 @@ import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
 import type {
     GlobalEvent,
     IBaseModelNode,
+    IPublicTypeComponentAction,
     IPublicTypeComponentSchema,
     IPublicTypeNodeData,
     IPublicTypeNodeSchema,
@@ -45,6 +46,21 @@ export type ISlotNode = IBaseNode<IPublicTypeSlotSchema>;
 export type IRootNode = IPageNode | IComponentNode;
 
 export type INode = ISlotNode | IPageNode | IComponentNode | IBaseNode;
+
+function ensureNode(node: any, document: DocumentModel): INode {
+    let nodeInstance = node;
+    if (!isNode(node)) {
+        if (node.getComponentName) {
+            nodeInstance = document.createNode({
+                componentName: node.getComponentName(),
+            });
+        }
+        else {
+            nodeInstance = document.createNode(node);
+        }
+    }
+    return nodeInstance;
+}
 
 export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> implements IBaseNode {
     private emitter = new EventEmitter();
@@ -486,6 +502,20 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         return contains(this, node);
     }
 
+    insert(node: INode, ref?: INode) {
+        this.insertAfter(node, ref);
+    }
+
+    insertBefore(node: INode, ref?: INode) {
+        const nodeInstance = ensureNode(node, this.document);
+        this.children?.insertChild(nodeInstance, ref ? ref.index : null);
+    }
+
+    insertAfter(node: any, ref?: INode) {
+        const nodeInstance = ensureNode(node, this.document);
+        this.children?.insertChild(nodeInstance, ref ? (ref.index || 0) + 1 : null);
+    }
+
     remove(purge = true) {
         if (this._parent) {
             if (this.isSlot()) {
@@ -647,6 +677,22 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
      */
     lock(flag = true) {
         this.getExtraProp('isLocked').setValue(flag);
+    }
+
+    /**
+     * 是否可执行某 action
+     */
+    canPerformAction(actionName: string): boolean {
+        const availableActions
+      = this.componentMeta?.availableActions?.filter((action: IPublicTypeComponentAction) => {
+          const { condition } = action;
+          return typeof condition === 'function'
+              ? condition(this) !== false
+              : condition !== false;
+      })
+          .map((action: IPublicTypeComponentAction) => action.name) || [];
+
+        return availableActions.includes(actionName);
     }
 
     purge() {

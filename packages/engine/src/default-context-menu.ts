@@ -31,7 +31,7 @@ function getNodesSchema(nodes: IPublicModelNode[]) {
     return data;
 }
 
-async function getClipboardText(clipboard: IPublicModelClipboard): Promise<CopyType> {
+export async function getClipboardText(clipboard: IPublicModelClipboard): Promise<CopyType> {
     return new Promise((resolve, reject) => {
     // 使用 Clipboard API 读取剪贴板内容
         clipboard.getData().then(
@@ -169,7 +169,8 @@ export const DefaultContextMenu = definePlugin({
             },
             action(nodes) {
                 nodes?.forEach((node) => {
-                    node.remove();
+                    if (node?.canPerformAction('remove'))
+                        node.remove();
                 });
             },
         });

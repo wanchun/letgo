@@ -71,46 +71,6 @@ export function createExecuteContext(props: RendererProps) {
         },
     });
 
-    onBeforeMount(async () => {
-        await Promise.all(Object.keys(executeCtx).map(async (id) => {
-            const ins = executeCtx[id];
-            if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
-                if (ins.hookName === IPublicEnumPageLifecycle.BeforeMount)
-                    await ins.run();
-            }
-        }));
-    });
-
-    onMounted(() => {
-        Object.keys(executeCtx).forEach((id) => {
-            const ins = executeCtx[id];
-            if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
-                if (ins.hookName === IPublicEnumPageLifecycle.Mounted)
-                    ins.run();
-            }
-        });
-    });
-
-    onBeforeUnmount(() => {
-        Object.keys(executeCtx).forEach((id) => {
-            const ins = executeCtx[id];
-            if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
-                if (ins.hookName === IPublicEnumPageLifecycle.BeforeUnMount)
-                    ins.run();
-            }
-        });
-    });
-
-    onUnmounted(() => {
-        Object.keys(executeCtx).forEach((id) => {
-            const ins = executeCtx[id];
-            if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
-                if (ins.hookName === IPublicEnumPageLifecycle.UnMounted)
-                    ins.run();
-            }
-        });
-    });
-
     return {
         executeCtx,
         onCompGetCtx,

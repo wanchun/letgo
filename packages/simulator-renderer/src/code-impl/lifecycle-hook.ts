@@ -1,4 +1,4 @@
-import { markComputed, markShallowReactive } from '@webank/letgo-common';
+import { markShallowReactive } from '@webank/letgo-common';
 import { LifecycleHookLive } from '@webank/letgo-renderer';
 import type { ILifecycle } from '@webank/letgo-types';
 
@@ -11,15 +11,6 @@ export class LifecycleHookImpl extends LifecycleHookLive {
             hookName: data.hookName,
             funcBody: data.funcBody,
         });
-        markComputed(this, ['view']);
-    }
-
-    get view() {
-        return {
-            id: this.id,
-            funcBody: this.funcBody,
-            hookName: this.hookName,
-        };
     }
 
     changeId(id: string) {

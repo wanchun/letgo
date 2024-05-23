@@ -1,8 +1,7 @@
-import { defineComponent, provide, watch } from 'vue';
+import { defineComponent, watch } from 'vue';
 import { Component } from '@webank/letgo-components';
-import { rendererProps, useRenderer } from '../core';
+import { rendererProps, useHook, useRenderer } from '../core';
 import type { RendererContext } from '../context';
-import { getPageContextKey } from '../context';
 import { createExecuteContext } from '../context/execute-context';
 
 export const ComponentRenderer = defineComponent({
@@ -23,6 +22,7 @@ export const ComponentRenderer = defineComponent({
         }
 
         const { renderComp } = useRenderer(props, ctx);
+        useHook(ctx.executeCtx);
 
         return () => {
             const { __schema: schema } = props;

@@ -18,16 +18,18 @@ export function genHook(ctx: Context, filePath: string, codeStruct: ICodeStruct)
 
     codeMap.forEach((item) => {
         if (item.type === IEnumCodeType.LIFECYCLE_HOOK) {
-            importSources.push({
-                imported: item.hookName,
-                type: ImportType.ImportSpecifier,
-                source: 'vue',
-            });
-            codeStr.push(`
-            ${item.hookName}(async ()=>{
-                ${item.funcBody}
-            })
-            `);
+            if (item.hookName && item.funcBody) {
+                importSources.push({
+                    imported: item.hookName,
+                    type: ImportType.ImportSpecifier,
+                    source: 'vue',
+                });
+                codeStr.push(`
+                ${item.hookName}(async ()=>{
+                    ${item.funcBody}
+                })
+                `);
+            }
         }
     });
 

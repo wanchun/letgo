@@ -7,7 +7,20 @@ import type {
     IPublicTypeNodeSchema,
     IPublicTypeRootSchema,
 } from '@webank/letgo-types';
-import { IEnumRunScript, isJSExpression, isJSFunction, isJSSlot, isJavascriptComputed, isJavascriptFunction, isNodeSchema, isQueryResource, isRestQueryResource, isRunFunctionEventHandler, isVariableState } from '@webank/letgo-types';
+import {
+    IEnumRunScript,
+    isJSExpression,
+    isJSFunction,
+    isJSSlot,
+    isJavascriptComputed,
+    isJavascriptFunction,
+    isLifecycleHook,
+    isNodeSchema,
+    isQueryResource,
+    isRestQueryResource,
+    isRunFunctionEventHandler,
+    isVariableState,
+} from '@webank/letgo-types';
 import { isPlainObject } from 'lodash-es';
 
 type Callback = (code: string, parent: any, type: 'JSFunction' | 'JSExpression') => void;
@@ -39,6 +52,9 @@ export function traverseCodes(code: ICodeItem[], callback: Callback) {
             callback(item.funcBody, item, 'JSFunction');
         }
         else if (isJavascriptFunction(item)) {
+            callback(item.funcBody, item, 'JSFunction');
+        }
+        else if (isLifecycleHook(item)) {
             callback(item.funcBody, item, 'JSFunction');
         }
         else if (isQueryResource(item)) {

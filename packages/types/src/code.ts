@@ -107,6 +107,10 @@ export interface ILifecycle<T = string> {
     funcBody: string;
 }
 
+export function isLifecycleHook(obj: any): obj is ILifecycle {
+    return obj && obj.type === IEnumCodeType.LIFECYCLE_HOOK;
+}
+
 export type ICodeItem = ITemporaryState | IJavascriptComputed | IJavascriptFunction | IJavascriptQuery | ILifecycle;
 
 export interface ICodeDirectory {

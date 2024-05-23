@@ -215,8 +215,9 @@ function getSuitablePlaceForNode(targetNode: INode, node: INode, ref: any): any 
 export const BuiltinHotkey = definePlugin({
     name: '___builtin_hotkey___',
     init(ctx) {
-        const { hotkey, project, logger, canvas } = ctx;
+        const { hotkey, project, logger, skeleton, canvas } = ctx;
         const { clipboard } = canvas;
+
         // hotkey binding
         hotkey.bind(['backspace', 'del'], (e: KeyboardEvent, action) => {
             logger.info(`action ${action} is triggered`);
@@ -367,6 +368,55 @@ export const BuiltinHotkey = definePlugin({
             selection?.selectAll(curSelected);
         });
 
+        let prePanel: any;
+        hotkey.bind(['command+b', 'ctrl+b'], (e, action) => {
+            logger.info(`action ${action} is triggered`);
+            if (canvas.isInLiveEditing)
+                return;
+
+            const history = project.currentDocument?.history;
+            if (isFormEvent(e) || !history)
+                return;
+
+            e.preventDefault();
+
+            const currentItem = skeleton.leftFloatArea.current || prePanel || skeleton.leftFloatArea.items[0];
+            prePanel = currentItem;
+            prePanel.toggle();
+        });
+
+        hotkey.bind(['command+shift+d'], (e, action) => {
+            logger.info(`action ${action} is triggered`);
+            if (canvas.isInLiveEditing)
+                return;
+
+            const history = project.currentDocument?.history;
+            if (isFormEvent(e) || !history)
+                return;
+
+            e.preventDefault();
+
+            const currentItem = skeleton.leftFloatArea.items.find(item => item.name === 'PluginComponentTreePanel');
+            if (currentItem)
+                currentItem.toggle();
+        });
+
+        hotkey.bind(['command+shift+e'], (e, action) => {
+            logger.info(`action ${action} is triggered`);
+            if (canvas.isInLiveEditing)
+                return;
+
+            const history = project.currentDocument?.history;
+            if (isFormEvent(e) || !history)
+                return;
+
+            e.preventDefault();
+
+            const currentItem = skeleton.leftFloatArea.items.find(item => item.name === 'CodePanel');
+            if (currentItem)
+                currentItem.toggle();
+        });
+
         // sibling selection
         hotkey.bind(['left', 'right'], (e, action) => {
             logger.info(`action ${action} is triggered`);
@@ -383,8 +433,8 @@ export const BuiltinHotkey = definePlugin({
                 return;
 
             const firstNode = selected[0];
-            const silbing = action === 'left' ? firstNode?.prevSibling : firstNode?.nextSibling;
-            silbing?.select();
+            const sibling = action === 'left' ? firstNode?.prevSibling : firstNode?.nextSibling;
+            sibling?.select();
         });
 
         hotkey.bind(['up', 'down'], (e, action) => {

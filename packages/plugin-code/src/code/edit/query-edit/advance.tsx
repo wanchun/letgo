@@ -1,8 +1,9 @@
-import { defineComponent } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import type { PropType } from 'vue';
 import { isRestQueryResource } from '@webank/letgo-types';
+import { isEqual } from 'lodash-es';
 import type { IJavascriptQuery, IRestQueryResource } from '@webank/letgo-types';
-import { FCheckbox, FInputNumber } from '@fesjs/fes-design';
+import { FCheckbox, FInputNumber, FOption, FSelect } from '@fesjs/fes-design';
 import { ExpressionEditor } from '@webank/letgo-components';
 import Category from './category';
 import ContentItem from './content-item';
@@ -12,15 +13,53 @@ export default defineComponent({
     props: {
         hints: Object as PropType<Record<string, any>>,
         codeItem: Object as PropType<IJavascriptQuery>,
-        changeCodeItem: Function as PropType<(content: Partial<IRestQueryResource>) => void>,
+        changeCodeItem: Function as PropType<(content: Partial<IJavascriptQuery>) => void>,
     },
     setup(props) {
+        const innerCodeItem = ref<IJavascriptQuery>(props.codeItem);
+
+        watch(() => props.codeItem, () => {
+            if (!isEqual(props.codeItem, innerCodeItem.value))
+                innerCodeItem.value = props.codeItem;
+        });
+        watch(innerCodeItem, () => {
+            const { id: _id, ...content } = innerCodeItem.value;
+            props.changeCodeItem(content);
+        }, {
+            deep: true,
+        });
+
         const renderCacheDuration = () => {
-            if (props.codeItem.enableCaching) {
+            if (innerCodeItem.value.enableCaching) {
                 return (
-                    <div class="letgo-plg-code__query-cache-time">
-                        <label>缓存时间(单位:秒):</label>
-                        <FInputNumber v-model={props.codeItem.cacheDuration} />
+                    <div class="letgo-plg-code__query-cache-info">
+                        <label>缓存时间:</label>
+                        <FInputNumber
+                            v-model={innerCodeItem.value.cacheDuration}
+                            placeholder="非必填"
+                            v-slots={{
+                                suffix() {
+                                    return '秒';
+                                },
+                            }}
+
+                        />
+                    </div>
+                );
+            }
+            return null;
+        };
+
+        const renderCacheType = () => {
+            if (innerCodeItem.value.enableCaching) {
+                return (
+                    <div class="letgo-plg-code__query-cache-info">
+                        <label>缓存类型:</label>
+                        <FSelect v-model={innerCodeItem.value.cacheType}>
+                            <FOption value="ram">内存</FOption>
+                            <FOption value="sessionStorage">会话</FOption>
+                            <FOption value="localStorage">本地</FOption>
+                        </FSelect>
                     </div>
                 );
             }
@@ -72,7 +111,18 @@ export default defineComponent({
                                         label="超时时间"
                                         v-slots={{
                                             content: () => {
-                                                return <FInputNumber v-model={props.codeItem.queryTimeout} placeholder="设置执行超时时间" />;
+                                                return (
+                                                    <FInputNumber
+                                                        v-model={innerCodeItem.value.queryTimeout}
+                                                        placeholder="设置执行超时时间"
+                                                        v-slots={{
+                                                            suffix() {
+                                                                return '秒';
+                                                            },
+                                                        }}
+                                                    >
+                                                    </FInputNumber>
+                                                );
                                             },
                                         }}
                                     />
@@ -82,7 +132,8 @@ export default defineComponent({
                                             content: () => {
                                                 return (
                                                     <div class="letgo-plg-code__query-cache">
-                                                        <FCheckbox v-model={props.codeItem.enableCaching}>缓存请求结果</FCheckbox>
+                                                        <FCheckbox v-model={innerCodeItem.value.enableCaching}>缓存请求结果</FCheckbox>
+                                                        {renderCacheType()}
                                                         {renderCacheDuration()}
                                                     </div>
                                                 );
@@ -93,7 +144,7 @@ export default defineComponent({
                                         label="页面加载"
                                         v-slots={{
                                             content: () => {
-                                                return <FCheckbox v-model={props.codeItem.runWhenPageLoads}>进入页面时自动执行</FCheckbox>;
+                                                return <FCheckbox v-model={innerCodeItem.value.runWhenPageLoads}>进入页面时自动执行</FCheckbox>;
                                             },
                                         }}
                                     />

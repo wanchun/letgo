@@ -24,6 +24,12 @@ export enum IEnumRunCondition {
     // DependStateChange = 'dependStateChange',
 }
 
+export enum IEnumCacheType {
+    RAM = 'ram',
+    SESSION_STORAGE = 'sessionStorage',
+    LOCAL_STORAGE = 'localStorage',
+}
+
 export interface IQueryResourceBase {
     type: IEnumCodeType.JAVASCRIPT_QUERY;
     id: string;
@@ -39,6 +45,7 @@ export interface IQueryResourceBase {
     runWhenPageLoads?: boolean;
     enableCaching?: boolean;
     cacheDuration?: number;
+    cacheType?: IEnumCacheType;
     queryTimeout?: number;
     successEvent?: IEventHandler[];
     failureEvent?: IEventHandler[];

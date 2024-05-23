@@ -122,10 +122,10 @@ export default defineComponent({
                         {renderAction()}
                         <Separator text={firstSeparatorText.value} />
                         <RenderOptions project={props.project} isGlobal={props.isGlobal} componentEvent={innerEditEvent.value} />
-                        <Separator text="高级" />
+                        {/* <Separator text="高级" />
                         <Label label="延迟">
                             <FInputNumber v-model={innerEditEvent.value.waitMs} />
-                        </Label>
+                        </Label> */}
                     </div>
                 )
             );

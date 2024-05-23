@@ -2,9 +2,8 @@ import { computed } from 'vue';
 import { markComputed, markShallowReactive } from '@webank/letgo-common';
 import type { IJavascriptComputed } from '@webank/letgo-types';
 import { ComputedLive } from '@webank/letgo-renderer';
-import type { IJavascriptComputedImpl } from '@webank/letgo-designer';
 
-export class ComputedImpl extends ComputedLive implements IJavascriptComputedImpl {
+export class ComputedImpl extends ComputedLive {
     constructor(data: IJavascriptComputed, deps: string[], ctx: Record<string, any>) {
         super(data, deps, ctx);
 

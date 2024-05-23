@@ -115,7 +115,7 @@ export function genGlobalStateCode(ctx: Context, fileTree: FileTree, options: Ge
     }
 
     if (schema.code) {
-        const _result = genCode(ctx, `${letgoDir}/${GLOBAL_STATE_FILE_NAME}.js`, schema.code);
+        const _result = genCode(ctx, `${letgoDir}/${GLOBAL_STATE_FILE_NAME}.js`, schema.code, true);
         result.import.push(..._result.importSources);
         result.code += _result.code;
         result.export.push(..._result.codeKeys);

@@ -167,7 +167,7 @@ function formatVariableInitValue(variable: ITemporaryState) {
     return initValue;
 }
 
-export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct): SetupCode & { codeKeys: string[] } {
+export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct, isGlobal = false): SetupCode & { codeKeys: string[] } {
     if (!codeStruct)
         return null;
 
@@ -181,6 +181,7 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct)
     const codeStr: string[] = [];
     const codeKeys: string[] = [];
     const importSourceMap = new Map<string, ImportSource>();
+    const hooksMap: Record<string, string[]> = {};
     sortResult.forEach((codeId) => {
         const item = codeMap.get(codeId);
         if (item.type === IEnumCodeType.TEMPORARY_STATE) {
@@ -278,7 +279,28 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct)
             }
             codeKeys.push(item.id);
         }
+        else if (item.type === IEnumCodeType.LIFECYCLE_HOOK) {
+            if (isGlobal) {
+                let hookBody = hooksMap[item.hookName];
+                if (!hookBody)
+                    hookBody = [];
+                hookBody.push(item.funcBody);
+                hooksMap[item.hookName] = hookBody;
+            }
+        }
     });
+
+    if (isGlobal) {
+        for (const p in hooksMap) {
+            const hook = hooksMap[p];
+            codeStr.push(`
+            const ${p} = async ()=> {
+                ${hook.join('\n')}
+            };
+            `);
+            codeKeys.push(p);
+        }
+    }
 
     return {
         importSources: Array.from(importSourceMap.values()),

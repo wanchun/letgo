@@ -3,13 +3,14 @@ import { reactive } from 'vue';
 import { isNil } from 'lodash-es';
 import type { ICodeItem } from '@webank/letgo-types';
 import { IEnumCodeType } from '@webank/letgo-types';
-import type { CodeImplType } from '@webank/letgo-designer';
 import { calcDependencies, sortState } from '@webank/letgo-common';
 import { JavascriptQueryImpl, createQueryImpl } from './query';
 import { JavascriptFunctionImpl } from './javascript-function';
 import { ComputedImpl } from './computed';
 import { TemporaryStateImpl } from './temporary-state';
 import { LifecycleHookImpl } from './lifecycle-hook';
+
+export type CodeImplType = ComputedImpl | TemporaryStateImpl | JavascriptFunctionImpl | JavascriptQueryImpl;
 
 export function useCodesInstance() {
     const dependencyMap = new Map<string, string[]>();
@@ -46,7 +47,7 @@ export function useCodesInstance() {
         const item = codeMap.get(id);
 
         if (item.type === IEnumCodeType.JAVASCRIPT_QUERY) {
-            if (content.resourceType) {
+            if (item.resourceType !== content.resourceType) {
                 codesInstance[item.id] = createQueryImpl(item, dependencyMap.get(item.id), ctx);
                 ctx[item.id] = codesInstance[item.id];
             }
@@ -64,7 +65,6 @@ export function useCodesInstance() {
             dependencyMap.set(id, deps);
             currentInstance.changeDeps(deps);
         }
-
         codesInstance[id].changeContent(content);
     };
 

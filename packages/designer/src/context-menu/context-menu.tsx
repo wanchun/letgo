@@ -62,6 +62,7 @@ export function parseContextMenuProperties(menus: (IPublicTypeContextMenuAction 
                 },
                 disabled: menu.disabled && menu.disabled(nodes || []) || false,
                 separator: menu.separator,
+                style: menu.style,
             };
 
             if ('items' in menu && menu.items) {

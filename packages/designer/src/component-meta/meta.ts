@@ -1,4 +1,4 @@
-import { Copy, Delete, Lock, PreviewClose, PreviewOpen, Unlock } from '@icon-park/vue-next';
+import { Copy, Lock, PreviewClose, PreviewOpen, Unlock } from '@icon-park/vue-next';
 import type {
     IPublicModelComponentMeta,
     IPublicTypeComponentAction,
@@ -19,6 +19,7 @@ import parseDefault from '../transducers/parse-default';
 import parseJSFunc from '../transducers/parse-func';
 import { parseProps } from '../transducers/parse-props';
 import type { INode } from '../types';
+import AddNextComponent from './components/add-next-component';
 import Switch from './components/switch';
 
 export function ensureAList(list?: string | string[]): string[] | null {
@@ -107,6 +108,13 @@ export function getRegisteredMetadataTransducers(): IMetadataTransducer[] {
 
 const builtinComponentActions: IPublicTypeComponentAction[] = [
     {
+        name: 'next',
+        content: ({ node }: { node: INode }) => {
+            return [h(AddNextComponent, { node })];
+        },
+        important: true,
+    },
+    {
         name: 'copy',
         content: {
             icon: () => h(Copy, { size: 14 }),
@@ -187,17 +195,6 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
         },
         condition: (node: INode) => {
             return !!node.componentMeta.dialogControlProp && node.isDialogOpen;
-        },
-        important: true,
-    },
-    {
-        name: 'remove',
-        content: {
-            icon: () => h(Delete, { size: 14 }),
-            title: '删除',
-            action(node: INode) {
-                node.remove();
-            },
         },
         important: true,
     },

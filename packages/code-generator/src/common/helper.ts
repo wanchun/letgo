@@ -226,11 +226,11 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct)
                     imported: 'letgoRequest',
                 });
                 const api = getApiPath(item.api);
-                const params = item.params ? `, ${item.params}` : ', null';
+                const params = item.params ? `, this.formatParams(${item.params}, extraParams)` : ', this.formatParams(extraParams)';
                 codeStr.push(`
     const ${item.id} = useJSQuery({
         id: '${item.id}',
-        query() {
+        query(extraParams) {
             return letgoRequest(${api}${params}, {
                 method: '${item.method || 'POST'}',
                 ${item.headers?.value ? `headers: ${item.headers.value},` : ''}  
@@ -242,6 +242,9 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct)
         ${item.showSuccessToaster ? `showSuccessToaster: ${item.showSuccessToaster},` : ''}
         ${item.successMessage ? `successMessage: '${item.successMessage}',` : ''}
         ${item.queryTimeout ? `queryTimeout: ${item.queryTimeout},` : ''}
+        ${item.enableCaching ? `enableCaching: ${item.enableCaching},` : ''}
+        ${item.cacheDuration ? `cacheDuration: ${item.cacheDuration},` : ''}
+        ${item.cacheType ? `cacheType: '${item.cacheType}',` : ''}
         ${item.runCondition ? `runCondition: '${item.runCondition}',` : ''}
         ${item.runWhenPageLoads ? `runWhenPageLoads: ${item.runWhenPageLoads},` : ''}
         ${(item.queryFailureCondition && item.queryFailureCondition.length) ? `queryFailureCondition: ${item.queryFailureCondition},` : ''}

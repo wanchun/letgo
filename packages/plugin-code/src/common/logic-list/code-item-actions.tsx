@@ -25,6 +25,7 @@ const ItemActionOptions = [
 export const CodeItemActions = defineComponent({
     props: {
         id: String,
+        directoryId: String,
         code: Object as PropType<IPublicModelCode>,
         onRename: Function as PropType<(id: string) => void>,
         onSelect: Function as PropType<((id?: string) => void)>,
@@ -36,7 +37,11 @@ export const CodeItemActions = defineComponent({
                 const targetCodeItem = props.code.getCodeItem(props.id);
                 const newItem = cloneDeep(targetCodeItem);
                 newItem.id = props.code.genCodeId(targetCodeItem.type);
-                props.code.addCodeItem(newItem);
+                if (props.directoryId)
+                    props.code.addCodeItemInDirectory(props.directoryId, newItem);
+                else
+                    props.code.addCodeItem(newItem);
+
                 props.onSelect(newItem.id);
             }
             else if (value === 'rename') {

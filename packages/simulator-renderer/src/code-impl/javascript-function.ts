@@ -1,10 +1,9 @@
 import { markComputed, markShallowReactive } from '@webank/letgo-common';
 import { JavascriptFunctionLive } from '@webank/letgo-renderer';
 import type { IJavascriptFunction } from '@webank/letgo-types';
-import type { IJavascriptFunctionImpl } from '@webank/letgo-designer';
 
 // 解析执行
-export class JavascriptFunctionImpl extends JavascriptFunctionLive implements IJavascriptFunctionImpl {
+export class JavascriptFunctionImpl extends JavascriptFunctionLive {
     constructor(data: IJavascriptFunction, deps: string[], ctx: Record<string, any>) {
         super(data, deps, ctx);
         markShallowReactive(this, {

@@ -1,7 +1,8 @@
 import { eventHandlersToJsFunction, markShallowReactive } from '@webank/letgo-common';
 import type { IEnumResourceType, IEventHandler, IFailureCondition, IJavascriptQuery } from '@webank/letgo-types';
-import { IEnumCodeType, IEnumRunCondition } from '@webank/letgo-types';
+import { IEnumCacheType, IEnumCodeType, IEnumRunCondition } from '@webank/letgo-types';
 import { funcSchemaToFunc } from '../../parse';
+import { cacheControl, clearCache } from './cache-control';
 
 export class JavascriptQueryBase {
     id: string;
@@ -25,6 +26,7 @@ export class JavascriptQueryBase {
     runWhenPageLoads = false;
     enableCaching = false;
     cacheDuration: number = null;
+    cacheType: IEnumCacheType = IEnumCacheType.RAM;
     runCondition: IEnumRunCondition;
     failureEvent: IEventHandler[];
     successEventInstances: ((...args: any[]) => void)[];
@@ -45,6 +47,11 @@ export class JavascriptQueryBase {
         this.queryTimeout = data.queryTimeout;
         this.runCondition = data.runCondition || IEnumRunCondition.Manual;
         this.queryFailureCondition = data.queryFailureCondition || [];
+
+        this.enableCaching = data.enableCaching || false;
+        this.cacheDuration = data.cacheDuration || 0;
+        this.cacheType = data.cacheType || IEnumCacheType.RAM;
+
         this.successEvent = data.successEvent;
         this.failureEvent = data.failureEvent;
         this.resourceType = data.resourceType;
@@ -89,7 +96,7 @@ export class JavascriptQueryBase {
         });
     }
 
-    genQueryFn() {
+    genQueryFn(_extraParams?: Record<string, any>) {
         if (this.query) {
             // eslint-disable-next-line no-new-func
             return new Function('_ctx', `
@@ -104,18 +111,24 @@ export class JavascriptQueryBase {
         }
     }
 
-    trigger = async () => {
-        if (this.enableCaching && this.cacheTime && (Date.now() - this.cacheTime) < this.cacheDuration * 1000)
-            return;
-        const fn = this.genQueryFn();
+    async trigger(extraParams?: Record<string, any>) {
+        const fn = this.genQueryFn(extraParams);
+
         if (fn) {
             try {
                 this.loading = true;
-                let response;
-                if (this.queryTimeout)
-                    response = await Promise.race([this.timeoutPromise(this.queryTimeout), fn(this.ctx)]);
-                else
-                    response = await fn(this.ctx);
+                const response = await cacheControl({
+                    id: this.id,
+                    enableCaching: this.enableCaching,
+                    cacheDuration: this.cacheDuration,
+                    type: this.cacheType,
+                    extraParams,
+                }, async () => {
+                    if (this.queryTimeout)
+                        return Promise.race([this.timeoutPromise(this.queryTimeout), fn(this.ctx)]);
+
+                    return fn(this.ctx);
+                });
 
                 this.response = response;
 
@@ -138,13 +151,14 @@ export class JavascriptQueryBase {
                 }
 
                 this.data = data;
-                this.cacheTime = Date.now();
                 this.successEventInstances.forEach((eventHandler) => {
                     eventHandler(this.data);
                 });
+                this.error = null;
                 return this.data;
             }
             catch (err) {
+                this.data = null;
                 this.failureEventInstances.forEach((eventHandler) => {
                     eventHandler(err);
                 });
@@ -162,7 +176,7 @@ export class JavascriptQueryBase {
     };
 
     clearCache() {
-        this.cacheTime = null;
+        clearCache(this.id, this.cacheType);
     }
 
     reset() {

@@ -63,4 +63,6 @@ export interface IPublicTypeContextMenuAction {
      * Function to determine disabled condition, optional
      */
     disabled?: (nodes?: IPublicModelNode[]) => boolean;
+
+    style?: string;
 }

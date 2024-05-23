@@ -1,9 +1,9 @@
 // 构建运行时 context
-import type { CodeImplType } from '@webank/letgo-designer';
 import { traverseNodeSchema } from '@webank/letgo-common';
 import { inject, watch } from 'vue';
 import { BASE_GLOBAL_CONTEXT } from '../constants';
 import type { DocumentInstance } from '../interface';
+import type { CodeImplType } from '../code-impl/code-impl';
 
 export function useContext(codesInstance: Record<string, CodeImplType>, documentInstance: DocumentInstance) {
     const globalContext = inject(BASE_GLOBAL_CONTEXT) as Record<string, any>;

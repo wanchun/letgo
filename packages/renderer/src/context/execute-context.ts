@@ -87,7 +87,6 @@ export function createExecuteContext(props: RendererProps) {
             if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
                 if (ins.hookName === IPublicEnumPageLifecycle.Mounted)
                     ins.run();
-                ins.run();
             }
         });
     });

@@ -10,7 +10,7 @@ import { ComputedImpl } from './computed';
 import { TemporaryStateImpl } from './temporary-state';
 import { LifecycleHookImpl } from './lifecycle-hook';
 
-export type CodeImplType = ComputedImpl | TemporaryStateImpl | JavascriptFunctionImpl | JavascriptQueryImpl;
+export type CodeImplType = ComputedImpl | TemporaryStateImpl | JavascriptFunctionImpl | JavascriptQueryImpl | LifecycleHookImpl;
 
 export function useCodesInstance() {
     const dependencyMap = new Map<string, string[]>();

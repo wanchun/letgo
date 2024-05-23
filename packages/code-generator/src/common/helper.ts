@@ -167,7 +167,7 @@ function formatVariableInitValue(variable: ITemporaryState) {
     return initValue;
 }
 
-export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct): SetupCode {
+export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct): SetupCode & { codeKeys: string[] } {
     if (!codeStruct)
         return null;
 
@@ -179,6 +179,7 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct)
     const codeMap = genCodeMap(codeStruct);
     const sortResult = sortState(codeMap);
     const codeStr: string[] = [];
+    const codeKeys: string[] = [];
     const importSourceMap = new Map<string, ImportSource>();
     sortResult.forEach((codeId) => {
         const item = codeMap.get(codeId);
@@ -194,6 +195,7 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct)
         initValue: ${formatVariableInitValue(item)},
     });
             `);
+            codeKeys.push(item.id);
         }
         else if (item.type === IEnumCodeType.JAVASCRIPT_COMPUTED) {
             importSourceMap.set('useComputed', {
@@ -209,9 +211,11 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct)
         },
     });
             `);
+            codeKeys.push(item.id);
         }
         else if (item.type === IEnumCodeType.JAVASCRIPT_FUNCTION) {
             codeStr.push(replaceFunctionName(item.funcBody, item.id));
+            codeKeys.push(item.id);
         }
         else if (item.type === IEnumCodeType.JAVASCRIPT_QUERY) {
             importSourceMap.set('useJSQuery', {
@@ -272,11 +276,13 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct)
     });
                 `);
             }
+            codeKeys.push(item.id);
         }
     });
 
     return {
         importSources: Array.from(importSourceMap.values()),
         code: codeStr.join('\n'),
+        codeKeys,
     };
 }

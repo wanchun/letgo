@@ -56,6 +56,7 @@ export default defineBuildConfig({
 import { defineRuntimeConfig,{{#HAS_WATERMARK}} createWatermark,{{/HAS_WATERMARK}}{{#HAS_UM}} um,{{/HAS_UM}}{{#HAS_PUM}} request, pum,{{/HAS_PUM}} {{#HAS_ACCESS}} access,{{/HAS_ACCESS}} } from '@fesjs/fes';
 import { FMessage } from '@fesjs/fes-design';
 import { builtinComponents } from '@webank/letgo-components';
+import { useSharedLetgoGlobal } from '@/letgo/useLetgoGlobal';
 {{#HAS_LAYOUT}}
 import CustomHeader from '@/components/customHeader.vue';
 {{/HAS_LAYOUT}}
@@ -66,6 +67,8 @@ export default defineRuntimeConfig({
     },
     beforeRender: {
         async action() {
+            const global = useSharedLetgoGlobal();
+            global.beforeRender?.();
             {{^HAS_MICRO}}
             // 非微前端场景
 

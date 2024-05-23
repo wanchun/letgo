@@ -382,7 +382,7 @@ export const BuiltinHotkey = definePlugin({
 
             const currentItem = skeleton.leftFloatArea.current || prePanel || skeleton.leftFloatArea.items[0];
             prePanel = currentItem;
-            prePanel.toggle();
+            prePanel?.toggle();
         });
 
         hotkey.bind(['command+shift+d'], (e, action) => {

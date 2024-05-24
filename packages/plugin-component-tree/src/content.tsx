@@ -14,7 +14,7 @@ import {
     shallowRef,
 } from 'vue';
 import './component-tree.less';
-import { MODAL_VIEW_VALUE, type DropInfo, type TreeNode } from './components/const';
+import { type DropInfo, MODAL_VIEW_VALUE, type TreeNode } from './components/const';
 import { TreeView } from './components/tree';
 import { SuffixView } from './suffix';
 

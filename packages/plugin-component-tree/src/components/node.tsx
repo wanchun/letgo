@@ -147,7 +147,7 @@ export const TreeNodeView = defineComponent({
         return () => {
             const { node, zIndex } = props;
             if (isModalView.value && children.value.length <= 0)
-                return '';
+                return null;
 
             if (node.vNode) {
                 return (

@@ -373,13 +373,9 @@ class JSQuery {
 
             enableTransformer: data.enableTransformer || false,
             transformer: data.transformer,
-            showFailureToaster: data.showFailureToaster || false,
-            showSuccessToaster: data.showSuccessToaster || false,
             runWhenPageLoads: data.runWhenPageLoads || false,
-            successMessage: data.successMessage || '',
             queryTimeout: data.queryTimeout,
             runCondition: data.runCondition || IEnumRunCondition.MANUAL,
-            queryFailureCondition: data.queryFailureCondition || [],
             successEvent: data.successEvent || [],
             failureEvent: data.failureEvent || [],
             data: null,

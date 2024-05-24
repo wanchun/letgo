@@ -37,10 +37,6 @@ export interface IQueryResourceBase {
     enableTransformer?: boolean;
     transformer?: string;
     query: string;
-    queryFailureCondition?: IFailureCondition[];
-    showFailureToaster?: boolean;
-    showSuccessToaster?: boolean;
-    successMessage?: string;
     runCondition: IEnumRunCondition;
     runWhenPageLoads?: boolean;
     enableCaching?: boolean;

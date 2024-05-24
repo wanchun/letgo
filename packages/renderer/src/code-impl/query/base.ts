@@ -18,9 +18,6 @@ export class JavascriptQueryBase {
     enableTransformer: boolean;
     transformer: string;
 
-    showFailureToaster: boolean;
-    showSuccessToaster: boolean;
-    successMessage: string;
     queryTimeout: number;
     query: string;
     runWhenPageLoads = false;
@@ -32,7 +29,6 @@ export class JavascriptQueryBase {
     successEventInstances: ((...args: any[]) => void)[];
     failureEventInstances: ((...args: any[]) => void)[];
     successEvent: IEventHandler[];
-    queryFailureCondition: IFailureCondition[];
     cacheTime: number;
     constructor(data: IJavascriptQuery, deps: string[], ctx: Record<string, any>) {
         this.id = data.id;
@@ -41,12 +37,8 @@ export class JavascriptQueryBase {
         this.transformer = data.transformer;
 
         this.query = data.query;
-        this.showFailureToaster = data.showFailureToaster || false;
-        this.showSuccessToaster = data.showSuccessToaster || false;
-        this.successMessage = data.successMessage || '';
         this.queryTimeout = data.queryTimeout;
         this.runCondition = data.runCondition || IEnumRunCondition.Manual;
-        this.queryFailureCondition = data.queryFailureCondition || [];
 
         this.enableCaching = data.enableCaching || false;
         this.cacheDuration = data.cacheDuration || 0;

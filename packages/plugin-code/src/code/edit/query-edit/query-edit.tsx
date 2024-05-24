@@ -6,7 +6,6 @@ import type { IJavascriptQuery, IPublicModelProject } from '@webank/letgo-types'
 import LeftTabs from './left-tabs';
 import General from './general';
 import RestGeneral from './rest/general';
-import ResponseEdit from './response';
 import Advance from './advance';
 import './query-edit.less';
 
@@ -37,10 +36,6 @@ export default defineComponent({
                     return <RestGeneral isGlobal={props.isGlobal} project={props.project} hints={props.hints} codeItem={props.codeItem} changeCodeItem={changeCodeItem} />;
 
                 return <General isGlobal={props.isGlobal} project={props.project} hints={props.hints} codeItem={props.codeItem} changeCodeItem={changeCodeItem} />;
-            }
-
-            else if (currentTab.value === 'response') {
-                return <ResponseEdit codeItem={props.codeItem} changeCodeItem={changeCodeItem} />;
             }
 
             return <Advance hints={props.hints} changeCodeItem={changeCodeItem} codeItem={props.codeItem} />;

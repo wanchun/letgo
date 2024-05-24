@@ -52,6 +52,7 @@ export default defineComponent({
             return (
                 <div class="letgo-plg-code__edit">
                     <CodeList
+                        type="page"
                         code={code.value}
                         hasCodeId={hasCodeId}
                         activeId={activeItem.value?.id}

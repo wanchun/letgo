@@ -9,7 +9,7 @@ import type {
 } from '@webank/letgo-types';
 
 export interface CodeBaseEdit {
-    addCode: (id: string, resourceType?: IEnumResourceType) => ICodeItem;
+    addCode: (id: string, params?: Record<string, any>) => ICodeItem;
 }
 
 class TemporaryStateEdit implements CodeBaseEdit {
@@ -43,9 +43,9 @@ class JavascriptFunctionEdit implements CodeBaseEdit {
 }
 
 class JavascriptQueryEdit implements CodeBaseEdit {
-    addCode(id: string, resourceType?: IEnumResourceType): IJavascriptQuery {
+    addCode(id: string, params?: Record<string, any>): IJavascriptQuery {
         const otherFields: Record<string, any> = {};
-        if (resourceType === IEnumResourceType.RESTQuery) {
+        if (params?.resourceType === IEnumResourceType.RESTQuery) {
             otherFields.method = 'POST';
             otherFields.cacheType = IEnumCacheType.RAM;
             otherFields.enableTransformer = false;
@@ -54,7 +54,7 @@ class JavascriptQueryEdit implements CodeBaseEdit {
 
         return {
             id,
-            resourceType: resourceType || IEnumResourceType.Query,
+            resourceType: params?.resourceType || IEnumResourceType.Query,
             type: IEnumCodeType.JAVASCRIPT_QUERY,
             runCondition: IEnumRunCondition.Manual,
             query: '',
@@ -70,11 +70,11 @@ class JavascriptQueryEdit implements CodeBaseEdit {
 }
 
 class Lifecycle implements CodeBaseEdit {
-    addCode(id: string): ILifecycle {
+    addCode(id: string, params?: Partial<ILifecycle>): ILifecycle {
         return {
             id,
             type: IEnumCodeType.LIFECYCLE_HOOK,
-            hookName: '',
+            hookName: params?.hookName ?? '',
             funcBody: '// Tip: 编写代码',
         };
     }

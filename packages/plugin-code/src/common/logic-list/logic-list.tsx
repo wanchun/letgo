@@ -2,7 +2,6 @@ import type { PropType } from 'vue';
 import { computed, defineComponent, h, reactive, ref } from 'vue';
 import type { TreeProps } from '@fesjs/fes-design';
 import { FTree } from '@fesjs/fes-design';
-
 import type { ICodeItem, ICodeItemOrDirectory, IPublicModelCode } from '@webank/letgo-types';
 import { IEnumCodeType, isDirectory } from '@webank/letgo-types';
 import { isNil } from 'lodash-es';
@@ -32,6 +31,7 @@ export const LogicList = defineComponent({
         code: Object as PropType<IPublicModelCode>,
         searchText: String,
         onSelect: Function as PropType<((id?: string) => void)>,
+        type: String as PropType<'project' | 'page'>,
     },
     setup(props, { expose }) {
         const codeItemsEditing = reactive<Record<string, boolean>>({});
@@ -137,6 +137,7 @@ export const LogicList = defineComponent({
                     children: codeItems,
                     prefix: () => h(FolderIcon),
                     suffix: () => h(DirectoryActions, {
+                        type: props.type,
                         id: item.id,
                         code,
                         onRename,

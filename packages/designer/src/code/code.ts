@@ -3,7 +3,6 @@ import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
 import {
     markComputed,
     markReactive,
-    markShallowReactive,
     replaceExpressionIdentifier,
     replaceJSFunctionIdentifier,
 } from '@webank/letgo-common';
@@ -240,12 +239,12 @@ export class Code implements IPublicModelCode {
         return this.codeStruct.directories.at(-1);
     };
 
-    addCodeItemInDirectory = (directoryId: string, typeOrCodeItem: IEnumCodeType | ICodeItem, resourceType?: IEnumResourceType) => {
+    addCodeItemInDirectory = (directoryId: string, typeOrCodeItem: IEnumCodeType | ICodeItem, params?: Record<string, any>) => {
         const directory = this.getDirectory(directoryId);
         let item: ICodeItem;
         if (typeof typeOrCodeItem === 'string') {
             const id = this.genCodeId(typeOrCodeItem);
-            item = codeBaseEdit[typeOrCodeItem].addCode(id, resourceType);
+            item = codeBaseEdit[typeOrCodeItem].addCode(id, params);
         }
         else {
             item = typeOrCodeItem;
@@ -262,9 +261,9 @@ export class Code implements IPublicModelCode {
         return item;
     };
 
-    addCodeItemWithType = (type: IEnumCodeType, resourceType?: IEnumResourceType) => {
+    addCodeItemWithType = (type: IEnumCodeType, params?: Record<string, any>) => {
         const id = this.genCodeId(type);
-        const item = codeBaseEdit[type].addCode(id, resourceType);
+        const item = codeBaseEdit[type].addCode(id, params);
         this.addCodeItem(item);
         return item;
     };

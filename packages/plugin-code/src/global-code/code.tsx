@@ -46,6 +46,7 @@ export const GlobalCode = defineComponent({
             return (
                 <div class="letgo-plg-code__edit">
                     <CodeList
+                        type="project"
                         code={code.value}
                         hasCodeId={hasCodeId}
                         activeId={activeItem.value?.id}

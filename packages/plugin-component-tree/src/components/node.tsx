@@ -144,18 +144,6 @@ export const TreeNodeView = defineComponent({
             );
         };
 
-        const isHovering = ref(false);
-
-        const onMouseEnter = () => {
-            if (props.node.checkable)
-                isHovering.value = true;
-        };
-
-        const onMouseLeave = () => {
-            if (props.node.checkable)
-                isHovering.value = false;
-        };
-
         return () => {
             const { node, zIndex } = props;
             if (isModalView.value && children.value.length <= 0)
@@ -187,13 +175,10 @@ export const TreeNodeView = defineComponent({
                         class={[
                             'letgo-tree-node-wrapper',
                             isSelected.value && 'is-selected',
-                            isHovering.value && 'is-hovering',
                             node.checkable && 'is-checkable',
                         ]}
                         data-value={node.value}
                         style={{ paddingLeft: `${zIndex * 16}px` }}
-                        onMouseenter={onMouseEnter}
-                        onMouseleave={onMouseLeave}
                     >
                         {
                             ((node.isContainer || children.value.length > 0) && !isModalView.value)

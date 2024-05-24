@@ -15,12 +15,8 @@ export class JavascriptQueryImpl extends JavascriptQueryBase {
             query: this.query,
             enableCaching: this.enableCaching,
             cacheDuration: this.cacheDuration,
-            showFailureToaster: this.showFailureToaster,
-            showSuccessToaster: this.showSuccessToaster,
-            successMessage: this.successMessage,
             queryTimeout: this.queryTimeout,
             runCondition: this.runCondition,
-            queryFailureCondition: this.queryFailureCondition,
             successEvent: this.successEvent,
             failureEvent: this.failureEvent,
 

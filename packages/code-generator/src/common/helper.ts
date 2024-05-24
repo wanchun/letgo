@@ -238,16 +238,12 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct)
         },
         ${item.enableTransformer ? `enableTransformer: ${item.enableTransformer},` : ''}
         ${(item.enableTransformer && item.transformer) ? `transformer(data) {${item.transformer}},` : ''}
-        ${item.showSuccessToaster ? `showSuccessToaster: ${item.showSuccessToaster},` : ''}
-        ${item.showSuccessToaster ? `showSuccessToaster: ${item.showSuccessToaster},` : ''}
-        ${item.successMessage ? `successMessage: '${item.successMessage}',` : ''}
         ${item.queryTimeout ? `queryTimeout: ${item.queryTimeout},` : ''}
         ${item.enableCaching ? `enableCaching: ${item.enableCaching},` : ''}
         ${item.cacheDuration ? `cacheDuration: ${item.cacheDuration},` : ''}
         ${item.cacheType ? `cacheType: '${item.cacheType}',` : ''}
         ${item.runCondition ? `runCondition: '${item.runCondition}',` : ''}
         ${item.runWhenPageLoads ? `runWhenPageLoads: ${item.runWhenPageLoads},` : ''}
-        ${(item.queryFailureCondition && item.queryFailureCondition.length) ? `queryFailureCondition: ${item.queryFailureCondition},` : ''}
         ${item.successEvent ? `successEvent: [${eventSchemaToFunc(ctx, item.successEvent).join(',')}],` : ''}
         ${item.failureEvent ? `failureEvent: [${eventSchemaToFunc(ctx, item.failureEvent).join(',')}],` : ''}
     });
@@ -260,13 +256,9 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct)
         async query() {
             ${item.query}
         },
-        ${item.showFailureToaster ? `showFailureToaster: ${item.showFailureToaster},` : ''}
-        ${item.showSuccessToaster ? `showSuccessToaster: ${item.showSuccessToaster},` : ''}
-        ${item.successMessage ? `successMessage: '${item.successMessage}',` : ''}
         ${item.queryTimeout ? `queryTimeout: ${item.queryTimeout},` : ''}
         ${item.runCondition ? `runCondition: '${item.runCondition}',` : ''}
         ${item.runWhenPageLoads ? `runWhenPageLoads: ${item.runWhenPageLoads},` : ''}
-        ${(item.queryFailureCondition && item.queryFailureCondition.length) ? `queryFailureCondition: ${item.queryFailureCondition},` : ''}
         ${item.successEvent ? `successEvent: [${eventSchemaToFunc(ctx, item.successEvent).join(',')}],` : ''}
         ${item.failureEvent ? `failureEvent: [${eventSchemaToFunc(ctx, item.failureEvent).join(',')}],` : ''}
     });

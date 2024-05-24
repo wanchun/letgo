@@ -1,6 +1,6 @@
 import { isFormEvent } from '@webank/letgo-common';
 import type { INode } from '@webank/letgo-designer';
-import { isNode } from '@webank/letgo-designer';
+import { insertChildren } from '@webank/letgo-designer';
 import {
     definePlugin,
 } from '@webank/letgo-engine-plugin';
@@ -9,7 +9,6 @@ import type {
 } from '@webank/letgo-engine-plugin';
 import type {
     IPublicTypeDragNodeObject,
-    IPublicTypeNodeData,
 } from '@webank/letgo-types';
 import {
     IPublicEnumDragObject,
@@ -17,46 +16,6 @@ import {
 } from '@webank/letgo-types';
 
 import { getClipboardText } from './default-context-menu';
-
-function insertChild(
-    container: INode,
-    originalChild: INode | IPublicTypeNodeData,
-    at?: number | null,
-): INode | null {
-    let child = originalChild;
-    if (isNode(child) && (child as INode).isSlot())
-        child = (child as INode).exportSchema(IPublicEnumTransformStage.Clone);
-
-    let node = null;
-    if (isNode(child)) {
-        node = (child as INode);
-        container.children?.insertChild(node, at);
-    }
-    else {
-        node = container.document?.createNode(child as IPublicTypeNodeData) || null;
-        if (node)
-            container.children?.insertChild(node, at);
-    }
-
-    return (node as INode) || null;
-}
-
-function insertChildren(
-    container: INode,
-    nodes: INode[] | IPublicTypeNodeData[],
-    at?: number | null,
-): INode[] {
-    let index = at;
-    let node: any;
-    const results: INode[] = [];
-    // eslint-disable-next-line no-cond-assign
-    while ((node = nodes.pop())) {
-        node = insertChild(container, node, index);
-        results.push(node);
-        index = node.index;
-    }
-    return results;
-}
 
 /**
  * 获得合适的插入位置
@@ -534,8 +493,7 @@ export const BuiltinHotkey = definePlugin({
             else {
                 const place = getSuitablePlaceForNode(parent, firstNode, null); // upwards
                 if (place) {
-                    const container = place.container.internalToShellNode();
-                    container.insertBefore(firstNode, place.ref);
+                    place.container.insertBefore(firstNode, place.ref);
                     firstNode?.select();
                 }
             }
@@ -575,8 +533,7 @@ export const BuiltinHotkey = definePlugin({
             else {
                 const place = getSuitablePlaceForNode(parent, firstNode, null); // upwards
                 if (place) {
-                    const container = place.container.internalToShellNode();
-                    container.insertAfter(firstNode, place.ref, true);
+                    place.container.insertAfter(firstNode, place.ref, true);
                     firstNode?.select();
                 }
             }

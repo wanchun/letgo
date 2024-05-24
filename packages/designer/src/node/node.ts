@@ -47,21 +47,6 @@ export type IRootNode = IPageNode | IComponentNode;
 
 export type INode = ISlotNode | IPageNode | IComponentNode | IBaseNode;
 
-function ensureNode(node: any, document: DocumentModel): INode {
-    let nodeInstance = node;
-    if (!isNode(node)) {
-        if (node.getComponentName) {
-            nodeInstance = document.createNode({
-                componentName: node.getComponentName(),
-            });
-        }
-        else {
-            nodeInstance = document.createNode(node);
-        }
-    }
-    return nodeInstance;
-}
-
 export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> implements IBaseNode {
     private emitter = new EventEmitter();
 
@@ -507,13 +492,11 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
     }
 
     insertBefore(node: INode, ref?: INode) {
-        const nodeInstance = ensureNode(node, this.document);
-        this.children?.insertChild(nodeInstance, ref ? ref.index : null);
+        this.children?.insertChild(node, ref ? ref.index : null);
     }
 
-    insertAfter(node: any, ref?: INode) {
-        const nodeInstance = ensureNode(node, this.document);
-        this.children?.insertChild(nodeInstance, ref ? (ref.index || 0) + 1 : null);
+    insertAfter(node: INode, ref?: INode) {
+        this.children?.insertChild(node, ref ? (ref.index || 0) + 1 : null);
     }
 
     remove(purge = true) {

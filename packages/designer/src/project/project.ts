@@ -10,6 +10,7 @@ import type {
     IPublicTypeUtilsMap,
 } from '@webank/letgo-types';
 import {
+    IEnumCodeType,
     IPublicEnumTransformStage,
     isLowCodeComponentType,
     isProCodeComponentType,
@@ -21,6 +22,8 @@ import { isDocumentModel } from '../types';
 import { Code } from '../code/code';
 import type { Designer } from '../designer';
 import { DocumentModel } from '../document';
+
+const CodeIdCount: Record<string, number> = {};
 
 export class Project implements IBaseProject<DocumentModel, Code> {
     id: number | string;
@@ -81,9 +84,22 @@ export class Project implements IBaseProject<DocumentModel, Code> {
             id: '',
         });
         markComputed(this, ['extraGlobalState']);
-        this.code = new Code();
+        this.code = new Code(this);
         this.importSchema(schema);
     }
+
+    genCodeId = (type: IEnumCodeType | 'variable' | 'folder'): string => {
+        if (type === IEnumCodeType.TEMPORARY_STATE)
+            type = 'variable';
+
+        CodeIdCount[type] = (CodeIdCount[type] || 0) + 1;
+        const newId = `${type}${CodeIdCount[type]}`;
+        const doc = this.currentDocument;
+        if (this.code.hasCodeId(newId) || (doc?.code.hasCodeId(newId)))
+            return this.genCodeId(type);
+
+        return newId;
+    };
 
     updateUtilsInstance(utils: Record<string, any>) {
         this.utilsInstance = utils;

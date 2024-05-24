@@ -14,15 +14,17 @@ import type {
     IEnumResourceType,
     IPublicModelCode,
 } from '@webank/letgo-types';
+import type { Project } from '../project';
 import { codeBaseEdit } from './code-base';
-
-const idCount: Record<string, number> = {};
 
 export class Code implements IPublicModelCode {
     private emitter = new EventEmitter();
     codeStruct: ICodeStruct;
+    project: Project;
     codeMap: Map<string, ICodeItem>;
-    constructor(codeStruct?: ICodeStruct) {
+    constructor(project: Project, codeStruct?: ICodeStruct) {
+        this.project = project;
+
         codeStruct = Object.assign({
             directories: [],
             code: [],
@@ -204,15 +206,7 @@ export class Code implements IPublicModelCode {
     };
 
     genCodeId = (type: IEnumCodeType | 'variable' | 'folder'): string => {
-        if (type === IEnumCodeType.TEMPORARY_STATE)
-            type = 'variable';
-
-        idCount[type] = (idCount[type] || 0) + 1;
-        const newId = `${type}${idCount[type]}`;
-        if (this.hasCodeId(newId))
-            return this.genCodeId(type);
-
-        return newId;
+        return this.project.genCodeId(type);
     };
 
     emitCodeItemAdd(codeItem: ICodeItem) {

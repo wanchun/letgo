@@ -10,14 +10,16 @@ export const SuffixView = defineComponent({
         node: Object as PropType<INode>,
     },
     setup(props) {
+        const isModal = computed(() => props.node.isModal?.());
+        const isDialogOpen = computed(() => props.node.isDialogOpen);
+
         const options = computed(() => {
             const node = props.node;
             const isRoot = (node.componentName === 'Page' || node.componentName === 'Component');
             const isSlot = node.componentName === 'Slot';
             const isContainer = node.isContainer();
             const isLocked = node.isLocked;
-            const isDialogOpen = node.isDialogOpen;
-            const isDialog = !!node.componentMeta.dialogControlProp;
+            const isDialog = !!node.componentMeta.dialogControlProp && !isModal.value;
             return [
                 !isRoot
                 && {
@@ -45,12 +47,12 @@ export const SuffixView = defineComponent({
                     label: '删除',
                     icon: () => <Delete class="letgo-comp-tree__icon letgo-comp-tree__icon--node" theme="outline"> </Delete>,
                 },
-                (isDialog && !isDialogOpen) && {
+                (isDialog && !isDialogOpen.value) && {
                     value: 'dialogOpen',
                     label: '弹层显示',
                     icon: () => <PreviewOpen class="letgo-comp-tree__icon letgo-comp-tree__icon--node" theme="outline"> </PreviewOpen>,
                 },
-                (isDialog && isDialogOpen) && {
+                (isDialog && isDialogOpen.value) && {
                     value: 'dialogClose',
                     label: '弹层关闭',
                     icon: () => <PreviewClose class="letgo-comp-tree__icon letgo-comp-tree__icon--node" theme="outline"> </PreviewClose>,
@@ -122,9 +124,19 @@ export const SuffixView = defineComponent({
             },
         };
 
+        const renderModalOpenIcon = () => {
+            if (!isModal.value)
+                return;
+            if (isDialogOpen.value)
+                return <PreviewClose class="letgo-comp-tree__icon letgo-comp-tree__icon--node" theme="outline"> </PreviewClose>;
+            else
+                return <PreviewOpen class="letgo-comp-tree__icon letgo-comp-tree__icon--node" theme="outline"> </PreviewOpen>;
+        };
+
         return () => {
             return (
                 <div class="letgo-comp-tree__suffix">
+                    { renderModalOpenIcon()}
                     <FDropdown options={options.value} onClick={onClick}>
                         <MoreOne class="letgo-comp-tree__icon letgo-comp-tree__icon--node" theme="outline" />
                     </FDropdown>

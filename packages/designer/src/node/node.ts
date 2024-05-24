@@ -44,7 +44,7 @@ export type ISlotNode = IBaseNode<IPublicTypeSlotSchema>;
 
 export type IRootNode = IPageNode | IComponentNode;
 
-export type INode = ISlotNode | IPageNode | IComponentNode | IBaseNode;
+export type INode = ISlotNode | IPageNode | IComponentNode | IBaseNode | Node;
 
 export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> implements IBaseNode {
     private emitter = new EventEmitter();

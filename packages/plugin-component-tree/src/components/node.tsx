@@ -1,10 +1,10 @@
-import type { PropType } from 'vue';
-import { computed, defineComponent, inject, nextTick, ref, watch } from 'vue';
-import { isUndefined } from 'lodash-es';
-import { CaretDownOutlined } from '@fesjs/fes-design/icon';
 import { FEllipsis } from '@fesjs/fes-design';
-import { TREE_PROVIDE_KEY } from './const';
+import { CaretDownOutlined } from '@fesjs/fes-design/icon';
+import { isUndefined } from 'lodash-es';
+import type { PropType } from 'vue';
+import { computed, defineComponent, inject, ref, watch } from 'vue';
 import type { TreeNode } from './const';
+import { MODAL_VIEW_VALUE, TREE_PROVIDE_KEY } from './const';
 
 export const TreeNodeView = defineComponent({
     name: 'Tree',
@@ -45,6 +45,11 @@ export const TreeNodeView = defineComponent({
                 return filteredKeys.value.includes(props.node.value);
 
             return true;
+        });
+
+        // 是否是模态视图层
+        const isModalView = computed(() => {
+            return props.node.value === MODAL_VIEW_VALUE;
         });
 
         watch(() => props.node.isExpanded, () => {
@@ -153,6 +158,8 @@ export const TreeNodeView = defineComponent({
 
         return () => {
             const { node, zIndex } = props;
+            if (isModalView.value && children.value.length <= 0)
+                return '';
 
             if (node.vNode) {
                 return (
@@ -168,6 +175,7 @@ export const TreeNodeView = defineComponent({
                         'letgo-tree-node',
                         (isDragNode.value || !isShow.value) && 'is-hidden',
                         isDropNode.value && 'is-highlight',
+                        isModalView.value && 'is-modal-view',
                     ]}
                 >
                     <div
@@ -188,7 +196,7 @@ export const TreeNodeView = defineComponent({
                         onMouseleave={onMouseLeave}
                     >
                         {
-                            (node.isContainer || children.value.length > 0)
+                            ((node.isContainer || children.value.length > 0) && !isModalView.value)
                                 ? (
                                     <span
                                         class={['letgo-tree-node-switcher']}

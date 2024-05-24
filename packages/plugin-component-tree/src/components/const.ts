@@ -40,3 +40,5 @@ export interface TreeInst {
 export const TREE_PROVIDE_KEY: InjectionKey<TreeInst> = Symbol('LetgoTree');
 
 export type DropPosition = 'before' | 'inside' | 'after';
+
+export const MODAL_VIEW_VALUE = 'MODAL_VIEW_VALUE';

@@ -1,4 +1,10 @@
+import { FInput } from '@fesjs/fes-design';
+import { SearchOutlined } from '@fesjs/fes-design/icon';
 import { FigmaComponent, Page, Plug } from '@icon-park/vue-next';
+import type { Designer, INode } from '@webank/letgo-designer';
+import { canMoveNode, getClosestNode, insertChild } from '@webank/letgo-designer';
+import type { Editor } from '@webank/letgo-editor-core';
+import { isLocationChildrenDetail } from '@webank/letgo-types';
 import type { PropType, Ref } from 'vue';
 import {
     computed,
@@ -7,27 +13,35 @@ import {
     ref,
     shallowRef,
 } from 'vue';
-import { canMoveNode, getClosestNode, insertChild } from '@webank/letgo-designer';
-import { isLocationChildrenDetail } from '@webank/letgo-types';
-import type { Designer, INode } from '@webank/letgo-designer';
-import type { Editor } from '@webank/letgo-editor-core';
-import { FInput } from '@fesjs/fes-design';
-import { SearchOutlined } from '@fesjs/fes-design/icon';
-import { SuffixView } from './suffix';
 import './component-tree.less';
+import { MODAL_VIEW_VALUE, type DropInfo, type TreeNode } from './components/const';
 import { TreeView } from './components/tree';
-import type { DropInfo, TreeNode } from './components/const';
+import { SuffixView } from './suffix';
 
-function transformNode(node: INode, isSlot: boolean): TreeNode {
+function transformNode(node: INode, isSlot: boolean, modalRoot?: TreeNode): TreeNode {
+    if (!node)
+        return;
     const option: TreeNode = {
         value: node.id,
         label: `${node.ref} - ${node.title || node.componentName}`,
+        children: [],
     };
-    option.children = [
-        ...node.slots.map(node => transformNode(node, true)),
-    ];
-    if (node.children)
-        option.children.push(...node.children.getNodes().map(node => transformNode(node, false)));
+    if (!modalRoot) {
+        modalRoot = {
+            value: MODAL_VIEW_VALUE,
+            label: '模态视图层',
+            isContainer: true,
+            draggable: false,
+            checkable: false,
+            isExpanded: true,
+            children: [],
+        };
+        option.children.push(modalRoot);
+    }
+    option.children.push(
+        ...node.slots.map(node => transformNode(node, true, modalRoot)).filter(Boolean),
+    );
+    option.children.push(...node.children.getNodes().map(node => transformNode(node, false, modalRoot)).filter(Boolean));
 
     option.prefix = () => {
         if (node.componentName === 'Page')
@@ -48,6 +62,11 @@ function transformNode(node: INode, isSlot: boolean): TreeNode {
 
     option.checkable = !isSlot;
 
+    if (node.isModal?.()) {
+        modalRoot.children.push(option);
+        return;
+    }
+
     return option;
 }
 
@@ -62,6 +81,8 @@ export const ContentView = defineComponent({
     },
     setup(props) {
         const { designer } = props;
+
+        let preModalOpened: INode = null;
 
         const isSimulatorReady: Ref<boolean> = ref(designer.isRendererReady);
 
@@ -117,8 +138,20 @@ export const ContentView = defineComponent({
         onBeforeUnmount(clearDragEnd);
 
         const onSelectNode = (node: TreeNode) => {
-            if (node.checkable)
-                designer.currentSelection.select(node.value);
+            if (!node.checkable)
+                return;
+            designer.currentSelection.select(node.value);
+            const inst = designer.currentSelection.getNodes()?.[0];
+
+            if (inst?.isModal?.()) {
+                if (preModalOpened && preModalOpened !== inst)
+                    preModalOpened.setExtraPropValue('isDialogOpen', false);
+                if (inst.isDialogOpen === true)
+                    designer.currentSelection.remove(node.value);
+
+                inst.setExtraPropValue('isDialogOpen', !inst.isDialogOpen);
+                preModalOpened = inst;
+            }
         };
 
         const refTree = ref();
@@ -132,9 +165,13 @@ export const ContentView = defineComponent({
         };
 
         const checkDrop = (dropNode: TreeNode, dragNode: TreeNode) => {
+            if (dropNode?.value === dragNode?.value)
+                return false;
             const document = designer.currentDocument;
             const sourceNode = document.getNode(dragNode.value);
             const containerNode = document.getNode(dropNode.value);
+            if (!containerNode || !sourceNode)
+                return false;
 
             // 如果放置节点父级有锁住的节点，则不能被放置
             const lockedNode = getClosestNode(

@@ -252,6 +252,8 @@ export interface IBaseModelNode<
      */
     isRoot: () => boolean;
 
+    isModal: () => boolean;
+
     isLeaf: () => boolean;
 
     purge: () => void;

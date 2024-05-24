@@ -1,10 +1,10 @@
-import type { PropType } from 'vue';
-import { computed, defineComponent, inject, nextTick, ref, watch } from 'vue';
-import { isUndefined } from 'lodash-es';
-import { CaretDownOutlined } from '@fesjs/fes-design/icon';
 import { FEllipsis } from '@fesjs/fes-design';
-import { TREE_PROVIDE_KEY } from './const';
+import { CaretDownOutlined } from '@fesjs/fes-design/icon';
+import { isUndefined } from 'lodash-es';
+import type { PropType } from 'vue';
+import { computed, defineComponent, inject, ref, watch } from 'vue';
 import type { TreeNode } from './const';
+import { MODAL_VIEW_VALUE, TREE_PROVIDE_KEY } from './const';
 
 export const TreeNodeView = defineComponent({
     name: 'Tree',
@@ -45,6 +45,11 @@ export const TreeNodeView = defineComponent({
                 return filteredKeys.value.includes(props.node.value);
 
             return true;
+        });
+
+        // 是否是模态视图层
+        const isModalView = computed(() => {
+            return props.node.value === MODAL_VIEW_VALUE;
         });
 
         watch(() => props.node.isExpanded, () => {
@@ -139,20 +144,10 @@ export const TreeNodeView = defineComponent({
             );
         };
 
-        const isHovering = ref(false);
-
-        const onMouseEnter = () => {
-            if (props.node.checkable)
-                isHovering.value = true;
-        };
-
-        const onMouseLeave = () => {
-            if (props.node.checkable)
-                isHovering.value = false;
-        };
-
         return () => {
             const { node, zIndex } = props;
+            if (isModalView.value && children.value.length <= 0)
+                return null;
 
             if (node.vNode) {
                 return (
@@ -168,6 +163,7 @@ export const TreeNodeView = defineComponent({
                         'letgo-tree-node',
                         (isDragNode.value || !isShow.value) && 'is-hidden',
                         isDropNode.value && 'is-highlight',
+                        isModalView.value && 'is-modal-view',
                     ]}
                 >
                     <div
@@ -179,16 +175,13 @@ export const TreeNodeView = defineComponent({
                         class={[
                             'letgo-tree-node-wrapper',
                             isSelected.value && 'is-selected',
-                            isHovering.value && 'is-hovering',
                             node.checkable && 'is-checkable',
                         ]}
                         data-value={node.value}
                         style={{ paddingLeft: `${zIndex * 16}px` }}
-                        onMouseenter={onMouseEnter}
-                        onMouseleave={onMouseLeave}
                     >
                         {
-                            (node.isContainer || children.value.length > 0)
+                            ((node.isContainer || children.value.length > 0) && !isModalView.value)
                                 ? (
                                     <span
                                         class={['letgo-tree-node-switcher']}

@@ -36,7 +36,7 @@ function genPkgName(fileName: string) {
     return `@webank/letgo-component-${compNameToFileName(fileName || 'test')}`;
 }
 
-export function genLowcodeComponent(_options: LowCodeComponentOptions): FileTree {
+export function genLowCodeComponent(_options: LowCodeComponentOptions): FileTree {
     const options = setOptions({
         outDir: 'src',
         ..._options,

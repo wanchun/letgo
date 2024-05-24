@@ -4,7 +4,7 @@ import type { IPublicTypeProjectSchema } from '@webank/letgo-types';
 import {
     ImportType,
     exportZip,
-    genLowcodeComponent,
+    genLowCodeComponent,
     genProject,
 } from '@webank/letgo-code-generator';
 import { IPublicEnumTransformStage } from '@webank/letgo-types';
@@ -92,7 +92,7 @@ function isLowcodeComponent(schema: IPublicTypeProjectSchema) {
 }
 
 function _genLowcodeComponent(schema: IPublicTypeProjectSchema) {
-    const fileTree = genLowcodeComponent({
+    const fileTree = genLowCodeComponent({
         schema,
     });
 

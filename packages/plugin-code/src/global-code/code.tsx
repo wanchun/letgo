@@ -1,12 +1,12 @@
 import { Teleport, computed, defineComponent, ref } from 'vue';
 import type { PropType } from 'vue';
 import type { Designer } from '@webank/letgo-designer';
-import { CodeList } from '@webank/letgo-components';
 import { isDirectory } from '@webank/letgo-types';
 import type { ICodeItemOrDirectory } from '@webank/letgo-types';
 import { InnerGlobalVariables } from '@webank/letgo-common';
+import { CodeList } from '../common';
 import { useOnClickSim } from '../use';
-import CodeEdit from './edit/code-edit';
+import CodeEdit from './code-edit';
 
 export const GlobalCode = defineComponent({
     name: 'GlobalCode',
@@ -46,6 +46,7 @@ export const GlobalCode = defineComponent({
             return (
                 <div class="letgo-plg-code__edit">
                     <CodeList
+                        type="project"
                         code={code.value}
                         hasCodeId={hasCodeId}
                         activeId={activeItem.value?.id}

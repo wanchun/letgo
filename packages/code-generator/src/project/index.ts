@@ -8,7 +8,7 @@ import { genPackageJSON } from '../common/pkg';
 import type { Context, FileTree, GenOptions } from '../common/types';
 import { setOptions } from '../options';
 import { toAssemble } from './build';
-import { genLowcodeComponent } from './gen-lowcode-component';
+import { genLowCodeComponent } from './gen-lowcode-component';
 
 function genPageCode(ctx: Context, fileTree: FileTree, options: GenOptions) {
     const { transformJsx, outDir } = options;
@@ -50,7 +50,7 @@ export function genProject(_options: GenOptions): FileTree {
     injectLetgoCode(fileTree, options);
 
     // 处理低代码组件
-    genLowcodeComponent(ctx, fileTree);
+    genLowCodeComponent(ctx, fileTree);
 
     // 处理全局代码
     genGlobalStateCode(ctx, fileTree, options);

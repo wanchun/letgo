@@ -1,10 +1,9 @@
 import type {
-    ICodeStruct,
     IPublicTypeNpmInfo,
     IPublicTypeRootSchema,
     IPublicTypeUtilsMap,
 } from '@webank/letgo-types';
-import { genCodeMap, isLowcodeProjectSchema } from '@webank/letgo-common';
+import { isLowcodeProjectSchema } from '@webank/letgo-common';
 import { set } from 'lodash-es';
 import { relative } from '../options';
 import { genCode, genImportCode } from './helper';
@@ -30,10 +29,6 @@ export const useSharedLetgoGlobal = createGlobalState(${GLOBAL_STATE_FILE_NAME})
 `;
 
 const globalStateKeys: string[] = [];
-function genGlobalStateKeys(codeStruct: ICodeStruct) {
-    const codeMap = genCodeMap(codeStruct);
-    return Array.from(codeMap.keys());
-}
 
 function getGlobalContextKey() {
     return globalStateKeys;
@@ -120,10 +115,10 @@ export function genGlobalStateCode(ctx: Context, fileTree: FileTree, options: Ge
     }
 
     if (schema.code) {
-        const _result = genCode(ctx, `${letgoDir}/${GLOBAL_STATE_FILE_NAME}.js`, schema.code);
+        const _result = genCode(ctx, `${letgoDir}/${GLOBAL_STATE_FILE_NAME}.js`, schema.code, true);
         result.import.push(..._result.importSources);
         result.code += _result.code;
-        result.export.push(...genGlobalStateKeys(schema.code));
+        result.export.push(..._result.codeKeys);
     }
 
     let tmp = TEMPLATE.replace('IMPORTS', result.import.length ? genImportCode(result.import) : '');
@@ -145,7 +140,7 @@ function getUsedGlobalVariables(ctx: Context) {
     return getGlobalContextKey();
 }
 
-export function applyGlobalState(ctx: Context, schema: IPublicTypeRootSchema, filePath: string): SetupCode {
+export function genGlobalState(ctx: Context, filePath: string, schema: IPublicTypeRootSchema): SetupCode {
     const { letgoDir } = ctx.config;
     const useGlobalVariables = getUsedGlobalVariables(ctx);
     if (!getGlobalFlag() || isLowcodeProjectSchema(schema) || useGlobalVariables.length === 0) {

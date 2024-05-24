@@ -9,3 +9,4 @@ export {
     buildShow,
     buildSlots,
 } from './use';
+export * from './useHook';

@@ -1,5 +1,5 @@
-import type { Component, ComputedRef, InjectionKey, ShallowRef } from 'vue';
-import { computed, inject, provide, shallowRef, watch } from 'vue';
+import type { Component, InjectionKey, ShallowRef } from 'vue';
+import { inject, provide, shallowRef, watch } from 'vue';
 import type { INode } from '@webank/letgo-designer';
 import type { IPublicTypeComponentInstance, IPublicTypeNodeSchema } from '@webank/letgo-types';
 import type { RendererProps } from '../core/base';

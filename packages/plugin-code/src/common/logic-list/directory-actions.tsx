@@ -3,7 +3,7 @@ import { Fragment, computed, defineComponent, h } from 'vue';
 import type { DropdownProps } from '@fesjs/fes-design';
 import { FDropdown, FModal } from '@fesjs/fes-design';
 import { MoreOutlined } from '@fesjs/fes-design/icon';
-import type { ICodeItem, IEnumCodeType, IEnumResourceType, IPublicModelCode } from '@webank/letgo-types';
+import type { IEnumCodeType, IPublicModelCode } from '@webank/letgo-types';
 import { AddAction } from './add';
 
 const FolderActionOptions = [
@@ -35,6 +35,7 @@ export const DirectoryActions = defineComponent({
         onRename: Function as PropType<(id: string) => void>,
         onSelect: Function as PropType<((id?: string) => void)>,
         onDelete: Function as PropType<((id: string | string[]) => void)>,
+        type: String as PropType<'project' | 'page'>,
     },
     setup(props) {
         const currentFolder = computed(() => {
@@ -82,14 +83,8 @@ export const DirectoryActions = defineComponent({
             }
         };
 
-        const addCodeItem = (val: string, codeType?: IEnumCodeType) => {
-            let item: ICodeItem;
-            if (codeType)
-                item = props.code.addCodeItemInDirectory(props.id, codeType, val as IEnumResourceType);
-
-            else
-                item = props.code.addCodeItemInDirectory(props.id, val as IEnumCodeType);
-
+        const addCodeItem = (val: string, params?: Record<string, any>) => {
+            const item = props.code.addCodeItemInDirectory(props.id, val as IEnumCodeType, params);
             props.onSelect(item.id);
             props.onAdd(props.id, item.id);
         };
@@ -97,7 +92,7 @@ export const DirectoryActions = defineComponent({
         return () => {
             return (
                 <Fragment>
-                    <AddAction extendActions={props.extendActions} onAdd={addCodeItem} />
+                    <AddAction type={props.type} extendActions={props.extendActions} onAdd={addCodeItem} />
                     <FDropdown onClick={value => onAction(value)} trigger="click" placement="bottom-end" options={options.value}>
                         <MoreOutlined class="letgo-logic-code__icon-more" />
                     </FDropdown>

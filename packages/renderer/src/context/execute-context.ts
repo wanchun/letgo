@@ -1,5 +1,6 @@
-import { computed, inject, onUnmounted, reactive, watch } from 'vue';
+import { computed, inject, onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, watch } from 'vue';
 import { traverseNodeSchema } from '@webank/letgo-common';
+import { IEnumCodeType, IPublicEnumPageLifecycle } from '@webank/letgo-types';
 import type { IPublicTypeComponentInstance, IPublicTypeNodeSchema } from '@webank/letgo-types';
 import type { RendererProps } from '../core';
 import type { CodeImplType } from '../code-impl/code-impl';

@@ -3,7 +3,6 @@ import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
 import {
     markComputed,
     markReactive,
-    markShallowReactive,
     replaceExpressionIdentifier,
     replaceJSFunctionIdentifier,
 } from '@webank/letgo-common';
@@ -15,15 +14,17 @@ import type {
     IEnumResourceType,
     IPublicModelCode,
 } from '@webank/letgo-types';
+import type { Project } from '../project';
 import { codeBaseEdit } from './code-base';
-
-const idCount: Record<string, number> = {};
 
 export class Code implements IPublicModelCode {
     private emitter = new EventEmitter();
     codeStruct: ICodeStruct;
+    project: Project;
     codeMap: Map<string, ICodeItem>;
-    constructor(codeStruct?: ICodeStruct) {
+    constructor(project: Project, codeStruct?: ICodeStruct) {
+        this.project = project;
+
         codeStruct = Object.assign({
             directories: [],
             code: [],
@@ -205,15 +206,7 @@ export class Code implements IPublicModelCode {
     };
 
     genCodeId = (type: IEnumCodeType | 'variable' | 'folder'): string => {
-        if (type === IEnumCodeType.TEMPORARY_STATE)
-            type = 'variable';
-
-        idCount[type] = (idCount[type] || 0) + 1;
-        const newId = `${type}${idCount[type]}`;
-        if (this.hasCodeId(newId))
-            return this.genCodeId(type);
-
-        return newId;
+        return this.project.genCodeId(type);
     };
 
     emitCodeItemAdd(codeItem: ICodeItem) {
@@ -240,12 +233,12 @@ export class Code implements IPublicModelCode {
         return this.codeStruct.directories.at(-1);
     };
 
-    addCodeItemInDirectory = (directoryId: string, typeOrCodeItem: IEnumCodeType | ICodeItem, resourceType?: IEnumResourceType) => {
+    addCodeItemInDirectory = (directoryId: string, typeOrCodeItem: IEnumCodeType | ICodeItem, params?: Record<string, any>) => {
         const directory = this.getDirectory(directoryId);
         let item: ICodeItem;
         if (typeof typeOrCodeItem === 'string') {
             const id = this.genCodeId(typeOrCodeItem);
-            item = codeBaseEdit[typeOrCodeItem].addCode(id, resourceType);
+            item = codeBaseEdit[typeOrCodeItem].addCode(id, params);
         }
         else {
             item = typeOrCodeItem;
@@ -262,9 +255,9 @@ export class Code implements IPublicModelCode {
         return item;
     };
 
-    addCodeItemWithType = (type: IEnumCodeType, resourceType?: IEnumResourceType) => {
+    addCodeItemWithType = (type: IEnumCodeType, params?: Record<string, any>) => {
         const id = this.genCodeId(type);
-        const item = codeBaseEdit[type].addCode(id, resourceType);
+        const item = codeBaseEdit[type].addCode(id, params);
         this.addCodeItem(item);
         return item;
     };

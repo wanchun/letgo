@@ -620,7 +620,7 @@ export function useRenderer(props: RendererProps, ctx?: RendererContext) {
         } as any);
     };
 
-    return { renderComp };
+    return { renderComp, ctx: newCtx };
 }
 
 export function useRootScope(rendererProps: RendererProps) {

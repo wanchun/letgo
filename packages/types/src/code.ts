@@ -6,6 +6,7 @@ export enum IEnumCodeType {
     JAVASCRIPT_FUNCTION = 'function',
     JAVASCRIPT_COMPUTED = 'computed',
     TEMPORARY_STATE = 'temporaryState',
+    LIFECYCLE_HOOK = 'lifecycleHook',
 }
 
 export enum IEnumResourceType {
@@ -95,7 +96,18 @@ export function isVariableState(obj: any): obj is ITemporaryState {
     return obj && obj.type === IEnumCodeType.TEMPORARY_STATE;
 }
 
-export type ICodeItem = ITemporaryState | IJavascriptComputed | IJavascriptFunction | IJavascriptQuery;
+export interface ILifecycle<T = string> {
+    id: string;
+    type: IEnumCodeType.LIFECYCLE_HOOK;
+    hookName: T;
+    funcBody: string;
+}
+
+export function isLifecycleHook(obj: any): obj is ILifecycle {
+    return obj && obj.type === IEnumCodeType.LIFECYCLE_HOOK;
+}
+
+export type ICodeItem = ITemporaryState | IJavascriptComputed | IJavascriptFunction | IJavascriptQuery | ILifecycle;
 
 export interface ICodeDirectory {
     id: string;

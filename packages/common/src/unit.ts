@@ -19,6 +19,6 @@ export function clearUnit(value: string | number | undefined) {
         return;
     if (isNumber(value))
         return value;
-    const res = parseFloat(value);
+    const res = Number.parseFloat(value);
     return isNaN(res) ? value : res;
 }

@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
 import type { IJavascriptComputed } from '@webank/letgo-types';
-import { CodeEditor } from '../../code-editor';
+import { CodeEditor } from '@webank/letgo-components';
 import './computed-edit.less';
 
 /**

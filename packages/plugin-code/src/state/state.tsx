@@ -5,9 +5,10 @@ import {
     reactive,
 } from 'vue';
 import { isNil } from 'lodash-es';
+import { IEnumCodeType } from '@webank/letgo-types';
 import type { Designer } from '@webank/letgo-designer';
-import FadeInExpandTransition from '../fade-in-expand-transition';
-import Tree from '../tree/tree';
+import FadeInExpandTransition from './fade-in-expand-transition';
+import Tree from './tree/tree';
 import StateHeader from './state-header';
 
 import './state.less';
@@ -48,13 +49,16 @@ export default defineComponent({
 
         const globalState = computed(() => {
             if (rootSchemaType.value === 'Page') {
-                const instances = Object.keys(props.designer.project.codesInstance).reduce((acc, cur) => {
+                const codesInstance = props.designer.project.codesInstance;
+                const instances = Object.keys(codesInstance).reduce((acc, cur) => {
+                    if (codesInstance[cur].type === IEnumCodeType.LIFECYCLE_HOOK)
+                        return acc;
                     if (isNil(props.searchText)) {
-                        acc[cur] = props.designer.project.codesInstance[cur].view;
+                        acc[cur] = codesInstance[cur].view;
                     }
                     else {
                         if (cur.includes(props.searchText))
-                            acc[cur] = props.designer.project.codesInstance[cur].view;
+                            acc[cur] = codesInstance[cur].view;
                     }
                     return acc;
                 }, {} as Record<string, any>);
@@ -77,6 +81,8 @@ export default defineComponent({
         const codesState = computed(() => {
             const codesInstance = currentState.value?.codesInstance || {};
             return Object.keys(codesInstance).reduce((acc, cur) => {
+                if (codesInstance[cur].type === IEnumCodeType.LIFECYCLE_HOOK)
+                    return acc;
                 if (isNil(props.searchText)) {
                     acc[cur] = codesInstance[cur].view;
                 }

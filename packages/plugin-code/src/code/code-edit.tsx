@@ -2,8 +2,8 @@ import { computed, defineComponent } from 'vue';
 import type { PropType } from 'vue';
 import type { ICodeItem, IPublicModelProject } from '@webank/letgo-types';
 import { IEnumCodeType } from '@webank/letgo-types';
-import { ComputedEdit, FunctionEdit, StateEdit, useCodeHints } from '@webank/letgo-components';
-import QueryEdit from './query-edit/query-edit';
+import { useCodeHints } from '@webank/letgo-components';
+import { ComputedEdit, FunctionEdit, HookEdit, QueryEdit, StateEdit } from '../common';
 
 export default defineComponent({
     props: {
@@ -30,6 +30,8 @@ export default defineComponent({
                     return <QueryEdit project={props.project} hints={hints.value} codeItem={props.codeItem} changeContent={code.value?.changeCodeItemContent} />;
                 if (props.codeItem.type === IEnumCodeType.JAVASCRIPT_FUNCTION)
                     return <FunctionEdit hints={hints.value} codeItem={props.codeItem} changeContent={code.value?.changeCodeItemContent} />;
+                if (props.codeItem.type === IEnumCodeType.LIFECYCLE_HOOK)
+                    return <HookEdit hints={hints.value} type="page" codeItem={props.codeItem} changeContent={code.value?.changeCodeItemContent} />;
             }
 
             return null;

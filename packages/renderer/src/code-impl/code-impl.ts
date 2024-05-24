@@ -8,8 +8,9 @@ import { ComputedLive } from './computed';
 import type { JavascriptQueryBase } from './query/base';
 import { createQueryImpl } from './query';
 import { JavascriptFunctionLive } from './javascript-function';
+import { LifecycleHookLive } from './lifecycle-hook';
 
-export type CodeImplType = ComputedLive | TemporaryStateLive | JavascriptQueryBase | JavascriptFunctionLive;
+export type CodeImplType = ComputedLive | TemporaryStateLive | JavascriptQueryBase | JavascriptFunctionLive | LifecycleHookLive;
 
 export function useCodesInstance({
     codeStruct,
@@ -38,8 +39,12 @@ export function useCodesInstance({
 
         else if (item.type === IEnumCodeType.JAVASCRIPT_QUERY)
             instance = createQueryImpl(item, dependencyMap.get(item.id), ctx);
+
         else if (item.type === IEnumCodeType.JAVASCRIPT_FUNCTION)
             instance = new JavascriptFunctionLive(item, dependencyMap.get(item.id), ctx);
+
+        else if (item.type === IEnumCodeType.LIFECYCLE_HOOK)
+            instance = new LifecycleHookLive(item, dependencyMap.get(item.id), ctx);
 
         if (instance)
             onSet(item.id, instance);
@@ -62,6 +67,7 @@ export function useCodesInstance({
         }
         catch (err) {
             if (err instanceof Error)
+                // eslint-disable-next-line no-alert
                 window.alert(err.message);
             else
                 console.error(err);

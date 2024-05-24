@@ -8,7 +8,7 @@ import { fileStructToLowcodeComponent } from '../lowcode-component/file-struct';
 import { compNameToFileName } from '../lowcode-component/file-name';
 import { LOW_COMPONENT_DIR } from '../common/lowcode-component';
 
-export function genLowcodeComponent(ctx: Context, fileTree: FileTree) {
+export function genLowCodeComponent(ctx: Context, fileTree: FileTree) {
     const { letgoDir } = ctx.config;
     const components: Record<string, string> = {};
     const componentDir = `${letgoDir}/${LOW_COMPONENT_DIR}`;

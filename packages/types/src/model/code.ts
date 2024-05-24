@@ -32,9 +32,9 @@ export interface IPublicModelCode {
 
     addCodeItem: (item: ICodeItem) => void;
 
-    addCodeItemInDirectory: (directoryId: string, typeOrCodeItem: IEnumCodeType | ICodeItem, resourceType?: IEnumResourceType) => ICodeItem;
+    addCodeItemInDirectory: (directoryId: string, typeOrCodeItem: IEnumCodeType | ICodeItem, params?: Record<string, any>) => ICodeItem;
 
-    addCodeItemWithType: (type: IEnumCodeType, resourceType?: IEnumResourceType) => ICodeItem;
+    addCodeItemWithType: (type: IEnumCodeType, params?: Record<string, any>) => ICodeItem;
 
     onCodeItemAdd: (func: (codeItem: ICodeItem) => void) => () => void;
 

@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
 import type { IJavascriptFunction } from '@webank/letgo-types';
-import { CodeEditor } from '../../code-editor';
+import { CodeEditor } from '@webank/letgo-components';
 import './function-edit.less';
 
 export const FunctionEdit = defineComponent({

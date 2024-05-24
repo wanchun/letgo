@@ -8,8 +8,9 @@ import { JavascriptQueryImpl, createQueryImpl } from './query';
 import { JavascriptFunctionImpl } from './javascript-function';
 import { ComputedImpl } from './computed';
 import { TemporaryStateImpl } from './temporary-state';
+import { LifecycleHookImpl } from './lifecycle-hook';
 
-export type CodeImplType = ComputedImpl | TemporaryStateImpl | JavascriptFunctionImpl | JavascriptQueryImpl;
+export type CodeImplType = ComputedImpl | TemporaryStateImpl | JavascriptFunctionImpl | JavascriptQueryImpl | LifecycleHookImpl;
 
 export function useCodesInstance() {
     const dependencyMap = new Map<string, string[]>();
@@ -31,6 +32,9 @@ export function useCodesInstance() {
 
         else if (item.type === IEnumCodeType.JAVASCRIPT_FUNCTION)
             codesInstance[item.id] = new JavascriptFunctionImpl(item, dependencyMap.get(item.id), ctx);
+
+        else if (item.type === IEnumCodeType.LIFECYCLE_HOOK)
+            codesInstance[item.id] = new LifecycleHookImpl(item, dependencyMap.get(item.id), ctx);
     };
 
     const deleteCodeInstance = (id: string) => {
@@ -55,6 +59,7 @@ export function useCodesInstance() {
             || (currentInstance instanceof ComputedImpl && !isNil(content.funcBody))
             || (currentInstance instanceof JavascriptFunctionImpl && !isNil(content.funcBody))
             || (currentInstance instanceof JavascriptQueryImpl && !isNil(content.query))
+            || (currentInstance instanceof LifecycleHookImpl && !isNil(content.funcBody))
         ) {
             const deps = calcDependencies({ ...item, ...content }, ctx);
             dependencyMap.set(id, deps);
@@ -102,7 +107,6 @@ export function useCodesInstance() {
 
     return {
         codesInstance,
-
         initCodesInstance,
         createCodeInstance,
         deleteCodeInstance,

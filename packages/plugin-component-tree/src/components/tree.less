@@ -1,5 +1,6 @@
 .letgo-tree {
     margin: 0;
+    padding: 0 4px;
     padding-top: 8px;
     padding-bottom: 16px;
     outline: none;
@@ -50,12 +51,17 @@
     }
 
     &.is-modal-view{
-        border-bottom: 1px solid var(--letgo-border-color);
-        box-shadow: 6px 0 12px -6px rgba(14, 34, 73, 0.06);
+        border: 1px solid var(--letgo-border-color);
+        box-shadow: 0 2px 12px 0 rgba(14, 34, 73, 0.06);
+        border-radius: 4px;
 
         >.letgo-tree-node-wrapper {
             background-color: var(--letgo-border-color);
+            >.letgo-tree-node-switcher__tag {
+                width: 4px;
+            }
         }
+
     }
 
     &-highlight {

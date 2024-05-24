@@ -1,6 +1,6 @@
 import { FInput } from '@fesjs/fes-design';
 import { SearchOutlined } from '@fesjs/fes-design/icon';
-import { FigmaComponent, Page, Plug } from '@icon-park/vue-next';
+import { CardTwo, FigmaComponent, Page, Plug } from '@icon-park/vue-next';
 import type { Designer, INode } from '@webank/letgo-designer';
 import { canMoveNode, getClosestNode, insertChild } from '@webank/letgo-designer';
 import type { Editor } from '@webank/letgo-editor-core';
@@ -14,7 +14,7 @@ import {
     shallowRef,
 } from 'vue';
 import './component-tree.less';
-import { type DropInfo, MODAL_VIEW_VALUE, type TreeNode } from './components/const';
+import { MODAL_VIEW_VALUE, type DropInfo, type TreeNode } from './components/const';
 import { TreeView } from './components/tree';
 import { SuffixView } from './suffix';
 
@@ -35,6 +35,7 @@ function transformNode(node: INode, isSlot: boolean, modalRoot?: TreeNode): Tree
             checkable: false,
             isExpanded: true,
             children: [],
+            prefix: () => <CardTwo class="letgo-comp-tree__icon letgo-comp-tree__icon--node" theme="outline"></CardTwo>,
         };
         option.children.push(modalRoot);
     }
@@ -63,6 +64,7 @@ function transformNode(node: INode, isSlot: boolean, modalRoot?: TreeNode): Tree
     option.checkable = !isSlot;
 
     if (node.isModal?.()) {
+        option.draggable = false;
         modalRoot.children.push(option);
         return;
     }

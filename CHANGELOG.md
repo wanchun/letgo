@@ -1,3 +1,44 @@
+## [0.0.4-beta.35](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.34...v0.0.4-beta.35) (2024-05-24)
+
+
+### Bug Fixes
+
+* id 生成问题 ([c0ae988](https://git.weoa.com/mumblefe/letgo/commits/c0ae9888033c1271edb2e4e5d447126e366e2553))
+* page重复执行hook ([00f175a](https://git.weoa.com/mumblefe/letgo/commits/00f175a7236c6618034065cce386fdeddfd10ab5))
+* 优化 ([6e66803](https://git.weoa.com/mumblefe/letgo/commits/6e668031092fde3afd2746b491ce8a7b6b8dfa87))
+* 优化样式 ([cf8861e](https://git.weoa.com/mumblefe/letgo/commits/cf8861ec70a16f6ddb7f083bc2117cfc7e4dd07c))
+* 优化部分交互 ([aa16c26](https://git.weoa.com/mumblefe/letgo/commits/aa16c26e718cbcbfcbc875f3ac6392c493d8373f))
+* 修复空值问题 ([6721758](https://git.weoa.com/mumblefe/letgo/commits/6721758bdbeb6a8ee3ce7146e148f50c444e8ede))
+* 修复缓存的出码问题 ([fc55f1e](https://git.weoa.com/mumblefe/letgo/commits/fc55f1e7371fb51e9405286ec0187f32ca463b0c))
+* 修复问题 ([21308ae](https://git.weoa.com/mumblefe/letgo/commits/21308ae328567a0019b0bd1827e59c39da71f28e))
+* 修复问题 ([f28d3bc](https://git.weoa.com/mumblefe/letgo/commits/f28d3bca0e706c87c990a290b96da211b3743f78))
+* 修复问题 ([215af2e](https://git.weoa.com/mumblefe/letgo/commits/215af2e860d9a71f6aac6f87671803f6c552a079))
+* 修复问题 ([da40ba5](https://git.weoa.com/mumblefe/letgo/commits/da40ba518b3dbc2baa7a424c7ee1d1ecaf968ee5))
+* 修复问题 ([2515563](https://git.weoa.com/mumblefe/letgo/commits/2515563ccf7a69a48e237a5eebf8679e95058323))
+* 出码组件属性可为空字符 ([6ad04b4](https://git.weoa.com/mumblefe/letgo/commits/6ad04b4da234f8ebb8b59a8ebeea6f07cf3b428b))
+* 去掉debugger ([2dd5a33](https://git.weoa.com/mumblefe/letgo/commits/2dd5a339798ca99f8c095a86d58005ede2a66be3))
+* 模态视图层 ([caeafb2](https://git.weoa.com/mumblefe/letgo/commits/caeafb2e6591722aafec814749163f01a24f39a6))
+* 正确注入生命周期依赖变量 ([f6b0b46](https://git.weoa.com/mumblefe/letgo/commits/f6b0b46e354a9dc8ae08c0739283b2555d18aad3))
+* 移除 query 的过度设计 ([be44419](https://git.weoa.com/mumblefe/letgo/commits/be44419b5dba0b2f4e4365232fba93935f78303d))
+* 缓存时间问题 ([d5c3b00](https://git.weoa.com/mumblefe/letgo/commits/d5c3b0095ea5433880a1a595462af037c50a8feb))
+* 调整样式 ([da6fa8a](https://git.weoa.com/mumblefe/letgo/commits/da6fa8abbbe6213c8ecb7ec9b6f52e245a8b6d32))
+
+
+### Features
+
+* hook不出现在状态栏 ([e8066d4](https://git.weoa.com/mumblefe/letgo/commits/e8066d4004a8f96e0acf9659040c031be43b52ee))
+* query cache ([7ae1cb4](https://git.weoa.com/mumblefe/letgo/commits/7ae1cb48695c1266722deb1266ac74e301a41841))
+* 出码全局hook ([98ded6a](https://git.weoa.com/mumblefe/letgo/commits/98ded6a39ccf468b11c94a84087df892692ecb82))
+* 出码支持页面hook ([3d327d3](https://git.weoa.com/mumblefe/letgo/commits/3d327d325a4bd00088ca1e85e07af0fc55cb6898))
+* 制定生命周期 ([e97a82d](https://git.weoa.com/mumblefe/letgo/commits/e97a82d1a541749c93c7efc5fdf6542709b312b0))
+* 处理运行时页面生命周期 ([113a05c](https://git.weoa.com/mumblefe/letgo/commits/113a05c886f957ff344294c5af3ec74c7486b118))
+* 完善逻辑 ([d23af35](https://git.weoa.com/mumblefe/letgo/commits/d23af359dbc2ae32066b31a9a6d9a0541b41c622))
+* 添加样例如何使用全局hook ([5bae6e6](https://git.weoa.com/mumblefe/letgo/commits/5bae6e6e38cb7c0a698b0d10904923d8e1b14eeb))
+* 配置 ([7eeed27](https://git.weoa.com/mumblefe/letgo/commits/7eeed27e965dc1db342bb44eec07a38a5e7972c0))
+* 配置默认生命周期hook ([485959a](https://git.weoa.com/mumblefe/letgo/commits/485959abd7fa35d37697534a0ad8cc7eac6e61a6))
+
+
+
 ## [0.0.4-beta.34](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.33...v0.0.4-beta.34) (2024-5-21)
 
 

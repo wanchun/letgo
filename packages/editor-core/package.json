@@ -1,7 +1,7 @@
 {
     "name": "@webank/letgo-editor-core",
     "type": "module",
-    "version": "0.0.4-beta.23",
+    "version": "0.0.4-beta.24",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -17,9 +17,9 @@
     },
     "dependencies": {
         "@qlin/request": "^0.2.3",
-        "@webank/letgo-common": "^0.0.4-beta.18",
-        "@webank/letgo-components": "^0.0.4-beta.21",
-        "@webank/letgo-types": "^0.0.4-beta.9",
+        "@webank/letgo-common": "^0.0.4-beta.19",
+        "@webank/letgo-components": "^0.0.4-beta.22",
+        "@webank/letgo-types": "^0.0.4-beta.10",
         "eventemitter3": "^5.0.1",
         "lodash-es": "^4.17.21",
         "strict-event-emitter-types": "^2.0.0"

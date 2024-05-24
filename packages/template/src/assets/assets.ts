@@ -7943,6 +7943,7 @@ const assets: IPublicTypeAssetsJson = {
                 component: {
                     isContainer: true,
                     dialogControlProp: 'show',
+                    isModal: true,
                 },
                 supports: {
                     // TODO: StyleSetter会出错
@@ -8191,6 +8192,7 @@ const assets: IPublicTypeAssetsJson = {
                 component: {
                     isContainer: true,
                     dialogControlProp: 'show',
+                    isModal: true,
                 },
                 supports: {
                     // TODO: StyleSetter会出错

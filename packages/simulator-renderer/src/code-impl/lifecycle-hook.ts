@@ -13,6 +13,8 @@ export class LifecycleHookImpl extends LifecycleHookLive {
         });
     }
 
+    view: null;
+
     changeId(id: string) {
         this.id = id;
     }

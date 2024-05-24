@@ -1,11 +1,10 @@
-import { computed, defineComponent, h, nextTick, onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, provide, watch } from 'vue';
+import { computed, defineComponent, h, nextTick, onUnmounted, provide, watch } from 'vue';
 import type { PropType } from 'vue';
 import type { RuntimeScope } from '@webank/letgo-renderer';
 import { Renderer } from '@webank/letgo-renderer';
 import {
     type ICodeItem,
     IEnumCodeType,
-    IPublicEnumPageLifecycle,
     type IPublicTypeComponentInstance,
     type IPublicTypeNodeSchema,
 } from '@webank/letgo-types';
@@ -84,44 +83,7 @@ export default defineComponent({
             delete executeCtx[preRef];
         });
 
-        onBeforeMount(async () => {
-            await Promise.all(Object.keys(codesInstance).map(async (id) => {
-                const ins = codesInstance[id];
-                if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
-                    if (ins.hookName === IPublicEnumPageLifecycle.BeforeMount)
-                        await ins.run();
-                }
-            }));
-        });
-
-        onMounted(() => {
-            Object.keys(codesInstance).forEach((id) => {
-                const ins = codesInstance[id];
-                if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
-                    if (ins.hookName === IPublicEnumPageLifecycle.Mounted)
-                        ins.run();
-                }
-            });
-        });
-
-        onBeforeUnmount(() => {
-            Object.keys(codesInstance).forEach((id) => {
-                const ins = codesInstance[id];
-                if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
-                    if (ins.hookName === IPublicEnumPageLifecycle.BeforeUnMount)
-                        ins.run();
-                }
-            });
-        });
-
         onUnmounted(() => {
-            Object.keys(codesInstance).forEach((id) => {
-                const ins = codesInstance[id];
-                if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
-                    if (ins.hookName === IPublicEnumPageLifecycle.UnMounted)
-                        ins.run();
-                }
-            });
             offNodeRefChange();
             offCodeChangedEvent.forEach(fn => fn());
         });

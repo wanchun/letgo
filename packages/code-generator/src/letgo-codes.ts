@@ -374,7 +374,10 @@ class JSQuery {
             enableTransformer: data.enableTransformer || false,
             transformer: data.transformer,
             runWhenPageLoads: data.runWhenPageLoads || false,
+
             queryTimeout: data.queryTimeout,
+            queryDisabled: data.queryDisabled,
+
             runCondition: data.runCondition || IEnumRunCondition.MANUAL,
             successEvent: data.successEvent || [],
             failureEvent: data.failureEvent || [],
@@ -408,6 +411,8 @@ class JSQuery {
     }
 
     async trigger(extraParams) {
+        if (this.queryDisabled) return;
+
         if (this.query) {
             try {
                 this.loading = true;

@@ -13,6 +13,9 @@ export class JavascriptQueryImpl extends JavascriptQueryBase {
         return {
             id: this.id,
             query: this.query,
+
+            queryDisabled: this.queryDisabled,
+
             enableCaching: this.enableCaching,
             cacheDuration: this.cacheDuration,
             queryTimeout: this.queryTimeout,
@@ -39,7 +42,6 @@ export class JavascriptQueryImpl extends JavascriptQueryBase {
         if (content.failureEvent)
             this.failureEventInstances = this.eventSchemaToFunc(content.failureEvent);
 
-        this.enableCaching = content.enableCaching;
         Object.assign(this, content);
 
         if (content.runWhenPageLoads)

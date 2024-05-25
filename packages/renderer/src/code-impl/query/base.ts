@@ -1,4 +1,4 @@
-import { eventHandlersToJsFunction, markShallowReactive } from '@webank/letgo-common';
+import { eventHandlersToJsFunction, executeExpression, markShallowReactive } from '@webank/letgo-common';
 import type { IEnumResourceType, IEventHandler, IFailureCondition, IJavascriptQuery } from '@webank/letgo-types';
 import { IEnumCacheType, IEnumCodeType, IEnumRunCondition } from '@webank/letgo-types';
 import { funcSchemaToFunc } from '../../parse';
@@ -21,6 +21,9 @@ export class JavascriptQueryBase {
     queryTimeout: number;
     query: string;
     runWhenPageLoads = false;
+
+    queryDisabled: string;
+
     enableCaching = false;
     cacheDuration: number = null;
     cacheType: IEnumCacheType = IEnumCacheType.RAM;
@@ -39,6 +42,8 @@ export class JavascriptQueryBase {
         this.query = data.query;
         this.queryTimeout = data.queryTimeout;
         this.runCondition = data.runCondition || IEnumRunCondition.Manual;
+
+        this.queryDisabled = data.queryDisabled;
 
         this.enableCaching = data.enableCaching || false;
         this.cacheDuration = data.cacheDuration || 0;
@@ -103,7 +108,23 @@ export class JavascriptQueryBase {
         }
     }
 
+    canExecute() {
+        try {
+            if (this.queryDisabled)
+                return (!!executeExpression(this.queryDisabled, this.ctx)) !== true;
+
+            return true;
+        }
+        catch (_) {
+            console.warn(_);
+            return true;
+        }
+    }
+
     async trigger(extraParams?: Record<string, any>) {
+        if (!this.canExecute())
+            return;
+
         const fn = this.genQueryFn(extraParams);
 
         if (fn) {

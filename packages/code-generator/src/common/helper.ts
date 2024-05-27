@@ -249,6 +249,7 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct,
         ${item.cacheType ? `cacheType: '${item.cacheType}',` : ''}
         ${item.runCondition ? `runCondition: '${item.runCondition}',` : ''}
         ${item.runWhenPageLoads ? `runWhenPageLoads: ${item.runWhenPageLoads},` : ''}
+        ${isGlobal ? '_isGlobalQuery: true,' : ''}
         ${item.successEvent ? `successEvent: [${eventSchemaToFunc(ctx, item.successEvent).join(',')}],` : ''}
         ${item.failureEvent ? `failureEvent: [${eventSchemaToFunc(ctx, item.failureEvent).join(',')}],` : ''}
     });
@@ -264,6 +265,7 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct,
         ${item.queryTimeout ? `queryTimeout: ${item.queryTimeout},` : ''}
         ${item.runCondition ? `runCondition: '${item.runCondition}',` : ''}
         ${item.runWhenPageLoads ? `runWhenPageLoads: ${item.runWhenPageLoads},` : ''}
+        ${isGlobal ? '_isGlobalQuery: true,' : ''}
         ${item.successEvent ? `successEvent: [${eventSchemaToFunc(ctx, item.successEvent).join(',')}],` : ''}
         ${item.failureEvent ? `failureEvent: [${eventSchemaToFunc(ctx, item.failureEvent).join(',')}],` : ''}
     });

@@ -383,6 +383,8 @@ class JSQuery {
             error: null,
             loading: false,
         });
+
+        this.hasBeenCalled = false;
     }
 
     timeoutPromise(timeout) {
@@ -410,6 +412,7 @@ class JSQuery {
     async trigger(extraParams) {
         if (this.query) {
             try {
+                this.hasBeenCalled = true;
                 this.loading = true;
                 const response = await cacheControl({
                     id: this.id,
@@ -463,7 +466,7 @@ class JSQuery {
 export function useJSQuery(data) {
     const result = new JSQuery(data);
 
-    if (data.runWhenPageLoads)
+    if (!data._isGlobalQuery && data.runWhenPageLoads)
         result.trigger();
 
     return result;

@@ -103,7 +103,7 @@ export default defineComponent({
         onBeforeMount(async () => {
             await Promise.all(Object.keys(codesInstance).map(async (id) => {
                 const ins = codesInstance[id];
-                if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
+                if (ins?.type === IEnumCodeType.LIFECYCLE_HOOK) {
                     if (ins.hookName === IPublicEnumProjectLifecycle.BeforeRender)
                         await ins.run();
                 }

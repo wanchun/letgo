@@ -106,7 +106,7 @@ export const RendererApp = defineComponent({
 
             await Promise.all(Object.keys(globalContext).map(async (id) => {
                 const ins = globalContext[id];
-                if (ins.type === IEnumCodeType.LIFECYCLE_HOOK) {
+                if (ins?.type === IEnumCodeType.LIFECYCLE_HOOK) {
                     if (ins.hookName === IPublicEnumProjectLifecycle.BeforeRender)
                         await ins.run();
                 }

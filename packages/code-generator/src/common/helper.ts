@@ -244,6 +244,7 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct,
         ${item.enableTransformer ? `enableTransformer: ${item.enableTransformer},` : ''}
         ${(item.enableTransformer && item.transformer) ? `transformer(data) {${item.transformer}},` : ''}
         ${item.queryTimeout ? `queryTimeout: ${item.queryTimeout},` : ''}
+        ${item.queryDisabled ? `queryDisabled: ${item.queryDisabled},` : ''}
         ${item.enableCaching ? `enableCaching: ${item.enableCaching},` : ''}
         ${item.cacheDuration ? `cacheDuration: ${item.cacheDuration},` : ''}
         ${item.cacheType ? `cacheType: '${item.cacheType}',` : ''}
@@ -263,6 +264,7 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct,
             ${item.query}
         },
         ${item.queryTimeout ? `queryTimeout: ${item.queryTimeout},` : ''}
+        ${item.queryDisabled ? `queryDisabled: ${item.queryDisabled},` : ''}
         ${item.runCondition ? `runCondition: '${item.runCondition}',` : ''}
         ${item.runWhenPageLoads ? `runWhenPageLoads: ${item.runWhenPageLoads},` : ''}
         ${isGlobal ? '_isGlobalQuery: true,' : ''}

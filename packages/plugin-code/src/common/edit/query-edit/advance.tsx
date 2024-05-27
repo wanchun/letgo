@@ -5,8 +5,8 @@ import { isEqual } from 'lodash-es';
 import type { IJavascriptQuery, IRestQueryResource } from '@webank/letgo-types';
 import { FCheckbox, FInputNumber, FOption, FSelect } from '@fesjs/fes-design';
 import { ExpressionEditor } from '@webank/letgo-components';
-import Category from './category';
 import ContentItem from '../../content-item';
+import Category from './category';
 import './advance.less';
 
 export default defineComponent({
@@ -99,6 +99,12 @@ export default defineComponent({
             return null;
         };
 
+        const changeQueryDisabled = (queryDisabled: string) => {
+            props.changeCodeItem({
+                queryDisabled,
+            });
+        };
+
         return () => {
             return (
                 <>
@@ -145,6 +151,22 @@ export default defineComponent({
                                         v-slots={{
                                             content: () => {
                                                 return <FCheckbox v-model={innerCodeItem.value.runWhenPageLoads}>进入页面时自动执行</FCheckbox>;
+                                            },
+                                        }}
+                                    />
+                                    <ContentItem
+                                        label="禁止执行"
+                                        v-slots={{
+                                            content: () => {
+                                                return (
+                                                    <ExpressionEditor
+                                                        hints={props.hints}
+                                                        style="width: 0; flex: 1;"
+                                                        placeholder="pageName !== 'login'"
+                                                        doc={innerCodeItem.value.queryDisabled}
+                                                        onChange={changeQueryDisabled}
+                                                    />
+                                                );
                                             },
                                         }}
                                     />

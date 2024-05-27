@@ -58,6 +58,9 @@ export function traverseCodes(code: ICodeItem[], callback: Callback) {
             callback(item.funcBody, item, 'JSFunction');
         }
         else if (isQueryResource(item)) {
+            if (item.queryDisabled)
+                callback(item.queryDisabled, item, 'JSExpression');
+
             if (isRestQueryResource(item)) {
                 callback(item.api, item, 'JSExpression');
                 callback(item.params, item, 'JSExpression');

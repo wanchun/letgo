@@ -121,6 +121,8 @@ export function calcDependencies(item: ICodeItem, ctx?: Record<string, any>) {
             }
             if (item.transformer && item.enableTransformer)
                 result = result.concat(calcJSCodeDependencies(item.transformer, ctx));
+            if (item.queryDisabled)
+                result = result.concat(calcJSCodeDependencies(item.queryDisabled, ctx));
         }
         return Array.from(new Set(result));
     }

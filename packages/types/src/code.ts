@@ -39,6 +39,7 @@ export interface IQueryResourceBase {
     transformer?: string;
     query: string;
     runCondition: IEnumRunCondition;
+    queryDisabled?: string;
     runWhenPageLoads?: boolean;
     enableCaching?: boolean;
     cacheDuration?: number;

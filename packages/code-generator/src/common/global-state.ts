@@ -28,7 +28,7 @@ function ${GLOBAL_STATE_FILE_NAME}() {
 
     return new Proxy(__globalCtx, {
         get(obj, prop) {
-            if (RUN_WHEN_PAGE_LOADS_QUERY.includes(prop) && !__globalCtx[prop].hasTrigger)
+            if (RUN_WHEN_PAGE_LOADS_QUERY.includes(prop) && !__globalCtx[prop].hasBeenCalled)
                 __globalCtx[prop].trigger();
 
             return obj[prop];

@@ -384,7 +384,7 @@ class JSQuery {
             loading: false,
         });
 
-        this.hasTrigger = false;
+        this.hasBeenCalled = false;
     }
 
     timeoutPromise(timeout) {
@@ -412,7 +412,7 @@ class JSQuery {
     async trigger(extraParams) {
         if (this.query) {
             try {
-                this.hasTrigger = true;
+                this.hasBeenCalled = true;
                 this.loading = true;
                 const response = await cacheControl({
                     id: this.id,

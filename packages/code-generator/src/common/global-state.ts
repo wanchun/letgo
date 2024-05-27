@@ -1,9 +1,11 @@
-import type {
-    IPublicTypeNpmInfo,
-    IPublicTypeRootSchema,
-    IPublicTypeUtilsMap,
+import {
+    type ICodeStruct,
+    type IPublicTypeNpmInfo,
+    type IPublicTypeRootSchema,
+    type IPublicTypeUtilsMap,
+    isQueryResource,
 } from '@webank/letgo-types';
-import { isLowcodeProjectSchema } from '@webank/letgo-common';
+import { genCodeMap, isLowcodeProjectSchema } from '@webank/letgo-common';
 import { set } from 'lodash-es';
 import { relative } from '../options';
 import { genCode, genImportCode } from './helper';
@@ -20,9 +22,18 @@ function ${GLOBAL_STATE_FILE_NAME}() {
 
     STATE_CODE
 
-    return {
+    const __globalCtx = {
         CODE_KEYS
     };
+
+    return new Proxy(__globalCtx, {
+        get(obj, prop) {
+            if (RUN_WHEN_PAGE_LOADS_QUERY.includes(prop) && !__globalCtx[prop].hasTrigger)
+                __globalCtx[prop].trigger();
+
+            return obj[prop];
+        },
+    });
 }
 
 export const useSharedLetgoGlobal = createGlobalState(${GLOBAL_STATE_FILE_NAME});
@@ -78,6 +89,16 @@ export function compilerUtils(utils: IPublicTypeUtilsMap, schema: Context['schem
     };
 }
 
+function findRunWhenPageLoadsQueries(codeStruct: ICodeStruct) {
+    const queries: string[] = [];
+    const codeMap = genCodeMap(codeStruct);
+    codeMap.forEach((item) => {
+        if (isQueryResource(item) && item.runWhenPageLoads)
+            queries.push(item.id);
+    });
+    return queries;
+}
+
 export function genGlobalStateCode(ctx: Context, fileTree: FileTree, options: GenOptions): void {
     const { schema, letgoDir, globalCodeCallback } = options;
     globalStateKeys.length = 0;
@@ -114,6 +135,7 @@ export function genGlobalStateCode(ctx: Context, fileTree: FileTree, options: Ge
         result.export.push('utils');
     }
 
+    const runWhenPageLoadsQueries = schema.code ? findRunWhenPageLoadsQueries(schema.code) : [];
     if (schema.code) {
         const _result = genCode(ctx, `${letgoDir}/${GLOBAL_STATE_FILE_NAME}.js`, schema.code, true);
         result.import.push(..._result.importSources);
@@ -124,6 +146,7 @@ export function genGlobalStateCode(ctx: Context, fileTree: FileTree, options: Ge
     let tmp = TEMPLATE.replace('IMPORTS', result.import.length ? genImportCode(result.import) : '');
     tmp = tmp.replace('STATE_CODE', result.code);
     tmp = tmp.replace('CODE_KEYS', result.export.length ? result.export.join(',') : '');
+    tmp = tmp.replace('RUN_WHEN_PAGE_LOADS_QUERY', JSON.stringify(runWhenPageLoadsQueries));
 
     globalStateKeys.push(...result.export);
 

@@ -1,6 +1,6 @@
 import type { Logger } from '@webank/letgo-common';
 import { getLogger } from '@webank/letgo-common';
-import type { Editor, EngineConfig } from '@webank/letgo-editor-core';
+import type { Editor, EngineConfig, IPublicApiHotkey } from '@webank/letgo-editor-core';
 import { engineConfig } from '@webank/letgo-editor-core';
 import type { Designer } from '@webank/letgo-designer';
 import type { IPublicApiCanvas } from '@webank/letgo-types';
@@ -19,7 +19,7 @@ export class PluginContext implements IPluginContext {
     editor: Editor;
     designer: Designer;
     skeleton: Skeleton;
-    hotkey: Hotkey;
+    hotkey: IPublicApiHotkey;
     logger: Logger;
     plugins: IPluginManager;
     setters: Setters;
@@ -37,7 +37,7 @@ export class PluginContext implements IPluginContext {
         const project = designer?.project;
         this.editor = editor;
         this.designer = designer;
-        this.hotkey = new Hotkey();
+        this.hotkey = new Hotkey(plugins.hotkey);
         this.project = new Project(project);
         this.skeleton = new Skeleton(skeleton);
         this.setters = new Setters();

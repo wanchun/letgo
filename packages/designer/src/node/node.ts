@@ -3,6 +3,7 @@ import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
 import type {
     GlobalEvent,
     IBaseModelNode,
+    IPublicTypeComponentAction,
     IPublicTypeComponentSchema,
     IPublicTypeNodeData,
     IPublicTypeNodeSchema,
@@ -486,6 +487,18 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         return contains(this, node);
     }
 
+    insert(node: INode, ref?: INode) {
+        this.insertAfter(node, ref);
+    }
+
+    insertBefore(node: INode, ref?: INode) {
+        this.children?.insertChild(node, ref ? ref.index : null);
+    }
+
+    insertAfter(node: INode, ref?: INode) {
+        this.children?.insertChild(node, ref ? (ref.index || 0) + 1 : null);
+    }
+
     remove(purge = true) {
         if (this._parent) {
             if (this.isSlot()) {
@@ -647,6 +660,22 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
      */
     lock(flag = true) {
         this.getExtraProp('isLocked').setValue(flag);
+    }
+
+    /**
+     * 是否可执行某 action
+     */
+    canPerformAction(actionName: string): boolean {
+        const availableActions
+      = this.componentMeta?.availableActions?.filter((action: IPublicTypeComponentAction) => {
+          const { condition } = action;
+          return typeof condition === 'function'
+              ? condition(this) !== false
+              : condition !== false;
+      })
+          .map((action: IPublicTypeComponentAction) => action.name) || [];
+
+        return availableActions.includes(actionName);
     }
 
     purge() {

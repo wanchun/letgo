@@ -198,6 +198,16 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
         },
         important: true,
     },
+    {
+        name: 'remove',
+        content: {
+            title: '删除',
+            action(node: INode) {
+                node.remove();
+            },
+        },
+        important: false,
+    },
 ];
 
 export class ComponentMeta implements IPublicModelComponentMeta<INode> {

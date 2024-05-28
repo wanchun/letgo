@@ -2,7 +2,7 @@ import type { PropType } from 'vue';
 import { defineComponent, onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import { Designer, registerMetadataTransducer } from '@webank/letgo-designer';
 import type { IEngineOptions } from '@webank/letgo-editor-core';
-import { editor, engineConfig } from '@webank/letgo-editor-core';
+import { Hotkey, editor, engineConfig } from '@webank/letgo-editor-core';
 import { Skeleton, WorkbenchView } from '@webank/letgo-editor-skeleton';
 import engineExt from '@webank/letgo-engine-ext';
 import type {
@@ -18,6 +18,7 @@ import PluginComponents from '@webank/letgo-plugin-components';
 import PluginComponentTree from '@webank/letgo-plugin-component-tree';
 import PluginCode from '@webank/letgo-plugin-code';
 import { DefaultContextMenu } from './default-context-menu';
+import { BuiltinHotkey } from './builtin-hotkey';
 import './global.less';
 
 export { StyleSetter, IconSetter } from '@webank/letgo-engine-ext';
@@ -27,8 +28,9 @@ export type { IPluginConfig } from '@webank/letgo-engine-plugin';
 const innerDesigner = new Designer({ editor });
 
 const innerSkeleton = new Skeleton(editor, innerDesigner);
+const innerHotKey = new Hotkey();
 
-const innerPlugins = new PluginManager(innerDesigner, innerSkeleton).toProxy();
+const innerPlugins = new PluginManager(innerDesigner, innerSkeleton, innerHotKey).toProxy();
 
 export const version = ENGINE_VERSION_PLACEHOLDER;
 
@@ -69,6 +71,7 @@ export { editor, config, designer, plugins, skeleton, material, project, hotkey,
     innerPlugins.register(PluginDesigner);
     innerPlugins.register(PluginSetting);
     innerPlugins.register(DefaultContextMenu);
+    innerPlugins.register(BuiltinHotkey);
 })();
 
 export function destroy() {

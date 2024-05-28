@@ -1,3 +1,17 @@
+## [0.0.4-beta.37](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.36...v0.0.4-beta.37) (2024-05-28)
+
+
+### Bug Fixes
+
+* 修复缓存 key 生成问题 ([619cf40](https://git.weoa.com/mumblefe/letgo/commits/619cf40ed4f22587c65f7f447d29ea4245e6dd43))
+
+
+### Features
+
+* 优化 global query runWhenPageLoads 的执行 ([289a225](https://git.weoa.com/mumblefe/letgo/commits/289a2254d4a211e4e22cf2d018b13c099a841442))
+
+
+
 ## [0.0.4-beta.36](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.35...v0.0.4-beta.36) (2024-05-27)
 
 

@@ -39,7 +39,6 @@ export class JavascriptQueryImpl extends JavascriptQueryBase {
         if (content.failureEvent)
             this.failureEventInstances = this.eventSchemaToFunc(content.failureEvent);
 
-        this.enableCaching = content.enableCaching;
         Object.assign(this, content);
 
         if (content.runWhenPageLoads)

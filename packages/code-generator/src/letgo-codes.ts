@@ -143,7 +143,7 @@ function stringifyParams(params) {
 }
 
 function genInnerKey(config) {
-    const key = \`\${config.id}_\${stringifyParams(config.extraParams)}\`;
+    const key = \`\${config.id}_\${stringifyParams(config.params)}\`;
     if (config.type !== IEnumCacheType.RAM)
         return \`\${CACHE_KEY_PREFIX}\${key}\`;
 
@@ -366,6 +366,7 @@ class JSQuery {
         markReactive(this, {
             id: data.id,
             query: data.query,
+            params: data.params,
 
             enableCaching: data.enableCaching || false,
             cacheDuration: data.cacheDuration || null,
@@ -398,7 +399,8 @@ class JSQuery {
         });
     }
     
-    formatParams(params, extraParams) {
+    formatParams(extraParams) {
+        const params = this.params;
         if (!params) {
             return extraParams || null;
         }
@@ -414,17 +416,18 @@ class JSQuery {
             try {
                 this.hasBeenCalled = true;
                 this.loading = true;
+                const params = this.formatParams(extraParams)
                 const response = await cacheControl({
                     id: this.id,
                     enableCaching: this.enableCaching,
                     cacheDuration: this.cacheDuration,
                     type: this.cacheType,
-                    extraParams,
+                    params,
                 }, async () => {
                     if (this.queryTimeout)
-                        return Promise.race([this.timeoutPromise(this.queryTimeout), this.query(extraParams)]);
+                        return Promise.race([this.timeoutPromise(this.queryTimeout), this.query(params)]);
 
-                    return this.query(extraParams);
+                    return this.query(params);
                 });
 
                 this.response = response;

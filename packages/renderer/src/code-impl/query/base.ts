@@ -88,7 +88,11 @@ export class JavascriptQueryBase {
         });
     }
 
-    genQueryFn(_extraParams?: Record<string, any>) {
+    formatParams(extraParams: Record<string, any>) {
+        return extraParams;
+    }
+
+    genQueryFn(_params?: Record<string, any>) {
         if (this.query) {
             // eslint-disable-next-line no-new-func
             return new Function('_ctx', `
@@ -104,7 +108,8 @@ export class JavascriptQueryBase {
     }
 
     async trigger(extraParams?: Record<string, any>) {
-        const fn = this.genQueryFn(extraParams);
+        const params = this.formatParams(extraParams);
+        const fn = this.genQueryFn(params);
 
         if (fn) {
             try {
@@ -114,7 +119,7 @@ export class JavascriptQueryBase {
                     enableCaching: this.enableCaching,
                     cacheDuration: this.cacheDuration,
                     type: this.cacheType,
-                    extraParams,
+                    params,
                 }, async () => {
                     if (this.queryTimeout)
                         return Promise.race([this.timeoutPromise(this.queryTimeout), fn(this.ctx)]);

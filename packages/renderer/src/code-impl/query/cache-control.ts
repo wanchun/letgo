@@ -8,7 +8,7 @@ interface CacheConfig {
     enableCaching: boolean;
     cacheDuration: number;
     type: IEnumCacheType;
-    extraParams?: Record<string, any>;
+    params?: Record<string, any>;
 }
 
 export type ParamsType = string | Record<string, any> | Blob | File | FormData | ArrayBuffer | URLSearchParams | DataView;
@@ -27,7 +27,7 @@ function stringifyParams(params: ParamsType) {
 }
 
 function genInnerKey(config: CacheConfig) {
-    const key = `${config.id}_${stringifyParams(config.extraParams)}`;
+    const key = `${config.id}_${stringifyParams(config.params)}`;
     if (config.type !== IEnumCacheType.RAM)
         return `${CACHE_KEY_PREFIX}${key}`;
 

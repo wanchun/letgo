@@ -11,29 +11,16 @@ function handleHeaders(headers: IRestQueryResource['headers'], ctx: Record<strin
     return {};
 }
 
-function formatRestParams(ctx: Record<string, any>, params: string, extraParams: Record<string, any>) {
-    const _params = executeExpression(params, ctx);
-    if (!_params)
-        return extraParams || null;
-
-    if (isPlainObject(_params) && isPlainObject(extraParams))
-        return { ..._params, ...extraParams };
-
-    return _params;
-}
-
 export function genRestApiQueryFunc({
     api,
     params,
     method,
     headers,
-    extraParams,
 }: {
     api: string;
-    params: string;
+    params: Record<string, any>;
     method: string;
     headers?: IRestQueryResource['headers'];
-    extraParams?: Record<string, any>;
 }) {
     if (api) {
         // eslint-disable-next-line no-new-func
@@ -47,7 +34,7 @@ export function genRestApiQueryFunc({
         return (ctx: Record<string, any>) => {
             return fn(ctx, [
                 executeExpression(api, ctx, true),
-                formatRestParams(ctx, params, extraParams),
+                params,
                 {
                     method,
                     headers: headers ? handleHeaders(headers, ctx) : undefined,
@@ -71,12 +58,22 @@ export class RestApiQuery extends JavascriptQueryBase {
         this.headers = data.headers;
     }
 
-    genQueryFn(extraParams?: Record<string, any>) {
+    formatParams(extraParams?: Record<string, any>) {
+        const _params = executeExpression(this.params, this.ctx);
+        if (!_params)
+            return extraParams || null;
+
+        if (isPlainObject(_params) && isPlainObject(extraParams))
+            return { ..._params, ...extraParams };
+
+        return _params;
+    }
+
+    genQueryFn(params?: Record<string, any>) {
         return genRestApiQueryFunc({
             api: this.api,
             method: this.method,
-            params: this.params,
-            extraParams,
+            params,
             headers: this.headers,
         });
     }

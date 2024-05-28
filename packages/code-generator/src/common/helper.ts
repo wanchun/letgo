@@ -230,17 +230,24 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct,
                     source: relative(filePath, `${letgoDir}/letgoRequest`),
                     imported: 'letgoRequest',
                 });
+                if (item.params) {
+                    importSourceMap.set('computed', {
+                        type: ImportType.ImportSpecifier,
+                        source: 'vue',
+                        imported: 'computed',
+                    });
+                }
                 const api = getApiPath(item.api);
-                const params = item.params ? `, this.formatParams(${item.params}, extraParams)` : ', this.formatParams(extraParams)';
                 codeStr.push(`
     const ${item.id} = useJSQuery({
         id: '${item.id}',
-        query(extraParams) {
-            return letgoRequest(${api}${params}, {
+        query(params) {
+            return letgoRequest(${api}, params, {
                 method: '${item.method || 'POST'}',
                 ${item.headers?.value ? `headers: ${item.headers.value},` : ''}  
             })
         },
+        ${item.params ? `params: computed(() => (${item.params})),` : ''}
         ${item.enableTransformer ? `enableTransformer: ${item.enableTransformer},` : ''}
         ${(item.enableTransformer && item.transformer) ? `transformer(data) {${item.transformer}},` : ''}
         ${item.queryTimeout ? `queryTimeout: ${item.queryTimeout},` : ''}

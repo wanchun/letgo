@@ -211,8 +211,8 @@ importers:
   packages/editor-core:
     dependencies:
       '@qlin/request':
-        specifier: ^0.2.3
-        version: 0.2.3
+        specifier: ^0.2.4
+        version: 0.2.4
       '@webank/letgo-common':
         specifier: ^0.0.4-beta.19
         version: link:../common
@@ -592,8 +592,8 @@ importers:
   packages/renderer:
     dependencies:
       '@qlin/request':
-        specifier: ^0.2.3
-        version: 0.2.3
+        specifier: ^0.2.4
+        version: 0.2.4
       '@webank/letgo-common':
         specifier: ^0.0.4-beta.19
         version: link:../common
@@ -632,7 +632,7 @@ importers:
         specifier: ^0.0.4-beta.26
         version: link:../designer
       '@webank/letgo-renderer':
-        specifier: ^0.0.4-beta.30
+        specifier: ^0.0.4-beta.31
         version: link:../renderer
       '@webank/letgo-types':
         specifier: ^0.0.4-beta.10
@@ -2759,7 +2759,7 @@ packages:
     dependencies:
       '@fesjs/fes': 3.1.9(vue@3.4.21)
       '@fesjs/utils': 3.0.1
-      '@qlin/request': 0.2.3
+      '@qlin/request': 0.2.4
       vue: 3.4.21(typescript@5.4.2)
     transitivePeerDependencies:
       - supports-color
@@ -3028,8 +3028,8 @@ packages:
     resolution: {integrity: sha512-QNzGBoAdu+lU3yYjnikLCI7w8eYLmWzAJoBHr2A4DNSmW/0SV/Dc6OAXznWL/EM3lkWGfa9zVKyHXUbzJeSPSw==}
     dev: false
 
-  /@qlin/request@0.2.3:
-    resolution: {integrity: sha512-haKCRgZZWF9cZF7btRNfZQlDtJQ0uVqjwp51mqT+073V7JbL2DpUmVsRODtb3nnw9uVAHOqS9rmq+ZigwftgGg==}
+  /@qlin/request@0.2.4:
+    resolution: {integrity: sha512-MCGpnmQZAM5ZFCWIk9AnOrvli4X+n0/syA4lb5oyDZyy9z7ktClFrtkNrbVLgku84aA0p1nhjEg2mJeRAv1wzw==}
     dependencies:
       '@types/lodash-es': 4.17.12
       lodash-es: 4.17.21

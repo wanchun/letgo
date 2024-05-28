@@ -10,7 +10,7 @@ export function genPackageJSON(fileTree: FileTree, options: GenOptions) {
             'vue': '3.3.9',
             '@vueuse/core': '10.9.0',
             'lodash-es': '4.17.21',
-            '@qlin/request': '0.2.3',
+            '@qlin/request': '0.2.4',
             '@webank/letgo-components': version,
         },
     };

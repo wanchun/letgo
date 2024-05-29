@@ -71,7 +71,7 @@ export default defineComponent({
             }
             else if (rootSchemaType.value === 'Component') {
                 return {
-                    utils: props.designer.project.extraGlobalState.$utils,
+                    $utils: props.designer.project.extraGlobalState.$utils,
                     props: currentState.value?.props,
                 };
             }

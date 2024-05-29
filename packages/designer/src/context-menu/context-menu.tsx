@@ -5,7 +5,7 @@ import { Logger } from '@webank/letgo-common';
 import { ContextMenuView } from './view/context-menu';
 import type { MenuItem } from './view/types';
 
-const logger = new Logger({ level: 'warn', bizName: 'utils' });
+const logger = new Logger({ level: 'warn', bizName: 'context-menu' });
 
 const MAX_LEVEL = 2;
 

@@ -58,7 +58,7 @@ export function compilerUtils(utils: IPublicTypeUtilsMap = [], useUtils: Record<
 
     return {
         code: `
-    const utils = {
+    const $utils = {
         ${code}
     };
         `,

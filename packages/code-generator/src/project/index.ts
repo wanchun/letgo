@@ -32,14 +32,19 @@ export function genProject(_options: GenOptions): FileTree {
     const options = setOptions(_options);
     const fileTree: FileTree = {};
 
+    const $app = options.schema.config || {};
+    const $utils = {};
+
     const ctx: Context = {
         config: options,
         codes: genCodeMap(options.schema.code),
         schema: options.schema,
         scope: [],
         globalScope: {
-            letgoContext: options.schema.config || {},
-            utils: {},
+            letgoContext: $app,
+            utils: $utils,
+            $app,
+            $utils,
         },
     };
 

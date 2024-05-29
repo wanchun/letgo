@@ -62,6 +62,17 @@ export default defineComponent({
                         isLocked: false,
                         condition: true,
                         title: '',
+                        events: [
+                            {
+                                id: 'event_lwrmfgb1',
+                                name: 'onClick',
+                                waitType: 'debounce',
+                                action: 'runFunction',
+                                funcBody: 'console.log(utils)',
+                                params: [],
+                                type: 'plain',
+                            },
+                        ],
                     },
                 ],
             });

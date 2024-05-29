@@ -96,8 +96,8 @@ export function useStateOptions(props: {
 
     const contextFuncs = computed(() => {
         const extraGlobalState = props.project.extraGlobalState;
-        const utilsFunc = pickFuncFromObj(extraGlobalState.utils, ['utils']);
-        const contextFuncs = pickFuncFromObj(extraGlobalState.letgoContext, ['letgoContext']);
+        const utilsFunc = pickFuncFromObj(extraGlobalState.$utils, ['$utils']);
+        const contextFuncs = pickFuncFromObj(extraGlobalState.$app, ['$app']);
 
         return utilsFunc.concat(contextFuncs).map((item) => {
             return {

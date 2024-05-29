@@ -65,8 +65,8 @@ export class Project implements IBaseProject<DocumentModel, Code> {
 
     get extraGlobalState() {
         return {
-            utils: this.utilsInstance,
-            letgoContext: this.config,
+            $utils: this.utilsInstance,
+            $app: this.config,
         };
     }
 

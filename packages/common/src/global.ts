@@ -1,7 +1,9 @@
 export const InnerGlobalVariables = [
-    'utils',
-    'props',
     'letgoContext',
+    'utils',
+    '$app',
+    '$utils',
+    'props',
     'localStorage',
     'sessionStorage',
     'console',

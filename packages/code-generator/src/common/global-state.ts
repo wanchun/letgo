@@ -80,11 +80,7 @@ export function compilerUtils(utils: IPublicTypeUtilsMap, schema: Context['schem
     }).join(',');
 
     return {
-        code: `
-    const utils = {
-        ${code}
-    };
-        `,
+        code,
         importSources,
     };
 }
@@ -122,8 +118,10 @@ export function genGlobalStateCode(ctx: Context, fileTree: FileTree, options: Ge
 
     if (schema.config) {
         result.code += `
-    const letgoContext = reactive(${JSON.stringify(schema.config || {})});
+    const $app = reactive(${JSON.stringify(schema.config || {})});
+    const letgoContext = $app;
         `;
+        result.export.push('$app');
         result.export.push('letgoContext');
         globalCodeCallback?.afterConfig?.(result);
     }
@@ -131,7 +129,13 @@ export function genGlobalStateCode(ctx: Context, fileTree: FileTree, options: Ge
     if (schema.utils) {
         const _result = compilerUtils(schema.utils, schema);
         result.import.push(..._result.importSources);
-        result.code += _result.code;
+        result.code += `
+        const $utils = {
+            ${_result.code}
+        };
+        const utils = $utils;
+            `;
+        result.export.push('$utils');
         result.export.push('utils');
     }
 

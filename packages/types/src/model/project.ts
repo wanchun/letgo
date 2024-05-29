@@ -48,8 +48,8 @@ export interface IBaseProject<
     get documentsMap(): Map<string, DocumentModel>;
 
     get extraGlobalState(): {
-        utils: Record<string, any>;
-        letgoContext: IPublicTypeAppConfig;
+        $utils: Record<string, any>;
+        $app: IPublicTypeAppConfig;
     };
 
     get utils(): IPublicTypeUtilsMap;

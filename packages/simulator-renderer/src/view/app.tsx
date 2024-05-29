@@ -58,15 +58,15 @@ export default defineComponent({
         } = useCodesInstance();
 
         const globalContext: Record<string, any> = reactive({
-            letgoContext: host.project.config || {},
+            $app: host.project.config || {},
         });
 
         host.project.onConfigChange((config) => {
-            globalContext.letgoContext = config || {};
+            globalContext.$app = config || {};
         });
 
         const globalUtils = buildGlobalUtils(props.simulator.libraryMap, host.project.utils, globalContext);
-        globalContext.utils = globalUtils;
+        globalContext.$utils = globalUtils;
 
         host.project.updateUtilsInstance(globalUtils);
 
@@ -125,6 +125,15 @@ export default defineComponent({
             host.project.updateGlobalCodesInstance(codesInstance);
         }, {
             immediate: true,
+        });
+
+        // 兼容性处理
+        watch([() => globalContext.$app, globalContext.$utils], () => {
+            globalContext.letgoContext = globalContext.$app;
+            globalContext.utils = globalContext.$utils;
+        }, {
+            immediate: true,
+            deep: true,
         });
 
         provide(BASE_GLOBAL_CONTEXT, globalContext);

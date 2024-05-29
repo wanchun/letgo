@@ -1,5 +1,5 @@
 import type { Component, PropType } from 'vue';
-import { computed, defineComponent, onMounted, provide, reactive, ref, shallowRef } from 'vue';
+import { computed, defineComponent, onMounted, provide, reactive, ref, shallowRef, watch } from 'vue';
 import { IEnumCodeType, IPublicEnumProjectLifecycle } from '@webank/letgo-types';
 import type { IPublicTypeAsset, IPublicTypePageSchema, IPublicTypeProjectSchema } from '@webank/letgo-types';
 import { AssetLoader, buildComponents } from '@webank/letgo-common';
@@ -68,8 +68,8 @@ export const RendererApp = defineComponent({
         });
 
         const globalContext: Record<string, any> = reactive({
-            letgoContext: props.projectSchema.config || {},
-            utils: {},
+            $app: props.projectSchema.config || {},
+            $utils: {},
         });
 
         useCodesInstance({
@@ -102,7 +102,7 @@ export const RendererApp = defineComponent({
                 ),
             };
 
-            globalContext.utils = buildGlobalUtils(libraryMap, props.projectSchema.utils, globalContext);
+            globalContext.$utils = buildGlobalUtils(libraryMap, props.projectSchema.utils, globalContext);
 
             await Promise.all(Object.keys(globalContext).map(async (id) => {
                 const ins = globalContext[id];
@@ -113,6 +113,15 @@ export const RendererApp = defineComponent({
             }));
 
             isReady.value = true;
+        });
+
+        // 兼容性处理
+        watch([() => globalContext.$app, globalContext.$utils], () => {
+            globalContext.letgoContext = globalContext.$app;
+            globalContext.utils = globalContext.$utils;
+        }, {
+            immediate: true,
+            deep: true,
         });
 
         provide(getGlobalContextKey(), globalContext);

@@ -72,6 +72,10 @@ export const RendererApp = defineComponent({
             $utils: {},
         });
 
+        // 兼容性处理
+        globalContext.letgoContext = globalContext.$app;
+        globalContext.utils = globalContext.$utils;
+
         useCodesInstance({
             executeCtx: globalContext,
             codeStruct: computed(() => props.projectSchema.code),
@@ -113,15 +117,6 @@ export const RendererApp = defineComponent({
             }));
 
             isReady.value = true;
-        });
-
-        // 兼容性处理
-        watch([() => globalContext.$app, globalContext.$utils], () => {
-            globalContext.letgoContext = globalContext.$app;
-            globalContext.utils = globalContext.$utils;
-        }, {
-            immediate: true,
-            deep: true,
         });
 
         provide(getGlobalContextKey(), globalContext);

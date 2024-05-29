@@ -133,7 +133,6 @@ export default defineComponent({
             globalContext.utils = globalContext.$utils;
         }, {
             immediate: true,
-            deep: true,
         });
 
         provide(BASE_GLOBAL_CONTEXT, globalContext);

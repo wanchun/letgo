@@ -49,7 +49,7 @@ export interface IBaseProject<
 
     get extraGlobalState(): {
         $utils: Record<string, any>;
-        $app: IPublicTypeAppConfig;
+        $context: IPublicTypeAppConfig;
     };
 
     get utils(): IPublicTypeUtilsMap;

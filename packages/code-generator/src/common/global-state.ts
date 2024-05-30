@@ -118,10 +118,10 @@ export function genGlobalStateCode(ctx: Context, fileTree: FileTree, options: Ge
 
     if (schema.config) {
         result.code += `
-    const $app = reactive(${JSON.stringify(schema.config || {})});
-    const letgoContext = $app;
+    const $context = reactive(${JSON.stringify(schema.config || {})});
+    const letgoContext = $context;
         `;
-        result.export.push('$app');
+        result.export.push('$context');
         result.export.push('letgoContext');
         globalCodeCallback?.afterConfig?.(result);
     }

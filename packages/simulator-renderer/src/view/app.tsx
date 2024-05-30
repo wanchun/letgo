@@ -58,11 +58,11 @@ export default defineComponent({
         } = useCodesInstance();
 
         const globalContext: Record<string, any> = reactive({
-            $app: host.project.config || {},
+            $context: host.project.config || {},
         });
 
         host.project.onConfigChange((config) => {
-            globalContext.$app = config || {};
+            globalContext.$context = config || {};
         });
 
         const globalUtils = buildGlobalUtils(props.simulator.libraryMap, host.project.utils, globalContext);
@@ -128,8 +128,8 @@ export default defineComponent({
         });
 
         // 兼容性处理
-        watch([() => globalContext.$app, globalContext.$utils], () => {
-            globalContext.letgoContext = globalContext.$app;
+        watch([() => globalContext.$context, globalContext.$utils], () => {
+            globalContext.letgoContext = globalContext.$context;
             globalContext.utils = globalContext.$utils;
         }, {
             immediate: true,

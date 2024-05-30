@@ -68,12 +68,12 @@ export const RendererApp = defineComponent({
         });
 
         const globalContext: Record<string, any> = reactive({
-            $app: props.projectSchema.config || {},
+            $context: props.projectSchema.config || {},
             $utils: {},
         });
 
         // 兼容性处理
-        globalContext.letgoContext = globalContext.$app;
+        globalContext.letgoContext = globalContext.$context;
         globalContext.utils = globalContext.$utils;
 
         useCodesInstance({

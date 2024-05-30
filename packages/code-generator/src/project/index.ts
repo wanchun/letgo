@@ -32,7 +32,7 @@ export function genProject(_options: GenOptions): FileTree {
     const options = setOptions(_options);
     const fileTree: FileTree = {};
 
-    const $app = options.schema.config || {};
+    const $context = options.schema.config || {};
     const $utils = {};
 
     const ctx: Context = {
@@ -41,9 +41,9 @@ export function genProject(_options: GenOptions): FileTree {
         schema: options.schema,
         scope: [],
         globalScope: {
-            letgoContext: $app,
+            letgoContext: $context,
             utils: $utils,
-            $app,
+            $context,
             $utils,
         },
     };

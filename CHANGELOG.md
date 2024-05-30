@@ -1,3 +1,21 @@
+## [0.0.4-beta.38](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.37...v0.0.4-beta.38) (2024-05-30)
+
+
+### Bug Fixes
+
+* 优化 ([a1cae31](https://git.weoa.com/mumblefe/letgo/commits/a1cae318501e704e11a20dacb9cbda7297b8c36c))
+* 修复快捷键问题 ([51e5edd](https://git.weoa.com/mumblefe/letgo/commits/51e5edd8304bc3240dd23ea8ff4003b19ff41d63))
+* 升级 request ([110062f](https://git.weoa.com/mumblefe/letgo/commits/110062f988a1b2a77f8804107123a835f954fdea))
+* 处理异常情况 ([5b8c4ad](https://git.weoa.com/mumblefe/letgo/commits/5b8c4add06226f18e082aaeb210413ee017ee94d))
+* 添加快捷键 ([1c0e8af](https://git.weoa.com/mumblefe/letgo/commits/1c0e8af96e594b2a73f542dbda1c201130a551dd))
+
+
+### Features
+
+* 支持快捷键 ([6720900](https://git.weoa.com/mumblefe/letgo/commits/672090022e5ff8f65b14c93018c6428d38af380b))
+
+
+
 ## [0.0.4-beta.37](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.36...v0.0.4-beta.37) (2024-05-28)
 
 

@@ -1,5 +1,5 @@
 import { createGlobalState } from '@vueuse/core';
-import type { IPublicTypeProjectSchema, IPublicTypeSnippet } from '@webank/letgo-types';
+import type { IPublicModelProject, IPublicTypeSnippet } from '@webank/letgo-types';
 import type { Ref } from 'vue';
 import { computed, ref, watch } from 'vue';
 
@@ -8,7 +8,7 @@ interface UsedLog {
     count: number;
 };
 
-function _useLastUsedComp(project?: IPublicTypeProjectSchema) {
+function _useLastUsedComp(project?: IPublicModelProject) {
     const lastUsed = ref({});
 
     watch(() => project.id, (val) => {
@@ -30,7 +30,7 @@ function _useLastUsedComp(project?: IPublicTypeProjectSchema) {
 
 const useGlobalState = createGlobalState(_useLastUsedComp);
 
-export function useLastUsed(snippetsRef: Ref<IPublicTypeSnippet[]>, limit?: number, project?: IPublicTypeProjectSchema) {
+export function useLastUsed(snippetsRef: Ref<IPublicTypeSnippet[]>, limit?: number, project?: IPublicModelProject) {
     const lastUsed: Ref<Record<string, UsedLog>> = useGlobalState(project);
 
     const addLastUsed = (snippet: IPublicTypeSnippet) => {

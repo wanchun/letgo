@@ -14,6 +14,7 @@ import {
 import type { Designer } from '@webank/letgo-designer';
 import type { Editor } from '@webank/letgo-editor-core';
 import type {
+    IPublicModelProject,
     IPublicTypeAssetsJson,
     IPublicTypeComponentDescription,
     IPublicTypeSnippet,
@@ -114,7 +115,7 @@ export default defineComponent({
         });
 
         // 最近使用
-        const { lastUsedSnippets, addLastUsed, clearLastUsed } = useLastUsed(snippetsRef, 10, props.designer.project);
+        const { lastUsedSnippets, addLastUsed, clearLastUsed } = useLastUsed(snippetsRef, 10, props.designer.project as unknown as IPublicModelProject);
 
         const onSearch = (val: string) => {
             searchText.value = val;
@@ -147,7 +148,10 @@ export default defineComponent({
             const clear = dragon.from(el, () => {
                 const dragTarget = {
                     type: 'nodeData',
-                    data: snippet.schema,
+                    data: {
+                        title: snippet.title,
+                        ...snippet.schema,
+                    },
                 };
                 addLastUsed(snippet);
                 return dragTarget;
@@ -217,7 +221,7 @@ export default defineComponent({
                 <div class="letgo-components__category">
                     <div class="letgo-components__title" style="display: flex; align-items: center;">
                         <div>最近常用</div>
-                        <FButton type="link" size="small" title="清空最近常用" onClick={clearLastUsed}>
+                        <FButton type="link" size="small" onClick={clearLastUsed}>
                             <CloseOne theme="outline" size="16" />
                         </FButton>
                     </div>

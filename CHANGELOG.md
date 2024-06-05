@@ -1,3 +1,13 @@
+## [0.0.4-beta.40](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.38...v0.0.4-beta.40) (2024-6-5)
+
+
+### Bug Fixes
+
+* 拖入组件时,组件title以代码片段的为准 ([345f8eb](https://git.weoa.com/mumblefe/letgo/commits/345f8eb6ae20af7ea05ac30dcd408e204aa4a1cc))
+* event 参数编译问题 ([d817bbb](https://git.weoa.com/mumblefe/letgo/commits/d817bbba2fc770453571466bf40f8cece89e854b))
+
+
+
 ## [0.0.4-beta.39](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.38...v0.0.4-beta.39) (2024-05-30)
 
 

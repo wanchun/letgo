@@ -46,7 +46,7 @@ function compilerEventHandler(ctx: Context, event: IEventHandler) {
     }
 
     if (event.action === IEnumEventHandlerAction.CONTROL_QUERY)
-        return `(...args) => ${event.namespace}.${event.method}(...args)`;
+        return `() => ${event.namespace}.${event.method}()`;
 
     if (event.action === IEnumEventHandlerAction.CONTROL_COMPONENT)
         return `(...args) => ${event.namespace}.${event.method}(...args)`;

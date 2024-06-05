@@ -139,7 +139,7 @@ export function eventHandlerToJsFunction(item: IEventHandler): IPublicTypeJSFunc
             expression = `${item.namespace}(...args)`;
     }
     else if (item.action === IEnumEventHandlerAction.CONTROL_QUERY) {
-        expression = `${item.namespace}.${item.method}(...args)`;
+        expression = `${item.namespace}.${item.method}()`;
     }
     else if (item.action === IEnumEventHandlerAction.CONTROL_COMPONENT) {
         expression = `${item.namespace}.${item.method}(...args)`;

@@ -5,7 +5,7 @@ import {
     type IPublicTypeUtilsMap,
     isQueryResource,
 } from '@webank/letgo-types';
-import { genCodeMap, isLowcodeProjectSchema } from '@webank/letgo-common';
+import { calcDependencies, genCodeMap, isLowcodeProjectSchema } from '@webank/letgo-common';
 import { set } from 'lodash-es';
 import { relative } from '../options';
 import { genCode, genImportCode } from './helper';
@@ -26,10 +26,20 @@ function ${GLOBAL_STATE_FILE_NAME}() {
         CODE_KEYS
     };
 
+    const __query_deps = QUERY_DEPS;
+
     return new Proxy(__globalCtx, {
         get(obj, prop) {
             if (RUN_WHEN_PAGE_LOADS_QUERY.includes(prop) && !__globalCtx[prop].hasBeenCalled)
                 __globalCtx[prop].trigger();
+
+            if (__query_deps[prop]) {
+                __query_deps[prop].forEach(d => {
+                    if (!__globalCtx[d].hasBeenCalled) {
+                        __globalCtx[d].trigger();
+                    }
+                });
+            }
 
             return obj[prop];
         },
@@ -83,6 +93,20 @@ export function compilerUtils(utils: IPublicTypeUtilsMap, schema: Context['schem
         code,
         importSources,
     };
+}
+
+function findQueriesDeps(codeStruct: ICodeStruct, queries: string[]) {
+    const codeMap = genCodeMap(codeStruct);
+    const dependencyMap: Record<string, string[]> = {};
+    for (const [codeId, item] of codeMap) {
+        const deps = calcDependencies(item).filter((item) => {
+            return queries.includes(item);
+        });
+        if (deps.length)
+            dependencyMap[codeId] = deps;
+    }
+
+    return dependencyMap;
 }
 
 function findRunWhenPageLoadsQueries(codeStruct: ICodeStruct) {
@@ -151,6 +175,7 @@ export function genGlobalStateCode(ctx: Context, fileTree: FileTree, options: Ge
     tmp = tmp.replace('STATE_CODE', result.code);
     tmp = tmp.replace('CODE_KEYS', result.export.length ? result.export.join(',') : '');
     tmp = tmp.replace('RUN_WHEN_PAGE_LOADS_QUERY', JSON.stringify(runWhenPageLoadsQueries));
+    tmp = tmp.replace('QUERY_DEPS', JSON.stringify(findQueriesDeps(schema.code, runWhenPageLoadsQueries)));
 
     globalStateKeys.push(...result.export);
 

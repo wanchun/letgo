@@ -33,9 +33,10 @@ function ${GLOBAL_STATE_FILE_NAME}() {
             if (RUN_WHEN_PAGE_LOADS_QUERY.includes(prop) && !__globalCtx[prop].hasBeenCalled)
                 __globalCtx[prop].trigger();
 
-            if (__query_deps[prop]) {
-                __query_deps[prop].forEach(d => {
-                    if (!__globalCtx[d].hasBeenCalled) {
+            const currentQuery = __query_deps[prop];
+            if (currentQuery) {
+                currentQuery.forEach(d => {
+                    if (__globalCtx[d].runWhenPageLoads && !__globalCtx[d].hasBeenCalled) {
                         __globalCtx[d].trigger();
                     }
                 });

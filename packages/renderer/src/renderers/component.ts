@@ -21,8 +21,8 @@ export const ComponentRenderer = defineComponent({
             });
         }
 
-        const { renderComp } = useRenderer(props, ctx);
-        useHook(ctx.executeCtx);
+        const { ctx: _ctx, renderComp } = useRenderer(props, ctx);
+        useHook(_ctx.executeCtx);
 
         return () => {
             const { __schema: schema } = props;

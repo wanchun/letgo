@@ -1,4 +1,4 @@
-import { Copy, Lock, PreviewClose, PreviewOpen, Unlock } from '@icon-park/vue-next';
+import { Copy, Delete, Lock, PreviewClose, PreviewOpen, Unlock } from '@icon-park/vue-next';
 import type {
     IPublicModelComponentMeta,
     IPublicTypeComponentAction,
@@ -201,12 +201,13 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
     {
         name: 'remove',
         content: {
+            icon: () => h(Delete, { size: 14 }),
             title: '删除',
             action(node: INode) {
                 node.remove();
             },
         },
-        important: false,
+        important: true,
     },
 ];
 

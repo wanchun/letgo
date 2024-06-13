@@ -5,6 +5,7 @@ import PluginDevice from '@webank/letgo-plugin-device';
 import PluginSchema from '@webank/letgo-plugin-schema';
 import PluginUndoRedo from '@webank/letgo-plugin-undo-redo';
 import type { App } from 'vue';
+import PluginCSS from '@webank/letgo-plugin-css';
 import type { IPublicTypeFieldConfig } from '../../types/es';
 import PluginLogo from './plugins/plugin-logo';
 import PluginPreview from './plugins/plugin-preview-sample';
@@ -32,7 +33,7 @@ import PluginCodeGenerator from './plugins/plugin-code-generator';
 //         metadata.configure.props.push(injectGroup);
 //     return metadata;
 // }, 100, 'inject-custom');
-
+plugins.register(PluginCSS);
 plugins.register(PluginDevice);
 plugins.register(PluginSchema);
 plugins.register(PluginLogo);

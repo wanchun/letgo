@@ -1,3 +1,18 @@
+## [0.0.4-beta.41](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.40...v0.0.4-beta.41) (2024-06-13)
+
+
+### Bug Fixes
+
+* auto global-query ([9ebb2cb](https://git.weoa.com/mumblefe/letgo/commits/9ebb2cbc540f90dbc9e750c4a5e7fe5a52213968))
+* 修复低代码渲染问题 ([7afdbc3](https://git.weoa.com/mumblefe/letgo/commits/7afdbc32913b57e2d665900750542fedfb5832e8))
+
+
+### Features
+
+* 复制粘贴禁用时降级处理 ([0ade07a](https://git.weoa.com/mumblefe/letgo/commits/0ade07aba89c670e3d8ae1c7def04a211d222b15))
+
+
+
 ## [0.0.4-beta.40](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.38...v0.0.4-beta.40) (2024-6-5)
 
 

@@ -21,6 +21,23 @@ project.importSchema({
             },
         ],
     },
+    css: `
+.mt-16 {
+    margin-top: 16px;
+}
+.c-red {
+    color: red;
+}
+.mt-16.c-red {
+    font-size: 12px;
+}
+.mt-16.c-red, .xx {
+    font-size: 12px;
+}
+.xx {
+    color: blue;
+}
+    `,
 });
 
 export default defineComponent({

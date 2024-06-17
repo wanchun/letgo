@@ -18,4 +18,4 @@ export * from './string-setter';
 export * from './style-setter';
 export * from './textarea-setter';
 export * from './variable-setter';
-
+export * from './class-name-setter';

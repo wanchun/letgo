@@ -1241,6 +1241,7 @@ const assets: IPublicTypeAssetsJson = {
                     },
                 ],
                 supports: {
+                    class: true,
                     style: true,
                     loop: true,
                     events: ['onClick'],

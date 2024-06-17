@@ -73,7 +73,7 @@ function getUseComponentNames(
     return componentNames;
 }
 
-function getUseComponents(
+export function getUseComponents(
     componentMaps: IPublicTypeComponentMap[],
     rootSchema: IPublicTypeRootSchema,
 ) {

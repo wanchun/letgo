@@ -1,3 +1,12 @@
+## [0.0.4-beta.42](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.41...v0.0.4-beta.42) (2024-06-17)
+
+
+### Features
+
+* plugin-css ([7ad07bc](https://git.weoa.com/mumblefe/letgo/commits/7ad07bc5d5b70583f926109381813eb4c4e661f2))
+
+
+
 ## [0.0.4-beta.41](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.40...v0.0.4-beta.41) (2024-06-13)
 
 

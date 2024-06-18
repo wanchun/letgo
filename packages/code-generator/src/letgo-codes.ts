@@ -440,6 +440,7 @@ class JSQuery {
                 this.successEvent.forEach((eventHandler) => {
                     eventHandler(data);
                 });
+                return this.data;
             } catch (err) {
                 this.data = null;
                 this.failureEvent.forEach((eventHandler) => {

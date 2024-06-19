@@ -16,7 +16,7 @@
         "vue": "^3.3.9"
     },
     "dependencies": {
-        "@qlin/request": "^0.2.4",
+        "@qlin/request": "^0.2.5",
         "@webank/letgo-common": "^0.0.4-beta.22",
         "@webank/letgo-components": "^0.0.4-beta.25",
         "@webank/letgo-designer": "^0.0.4-beta.31",

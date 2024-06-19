@@ -6,6 +6,7 @@ import PluginSchema from '@webank/letgo-plugin-schema';
 import PluginUndoRedo from '@webank/letgo-plugin-undo-redo';
 import PluginCSS from '@webank/letgo-plugin-css';
 import PluginLogicEdit from '@webank/letgo-plugin-logic';
+import PluginDebugTools from '@webank/letgo-plugin-debug-tools';
 import type { IPublicTypeFieldConfig } from '../../types/es';
 import PluginLogo from './plugins/plugin-logo';
 import PluginPreview from './plugins/plugin-preview-sample';
@@ -38,6 +39,7 @@ plugins.register(PluginLogicEdit);
 plugins.register(PluginDevice);
 plugins.register(PluginSchema);
 plugins.register(PluginLogo);
+plugins.register(PluginDebugTools);
 plugins.register(PluginUndoRedo, {
     area: 'topArea',
 });

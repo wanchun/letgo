@@ -1,0 +1,30 @@
+{
+    "name": "@webank/letgo-plugin-debug-tools",
+    "type": "module",
+    "version": "0.0.4-beta.0",
+    "description": "",
+    "author": "",
+    "license": "ISC",
+    "keywords": [],
+    "sideEffects": false,
+    "module": "es/index.js",
+    "typings": "./es/index.d.ts",
+    "files": [
+        "es",
+        "lib"
+    ],
+    "peerDependencies": {
+        "vue": "^3.3.9"
+    },
+    "dependencies": {
+        "@fesjs/fes-design": "^0.8.38",
+        "@icon-park/vue-next": "^1.4.2",
+        "@webank/letgo-engine-plugin": "^0.0.5-beta.0"
+    },
+    "devDependencies": {
+        "vue": "^3.4.14"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}

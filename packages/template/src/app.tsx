@@ -4,9 +4,8 @@ import { plugins, registerMetadataTransducer } from '@webank/letgo-engine';
 import PluginDevice from '@webank/letgo-plugin-device';
 import PluginSchema from '@webank/letgo-plugin-schema';
 import PluginUndoRedo from '@webank/letgo-plugin-undo-redo';
-import type { App } from 'vue';
+import PluginDebugTools from '@webank/letgo-plugin-debug-tools';
 import PluginCSS from '@webank/letgo-plugin-css';
-import type { IPublicTypeFieldConfig } from '../../types/es';
 import PluginLogo from './plugins/plugin-logo';
 import PluginPreview from './plugins/plugin-preview-sample';
 import PluginCodeGenerator from './plugins/plugin-code-generator';
@@ -37,6 +36,7 @@ plugins.register(PluginCSS);
 plugins.register(PluginDevice);
 plugins.register(PluginSchema);
 plugins.register(PluginLogo);
+plugins.register(PluginDebugTools);
 plugins.register(PluginUndoRedo, {
     area: 'topArea',
 });

@@ -192,10 +192,21 @@ function genLoopParams(nodeSchema: IPublicTypeNodeData) {
     return [];
 }
 
+function getKeyProp(nodeSchema: IPublicTypeNodeSchema) {
+    const key = nodeSchema.props?.key;
+    if (key) {
+        if (isJSExpression(key))
+            return key.value;
+
+        return key;
+    }
+    return null;
+}
+
 function wrapLoop(code: string, nodeSchema: IPublicTypeNodeData, isRoot = false) {
     if (isNodeSchema(nodeSchema) && nodeSchema.loop) {
         const [item, index] = genLoopParams(nodeSchema);
-        const keyProp = nodeSchema.props?.key || index;
+        const keyProp = getKeyProp(nodeSchema) || index;
         let loopVariable: string;
         if (isJSExpression(nodeSchema.loop))
             loopVariable = nodeSchema.loop.value;

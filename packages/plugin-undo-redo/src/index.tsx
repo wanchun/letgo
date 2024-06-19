@@ -15,4 +15,10 @@ export default definePlugin({
             render: () => <UndoRedoView designer={ctx.designer} />,
         });
     },
+    destroy({ skeleton }, options) {
+        skeleton.remove({
+            area: options?.area ?? 'toolbarArea',
+            name: 'PluginUndoRedoSkeleton',
+        });
+    },
 });

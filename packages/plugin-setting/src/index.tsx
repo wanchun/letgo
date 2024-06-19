@@ -12,4 +12,10 @@ export default definePlugin({
         });
         setterPanel.show();
     },
+    destroy({ skeleton }) {
+        skeleton.remove({
+            name: 'setterPanel',
+            area: 'rightArea',
+        });
+    },
 });

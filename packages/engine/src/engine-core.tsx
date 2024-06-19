@@ -17,8 +17,8 @@ import PluginSetting from '@webank/letgo-plugin-setting';
 import PluginComponents from '@webank/letgo-plugin-components';
 import PluginComponentTree from '@webank/letgo-plugin-component-tree';
 import PluginCode from '@webank/letgo-plugin-code';
-import { DefaultContextMenu } from './default-context-menu';
-import { BuiltinHotkey } from './builtin-hotkey';
+import { DefaultContextMenu } from './inner-plugins/default-context-menu';
+import { BuiltinHotkey } from './inner-plugins/builtin-hotkey';
 import './global.less';
 
 export { StyleSetter, IconSetter } from '@webank/letgo-engine-ext';
@@ -43,7 +43,7 @@ const { config, designer, plugins, skeleton, material, project, hotkey, setters 
 export { editor, config, designer, plugins, skeleton, material, project, hotkey, setters, registerMetadataTransducer };
 
 // 注册一批内置插件
-(async function registerPlugins() {
+(function registerPlugins() {
     // 处理 editor.set('assets')，将组件元数据创建好
     innerPlugins.register({
         name: 'component_meta_parser',

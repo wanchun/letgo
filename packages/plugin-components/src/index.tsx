@@ -24,4 +24,14 @@ export default definePlugin({
             }),
         );
     },
+    destroy({ skeleton }) {
+        skeleton.remove({
+            area: 'leftArea',
+            name: 'PluginComponentsWidget',
+        });
+        skeleton.remove({
+            area: 'leftFloatArea',
+            name: 'PluginComponentsPanel',
+        });
+    },
 });

@@ -37,4 +37,14 @@ export default definePlugin({
             }),
         );
     },
+    destroy({ skeleton }) {
+        skeleton.remove({
+            area: 'leftArea',
+            name: 'CodeWidget',
+        });
+        skeleton.remove({
+            area: 'leftFloatArea',
+            name: 'CodePanel',
+        });
+    },
 });

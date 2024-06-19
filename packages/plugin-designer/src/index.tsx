@@ -11,4 +11,10 @@ export default definePlugin({
             render: () => <PluginDesignerView ctx={ctx} />,
         });
     },
+    destroy({ skeleton }) {
+        skeleton.remove({
+            name: 'pluginDesignerWidget',
+            area: 'mainArea',
+        });
+    },
 });

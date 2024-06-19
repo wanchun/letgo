@@ -1,5 +1,4 @@
 import type { VNodeChild } from 'vue';
-import { watch } from 'vue';
 import { markComputed, markShallowReactive, uniqueId } from '@webank/letgo-common';
 import type { Skeleton } from '../skeleton';
 import type { Area } from '../area';
@@ -120,5 +119,9 @@ export class BaseWidget implements IBaseWidget {
         parent.addItem(this);
 
         this.parent = parent;
+    }
+
+    purge() {
+        this._body = null;
     }
 }

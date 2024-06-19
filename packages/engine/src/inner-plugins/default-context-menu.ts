@@ -175,4 +175,5 @@ export const DefaultContextMenu = definePlugin({
             },
         });
     },
+    destroy() {},
 });

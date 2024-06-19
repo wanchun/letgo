@@ -25,4 +25,14 @@ export default definePlugin({
             }),
         );
     },
+    destroy({ skeleton }) {
+        skeleton.remove({
+            area: 'leftArea',
+            name: 'PluginCSSWidget',
+        });
+        skeleton.remove({
+            area: 'leftFloatArea',
+            name: 'PluginCSSPanel',
+        });
+    },
 });

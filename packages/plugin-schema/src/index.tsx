@@ -28,4 +28,14 @@ export default definePlugin({
             }),
         );
     },
+    destroy({ skeleton }) {
+        skeleton.remove({
+            area: 'leftArea',
+            name: 'PluginSchemaWidget',
+        });
+        skeleton.remove({
+            area: 'leftFloatArea',
+            name: 'PluginSchemaPanel',
+        });
+    },
 });

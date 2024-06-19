@@ -104,7 +104,7 @@ export class Plugin implements IPlugin {
         if (!this._inited)
             return;
         this.logger.log('method destroy called');
-        await this.config?.destroy?.call(undefined);
+        await this.config?.destroy?.call(undefined, this._ctx, this._options);
         this._inited = false;
     }
 

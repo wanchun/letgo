@@ -34,8 +34,16 @@ export default definePlugin({
             })
             .link(pluginComponentTreePanel);
     },
-    destroy() {
+    destroy({ skeleton }) {
         clearDragstart?.();
         clearDragend?.();
+        skeleton.remove({
+            area: 'leftFloatArea',
+            name: 'PluginComponentTreePanel',
+        });
+        skeleton.remove({
+            area: 'leftArea',
+            name: 'PluginComponentTreeWidget',
+        });
     },
 });

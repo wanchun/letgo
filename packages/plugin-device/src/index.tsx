@@ -15,4 +15,10 @@ export default definePlugin({
             render: () => <DeviceView designer={ctx.designer} />,
         });
     },
+    destroy({ skeleton }) {
+        skeleton.remove({
+            area: 'topArea',
+            name: 'deviceWidget',
+        });
+    },
 });

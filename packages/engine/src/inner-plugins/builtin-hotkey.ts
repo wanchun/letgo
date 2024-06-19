@@ -539,4 +539,5 @@ export const BuiltinHotkey = definePlugin({
             }
         });
     },
+    destroy() {},
 });

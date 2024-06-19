@@ -24,69 +24,69 @@ export type IAreaPosition =
     | 'globalArea';
 
 export interface IRenderOption {
-    widget: IBaseWidget
-    config: IBaseConfig
-    editor: IPublicEditor
+    widget: IBaseWidget;
+    config: IBaseConfig;
+    editor: IPublicEditor;
 }
 
 export interface IWidgetProps {
-    title?: string
-    align?: 'left' | 'right' | 'bottom' | 'center' | 'top'
-    onInit?: (widget: IWidget) => any
-    onClick?: (widget: IWidget) => any
+    title?: string;
+    align?: 'left' | 'right' | 'bottom' | 'center' | 'top';
+    onInit?: (widget: IWidget) => any;
+    onClick?: (widget: IWidget) => any;
 }
 
 export interface IModalProps {
-    title?: string
-    closable?: boolean
-    mask?: boolean
-    maskClosable?: boolean
-    footer?: boolean
-    okText?: string
-    cancelText?: string
-    width?: string | number
-    top?: string | number
-    verticalCenter?: boolean
-    center?: boolean
-    fullScreen?: boolean
-    contentClass?: string
-    getContainer?: () => HTMLElement
-    onOk?: (widget: IModal) => any
-    onCancel?: (widget: IModal) => any
+    title?: string;
+    closable?: boolean;
+    mask?: boolean;
+    maskClosable?: boolean;
+    footer?: boolean;
+    okText?: string;
+    cancelText?: string;
+    width?: string | number;
+    top?: string | number;
+    verticalCenter?: boolean;
+    center?: boolean;
+    fullScreen?: boolean;
+    contentClass?: string;
+    getContainer?: () => HTMLElement;
+    onOk?: (widget: IModal) => any;
+    onCancel?: (widget: IModal) => any;
 }
 
 export interface IPanelProps {
-    title?: string
-    description?: string
-    width?: number | string
-    height?: number | string
-    maxWidth?: number | string
-    maxHeight?: number | string
+    title?: string;
+    description?: string;
+    width?: number | string;
+    height?: number | string;
+    maxWidth?: number | string;
+    maxHeight?: number | string;
 }
 
 export interface IBaseConfig {
-    type: string
-    name: string
-    area: IAreaPosition
-    props?: Record<string, any>
-    render: (option: IRenderOption) => VNodeChild
-    [extra: string]: any
+    type: string;
+    name: string;
+    area: IAreaPosition;
+    props?: Record<string, any>;
+    render: (option: IRenderOption) => VNodeChild;
+    [extra: string]: any;
 }
 
 export interface IWidgetConfig extends IBaseConfig {
-    type: 'Widget'
-    props?: IWidgetProps
+    type: 'Widget';
+    props?: IWidgetProps;
 }
 
 export interface IModalConfig extends IBaseConfig {
-    type: 'Modal'
-    props?: IModalProps
+    type: 'Modal';
+    props?: IModalProps;
 }
 
 export interface IPanelConfig extends IBaseConfig {
-    type: 'Panel'
-    props?: IPanelProps
-    defaultFixed?: boolean
+    type: 'Panel';
+    props?: IPanelProps;
+    defaultFixed?: boolean;
 }
 
 export type IUnionConfig = IWidgetConfig | IModalConfig | IPanelConfig;
@@ -107,48 +107,49 @@ export interface IBaseWidget {
     /**
      * 名称
      */
-    readonly name: string
+    readonly name: string;
     /**
      * 是否可见
      */
-    readonly visible: boolean
+    readonly visible: boolean;
     /**
      * 是否禁用
      */
-    readonly disabled: boolean
+    readonly disabled: boolean;
     /**
      * skeleton
      */
-    readonly skeleton: Skeleton
+    readonly skeleton: Skeleton;
     /**
      * 配置
      */
-    readonly config: IBaseConfig
+    readonly config: IBaseConfig;
     /**
      * 用户自定义render函数执行结果
      */
-    readonly body: VNodeChild
+    readonly body: VNodeChild;
 
-    show(): void
-    hide(): void
-    toggle(): void
-    enable?(): void
-    disable?(): void
-    setParent(area: Area<any, any>): void
+    show: () => void;
+    hide: () => void;
+    toggle: () => void;
+    enable?: () => void;
+    disable?: () => void;
+    setParent: (area: Area<any, any>) => void;
+    purge: () => void;
 }
 
 export interface IWidget extends IBaseWidget {
     /**
      * 对应组件
      */
-    readonly content: VNodeChild
-    readonly isWidget: true
+    readonly content: VNodeChild;
+    readonly isWidget: true;
 
-    readonly align?: string
-    readonly title: string
-    readonly linked?: IModal | IPanel
-    readonly onClick?: (widget: IWidget) => void
-    readonly onInit?: (widget: IWidget) => void
+    readonly align?: string;
+    readonly title: string;
+    readonly linked?: IModal | IPanel;
+    readonly onClick?: (widget: IWidget) => void;
+    readonly onInit?: (widget: IWidget) => void;
 
 }
 
@@ -156,30 +157,30 @@ export interface IModal extends IBaseWidget {
     /**
      * 对应组件
      */
-    readonly content: VNodeChild
-    readonly isModal: true
-    readonly props: IModalProps
+    readonly content: VNodeChild;
+    readonly isModal: true;
+    readonly props: IModalProps;
 
-    parent: Area<any, any>
-    setParent: (parent: Area<any, any>) => void
+    parent: Area<any, any>;
+    setParent: (parent: Area<any, any>) => void;
 }
 
 export interface IPanel extends IBaseWidget {
     /**
      * 对应组件
      */
-    readonly content: VNodeChild
-    readonly isPanel: true
-    readonly props: IPanelProps
+    readonly content: VNodeChild;
+    readonly isPanel: true;
+    readonly props: IPanelProps;
 
 }
 
 export interface IWidgetModel extends IWidget {
-    readonly modal: IModal
+    readonly modal: IModal;
 }
 
 export interface IWidgetPanel extends IWidget {
-    readonly panel: IPanel
+    readonly panel: IPanel;
 }
 
 export function isWidget(obj: any): obj is IWidget {

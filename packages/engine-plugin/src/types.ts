@@ -3,7 +3,7 @@ import type { Editor, EngineConfig, Hotkey, IPublicApiHotkey } from '@webank/let
 import type { Designer } from '@webank/letgo-designer';
 import type { Skeleton as InnerSkeleton } from '@webank/letgo-editor-skeleton';
 import type { IPublicApiCanvas } from '@webank/letgo-types';
-import type { Material, Project, Setters, Skeleton } from '../shell';
+import type { Material, Project, Setters, Skeleton } from './shell';
 
 export type IPreferenceValueType = string | number | boolean;
 
@@ -73,7 +73,6 @@ export interface IPluginConfig {
     name: string;
     init: (ctx: IPluginContext, options: any) => void;
     meta?: IPluginConfigMeta;
-    dep?: string | string[];
     destroy?: (ctx: IPluginContext, options: any) => void;
     exports?: () => any;
 }

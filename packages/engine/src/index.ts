@@ -1,6 +1,11 @@
 import { version } from './engine-core';
 
 export * from './engine-core';
+export { StyleSetter, IconSetter } from '@webank/letgo-engine-ext';
+export { definePlugin } from '@webank/letgo-engine-plugin';
+export * from '@webank/letgo-engine-plugin/es/types';
+export * from '@webank/letgo-editor-skeleton/es/types';
+export * from '@webank/letgo-types';
 
 // eslint-disable-next-line no-console
 console.log(

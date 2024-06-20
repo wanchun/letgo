@@ -1,37 +1,36 @@
 import { definePlugin } from '@webank/letgo-engine-plugin';
+import type { Panel, Widget } from '@webank/letgo-editor-skeleton';
 import Content from './content';
-import Panel from './panel';
+import PanelView from './panel';
+
+let widget: Widget | undefined;
+let panel: Panel | undefined;
 
 export default definePlugin({
     name: 'PluginComponents',
     init({ skeleton, editor, designer }) {
-        skeleton.add({
+        panel = skeleton.add({
+            type: 'Panel',
+            area: 'leftFloatArea',
+            name: 'PluginComponentsPanel',
+            render: () => <PanelView editor={editor} designer={designer} />,
+            props: {
+                width: 300,
+                title: '物料',
+            },
+            defaultFixed: false,
+        });
+        widget = skeleton.add({
             area: 'leftArea',
             type: 'Widget',
             name: 'PluginComponentsWidget',
             render: () => <Content />,
-        }).link(
-            skeleton.add({
-                type: 'Panel',
-                area: 'leftFloatArea',
-                name: 'PluginComponentsPanel',
-                render: () => <Panel editor={editor} designer={designer} />,
-                props: {
-                    width: 300,
-                    title: '物料',
-                },
-                defaultFixed: false,
-            }),
-        );
+        }).link(panel);
     },
     destroy({ skeleton }) {
-        skeleton.remove({
-            area: 'leftArea',
-            name: 'PluginComponentsWidget',
-        });
-        skeleton.remove({
-            area: 'leftFloatArea',
-            name: 'PluginComponentsPanel',
-        });
+        skeleton.remove(widget?.config);
+        skeleton.remove(panel?.config);
+        widget = undefined;
+        panel = undefined;
     },
 });

@@ -1,4 +1,5 @@
 import { definePlugin } from '@webank/letgo-engine-plugin';
+import type { Panel, Widget } from '@webank/letgo-editor-skeleton';
 import { TreeList } from '@icon-park/vue-next';
 import { FTooltip } from '@fesjs/fes-design';
 import './component-tree.less';
@@ -6,11 +7,13 @@ import { ContentView } from './content';
 
 let clearDragstart: () => void;
 let clearDragend: () => void;
+let widget: Widget | undefined;
+let panel: Panel | undefined;
 
 export default definePlugin({
     name: 'PluginComponentTree',
     init({ skeleton, editor, designer }) {
-        const pluginComponentTreePanel = skeleton.add({
+        panel = skeleton.add({
             type: 'Panel',
             area: 'leftFloatArea',
             name: 'PluginComponentTreePanel',
@@ -21,7 +24,7 @@ export default definePlugin({
             },
             defaultFixed: false,
         });
-        skeleton
+        widget = skeleton
             .add({
                 area: 'leftArea',
                 type: 'Widget',
@@ -32,18 +35,14 @@ export default definePlugin({
                     </FTooltip>
                 ),
             })
-            .link(pluginComponentTreePanel);
+            .link(panel);
     },
     destroy({ skeleton }) {
         clearDragstart?.();
         clearDragend?.();
-        skeleton.remove({
-            area: 'leftFloatArea',
-            name: 'PluginComponentTreePanel',
-        });
-        skeleton.remove({
-            area: 'leftArea',
-            name: 'PluginComponentTreeWidget',
-        });
+        skeleton.remove(widget?.config);
+        skeleton.remove(panel?.config);
+        widget = undefined;
+        panel = undefined;
     },
 });

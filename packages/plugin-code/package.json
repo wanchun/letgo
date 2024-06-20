@@ -21,6 +21,7 @@
         "@webank/letgo-components": "^0.0.4-beta.25",
         "@webank/letgo-designer": "^0.0.4-beta.31",
         "@webank/letgo-editor-core": "^0.0.4-beta.27",
+        "@webank/letgo-editor-skeleton": "^0.0.4-beta.2",
         "@webank/letgo-engine-plugin": "^0.0.4-beta.31",
         "@webank/letgo-types": "^0.0.4-beta.13",
         "lodash-es": "^4.17.21"

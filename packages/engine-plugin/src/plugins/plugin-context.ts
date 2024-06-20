@@ -12,7 +12,7 @@ import type {
     IPluginPreferenceDeclaration,
     IPluginPreferenceManager,
     IPreferenceValueType,
-} from './plugin-types';
+} from '../types';
 import { isValidPreferenceKey } from './plugin-utils';
 
 export class PluginContext implements IPluginContext {

@@ -21,10 +21,6 @@ import { DefaultContextMenu } from './inner-plugins/default-context-menu';
 import { BuiltinHotkey } from './inner-plugins/builtin-hotkey';
 import './global.less';
 
-export { StyleSetter, IconSetter } from '@webank/letgo-engine-ext';
-export { definePlugin } from '@webank/letgo-engine-plugin';
-export type { IPluginConfig } from '@webank/letgo-engine-plugin';
-
 const innerDesigner = new Designer({ editor });
 
 const innerSkeleton = new Skeleton(editor, innerDesigner);

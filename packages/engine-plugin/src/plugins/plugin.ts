@@ -8,7 +8,7 @@ import type {
     IPluginConfigMeta,
     IPluginContext,
     IPluginManager,
-} from './plugin-types';
+} from '../types';
 
 export class Plugin implements IPlugin {
     config: IPluginConfig;
@@ -62,11 +62,7 @@ export class Plugin implements IPlugin {
         if (typeof this.meta.dependencies === 'string')
             return [this.meta.dependencies];
 
-        // compat legacy way to declare dependencies
-        if (typeof this.config.dep === 'string')
-            return [this.config.dep];
-
-        return this.meta.dependencies || this.config.dep || [];
+        return this.meta.dependencies || [];
     }
 
     get disabled() {

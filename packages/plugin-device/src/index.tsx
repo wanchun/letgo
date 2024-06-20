@@ -1,10 +1,13 @@
 import { definePlugin } from '@webank/letgo-engine-plugin';
+import type { Widget } from '@webank/letgo-editor-skeleton';
 import { DeviceView } from './device';
+
+let widget: Widget | undefined;
 
 export default definePlugin({
     name: 'PluginDevice',
     init(ctx) {
-        ctx.skeleton.add({
+        widget = ctx.skeleton.add({
             area: 'topArea',
             name: 'deviceWidget',
             type: 'Widget',
@@ -16,9 +19,7 @@ export default definePlugin({
         });
     },
     destroy({ skeleton }) {
-        skeleton.remove({
-            area: 'topArea',
-            name: 'deviceWidget',
-        });
+        skeleton.remove(widget?.config);
+        widget = undefined;
     },
 });

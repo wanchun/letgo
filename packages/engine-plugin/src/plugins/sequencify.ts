@@ -1,4 +1,4 @@
-import type { IPlugin } from './plugin-types';
+import type { IPlugin } from '../types';
 
 interface TaskList { [name: string]: IPlugin }
 

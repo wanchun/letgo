@@ -1,13 +1,28 @@
 import { definePlugin } from '@webank/letgo-engine-plugin';
+import type { Panel, Widget } from '@webank/letgo-editor-skeleton';
 import { FTooltip } from '@fesjs/fes-design';
-import Panel from './panel';
+import PanelView from './panel';
 
 export * from './common/register';
+
+let widget: Widget | undefined;
+let panel: Panel | undefined;
 
 export default definePlugin({
     name: 'PluginCodePanel',
     init({ skeleton, editor, designer }) {
-        skeleton.add({
+        panel = skeleton.add({
+            type: 'Panel',
+            name: 'CodePanel',
+            area: 'leftFloatArea',
+            render: () => <PanelView editor={editor} designer={designer} />,
+            props: {
+                width: 300,
+                title: '逻辑',
+            },
+            defaultFixed: false,
+        });
+        widget = skeleton.add({
             area: 'leftArea',
             name: 'CodeWidget',
             type: 'Widget',
@@ -23,28 +38,12 @@ export default definePlugin({
                     </span>
                 </FTooltip>
             ),
-        }).link(
-            skeleton.add({
-                type: 'Panel',
-                name: 'CodePanel',
-                area: 'leftFloatArea',
-                render: () => <Panel editor={editor} designer={designer} />,
-                props: {
-                    width: 300,
-                    title: '逻辑',
-                },
-                defaultFixed: false,
-            }),
-        );
+        }).link(panel);
     },
     destroy({ skeleton }) {
-        skeleton.remove({
-            area: 'leftArea',
-            name: 'CodeWidget',
-        });
-        skeleton.remove({
-            area: 'leftFloatArea',
-            name: 'CodePanel',
-        });
+        skeleton.remove(widget?.config);
+        skeleton.remove(panel?.config);
+        widget = undefined;
+        panel = undefined;
     },
 });

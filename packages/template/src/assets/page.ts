@@ -1,5 +1,5 @@
 /* eslint-disable no-template-curly-in-string */
-import type { IPublicTypeRootSchema } from '@webank/letgo-types';
+import type { IPublicTypeRootSchema } from '@webank/letgo-engine';
 
 const info: IPublicTypeRootSchema = {
     componentName: 'Page',

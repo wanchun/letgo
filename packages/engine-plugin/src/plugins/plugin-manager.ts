@@ -14,10 +14,10 @@ import type {
     IPluginPreferenceDeclaration,
     IPluginRegisterOptions,
     IPreferenceValueType,
-} from './plugin-types';
+} from '../types';
 import {
     isPluginRegisterOptions,
-} from './plugin-types';
+} from '../types';
 import { Plugin } from './plugin';
 import { PluginContext } from './plugin-context';
 import sequencify from './sequencify';

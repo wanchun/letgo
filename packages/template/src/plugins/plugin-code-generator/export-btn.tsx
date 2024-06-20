@@ -60,7 +60,7 @@ function genProjectCodes(schema: IPublicTypeProjectSchema) {
                 'lint:fix': 'eslint . --fix',
             },
             dependencies: {
-                '@qlin/request': '0.2.4',
+                '@qlin/request': '0.2.5',
                 'core-js': '3.33.0',
                 '@fesjs/builder-vite': '3.0.2',
                 '@fesjs/fes': '3.1.4',

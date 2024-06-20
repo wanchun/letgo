@@ -1,3 +1,21 @@
+## [0.0.4-beta.45](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.44...v0.0.4-beta.45) (2024-6-19)
+
+
+
+## [0.0.4-beta.44](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.43...v0.0.4-beta.44) (2024-6-19)
+
+
+
+## [0.0.4-beta.43](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.42...v0.0.4-beta.43) (2024-6-18)
+
+
+### Bug Fixes
+
+* 按需生成依赖包 ([28c5bcd](https://git.weoa.com/mumblefe/letgo/commits/28c5bcdec06866035328b8fe1a915ff04c1aedbb))
+* 同步出码和 renderer 逻辑 ([b5c5379](https://git.weoa.com/mumblefe/letgo/commits/b5c53791596a7659a1b49a7f2996317f45cd62f3))
+
+
+
 ## [0.0.4-beta.42](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.41...v0.0.4-beta.42) (2024-06-17)
 
 

@@ -195,7 +195,7 @@ function genLoopParams(nodeSchema: IPublicTypeNodeData) {
 function wrapLoop(code: string, nodeSchema: IPublicTypeNodeData, isRoot = false) {
     if (isNodeSchema(nodeSchema) && nodeSchema.loop) {
         const [item, index] = genLoopParams(nodeSchema);
-        const keyProp = nodeSchema.props?.key || index;
+        const keyProp = index;
         let loopVariable: string;
         if (isJSExpression(nodeSchema.loop))
             loopVariable = nodeSchema.loop.value;
@@ -203,7 +203,8 @@ function wrapLoop(code: string, nodeSchema: IPublicTypeNodeData, isRoot = false)
         else
             loopVariable = JSON.stringify(nodeSchema.loop).replace(/\"/g, '\'');
 
-        const result = `(${loopVariable}).map((${item}, ${index}) => ${code.replace(nodeSchema.componentName, `${nodeSchema.componentName} key={${keyProp}}`)})`;
+        // 如果 props 里面有 key，优先用 props.key，没有则用 index
+        const result = `(${loopVariable}).map((${item}, ${index}) => ${nodeSchema.props?.key ? code : code.replace(nodeSchema.componentName, `${nodeSchema.componentName} key={${keyProp}}`)})`;
 
         if (isJSExpression(nodeSchema.condition) && nodeSchema.condition.value && isSyntaxError(nodeSchema.condition.value)) {
             if (isRoot) {

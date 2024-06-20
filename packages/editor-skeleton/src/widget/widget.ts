@@ -51,5 +51,6 @@ export class Widget extends BaseWidget implements IWidget {
 
     link(widget: Modal | Panel) {
         this._linked = widget;
+        return this;
     }
 }

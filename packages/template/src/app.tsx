@@ -4,7 +4,6 @@ import { plugins, registerMetadataTransducer } from '@webank/letgo-engine';
 import PluginDevice from '@webank/letgo-plugin-device';
 import PluginSchema from '@webank/letgo-plugin-schema';
 import PluginUndoRedo from '@webank/letgo-plugin-undo-redo';
-import type { App } from 'vue';
 import PluginCSS from '@webank/letgo-plugin-css';
 import type { IPublicTypeFieldConfig } from '../../types/es';
 import PluginLogo from './plugins/plugin-logo';
@@ -42,6 +41,14 @@ plugins.register(PluginUndoRedo, {
 });
 plugins.register(PluginPreview);
 plugins.register(PluginCodeGenerator);
+
+setTimeout(async () => {
+    await plugins.delete(PluginCSS.name);
+}, 3000);
+
+setTimeout(async () => {
+    await plugins.register(PluginCSS, {}, { autoInit: true });
+}, 6000);
 
 export default defineRuntimeConfig({
     rootContainer(Container) {

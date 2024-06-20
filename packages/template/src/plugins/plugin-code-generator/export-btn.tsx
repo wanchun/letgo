@@ -1,13 +1,12 @@
 import { defineComponent } from 'vue';
-import { project } from '@webank/letgo-engine';
-import type { IPublicTypeProjectSchema } from '@webank/letgo-types';
+import { IPublicEnumTransformStage, project } from '@webank/letgo-engine';
+import type { IPublicTypeProjectSchema } from '@webank/letgo-engine';
 import {
     ImportType,
     exportZip,
     genLowCodeComponent,
     genProject,
 } from '@webank/letgo-code-generator';
-import { IPublicEnumTransformStage } from '@webank/letgo-types';
 import { FButton } from '@fesjs/fes-design';
 import { DownloadOutlined } from '@fesjs/fes-design/icon';
 import { forEach, isNil, isObject, isString, merge } from 'lodash-es';

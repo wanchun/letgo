@@ -1,5 +1,4 @@
-import { definePlugin, project } from '@webank/letgo-engine';
-import { IPublicEnumTransformStage } from '@webank/letgo-types';
+import { IPublicEnumTransformStage, definePlugin, project } from '@webank/letgo-engine';
 import { FTooltip } from '@fesjs/fes-design';
 import { EyeOutlined } from '@fesjs/fes-design/icon';
 

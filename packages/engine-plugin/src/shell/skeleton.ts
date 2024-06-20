@@ -64,7 +64,7 @@ export class Skeleton {
      * 移除一个面板实例
      * @param config
      */
-    remove(config: IUnionConfig) {
+    remove(config: Pick<IUnionConfig, 'area' | 'name'>) {
         const { area, name } = config;
         const skeleton = this[skeletonSymbol];
         skeleton[area].remove(name);

@@ -28,7 +28,6 @@
         "@webank/letgo-plugin-schema": "workspace:*",
         "@webank/letgo-plugin-undo-redo": "workspace:*",
         "@webank/letgo-renderer": "workspace:*",
-        "@webank/letgo-types": "workspace:*",
         "core-js": "^3.35.0",
         "lodash-es": "^4.17.21",
         "mustache": "^4.2.0",

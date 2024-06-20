@@ -18,6 +18,7 @@
     "dependencies": {
         "@fesjs/fes-design": "^0.8.38",
         "@webank/letgo-designer": "^0.0.4-beta.31",
+        "@webank/letgo-editor-skeleton": "^0.0.4-beta.2",
         "@webank/letgo-engine-plugin": "^0.0.4-beta.31"
     },
     "publishConfig": {

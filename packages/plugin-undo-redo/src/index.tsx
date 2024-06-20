@@ -1,10 +1,13 @@
 import { definePlugin } from '@webank/letgo-engine-plugin';
+import type { Panel, Widget } from '@webank/letgo-editor-skeleton';
 import { UndoRedoView } from './content';
+
+let widget: Widget | undefined;
 
 export default definePlugin({
     name: 'PluginUndoRedo',
     init(ctx, options) {
-        ctx.skeleton.add({
+        widget = ctx.skeleton.add({
             area: options?.area ?? 'toolbarArea',
             name: 'PluginUndoRedoSkeleton',
             type: 'Widget',
@@ -14,5 +17,9 @@ export default definePlugin({
             },
             render: () => <UndoRedoView designer={ctx.designer} />,
         });
+    },
+    destroy({ skeleton }) {
+        skeleton.remove(widget?.config);
+        widget = undefined;
     },
 });

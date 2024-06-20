@@ -20,24 +20,25 @@ export default defineComponent({
     },
     setup(props) {
         const { area } = props;
-        const top: VNodeChild[] = [];
-        const bottom: VNodeChild[] = [];
-        area.items
-            .slice()
-            .sort((a, b) => {
-                const index1 = a.config?.index || 0;
-                const index2 = b.config?.index || 0;
-                return index1 === index2 ? 0 : index1 > index2 ? 1 : -1;
-            })
-            .forEach((item) => {
-                const content = item.content;
-                if (item.align === 'bottom')
-                    bottom.push(content);
 
-                else
-                    top.push(content);
-            });
         return () => {
+            const top: VNodeChild[] = [];
+            const bottom: VNodeChild[] = [];
+            area.items
+                .slice()
+                .sort((a, b) => {
+                    const index1 = a.config?.index || 0;
+                    const index2 = b.config?.index || 0;
+                    return index1 === index2 ? 0 : index1 > index2 ? 1 : -1;
+                })
+                .forEach((item) => {
+                    const content = item.content;
+                    if (item.align === 'bottom')
+                        bottom.push(content);
+
+                    else
+                        top.push(content);
+                });
             return (
                 <div class="letgo-skeleton-workbench__left">
                     <div class="letgo-skeleton-workbench__left-top">{top}</div>

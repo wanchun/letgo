@@ -105,6 +105,7 @@ export class Area<C extends IBaseConfig, T extends IBaseWidget = IBaseWidget> {
         const itemValues = [...this._items];
         const i = itemValues.indexOf(thing);
         if (i > -1) {
+            thing.purge();
             itemValues.splice(i, 1);
             this._items = itemValues;
         }

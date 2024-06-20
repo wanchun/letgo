@@ -1,3 +1,13 @@
+## [0.0.4-beta.46](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.45...v0.0.4-beta.46) (2024-06-20)
+
+
+### Bug Fixes
+
+* 修复循环标识为''时出码出现两个key属性问题 ([c3c9619](https://git.weoa.com/mumblefe/letgo/commits/c3c9619252f62073d21c0a5cf5ca0f7cc2f6892b))
+* 插件支持删除 ([#63](https://git.weoa.com/mumblefe/letgo/issues/63)) ([9f7a398](https://git.weoa.com/mumblefe/letgo/commits/9f7a3989832c74922ba2173ce11d1ab903e369bb))
+
+
+
 ## [0.0.4-beta.45](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.44...v0.0.4-beta.45) (2024-6-19)
 
 

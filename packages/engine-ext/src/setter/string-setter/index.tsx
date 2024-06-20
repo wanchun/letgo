@@ -15,6 +15,15 @@ const StringSetterView = defineComponent({
         onMounted(() => {
             props.onMounted?.();
         });
+        const onChange = (val: string) => {
+            const filedKey = props.field.name;
+            // 循环标识key为空时，要置为undefined
+            if (filedKey === 'key' && val === '') {
+                props.onChange(undefined);
+                return;
+            }
+            props.onChange(val);
+        };
         return () => {
             return (
                 <FInput
@@ -24,7 +33,7 @@ const StringSetterView = defineComponent({
                             : props.value
                     }
                     placeholder={props.placeholder || ''}
-                    onInput={(val: any) => props.onChange(val)}
+                    onInput={onChange}
                     style={{ width: '100%' }}
                 />
             );

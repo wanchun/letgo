@@ -5,16 +5,16 @@ import { ancestor } from 'acorn-walk';
 function isScope(node: Node) {
     return (
         node.type === 'FunctionExpression'
-    || node.type === 'FunctionDeclaration'
-    || node.type === 'ArrowFunctionExpression'
-    || node.type === 'Program'
+        || node.type === 'FunctionDeclaration'
+        || node.type === 'ArrowFunctionExpression'
+        || node.type === 'Program'
     );
 }
 function isBlockScope(node: Node) {
     return (
         node.type === 'BlockStatement'
-    || node.type === 'SwitchStatement'
-    || isScope(node)
+        || node.type === 'SwitchStatement'
+        || isScope(node)
     );
 }
 
@@ -30,6 +30,7 @@ export function reallyParse(source: string, options?: Options) {
             allowReturnOutsideFunction: true,
             allowImportExportEverywhere: true,
             allowHashBang: true,
+            allowAwaitOutsideFunction: true,
             ecmaVersion: 'latest',
         },
         options,
@@ -172,13 +173,13 @@ export function findGlobals(source: string | Node, options: Options = {} as Opti
                 const parent = parents[i];
                 if (
                     parent.type === 'FunctionExpression'
-          || parent.type === 'FunctionDeclaration'
+                    || parent.type === 'FunctionDeclaration'
                 )
                     return;
 
                 if (
                     parent.type === 'PropertyDefinition'
-          && parents[i + 1] === parent.value
+                    && parents[i + 1] === parent.value
                 )
                     return;
             }

@@ -1,3 +1,12 @@
+## [0.0.4-beta.47](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.46...v0.0.4-beta.47) (2024-6-25)
+
+
+### Bug Fixes
+
+* allow top await ([9c8ab9e](https://git.weoa.com/mumblefe/letgo/commits/9c8ab9ec520cc44abae36f5ac54b54df7d9e871f))
+
+
+
 ## [0.0.4-beta.46](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.45...v0.0.4-beta.46) (2024-06-20)
 
 

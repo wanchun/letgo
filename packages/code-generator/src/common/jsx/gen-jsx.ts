@@ -206,17 +206,25 @@ function wrapLoop(code: string, nodeSchema: IPublicTypeNodeData, isRoot = false)
         // 如果 props 里面有 key，优先用 props.key，没有则用 index
         const result = `(${loopVariable}).map((${item}, ${index}) => ${nodeSchema.props?.key ? code : code.replace(nodeSchema.componentName, `${nodeSchema.componentName} key={${keyProp}}`)})`;
 
-        if (isJSExpression(nodeSchema.condition) && nodeSchema.condition.value && isSyntaxError(nodeSchema.condition.value)) {
-            if (isRoot) {
-                return `
-                    if (${nodeSchema.condition.value}) {
-                        return ${result}
+        if (!isNil(nodeSchema.condition)) {
+            if (isJSExpression(nodeSchema.condition)) {
+                if (nodeSchema.condition.value && !isSyntaxError(nodeSchema.condition.value)) {
+                    if (isRoot) {
+                        return `
+                            if (${nodeSchema.condition.value}) {
+                                return ${result}
+                            }
+                            return null;
+                        `;
                     }
-                    return null;
-                `;
+                    return `{${nodeSchema.condition.value} && ${result}}`;
+                }
             }
-            return `{${nodeSchema.condition.value} && ${result}}`;
+            else if (!nodeSchema.condition) {
+                return null;
+            }
         }
+
         if (isRoot)
             return result;
 

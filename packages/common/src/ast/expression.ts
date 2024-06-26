@@ -88,6 +88,7 @@ export function isExpression(code: string, isInclude: (name: string) => boolean)
     }
 }
 
+// TODO 改成 with 的方式，而不是替换变量
 export function executeExpression(text: string | null, ctx: Record<string, any> = {}, whenErrorReturnRaw = false) {
     if (isNil(text))
         return undefined;

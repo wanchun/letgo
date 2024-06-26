@@ -1,6 +1,7 @@
 import type { Node, Options } from 'acorn';
 import { parse } from 'acorn';
 import { ancestor } from 'acorn-walk';
+import { ASTParseOptions } from './constants';
 
 function isScope(node: Node) {
     return (
@@ -25,16 +26,7 @@ function declaresArguments(node: Node) {
 }
 
 export function reallyParse(source: string, options?: Options) {
-    const parseOptions = Object.assign(
-        {
-            allowReturnOutsideFunction: true,
-            allowImportExportEverywhere: true,
-            allowHashBang: true,
-            allowAwaitOutsideFunction: true,
-            ecmaVersion: 'latest',
-        },
-        options,
-    );
+    const parseOptions = Object.assign(ASTParseOptions, options);
     return parse(source, parseOptions);
 }
 

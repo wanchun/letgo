@@ -15,14 +15,10 @@ import {
 import type { ICodeItem, IEventHandler, IPublicTypeJSFunction } from '@webank/letgo-types';
 import { isNil } from 'lodash-es';
 import { findGlobals, reallyParse } from './find-globals';
+import { ASTParseOptions } from './constants';
 
 export function innerParse(code: string) {
-    return parse(code, {
-        allowReturnOutsideFunction: true,
-        allowImportExportEverywhere: true,
-        allowHashBang: true,
-        ecmaVersion: 2022,
-    });
+    return parse(code, ASTParseOptions);
 }
 
 export function isFunction(code: string) {

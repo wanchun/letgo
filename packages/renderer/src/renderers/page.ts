@@ -15,7 +15,7 @@ export const PageRenderer = defineComponent({
 
         if (!ctx.executeCtx.__this && props.__schema.classCode) {
             // eslint-disable-next-line no-new-func
-            const DynamicClass = Function('Component', `return ${props.__schema.classCode}`)(LetgoPageBase);
+            const DynamicClass = Function('Component', `return ${props.__schema.classCode.trim()}`)(LetgoPageBase);
 
             const instance = new DynamicClass({
                 globalContext,

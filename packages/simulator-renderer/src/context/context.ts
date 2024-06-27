@@ -49,9 +49,8 @@ export function useContext(codesInstance: Record<string, CodeImplType>, document
     });
 
     if (documentInstance.schema.classCode) {
-        console.log(documentInstance.schema.classCode);
         // eslint-disable-next-line no-new-func
-        const DynamicClass = (new Function('Component', `return ${documentInstance.schema.classCode}`))(LetgoPageBase);
+        const DynamicClass = (new Function('Component', `return ${documentInstance.schema.classCode.trim()}`))(LetgoPageBase);
 
         const instance = new DynamicClass({
             globalContext,

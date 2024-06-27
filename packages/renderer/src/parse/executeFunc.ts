@@ -20,10 +20,10 @@ export function funcSchemaToFunc(schema: IPublicTypeJSFunction, ctx: Record<stri
                     ...ctx,
                     args,
                 }, true));
-                return fn(ctx, [...params, ...args]);
+                return fn.call(ctx.__this, ctx, [...params, ...args]);
             }
             catch (err) {
-                console.log(err);
+                console.warn(err);
             }
         };
     }
@@ -44,7 +44,7 @@ export function executeFunc(schema: IPublicTypeJSFunction, ctx: Record<string, u
     }
     return result;
 `);
-        return fn(ctx, params);
+        return fn.call(ctx.__this, ctx, params);
     }
     catch (err) {
         console.warn('syntax error: ', schema.value);

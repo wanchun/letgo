@@ -1,3 +1,13 @@
+## [0.0.4-beta.48](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.47...v0.0.4-beta.48) (2024-6-27)
+
+
+### Bug Fixes
+
+* 修复 v-if v-for 同时存在的问题 ([fa75034](https://git.weoa.com/mumblefe/letgo/commits/fa75034d47b60456daec1e1f53c8b1b3150d3307))
+* 修复运行时 computed 问题 ([b59e5da](https://git.weoa.com/mumblefe/letgo/commits/b59e5da36bc56d2f09397dae03d13206484e52e0))
+
+
+
 ## [0.0.4-beta.47](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.46...v0.0.4-beta.47) (2024-6-25)
 
 

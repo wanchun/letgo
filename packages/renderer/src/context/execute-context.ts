@@ -1,6 +1,5 @@
-import { computed, inject, onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, watch } from 'vue';
+import { computed, inject, onUnmounted, shallowReactive, watch } from 'vue';
 import { traverseNodeSchema } from '@webank/letgo-common';
-import { IEnumCodeType, IPublicEnumPageLifecycle } from '@webank/letgo-types';
 import type { IPublicTypeComponentInstance, IPublicTypeNodeSchema } from '@webank/letgo-types';
 import type { RendererProps } from '../core';
 import type { CodeImplType } from '../code-impl/code-impl';
@@ -18,61 +17,79 @@ export function createExecuteContext(props: RendererProps) {
         immediate: true,
     });
 
+    const compInstances = shallowReactive<Record<string, any>>({});
+
     if (props.__schema?.children) {
         traverseNodeSchema(props.__schema.children, (item) => {
             if (item.loop)
-                executeCtx[item.ref] = [];
+                compInstances[item.ref] = [];
 
             else
-                executeCtx[item.ref] = {};
+                compInstances[item.ref] = {};
         });
     }
 
     const onCompGetCtx = (schema: IPublicTypeNodeSchema, ref: IPublicTypeComponentInstance) => {
         if (ref) {
             if (schema.ref && schema.loop) {
-                const instances = executeCtx[schema.ref] || [];
+                const instances = compInstances[schema.ref] || [];
                 if (!instances.includes(ref)) {
                     instances.push(ref);
-                    executeCtx[schema.ref] = instances;
+                    compInstances[schema.ref] = instances;
                 }
             }
             else {
-                executeCtx[schema.ref] = ref;
+                compInstances[schema.ref] = ref;
             }
 
             onUnmounted(() => {
                 if (!schema.loop) {
-                    executeCtx[schema.ref] = {};
+                    compInstances[schema.ref] = {};
                 }
                 else {
-                    const index = executeCtx[schema.ref].findIndex((item: IPublicTypeComponentInstance) => item === ref);
+                    const index = compInstances[schema.ref].findIndex((item: IPublicTypeComponentInstance) => item === ref);
                     if (index !== -1)
-                        executeCtx[schema.ref].splice(index, 1);
+                        compInstances[schema.ref].splice(index, 1);
                 }
             }, ref.$);
         }
     };
 
+    watch(compInstances, () => {
+        Object.assign(executeCtx, compInstances);
+    }, {
+        immediate: true,
+    });
+
+    const codeInstances = shallowReactive<Record<string, any>>({});
     useCodesInstance({
         codeStruct: computed(() => props.__schema.code),
         executeCtx,
         onSet(key: string, value: CodeImplType) {
             if (value instanceof JavascriptFunctionLive)
-                executeCtx[key] = value.trigger.bind(value);
+                codeInstances[key] = value.trigger.bind(value);
 
             else
-                executeCtx[key] = value;
+                codeInstances[key] = value;
         },
         onClear(keys: string[]) {
             keys.forEach((key) => {
+                delete codeInstances[key];
                 delete executeCtx[key];
             });
         },
     });
 
+    watch(codeInstances, () => {
+        Object.assign(executeCtx, codeInstances);
+    }, {
+        immediate: true,
+    });
+
     return {
         executeCtx,
+        compInstances,
+        codeInstances,
         onCompGetCtx,
     };
 }

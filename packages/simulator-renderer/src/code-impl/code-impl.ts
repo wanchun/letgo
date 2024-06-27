@@ -46,10 +46,8 @@ export function useCodesInstance() {
     const changeCodeInstance = (id: string, content: Record<string, any>, ctx: Record<string, any>) => {
         const item = codeMap.get(id);
 
-        if (item.type === IEnumCodeType.JAVASCRIPT_QUERY && content.resourceType && item.resourceType !== content.resourceType) {
+        if (item.type === IEnumCodeType.JAVASCRIPT_QUERY && content.resourceType && item.resourceType !== content.resourceType)
             codesInstance[item.id] = createQueryImpl(item, dependencyMap.get(item.id), ctx);
-            ctx[item.id] = codesInstance[item.id];
-        }
 
         const currentInstance = codesInstance[id];
 

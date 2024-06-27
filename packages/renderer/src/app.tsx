@@ -67,7 +67,7 @@ export const RendererApp = defineComponent({
                 libraryAsset.push(urls);
         });
 
-        const globalContext: Record<string, any> = reactive({
+        const globalContext = reactive<Record<string, any>>({
             $context: props.projectSchema.config || {},
             $utils: {},
         });

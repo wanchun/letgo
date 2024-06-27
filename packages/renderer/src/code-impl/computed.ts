@@ -1,7 +1,7 @@
 import { isNil } from 'lodash-es';
 import { computed } from 'vue';
 import type { WatchStopHandle } from 'vue';
-import { markShallowReactive } from '@webank/letgo-common';
+import { markReactive } from '@webank/letgo-common';
 import type { IJavascriptComputed } from '@webank/letgo-types';
 import { IEnumCodeType } from '@webank/letgo-types';
 
@@ -19,7 +19,7 @@ export class ComputedLive {
         this.funcBody = data.funcBody;
 
         this.changeDeps(deps || []);
-        markShallowReactive(this, {
+        markReactive(this, {
             value: this.funcBody ? computed(() => this.executeInput(this.funcBody)) : null,
         });
     }

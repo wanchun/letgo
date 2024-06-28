@@ -7,10 +7,29 @@ import type { DocumentInstance } from '../interface';
 import type { CodeImplType } from '../code-impl/code-impl';
 import { JavascriptFunctionImpl } from '../code-impl/javascript-function';
 
+function createClassInstance(options: {
+    code: string;
+    globalContext: Record<string, any>;
+    compInstances: Record<string, any>;
+    codesInstance: Record<string, any>;
+}) {
+    // eslint-disable-next-line no-new-func
+    const DynamicClass = (new Function('Component', `return ${options.code.trim()}`))(LetgoPageBase);
+
+    return new DynamicClass({
+        globalContext: options.globalContext,
+        instances: options.compInstances,
+        codes: options.codesInstance,
+    });
+}
+
 export function useContext(codesInstance: Record<string, CodeImplType>, documentInstance: DocumentInstance) {
     const globalContext = inject(BASE_GLOBAL_CONTEXT) as Record<string, any>;
 
-    const executeCtx = Object.assign({ ...globalContext }, codesInstance);
+    const executeCtx = shallowReactive({
+        ...globalContext,
+        ...codesInstance,
+    });
 
     watch(globalContext, (value, oldValue) => {
         Object.keys(oldValue).forEach((key) => {
@@ -48,17 +67,24 @@ export function useContext(codesInstance: Record<string, CodeImplType>, document
         immediate: true,
     });
 
+    documentInstance.document.onClassCodeChange(() => {
+        executeCtx.__this = documentInstance.document.classCode
+            ? reactive(createClassInstance({
+                code: documentInstance.document.classCode,
+                globalContext,
+                compInstances,
+                codesInstance,
+            }))
+            : null;
+    });
+
     if (documentInstance.schema.classCode) {
-        // eslint-disable-next-line no-new-func
-        const DynamicClass = (new Function('Component', `return ${documentInstance.schema.classCode.trim()}`))(LetgoPageBase);
-
-        const instance = new DynamicClass({
+        executeCtx.__this = reactive(createClassInstance({
+            code: documentInstance.schema.classCode,
             globalContext,
-            instances: compInstances,
-            codes: codesInstance,
-        });
-
-        executeCtx.__this = reactive(instance);
+            compInstances,
+            codesInstance,
+        }));
     }
 
     return {

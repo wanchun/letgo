@@ -112,6 +112,7 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
 
     set classCode(code: string) {
         this.rootNode?.getExtraProp('classCode', true)?.setValue(code);
+        this.emitClassCodeChange();
     }
 
     get isActive() {
@@ -194,6 +195,14 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
             this.emitter.off(name, wrappedFunc);
         };
     }
+
+    emitClassCodeChange() {
+        this.emitter.emit('document.class.code');
+    }
+
+    onClassCodeChange = (func: () => void) => {
+        return this.onEvent('document.class.code', func);
+    };
 
     emitNodeRefChange(ref: string, preRef: string) {
         this.emitter.emit('nodeRefChange', ref, preRef);

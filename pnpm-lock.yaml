@@ -150,8 +150,8 @@ importers:
         specifier: ^1.4.2
         version: 1.4.2(vue@3.4.21)
       '@qlin/oxc-wasm-web':
-        specifier: ^0.0.2
-        version: 0.0.2
+        specifier: ^0.0.3
+        version: 0.0.3
       '@replit/codemirror-vscode-keymap':
         specifier: ^6.0.2
         version: 6.0.2(@codemirror/autocomplete@6.12.0)(@codemirror/commands@6.3.3)(@codemirror/language@6.10.1)(@codemirror/lint@6.5.0)(@codemirror/search@6.5.6)(@codemirror/state@6.4.1)(@codemirror/view@6.24.1)
@@ -551,6 +551,30 @@ importers:
         specifier: ^3.4.14
         version: 3.4.21(typescript@5.4.2)
 
+  packages/plugin-logic:
+    dependencies:
+      '@fesjs/fes-design':
+        specifier: ^0.8.38
+        version: 0.8.38(vue@3.4.21)
+      '@webank/letgo-components':
+        specifier: ^0.0.4-beta.25
+        version: link:../components
+      '@webank/letgo-designer':
+        specifier: ^0.0.4-beta.31
+        version: link:../designer
+      '@webank/letgo-editor-skeleton':
+        specifier: ^0.0.4-beta.4
+        version: link:../editor-skeleton
+      '@webank/letgo-engine-plugin':
+        specifier: ^0.0.4-beta.33
+        version: link:../engine-plugin
+      '@webank/letgo-types':
+        specifier: ^0.0.4-beta.13
+        version: link:../types
+      vue:
+        specifier: ^3.3.9
+        version: 3.4.21(typescript@5.4.2)
+
   packages/plugin-schema:
     dependencies:
       '@codemirror/lang-json':
@@ -736,6 +760,9 @@ importers:
       '@webank/letgo-plugin-device':
         specifier: workspace:*
         version: link:../plugin-device
+      '@webank/letgo-plugin-logic':
+        specifier: workspace:*
+        version: link:../plugin-logic
       '@webank/letgo-plugin-schema':
         specifier: workspace:*
         version: link:../plugin-schema
@@ -3078,8 +3105,8 @@ packages:
     resolution: {integrity: sha512-2LuNTFBIO0m7kKIQvvPHN6UE63VjpmL9rnEEaOOaiSPbZK+zUOYIzBAWcED+3XYzhYsd/0mD57VdxAEqqV52CQ==}
     dev: true
 
-  /@qlin/oxc-wasm-web@0.0.2:
-    resolution: {integrity: sha512-QNzGBoAdu+lU3yYjnikLCI7w8eYLmWzAJoBHr2A4DNSmW/0SV/Dc6OAXznWL/EM3lkWGfa9zVKyHXUbzJeSPSw==}
+  /@qlin/oxc-wasm-web@0.0.3:
+    resolution: {integrity: sha512-UuDPAWebo7r8M2eAiDpYoP2ZiHVjN2ESeJN/rLTJGpyemKmUSukr1Qlql+DrxfUfYgEq5IXR6ff7s/UE77QxFQ==}
     dev: false
 
   /@qlin/request@0.2.5:

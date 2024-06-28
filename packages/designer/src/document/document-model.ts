@@ -103,6 +103,17 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
         this.rootNode?.props.getExtraProp('fileName', true)?.setValue(fileName);
     }
 
+    get classCode(): string {
+        return (
+            this.rootNode?.getExtraProp('classCode', false)?.getAsString()
+            || this.id
+        );
+    }
+
+    set classCode(code: string) {
+        this.rootNode?.getExtraProp('classCode', true)?.setValue(code);
+    }
+
     get isActive() {
         return this.project.currentDocument === this;
     }

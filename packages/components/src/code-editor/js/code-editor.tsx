@@ -43,6 +43,10 @@ export const CodeEditor = defineComponent({
             type: String,
             default: '100px',
         },
+        lineNumbers: {
+            type: Boolean,
+            default: false,
+        },
         compRef: String,
         id: String,
         placeholder: String,

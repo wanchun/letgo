@@ -3,6 +3,7 @@ import type { IPublicModelDocumentModel } from '@webank/letgo-types';
 
 export interface CodeEditorProps {
     doc: string;
+    lineNumbers?: boolean;
     hints?: Record<string, any>;
     compRef?: string;
     documentModel?: IPublicModelDocumentModel;

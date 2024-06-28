@@ -81,7 +81,7 @@ export function useCodeEditor(props: CodeEditorProps) {
             doc: props.doc,
             extensions: [
                 basicSetup({
-                    lineNumbers: false,
+                    lineNumbers: props.lineNumbers || false,
                 }),
                 keymap.of([
                     ...vscodeKeymap,

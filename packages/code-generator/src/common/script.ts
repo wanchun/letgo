@@ -9,6 +9,7 @@ import {
 } from '@webank/letgo-types';
 import { startCase } from 'lodash-es';
 import { relative } from '../options';
+import { genClassCodeInstance } from '../class-code/gen-class-code';
 import { genCode } from './helper';
 import { ImportType } from './types';
 import { genGlobalState } from './global-state';
@@ -16,6 +17,7 @@ import { getLowComponentFilePath } from './lowcode-component';
 import { genHook } from './hook';
 import { cssResolver } from './resolver';
 import type { Context, ImportSource } from './types';
+import { genPageEntry } from './page-meta';
 
 function getAliasExportName(componentMap: IPublicTypeNpmInfo) {
     const cName = startCase(componentMap.componentName).replace(/ /g, '');
@@ -95,18 +97,20 @@ export function genScript({ ctx, componentMaps, rootSchema, componentRefs, fileN
         return;
 
     const { outDir } = options;
-    const filePath = `${outDir}/${fileName}`;
+    const filePath = `${outDir}/${genPageEntry(fileName, !!rootSchema.classCode)}`;
     const codeImports = genComponentImports(ctx, componentMaps, filePath);
     const globalStateSnippet = genGlobalState(ctx, filePath, rootSchema);
     const refCodeSnippet = genRefCode(ctx, filePath, componentRefs);
     const codesSnippet = genCode(ctx, filePath, rootSchema.code);
     const hookSnippet = genHook(ctx, filePath, rootSchema.code);
+    const classCodeSnippet = genClassCodeInstance(ctx, rootSchema);
 
     const codes = [
         globalStateSnippet.code,
         refCodeSnippet.code,
         codesSnippet?.code,
         hookSnippet?.code,
+        classCodeSnippet?.code,
     ].filter(Boolean);
 
     return [
@@ -116,6 +120,7 @@ export function genScript({ ctx, componentMaps, rootSchema, componentRefs, fileN
             refCodeSnippet.importSources,
             hookSnippet.importSources,
             codesSnippet?.importSources,
+            classCodeSnippet?.importSources,
         ).filter(Boolean),
         codes,
     ];

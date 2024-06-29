@@ -3,7 +3,7 @@ import { set } from 'lodash-es';
 import { schemaToCode } from '../common';
 import { genGlobalStateCode } from '../common/global-state';
 import { injectLetgoCode } from '../common/inject-code';
-import { genFileName } from '../common/page-meta';
+import { genPageEntry } from '../common/page-meta';
 import { genPackageJSON } from '../common/pkg';
 import type { Context, FileTree, GenOptions } from '../common/types';
 import { setOptions } from '../options';
@@ -15,7 +15,8 @@ function genPageCode(ctx: Context, fileTree: FileTree, options: GenOptions) {
     const filesStruct = transformJsx ? transformJsx(schemaToCode(ctx)) : schemaToCode(ctx);
 
     const pages = filesStruct.reduce((acc, cur) => {
-        acc[genFileName(cur)] = toAssemble(cur);
+        const filePath = genPageEntry(cur.fileName, !!cur.classCode);
+        set(acc, filePath.split('/'), toAssemble(cur));
         return acc;
     }, {} as Record<string, any>);
 

@@ -92,6 +92,10 @@ export function isExpression(code: string, isInclude: (name: string) => boolean)
 export function executeExpression(text: string | null, ctx: Record<string, any> = {}, whenErrorReturnRaw = false) {
     if (isNil(text))
         return undefined;
+
+    if (text.trim() === '')
+        return null;
+
     try {
         const exp = attachContext(`(${text})`, name => !isUndefined(ctx[name]));
         // eslint-disable-next-line no-new-func

@@ -33,7 +33,7 @@ export function genRestApiQueryFunc({
                 `);
         return (ctx: Record<string, any>) => {
             return fn(ctx, [
-                executeExpression(api, ctx, true),
+                /^[\/]?\w+\//.test(api) ? api : executeExpression(api, ctx, true),
                 params,
                 {
                     method,

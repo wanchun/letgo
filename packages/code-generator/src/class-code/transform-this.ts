@@ -1,11 +1,13 @@
 import { transformNodeSchemaCode, transformThisExpression } from '@webank/letgo-common';
 import type { IPublicTypeRootSchema } from '@webank/letgo-types';
+import { cloneDeep } from 'lodash-es';
 
 export function transformThis(rootSchema: IPublicTypeRootSchema) {
     if (!rootSchema.classCode)
         return rootSchema;
 
-    transformNodeSchemaCode(rootSchema, (code, _, type) => {
+    const newRootSchema = cloneDeep(rootSchema);
+    transformNodeSchemaCode(newRootSchema, (code, _, type) => {
         try {
             if (!code)
                 return;
@@ -23,5 +25,5 @@ export function transformThis(rootSchema: IPublicTypeRootSchema) {
         }
     });
 
-    return rootSchema;
+    return newRootSchema;
 }

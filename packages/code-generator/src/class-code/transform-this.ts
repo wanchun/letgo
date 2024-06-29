@@ -1,4 +1,4 @@
-import { replaceExpressionIdentifier, transformNodeSchemaCode } from '@webank/letgo-common';
+import { transformNodeSchemaCode, transformThisExpression } from '@webank/letgo-common';
 import type { IPublicTypeRootSchema } from '@webank/letgo-types';
 
 export function transformThis(rootSchema: IPublicTypeRootSchema) {
@@ -11,7 +11,12 @@ export function transformThis(rootSchema: IPublicTypeRootSchema) {
                 return;
 
             code = type === 'JSExpression' ? `(${code})` : code;
-            return replaceExpressionIdentifier(code, '$$', 'this');
+            const result = transformThisExpression(code, (node: any) => {
+                node.type = 'Identifier';
+                node.name = '$$';
+                return node;
+            });
+            return result;
         }
         catch (_) {
             return code;

@@ -47,7 +47,6 @@ function genProjectCodes(schema: IPublicTypeProjectSchema) {
         basePackageJSON: {
             dependencies: {
                 '@fesjs/fes-design': '0.8.1',
-                'x': '0.0.1',
             },
         },
         extraPackageJSON: {

@@ -499,9 +499,9 @@ export function useTemporaryState({ id, initValue }) {
 
     return result;
 }`,
-    'globalBase': `
+    'globalBase.js': `
 import { omit } from 'lodash-es';
-import { letgoRequest } from '../letgoRequest';
+import { letgoRequest } from './letgoRequest';
 
 export class LetgoGlobalBase {
     constructor(globalCtx) {
@@ -522,11 +522,11 @@ export class LetgoGlobalBase {
     }
 }
     `,
-    'pageBase': `
-import { LetgoGlobalBase } from './global-base';
+    'pageBase.js': `
+import { LetgoGlobalBase } from './globalBase';
 
 export class LetgoPageBase extends LetgoGlobalBase {
-    constructor(ctx}) {
+    constructor(ctx) {
         super(ctx.globalCtx);
         this.compInstances = ctx.instances;
         this.codeInstances = ctx.codes;

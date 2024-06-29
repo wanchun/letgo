@@ -53,4 +53,6 @@ export function parseCode(code: string) {
             }
         },
     });
+
+    return usedCode;
 }

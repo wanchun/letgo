@@ -1,7 +1,8 @@
 import type { IPublicTypeRootSchema } from '@webank/letgo-types';
-import type { Context } from '../common/types';
+import type { Context, FileStruct } from '../common/types';
 import { ImportType } from '../common/types';
 import { relative } from '../options';
+import { genImportCode } from '../common/helper';
 
 export const CLASS_FILE_NAME = 'main';
 
@@ -18,10 +19,18 @@ export function genClassCode({ ctx, fileName, rootSchema }: {
         importSources: [{
             imported: 'LetgoPageBase',
             type: ImportType.ImportSpecifier,
-            source: relative(filePath, `${ctx.config.letgoDir}/page-base`),
+            source: relative(filePath, `${ctx.config.letgoDir}/pageBase`),
         }],
         code: rootSchema.classCode.replace('Component', 'LetgoPageBase'),
     };
+}
+
+export function genClassCodeStr(fileStruct: FileStruct) {
+    return `
+        ${genImportCode(fileStruct.classCode.importSources)}
+        
+        export ${fileStruct.classCode.code.trim()}
+    `;
 }
 
 export function genClassCodeInstance(ctx: Context, rootSchema: IPublicTypeRootSchema) {
@@ -45,13 +54,13 @@ export function genClassCodeInstance(ctx: Context, rootSchema: IPublicTypeRootSc
         code: `
         const $$ = reactive(new Main({
             globalContext: {
-                ${ctx.classUseCodes.$globalCode.join(',')}
+                ${ctx.classUseCodes.$globalCode.join(',\n')}
             },
             instances: {
-                ${ctx.classUseCodes.$refs.join(',')}
+                ${ctx.classUseCodes.$refs.join(',\n')}
             },
             codes: {
-                ${ctx.classUseCodes.$pageCode.join(',')}
+                ${ctx.classUseCodes.$pageCode.join(',\n')}
             }
         }))
         `,

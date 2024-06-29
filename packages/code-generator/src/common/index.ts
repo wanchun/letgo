@@ -4,6 +4,9 @@ import type {
     IPublicTypeRootSchema,
 } from '@webank/letgo-types';
 import { genCodeMap, traverseNodeSchema } from '@webank/letgo-common';
+import { parseCode } from '../class-code/parse';
+import { genClassCode } from '../class-code/gen-class-code';
+import { transformThis } from '../class-code/transform-this';
 import { genScript } from './script';
 import { formatFileName, formatPageName, formatPageTitle } from './page-meta';
 import { PageFileType } from './types';
@@ -23,7 +26,7 @@ function getComponentRefs(
 
 function getUseComponentRefs(ctx: Context) {
     const componentRefs = ctx.refs;
-    const usedComponents = new Set<string>();
+    const usedComponents = new Set<string>(ctx.classUseCodes?.$refs || []);
     for (const refName of componentRefs.values()) {
         if (ctx.useVariables.has(refName))
             usedComponents.add(refName);
@@ -56,6 +59,7 @@ function compileRootSchema(
             pageTitle: formatPageTitle(rootSchema.title),
             afterImports: [],
             importSources,
+            classCode: genClassCode({ ctx, fileName, rootSchema }),
             codes: codes.concat(genSlots(ctx, rootSchema, componentRefs)),
             jsx: genPageJsx(ctx, rootSchema, componentRefs),
         };
@@ -93,17 +97,19 @@ export function getUseComponents(
 // TODO scope 放入 codes 或者另外加一个参数
 export function schemaToCode(ctx: Context): FileStruct[] {
     return ctx.schema.componentsTree.map((rootSchema) => {
+        const classUseCodes = parseCode(rootSchema.classCode);
         const pageContext: Context = {
             ...ctx,
             codes: genCodeMap(rootSchema.code, new Map(ctx.codes)),
             refs: getComponentRefs(rootSchema.children),
-            useVariables: parseUseVariables(rootSchema),
+            classUseCodes,
+            useVariables: parseUseVariables(rootSchema, classUseCodes),
         };
 
         return compileRootSchema(
             pageContext,
             getUseComponents(ctx.schema.componentsMap, rootSchema),
-            rootSchema,
+            transformThis(rootSchema),
         );
     }).filter(Boolean);
 }

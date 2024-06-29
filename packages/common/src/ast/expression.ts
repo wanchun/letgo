@@ -1,6 +1,6 @@
 import { generate } from 'astring';
 import { simple } from 'acorn-walk';
-import { isNil, isUndefined } from 'lodash-es';
+import { isNil } from 'lodash-es';
 import { innerParse } from './ast';
 
 interface Identifier {

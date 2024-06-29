@@ -1,3 +1,12 @@
+## [0.0.4-beta.49](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.48...v0.0.4-beta.49) (2024-6-29)
+
+
+### Bug Fixes
+
+* 优化表达式执行 ([09b8524](https://git.weoa.com/mumblefe/letgo/commits/09b8524d740eef50959cc87c476f5a40d24450c8))
+
+
+
 ## [0.0.4-beta.48](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.47...v0.0.4-beta.48) (2024-6-27)
 
 

@@ -91,4 +91,5 @@ export interface Context {
     refs?: Set<string>;
     useVariables?: Set<string>;
     classUseCodes?: ClassUseCodes;
+    classLifeCycle?: string[];
 }

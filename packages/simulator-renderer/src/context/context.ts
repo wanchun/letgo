@@ -5,7 +5,6 @@ import { LetgoPageBase } from '@webank/letgo-renderer';
 import { BASE_GLOBAL_CONTEXT } from '../constants';
 import type { DocumentInstance } from '../interface';
 import type { CodeImplType } from '../code-impl/code-impl';
-import { JavascriptFunctionImpl } from '../code-impl/javascript-function';
 
 function createClassInstance(options: {
     code: string;
@@ -40,13 +39,7 @@ export function useContext(codesInstance: Record<string, CodeImplType>, document
     });
 
     watch(codesInstance, (value) => {
-        Object.keys(value).forEach((key) => {
-            const item = value[key];
-            if (item instanceof JavascriptFunctionImpl)
-                executeCtx[key] = item.trigger.bind(value[key]);
-            else
-                executeCtx[key] = item;
-        });
+        Object.assign(executeCtx, value);
     });
 
     const compInstances = shallowReactive<Record<string, any>>({});

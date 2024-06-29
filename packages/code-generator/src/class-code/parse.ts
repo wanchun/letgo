@@ -44,7 +44,7 @@ export function parseCode(code: string) {
     ancestorWalkAst(code, {
         MemberExpression: (node: any, _state: any, ancestor: any[]) => {
             const propName = node.property.name;
-            if (node.object.type === 'Identifier' && ['$pageCode', '$globalCode', '$refs'].includes(propName)) {
+            if (node.object.type === 'ThisExpression' && ['$pageCode', '$globalCode', '$refs'].includes(propName)) {
                 const { sibling, members } = getExpressionMembers(ancestor);
                 if (members[1])
                     usedCode[propName as keyof typeof usedCode].push(members[1]);

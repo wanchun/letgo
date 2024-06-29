@@ -1,6 +1,7 @@
 import { generate } from 'astring';
 import { simple } from 'acorn-walk';
 import { isNil } from 'lodash-es';
+import type { ThisExpression } from 'acorn';
 import { innerParse } from './ast';
 
 interface Identifier {
@@ -31,6 +32,23 @@ export function transformExpression(code: string, callback: Callback) {
         },
     });
     return ast;
+}
+
+export function transformThisExpression(code: string, callback: (node: ThisExpression) => Identifier) {
+    try {
+        const ast = innerParse(code);
+
+        simple(ast, {
+            ThisExpression(node) {
+                callback(node as ThisExpression);
+            },
+        });
+        return generate((ast as any).body[0]).replace(';', '');
+    }
+    catch (err) {
+        console.warn(err);
+        return code;
+    }
 }
 
 export function replaceExpressionIdentifier(code: string, newName: string, preName: string) {

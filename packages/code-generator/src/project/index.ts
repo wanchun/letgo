@@ -7,6 +7,7 @@ import { genPageEntry } from '../common/page-meta';
 import { genPackageJSON } from '../common/pkg';
 import type { Context, FileTree, GenOptions } from '../common/types';
 import { setOptions } from '../options';
+import { CLASS_FILE_NAME, genClassCodeStr } from '../class-code/gen-class-code';
 import { toAssemble } from './build';
 import { genLowCodeComponent } from './gen-lowcode-component';
 
@@ -17,6 +18,9 @@ function genPageCode(ctx: Context, fileTree: FileTree, options: GenOptions) {
     const pages = filesStruct.reduce((acc, cur) => {
         const filePath = genPageEntry(cur.fileName, !!cur.classCode);
         set(acc, filePath.split('/'), toAssemble(cur));
+        if (cur.classCode)
+            set(acc, [cur.fileName, `${CLASS_FILE_NAME}.js`], genClassCodeStr(cur));
+
         return acc;
     }, {} as Record<string, any>);
 

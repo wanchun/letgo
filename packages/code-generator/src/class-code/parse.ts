@@ -29,15 +29,22 @@ function getExpressionMembers(ancestor: any[]): {
     };
 }
 
+const LIFE_CYCLE = ['onBeforeMount', 'onBeforeUnmount', 'onMounted', 'onUnmounted'];
+
 export function parseCode(code: string) {
+    const classLifeCycle: string[] = [];
     const usedCode: ClassUseCodes = {
         $refs: [],
         $globalCode: [],
         $pageCode: [],
     };
 
-    if (!code)
-        return usedCode;
+    if (!code) {
+        return {
+            classLifeCycle,
+            usedCode,
+        };
+    }
 
     usedCode.$globalCode.push('$utils', '$context');
 
@@ -52,7 +59,14 @@ export function parseCode(code: string) {
                     usedCode[propName as keyof typeof usedCode].push(...sibling);
             }
         },
+        MethodDefinition: (node: any, _state: any) => {
+            if (node.kind === 'method' && LIFE_CYCLE.includes(node.key.name))
+                classLifeCycle.push(node.key.name);
+        },
     });
 
-    return usedCode;
+    return {
+        classLifeCycle,
+        usedCode,
+    }; ;
 }

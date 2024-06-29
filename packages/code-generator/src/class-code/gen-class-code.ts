@@ -50,7 +50,13 @@ export function genClassCodeInstance(ctx: Context, rootSchema: IPublicTypeRootSc
             imported: 'reactive',
             type: ImportType.ImportSpecifier,
             source: `vue`,
-        }],
+        }].concat(ctx.classLifeCycle.map((item) => {
+            return {
+                imported: item,
+                type: ImportType.ImportSpecifier,
+                source: `vue`,
+            };
+        })),
         code: `
         const $$ = reactive(new Main({
             globalContext: {
@@ -63,6 +69,10 @@ export function genClassCodeInstance(ctx: Context, rootSchema: IPublicTypeRootSc
                 ${ctx.classUseCodes.$pageCode.join(',\n')}
             }
         }))
+        
+        ${ctx.classLifeCycle.map((item) => {
+            return `${item}($$.${item}.bind($$))`;
+        }).join(';\n')}
         `,
     };
 }

@@ -305,6 +305,10 @@ function buildRefProp({
     prop?: Prop | null;
 }): any {
     if (isString(schema)) {
+        // Tip: 不知道用于什么场景，先过滤 scope.$ 避免出现应用异常
+        if (!scope.$)
+            return schema;
+
         const field = schema;
         let lastInst: unknown = null;
         return (inst: unknown): void => {

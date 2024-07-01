@@ -1,11 +1,12 @@
 import type { PropType } from 'vue';
-import { computed, defineComponent, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import type { Designer } from '@webank/letgo-designer';
 import { CodeEditor } from '@webank/letgo-components';
 import { FButton } from '@fesjs/fes-design';
 
+// 默认 class code 模板
 const DEFAULT_CLASS_CODE = `
-class Main extends Component {
+class Main extends Page {
     constructor(ctx) {
         super(ctx);
     }

@@ -104,10 +104,7 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
     }
 
     get classCode(): string {
-        return (
-            this.rootNode?.getExtraProp('classCode', false)?.getAsString()
-            || this.id
-        );
+        return this.rootNode?.getExtraProp('classCode', false)?.getAsString();
     }
 
     set classCode(code: string) {

@@ -77,7 +77,7 @@ export default defineComponent({
                     ],
                 },
                 classCode: `
-                class Main extends Component {
+                class Main extends Page {
                     constructor(ctx) {
                         super(ctx);
                         this.a = 1;

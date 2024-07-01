@@ -13,7 +13,7 @@ function createClassInstance(options: {
     codesInstance: Record<string, any>;
 }) {
     // eslint-disable-next-line no-new-func
-    const DynamicClass = (new Function('Component', `return ${options.code.trim()}`))(LetgoPageBase);
+    const DynamicClass = (new Function('Page', `return ${options.code.trim()}`))(LetgoPageBase);
 
     return new DynamicClass({
         globalContext: options.globalContext,

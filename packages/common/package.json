@@ -14,7 +14,7 @@
     ],
     "dependencies": {
         "@webank/letgo-types": "^0.0.4-beta.13",
-        "acorn": "^8.8.2",
+        "acorn": "^8.12.0",
         "acorn-walk": "^8.2.0",
         "astring": "^1.8.6",
         "lodash-es": "^4.17.21",

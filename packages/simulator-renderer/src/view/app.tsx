@@ -71,6 +71,10 @@ export default defineComponent({
 
         initCodesInstance(code.codeMap, globalContext);
 
+        watch(codesInstance, (value) => {
+            Object.assign(globalContext, value);
+        });
+
         const offCodeChangedEvent: (() => void)[] = [];
         offCodeChangedEvent.push(
             code.onCodesChanged((currentCodeMap: Map<string, ICodeItem>) => {
@@ -78,7 +82,6 @@ export default defineComponent({
             }),
             code.onCodeItemAdd((item: ICodeItem) => {
                 createCodeInstance(item, globalContext);
-                globalContext[item.id] = codesInstance[item.id];
             }),
             code.onCodeItemDelete((id: string) => {
                 // TODO 有依赖的时候删除给提示

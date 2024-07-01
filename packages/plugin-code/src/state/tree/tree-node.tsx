@@ -38,11 +38,12 @@ const TreeNode = defineComponent({
 
         const renderArray = () => {
             const children = [];
-            const len = showAll.value ? props.value.length : 3;
+            const needMore = props.value.length > 3;
+            const len = showAll.value ? props.value.length : (needMore ? 3 : props.value.length);
             for (let index = 0; index < len; index++)
                 children.push(<TreeNode label={index} level={props.level + 1} value={props.value[index]} />);
 
-            if (!showAll.value) {
+            if (!showAll.value && needMore) {
                 children.push(
                     <div
                         class="letgo-plg-code-tree__node"

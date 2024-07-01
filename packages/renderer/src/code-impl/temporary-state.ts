@@ -1,5 +1,5 @@
 import { isNil, isPlainObject, set } from 'lodash-es';
-import { attachContext, markReactive } from '@webank/letgo-common';
+import { markReactive } from '@webank/letgo-common';
 import type { ITemporaryState } from '@webank/letgo-types';
 import { IEnumCodeType } from '@webank/letgo-types';
 
@@ -33,10 +33,17 @@ export class TemporaryStateLive {
     executeInput(text?: string) {
         if (isNil(text))
             return null;
+
+        if (text.trim() === '')
+            return null;
+
         try {
-            const exp = attachContext(`(${text})`, name => this.deps.includes(name));
             // eslint-disable-next-line no-new-func
-            const fn = new Function('_ctx', `return ${exp}`);
+            const fn = new Function('_ctx', `
+                with(_ctx) {
+                    return (${text});
+                }
+            `);
             return fn(this.ctx);
         }
         catch (_) {

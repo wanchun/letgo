@@ -41,7 +41,12 @@ export function replaceExpressionIdentifier(code: string, newName: string, preNa
             if (identifier.name === preName)
                 identifier.name = newName;
         });
-        return generate((ast as any).body[0]).replace(';', '');
+
+        const result = generate((ast as any).body[0]);
+        if (result.endsWith(';'))
+            return result.slice(0, -1);
+
+        return result;
     }
     catch (err) {
         console.warn(err);
@@ -55,7 +60,11 @@ export function attachContext(code: string, isInclude: (name: string) => boolean
             if (isInclude(identifier.name))
                 identifier.name = `_ctx.${identifier.name}`;
         });
-        return generate((ast as any).body[0]).replace(';', '');
+        const result = generate((ast as any).body[0]);
+        if (result.endsWith(';'))
+            return result.slice(0, -1);
+
+        return result;
     }
     catch (err) {
         console.warn(err);

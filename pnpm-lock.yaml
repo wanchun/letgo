@@ -92,6 +92,9 @@ importers:
       '@webank/letgo-types':
         specifier: ^0.0.4-beta.13
         version: link:../types
+      acorn:
+        specifier: ^8.12.0
+        version: 8.12.0
       jszip:
         specifier: ^3.10.1
         version: 3.10.1
@@ -105,8 +108,8 @@ importers:
         specifier: ^0.0.4-beta.13
         version: link:../types
       acorn:
-        specifier: ^8.8.2
-        version: 8.11.3
+        specifier: ^8.12.0
+        version: 8.12.0
       acorn-walk:
         specifier: ^8.2.0
         version: 8.3.2
@@ -3304,7 +3307,7 @@ packages:
       eslint: '>=8.40.0'
     dependencies:
       '@types/eslint': 8.56.5
-      acorn: 8.11.3
+      acorn: 8.12.0
       escape-string-regexp: 4.0.0
       eslint: 8.57.0
       eslint-visitor-keys: 3.4.3
@@ -4004,20 +4007,20 @@ packages:
       negotiator: 0.6.3
     dev: false
 
-  /acorn-jsx@5.3.2(acorn@8.11.3):
+  /acorn-jsx@5.3.2(acorn@8.12.0):
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
       acorn: ^6.0.0 || ^7.0.0 || ^8.0.0
     dependencies:
-      acorn: 8.11.3
+      acorn: 8.12.0
     dev: true
 
   /acorn-walk@8.3.2:
     resolution: {integrity: sha512-cjkyv4OtNCIeqhHrfS81QWXoCBPExR/J62oyEqepVw8WaQeSqpW2uhuLPh1m9eWhDuOo/jUXVTlifvesOWp/4A==}
     engines: {node: '>=0.4.0'}
 
-  /acorn@8.11.3:
-    resolution: {integrity: sha512-Y9rRfJG5jcKOE0CLisYbojUjIrIEE7AGMzA/Sm4BslANhbS+cDMpgBdcPT91oJ7OuJ9hYJBx59RjbhxVnrF8Xg==}
+  /acorn@8.12.0:
+    resolution: {integrity: sha512-RTvkC4w+KNXrM39/lWCUaG0IbRkWdCv7W/IOW9oU6SawyxulvkQy5HQPVTKxEjczcUvapcrw3cFx/60VN/NRNw==}
     engines: {node: '>=0.4.0'}
     hasBin: true
 
@@ -5796,8 +5799,8 @@ packages:
     resolution: {integrity: sha512-oruZaFkjorTpF32kDSI5/75ViwGeZginGGy2NoOSg3Q9bnwlnmDm4HLnkl0RE3n+njDXR037aY1+x58Z/zFdwQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dependencies:
-      acorn: 8.11.3
-      acorn-jsx: 5.3.2(acorn@8.11.3)
+      acorn: 8.12.0
+      acorn-jsx: 5.3.2(acorn@8.12.0)
       eslint-visitor-keys: 3.4.3
     dev: true
 
@@ -6968,7 +6971,7 @@ packages:
     resolution: {integrity: sha512-WYDyuc/uFcGp6YtM2H0uKmUwieOuzeE/5YocFJLnLfclZ4inf3mRn8ZVy1s7Hxji7Jxm6Ss8gqpexD/GlKoGgg==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dependencies:
-      acorn: 8.11.3
+      acorn: 8.12.0
       eslint-visitor-keys: 3.4.3
       espree: 9.6.1
       semver: 7.6.0
@@ -7370,7 +7373,7 @@ packages:
   /mlly@1.6.1:
     resolution: {integrity: sha512-vLgaHvaeunuOXHSmEbZ9izxPx3USsk8KCQ8iC+aTlp5sKRSoZvwhHh5L9VbKSaVC6sJDqbyohIS76E2VmHIPAA==}
     dependencies:
-      acorn: 8.11.3
+      acorn: 8.12.0
       pathe: 1.1.2
       pkg-types: 1.0.3
       ufo: 1.4.0
@@ -8784,7 +8787,7 @@ packages:
     hasBin: true
     dependencies:
       '@jridgewell/source-map': 0.3.5
-      acorn: 8.11.3
+      acorn: 8.12.0
       commander: 2.20.3
       source-map-support: 0.5.21
     dev: false

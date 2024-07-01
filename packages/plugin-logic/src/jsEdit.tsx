@@ -6,6 +6,17 @@ import { FButton } from '@fesjs/fes-design';
 
 // 默认 class code 模板
 const DEFAULT_CLASS_CODE = `
+/**
+ * 内置属性
+ * this.$context 获取全局上下文
+ * this.$utils 获取绑定的库 or 方法
+ * this.$refs 获取当前页面实例
+ * 
+ * this.$request(url, params, options) 发起请求
+ * 
+ * this.$pageCode  获取页面逻辑
+ * this.$globalCode  获取全局逻辑
+ */
 class Main extends Page {
     constructor(ctx) {
         super(ctx);

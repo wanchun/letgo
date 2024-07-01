@@ -1,4 +1,6 @@
 import type { IPublicTypeRootSchema } from '@webank/letgo-types';
+import { astToCode, simpleWalkAst } from '@webank/letgo-common';
+import type { Declaration } from 'acorn';
 import type { Context, FileStruct } from '../common/types';
 import { ImportType } from '../common/types';
 import { relative } from '../options';
@@ -21,15 +23,31 @@ export function genClassCode({ ctx, fileName, rootSchema }: {
             type: ImportType.ImportSpecifier,
             source: relative(filePath, `${ctx.config.letgoDir}/pageBase`),
         }],
-        code: rootSchema.classCode.replace('Page', 'LetgoPageBase'),
+        code: rootSchema.classCode,
     };
 }
 
 export function genClassCodeStr(fileStruct: FileStruct) {
+    const codeAst = simpleWalkAst(fileStruct.classCode.code, {
+        ClassDeclaration(node: any) {
+            if (node.superClass)
+                node.superClass.name = 'LetgoPageBase';
+        },
+    });
+    const index = codeAst.body.findIndex(node => node.type === 'ClassDeclaration');
+    codeAst.body[index] = {
+        type: 'ExportNamedDeclaration',
+        start: 0,
+        end: 0,
+        declaration: codeAst.body[index] as Declaration,
+        specifiers: [],
+        source: null,
+    };
+
     return `
         ${genImportCode(fileStruct.classCode.importSources)}
         
-        export ${fileStruct.classCode.code.trim()}
+        ${astToCode(codeAst)}
     `;
 }
 

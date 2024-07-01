@@ -21,7 +21,7 @@ export function genClassCode({ ctx, fileName, rootSchema }: {
             type: ImportType.ImportSpecifier,
             source: relative(filePath, `${ctx.config.letgoDir}/pageBase`),
         }],
-        code: rootSchema.classCode.replace('Component', 'LetgoPageBase'),
+        code: rootSchema.classCode.replace('Page', 'LetgoPageBase'),
     };
 }
 

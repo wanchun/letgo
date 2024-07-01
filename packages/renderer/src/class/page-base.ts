@@ -4,11 +4,11 @@ export class LetgoPageBase extends LetgoGlobalBase {
     compInstances: Record<string, any>;
     codeInstances: Record<string, any>;
     constructor(ctx: {
-        globalCtx: Record<string, any>;
+        globalContext: Record<string, any>;
         instances: Record<string, any>;
         codes: Record<string, any>;
     }) {
-        super(ctx.globalCtx);
+        super(ctx.globalContext);
         this.compInstances = ctx.instances;
         this.codeInstances = ctx.codes;
     }

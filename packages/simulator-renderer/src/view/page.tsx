@@ -2,15 +2,13 @@ import { computed, defineComponent, h, nextTick, onUnmounted, provide, watch } f
 import type { PropType } from 'vue';
 import type { RuntimeScope } from '@webank/letgo-renderer';
 import { Renderer } from '@webank/letgo-renderer';
-import {
-    type ICodeItem,
-    IEnumCodeType,
-    type IPublicTypeComponentInstance,
-    type IPublicTypeNodeSchema,
+import type {
+    ICodeItem,
+    IPublicTypeComponentInstance,
+    IPublicTypeNodeSchema,
 } from '@webank/letgo-types';
 import type { DocumentInstance, VueSimulatorRenderer } from '../interface';
 import { BASE_COMP_CONTEXT } from '../constants';
-import type { JavascriptFunctionImpl } from '../code-impl/javascript-function';
 import { useCodesInstance } from '../code-impl/code-impl';
 import { useContext } from '../context/context';
 import { host } from '../host';
@@ -33,6 +31,7 @@ export default defineComponent({
         const code = computed(() => {
             return props.documentInstance.document.code;
         });
+
         const {
             codesInstance,
             initCodesInstance,
@@ -42,7 +41,7 @@ export default defineComponent({
             changeCodeInstanceId,
         } = useCodesInstance();
 
-        const { executeCtx } = useContext(codesInstance, props.documentInstance);
+        const { executeCtx, compInstances } = useContext(codesInstance, props.documentInstance);
 
         watch(() => props.documentInstance.defaultProps, (val) => {
             executeCtx.props = val || {};
@@ -58,10 +57,6 @@ export default defineComponent({
             }),
             code.value.onCodeItemAdd((item: ICodeItem) => {
                 createCodeInstance(item, executeCtx);
-                if (codesInstance[item.id].type === IEnumCodeType.JAVASCRIPT_FUNCTION)
-                    executeCtx[item.id] = (codesInstance[item.id] as JavascriptFunctionImpl).trigger.bind(codesInstance[item.id]);
-
-                else executeCtx[item.id] = codesInstance[item.id];
             }),
             code.value.onCodeItemDelete((id: string) => {
                 // TODO 有依赖的时候删除给提示
@@ -79,7 +74,8 @@ export default defineComponent({
         );
 
         const offNodeRefChange = props.documentInstance.document.onNodeRefChange((ref: string, preRef: string) => {
-            executeCtx[ref] = executeCtx[preRef];
+            compInstances[ref] = compInstances[preRef];
+            delete compInstances[preRef];
             delete executeCtx[preRef];
         });
 
@@ -110,18 +106,18 @@ export default defineComponent({
                         (ref as any).__scope = scope;
                         nextTick(() => {
                             // 如果 schema 是个 loop, ref 和组件实例不是一对一关系，因此不能直接用 ref 参数，
-                            executeCtx[schema.ref] = props.documentInstance.document.state.componentsInstance[schema.ref];
+                            compInstances[schema.ref] = props.documentInstance.document.state.componentsInstance[schema.ref];
                         });
                     }
                     const instance = getVueInstance(ref);
                     if (instance) {
                         onUnmounted(() => {
-                            if (!Array.isArray(executeCtx[schema.ref])) {
-                                executeCtx[schema.ref] = {};
+                            if (!Array.isArray(compInstances[schema.ref])) {
+                                compInstances[schema.ref] = {};
                             }
                             else {
-                                const index = executeCtx[schema.ref].findIndex((item: IPublicTypeComponentInstance) => item === ref);
-                                executeCtx[schema.ref].splice(index, 1);
+                                const index = compInstances[schema.ref].findIndex((item: IPublicTypeComponentInstance) => item === ref);
+                                compInstances[schema.ref].splice(index, 1);
                             }
                         }, instance.$);
                     }

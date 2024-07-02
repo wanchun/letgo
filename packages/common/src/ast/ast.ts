@@ -1,5 +1,5 @@
 import { generate } from 'astring';
-import type { ExpressionStatement } from 'acorn';
+import type { ExpressionStatement, Program } from 'acorn';
 import { parse } from 'acorn';
 import { ancestor, simple } from 'acorn-walk';
 import {
@@ -48,6 +48,10 @@ export function ancestorWalkAst(code: string, param: Record<string, any>) {
     ancestor(ast, param);
 
     return ast;
+}
+
+export function astToCode(ast: Program) {
+    return generate(ast);
 }
 
 export function replaceJSFunctionIdentifier(code: string, newName: string, preName: string) {

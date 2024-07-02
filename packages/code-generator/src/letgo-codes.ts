@@ -499,4 +499,46 @@ export function useTemporaryState({ id, initValue }) {
 
     return result;
 }`,
+    'globalBase.js': `
+import { omit } from 'lodash-es';
+import { letgoRequest } from './letgoRequest';
+
+export class LetgoGlobalBase {
+    constructor(globalCtx) {
+        this.globalCtx = globalCtx;
+        this.$request = letgoRequest;
+    }
+
+    get $utils() {
+        return this.globalCtx.$utils;
+    }
+
+    get $context() {
+        return this.globalCtx.$context;
+    }
+
+    get $globalCode() {
+        return omit(this.globalCtx, '$utils', '$context');
+    }
+}
+    `,
+    'pageBase.js': `
+import { LetgoGlobalBase } from './globalBase';
+
+export class LetgoPageBase extends LetgoGlobalBase {
+    constructor(ctx) {
+        super(ctx.globalCtx);
+        this.compInstances = ctx.instances;
+        this.codeInstances = ctx.codes;
+    }
+
+    get $pageCode() {
+        return this.codeInstances;
+    }
+
+    get $refs() {
+        return this.compInstances;
+    }
+}
+    `,
 };

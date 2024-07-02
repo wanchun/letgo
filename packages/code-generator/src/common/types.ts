@@ -58,6 +58,10 @@ export interface FileStruct {
     afterImports: string[];
     importSources?: ImportSource[];
     codes?: string[];
+    classCode?: {
+        importSources?: ImportSource[];
+        code: string;
+    };
     jsx: string;
 }
 
@@ -72,6 +76,12 @@ export interface CallBackParam {
     export: string[];
 }
 
+export interface ClassUseCodes {
+    $refs: string[];
+    $pageCode: string[];
+    $globalCode: string[];
+}
+
 export interface Context {
     codes: Map<string, ICodeItem>;
     config: GenOptions;
@@ -80,4 +90,6 @@ export interface Context {
     schema: IPublicTypeProjectSchema;
     refs?: Set<string>;
     useVariables?: Set<string>;
+    classUseCodes?: ClassUseCodes;
+    classLifeCycle?: string[];
 }

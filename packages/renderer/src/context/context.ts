@@ -7,6 +7,8 @@ import { createExecuteContext } from './execute-context';
 
 export interface RendererContext {
     executeCtx: Record<string, any>;
+    compInstances?: Record<string, any>;
+    codeInstances?: Record<string, any>;
     onCompGetCtx: (schema: IPublicTypeNodeSchema, val: IPublicTypeComponentInstance) => void;
     readonly components?: ShallowRef<Record<string, Component>>;
     __BASE_COMP?: Component;

@@ -22,6 +22,11 @@ export interface IPublicTypeContainerSchema extends IPublicTypeNodeSchema {
     code: ICodeStruct;
 
     /**
+     * class 代码
+     */
+    classCode?: string;
+
+    /**
      * 样式文件
      */
     css?: string;

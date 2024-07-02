@@ -1,3 +1,12 @@
+## [0.0.4-beta.51](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.50...v0.0.4-beta.51) (2024-7-2)
+
+
+### Bug Fixes
+
+* 函数编辑问题 ([#68](https://git.weoa.com/mumblefe/letgo/issues/68)) ([c6fe352](https://git.weoa.com/mumblefe/letgo/commits/c6fe3525b1da8662d1cd112b7ba10c7b4687fe0d))
+
+
+
 ## [0.0.4-beta.50](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.49...v0.0.4-beta.50) (2024-7-2)
 
 

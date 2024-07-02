@@ -36,8 +36,8 @@ export const HookEdit = defineComponent({
             return [];
         });
 
-        const changeFuncBody = (value: string) => {
-            props.changeContent(props.codeItem.id, {
+        const changeFuncBody = (value: string, id: string) => {
+            props.changeContent(id || props.codeItem.id, {
                 funcBody: value,
             });
         };

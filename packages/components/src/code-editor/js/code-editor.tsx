@@ -18,9 +18,9 @@ export const CodeEditor = defineComponent({
         documentModel: Object as PropType<IPublicModelDocumentModel>,
         hints: Object as PropType<Record<string, any>>,
         doc: String,
-        onChange: Function as PropType<(doc: string) => void>,
-        onBlur: Function as PropType<(doc: string) => void>,
-        onFocus: Function as PropType<(doc: string) => void>,
+        onChange: Function as PropType<(doc: string, id?: string) => void>,
+        onBlur: Function as PropType<(doc: string, id?: string) => void>,
+        onFocus: Function as PropType<(doc: string, id?: string) => void>,
         extensions: {
             type: Array as PropType<Extension[]>,
             default: () => {

@@ -60,13 +60,20 @@ export function useCodeEditor(props: CodeEditorProps) {
             props.onChange(doc);
     };
 
+    let focusId: string;
+    const innerFocus = (doc: string) => {
+        focusId = props.id;
+        if (props.onFocus)
+            props.onFocus(doc);
+    };
+
     const innerOnBlur = (doc: string) => {
         const formattedDoc = oxcOutput.value?.formatter || doc;
         if (isFunction(props.onChange) && formattedDoc !== doc)
-            props.onChange(formattedDoc);
+            props.onChange(formattedDoc, focusId);
 
         if (isFunction(props.onBlur))
-            props.onBlur(formattedDoc);
+            props.onBlur(formattedDoc, focusId);
     };
 
     const genState = () => {
@@ -103,8 +110,8 @@ export function useCodeEditor(props: CodeEditorProps) {
                     // focus state change
                     if (v.focusChanged) {
                         const doc = v.state.sliceDoc();
-                        if (v.view.hasFocus && isFunction(props.onFocus))
-                            props.onFocus(doc);
+                        if (v.view.hasFocus)
+                            innerFocus(doc);
 
                         if (!v.view.hasFocus)
                             innerOnBlur(doc);

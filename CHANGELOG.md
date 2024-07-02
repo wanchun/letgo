@@ -1,3 +1,13 @@
+## [0.0.4-beta.50](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.49...v0.0.4-beta.50) (2024-7-2)
+
+
+### Bug Fixes
+
+* 优化状态查看数组长度展示 ([09dbafd](https://git.weoa.com/mumblefe/letgo/commits/09dbafda146ff4466624b18eab21276d10e936b9))
+* 修复 expression 执行问题 ([ba511fd](https://git.weoa.com/mumblefe/letgo/commits/ba511fd65ac77704fab0f25c9eadc2935e8a7c04))
+
+
+
 ## [0.0.4-beta.49](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.48...v0.0.4-beta.49) (2024-6-29)
 
 

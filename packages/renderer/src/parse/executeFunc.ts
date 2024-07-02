@@ -14,13 +14,13 @@ export function funcSchemaToFunc(schema: IPublicTypeJSFunction, ctx: Record<stri
         return result;
 `);
         return (...args: any[]) => {
-            ctx = scope ? { ...ctx, ...scope } : ctx;
+            const newCtx = scope ? { ...ctx, ...scope } : ctx;
             try {
                 const params = (schema.params || []).map(param => executeExpression(param, {
                     ...ctx,
                     args,
                 }, true));
-                return fn.call(ctx.__this, ctx, [...params, ...args]);
+                return fn.call(ctx.__this, newCtx, [...params, ...args]);
             }
             catch (err) {
                 console.warn(err);

@@ -69,6 +69,7 @@ export function useContext(codesInstance: Record<string, CodeImplType>, document
                 codesInstance,
             }))
             : null;
+        codesInstance.this = executeCtx.__this;
     });
 
     if (documentInstance.schema.classCode) {
@@ -78,6 +79,7 @@ export function useContext(codesInstance: Record<string, CodeImplType>, document
             compInstances,
             codesInstance,
         }));
+        codesInstance.this = executeCtx.__this;
     }
 
     return {

@@ -169,12 +169,22 @@ export function useHint(scopeVariables: ComputedRef<Record<string, any>>) {
         const { codesInstance, componentsInstance, scope, ...otherState } = scopeVariables.value;
         const result: HintPathType[] = [];
         Object.keys(codesInstance || {}).forEach((key) => {
-            result.push({
-                label: key,
-                detail: capitalize(codesInstance[key].type),
-                type: 'variable',
-                value: codesInstance[key].hint || codesInstance[key].view,
-            });
+            if (key === 'this') {
+                result.push({
+                    label: key,
+                    detail: 'Class',
+                    type: 'variable',
+                    value: codesInstance[key],
+                });
+            }
+            else {
+                result.push({
+                    label: key,
+                    detail: capitalize(codesInstance[key].type),
+                    type: 'variable',
+                    value: codesInstance[key].hint || codesInstance[key].view,
+                });
+            }
         });
         Object.keys(scope || {}).forEach((key) => {
             result.push({

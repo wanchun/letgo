@@ -18,9 +18,9 @@ const DEFAULT_CLASS_CODE = `
  * this.$globalCode  获取全局逻辑
  */
 class Main extends Page {
-    constructor(ctx) {
-        super(ctx);
-    }
+  constructor(ctx) {
+    super(ctx);
+  }
 }
 `;
 

@@ -120,6 +120,10 @@ export const SimulatorView = defineComponent({
             },
         );
 
+        watch(() => simulator.get('library'), () => {
+            simulator.rerender(true);
+        });
+
         onUnmounted(() => {
             simulator.purge();
         });

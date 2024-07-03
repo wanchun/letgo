@@ -33,14 +33,23 @@ export default defineComponent({
             editor.emit('designer.ready', designer);
         };
 
-        onBeforeMount(async () => {
-            const assets = await editor.onceGot('assets');
+        onBeforeMount(() => {
             const device = config.get('device');
             const deviceClassName = config.get('deviceClassName');
             const deviceStyle = config.get('deviceStyle');
             const simulatorUrl = config.get('simulatorUrl');
             const designMode = config.get('designMode');
+            Object.assign(simulatorProps, {
+                simulatorUrl,
+                letgoRequest: config.get('letgoRequest'),
+                device,
+                deviceClassName,
+                deviceStyle,
+                designMode,
+            });
+        });
 
+        editor.onChange('assets', (assets) => {
             const { components, packages, utils } = assets;
 
             componentMetadatas.value = components || [];
@@ -48,12 +57,6 @@ export default defineComponent({
             Object.assign(simulatorProps, {
                 library: packages || [],
                 utilsMetadata: utils || [],
-                simulatorUrl,
-                letgoRequest: config.get('letgoRequest'),
-                device,
-                deviceClassName,
-                deviceStyle,
-                designMode,
             });
         });
 

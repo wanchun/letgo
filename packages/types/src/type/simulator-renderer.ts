@@ -1,6 +1,7 @@
 import type { Component } from 'vue';
 import type {
     IPublicModelNode,
+    IPublicTypeAssetList,
     IPublicTypeComponentRecord,
     IPublicTypeNodeInstance,
     IPublicTypeNodeSchema,
@@ -27,6 +28,8 @@ export interface IPublicTypeSimulatorRenderer<
     clearState: () => void;
     run: () => void;
     rerender: () => void;
+    builtinComponents: () => void;
+    load: (asset: IPublicTypeAssetList) => Promise<any>;
     loadAsyncLibrary: (library: { [key: string]: object }) => void;
 }
 

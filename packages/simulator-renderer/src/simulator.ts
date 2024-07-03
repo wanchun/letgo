@@ -1,6 +1,7 @@
 import type { DocumentModel } from '@webank/letgo-designer';
-import { IPublicEnumTransformStage, type IPublicTypeComponentInstance } from '@webank/letgo-types';
-import { buildComponents, cursor, getConvertedExtraKey, getSubComponent, isElement, setNativeSelection } from '@webank/letgo-common';
+import { IPublicEnumTransformStage } from '@webank/letgo-types';
+import type { IPublicTypeAssetList, IPublicTypeComponentInstance } from '@webank/letgo-types';
+import { AssetLoader, buildComponents, cursor, getConvertedExtraKey, getSubComponent, isElement, setNativeSelection } from '@webank/letgo-common';
 import type {
     Component,
     Ref,
@@ -188,6 +189,18 @@ function createSimulatorRenderer() {
     const disposeFunctions: Array<() => void> = [];
     const documentInstanceMap = new Map<string, DocumentInstance>();
 
+    const assetLoader = new AssetLoader();
+
+    const syncHostProps = () => {
+        layout.value = host.project.get('config').layout;
+
+        // sync device
+        device.value = host.device;
+
+        // sync designMode
+        designMode.value = host.designMode;
+    };
+
     const simulator = reactive({
         config: markRaw(config),
         layout,
@@ -209,6 +222,19 @@ function createSimulatorRenderer() {
             routes: [],
         }),
     );
+
+    simulator.builtinComponents = () => {
+        libraryMap.value = host.libraryMap || {};
+        componentsMap.value = host.designer.componentsMap;
+        components.value = {
+            ...builtinComponents,
+            ...buildComponents(
+                libraryMap.value,
+                componentsMap.value,
+                createComponent,
+            ),
+        };
+    };
 
     simulator.getComponent = (componentName) => {
         const paths = componentName.split('.');
@@ -299,6 +325,14 @@ function createSimulatorRenderer() {
     simulator.rerender = () =>
         documentInstances.value.forEach(doc => doc.rerender());
 
+    simulator.load = async (asset: IPublicTypeAssetList) => {
+        await assetLoader.load(asset);
+    };
+
+    simulator.loadAsyncLibrary = async (asyncLibraryMap: Record<string, any>) => {
+        await assetLoader.loadAsyncLibrary(asyncLibraryMap);
+    };
+
     simulator.dispose = () => {
         simulator.app.unmount();
         disposeFunctions.forEach(fn => fn());
@@ -330,29 +364,8 @@ function createSimulatorRenderer() {
 
     host.connect(simulator);
 
-    const syncHostProps = () => {
-        layout.value = host.project.get('config').layout;
-
-        libraryMap.value = host.libraryMap || {};
-        componentsMap.value = host.designer.componentsMap;
-
-        components.value = {
-            ...builtinComponents,
-            ...buildComponents(
-                libraryMap.value,
-                componentsMap.value,
-                createComponent,
-            ),
-        };
-
-        // sync device
-        device.value = host.device;
-
-        // sync designMode
-        designMode.value = host.designMode;
-    };
-
     syncHostProps();
+    simulator.builtinComponents();
 
     simulator.initDocument = () => {
         const router = simulator.router;

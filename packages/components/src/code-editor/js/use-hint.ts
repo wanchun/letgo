@@ -50,6 +50,29 @@ export const HintTheme = {
     },
 };
 
+function getAllMethodAndProperties(obj: object) {
+    let props: string[] = [];
+
+    do {
+        const l = Object.getOwnPropertyNames(obj)
+            .concat(Object.getOwnPropertySymbols(obj).map(s => s.toString()))
+            .sort()
+            .filter((p, i, arr) =>
+                !['constructor', '_globalCtx'].includes(p) // not the constructor
+                && (i === 0 || p !== arr[i - 1]) // not overriding in this prototype
+                && !props.includes(p), // not overridden in a child
+            );
+        props = props.concat(l);
+    }
+    while (
+        // eslint-disable-next-line no-cond-assign
+        (obj = Object.getPrototypeOf(obj)) // walk-up the prototype chain
+        && Object.getPrototypeOf(obj) // not the the Object prototype methods (hasOwnProperty, etc...)
+    );
+
+    return props.reverse();
+}
+
 export function hintPlugin(hintPaths: ComputedRef<HintPathType[]>) {
     return (context: CompletionContext) => {
         // 匹配当前输入前面的所有非空字符
@@ -107,7 +130,21 @@ export function hintPlugin(hintPaths: ComputedRef<HintPathType[]>) {
             if (paths.length > 1)
                 value = get(value, paths.slice(1).join('.'));
 
-            if (isObject(value)) {
+            if (path === 'this.') {
+                return {
+                    from: word.to - goBackChatLength,
+                    to: word.to,
+                    options: getAllMethodAndProperties(value).map((key) => {
+                        const label = `.${key}`;
+                        return snippetCompletion(label, {
+                            label,
+                            detail: getVarType(value[key]),
+                            type: typeof value[key] === 'function' ? 'method' : 'property',
+                        });
+                    }) || [],
+                };
+            }
+            else if (isObject(value)) {
                 return {
                     from: word.to - goBackChatLength,
                     to: word.to,
@@ -173,7 +210,7 @@ export function useHint(scopeVariables: ComputedRef<Record<string, any>>) {
                 result.push({
                     label: key,
                     detail: 'Class',
-                    type: 'variable',
+                    type: 'class',
                     value: codesInstance[key],
                 });
             }

@@ -2,22 +2,22 @@ import { omit } from 'lodash-es';
 import { request } from '../utils/request';
 
 export class LetgoGlobalBase {
-    globalCtx: Record<string, any>;
+    private _globalCtx: Record<string, any>;
     $request: typeof request;
     constructor(globalCtx: Record<string, any>) {
-        this.globalCtx = globalCtx;
+        this._globalCtx = globalCtx;
         this.$request = window.letgoRequest || request;
     }
 
     get $utils() {
-        return this.globalCtx.$utils;
+        return this._globalCtx.$utils;
     }
 
     get $context() {
-        return this.globalCtx.$context;
+        return this._globalCtx.$context;
     }
 
     get $globalCode() {
-        return omit(this.globalCtx, '$utils', '$context');
+        return omit(this._globalCtx, '$utils', '$context');
     }
 }

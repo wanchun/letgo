@@ -1,5 +1,5 @@
 import type { PropType } from 'vue';
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import type { Designer } from '@webank/letgo-designer';
 import { CodeEditor } from '@webank/letgo-components';
 import { FButton } from '@fesjs/fes-design';
@@ -41,6 +41,15 @@ export const JsEditView = defineComponent({
             tmp.value = val;
         };
 
+        // Refactor 简单版本, 后续优化
+        const hints = computed(() => {
+            return {
+                codesInstance: {
+                    this: project.currentDocument.state.codesInstance.this,
+                },
+            };
+        });
+
         const onSave = () => {
             try {
                 project.currentDocument.classCode = tmp.value;
@@ -54,6 +63,7 @@ export const JsEditView = defineComponent({
             return (
                 <div class="letgo-plg-logic">
                     <CodeEditor
+                        hints={hints.value}
                         class="letgo-plg-logic__code"
                         height="100%"
                         id="__class_code"

@@ -118,8 +118,9 @@ export function hintPlugin(hintPaths: ComputedRef<HintPathType[]>) {
         else if (path.includes('.')) {
             const paths = path.split('.').filter(o => o);
             const obj = hintPaths.value.find((o: any) => o.label === paths[0]);
-            if (!obj || !paths.length)
-                return null;
+
+            if (!obj || !obj.value || !paths.length)
+                return undefined;
 
             let goBackChatLength = 1;
             if (latestChar !== '.') {

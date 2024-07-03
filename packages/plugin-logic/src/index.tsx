@@ -18,6 +18,7 @@ export default definePlugin({
             props: {
                 width: '600',
                 title: '源码面板',
+                displayDirective: 'show',
             },
         });
         widget = skeleton.add({

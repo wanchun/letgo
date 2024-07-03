@@ -62,6 +62,7 @@ export interface IPanelProps {
     height?: number | string;
     maxWidth?: number | string;
     maxHeight?: number | string;
+    displayDirective?: 'if' | 'show';
 }
 
 export interface IBaseConfig {

@@ -9,16 +9,20 @@ export default defineComponent({
         widget: {
             type: Object as PropType<IPanel>,
         },
+        displayDirective: {
+            type: String as PropType<'if' | 'show'>,
+            default: 'if',
+        },
     },
     setup(props) {
         const { widget } = props;
 
         return () => {
-            if (!widget.visible)
+            if (!widget.visible && widget.props.displayDirective !== 'show')
                 return;
 
             return (
-                <div class="letgo-skeleton__panel">
+                <div class="letgo-skeleton__panel" style={{ display: widget.visible ? 'block' : 'none' }}>
                     {widget.body}
                 </div>
             );

@@ -19,6 +19,7 @@ export default definePlugin({
             props: {
                 width: '600',
                 title: '全局样式',
+                displayDirective: 'show',
             },
         });
         widget = skeleton.add({

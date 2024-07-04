@@ -1,3 +1,34 @@
+## [0.0.5-beta.0](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.51...v0.0.5-beta.0) (2024-7-4)
+
+
+### Bug Fixes
+
+* 出码 class code 支持生命周期 ([366ef42](https://git.weoa.com/mumblefe/letgo/commits/366ef423aecd02d2fb3eeb6366ef307d6afea532))
+* 动态编辑 classCode ([ed903fd](https://git.weoa.com/mumblefe/letgo/commits/ed903fd128b61cdb59b0bf0818751fc92a2449f4))
+* 添加编辑插件 ([653092b](https://git.weoa.com/mumblefe/letgo/commits/653092bd616dd3c5087f510493a7dcefc6b3c3e9))
+* 修复 class code 出码问题 ([f4df505](https://git.weoa.com/mumblefe/letgo/commits/f4df505107c63dcc4ae733768ac6c748837bd3b6))
+* 修复 import 问题 ([341ca3a](https://git.weoa.com/mumblefe/letgo/commits/341ca3ab4bbe026bf25a1fc0e9317497ac889b4b))
+* 修复 this 问题 ([dfe33b2](https://git.weoa.com/mumblefe/letgo/commits/dfe33b2ceaae3d91ff4eebbeab2c40762da56984))
+* 修复部分问题 ([8605fe7](https://git.weoa.com/mumblefe/letgo/commits/8605fe7b74086f9fe00e8c7ef05c9f4af4081a83))
+* 修复代码编辑焦点问题 ([c276a5e](https://git.weoa.com/mumblefe/letgo/commits/c276a5e46ee78e6707fdcebd416e59dc1315b4d0))
+* 修复类初始化问题 ([1a28416](https://git.weoa.com/mumblefe/letgo/commits/1a28416ff3417d2ad6922c267feb30b598c28f20))
+* 修复全局状态问题 ([927a72b](https://git.weoa.com/mumblefe/letgo/commits/927a72b3f26d59c381f4b8436c6e5e6e1f033074))
+* 优化 class 交互 ([d8641d6](https://git.weoa.com/mumblefe/letgo/commits/d8641d68318cf67e834eaf47e0141838db8149ce))
+* 优化代码提示 ([38430cd](https://git.weoa.com/mumblefe/letgo/commits/38430cd7340727df46274afdc0d701a2481a6ff5))
+* class 代码提示优化 ([d46f0b7](https://git.weoa.com/mumblefe/letgo/commits/d46f0b7b98511d0f40ce28f0719df23f310d0816))
+* ref 测试问题 ([466af40](https://git.weoa.com/mumblefe/letgo/commits/466af40e3139f11bfd2a53702aa2c0286969dbfb))
+
+
+### Features
+
+* 更新lock ([22841e8](https://git.weoa.com/mumblefe/letgo/commits/22841e8d641fca86da17125a0ff6804f73a165dc))
+* 添加使用注释 ([328142e](https://git.weoa.com/mumblefe/letgo/commits/328142e5d16bbe6e3e92d298ec623b63a9c48078))
+* 支持动态设置物料 ([e6a84ab](https://git.weoa.com/mumblefe/letgo/commits/e6a84ab1d5c94a897b93feb04bd226f643165aa7))
+* class code 编译 ([04560b1](https://git.weoa.com/mumblefe/letgo/commits/04560b168ddc3150c0f980ee2db471c24d57f420))
+* custom class ([c3467a5](https://git.weoa.com/mumblefe/letgo/commits/c3467a52c3c629aab61788049da2a7ac449c8f95))
+
+
+
 ## [0.0.4-beta.51](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.50...v0.0.4-beta.51) (2024-7-2)
 
 

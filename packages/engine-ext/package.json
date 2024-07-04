@@ -19,7 +19,7 @@
         "vue": "^3.3.9"
     },
     "dependencies": {
-        "@codemirror/lang-css": "^6.2.0",
+        "@codemirror/lang-css": "^6.2.1",
         "@codemirror/lang-json": "^6.0.1",
         "@fesjs/fes-design": "^0.8.38",
         "@icon-park/vue-next": "^1.4.2",

@@ -282,6 +282,26 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
         return libraryAsset;
     }
 
+    async rerender(initComponent = false) {
+        if (initComponent)
+            await this.setupComponents();
+
+        this.renderer?.rerender?.();
+    }
+
+    async setupComponents(library?: IPublicTypePackage[]) {
+        const libraryAsset: IPublicTypeAssetList = this.buildLibrary(library);
+        await this.renderer?.load(libraryAsset);
+        if (Object.keys(this.asyncLibraryMap).length > 0) {
+            // 加载异步 Library
+            await this.renderer?.loadAsyncLibrary(this.asyncLibraryMap);
+            Object.keys(this.asyncLibraryMap).forEach((key) => {
+                delete this.asyncLibraryMap[key];
+            });
+        }
+        await this.renderer?.builtinComponents();
+    }
+
     setupEvents() {
         this.setupDrag();
         this.setupDetecting();
@@ -457,10 +477,6 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
                 originalEvent: e,
             });
         });
-    }
-
-    rerender() {
-        this.renderer?.rerender?.();
     }
 
     onEvent(eventName: string, callback: (...args: any[]) => void) {

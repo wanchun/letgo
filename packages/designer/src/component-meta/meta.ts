@@ -15,7 +15,6 @@ import { h } from 'vue';
 import type { Designer } from '../designer';
 import { Node, isNode } from '../node';
 import addonCombine from '../transducers/addon-combine';
-import parseDefault from '../transducers/parse-default';
 import parseJSFunc from '../transducers/parse-func';
 import { parseProps } from '../transducers/parse-props';
 import type { INode } from '../types';
@@ -469,5 +468,3 @@ registerMetadataTransducer(parseJSFunc, 1, 'parse-func');
 registerMetadataTransducer(parseProps, 5, 'parse-props');
 
 registerMetadataTransducer(addonCombine, 10, 'combine-props');
-
-registerMetadataTransducer(parseDefault, 100, 'parse-nesting-rule');

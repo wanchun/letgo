@@ -44,14 +44,6 @@ plugins.register(PluginUndoRedo, {
 plugins.register(PluginPreview);
 plugins.register(PluginCodeGenerator);
 
-setTimeout(async () => {
-    await plugins.delete(PluginCSS.name);
-}, 3000);
-
-setTimeout(async () => {
-    await plugins.register(PluginCSS, {}, { autoInit: true });
-}, 6000);
-
 export default defineRuntimeConfig({
     rootContainer(Container) {
         return () => {

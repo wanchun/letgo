@@ -16,6 +16,7 @@
         "@webank/letgo-common": "^0.0.4-beta.26",
         "@webank/letgo-components": "^0.0.4-beta.30",
         "@webank/letgo-types": "^0.0.4-beta.13",
+        "acorn": "^8.12.0",
         "jszip": "^3.10.1",
         "lodash-es": "^4.17.21"
     },

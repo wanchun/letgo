@@ -1,6 +1,7 @@
 import { generate } from 'astring';
 import { simple } from 'acorn-walk';
-import { isNil, isUndefined } from 'lodash-es';
+import { isNil } from 'lodash-es';
+import type { ThisExpression } from 'acorn';
 import { innerParse } from './ast';
 
 interface Identifier {
@@ -31,6 +32,23 @@ export function transformExpression(code: string, callback: Callback) {
         },
     });
     return ast;
+}
+
+export function transformThisExpression(code: string, callback: (node: ThisExpression) => Identifier) {
+    try {
+        const ast = innerParse(code);
+
+        simple(ast, {
+            ThisExpression(node) {
+                callback(node as ThisExpression);
+            },
+        });
+        return generate((ast as any).body[0]).replace(';', '');
+    }
+    catch (err) {
+        console.warn(err);
+        return code;
+    }
 }
 
 export function replaceExpressionIdentifier(code: string, newName: string, preName: string) {
@@ -106,10 +124,14 @@ export function executeExpression(text: string | null, ctx: Record<string, any> 
         return null;
 
     try {
-        const exp = attachContext(`(${text})`, name => !isUndefined(ctx[name]));
         // eslint-disable-next-line no-new-func
-        const fn = new Function('_ctx', `return ${exp}`);
-        return fn(ctx);
+        const fn = new Function('_ctx', `
+            with(_ctx) {
+                return (${text});
+            }
+        `);
+
+        return fn.call(ctx.__this, ctx);
     }
     catch (_) {
         if (whenErrorReturnRaw)

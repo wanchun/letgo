@@ -76,6 +76,21 @@ export default defineComponent({
                         },
                     ],
                 },
+                // classCode: `
+                // class Main extends Page {
+                //     constructor(ctx) {
+                //         super(ctx);
+                //         this.a = 1;
+                //     }
+
+                //     get hello() {
+                //         return this.a + 1;
+                //     }
+                //     setA(value) {
+                //         this.a = value;
+                //     }
+                // }
+                // `,
                 isLocked: false,
                 condition: true,
                 title: '',

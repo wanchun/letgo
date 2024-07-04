@@ -1,5 +1,3 @@
-import type { FileStruct } from './types';
-
 let pageFlag = 1;
 
 export function formatFileName(fileName?: string) {
@@ -19,6 +17,9 @@ export function formatPageTitle(title: string) {
     return title || `菜单${titleFlag++}`;
 }
 
-export function genFileName(fileStruct: FileStruct) {
-    return `${fileStruct.fileName}.jsx`;
+export function genPageEntry(fileName: string, hasClassCode: boolean = false) {
+    if (hasClassCode)
+        return `${fileName}/index.jsx`;
+
+    return `${fileName}.jsx`;
 }

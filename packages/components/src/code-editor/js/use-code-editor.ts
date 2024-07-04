@@ -81,7 +81,7 @@ export function useCodeEditor(props: CodeEditorProps) {
             doc: props.doc,
             extensions: [
                 basicSetup({
-                    lineNumbers: false,
+                    lineNumbers: props.lineNumbers || false,
                 }),
                 keymap.of([
                     ...vscodeKeymap,
@@ -99,6 +99,16 @@ export function useCodeEditor(props: CodeEditorProps) {
                 }),
                 autocompletion({
                     icons: false,
+                    compareCompletions(a, b) {
+                        // 如果 a 以 $ 开头而 b 不是，a 排在后面
+                        if (a.label.startsWith('.$') && !b.label.startsWith('.$'))
+                            return 1;
+                        // 如果 b 以 $ 开头而 a 不是，a 排在前面
+                        if (!a.label.startsWith('.$') && b.label.startsWith('.$'))
+                            return -1;
+
+                        return a.label.localeCompare(b.label);
+                    },
                 }),
                 lintGutter(),
                 placeholder(props.placeholder || 'Enter your code here'),

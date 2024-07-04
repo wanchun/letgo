@@ -119,6 +119,16 @@ export const ExpressionEditor = defineComponent({
                     placeholder(props.placeholder || '表达式'),
                     autocompletion({
                         override: [hintPlugin(hintOptions)],
+                        compareCompletions(a, b) {
+                            // 如果 a 以 $ 开头而 b 不是，a 排在后面
+                            if (a.label.startsWith('.$') && !b.label.startsWith('.$'))
+                                return 1;
+                            // 如果 b 以 $ 开头而 a 不是，a 排在前面
+                            if (!a.label.startsWith('.$') && b.label.startsWith('.$'))
+                                return -1;
+
+                            return a.label.localeCompare(b.label);
+                        },
                         icons: false,
                     }),
                     lintGutter(),

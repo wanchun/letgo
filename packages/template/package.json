@@ -25,6 +25,7 @@
         "@webank/letgo-plugin-code": "workspace:*",
         "@webank/letgo-plugin-css": "workspace:*",
         "@webank/letgo-plugin-device": "workspace:*",
+        "@webank/letgo-plugin-logic": "workspace:*",
         "@webank/letgo-plugin-schema": "workspace:*",
         "@webank/letgo-plugin-undo-redo": "workspace:*",
         "@webank/letgo-renderer": "workspace:*",

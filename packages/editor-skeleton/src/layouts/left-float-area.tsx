@@ -92,8 +92,6 @@ export default defineComponent({
         return () => {
             const { area } = props;
             const { current, items } = area;
-            if (!current)
-                return;
 
             const currentProps = current?.props || {};
             return (
@@ -102,7 +100,7 @@ export default defineComponent({
                         {currentProps.title}
                         <div class="letgo-skeleton-workbench__left-float-icons">
                             {
-                                current.isFixed && (
+                                current?.isFixed && (
                                     <Unlock
                                         class="letgo-skeleton-workbench__left-float-icon"
                                         onClick={toggleFixed}
@@ -110,7 +108,7 @@ export default defineComponent({
                                 )
                             }
                             {
-                                !current.isFixed && (
+                                !current?.isFixed && (
                                     <Lock
                                         class="letgo-skeleton-workbench__left-float-icon"
                                         onClick={toggleFixed}

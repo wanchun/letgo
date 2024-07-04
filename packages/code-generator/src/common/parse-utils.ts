@@ -2,6 +2,7 @@ import type {
     IPublicTypeRootSchema,
 } from '@webank/letgo-types';
 import { ancestorWalkAst, findGlobals, walkSchemaLogic } from '@webank/letgo-common';
+import type { ClassUseCodes } from './types';
 
 function parseMemberExpression(ancestor: any[]) {
     const len = ancestor.length - 1;
@@ -64,8 +65,8 @@ export function parseUseUtils(rootSchema: IPublicTypeRootSchema) {
     return formatApplyVariables(applyUtils);
 }
 
-export function parseUseVariables(rootSchema: IPublicTypeRootSchema) {
-    const useVariables = new Set<string>();
+export function parseUseVariables(rootSchema: IPublicTypeRootSchema, classUseCodes: ClassUseCodes) {
+    const useVariables = new Set<string>([].concat(classUseCodes.$globalCode, classUseCodes.$pageCode));
     walkSchemaLogic(rootSchema, (code: string, _, type) => {
         try {
             if (code) {

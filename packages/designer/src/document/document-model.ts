@@ -103,6 +103,15 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
         this.rootNode?.props.getExtraProp('fileName', true)?.setValue(fileName);
     }
 
+    get classCode(): string {
+        return this.rootNode?.getExtraProp('classCode', false)?.getAsString();
+    }
+
+    set classCode(code: string) {
+        this.rootNode?.getExtraProp('classCode', true)?.setValue(code);
+        this.emitClassCodeChange();
+    }
+
     get isActive() {
         return this.project.currentDocument === this;
     }
@@ -184,6 +193,14 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
         };
     }
 
+    emitClassCodeChange() {
+        this.emitter.emit('document.class.code');
+    }
+
+    onClassCodeChange = (func: () => void) => {
+        return this.onEvent('document.class.code', func);
+    };
+
     emitNodeRefChange(ref: string, preRef: string) {
         this.emitter.emit('nodeRefChange', ref, preRef);
     }
@@ -200,6 +217,7 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
             this.deleteNode(node);
         });
         this.code.initCode(schema.code);
+        this.classCode = schema.classCode;
         // 等 code 实例化滞以后再实例化 root
         setTimeout(() => {
             this.rootNode?.importSchema(schema);

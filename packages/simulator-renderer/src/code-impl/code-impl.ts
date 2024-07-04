@@ -21,20 +21,31 @@ export function useCodesInstance() {
         if (!dependencyMap.has(item.id))
             dependencyMap.set(item.id, calcDependencies(item, ctx));
 
-        if (item.type === IEnumCodeType.TEMPORARY_STATE)
+        if (item.type === IEnumCodeType.TEMPORARY_STATE) {
             codesInstance[item.id] = new TemporaryStateImpl(item, dependencyMap.get(item.id), ctx);
-
-        else if (item.type === IEnumCodeType.JAVASCRIPT_COMPUTED)
+        }
+        else if (item.type === IEnumCodeType.JAVASCRIPT_COMPUTED) {
             codesInstance[item.id] = new ComputedImpl(item, dependencyMap.get(item.id), ctx);
-
-        else if (item.type === IEnumCodeType.JAVASCRIPT_QUERY)
+        }
+        else if (item.type === IEnumCodeType.JAVASCRIPT_QUERY) {
             codesInstance[item.id] = createQueryImpl(item, dependencyMap.get(item.id), ctx);
+        }
+        else if (item.type === IEnumCodeType.JAVASCRIPT_FUNCTION) {
+            const instance = new JavascriptFunctionImpl(item, dependencyMap.get(item.id), ctx);
+            function proxyFunction(...args: any[]) {
+                return instance.trigger(...args);
+            }
+            codesInstance[item.id] = new Proxy(proxyFunction, {
+                get(target, prop, receiver) {
+                    return Reflect.get(instance, prop, receiver);
+                },
+                set(target, prop, value) {
+                    return Reflect.set(instance, prop, value);
+                },
+            }) as unknown as JavascriptFunctionImpl;
+        }
 
-        else if (item.type === IEnumCodeType.JAVASCRIPT_FUNCTION)
-            codesInstance[item.id] = new JavascriptFunctionImpl(item, dependencyMap.get(item.id), ctx);
-
-        else if (item.type === IEnumCodeType.LIFECYCLE_HOOK)
-            codesInstance[item.id] = new LifecycleHookImpl(item, dependencyMap.get(item.id), ctx);
+        else if (item.type === IEnumCodeType.LIFECYCLE_HOOK) { codesInstance[item.id] = new LifecycleHookImpl(item, dependencyMap.get(item.id), ctx); }
     };
 
     const deleteCodeInstance = (id: string) => {
@@ -46,10 +57,8 @@ export function useCodesInstance() {
     const changeCodeInstance = (id: string, content: Record<string, any>, ctx: Record<string, any>) => {
         const item = codeMap.get(id);
 
-        if (item.type === IEnumCodeType.JAVASCRIPT_QUERY && content.resourceType && item.resourceType !== content.resourceType) {
+        if (item.type === IEnumCodeType.JAVASCRIPT_QUERY && content.resourceType && item.resourceType !== content.resourceType)
             codesInstance[item.id] = createQueryImpl(item, dependencyMap.get(item.id), ctx);
-            ctx[item.id] = codesInstance[item.id];
-        }
 
         const currentInstance = codesInstance[id];
 
@@ -89,10 +98,7 @@ export function useCodesInstance() {
             sortResult.forEach((codeId) => {
                 const item = codeMap.get(codeId);
                 createCodeInstance(item, ctx);
-                if (codesInstance[item.id].type === IEnumCodeType.JAVASCRIPT_FUNCTION)
-                    ctx[item.id] = (codesInstance[item.id] as JavascriptFunctionImpl).trigger.bind(codesInstance[item.id]);
-                else
-                    ctx[item.id] = codesInstance[item.id];
+                ctx[item.id] = codesInstance[item.id];
             });
         }
         catch (err) {

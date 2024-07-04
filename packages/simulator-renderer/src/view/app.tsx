@@ -4,7 +4,6 @@ import { type ICodeItem, IEnumCodeType, IPublicEnumProjectLifecycle } from '@web
 import { buildGlobalUtils } from '@webank/letgo-renderer';
 import { RouterView } from 'vue-router';
 import { BASE_GLOBAL_CONTEXT } from '../constants';
-import type { JavascriptFunctionImpl } from '../code-impl/javascript-function';
 import type { VueSimulatorRenderer } from '../interface';
 import { host } from '../host';
 import { useCodesInstance } from '../code-impl/code-impl';
@@ -72,6 +71,10 @@ export default defineComponent({
 
         initCodesInstance(code.codeMap, globalContext);
 
+        watch(codesInstance, (value) => {
+            Object.assign(globalContext, value);
+        });
+
         const offCodeChangedEvent: (() => void)[] = [];
         offCodeChangedEvent.push(
             code.onCodesChanged((currentCodeMap: Map<string, ICodeItem>) => {
@@ -79,11 +82,6 @@ export default defineComponent({
             }),
             code.onCodeItemAdd((item: ICodeItem) => {
                 createCodeInstance(item, globalContext);
-                if (codesInstance[item.id].type === IEnumCodeType.JAVASCRIPT_FUNCTION)
-                    globalContext[item.id] = (codesInstance[item.id] as JavascriptFunctionImpl).trigger.bind(codesInstance[item.id]);
-
-                else
-                    globalContext[item.id] = codesInstance[item.id];
             }),
             code.onCodeItemDelete((id: string) => {
                 // TODO 有依赖的时候删除给提示

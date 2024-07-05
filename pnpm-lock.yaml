@@ -84,13 +84,13 @@ importers:
   packages/code-generator:
     dependencies:
       '@webank/letgo-common':
-        specifier: ^0.0.4-beta.25
+        specifier: ^0.0.5-beta.0
         version: link:../common
       '@webank/letgo-components':
-        specifier: ^0.0.4-beta.28
+        specifier: ^0.0.5-beta.0
         version: link:../components
       '@webank/letgo-types':
-        specifier: ^0.0.4-beta.13
+        specifier: ^0.0.5-beta.0
         version: link:../types
       acorn:
         specifier: ^8.12.0
@@ -105,7 +105,7 @@ importers:
   packages/common:
     dependencies:
       '@webank/letgo-types':
-        specifier: ^0.0.4-beta.13
+        specifier: ^0.0.5-beta.0
         version: link:../types
       acorn:
         specifier: ^8.12.0
@@ -165,10 +165,10 @@ importers:
         specifier: ^10.7.1
         version: 10.9.0(vue@3.4.21)
       '@webank/letgo-common':
-        specifier: ^0.0.4-beta.25
+        specifier: ^0.0.5-beta.0
         version: link:../common
       '@webank/letgo-types':
-        specifier: ^0.0.4-beta.13
+        specifier: ^0.0.5-beta.0
         version: link:../types
       codemirror:
         specifier: ^6.0.1
@@ -189,16 +189,16 @@ importers:
         specifier: ^1.4.2
         version: 1.4.2(vue@3.4.21)
       '@webank/letgo-common':
-        specifier: ^0.0.4-beta.25
+        specifier: ^0.0.5-beta.0
         version: link:../common
       '@webank/letgo-components':
-        specifier: ^0.0.4-beta.28
+        specifier: ^0.0.5-beta.0
         version: link:../components
       '@webank/letgo-editor-core':
-        specifier: ^0.0.4-beta.31
+        specifier: ^0.0.4-beta.34
         version: link:../editor-core
       '@webank/letgo-types':
-        specifier: ^0.0.4-beta.13
+        specifier: ^0.0.5-beta.0
         version: link:../types
       eventemitter3:
         specifier: ^5.0.1
@@ -217,13 +217,13 @@ importers:
         specifier: ^0.2.5
         version: 0.2.5
       '@webank/letgo-common':
-        specifier: ^0.0.4-beta.25
+        specifier: ^0.0.5-beta.0
         version: link:../common
       '@webank/letgo-components':
-        specifier: ^0.0.4-beta.28
+        specifier: ^0.0.5-beta.0
         version: link:../components
       '@webank/letgo-types':
-        specifier: ^0.0.4-beta.13
+        specifier: ^0.0.5-beta.0
         version: link:../types
       eventemitter3:
         specifier: ^5.0.1
@@ -247,16 +247,16 @@ importers:
         specifier: ^10.7.1
         version: 10.9.0(vue@3.4.21)
       '@webank/letgo-common':
-        specifier: ^0.0.4-beta.25
+        specifier: ^0.0.5-beta.0
         version: link:../common
       '@webank/letgo-designer':
-        specifier: ^0.0.4-beta.35
+        specifier: ^0.0.5-beta.0
         version: link:../designer
       '@webank/letgo-editor-core':
-        specifier: ^0.0.4-beta.31
+        specifier: ^0.0.4-beta.34
         version: link:../editor-core
       '@webank/letgo-types':
-        specifier: ^0.0.4-beta.13
+        specifier: ^0.0.5-beta.0
         version: link:../types
       vue:
         specifier: ^3.3.9
@@ -265,40 +265,40 @@ importers:
   packages/engine:
     dependencies:
       '@webank/letgo-common':
-        specifier: ^0.0.4-beta.25
+        specifier: ^0.0.5-beta.0
         version: link:../common
       '@webank/letgo-designer':
-        specifier: ^0.0.4-beta.35
+        specifier: ^0.0.5-beta.0
         version: link:../designer
       '@webank/letgo-editor-core':
-        specifier: ^0.0.4-beta.31
+        specifier: ^0.0.4-beta.34
         version: link:../editor-core
       '@webank/letgo-editor-skeleton':
-        specifier: ^0.0.4-beta.7
+        specifier: ^0.0.5-beta.0
         version: link:../editor-skeleton
       '@webank/letgo-engine-ext':
-        specifier: ^0.0.4-beta.37
+        specifier: ^0.0.5-beta.0
         version: link:../engine-ext
       '@webank/letgo-engine-plugin':
-        specifier: ^0.0.4-beta.36
+        specifier: ^0.0.4-beta.38
         version: link:../engine-plugin
       '@webank/letgo-plugin-code':
-        specifier: ^0.0.4-beta.28
+        specifier: ^0.0.4-beta.31
         version: link:../plugin-code
       '@webank/letgo-plugin-component-tree':
-        specifier: ^0.0.4-beta.17
+        specifier: ^0.0.4-beta.18
         version: link:../plugin-component-tree
       '@webank/letgo-plugin-components':
-        specifier: ^0.0.4-beta.27
+        specifier: ^0.0.4-beta.30
         version: link:../plugin-components
       '@webank/letgo-plugin-designer':
-        specifier: ^0.0.4-beta.3
+        specifier: ^0.0.5-beta.0
         version: link:../plugin-designer
       '@webank/letgo-plugin-setting':
-        specifier: ^0.0.4-beta.39
+        specifier: ^0.0.4-beta.42
         version: link:../plugin-setting
       '@webank/letgo-types':
-        specifier: ^0.0.4-beta.13
+        specifier: ^0.0.5-beta.0
         version: link:../types
       eventemitter3:
         specifier: ^5.0.1
@@ -332,16 +332,16 @@ importers:
         specifier: ^1.4.2
         version: 1.4.2(vue@3.4.21)
       '@webank/letgo-common':
-        specifier: ^0.0.4-beta.25
+        specifier: ^0.0.5-beta.0
         version: link:../common
       '@webank/letgo-components':
-        specifier: ^0.0.4-beta.28
+        specifier: ^0.0.5-beta.0
         version: link:../components
       '@webank/letgo-designer':
-        specifier: ^0.0.4-beta.35
+        specifier: ^0.0.5-beta.0
         version: link:../designer
       '@webank/letgo-types':
-        specifier: ^0.0.4-beta.13
+        specifier: ^0.0.5-beta.0
         version: link:../types
       json5:
         specifier: ^2.2.3
@@ -360,19 +360,19 @@ importers:
   packages/engine-plugin:
     dependencies:
       '@webank/letgo-common':
-        specifier: ^0.0.4-beta.25
+        specifier: ^0.0.5-beta.0
         version: link:../common
       '@webank/letgo-designer':
-        specifier: ^0.0.4-beta.35
+        specifier: ^0.0.5-beta.0
         version: link:../designer
       '@webank/letgo-editor-core':
-        specifier: ^0.0.4-beta.31
+        specifier: ^0.0.4-beta.34
         version: link:../editor-core
       '@webank/letgo-editor-skeleton':
-        specifier: ^0.0.4-beta.7
+        specifier: ^0.0.5-beta.0
         version: link:../editor-skeleton
       '@webank/letgo-types':
-        specifier: ^0.0.4-beta.13
+        specifier: ^0.0.5-beta.0
         version: link:../types
       lodash-es:
         specifier: ^4.17.21
@@ -387,25 +387,25 @@ importers:
         specifier: ^0.8.38
         version: 0.8.38(vue@3.4.21)
       '@webank/letgo-common':
-        specifier: ^0.0.4-beta.25
+        specifier: ^0.0.5-beta.0
         version: link:../common
       '@webank/letgo-components':
-        specifier: ^0.0.4-beta.28
+        specifier: ^0.0.5-beta.0
         version: link:../components
       '@webank/letgo-designer':
-        specifier: ^0.0.4-beta.35
+        specifier: ^0.0.5-beta.0
         version: link:../designer
       '@webank/letgo-editor-core':
-        specifier: ^0.0.4-beta.31
+        specifier: ^0.0.4-beta.34
         version: link:../editor-core
       '@webank/letgo-editor-skeleton':
-        specifier: ^0.0.4-beta.7
+        specifier: ^0.0.5-beta.0
         version: link:../editor-skeleton
       '@webank/letgo-engine-plugin':
-        specifier: ^0.0.4-beta.36
+        specifier: ^0.0.4-beta.38
         version: link:../engine-plugin
       '@webank/letgo-types':
-        specifier: ^0.0.4-beta.13
+        specifier: ^0.0.5-beta.0
         version: link:../types
       lodash-es:
         specifier: ^4.17.21
@@ -430,19 +430,19 @@ importers:
         specifier: ^10.7.1
         version: 10.9.0(vue@3.4.21)
       '@webank/letgo-designer':
-        specifier: ^0.0.4-beta.32
+        specifier: ^0.0.5-beta.0
         version: link:../designer
       '@webank/letgo-editor-core':
-        specifier: ^0.0.4-beta.28
+        specifier: ^0.0.4-beta.34
         version: link:../editor-core
       '@webank/letgo-editor-skeleton':
-        specifier: ^0.0.4-beta.4
+        specifier: ^0.0.5-beta.0
         version: link:../editor-skeleton
       '@webank/letgo-engine-plugin':
-        specifier: ^0.0.4-beta.33
+        specifier: ^0.0.4-beta.38
         version: link:../engine-plugin
       '@webank/letgo-types':
-        specifier: ^0.0.4-beta.13
+        specifier: ^0.0.5-beta.0
         version: link:../types
       vue:
         specifier: ^3.3.9
@@ -460,25 +460,25 @@ importers:
         specifier: ^10.7.1
         version: 10.9.0(vue@3.4.21)
       '@webank/letgo-common':
-        specifier: ^0.0.4-beta.25
+        specifier: ^0.0.5-beta.0
         version: link:../common
       '@webank/letgo-components':
-        specifier: ^0.0.4-beta.28
+        specifier: ^0.0.5-beta.0
         version: link:../components
       '@webank/letgo-designer':
-        specifier: ^0.0.4-beta.35
+        specifier: ^0.0.5-beta.0
         version: link:../designer
       '@webank/letgo-editor-core':
-        specifier: ^0.0.4-beta.31
+        specifier: ^0.0.4-beta.34
         version: link:../editor-core
       '@webank/letgo-editor-skeleton':
-        specifier: ^0.0.4-beta.7
+        specifier: ^0.0.5-beta.0
         version: link:../editor-skeleton
       '@webank/letgo-engine-plugin':
-        specifier: ^0.0.4-beta.36
+        specifier: ^0.0.4-beta.38
         version: link:../engine-plugin
       '@webank/letgo-types':
-        specifier: ^0.0.4-beta.13
+        specifier: ^0.0.5-beta.0
         version: link:../types
       vue:
         specifier: ^3.3.9
@@ -492,20 +492,23 @@ importers:
       '@fesjs/fes-design':
         specifier: ^0.8.38
         version: 0.8.38(vue@3.4.21)
+      '@icon-park/vue-next':
+        specifier: ^1.4.2
+        version: 1.4.2(vue@3.4.21)
       '@webank/letgo-components':
-        specifier: ^0.0.4-beta.25
+        specifier: ^0.0.5-beta.0
         version: link:../components
       '@webank/letgo-designer':
-        specifier: ^0.0.4-beta.31
+        specifier: ^0.0.5-beta.0
         version: link:../designer
       '@webank/letgo-editor-skeleton':
-        specifier: ^0.0.4-beta.4
+        specifier: ^0.0.5-beta.0
         version: link:../editor-skeleton
       '@webank/letgo-engine-plugin':
-        specifier: ^0.0.4-beta.33
+        specifier: ^0.0.4-beta.38
         version: link:../engine-plugin
       '@webank/letgo-types':
-        specifier: ^0.0.4-beta.13
+        specifier: ^0.0.5-beta.0
         version: link:../types
       vue:
         specifier: ^3.3.9
@@ -517,14 +520,17 @@ importers:
         specifier: ^0.8.38
         version: 0.8.38(vue@3.4.21)
       '@webank/letgo-designer':
-        specifier: ^0.0.4-beta.31
+        specifier: ^0.0.5-beta.0
         version: link:../designer
       '@webank/letgo-editor-skeleton':
-        specifier: ^0.0.4-beta.4
+        specifier: ^0.0.5-beta.0
         version: link:../editor-skeleton
       '@webank/letgo-engine-plugin':
-        specifier: ^0.0.4-beta.33
+        specifier: ^0.0.4-beta.38
         version: link:../engine-plugin
+      '@webank/letgo-types':
+        specifier: ^0.0.5-beta.0
+        version: link:../types
       vue:
         specifier: ^3.3.9
         version: 3.4.21(typescript@5.4.2)
@@ -535,16 +541,16 @@ importers:
         specifier: ^1.4.2
         version: 1.4.2(vue@3.4.21)
       '@webank/letgo-designer':
-        specifier: ^0.0.4-beta.31
+        specifier: ^0.0.5-beta.0
         version: link:../designer
       '@webank/letgo-editor-skeleton':
-        specifier: ^0.0.4-beta.4
+        specifier: ^0.0.5-beta.0
         version: link:../editor-skeleton
       '@webank/letgo-engine-plugin':
-        specifier: ^0.0.4-beta.33
+        specifier: ^0.0.4-beta.38
         version: link:../engine-plugin
       '@webank/letgo-types':
-        specifier: ^0.0.4-beta.13
+        specifier: ^0.0.5-beta.0
         version: link:../types
     devDependencies:
       vue:
@@ -557,19 +563,19 @@ importers:
         specifier: ^0.8.38
         version: 0.8.38(vue@3.4.21)
       '@webank/letgo-components':
-        specifier: ^0.0.4-beta.25
+        specifier: ^0.0.5-beta.0
         version: link:../components
       '@webank/letgo-designer':
-        specifier: ^0.0.4-beta.31
+        specifier: ^0.0.5-beta.0
         version: link:../designer
       '@webank/letgo-editor-skeleton':
-        specifier: ^0.0.4-beta.4
+        specifier: ^0.0.5-beta.0
         version: link:../editor-skeleton
       '@webank/letgo-engine-plugin':
-        specifier: ^0.0.4-beta.33
+        specifier: ^0.0.4-beta.38
         version: link:../engine-plugin
       '@webank/letgo-types':
-        specifier: ^0.0.4-beta.13
+        specifier: ^0.0.5-beta.0
         version: link:../types
       vue:
         specifier: ^3.3.9
@@ -587,19 +593,19 @@ importers:
         specifier: ^1.4.2
         version: 1.4.2(vue@3.4.21)
       '@webank/letgo-components':
-        specifier: ^0.0.4-beta.25
+        specifier: ^0.0.5-beta.0
         version: link:../components
       '@webank/letgo-designer':
-        specifier: ^0.0.4-beta.31
+        specifier: ^0.0.5-beta.0
         version: link:../designer
       '@webank/letgo-editor-skeleton':
-        specifier: ^0.0.4-beta.4
+        specifier: ^0.0.5-beta.0
         version: link:../editor-skeleton
       '@webank/letgo-engine-plugin':
-        specifier: ^0.0.4-beta.33
+        specifier: ^0.0.4-beta.38
         version: link:../engine-plugin
       '@webank/letgo-types':
-        specifier: ^0.0.4-beta.13
+        specifier: ^0.0.5-beta.0
         version: link:../types
       vue:
         specifier: ^3.3.9
@@ -614,25 +620,25 @@ importers:
         specifier: ^1.4.2
         version: 1.4.2(vue@3.4.21)
       '@webank/letgo-common':
-        specifier: ^0.0.4-beta.25
+        specifier: ^0.0.5-beta.0
         version: link:../common
       '@webank/letgo-components':
-        specifier: ^0.0.4-beta.28
+        specifier: ^0.0.5-beta.0
         version: link:../components
       '@webank/letgo-designer':
-        specifier: ^0.0.4-beta.35
+        specifier: ^0.0.5-beta.0
         version: link:../designer
       '@webank/letgo-editor-core':
-        specifier: ^0.0.4-beta.31
+        specifier: ^0.0.4-beta.34
         version: link:../editor-core
       '@webank/letgo-editor-skeleton':
-        specifier: ^0.0.4-beta.7
+        specifier: ^0.0.5-beta.0
         version: link:../editor-skeleton
       '@webank/letgo-engine-plugin':
-        specifier: ^0.0.4-beta.36
+        specifier: ^0.0.4-beta.38
         version: link:../engine-plugin
       '@webank/letgo-types':
-        specifier: ^0.0.4-beta.13
+        specifier: ^0.0.5-beta.0
         version: link:../types
       eventemitter3:
         specifier: ^5.0.1
@@ -651,16 +657,16 @@ importers:
         specifier: ^1.4.2
         version: 1.4.2(vue@3.4.21)
       '@webank/letgo-designer':
-        specifier: ^0.0.4-beta.31
+        specifier: ^0.0.5-beta.0
         version: link:../designer
       '@webank/letgo-editor-skeleton':
-        specifier: ^0.0.4-beta.4
+        specifier: ^0.0.5-beta.0
         version: link:../editor-skeleton
       '@webank/letgo-engine-plugin':
-        specifier: ^0.0.4-beta.33
+        specifier: ^0.0.4-beta.38
         version: link:../engine-plugin
       '@webank/letgo-types':
-        specifier: ^0.0.4-beta.13
+        specifier: ^0.0.5-beta.0
         version: link:../types
     devDependencies:
       vue:
@@ -673,16 +679,16 @@ importers:
         specifier: ^0.2.5
         version: 0.2.5
       '@webank/letgo-common':
-        specifier: ^0.0.4-beta.25
+        specifier: ^0.0.5-beta.0
         version: link:../common
       '@webank/letgo-components':
-        specifier: ^0.0.4-beta.28
+        specifier: ^0.0.5-beta.0
         version: link:../components
       '@webank/letgo-designer':
-        specifier: ^0.0.4-beta.35
+        specifier: ^0.0.5-beta.0
         version: link:../designer
       '@webank/letgo-types':
-        specifier: ^0.0.4-beta.13
+        specifier: ^0.0.5-beta.0
         version: link:../types
       lodash-es:
         specifier: ^4.17.21
@@ -701,19 +707,19 @@ importers:
         specifier: ^0.8.38
         version: 0.8.38(vue@3.4.21)
       '@webank/letgo-common':
-        specifier: ^0.0.4-beta.25
+        specifier: ^0.0.5-beta.0
         version: link:../common
       '@webank/letgo-components':
-        specifier: ^0.0.4-beta.28
+        specifier: ^0.0.5-beta.0
         version: link:../components
       '@webank/letgo-designer':
-        specifier: ^0.0.4-beta.35
+        specifier: ^0.0.5-beta.0
         version: link:../designer
       '@webank/letgo-renderer':
-        specifier: ^0.0.4-beta.40
+        specifier: ^0.0.5-beta.0
         version: link:../renderer
       '@webank/letgo-types':
-        specifier: ^0.0.4-beta.13
+        specifier: ^0.0.5-beta.0
         version: link:../types
       lodash-es:
         specifier: ^4.17.21

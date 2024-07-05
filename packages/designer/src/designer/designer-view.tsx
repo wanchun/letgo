@@ -3,7 +3,6 @@ import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import type {
     IPublicEditor,
     IPublicTypeComponentMetadata,
-    IPublicTypeProjectSchema,
 } from '@webank/letgo-types';
 import { SimulatorView } from '../simulator';
 import type { Project } from '../project';
@@ -36,40 +35,6 @@ const BuiltinLoading = defineComponent({
     },
 });
 
-export const ProjectView = defineComponent({
-    name: 'ProjectView',
-    props: {
-        designer: {
-            type: Object as PropType<Designer>,
-        },
-    },
-    setup(props) {
-        const { designer } = props;
-
-        const isReady = ref(false);
-
-        const off = designer.onRendererReady(() => {
-            isReady.value = true;
-        });
-
-        onBeforeUnmount(() => {
-            off?.();
-        });
-
-        return () => {
-            const { simulatorProps } = designer;
-            return (
-                <div class="letgo-designer__project">
-                    <div class="letgo-designer__project-content">
-                        {!isReady.value && <BuiltinLoading />}
-                        <SimulatorView simulatorProps={simulatorProps} />
-                    </div>
-                </div>
-            );
-        };
-    },
-});
-
 export const DesignerView = defineComponent({
     name: 'DesignerView',
     props: {
@@ -83,9 +48,6 @@ export const DesignerView = defineComponent({
         componentMetadatas: {
             type: Array as PropType<IPublicTypeComponentMetadata[]>,
         },
-        defaultSchema: {
-            type: Object as PropType<IPublicTypeProjectSchema>,
-        },
         editor: {
             type: Object as PropType<IPublicEditor>,
         },
@@ -96,41 +58,46 @@ export const DesignerView = defineComponent({
         },
     },
     setup(props) {
-        const { designer, ...designerProps } = props;
-
-        designer.setProps(designerProps);
+        const { designer, editor } = props;
 
         watch(
             [
-                () => props.defaultSchema,
                 () => props.componentMetadatas,
                 () => props.editor,
                 () => props.simulatorProps,
             ],
             () => {
-                designer.setProps({
-                    componentMetadatas: props.componentMetadatas,
-                    defaultSchema: props.defaultSchema,
-                    editor: props.editor,
-                    simulatorProps: props.simulatorProps,
-                });
+                const { designer, ...designerProps } = props;
+                designer.setProps(designerProps);
+            },
+            {
+                immediate: true,
             },
         );
 
+        const isReady = ref(false);
+
+        const off = designer.onRendererReady(() => {
+            isReady.value = true;
+        });
+
         onMounted(() => {
+            editor.emit('designer.mount', designer);
             props.onMount?.(designer);
-            designer.editor.emit('designer.mount', designer);
         });
 
         onBeforeUnmount(() => {
+            off?.();
             designer.purge();
         });
 
         return () => {
+            const { simulatorProps } = designer;
             return (
                 <div class="letgo-designer">
+                    {!isReady.value && <BuiltinLoading />}
                     <DragHostView designer={designer} />
-                    <ProjectView designer={designer} />
+                    <SimulatorView simulatorProps={simulatorProps} />
                 </div>
             );
         };

@@ -19,7 +19,8 @@
         "@fesjs/fes-design": "^0.8.38",
         "@webank/letgo-designer": "^0.0.5-beta.0",
         "@webank/letgo-editor-skeleton": "^0.0.5-beta.0",
-        "@webank/letgo-engine-plugin": "^0.0.4-beta.38"
+        "@webank/letgo-engine-plugin": "^0.0.4-beta.38",
+        "@webank/letgo-types": "^0.0.5-beta.0"
     },
     "publishConfig": {
         "access": "public"

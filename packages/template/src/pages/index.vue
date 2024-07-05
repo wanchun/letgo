@@ -111,7 +111,7 @@ export default defineComponent({
                                 name: 'onClick',
                                 waitType: 'debounce',
                                 action: 'runFunction',
-                                funcBody: 'console.log(utils)',
+                                funcBody: 'console.log($utils)',
                                 params: [],
                                 type: 'plain',
                             },

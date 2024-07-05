@@ -212,6 +212,7 @@ function createSimulatorRenderer() {
         componentsMap,
         documentInstances,
         isSimulatorRenderer: true,
+        libraryUpdate: 0,
     }) as VueSimulatorRenderer;
 
     simulator.app = markRaw(createApp(SimulatorApp, { simulator }));
@@ -322,8 +323,13 @@ function createSimulatorRenderer() {
 
     simulator.createComponent = () => null;
 
-    simulator.rerender = () =>
+    simulator.rerender = () => {
         documentInstances.value.forEach(doc => doc.rerender());
+    };
+
+    simulator.buildGlobalUtils = () => {
+        simulator.libraryUpdate += 1;
+    };
 
     simulator.load = async (asset: IPublicTypeAssetList) => {
         await assetLoader.load(asset);

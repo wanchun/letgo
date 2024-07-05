@@ -3,7 +3,7 @@ import type {
     IPublicTypeAppConfig,
     IPublicTypeProjectSchema,
     IPublicTypeRootSchema,
-    IPublicTypeUtilsMap,
+    IPublicTypeUtils,
 } from '@webank/letgo-types';
 import { IPublicEnumTransformStage } from '@webank/letgo-types';
 
@@ -52,7 +52,7 @@ export class Project {
         return this[projectSymbol].config;
     }
 
-    setUtils(utils: IPublicTypeUtilsMap) {
+    setUtils(utils: IPublicTypeUtils) {
         this[projectSymbol].setUtils(utils);
     }
 }

@@ -6,7 +6,7 @@ import type {
     IPublicTypeJSONObject,
     IPublicTypePackage,
     IPublicTypeRootSchema,
-    IPublicTypeUtilsMap,
+    IPublicTypeUtils,
 } from '../..';
 
 /**
@@ -31,7 +31,7 @@ export interface IPublicTypeProjectSchema<T = IPublicTypeRootSchema> {
     /**
      * 应用范围内的全局自定义函数或第三方工具类扩展
      */
-    utils?: IPublicTypeUtilsMap;
+    utils?: IPublicTypeUtils;
     /**
      * 应用范围内的全局常量
      */

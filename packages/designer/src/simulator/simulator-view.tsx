@@ -120,8 +120,8 @@ export const SimulatorView = defineComponent({
             },
         );
 
-        watch(() => simulator.get('library'), () => {
-            simulator.rerender(true);
+        watch(() => simulator.get('library'), async () => {
+            await simulator.rerender(true);
         });
 
         onUnmounted(() => {

@@ -7,7 +7,7 @@ import type {
     IPublicTypeComponentsMap,
     IPublicTypeProjectSchema,
     IPublicTypeRootSchema,
-    IPublicTypeUtilsMap,
+    IPublicTypeUtils,
 } from '@webank/letgo-types';
 import {
     IEnumCodeType,
@@ -111,7 +111,7 @@ export class Project implements IBaseProject<DocumentModel, Code> {
         };
     }
 
-    setUtils(utils: IPublicTypeUtilsMap) {
+    setUtils(utils: IPublicTypeUtils) {
         this.data.utils = utils;
     }
 

@@ -282,14 +282,16 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
         return libraryAsset;
     }
 
-    async rerender(initComponent = false) {
-        if (initComponent)
+    async rerender(reloadLibrary = false) {
+        if (reloadLibrary) {
             await this.setupComponents();
+            this.setupUtils();
+        }
 
         this.renderer?.rerender?.();
     }
 
-    async setupComponents(library?: IPublicTypePackage[]) {
+    private async setupComponents(library?: IPublicTypePackage[]) {
         const libraryAsset: IPublicTypeAssetList = this.buildLibrary(library);
         await this.renderer?.load(libraryAsset);
         if (Object.keys(this.asyncLibraryMap).length > 0) {
@@ -300,6 +302,10 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
             });
         }
         await this.renderer?.builtinComponents();
+    }
+
+    private setupUtils() {
+        this.renderer.buildGlobalUtils();
     }
 
     setupEvents() {

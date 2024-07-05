@@ -31,6 +31,7 @@ export interface IPublicTypeSimulatorRenderer<
     builtinComponents: () => void;
     load: (asset: IPublicTypeAssetList) => Promise<any>;
     loadAsyncLibrary: (library: { [key: string]: object }) => void;
+    buildGlobalUtils: () => void;
 }
 
 export function isSimulatorRenderer(obj: any): obj is IPublicTypeSimulatorRenderer {

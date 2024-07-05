@@ -52,6 +52,10 @@ export default defineComponent({
         },
     },
     setup(props) {
+        const designer = props.designer;
+        const editor = props.editor;
+        const dragon = designer.dragon;
+
         const assetsRef: Ref<IPublicTypeAssetsJson> = shallowRef({});
 
         const searchText: Ref<string> = ref();
@@ -121,20 +125,19 @@ export default defineComponent({
             searchText.value = val;
         };
 
-        let unwatch: () => void;
+        const unwatch: Array<() => void> = [];
         onBeforeMount(() => {
-            unwatch = props.editor.onChange('assets', (assets) => {
+            unwatch.push(editor.onGot('assets', (assets) => {
                 assetsRef.value = assets;
-            });
+            }));
+            unwatch.push(editor.onChange('assets', (assets) => {
+                assetsRef.value = assets;
+            }));
         });
 
         onUnmounted(() => {
-            if (unwatch)
-                unwatch();
+            unwatch.forEach(fn => fn());
         });
-
-        const designer = props.designer;
-        const dragon = designer.dragon;
 
         const dragonMap = new Map<Element, () => void>();
 

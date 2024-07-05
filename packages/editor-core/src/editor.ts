@@ -165,10 +165,6 @@ export class Editor extends EventEmitter implements IPublicEditor {
         keyOrType: KeyOrType,
         fn: (data: IPublicTypeEditorGetResult<T, KeyOrType>) => void,
     ): () => void {
-        const x = this.context.get(keyOrType);
-        if (x !== undefined)
-            fn(x);
-
         this.setWait(keyOrType, fn);
         return () => {
             this.delWait(keyOrType, fn);

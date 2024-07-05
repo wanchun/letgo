@@ -157,7 +157,7 @@ importers:
         version: 1.4.2(vue@3.4.21)
       '@monaco-editor/loader':
         specifier: ^1.4.0
-        version: 1.4.0(monaco-editor@0.50.0)
+        version: 1.4.0(monaco-editor@0.48.0)
       '@qlin/oxc-wasm-web':
         specifier: ^0.0.3
         version: 0.0.3
@@ -187,8 +187,8 @@ importers:
         version: 3.4.21(typescript@5.4.2)
     devDependencies:
       monaco-editor:
-        specifier: ^0.50.0
-        version: 0.50.0
+        specifier: ^0.48.0
+        version: 0.48.0
 
   packages/designer:
     dependencies:
@@ -572,6 +572,9 @@ importers:
       '@fesjs/fes-design':
         specifier: ^0.8.38
         version: 0.8.38(vue@3.4.21)
+      '@webank/letgo-common':
+        specifier: ^0.0.5-beta.0
+        version: link:../common
       '@webank/letgo-components':
         specifier: ^0.0.5-beta.6
         version: link:../components
@@ -3099,12 +3102,12 @@ packages:
     resolution: {integrity: sha512-9b8mPpKrfeGRuhFH5iO1iwCLeIIsV6+H1sRfxbkoGXIyQE2BTsPd9zqSqQJ+pv5sJ/hT5M1zvOFL02MnEezFug==}
     dev: true
 
-  /@monaco-editor/loader@1.4.0(monaco-editor@0.50.0):
+  /@monaco-editor/loader@1.4.0(monaco-editor@0.48.0):
     resolution: {integrity: sha512-00ioBig0x642hytVspPl7DbQyaSWRaolYie/UFNjoTdvoKPzo6xrXLhTk9ixgIKcLH5b5vDOjVNiGyY+uDCUlg==}
     peerDependencies:
       monaco-editor: '>= 0.21.0 < 1'
     dependencies:
-      monaco-editor: 0.50.0
+      monaco-editor: 0.48.0
       state-local: 1.0.7
     dev: false
 
@@ -7408,8 +7411,8 @@ packages:
       commander: 12.0.0
     dev: false
 
-  /monaco-editor@0.50.0:
-    resolution: {integrity: sha512-8CclLCmrRRh+sul7C08BmPBP3P8wVWfBHomsTcndxg5NRCEPfu/mc2AGU8k37ajjDVXcXFc12ORAMUkmk+lkFA==}
+  /monaco-editor@0.48.0:
+    resolution: {integrity: sha512-goSDElNqFfw7iDHMg8WDATkfcyeLTNpBHQpO8incK6p5qZt5G/1j41X0xdGzpIkGojGXM+QiRQyLjnfDVvrpwA==}
 
   /mrmime@2.0.0:
     resolution: {integrity: sha512-eu38+hdgojoyq63s+yTpN4XMBdt5l8HhMhc4VKLO9KM5caLIBvUm4thi7fFaxyTmCKeNnXZ5pAlBwCUnhA09uw==}

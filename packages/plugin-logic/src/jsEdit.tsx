@@ -1,10 +1,15 @@
 import type { PropType } from 'vue';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { computed, defineComponent, ref, watch } from 'vue';
 =======
 import { defineComponent, ref } from 'vue';
 >>>>>>> 775d4528 (fix: 优化 class code 编辑器)
+=======
+import { computed, defineComponent, ref, watch } from 'vue';
+>>>>>>> d85045f4 (fix: 优化代码提示)
 import type { Designer } from '@webank/letgo-designer';
+import { valueToType } from '@webank/letgo-common';
 import type { IEditorInstance, Monaco } from '@webank/letgo-components';
 import { MonacoEditor } from '@webank/letgo-components';
 import { FButton, FModal } from '@fesjs/fes-design';
@@ -54,7 +59,20 @@ export const JsEditView = defineComponent({
         }, {
             immediate: true,
         });
-    
+
+        const pageClassTs = computed(() => {
+            return `
+             declare class Page {
+                $context: ${valueToType(project.extraGlobalState.$context, 4)};
+                $utils:  ${valueToType(project.extraGlobalState.$utils, 3)};
+                $refs:  ${valueToType(project.currentDocument.state.componentsInstance, 2)};
+                $request: (url: string, params: Record<string, any>, options: Record<string, any>) => Promise<any>;
+                $pageCode: Record<string, any>;
+                $globalCode:  Record<string, any>;
+            }
+            `;
+        });
+
         let monacoEditor: IEditorInstance;
         let currentMonaco: Monaco;
         const editorDidMount = (monaco: Monaco, editor: IEditorInstance) => {
@@ -78,19 +96,19 @@ export const JsEditView = defineComponent({
             });
 
             monaco.languages.typescript.javascriptDefaults.addExtraLib(
-                `
-                  declare class Page {
-                    $context: Record<string, any>;
-                    $utils: Record<string, any>;
-                    $refs: Record<string, any>;
-                    $request: (url: string, params: Record<string, any>, options: Record<string, any>) => Promise<any>;
-                    $pageCode: Record<string, any>;
-                    $globalCode:  Record<string, any>;
-                  }
-                `,
+                pageClassTs.value,
                 `ts:/page.tsx`,
             );
         };
+
+        watch(pageClassTs, () => {
+            if (currentMonaco) {
+                currentMonaco.languages.typescript.javascriptDefaults.addExtraLib(
+                    pageClassTs.value,
+                    `ts:/page.tsx`,
+                );
+            }
+        });
 
         const onChange = (val: string) => {
             tmp.value = val;

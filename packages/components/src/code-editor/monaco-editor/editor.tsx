@@ -30,9 +30,16 @@ export const MonacoEditor = defineComponent({
                     const editorValue = monacoEditor.value?.getModel().getValue();
 
                     if (props.value !== editorValue)
-                        props.onChange(editorValue, event);
+                        props.onChange?.(editorValue, event);
                 });
             }
+        });
+
+        watch(isFocused, () => {
+            if (isFocused.value)
+                props.onFocus?.();
+            else
+                props.onBlur?.();
         });
 
         const innerStyle = computed(() => {
@@ -63,6 +70,7 @@ export const MonacoEditor = defineComponent({
                 // 更新小地图配置
                 monacoEditor.value?.updateOptions({
                     ...monacoEditor.value?.getOptions(),
+                    lineNumbers: 'on',
                     minimap: {
                         enabled: true,
                     },
@@ -73,6 +81,7 @@ export const MonacoEditor = defineComponent({
                 isFullScreen.value = false;
                 monacoEditor.value?.updateOptions({
                     ...monacoEditor.value?.getOptions(),
+                    ...props.options,
                     minimap: {
                         enabled: false,
                     },
@@ -112,6 +121,14 @@ export const MonacoEditor = defineComponent({
         });
 
         expose({
+            isSyntaxError() {
+                const model = monacoEditor.value.getModel();
+
+                // 获取模型中的所有标记（包括错误和警告）
+                const markers = monaco.value.editor.getModelMarkers({ owner: model.getLanguageId() });
+                const errors = markers.filter(marker => marker.severity === monaco.value.MarkerSeverity.Error);
+                return errors.length !== 0;
+            },
             async getFormatValue(silent: boolean) {
                 const model = monacoEditor.value.getModel();
 

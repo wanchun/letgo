@@ -1,7 +1,7 @@
 import type { CSSProperties, PropType } from 'vue';
-import { computed, defineComponent, ref, watch } from 'vue';
-import { css } from '@codemirror/lang-css';
-import { CodeMirror } from '@webank/letgo-components';
+import { defineComponent, ref, watch } from 'vue';
+import { MonacoEditor } from '@webank/letgo-components';
+import { debounce } from 'lodash-es';
 import { parseToCssCode, parseToStyleData } from '../../../common';
 
 export const CodeView = defineComponent({
@@ -12,41 +12,37 @@ export const CodeView = defineComponent({
         onStyleChange: Function as PropType<(style: CSSProperties, assign: boolean) => void>,
     },
     setup(props) {
-        const isFocus = ref(false);
-
         const initValue = ref(parseToCssCode(props.value));
 
         watch(() => props.value, () => {
             initValue.value = parseToCssCode(props.value);
         });
 
-        const currentValue = computed(() => {
-            return isFocus.value ? initValue.value : parseToCssCode(props.value);
-        });
-
-        const onStyleChange = (code: string) => {
-            const styleData = parseToStyleData(code);
-            if (styleData)
-                props.onStyleChange?.(styleData, false);
-        };
-
-        const onFocus = () => {
-            isFocus.value = true;
-        };
-
-        const onBlur = () => {
-            isFocus.value = false;
-            initValue.value = parseToCssCode(props.value);
-        };
+        const monacoEditorRef = ref();
+        const onChange = debounce((value: string) => {
+            try {
+                if (!monacoEditorRef.value.isSyntaxError()) {
+                    const styleData = parseToStyleData(value);
+                    if (styleData)
+                        props.onStyleChange?.(styleData, false);
+                }
+            }
+            catch (_) {
+                console.warn(_);
+            }
+        }, 500);
 
         return () => {
             return (
-                <CodeMirror
-                    doc={currentValue.value}
-                    onChange={onStyleChange}
-                    extensions={[css()]}
-                    onFocus={onFocus}
-                    onBlur={onBlur}
+                <MonacoEditor
+                    ref={monacoEditorRef}
+                    options={{ fixedOverflowWidgets: true, lineNumbers: 'off' }}
+                    language="css"
+                    height="150px"
+                    value={initValue.value}
+                    onChange={onChange}
+                    bordered
+                    fullScreen
                 />
             );
         };

@@ -60,6 +60,8 @@ export const GeneralMonacoEditorProps = {
 export const SingleMonacoEditorProps = {
     ...GeneralMonacoEditorProps,
     onChange: Function as PropType<(input: string, event: any) => void>,
+    onBlur: Function as PropType<() => void>,
+    onFocus: Function as PropType<() => void>,
     bordered: Boolean,
     fullScreen: Boolean,
 };

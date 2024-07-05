@@ -1,6 +1,6 @@
 import type { Monaco } from '@monaco-editor/loader';
 import type { editor as oEditor } from 'monaco-editor';
-import { ref, toRef, watch } from 'vue';
+import { ref, shallowRef, toRef, watch } from 'vue';
 import type { CSSProperties, ExtractPublicPropTypes, PropType } from 'vue';
 import { usePrevious } from '@vueuse/core';
 import { getMonaco } from './monaco';
@@ -9,7 +9,8 @@ import { getMonaco } from './monaco';
 /**
  * @see https://microsoft.github.io/monaco-editor/api/index.html
  */
-export type IEditorInstance = oEditor.IStandaloneCodeEditor | oEditor.IStandaloneDiffEditor;
+export type IEditorInstance = oEditor.IStandaloneCodeEditor;
+export type { Monaco } from '@monaco-editor/loader';
 
 export type EditorEnhancer =
   (monaco: Monaco, editorIns: IEditorInstance) => any;
@@ -59,7 +60,6 @@ export const GeneralMonacoEditorProps = {
 export const SingleMonacoEditorProps = {
     ...GeneralMonacoEditorProps,
     onChange: Function as PropType<(input: string, event: any) => void>,
-    bordered: Boolean,
     fullScreen: Boolean,
 };
 
@@ -108,8 +108,8 @@ export function useEditor(type: 'single' | 'diff', props: IGeneralMonacoEditorPr
 
     const previousPath = usePrevious(toRef(() => props.path));
 
-    let currentMonaco: Monaco;
-    let currentEditor: oEditor.IStandaloneCodeEditor;
+    const currentMonaco = shallowRef<Monaco>();
+    const currentEditor = shallowRef<oEditor.IStandaloneCodeEditor>();
 
     getMonaco(props.requireConfig)
         .then((monaco: Monaco) => {
@@ -121,7 +121,7 @@ export function useEditor(type: 'single' | 'diff', props: IGeneralMonacoEditorPr
                 delete (window as any).define.amd;
             }
 
-            currentMonaco = monaco;
+            currentMonaco.value = monaco;
             try {
                 if (props.editorWillMount)
                     props.editorWillMount(monaco);
@@ -138,17 +138,17 @@ export function useEditor(type: 'single' | 'diff', props: IGeneralMonacoEditorPr
                     props.language,
                     props.path,
                 );
-                currentEditor = monaco.editor.create(containerRef.value, {
+                currentEditor.value = monaco.editor.create(containerRef.value, {
                     automaticLayout: true,
                     ...INITIAL_OPTIONS,
                     ...props.options,
                 }, props.overrideServices);
-                currentEditor.setModel(model);
+                currentEditor.value.setModel(model);
             }
 
             props.enhancers?.forEach((en: any) => en(monaco, currentEditor as any));
             try {
-                props.editorDidMount(monaco, currentEditor);
+                props.editorDidMount(monaco, currentEditor.value);
             }
             catch (err) { }
             isEditorReady.value = true;
@@ -162,17 +162,17 @@ export function useEditor(type: 'single' | 'diff', props: IGeneralMonacoEditorPr
 
     watch(() => [isEditorReady.value, props.theme], () => {
         if (isEditorReady.value)
-            currentMonaco.editor.setTheme(props.theme);
+            currentMonaco.value.editor.setTheme(props.theme);
     });
 
     watch(isEditorReady, () => {
         if (!isEditorReady.value)
             return;
 
-        currentEditor?.onDidFocusEditorText(() => {
+        currentEditor.value?.onDidFocusEditorText(() => {
             isFocused.value = true;
         });
-        currentEditor?.onDidBlurEditorText(() => {
+        currentEditor.value?.onDidBlurEditorText(() => {
             isFocused.value = false;
         });
     });
@@ -188,17 +188,17 @@ export function useEditor(type: 'single' | 'diff', props: IGeneralMonacoEditorPr
         const editor = currentEditor;
 
         const nextValue = props.value ?? props.defaultValue ?? '';
-        if (editor?.getOption?.(currentMonaco?.editor.EditorOption.readOnly)) {
-            editor?.setValue(nextValue);
+        if (editor.value?.getOption?.(currentMonaco.value?.editor.EditorOption.readOnly)) {
+            editor.value?.setValue(nextValue);
         }
-        else if (props.value !== editor?.getValue()) {
-            editor?.executeEdits('', [{
-                range: editor?.getModel().getFullModelRange(),
+        else if (props.value !== editor.value?.getValue()) {
+            editor.value?.executeEdits('', [{
+                range: editor.value?.getModel().getFullModelRange(),
                 text: nextValue,
                 forceMoveMarkers: true,
             }]);
 
-            editor?.pushUndoStop();
+            editor.value?.pushUndoStop();
         }
     });
 
@@ -215,7 +215,7 @@ export function useEditor(type: 'single' | 'diff', props: IGeneralMonacoEditorPr
             return;
 
         const model = getOrCreateModel(
-            currentMonaco,
+            currentMonaco.value,
             props.value ?? props.defaultValue,
             props.language,
             props.path,
@@ -224,10 +224,10 @@ export function useEditor(type: 'single' | 'diff', props: IGeneralMonacoEditorPr
         if (props.value != null && model.getValue() !== props.value)
             model.setValue(props.value);
 
-        if (model !== currentEditor.getModel()) {
-            props.saveViewState && viewStatus.set(previousPath, currentEditor.saveViewState());
-            currentEditor.setModel(model);
-            props.saveViewState && currentEditor.restoreViewState(viewStatus.get(props.path));
+        if (model !== currentEditor.value.getModel()) {
+            props.saveViewState && viewStatus.set(previousPath, currentEditor.value.saveViewState());
+            currentEditor.value.setModel(model);
+            props.saveViewState && currentEditor.value.restoreViewState(viewStatus.get(props.path));
         }
     });
 

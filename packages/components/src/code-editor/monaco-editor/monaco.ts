@@ -14,7 +14,7 @@ export async function getSingletonMonaco(options?: any): Promise<Monaco> {
                 ? options
                 : {
                         paths: {
-                            vs: 'https://g.alicdn.com/code/lib/monaco-editor/0.50.0/min/vs',
+                            vs: 'https://g.alicdn.com/code/lib/monaco-editor/0.48.0/min/vs',
                         },
                     },
         );
@@ -33,7 +33,7 @@ export function getCommonMonaco(config: any): Promise<Monaco> {
     else {
         loader.config({
             paths: {
-                vs: 'https://g.alicdn.com/code/lib/monaco-editor/0.50.0/min/vs',
+                vs: 'https://g.alicdn.com/code/lib/monaco-editor/0.48.0/min/vs',
             },
         });
     }

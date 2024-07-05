@@ -8063,7 +8063,7 @@ const assets: IPublicTypeAssetsJson = {
             configure: {
                 props: [
                     {
-                        name: 'show',
+                        name: 'v-model:show',
                         title: '显示',
                         setter: 'BoolSetter',
                     },
@@ -8192,8 +8192,8 @@ const assets: IPublicTypeAssetsJson = {
                 ],
                 component: {
                     isContainer: true,
-                    dialogControlProp: 'show',
-                    isModal: true,
+                    // dialogControlProp: 'show',
+                    // isModal: true,
                 },
                 supports: {
                     // TODO: StyleSetter会出错
@@ -8206,7 +8206,10 @@ const assets: IPublicTypeAssetsJson = {
                     schema: {
                         componentName: 'FModal',
                         props: {
-                            show: true,
+                            'v-model:show': {
+                                type: 'JSExpression',
+                                value: 'true',
+                            },
                         },
                     },
                 },

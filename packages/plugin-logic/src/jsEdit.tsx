@@ -1,8 +1,13 @@
 import type { PropType } from 'vue';
+<<<<<<< HEAD
 import { computed, defineComponent, ref, watch } from 'vue';
+=======
+import { defineComponent, ref } from 'vue';
+>>>>>>> 775d4528 (fix: 优化 class code 编辑器)
 import type { Designer } from '@webank/letgo-designer';
-import { CodeEditor } from '@webank/letgo-components';
-import { FButton } from '@fesjs/fes-design';
+import type { IEditorInstance, Monaco } from '@webank/letgo-components';
+import { MonacoEditor } from '@webank/letgo-components';
+import { FButton, FModal } from '@fesjs/fes-design';
 
 // 默认 class code 模板
 const DEFAULT_CLASS_CODE = `
@@ -49,53 +54,91 @@ export const JsEditView = defineComponent({
         }, {
             immediate: true,
         });
+    
+        let monacoEditor: IEditorInstance;
+        let currentMonaco: Monaco;
+        const editorDidMount = (monaco: Monaco, editor: IEditorInstance) => {
+            monacoEditor = editor;
+            currentMonaco = monaco;
+            monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
+                noSemanticValidation: false,
+                noSyntaxValidation: false,
+                noSuggestionDiagnostics: true,
+            });
+
+            monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
+                target: monaco.languages.typescript.ScriptTarget.ES2020,
+                allowNonTsExtensions: true,
+                moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
+                module: monaco.languages.typescript.ModuleKind.CommonJS,
+                noEmit: true,
+                esModuleInterop: true,
+                allowJs: true,
+                typeRoots: ['node_modules/@types'],
+            });
+
+            monaco.languages.typescript.javascriptDefaults.addExtraLib(
+                `
+                  declare class Page {
+                    $context: Record<string, any>;
+                    $utils: Record<string, any>;
+                    $refs: Record<string, any>;
+                    $request: (url: string, params: Record<string, any>, options: Record<string, any>) => Promise<any>;
+                    $pageCode: Record<string, any>;
+                    $globalCode:  Record<string, any>;
+                  }
+                `,
+                `ts:/page.tsx`,
+            );
+        };
 
         const onChange = (val: string) => {
             tmp.value = val;
         };
 
-        // Refactor 简单版本, 后续优化
-        const hints = computed(() => {
-            return {
-                codesInstance: {
-                    this: project.currentDocument.state.codesInstance.this,
-                },
-            };
-        });
+        const onSave = async () => {
+            const model = monacoEditor.getModel();
 
-        const onSave = () => {
-            try {
-                project.currentDocument.classCode = tmp.value;
+            // 获取模型中的所有标记（包括错误和警告）
+            const markers = currentMonaco.editor.getModelMarkers({ owner: model.getLanguageId() });
+            const errors = markers.filter(marker => marker.severity === currentMonaco.MarkerSeverity.Error);
+
+            if (errors.length) {
+                FModal.warn({
+                    title: '语法异常',
+                    content: () => {
+                        return (
+                            <>
+                                <p style="margin: 0">当前的代码解析出错，代码内容将无法保存，请重新编辑后关闭面板以保存。</p>
+                                <pre style="margin: 0">
+                                    {errors.map((error) => {
+                                        return `Error at line ${error.startLineNumber}:${error.startColumn} - ${error.message}`;
+                                    })}
+                                </pre>
+                            </>
+                        );
+                    },
+                });
+                return;
             }
-            catch (e) {
-                console.error(e);
-            }
+            await monacoEditor.getAction('editor.action.formatDocument').run();
+            project.currentDocument.classCode = monacoEditor.getValue();
         };
 
         return () => {
             return (
                 <div class="letgo-plg-logic">
-                    <CodeEditor
-                        hints={hints.value}
+                    <MonacoEditor
                         class="letgo-plg-logic__code"
                         height="100%"
-                        id="__class_code"
-                        theme={{
-                            '&': {
-                                border: '1px solid var(--letgo-border-color)',
-                                borderRadius: 0,
-                                borderRight: 'none',
-                                borderLeft: 'none',
-                                height: '100%',
-                            },
-                        }}
-                        doc={tmp.value}
+                        language="javascript"
+                        path="__class_code.js"
+                        value={tmp.value}
                         onChange={onChange}
-                        bordered={false}
-                        lineNumbers={true}
-                        fullscreen={false}
+                        fullScreen
+                        editorDidMount={editorDidMount}
                     >
-                    </CodeEditor>
+                    </MonacoEditor>
                     <div class="letgo-plg-logic__action">
                         <FButton type="info" size="small" onClick={onSave}>保存</FButton>
                     </div>

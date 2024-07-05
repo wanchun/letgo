@@ -10,9 +10,9 @@ import { computed, defineComponent, ref, watch } from 'vue';
 >>>>>>> d85045f4 (fix: 优化代码提示)
 import type { Designer } from '@webank/letgo-designer';
 import { valueToType } from '@webank/letgo-common';
-import type { IEditorInstance, Monaco } from '@webank/letgo-components';
+import type { Monaco } from '@webank/letgo-components';
 import { MonacoEditor } from '@webank/letgo-components';
-import { FButton, FModal } from '@fesjs/fes-design';
+import { FButton } from '@fesjs/fes-design';
 
 // 默认 class code 模板
 const DEFAULT_CLASS_CODE = `
@@ -73,10 +73,8 @@ export const JsEditView = defineComponent({
             `;
         });
 
-        let monacoEditor: IEditorInstance;
         let currentMonaco: Monaco;
-        const editorDidMount = (monaco: Monaco, editor: IEditorInstance) => {
-            monacoEditor = editor;
+        const editorDidMount = (monaco: Monaco) => {
             currentMonaco = monaco;
             monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
                 noSemanticValidation: false,
@@ -114,39 +112,23 @@ export const JsEditView = defineComponent({
             tmp.value = val;
         };
 
+        const monacoEditorRef = ref();
         const onSave = async () => {
-            const model = monacoEditor.getModel();
-
-            // 获取模型中的所有标记（包括错误和警告）
-            const markers = currentMonaco.editor.getModelMarkers({ owner: model.getLanguageId() });
-            const errors = markers.filter(marker => marker.severity === currentMonaco.MarkerSeverity.Error);
-
-            if (errors.length) {
-                FModal.warn({
-                    title: '语法异常',
-                    content: () => {
-                        return (
-                            <>
-                                <p style="margin: 0">当前的代码解析出错，代码内容将无法保存，请重新编辑后关闭面板以保存。</p>
-                                <pre style="margin: 0">
-                                    {errors.map((error) => {
-                                        return `Error at line ${error.startLineNumber}:${error.startColumn} - ${error.message}`;
-                                    })}
-                                </pre>
-                            </>
-                        );
-                    },
-                });
-                return;
+            try {
+                const value = await monacoEditorRef.value.getFormatValue();
+                if (value != null)
+                    project.currentDocument.classCode = value;
             }
-            await monacoEditor.getAction('editor.action.formatDocument').run();
-            project.currentDocument.classCode = monacoEditor.getValue();
+            catch (_) {
+
+            }
         };
 
         return () => {
             return (
                 <div class="letgo-plg-logic">
                     <MonacoEditor
+                        ref={monacoEditorRef}
                         class="letgo-plg-logic__code"
                         height="100%"
                         language="javascript"

@@ -1,6 +1,7 @@
 import type { IDisposable } from 'monaco-editor';
 import { FullScreenTwo, OffScreenTwo } from '@icon-park/vue-next';
 import { computed, defineComponent, onUnmounted, ref, watch } from 'vue';
+import { FModal } from '@fesjs/fes-design';
 import {
     SingleMonacoEditorProps,
     WORD_EDITOR_INITIALIZING,
@@ -11,11 +12,13 @@ import './index.less';
 
 export const MonacoEditor = defineComponent({
     props: SingleMonacoEditorProps,
-    setup(props) {
+    setup(props, { expose }) {
         const {
             isEditorReady,
             isLoading,
+            isFocused,
             containerRef,
+            monaco,
             monacoEditor,
         } = useEditor('single', props);
 
@@ -108,9 +111,40 @@ export const MonacoEditor = defineComponent({
             monacoEditor.value?.dispose();
         });
 
+        expose({
+            async getFormatValue(silent: boolean) {
+                const model = monacoEditor.value.getModel();
+
+                // 获取模型中的所有标记（包括错误和警告）
+                const markers = monaco.value.editor.getModelMarkers({ owner: model.getLanguageId() });
+                const errors = markers.filter(marker => marker.severity === monaco.value.MarkerSeverity.Error);
+
+                if (!silent && errors.length) {
+                    FModal.warn({
+                        title: '语法异常',
+                        content: () => {
+                            return (
+                                <>
+                                    <p style="margin: 0">当前的代码解析出错，代码内容将无法保存，请重新编辑后关闭面板以保存。</p>
+                                    <pre style="margin: 0">
+                                        {errors.map((error) => {
+                                            return `Error at line ${error.startLineNumber}:${error.startColumn} - ${error.message}`;
+                                        })}
+                                    </pre>
+                                </>
+                            );
+                        },
+                    });
+                    return null;
+                }
+                await monacoEditor.value.getAction('editor.action.formatDocument').run();
+                return monacoEditor.value.getValue();
+            },
+        });
+
         return () => {
             return (
-                <div class={[props.className, 'letgo-comp-monaco']}>
+                <div class={[props.className, 'letgo-comp-monaco', isFocused.value && 'is-focused', props.bordered && 'is-bordered']}>
                     {isLoading.value && <span class="letgo-comp-monaco__loading">{WORD_EDITOR_INITIALIZING}</span>}
                     <div
                         ref={containerRef}

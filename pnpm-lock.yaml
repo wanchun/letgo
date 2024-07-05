@@ -332,9 +332,6 @@ importers:
       '@codemirror/lang-css':
         specifier: ^6.2.1
         version: 6.2.1(@codemirror/view@6.28.4)
-      '@codemirror/lang-json':
-        specifier: ^6.0.1
-        version: 6.0.1
       '@fesjs/fes-design':
         specifier: ^0.8.38
         version: 0.8.38(vue@3.4.21)
@@ -496,9 +493,6 @@ importers:
 
   packages/plugin-css:
     dependencies:
-      '@codemirror/lang-css':
-        specifier: ^6.2.1
-        version: 6.2.1(@codemirror/view@6.28.4)
       '@fesjs/fes-design':
         specifier: ^0.8.38
         version: 0.8.38(vue@3.4.21)
@@ -596,9 +590,6 @@ importers:
 
   packages/plugin-schema:
     dependencies:
-      '@codemirror/lang-json':
-        specifier: ^6.0.1
-        version: 6.0.1
       '@fesjs/fes-design':
         specifier: ^0.8.38
         version: 0.8.38(vue@3.4.21)
@@ -2174,13 +2165,6 @@ packages:
       '@lezer/javascript': 1.4.13
     dev: false
 
-  /@codemirror/lang-json@6.0.1:
-    resolution: {integrity: sha512-+T1flHdgpqDDlJZ2Lkil/rLiRy684WMLc74xUnjJH48GQdfJo/pudlTRreZmKwzP8/tGdKf83wlbAdOCzlJOGQ==}
-    dependencies:
-      '@codemirror/language': 6.10.2
-      '@lezer/json': 1.0.2
-    dev: false
-
   /@codemirror/language@6.10.2:
     resolution: {integrity: sha512-kgbTYTo0Au6dCSc/TFy7fK3fpJmgHDv1sG1KNQKJXVi+xBTEeBPY/M30YXiU6mMXeH+YIDLsbrT4ZwNRdtF+SA==}
     dependencies:
@@ -3039,14 +3023,6 @@ packages:
 
   /@lezer/javascript@1.4.13:
     resolution: {integrity: sha512-5IBr8LIO3xJdJH1e9aj/ZNLE4LSbdsx25wFmGRAZsj2zSmwAYjx26JyU/BYOCpRQlu1jcv1z3vy4NB9+UkfRow==}
-    dependencies:
-      '@lezer/common': 1.2.1
-      '@lezer/highlight': 1.2.0
-      '@lezer/lr': 1.4.0
-    dev: false
-
-  /@lezer/json@1.0.2:
-    resolution: {integrity: sha512-xHT2P4S5eeCYECyKNPhr4cbEL9tc8w83SPwRC373o9uEdrvGKTZoJVAGxpOsZckMlEh9W23Pc72ew918RWQOBQ==}
     dependencies:
       '@lezer/common': 1.2.1
       '@lezer/highlight': 1.2.0

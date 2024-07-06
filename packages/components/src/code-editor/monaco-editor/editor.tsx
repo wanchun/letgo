@@ -1,4 +1,5 @@
 import type { IDisposable } from 'monaco-editor';
+import { cloneDeep } from 'lodash-es';
 import { FullScreenTwo, OffScreenTwo } from '@icon-park/vue-next';
 import { computed, defineComponent, onUnmounted, ref, watch } from 'vue';
 import { FModal } from '@fesjs/fes-design';
@@ -51,6 +52,7 @@ export const MonacoEditor = defineComponent({
 
         const isFullScreen = ref(false);
         const fullScreenStyle = ref({});
+        let preOptions: Record<string, any>;
         const toggleFullScreen = () => {
             if (!props.fullScreen)
                 return;
@@ -67,10 +69,12 @@ export const MonacoEditor = defineComponent({
                     right: 0,
                     zIndex: 9998,
                 };
+                preOptions = cloneDeep(monacoEditor.value?.getRawOptions());
                 // 更新小地图配置
                 monacoEditor.value?.updateOptions({
-                    ...monacoEditor.value?.getOptions(),
                     lineNumbers: 'on',
+                    glyphMargin: true,
+                    contextmenu: true,
                     minimap: {
                         enabled: true,
                     },
@@ -79,13 +83,7 @@ export const MonacoEditor = defineComponent({
             }
             else {
                 isFullScreen.value = false;
-                monacoEditor.value?.updateOptions({
-                    ...monacoEditor.value?.getOptions(),
-                    ...props.options,
-                    minimap: {
-                        enabled: false,
-                    },
-                });
+                monacoEditor.value?.updateOptions(preOptions);
                 monacoEditor.value?.layout();
             }
         };

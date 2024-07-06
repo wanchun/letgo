@@ -36,7 +36,12 @@ export const CodeView = defineComponent({
             return (
                 <MonacoEditor
                     ref={monacoEditorRef}
-                    options={{ fixedOverflowWidgets: true, lineNumbers: 'off' }}
+                    options={{
+                        fixedOverflowWidgets: true,
+                        glyphMargin: false,
+                        lineNumbers: 'off',
+                        contextmenu: false,
+                    }}
                     language="css"
                     height="150px"
                     value={initValue.value}

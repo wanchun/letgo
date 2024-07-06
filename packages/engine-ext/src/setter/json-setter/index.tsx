@@ -53,7 +53,9 @@ const JsonSetterView = defineComponent({
                 <MonacoEditor
                     height="180px"
                     options={{
+                        glyphMargin: false,
                         lineNumbers: 'off',
+                        contextmenu: false,
                     }}
                     language="json"
                     value={currentValue.value}
@@ -61,7 +63,6 @@ const JsonSetterView = defineComponent({
                     editorDidMount={editorDidMount}
                     fullScreen
                     bordered
-                    // placeholder={props.placeholder}
                 >
                 </MonacoEditor>
             );

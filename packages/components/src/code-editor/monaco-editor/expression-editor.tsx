@@ -1,77 +1,88 @@
-import type { IDisposable } from 'monaco-editor';
-import { computed, defineComponent, onUnmounted, watch } from 'vue';
-import {
-    SingleMonacoEditorProps,
-    useEditor,
-} from './helper';
+import type { PropType } from 'vue';
+import { defineComponent, watch } from 'vue';
+import type { Monaco } from '@monaco-editor/loader';
+
+import { MonacoEditor } from './editor';
 
 import './expression-editor.less';
 
 export const MonacoExpressionEditor = defineComponent({
-    props: SingleMonacoEditorProps,
-    setup(props, { expose }) {
-        const {
-            isEditorReady,
-            isFocused,
-            containerRef,
-            monaco,
-            monacoEditor,
-        } = useEditor('single', props);
+    props: {
+        value: String,
+        onChange: Function as PropType<(input: string, event: any) => void>,
+        libs: Array as PropType<{ path: string; content: string }[]>,
+    },
+    setup(props) {
+        let currentMonaco: Monaco;
+        const editorDidMount = (monaco: Monaco) => {
+            currentMonaco = monaco;
+            monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
+                noSemanticValidation: false,
+                noSyntaxValidation: false,
+                noSuggestionDiagnostics: true,
+            });
 
-        let subscription: IDisposable;
-        watch(isEditorReady, () => {
-            if (isEditorReady.value) {
-                subscription?.dispose();
-                subscription = monacoEditor.value?.onDidChangeModelContent((event: any) => {
-                    const editorValue = monacoEditor.value?.getModel().getValue();
+            monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
+                target: monaco.languages.typescript.ScriptTarget.ES2020,
+                allowNonTsExtensions: true,
+                moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
+                module: monaco.languages.typescript.ModuleKind.CommonJS,
+                noEmit: true,
+                esModuleInterop: true,
+                allowJs: true,
+                typeRoots: ['node_modules/@types'],
+            });
 
-                    if (props.value !== editorValue)
-                        props.onChange?.(editorValue, event);
+            if (props.libs?.length) {
+                props.libs.forEach((lib) => {
+                    currentMonaco.languages.typescript.javascriptDefaults.addExtraLib(
+                        lib.content,
+                        `ts:${lib.path}`,
+                    );
+                });
+            }
+        };
+
+        watch(() => props.libs, () => {
+            if (currentMonaco && props.libs?.length) {
+                props.libs.forEach((lib) => {
+                    currentMonaco.languages.typescript.javascriptDefaults.addExtraLib(
+                        lib.content,
+                        `ts:${lib.path}`,
+                    );
                 });
             }
         });
 
-        watch(isFocused, () => {
-            if (isFocused.value)
-                props.onFocus?.();
-            else
-                props.onBlur?.();
-        });
-
-        const innerStyle = computed(() => {
-            return {
-                width: props.width,
-                height: props.height,
-            };
-        });
-
-        onUnmounted(() => {
-            subscription?.dispose();
-            monacoEditor.value?.getModel()?.dispose();
-            monacoEditor.value?.dispose();
-        });
-
-        expose({
-            isSyntaxError() {
-                const model = monacoEditor.value.getModel();
-
-                // 获取模型中的所有标记（包括错误和警告）
-                const markers = monaco.value.editor.getModelMarkers({ owner: model.getLanguageId() });
-                const errors = markers.filter(marker => marker.severity === monaco.value.MarkerSeverity.Error);
-                return errors.length !== 0;
-            },
-        });
-
         return () => {
             return (
-                <div class={[props.className, isFocused.value && 'is-focused', 'letgo-comp-monaco-ex']}>
-                    <div
-                        ref={containerRef}
-                        class="letgo-comp-monaco-ex__container"
-                        style={innerStyle.value}
-                    >
-                    </div>
-                </div>
+                <MonacoEditor
+                    height="20px"
+                    className="letgo-comp-monaco-ex"
+                    options={{
+                        fixedOverflowWidgets: true,
+                        glyphMargin: false,
+                        lineNumbers: 'off',
+                        folding: false,
+                        contextmenu: false,
+                        wordWrap: 'off',
+                        lineNumbersMinChars: 0,
+                        overviewRulerLanes: 0,
+                        overviewRulerBorder: false,
+                        renderLineHighlight: false,
+                        lineDecorationsWidth: 0,
+                        hideCursorInOverviewRuler: true,
+                        scrollBeyondLastColumn: 0,
+                        scrollbar: { horizontal: 'hidden', vertical: 'hidden' },
+                        find: { addExtraSpaceOnTop: false, autoFindInSelection: 'never', seedSearchStringFromSelection: false },
+                        minimap: { enabled: false },
+                    }}
+                    language="javascript"
+                    bordered
+                    value={props.value}
+                    onChange={props.onChange}
+                    editorDidMount={editorDidMount}
+                />
             );
         };
     },

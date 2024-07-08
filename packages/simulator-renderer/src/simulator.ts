@@ -327,6 +327,7 @@ function createSimulatorRenderer() {
         documentInstances.value.forEach(doc => doc.rerender());
     };
 
+    // REFACTOR
     simulator.buildGlobalUtils = () => {
         simulator.libraryUpdate += 1;
     };

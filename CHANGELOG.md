@@ -1,3 +1,20 @@
+## [0.0.5-beta.1](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.0...v0.0.5-beta.1) (2024-07-08)
+
+
+### Bug Fixes
+
+* remove parse default ([4edd5dd](https://git.weoa.com/mumblefe/letgo/commits/4edd5ddb8cadeeb92b11b79cc11f18c4594227fd))
+* 修复加载物料后,utils不更新问题 ([e94cccc](https://git.weoa.com/mumblefe/letgo/commits/e94cccc1756e6c09e90f88e9376b651582be2735))
+
+
+### Features
+
+* 优化 ([763cfc3](https://git.weoa.com/mumblefe/letgo/commits/763cfc3de9c4e7d861b07f6600bb80b9edbe7d69))
+* 去除删除插件demo ([f62c9fb](https://git.weoa.com/mumblefe/letgo/commits/f62c9fba2b2753425eb0ffc9b4d91689e513122b))
+* 注释 ([c2dceb1](https://git.weoa.com/mumblefe/letgo/commits/c2dceb1963e43a13c042005cc4f3b4a208855ef9))
+
+
+
 ## [0.0.5-beta.0](https://git.weoa.com/mumblefe/letgo/compare/v0.0.4-beta.51...v0.0.5-beta.0) (2024-7-4)
 
 

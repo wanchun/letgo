@@ -56,7 +56,7 @@ export default defineComponent({
         const editor = props.editor;
         const dragon = designer.dragon;
 
-        const assetsRef: Ref<IPublicTypeAssetsJson> = shallowRef({});
+        const assetsRef: Ref<IPublicTypeAssetsJson> = shallowRef(editor.get('assets') || {});
 
         const searchText: Ref<string> = ref();
 
@@ -127,9 +127,6 @@ export default defineComponent({
 
         const unwatch: Array<() => void> = [];
         onBeforeMount(() => {
-            unwatch.push(editor.onGot('assets', (assets) => {
-                assetsRef.value = assets;
-            }));
             unwatch.push(editor.onChange('assets', (assets) => {
                 assetsRef.value = assets;
             }));

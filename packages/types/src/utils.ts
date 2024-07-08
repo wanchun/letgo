@@ -15,7 +15,7 @@ export interface IPublicTypeExternalUtils {
 
 export type IPublicTypeUtilItem = IPublicTypeInternalUtils | IPublicTypeExternalUtils;
 
-export type IPublicTypeUtilsMap = IPublicTypeUtilItem[];
+export type IPublicTypeUtils = IPublicTypeUtilItem[];
 
 type FilterOptional<T> = Pick<
   T,

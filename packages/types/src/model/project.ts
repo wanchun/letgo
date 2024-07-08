@@ -5,7 +5,7 @@ import type {
     IPublicTypeAppConfig,
     IPublicTypeProjectSchema,
     IPublicTypeRootSchema,
-    IPublicTypeUtilsMap,
+    IPublicTypeUtils,
 } from '..';
 
 export interface IBaseProject<
@@ -52,7 +52,7 @@ export interface IBaseProject<
         $context: IPublicTypeAppConfig;
     };
 
-    get utils(): IPublicTypeUtilsMap;
+    get utils(): IPublicTypeUtils;
 
     /**
      * 打开一个 document
@@ -107,7 +107,7 @@ export interface IBaseProject<
      */
     importSchema: (schema?: IPublicTypeProjectSchema) => void;
 
-    setUtils: (utils: IPublicTypeUtilsMap) => void;
+    setUtils: (utils: IPublicTypeUtils) => void;
 }
 
 export interface IPublicModelProject extends IBaseProject<IPublicModelDocumentModel> {}

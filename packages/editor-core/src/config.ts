@@ -143,16 +143,13 @@ export class EngineConfig {
      */
     onGot(key: string, fn: (data: any) => void): () => void {
         const val = this.config?.[key];
-        if (val !== undefined) {
+        if (val !== undefined)
             fn(val);
-            return () => undefined;
-        }
-        else {
-            this.setWait(key, fn);
-            return () => {
-                this.delWait(key, fn);
-            };
-        }
+
+        this.setWait(key, fn);
+        return () => {
+            this.delWait(key, fn);
+        };
     }
 
     private notifyGot(key: string) {

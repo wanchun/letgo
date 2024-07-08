@@ -2,7 +2,7 @@ import {
     type ICodeStruct,
     type IPublicTypeNpmInfo,
     type IPublicTypeRootSchema,
-    type IPublicTypeUtilsMap,
+    type IPublicTypeUtils,
     isQueryResource,
 } from '@webank/letgo-types';
 import { calcDependencies, genCodeMap, isLowcodeProjectSchema } from '@webank/letgo-common';
@@ -69,7 +69,7 @@ function compilerNpmImports(npm: IPublicTypeNpmInfo): ImportSource {
     };
 }
 
-function genUtilsImports(utils: IPublicTypeUtilsMap, schema: Context['schema']): ImportSource[] {
+function genUtilsImports(utils: IPublicTypeUtils, schema: Context['schema']): ImportSource[] {
     const importSources: ImportSource[] = [];
     utils.filter(item => item.type !== 'function').forEach((item) => {
         const content = item.content as IPublicTypeNpmInfo;
@@ -81,7 +81,7 @@ function genUtilsImports(utils: IPublicTypeUtilsMap, schema: Context['schema']):
     return importSources;
 }
 
-export function compilerUtils(utils: IPublicTypeUtilsMap, schema: Context['schema']) {
+export function compilerUtils(utils: IPublicTypeUtils, schema: Context['schema']) {
     const importSources = genUtilsImports(utils, schema);
     const code = utils.map((item) => {
         if (item.type === 'function')

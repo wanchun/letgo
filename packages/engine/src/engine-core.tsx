@@ -40,18 +40,6 @@ export { editor, config, designer, plugins, skeleton, material, project, hotkey,
 
 // 注册一批内置插件
 (function registerPlugins() {
-    // 处理 editor.set('assets')，将组件元数据创建好
-    innerPlugins.register({
-        name: 'component_meta_parser',
-        init(ctx) {
-            const { editor, designer, project } = ctx;
-            editor.onGot('assets', (assets: any) => {
-                const { components = [] } = assets;
-                designer.buildComponentMetaMap(components);
-                project.setUtils(assets.utils);
-            });
-        },
-    });
     // 注册默认的 setters
     innerPlugins.register({
         name: 'setter_registry',

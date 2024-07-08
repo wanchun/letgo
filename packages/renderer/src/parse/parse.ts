@@ -1,4 +1,4 @@
-import type { IPublicTypeJSExpression, IPublicTypeJSFunction, IPublicTypeUtilsMap } from '@webank/letgo-types';
+import type { IPublicTypeJSExpression, IPublicTypeJSFunction, IPublicTypeUtils } from '@webank/letgo-types';
 import { isJSExpression, isJSFunction } from '@webank/letgo-types';
 import { executeExpression, findLibExport } from '@webank/letgo-common';
 import { isFunction, isPlainObject, isString } from 'lodash-es';
@@ -64,7 +64,7 @@ export function parseSchema(schema: unknown, ctx?: Record<string, unknown>): unk
     return schema;
 }
 
-export function buildGlobalUtils(libraryMap: Record<string, string>, utils?: IPublicTypeUtilsMap, ctx?: Record<string, any>) {
+export function buildGlobalUtils(libraryMap: Record<string, string>, utils?: IPublicTypeUtils, ctx?: Record<string, any>) {
     if (utils) {
         return utils.reduce((acc, cur) => {
             if (cur.type === 'function')

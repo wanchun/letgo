@@ -1,5 +1,5 @@
 import type { IPublicTypeComponentMetadata } from './metadata';
-import type { EitherOr, IPublicTypeUtilsMap } from './utils';
+import type { EitherOr, IPublicTypeUtils } from './utils';
 import type { IPublicTypeReference } from './reference';
 import type { IPublicTypeComponentSchema, IPublicTypeProjectSchema } from '.';
 
@@ -78,7 +78,7 @@ export interface IPublicTypeAssetsJson {
     /**
      * 工具函数
      */
-    utils?: IPublicTypeUtilsMap;
+    utils?: IPublicTypeUtils;
 }
 
 /**

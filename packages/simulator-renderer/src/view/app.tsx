@@ -66,7 +66,6 @@ export default defineComponent({
 
         const globalUtils = buildGlobalUtils(props.simulator.libraryMap, host.project.utils, globalContext);
         globalContext.$utils = globalUtils;
-
         host.project.updateUtilsInstance(globalUtils);
 
         initCodesInstance(code.codeMap, globalContext);
@@ -134,6 +133,12 @@ export default defineComponent({
         });
 
         provide(BASE_GLOBAL_CONTEXT, globalContext);
+
+        watch(() => props.simulator.libraryUpdate, () => {
+            const globalUtils = buildGlobalUtils(props.simulator.libraryMap, host.project.utils, globalContext);
+            globalContext.$utils = globalUtils;
+            host.project.updateUtilsInstance(globalUtils);
+        });
 
         return () => {
             return (

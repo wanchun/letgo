@@ -38,6 +38,7 @@ export interface VueSimulatorRenderer extends IPublicTypeSimulatorRenderer<INode
     rerender: () => void;
     getCurrentDocument: () => DocumentInstance | undefined;
     initDocument: () => void;
+    libraryUpdate: number;
 }
 
 export interface DocumentInstance {

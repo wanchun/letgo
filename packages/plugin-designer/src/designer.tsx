@@ -11,6 +11,7 @@ import {
 import type { Designer } from '@webank/letgo-designer';
 import { DesignerView } from '@webank/letgo-designer';
 import type { IPluginContext } from '@webank/letgo-engine-plugin';
+import type { IPublicTypeAssetsJson } from '@webank/letgo-types';
 import './designer.less';
 
 export default defineComponent({
@@ -22,7 +23,7 @@ export default defineComponent({
     },
     setup(props) {
         const { ctx } = props;
-        const { editor, designer, config } = ctx;
+        const { editor, designer, config, project } = ctx;
 
         const componentMetadatas = ref();
 
@@ -33,35 +34,39 @@ export default defineComponent({
             editor.emit('designer.ready', designer);
         };
 
-        onBeforeMount(() => {
+        onBeforeMount(async () => {
+            const assets: IPublicTypeAssetsJson = await editor.onceGot('assets');
+            const { components, packages, utils } = assets;
             const device = config.get('device');
             const deviceClassName = config.get('deviceClassName');
             const deviceStyle = config.get('deviceStyle');
             const simulatorUrl = config.get('simulatorUrl');
             const designMode = config.get('designMode');
+            const letgoRequest = config.get('letgoRequest');
             Object.assign(simulatorProps, {
                 simulatorUrl,
-                letgoRequest: config.get('letgoRequest'),
+                letgoRequest,
                 device,
                 deviceClassName,
                 deviceStyle,
                 designMode,
+                library: packages || [],
             });
+            componentMetadatas.value = components || [];
+            project.setUtils(utils);
         });
 
-        editor.onChange('assets', (assets) => {
+        editor.onChange('assets', (assets: IPublicTypeAssetsJson) => {
             const { components, packages, utils } = assets;
-
             componentMetadatas.value = components || [];
-
+            project.setUtils(utils);
             Object.assign(simulatorProps, {
                 library: packages || [],
-                utilsMetadata: utils || [],
             });
         });
 
         return () => {
-            if (!componentMetadatas.value || !simulatorProps.library)
+            if (!simulatorProps.library || !componentMetadatas.value)
                 return;
 
             return (

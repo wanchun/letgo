@@ -1,5 +1,6 @@
 import { merge } from 'lodash-es';
 import { version } from '@webank/letgo-components';
+import { version as renderVersion } from '@webank/letgo-renderer';
 import type { IPublicTypeProCodeComponent } from '@webank/letgo-types';
 import { isProCodeComponentType } from '@webank/letgo-types';
 import type { FileTree, GenOptions } from './types';
@@ -42,6 +43,9 @@ export function genPackageJSON(fileTree: FileTree, options: GenOptions) {
             '@webank/letgo-components': version,
         },
     };
+    if (options.isSdkRender)
+        packageJSON.dependencies['@webank/letgo-renderer'] = renderVersion;
+
     pickUsedPkg(options).forEach((item) => {
         if (!item)
             return;

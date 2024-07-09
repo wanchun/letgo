@@ -27,7 +27,7 @@ function getAliasExportName(componentMap: IPublicTypeNpmInfo) {
     return cName;
 }
 
-function genComponentImports(ctx: Context, componentMaps: IPublicTypeComponentMap[], filePath: string) {
+export function genComponentImports(ctx: Context, componentMaps: IPublicTypeComponentMap[], filePath: string) {
     const importSources: ImportSource[] = [];
     componentMaps.forEach((componentMap) => {
         if (isProCodeComponentType(componentMap)) {

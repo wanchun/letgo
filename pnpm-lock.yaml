@@ -89,6 +89,9 @@ importers:
       '@webank/letgo-components':
         specifier: ^0.0.5-beta.0
         version: link:../components
+      '@webank/letgo-renderer':
+        specifier: ^0.0.5-beta.0
+        version: link:../renderer
       '@webank/letgo-types':
         specifier: ^0.0.5-beta.0
         version: link:../types

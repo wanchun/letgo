@@ -7,6 +7,7 @@ import { relative } from '../options';
 import { genImportCode } from '../common/helper';
 
 export const CLASS_FILE_NAME = 'main';
+export const CLASS_NAME = 'Main';
 
 export function genClassCode({ ctx, fileName, rootSchema }: {
     ctx: Context;
@@ -61,7 +62,7 @@ export function genClassCodeInstance(ctx: Context, rootSchema: IPublicTypeRootSc
 
     return {
         importSources: [{
-            imported: 'Main',
+            imported: CLASS_NAME,
             type: ImportType.ImportSpecifier,
             source: `./${CLASS_FILE_NAME}`,
         }, {
@@ -76,7 +77,7 @@ export function genClassCodeInstance(ctx: Context, rootSchema: IPublicTypeRootSc
             };
         })),
         code: `
-        const $$ = reactive(new Main({
+        const $$ = reactive(new ${CLASS_NAME}({
             globalContext: {
                 ${ctx.classUseCodes.$globalCode.join(',\n')}
             },

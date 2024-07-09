@@ -6,12 +6,15 @@ export interface GenOptions {
     outDir?: string;
     basePackageJSON?: Record<string, any>;
     extraPackageJSON?: Record<string, any>;
-    isSdkRender?: boolean;
     transformJsx?: (filesStruct: FileStruct[]) => FileStruct[];
     globalCodeCallback?: {
         afterConfig?: (params: CallBackParam) => void;
     };
     globalCssFileName?: string;
+    isSdkRender?: boolean;
+    sdkRenderConfig?: {
+        pickClassCode?: boolean;
+    };
 }
 
 export interface LowCodeComponentOptions extends GenOptions {

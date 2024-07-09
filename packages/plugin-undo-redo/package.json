@@ -1,7 +1,7 @@
 {
     "name": "@webank/letgo-plugin-undo-redo",
     "type": "module",
-    "version": "0.0.4-beta.5",
+    "version": "0.0.5-beta.0",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -19,10 +19,10 @@
     "dependencies": {
         "@fesjs/fes-design": "^0.8.38",
         "@icon-park/vue-next": "^1.4.2",
-        "@webank/letgo-designer": "^0.0.5-beta.1",
-        "@webank/letgo-editor-skeleton": "^0.0.5-beta.1",
-        "@webank/letgo-engine-plugin": "^0.0.5-beta.0",
-        "@webank/letgo-types": "^0.0.5-beta.1"
+        "@webank/letgo-designer": "^0.0.5-beta.2",
+        "@webank/letgo-editor-skeleton": "^0.0.5-beta.2",
+        "@webank/letgo-engine-plugin": "^0.0.5-beta.1",
+        "@webank/letgo-types": "^0.0.5-beta.2"
     },
     "devDependencies": {
         "vue": "^3.4.14"

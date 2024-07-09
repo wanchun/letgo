@@ -1,2 +1,3 @@
 // 自动生成
-export const version = '0.0.5-beta.1';
+export const version = '0.0.5-beta.2';
+    

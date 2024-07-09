@@ -63,22 +63,22 @@ export const ComponentMeta: IPublicTypeComponentMetadata = {
                                 props: {
                                     items: [
                                         {
-                                            name: 'title',
-                                            title: '属性标题',
+                                            name: 'name',
+                                            title: '英文名',
                                             setter: {
                                                 componentName: 'StringSetter',
                                                 props: {
-                                                    placeholder: '文本内容',
+                                                    placeholder: '名称',
                                                 },
                                             },
                                         },
                                         {
-                                            name: 'name',
-                                            title: '属性名称',
+                                            name: 'title',
+                                            title: '中文名',
                                             setter: {
                                                 componentName: 'StringSetter',
                                                 props: {
-                                                    placeholder: 'content',
+                                                    placeholder: '标题',
                                                 },
                                             },
                                         },

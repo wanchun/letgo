@@ -193,13 +193,16 @@ function getUsedGlobalVariables(ctx: Context) {
     return getGlobalContextKey();
 }
 
-export function genGlobalState(ctx: Context, filePath: string, schema: IPublicTypeRootSchema): SetupCode {
+export function genGlobalState(ctx: Context, filePath: string, schema: IPublicTypeRootSchema): SetupCode & {
+    useGlobalVariables: string[];
+} {
     const { letgoDir } = ctx.config;
     const useGlobalVariables = getUsedGlobalVariables(ctx);
     if (!getGlobalFlag() || isLowcodeProjectSchema(schema) || useGlobalVariables.length === 0) {
         return {
             importSources: [],
             code: '',
+            useGlobalVariables: [],
         };
     }
 
@@ -210,5 +213,6 @@ export function genGlobalState(ctx: Context, filePath: string, schema: IPublicTy
             source: relative(filePath, `${letgoDir}/${GLOBAL_STATE_FILE_NAME}`),
         }],
         code: `const {${useGlobalVariables.join(', ')}} = useSharedLetgoGlobal()`,
+        useGlobalVariables,
     };
 }

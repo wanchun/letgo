@@ -11,6 +11,10 @@ export interface GenOptions {
         afterConfig?: (params: CallBackParam) => void;
     };
     globalCssFileName?: string;
+    isSdkRender?: boolean;
+    sdkRenderConfig?: {
+        pickClassCode?: boolean;
+    };
 }
 
 export interface LowCodeComponentOptions extends GenOptions {

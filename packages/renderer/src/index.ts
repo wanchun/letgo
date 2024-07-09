@@ -3,6 +3,7 @@ export * from './utils';
 export * from './parse';
 export * from './class';
 export * from './code-impl';
+export * from './version';
 export { RendererApp as default } from './app';
 export { default as config, Config } from './config';
 export * from './context';

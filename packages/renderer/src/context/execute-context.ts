@@ -1,4 +1,4 @@
-import { computed, inject, onUnmounted, shallowReactive, watch } from 'vue';
+import { computed, inject, isReactive, onUnmounted, shallowReactive, watch } from 'vue';
 import { traverseNodeSchema } from '@webank/letgo-common';
 import type { IPublicTypeComponentInstance, IPublicTypeNodeSchema } from '@webank/letgo-types';
 import type { RendererProps } from '../core';
@@ -11,11 +11,16 @@ export function createExecuteContext(props: RendererProps) {
     const executeCtx: Record<string, any> = { };
 
     const globalContext = inject(getGlobalContextKey(), {});
-    watch(globalContext, () => {
+    if (isReactive(globalContext)) {
+        watch(globalContext, () => {
+            Object.assign(executeCtx, globalContext);
+        }, {
+            immediate: true,
+        });
+    }
+    else {
         Object.assign(executeCtx, globalContext);
-    }, {
-        immediate: true,
-    });
+    }
 
     const compInstances = shallowReactive<Record<string, any>>({});
 

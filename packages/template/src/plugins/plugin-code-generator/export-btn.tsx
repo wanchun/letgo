@@ -29,6 +29,10 @@ function transform(codeTemplate: Template, params?: Record<string, any>) {
 
 function genProjectCodes(schema: IPublicTypeProjectSchema) {
     const fileTree = genProject({
+        isSdkRender: true,
+        sdkRenderConfig: {
+            pickClassCode: true,
+        },
         schema,
         transformJsx: (filesStruct) => {
             return filesStruct.map((item) => {

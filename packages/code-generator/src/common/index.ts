@@ -4,6 +4,7 @@ import type {
     IPublicTypeRootSchema,
 } from '@webank/letgo-types';
 import { genCodeMap, traverseNodeSchema } from '@webank/letgo-common';
+import { cloneDeep } from 'lodash-es';
 import { parseCode } from '../class-code/parse';
 import { genClassCode } from '../class-code/gen-class-code';
 import { transformThis } from '../class-code/transform-this';
@@ -13,6 +14,7 @@ import { PageFileType } from './types';
 import type { Context, FileStruct } from './types';
 import { genPageJsx, genSlots } from './jsx/gen-jsx';
 import { parseUseVariables } from './parse-utils';
+import { compileRootSchemaFormSDK } from './sdk/compiler';
 
 function getComponentRefs(
     nodeData: IPublicTypeNodeData | IPublicTypeNodeData[],
@@ -107,9 +109,14 @@ export function schemaToCode(ctx: Context): FileStruct[] {
             useVariables: parseUseVariables(rootSchema, usedCode),
         };
 
+        const usedComponents = getUseComponents(ctx.schema.componentsMap, rootSchema);
+
+        if (ctx.config.isSdkRender)
+            return compileRootSchemaFormSDK(pageContext, usedComponents, rootSchema);
+
         return compileRootSchema(
             pageContext,
-            getUseComponents(ctx.schema.componentsMap, rootSchema),
+            usedComponents,
             transformThis(rootSchema),
         );
     }).filter(Boolean);

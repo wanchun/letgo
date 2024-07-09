@@ -14,8 +14,14 @@ export const PageRenderer = defineComponent({
         const { renderComp, ctx } = useRenderer(props);
 
         if (!ctx.executeCtx.__this && props.__schema.classCode) {
-            // eslint-disable-next-line no-new-func
-            const DynamicClass = Function('Page', `return (${props.__schema.classCode.trim()})`)(LetgoPageBase);
+            let DynamicClass: any;
+            if (typeof props.__schema.classCode === 'function') {
+                DynamicClass = props.__schema.classCode;
+            }
+            else {
+                // eslint-disable-next-line no-new-func
+                DynamicClass = Function('Page', `return (${props.__schema.classCode.trim()})`)(LetgoPageBase);
+            }
 
             const instance = new DynamicClass({
                 globalContext,

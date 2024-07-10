@@ -102,8 +102,10 @@ export function genComponentMeta(schema: IPublicTypeProjectSchema, options: LowC
 
     const compTitle = title || compName;
 
+    const library = options.pkgName;
+
     return `
-    export default {
+    window.${library}Meta =  {
         packages: [
             ${schema.packages.map((item) => {
                 return JSON.stringify(item);
@@ -166,7 +168,8 @@ export function genComponentMeta(schema: IPublicTypeProjectSchema, options: LowC
             }
         ],
         sort: {
-            groupList: ['低代码组件'],
+            groupList: ['${options.group || '低代码组件'}'],
+            categoryList: ['${options.category || '组件'}']
         },
     };
     `;

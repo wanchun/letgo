@@ -50,7 +50,7 @@ const ExpressionSetterView = defineComponent({
                 <ExpressionEditor
                     documentModel={props.node.document}
                     doc={currentValue.value}
-                    placeholder={props.placeholder}
+                    placeholder={props.placeholder || 'Please Enter Expression'}
                     onChange={debounce(changeValue, 500)}
                     compRef={props.node.ref}
                 />

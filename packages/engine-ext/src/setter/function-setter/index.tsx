@@ -45,7 +45,7 @@ const FunctionSetterView = defineComponent({
                 <CodeEditor
                     documentModel={props.node.document}
                     doc={currentValue.value}
-                    placeholder={props.placeholder}
+                    placeholder={props.placeholder || 'Please Enter Function'}
                     onChange={onChange}
                     compRef={props.node.ref}
                 >

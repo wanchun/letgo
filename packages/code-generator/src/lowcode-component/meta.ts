@@ -153,7 +153,7 @@ export function genComponentMeta(schema: IPublicTypeProjectSchema, options: LowC
                     },
                     props: [${propsTransformToMeta((definedProps || []), defaultProps)}]
                 },
-                sippets: [
+                snippets: [
                     {
                         title: '${compTitle}',
                         schema: {

@@ -3,7 +3,7 @@ import { computed, defineComponent } from 'vue';
 import type { ILifecycle } from '@webank/letgo-types';
 import { CodeEditor } from '@webank/letgo-components';
 import { FSelect } from '@fesjs/fes-design';
-import { IPublicPageLifecycleList, IPublicProjectLifecycleList } from '@webank/letgo-types';
+import { IPublicPageLifecycleList } from '@webank/letgo-types';
 import ContentItem from '../content-item';
 import './lifecycle-hook.less';
 
@@ -13,18 +13,10 @@ export const HookEdit = defineComponent({
         hints: Object as PropType<Record<string, any>>,
         codeItem: Object as PropType<ILifecycle>,
         changeContent: Function as PropType<(id: string, content: Partial<ILifecycle>) => void>,
-        type: String as PropType<'project' | 'page'>,
+        type: String as PropType<'page'>,
     },
     setup(props) {
         const hookList = computed(() => {
-            if (props.type === 'project') {
-                return IPublicProjectLifecycleList.map((item) => {
-                    return {
-                        ...item,
-                        label: `${item.value} - ${item.label}`,
-                    };
-                });
-            }
             if (props.type === 'page') {
                 return IPublicPageLifecycleList.map((item) => {
                     return {

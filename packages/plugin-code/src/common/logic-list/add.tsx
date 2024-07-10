@@ -2,7 +2,7 @@ import type { PropType } from 'vue';
 import { defineComponent, h } from 'vue';
 import { FDropdown } from '@fesjs/fes-design';
 import { PlusOutlined } from '@fesjs/fes-design/icon';
-import { IEnumCodeType, IEnumResourceType, IPublicEnumPageLifecycle, IPublicEnumProjectLifecycle } from '@webank/letgo-types';
+import { IEnumCodeType, IEnumResourceType, IPublicEnumPageLifecycle } from '@webank/letgo-types';
 import { FolderIcon } from '@webank/letgo-components';
 import { IconMap, ResourceTypeIcon } from '../constants';
 
@@ -13,7 +13,7 @@ export const AddAction = defineComponent({
             default: (): string[] => [],
         },
         onAdd: Function as PropType<(value: string, params?: Record<string, any>) => void>,
-        type: String as PropType<'project' | 'page'>,
+        type: String as PropType<'page'>,
     },
     setup(props) {
         const options = [
@@ -37,7 +37,7 @@ export const AddAction = defineComponent({
                 label: '计算变量',
                 icon: () => h(IconMap[IEnumCodeType.JAVASCRIPT_COMPUTED]),
             },
-            {
+            props.type === 'page' && {
                 value: IEnumCodeType.LIFECYCLE_HOOK,
                 label: '生命周期',
                 icon: () => h(IconMap[IEnumCodeType.LIFECYCLE_HOOK]),
@@ -60,12 +60,6 @@ export const AddAction = defineComponent({
                 if (props.type === 'page') {
                     props.onAdd(val, {
                         hookName: IPublicEnumPageLifecycle.Mounted,
-                    });
-                    return;
-                }
-                if (props.type === 'project') {
-                    props.onAdd(val, {
-                        hookName: IPublicEnumProjectLifecycle.BeforeRender,
                     });
                     return;
                 }

@@ -44,7 +44,7 @@ const JsonSetterView = defineComponent({
                 <CodeMirror
                     doc={currentValue.value}
                     onChange={onChange}
-                    placeholder={props.placeholder}
+                    placeholder={props.placeholder || 'Please Enter JSON'}
                     extensions={[json()]}
                 >
                 </CodeMirror>

@@ -31,7 +31,7 @@ export const LogicList = defineComponent({
         code: Object as PropType<IPublicModelCode>,
         searchText: String,
         onSelect: Function as PropType<((id?: string) => void)>,
-        type: String as PropType<'project' | 'page'>,
+        type: String as PropType<'page'>,
     },
     setup(props, { expose }) {
         const codeItemsEditing = reactive<Record<string, boolean>>({});

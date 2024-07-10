@@ -67,8 +67,6 @@ export default defineRuntimeConfig({
     },
     beforeRender: {
         async action() {
-            const global = useSharedLetgoGlobal();
-            global.beforeRender?.();
             {{^HAS_MICRO}}
             // 非微前端场景
 

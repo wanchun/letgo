@@ -35,7 +35,7 @@ export const DirectoryActions = defineComponent({
         onRename: Function as PropType<(id: string) => void>,
         onSelect: Function as PropType<((id?: string) => void)>,
         onDelete: Function as PropType<((id: string | string[]) => void)>,
-        type: String as PropType<'project' | 'page'>,
+        type: String as PropType<'page'>,
     },
     setup(props) {
         const currentFolder = computed(() => {

@@ -1,3 +1,12 @@
+## [0.0.5-beta.3](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.2...v0.0.5-beta.3) (2024-7-10)
+
+
+### Bug Fixes
+
+* 修复 v-slot 中划线问题 ([419cbd5](https://git.weoa.com/mumblefe/letgo/commits/419cbd5850911362cf29b41a881093eab29cbad8))
+
+
+
 ## [0.0.5-beta.2](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.0...v0.0.5-beta.2) (2024-7-9)
 
 

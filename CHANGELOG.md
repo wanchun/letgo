@@ -1,3 +1,13 @@
+## [0.0.5-beta.5](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.4...v0.0.5-beta.5) (2024-07-10)
+
+
+### Bug Fixes
+
+* 优化 function/expression setter placeholder ([44791ac](https://git.weoa.com/mumblefe/letgo/commits/44791ac94c71e1574a83212fe2670753db3f77fd))
+* 修复低代码组件出码问题 ([4fe7bf6](https://git.weoa.com/mumblefe/letgo/commits/4fe7bf657eba4345c9718cc5de05b03edccbc1b6))
+
+
+
 ## [0.0.5-beta.4](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.3...v0.0.5-beta.4) (2024-07-10)
 
 

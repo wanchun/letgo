@@ -21,7 +21,7 @@ export const CodeList = defineComponent({
             default: (): string[] => [],
         },
         searchText: String,
-        type: String as PropType<'project' | 'page'>,
+        type: String as PropType<'page'>,
     },
     setup(props) {
         const logicListRef = ref();

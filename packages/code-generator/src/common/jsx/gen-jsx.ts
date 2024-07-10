@@ -342,7 +342,7 @@ function genSlotDirective(ctx: Context, item: IPublicTypeNodeSchema, componentRe
         result = `
         v-slots={{
             ${Object.keys(slotDefine).map((key) => {
-                return `${key}: ${slotDefine[key]},`;
+                return `'${key}': ${slotDefine[key]},`;
             }).join('\n')}
         }}
         `;

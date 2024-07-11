@@ -102,21 +102,16 @@ export function genComponentMeta(schema: IPublicTypeProjectSchema, options: LowC
 
     const compTitle = title || compName;
 
-    const library = options.pkgName;
-
     return `
-    window.${library}Meta =  {
+    window.${compName}Meta =  {
         packages: [
-            ${schema.packages.map((item) => {
-                return JSON.stringify(item);
-            }).join(',')}
-            ${schema.packages.length ? ',' : ''}
             {
                 title: '${compTitle}',
                 id: '${rootSchema.id}',
                 version: '${options.extraPackageJSON.version}',
                 type: 'lowCode',
                 schema: {
+                    version: '1.0.0',
                     utils: ${JSON.stringify(schema.utils || [])}, 
                     componentsMap: ${JSON.stringify(schema.componentsMap)},
                     componentsTree: [

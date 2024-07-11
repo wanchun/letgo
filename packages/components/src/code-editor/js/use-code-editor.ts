@@ -147,7 +147,6 @@ export function useCodeEditor(props: CodeEditorProps) {
     });
 
     watch(() => props.doc, (value) => {
-        console.log(props.id, props.doc);
         const currentValue = editorView ? editorView.state.doc.toString() : '';
         if (editorView && value !== currentValue) {
             editorView.dispatch({

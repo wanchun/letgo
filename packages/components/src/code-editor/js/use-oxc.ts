@@ -1,3 +1,4 @@
+import type { Ref } from 'vue';
 import { computed, reactive, ref } from 'vue';
 import { createGlobalState } from '@vueuse/core';
 
@@ -50,21 +51,29 @@ function _usOxcWorker() {
 export const useSharedBiomeWorker = createGlobalState(_usOxcWorker);
 
 let filenameCounter = 0;
-export function useOxcWorker(id: string) {
-    const filename = `${id || filenameCounter++}.js`;
+export function useOxcWorker(id: Ref<string>) {
+    const filename = computed(() => {
+        return `${id.value || filenameCounter++}.js`;
+    });
     const { files, updateFile, loadingState } = useSharedBiomeWorker();
 
     const oxcOutput = computed(() => {
-        return files[filename];
+        return files[filename.value];
     });
+
+    const getFormatCode = (fileName: string) => {
+        const output = files[fileName];
+        return output?.formatter;
+    };
 
     const updateCode = throttle((doc: string) => {
         if (loadingState.value === LoadingState.Success)
-            updateFile(filename, doc);
+            updateFile(filename.value, doc);
     }, 100);
 
     return {
         oxcOutput,
         updateCode,
+        getFormatCode,
     };
 };

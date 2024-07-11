@@ -1,3 +1,13 @@
+## [0.0.5-beta.7](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.6...v0.0.5-beta.7) (2024-7-11)
+
+
+### Bug Fixes
+
+* 修复 function 相互覆盖问题 ([3bbceb6](https://git.weoa.com/mumblefe/letgo/commits/3bbceb64f811cbeaa7eafb47e2a35ee884575903))
+* 修复渲染卡顿问题 ([#74](https://git.weoa.com/mumblefe/letgo/issues/74)) ([d59e3dc](https://git.weoa.com/mumblefe/letgo/commits/d59e3dc3cdea9e357a8605c1d74437fcf04ef20a))
+
+
+
 ## [0.0.5-beta.6](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.5...v0.0.5-beta.6) (2024-07-11)
 
 

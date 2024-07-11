@@ -1,3 +1,13 @@
+## [0.0.5-beta.6](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.5...v0.0.5-beta.6) (2024-07-11)
+
+
+### Bug Fixes
+
+* 低代码组件物料描述中不需要加载包,改为声明依赖 ([ad23b91](https://git.weoa.com/mumblefe/letgo/commits/ad23b9140c186a0b74ee78b29c523524cf037525))
+* 修复手动设置schema异常 ([bf27f22](https://git.weoa.com/mumblefe/letgo/commits/bf27f22c6705df64038093dbce8b49d921fb3d7c))
+
+
+
 ## [0.0.5-beta.5](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.4...v0.0.5-beta.5) (2024-07-10)
 
 

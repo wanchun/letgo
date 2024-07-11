@@ -1,7 +1,7 @@
 // 构建运行时 context
-import { traverseNodeSchema } from '@webank/letgo-common';
+import { markClassReactive, traverseNodeSchema } from '@webank/letgo-common';
 import { inject, reactive, shallowReactive, watch } from 'vue';
-import { LetgoPageBase } from '@webank/letgo-renderer';
+import { LetgoPageBase, executeClassPropReactive } from '@webank/letgo-renderer';
 import { BASE_GLOBAL_CONTEXT } from '../constants';
 import type { DocumentInstance } from '../interface';
 import type { CodeImplType } from '../code-impl/code-impl';
@@ -25,10 +25,10 @@ function createClassInstance(options: {
 export function useContext(codesInstance: Record<string, CodeImplType>, documentInstance: DocumentInstance) {
     const globalContext = inject(BASE_GLOBAL_CONTEXT) as Record<string, any>;
 
-    const executeCtx = shallowReactive({
+    const executeCtx = {
         ...globalContext,
         ...codesInstance,
-    });
+    };
 
     watch(globalContext, (value, oldValue) => {
         Object.keys(oldValue).forEach((key) => {
@@ -61,7 +61,7 @@ export function useContext(codesInstance: Record<string, CodeImplType>, document
     });
 
     documentInstance.document.onClassCodeChange(() => {
-        executeCtx.__this = documentInstance.document.classCode
+        const instance = documentInstance.document.classCode
             ? reactive(createClassInstance({
                 code: documentInstance.document.classCode,
                 globalContext,
@@ -69,16 +69,25 @@ export function useContext(codesInstance: Record<string, CodeImplType>, document
                 codesInstance,
             }))
             : null;
+
+        executeCtx.__this = instance
+            ? markClassReactive(instance, (member) => {
+                return executeClassPropReactive(instance, member);
+            })
+            : instance;
         codesInstance.this = executeCtx.__this;
     });
 
     if (documentInstance.schema.classCode) {
-        executeCtx.__this = reactive(createClassInstance({
+        const instance = createClassInstance({
             code: documentInstance.schema.classCode,
             globalContext,
             compInstances,
             codesInstance,
-        }));
+        });
+        executeCtx.__this = markClassReactive(instance, (member) => {
+            return executeClassPropReactive(instance, member);
+        });
         codesInstance.this = executeCtx.__this;
     }
 

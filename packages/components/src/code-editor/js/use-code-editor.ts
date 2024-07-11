@@ -14,7 +14,7 @@ import {
 import { vscodeKeymap } from '@replit/codemirror-vscode-keymap';
 import { basicSetup } from '@uiw/codemirror-extensions-basic-setup';
 import { isFunction } from 'lodash-es';
-import { onBeforeUnmount, ref, watch } from 'vue';
+import { onBeforeUnmount, ref, toRef, watch } from 'vue';
 import type { CodeEditorProps } from '../types';
 import { HintTheme, hintPlugin, useHint, useScopeVariables } from './use-hint';
 import { useOxcWorker } from './use-oxc';
@@ -28,7 +28,7 @@ export function useCodeEditor(props: CodeEditorProps) {
 
     const scopeVariables = useScopeVariables(props);
     const { hintOptions } = useHint(scopeVariables);
-    const { updateCode, oxcOutput } = useOxcWorker(props.id);
+    const { updateCode, oxcOutput, getFormatCode } = useOxcWorker(toRef(() => props.id));
 
     const theme = EditorView.theme({
         ...HintTheme,
@@ -68,12 +68,13 @@ export function useCodeEditor(props: CodeEditorProps) {
     };
 
     const innerOnBlur = (doc: string) => {
-        const formattedDoc = oxcOutput.value?.formatter || doc;
-        if (isFunction(props.onChange) && formattedDoc !== doc)
-            props.onChange(formattedDoc, focusId);
+        const formatCode = getFormatCode(focusId);
+        const updateCoded = formatCode ?? doc;
+        if (isFunction(props.onChange) && updateCoded !== doc)
+            props.onChange(updateCoded, focusId);
 
         if (isFunction(props.onBlur))
-            props.onBlur(formattedDoc, focusId);
+            props.onBlur(updateCoded, focusId);
     };
 
     const genState = () => {

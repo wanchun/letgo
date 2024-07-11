@@ -25,10 +25,10 @@ function createClassInstance(options: {
 export function useContext(codesInstance: Record<string, CodeImplType>, documentInstance: DocumentInstance) {
     const globalContext = inject(BASE_GLOBAL_CONTEXT) as Record<string, any>;
 
-    const executeCtx = shallowReactive({
+    const executeCtx = {
         ...globalContext,
         ...codesInstance,
-    });
+    };
 
     watch(globalContext, (value, oldValue) => {
         Object.keys(oldValue).forEach((key) => {

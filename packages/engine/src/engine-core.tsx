@@ -1,5 +1,5 @@
 import type { PropType } from 'vue';
-import { defineComponent, onBeforeMount, onBeforeUnmount, ref } from 'vue';
+import { defineComponent, onBeforeMount, onBeforeUnmount, ref, watch } from 'vue';
 import { Designer, registerMetadataTransducer } from '@webank/letgo-designer';
 import type { IEngineOptions } from '@webank/letgo-editor-core';
 import { Hotkey, editor, engineConfig } from '@webank/letgo-editor-core';
@@ -81,6 +81,12 @@ export const LetgoEngine = defineComponent({
 
             isReady.value = true;
             props.onReady?.();
+        });
+        watch(() => props.options, () => {
+            if (props.options)
+                engineConfig.setEngineOptions(props.options);
+        }, {
+            deep: true,
         });
 
         onBeforeUnmount(destroy);

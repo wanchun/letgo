@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, reactive } from 'vue';
 import { IconSetter, LetgoEngine, material, project } from '@webank/letgo-engine';
 import { createRequest } from '@qlin/request';
 import lowcAssets from '../assets/lowcAssets';
@@ -10,7 +10,7 @@ import page from '../assets/page';
 export default defineComponent({
     components: { LetgoEngine },
     setup() {
-        material.setAssets(lowcAssets);
+        material.setAssets(assets);
 
         IconSetter.defaultIcons = icons;
 
@@ -43,24 +43,30 @@ export default defineComponent({
             });
             console.log('project:', project);
         };
-
-        return {
-            options: {
-                enableContextMenu: true,
-                vueRuntimeUrl:
+        const options = reactive({
+            enableContextMenu: true,
+            vueRuntimeUrl:
                     'https://registry.npmmirror.com/vue/latest/files/dist/vue.global.js',
-                simulatorUrl: [
+            simulatorUrl: [
                     `${process.env.FES_APP_SIMULATOR_PATH}/letgo-render.umd.js`,
                     `${process.env.FES_APP_SIMULATOR_PATH}/letgo-render.css`,
-                ],
-                letgoRequest: createRequest({
-                    mode: 'cors',
-                    credentials: 'same-origin',
-                    requestInterceptor(config) {
-                        return config;
-                    },
-                }),
-            },
+            ],
+            letgoRequest: createRequest({
+                mode: 'cors',
+                credentials: 'same-origin',
+                requestInterceptor(config) {
+                    return config;
+                },
+            }),
+
+        });
+
+        // setTimeout(() => {
+        //     options.device = 'mobile';
+        // }, 1000);
+
+        return {
+            options,
             onReady,
         };
     },

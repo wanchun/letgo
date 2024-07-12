@@ -27,7 +27,7 @@ export default defineComponent({
 
         const componentMetadatas = ref();
 
-        const simulatorProps: ShallowReactive<{ library?: [] }>
+        const simulatorProps: ShallowReactive<{ device?: string; library?: [] }>
             = shallowReactive({});
 
         const onDesignerMount = (designer: Designer): void => {
@@ -54,6 +54,10 @@ export default defineComponent({
             });
             componentMetadatas.value = components || [];
             project.setUtils(utils);
+        });
+
+        config.onGot('device', (val: string) => {
+            simulatorProps.device = val;
         });
 
         editor.onChange('assets', (assets: IPublicTypeAssetsJson) => {

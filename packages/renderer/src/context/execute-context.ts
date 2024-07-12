@@ -76,6 +76,8 @@ export function createExecuteContext(props: RendererProps) {
 
             else
                 codeInstances[key] = value;
+            // 提前更新执行上下文
+            executeCtx[key] = codeInstances[key];
         },
         onClear(keys: string[]) {
             keys.forEach((key) => {

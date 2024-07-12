@@ -97,13 +97,14 @@ function propsTransformToMeta(props: IPublicTypeComponentSchema['definedProps'],
 export function genComponentMeta(schema: IPublicTypeProjectSchema, options: LowCodeComponentOptions) {
     const rootSchema = schema.componentsTree[0] as IPublicTypeComponentSchema;
     const compName = genComponentName(rootSchema.fileName);
+    const library = rootSchema.fileName;
 
     const { title, definedProps, defaultProps = {} } = rootSchema;
 
     const compTitle = title || compName;
 
     return `
-    window.${compName}Meta =  {
+    window.${library}Meta =  {
         packages: [
             {
                 title: '${compTitle}',
@@ -127,7 +128,7 @@ export function genComponentMeta(schema: IPublicTypeProjectSchema, options: LowC
                         }
                     ]
                 },
-                library: '${compName}',
+                library: '${library}',
             },
         ],
         components: [

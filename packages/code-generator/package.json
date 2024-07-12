@@ -15,8 +15,8 @@
     "dependencies": {
         "@webank/letgo-common": "^0.0.5-beta.4",
         "@webank/letgo-components": "^0.0.5-beta.4",
-        "@webank/letgo-types": "^0.0.5-beta.3",
         "@webank/letgo-renderer": "^0.0.5-beta.5",
+        "@webank/letgo-types": "^0.0.5-beta.3",
         "acorn": "^8.12.0",
         "jszip": "^3.10.1",
         "lodash-es": "^4.17.21"

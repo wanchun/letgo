@@ -1,3 +1,13 @@
+## [0.0.5-beta.8](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.7...v0.0.5-beta.8) (2024-7-12)
+
+
+### Bug Fixes
+
+* 修复 device 响应式问题 ([c61a594](https://git.weoa.com/mumblefe/letgo/commits/c61a5945adc60d63ff40c9663e33bddba272e01d))
+* 修复 renderer ctx 初始化时机问题 ([74772c1](https://git.weoa.com/mumblefe/letgo/commits/74772c1412fe43a1cd4130929d36ed53cd7242a6))
+
+
+
 ## [0.0.5-beta.7](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.6...v0.0.5-beta.7) (2024-7-11)
 
 

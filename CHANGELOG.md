@@ -1,3 +1,12 @@
+## [0.0.5-beta.9](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.8...v0.0.5-beta.9) (2024-07-12)
+
+
+### Bug Fixes
+
+* 修复低代码组件出码问题 ([45dcffb](https://git.weoa.com/mumblefe/letgo/commits/45dcffb66fc452c8aab3c2bc6cc41ca96fa7a833))
+
+
+
 ## [0.0.5-beta.8](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.7...v0.0.5-beta.8) (2024-7-12)
 
 

@@ -1,3 +1,13 @@
+## [0.0.5-beta.10](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.9...v0.0.5-beta.10) (2024-7-15)
+
+
+### Bug Fixes
+
+* 修复 scope 问题 ([6126a4f](https://git.weoa.com/mumblefe/letgo/commits/6126a4fe876eddf63f95dcd7f1b9892834da5221))
+* 修复 sdk 出码有纯 style import的问题 ([ef90d09](https://git.weoa.com/mumblefe/letgo/commits/ef90d09c490cdaba17dd6b4a0b51733f1f5b1bb4))
+
+
+
 ## [0.0.5-beta.9](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.8...v0.0.5-beta.9) (2024-07-12)
 
 

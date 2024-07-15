@@ -9,7 +9,9 @@ import { CLASS_FILE_NAME, CLASS_NAME, genClassCode } from '../../class-code/gen-
 function genComponentMap(codeImports: ImportSource[]) {
     return `
     const components = {
-        ${codeImports.map((item) => {
+        ${codeImports.filter((item) => {
+            return item.alias || item.imported;
+        }).map((item) => {
             return `'${item.alias || item.imported}': ${item.alias || item.imported}`;
         }).join(',')}
     };`;

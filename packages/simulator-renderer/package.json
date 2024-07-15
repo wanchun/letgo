@@ -1,6 +1,6 @@
 {
     "name": "@webank/letgo-simulator-renderer",
-    "version": "0.0.5-beta.7",
+    "version": "0.0.5-beta.8",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -16,9 +16,9 @@
     "dependencies": {
         "@fesjs/fes-design": "^0.8.38",
         "@webank/letgo-common": "^0.0.5-beta.4",
-        "@webank/letgo-components": "^0.0.5-beta.4",
-        "@webank/letgo-designer": "^0.0.5-beta.4",
-        "@webank/letgo-renderer": "^0.0.5-beta.6",
+        "@webank/letgo-components": "^0.0.5-beta.5",
+        "@webank/letgo-designer": "^0.0.5-beta.5",
+        "@webank/letgo-renderer": "^0.0.5-beta.7",
         "@webank/letgo-types": "^0.0.5-beta.3",
         "lodash-es": "^4.17.21",
         "vue-router": "^4.2.2"

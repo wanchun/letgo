@@ -1,3 +1,19 @@
+## [0.0.5-beta.11](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.9...v0.0.5-beta.11) (2024-7-15)
+
+
+### Bug Fixes
+
+* 去掉无用console ([f06307c](https://git.weoa.com/mumblefe/letgo/commits/f06307cb08d9924160a211a2db999f3d4ea66ad6))
+* 修复 scope 问题 ([6126a4f](https://git.weoa.com/mumblefe/letgo/commits/6126a4fe876eddf63f95dcd7f1b9892834da5221))
+* 修复 sdk 出码有纯 style import的问题 ([ef90d09](https://git.weoa.com/mumblefe/letgo/commits/ef90d09c490cdaba17dd6b4a0b51733f1f5b1bb4))
+
+
+### Features
+
+* 添加出码 sdk ([bfa6e2a](https://git.weoa.com/mumblefe/letgo/commits/bfa6e2ad677ac2dd08763252edcf8716424ef6d7))
+
+
+
 ## [0.0.5-beta.10](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.9...v0.0.5-beta.10) (2024-7-15)
 
 

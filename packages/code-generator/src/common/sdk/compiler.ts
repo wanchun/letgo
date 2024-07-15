@@ -18,12 +18,13 @@ function genComponentMap(codeImports: ImportSource[]) {
 }
 
 function genSchema(ctx: Context, rootSchema: IPublicTypeRootSchema): SetupCode {
+    let result: SetupCode;
     if (rootSchema.classCode && ctx.config.sdkRenderConfig?.pickClassCode) {
         const schema = {
             ...rootSchema,
             classCode: '__$$CLASS_CODE',
         };
-        return {
+        result = {
             code: `const schema = ${JSON.stringify(schema, null, 2).replace(/\"__\$\$CLASS_CODE\"/, CLASS_NAME)};`,
             importSources: [{
                 imported: CLASS_NAME,
@@ -32,16 +33,22 @@ function genSchema(ctx: Context, rootSchema: IPublicTypeRootSchema): SetupCode {
             }],
         };
     }
-    return {
-        code: `const schema = ${JSON.stringify(rootSchema, null, 2)};`,
-        importSources: [],
-    };
+    else {
+        result = {
+            code: `const schema = ${JSON.stringify(rootSchema, null, 2)};`,
+            importSources: [],
+        };
+    }
+
+    return ctx.config.transformGenSchema ? ctx.config.transformGenSchema(result) : result;
 }
 
-function genSdkRender() {
-    return `return () => {
+function genSdkRender(ctx: Context) {
+    const jsxCode = `return () => {
         return <Renderer schema={schema} components={components} />
     }`;
+
+    return ctx.config.transformSdkJsx ? ctx.config.transformSdkJsx(jsxCode) : jsxCode;
 }
 
 function genGlobalCode(usedGlobalVar: string[]): SetupCode {
@@ -92,7 +99,7 @@ export function compileRootSchemaFormSDK(
             fileName,
             routeName: formatPageName(fileName),
             pageTitle: formatPageTitle(rootSchema.title),
-            afterImports: [genComponentMap(codeImports), schemaSnippet.code],
+            afterImports: [genComponentMap(codeImports)],
             importSources: [].concat(
                 globalStateSnippet.importSources,
                 injectGlobalCodeSnippet.importSources,
@@ -105,8 +112,8 @@ export function compileRootSchemaFormSDK(
                 },
             ),
             classCode: ctx.config.sdkRenderConfig?.pickClassCode ? genClassCode({ ctx, fileName, rootSchema }) : null,
-            codes: [globalStateSnippet.code, injectGlobalCodeSnippet.code].filter(Boolean),
-            jsx: genSdkRender(),
+            codes: [globalStateSnippet.code, injectGlobalCodeSnippet.code, schemaSnippet.code].filter(Boolean),
+            jsx: genSdkRender(ctx),
         };
     }
     return null;

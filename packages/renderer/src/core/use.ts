@@ -46,7 +46,7 @@ import {
     mergeScope,
     parseSlotScope,
 } from '../utils';
-import type { PropSchemaMap, RendererProps, SlotSchemaMap } from './base';
+import { type PropSchemaMap, type RendererProps, type SlotSchemaMap, getHtmlComp } from './base';
 import { Live } from './live';
 
 export function isNodeData(val: unknown): val is IPublicTypeNodeData | IPublicTypeNodeData[] {
@@ -100,7 +100,7 @@ function render({
     // 若不传入 comp，则根据节点的 componentName 推断
     if (!comp) {
         const { componentName } = schema;
-        comp = components[componentName] || components[`${componentName}Renderer`];
+        comp = components[componentName] || components[`${componentName}Renderer`] || getHtmlComp(componentName);
     }
 
     if (!comp)

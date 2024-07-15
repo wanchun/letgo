@@ -15,6 +15,8 @@ export interface GenOptions {
     sdkRenderConfig?: {
         pickClassCode?: boolean;
     };
+    transformGenSchema?: (codeSnippet: SetupCode) => SetupCode;
+    transformSdkJsx?: (code: string) => string;
 }
 
 export interface LowCodeComponentOptions extends GenOptions {

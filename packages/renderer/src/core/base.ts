@@ -1,10 +1,11 @@
-import type { Component, ExtractPublicPropTypes, PropType, VNodeProps } from 'vue';
+import type { Component, ExtractPublicPropTypes, PropType } from 'vue';
 import type {
     IPublicTypeNodeData,
     IPublicTypeNodeSchema,
     IPublicTypeRootSchema,
     IPublicTypeSlotSchema,
 } from '@webank/letgo-types';
+import { generateHtmlComp } from '@webank/letgo-common';
 import type { RuntimeScope } from '../utils';
 
 export const rendererProps = {
@@ -22,6 +23,11 @@ export const rendererProps = {
     },
     isRoot: Boolean,
 } as const;
+
+// TODO: 待优化
+export function getHtmlComp(elementName: string) {
+    return generateHtmlComp(elementName);
+}
 
 export type RendererProps = ExtractPublicPropTypes<typeof rendererProps>;
 

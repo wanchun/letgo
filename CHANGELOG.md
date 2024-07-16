@@ -1,3 +1,14 @@
+## [0.0.5-beta.13](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.12...v0.0.5-beta.13) (2024-07-16)
+
+
+### Bug Fixes
+
+* svg animat ([#75](https://git.weoa.com/mumblefe/letgo/issues/75)) ([eeead56](https://git.weoa.com/mumblefe/letgo/commits/eeead56cdcf1f3b64ae314edfaaa64d26c92984d))
+* 优化render低代码组件 ([8bd065d](https://git.weoa.com/mumblefe/letgo/commits/8bd065d3286917a9c0405d4f93a299fb636ed21c))
+* 修复大纲树拖拽问题 ([8a8f098](https://git.weoa.com/mumblefe/letgo/commits/8a8f098b3737ff66dd6502466989576f231b1578))
+
+
+
 ## [0.0.5-beta.12](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.11...v0.0.5-beta.12) (2024-07-16)
 
 

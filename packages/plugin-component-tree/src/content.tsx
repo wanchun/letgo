@@ -14,7 +14,7 @@ import {
     shallowRef,
 } from 'vue';
 import './component-tree.less';
-import { MODAL_VIEW_VALUE, type DropInfo, type TreeNode } from './components/const';
+import { type DropInfo, MODAL_VIEW_VALUE, type TreeNode } from './components/const';
 import { TreeView } from './components/tree';
 import { SuffixView } from './suffix';
 
@@ -203,7 +203,7 @@ export const ContentView = defineComponent({
             if (!checkDrop(dropNode, dragNode))
                 return;
 
-            insertChild(containerNode, sourceNode, index);
+            insertChild(containerNode, sourceNode, index - 1);
         };
 
         return () => {

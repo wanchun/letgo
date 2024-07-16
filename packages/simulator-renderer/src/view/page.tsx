@@ -1,7 +1,7 @@
 import { computed, defineComponent, h, nextTick, onUnmounted, provide, watch } from 'vue';
 import type { PropType } from 'vue';
 import type { RuntimeScope } from '@webank/letgo-renderer';
-import { Renderer } from '@webank/letgo-renderer';
+import { Renderer, getVueInstance } from '@webank/letgo-renderer';
 import type {
     ICodeItem,
     IPublicTypeComponentInstance,
@@ -12,7 +12,6 @@ import { BASE_COMP_CONTEXT } from '../constants';
 import { useCodesInstance } from '../code-impl/code-impl';
 import { useContext } from '../context/context';
 import { host } from '../host';
-import { getVueInstance } from '../utils';
 import { Hoc } from './hoc';
 
 export default defineComponent({

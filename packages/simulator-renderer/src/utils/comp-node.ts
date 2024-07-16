@@ -1,5 +1,5 @@
-import { isNil, isObject } from 'lodash-es';
-import type { ComponentInternalInstance, VNode } from 'vue';
+import { isObject } from 'lodash-es';
+import type { ComponentInternalInstance } from 'vue';
 import { isProxy } from 'vue';
 import type { IPublicTypeComponentInstance, IPublicTypeComponentRecord } from '@webank/letgo-types';
 
@@ -7,11 +7,6 @@ const SYMBOL_VDID = Symbol('_LCDocId');
 const SYMBOL_VNID = Symbol('_LCNodeId');
 const SYMBOL_VInstance = Symbol('_LCVueInstance');
 const SYMBOL_RECORD_FLAG = Symbol('_LCVueCompRecord');
-
-export interface VNodeHTMLElement extends HTMLElement {
-    __vnode: VNode;
-    __vueParentComponent: ComponentInternalInstance;
-}
 
 export interface CompRootHTMLElement extends HTMLElement {
     [SYMBOL_VDID]: string;
@@ -44,25 +39,6 @@ export class ComponentRecord implements IPublicTypeComponentRecord {
         this.nid = nid;
         this.cid = cid;
     }
-}
-
-export function isVNodeHTMLElement(el: unknown): el is VNodeHTMLElement {
-    return (
-        isObject(el)
-        && '__vueParentComponent' in el
-        && !isNil(el.__vueParentComponent)
-    );
-}
-
-export function getVueInstance(instanceOrEl: IPublicTypeComponentInstance | HTMLElement) {
-    let instance;
-    if ('$' in instanceOrEl)
-        instance = instanceOrEl;
-
-    else if (isVNodeHTMLElement(instanceOrEl))
-        instance = instanceOrEl.__vueParentComponent.proxy!;
-
-    return instance;
 }
 
 export function isCompRootHTMLElement(

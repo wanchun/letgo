@@ -5,6 +5,7 @@ import { formatFileName, formatPageName, formatPageTitle, genPageEntry } from '.
 import { genComponentImports } from '../script';
 import { genGlobalState } from '../global-state';
 import { CLASS_FILE_NAME, CLASS_NAME, genClassCode } from '../../class-code/gen-class-code';
+import { relative } from '../../options';
 
 function genComponentMap(codeImports: ImportSource[]) {
     return `
@@ -39,8 +40,8 @@ function genSchema(ctx: Context, rootSchema: IPublicTypeRootSchema): SetupCode {
             importSources: [],
         };
     }
-
-    return ctx.config.transformGenSchema ? ctx.config.transformGenSchema(result) : result;
+    const transformGenSchema = ctx.config.sdkRenderConfig?.transformGenSchema;
+    return transformGenSchema ? transformGenSchema(rootSchema, result) : result;
 }
 
 function genSdkRender(ctx: Context) {
@@ -48,7 +49,8 @@ function genSdkRender(ctx: Context) {
         return <Renderer schema={schema} components={components} />
     }`;
 
-    return ctx.config.transformSdkJsx ? ctx.config.transformSdkJsx(jsxCode) : jsxCode;
+    const transformSdkJsx = ctx.config.sdkRenderConfig?.transformSdkJsx;
+    return transformSdkJsx ? transformSdkJsx(jsxCode) : jsxCode;
 }
 
 function genGlobalCode(usedGlobalVar: string[]): SetupCode {
@@ -75,6 +77,21 @@ function genGlobalCode(usedGlobalVar: string[]): SetupCode {
     };
 }
 
+function genRequest(ctx: Context, filePath: string) {
+    return {
+        // 防止微前端渲染场景 window 被劫持
+        code: `const _win = new Function('return this')();
+        _win.letgoRequest = letgoRequest;`,
+        importSources: [
+            {
+                type: ImportType.ImportSpecifier,
+                source: relative(filePath, `${ctx.config.letgoDir}/letgoRequest`),
+                imported: 'letgoRequest',
+            },
+        ],
+    };
+}
+
 /**
  * TODO
  * classCode 问题
@@ -92,6 +109,7 @@ export function compileRootSchemaFormSDK(
         const globalStateSnippet = genGlobalState(ctx, filePath, rootSchema);
         const injectGlobalCodeSnippet = genGlobalCode(globalStateSnippet.useGlobalVariables);
         const schemaSnippet = genSchema(ctx, rootSchema);
+        const requestSnippet = genRequest(ctx, filePath);
 
         return {
             rawFileName: rootSchema.fileName,
@@ -99,7 +117,7 @@ export function compileRootSchemaFormSDK(
             fileName,
             routeName: formatPageName(fileName),
             pageTitle: formatPageTitle(rootSchema.title),
-            afterImports: [genComponentMap(codeImports)],
+            afterImports: [genComponentMap(codeImports), requestSnippet.code],
             importSources: [].concat(
                 globalStateSnippet.importSources,
                 injectGlobalCodeSnippet.importSources,
@@ -110,6 +128,7 @@ export function compileRootSchemaFormSDK(
                     source: '@webank/letgo-renderer',
                     type: ImportType.ImportSpecifier,
                 },
+                requestSnippet.importSources,
             ),
             classCode: ctx.config.sdkRenderConfig?.pickClassCode ? genClassCode({ ctx, fileName, rootSchema }) : null,
             codes: [globalStateSnippet.code, injectGlobalCodeSnippet.code, schemaSnippet.code].filter(Boolean),

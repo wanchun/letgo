@@ -5,8 +5,9 @@ import type {
     IPublicTypeRootSchema,
     IPublicTypeSlotSchema,
 } from '@webank/letgo-types';
-import { generateHtmlComp } from '@webank/letgo-common';
 import type { RuntimeScope } from '../utils';
+
+export const HtmlCompWhitelist = ['a', 'img', 'div', 'span', 'svg', 'div', 'span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'label', 'ul', 'li', 'ol', 'pre', 'code', 'blockquote', 'strong', 'em', 'i', 'address', 'article', 'aside', 'details', 'footer', 'header', 'hgroup', 'main', 'nav', 'section', 'summary', 'iframe'];
 
 export const rendererProps = {
     __schema: {
@@ -24,16 +25,11 @@ export const rendererProps = {
     isRoot: Boolean,
 } as const;
 
-// TODO: 待优化
-export function getHtmlComp(elementName: string) {
-    return generateHtmlComp(elementName);
-}
-
 export type RendererProps = ExtractPublicPropTypes<typeof rendererProps>;
 
 export const leafProps = {
     comp: {
-        type: [Object, Function] as PropType<Component | null>,
+        type: [Object, Function, String] as PropType<Component | null>,
     },
     scope: {
         type: Object as PropType<RuntimeScope>,

@@ -9,6 +9,7 @@ import type {
     IPublicTypeCompositeObject,
     IPublicTypeDesignerProps,
     IPublicTypeNpmInfo,
+    IPublicTypeProjectSchema,
     IPublicTypePropsList,
     IPublicTypeSimulatorProps,
 } from '@webank/letgo-types';
@@ -117,7 +118,7 @@ export class Designer implements IPublicModelDesigner<Project, DocumentModel, Co
     }
 
     get componentsMap() {
-        const maps: { [key: string]: IPublicTypeNpmInfo | IPublicTypeComponentSchema } = {};
+        const maps: { [key: string]: IPublicTypeNpmInfo | IPublicTypeProjectSchema<IPublicTypeComponentSchema> } = {};
         this._componentMetaMap.forEach((config, key) => {
             const metaData = config.getMetadata();
             if (metaData.devMode === 'lowCode')

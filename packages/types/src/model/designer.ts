@@ -15,6 +15,7 @@ import type {
     IPublicTypeDesignerProps,
     IPublicTypeNodeSelector,
     IPublicTypeNpmInfo,
+    IPublicTypeProjectSchema,
     IPublicTypeSimulatorProps,
 } from '..';
 
@@ -29,46 +30,46 @@ export interface IPublicModelDesigner<
     Detecting = IPublicModelDetecting,
     SettingTop = IPublicModelSettingTop,
 > {
-    readonly editor: IPublicEditor
+    readonly editor: IPublicEditor;
 
-    readonly project: Project
+    readonly project: Project;
 
-    readonly dragon: Dragon
+    readonly dragon: Dragon;
 
-    readonly detecting: Detecting
+    readonly detecting: Detecting;
 
-    get componentMetaMap(): Map<string, ComponentMeta>
+    get componentMetaMap(): Map<string, ComponentMeta>;
 
-    get componentsMap(): { [key: string]: IPublicTypeNpmInfo | IPublicTypeComponentSchema }
+    get componentsMap(): { [key: string]: IPublicTypeNpmInfo | IPublicTypeProjectSchema<IPublicTypeComponentSchema> };
 
-    get currentDocument(): DocumentModel
+    get currentDocument(): DocumentModel;
 
-    get currentSelection(): Selection
+    get currentSelection(): Selection;
 
-    get simulator(): Simulator
+    get simulator(): Simulator;
 
     get simulatorProps(): IPublicTypeSimulatorProps & {
-        designer: IPublicModelDesigner<Project, DocumentModel, ComponentMeta, Selection, Simulator, Node, Dragon, Detecting, SettingTop>
-        onMount: (host: Simulator) => void
-    }
+        designer: IPublicModelDesigner<Project, DocumentModel, ComponentMeta, Selection, Simulator, Node, Dragon, Detecting, SettingTop>;
+        onMount: (host: Simulator) => void;
+    };
 
-    get isRendererReady(): boolean
+    get isRendererReady(): boolean;
 
-    setProps(nextProps: IPublicTypeDesignerProps<DocumentModel, Node>): void
+    setProps: (nextProps: IPublicTypeDesignerProps<DocumentModel, Node>) => void;
 
-    buildComponentMetaMap(metaDataList: IPublicTypeComponentMetadata[]): void
+    buildComponentMetaMap: (metaDataList: IPublicTypeComponentMetadata[]) => void;
 
-    getComponentMeta(componentName: string, generateMetadata?: () => IPublicTypeComponentMetadata | null): ComponentMeta
+    getComponentMeta: (componentName: string, generateMetadata?: () => IPublicTypeComponentMetadata | null) => ComponentMeta;
 
-    onSimulatorReady(fn: (args: Simulator) => void): () => void
+    onSimulatorReady: (fn: (args: Simulator) => void) => () => void;
 
-    setRendererReady(renderer: unknown): void
+    setRendererReady: (renderer: unknown) => void;
 
-    onRendererReady(fn: (args: unknown) => void): () => void
+    onRendererReady: (fn: (args: unknown) => void) => () => void;
 
-    createSettingEntry(nodes: Node[]): SettingTop
+    createSettingEntry: (nodes: Node[]) => SettingTop;
 
-    createOffsetObserver(nodeInstance: IPublicTypeNodeSelector<Node>): IPublicModelOffsetObserver<Node>
+    createOffsetObserver: (nodeInstance: IPublicTypeNodeSelector<Node>) => IPublicModelOffsetObserver<Node>;
 
-    touchOffsetObserver(): void
+    touchOffsetObserver: () => void;
 }

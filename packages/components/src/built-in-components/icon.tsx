@@ -1,5 +1,5 @@
 import type { CSSProperties, ComputedRef } from 'vue';
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import { isNil } from 'lodash-es';
 import type { IPublicTypeComponentMetadata } from '@webank/letgo-types';
 import { version } from '../version';
@@ -31,8 +31,14 @@ export const Icon = defineComponent({
                 },
             ];
         });
+        const isReady = ref(false);
+        setTimeout(() => {
+            isReady.value = true;
+        });
 
         return () => {
+            if (!isReady.value)
+                return null;
             return (
                 <span style={svgStyle.value} v-html={props.content}>
                 </span>

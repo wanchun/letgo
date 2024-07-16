@@ -4,7 +4,6 @@ import type {
     IPublicTypeRootSchema,
 } from '@webank/letgo-types';
 import { genCodeMap, traverseNodeSchema } from '@webank/letgo-common';
-import { cloneDeep } from 'lodash-es';
 import { parseCode } from '../class-code/parse';
 import { genClassCode } from '../class-code/gen-class-code';
 import { transformThis } from '../class-code/transform-this';

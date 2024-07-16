@@ -7,9 +7,7 @@ import { injectLetgoCode } from '../common/inject-code';
 import { setOptions } from '../options';
 import { findRootSchema } from '../common/helper';
 import { genPackageJSON } from '../common/pkg';
-
 import { fileStructToLowcodeComponent } from './file-struct';
-import { compNameToFileName } from './file-name';
 import { genComponentMeta } from './meta';
 
 function genComponent(ctx: Context, fileTree: FileTree, options: LowCodeComponentOptions) {
@@ -18,7 +16,7 @@ function genComponent(ctx: Context, fileTree: FileTree, options: LowCodeComponen
 
     const fileStruct = filesStruct[0];
     const rootSchema = findRootSchema(schema, fileStruct.rawFileName) as IPublicTypeComponentSchema;
-    const fileName = compNameToFileName(fileStruct.fileName);
+    const fileName = fileStruct.fileName;
 
     merge(fileTree, set({}, outDir.split('/'), {
         [`${fileName}.jsx`]: fileStructToLowcodeComponent(fileStruct, rootSchema, schema.utils),
@@ -33,7 +31,7 @@ function genComponent(ctx: Context, fileTree: FileTree, options: LowCodeComponen
 }
 
 function genPkgName(fileName: string) {
-    return `@webank/letgo-component-${compNameToFileName(fileName || 'test')}`;
+    return `@webank/letgo-component-${fileName || 'test'}`;
 }
 
 export function genLowCodeComponent(_options: LowCodeComponentOptions): FileTree {

@@ -36,7 +36,7 @@ const assets: IPublicTypeAssetsJson = {
         },
         {
             title: '低代码组件 A',
-            id: 'lcc-a',
+            id: 'LCyy4JHcmu0Z',
             version: '0.1.5',
             type: 'lowCode',
             schema: {
@@ -56,7 +56,7 @@ const assets: IPublicTypeAssetsJson = {
                 ],
                 componentsTree: [{
                     componentName: 'Component',
-                    id: 'lcc-a',
+                    id: 'LCyy4JHcmu0Z',
                     props: {
                         btnName: '确认',
                     },
@@ -66,7 +66,7 @@ const assets: IPublicTypeAssetsJson = {
                             name: 'btnName',
                         },
                     ],
-                    fileName: 'compText',
+                    fileName: 'LCyy4JHcmu0Z',
                     code: {
                         directories: [],
                         code: [
@@ -127,7 +127,7 @@ const assets: IPublicTypeAssetsJson = {
                 },
                 ],
             },
-            library: 'CompText',
+            library: 'LCyy4JHcmu0Z',
         },
     ],
     components: [
@@ -269,10 +269,10 @@ const assets: IPublicTypeAssetsJson = {
         },
         {
             title: '低代码组件',
-            componentName: 'CompText',
+            componentName: 'LCyy4JHcmu0Z',
             reference: {
-                id: 'lcc-a',
-                exportName: 'CompText',
+                id: 'LCyy4JHcmu0Z',
+                exportName: 'LCyy4JHcmu0Z',
                 subName: '',
                 destructuring: false,
                 version: '0.1.0',
@@ -298,7 +298,7 @@ const assets: IPublicTypeAssetsJson = {
                     // screenshot:
                     //     'https://helios-allpublic-1257616148.cos.ap-shanghai.myqcloud.com/img/text.svg',
                     schema: {
-                        componentName: 'CompText',
+                        componentName: 'LCyy4JHcmu0Z',
                         props: {
                         },
                     },

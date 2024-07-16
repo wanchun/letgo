@@ -29,10 +29,10 @@ function transform(codeTemplate: Template, params?: Record<string, any>) {
 
 function genProjectCodes(schema: IPublicTypeProjectSchema) {
     const fileTree = genProject({
-        isSdkRender: true,
-        sdkRenderConfig: {
-            pickClassCode: true,
-        },
+        // isSdkRender: true,
+        // sdkRenderConfig: {
+        //     pickClassCode: true,
+        // },
         schema,
         transformJsx: (filesStruct) => {
             return filesStruct.map((item) => {
@@ -105,7 +105,6 @@ export default defineComponent({
     setup() {
         const handleGenCode = async () => {
             const schema = project.exportSchema(IPublicEnumTransformStage.Save);
-            console.log(schema);
 
             if (isLowcodeComponent(schema))
                 exportZip(_genLowcodeComponent(schema));

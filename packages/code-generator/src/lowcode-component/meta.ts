@@ -1,6 +1,5 @@
 import { IPublicEnumJSType, type IPublicTypeComponentSchema, type IPublicTypeProjectSchema } from '@webank/letgo-types';
 import type { LowCodeComponentOptions } from '../common/types';
-import { genComponentName } from './file-name';
 import { normalizeProp } from './helper';
 
 const TYPE_TO_SETTER = {
@@ -96,11 +95,10 @@ function propsTransformToMeta(props: IPublicTypeComponentSchema['definedProps'],
 
 export function genComponentMeta(schema: IPublicTypeProjectSchema, options: LowCodeComponentOptions) {
     const rootSchema = schema.componentsTree[0] as IPublicTypeComponentSchema;
-    const compName = genComponentName(rootSchema.fileName);
-    const library = rootSchema.fileName;
-
     const { title, definedProps, defaultProps = {} } = rootSchema;
-
+    const compName = rootSchema.fileName;
+    const library = rootSchema.fileName;
+    const id = rootSchema.id;
     const compTitle = title || compName;
 
     return `
@@ -108,7 +106,7 @@ export function genComponentMeta(schema: IPublicTypeProjectSchema, options: LowC
         packages: [
             {
                 title: '${compTitle}',
-                id: '${rootSchema.id}',
+                id: '${id}',
                 version: '${options.extraPackageJSON.version}',
                 type: 'lowCode',
                 schema: {
@@ -117,7 +115,7 @@ export function genComponentMeta(schema: IPublicTypeProjectSchema, options: LowC
                     componentsMap: ${JSON.stringify(schema.componentsMap)},
                     componentsTree: [
                         {
-                            id: '${rootSchema.id}',
+                            id: '${id}',
                             componentName: '${rootSchema.componentName}',
                             props: ${JSON.stringify(defaultProps)},
                             fileName: '${rootSchema.fileName}',
@@ -136,7 +134,7 @@ export function genComponentMeta(schema: IPublicTypeProjectSchema, options: LowC
                 title: '${compTitle}',
                 componentName: '${compName}',
                 reference: {
-                    id: '${rootSchema.id}',
+                    id: '${id}',
                     version: '${options.extraPackageJSON.version}',
                     subName: '',
                     exportName: '${compName}',

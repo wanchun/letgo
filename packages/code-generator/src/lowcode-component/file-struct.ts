@@ -2,7 +2,6 @@ import type { IPublicTypeComponentSchema, IPublicTypeUtils } from '@webank/letgo
 import { ImportType } from '../common/types';
 import type { FileStruct } from '../common/types';
 import { genImportCode } from '../common/helper';
-import { genComponentName } from './file-name';
 import { genProps } from './gen-props';
 import { genUtils } from './gen-utils';
 
@@ -14,7 +13,8 @@ export function fileStructToLowcodeComponent(fileStruct: FileStruct, rootSchema:
         type: ImportType.ImportSpecifier,
         imported: 'defineComponent',
     }, ...importSources);
-    const compName = genComponentName(fileStruct.fileName);
+
+    const compName = fileStruct.fileName;
 
     return `
         ${genImportCode(fileStruct.importSources)}

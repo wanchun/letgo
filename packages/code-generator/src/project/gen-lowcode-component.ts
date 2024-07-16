@@ -5,7 +5,6 @@ import type { Context, FileTree } from '../common/types';
 import { schemaToCode } from '../common';
 import { findRootSchema } from '../common/helper';
 import { fileStructToLowcodeComponent } from '../lowcode-component/file-struct';
-import { compNameToFileName } from '../lowcode-component/file-name';
 import { LOW_COMPONENT_DIR } from '../common/lowcode-component';
 
 export function genLowCodeComponent(ctx: Context, fileTree: FileTree) {
@@ -27,7 +26,7 @@ export function genLowCodeComponent(ctx: Context, fileTree: FileTree) {
 
             const fileStruct = filesStruct[0];
             const rootSchema = findRootSchema(pkg.schema, fileStruct.rawFileName) as IPublicTypeComponentSchema;
-            components[`${compNameToFileName(rootSchema.fileName)}.jsx`] = fileStructToLowcodeComponent(fileStruct, rootSchema, pkg.schema.utils);
+            components[`${rootSchema.fileName}.jsx`] = fileStructToLowcodeComponent(fileStruct, rootSchema, pkg.schema.utils);
         }
     }
 

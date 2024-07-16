@@ -1,3 +1,12 @@
+## [0.0.5-beta.12](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.11...v0.0.5-beta.12) (2024-07-16)
+
+
+### Bug Fixes
+
+* 低代码组件的componentName直接用fileName,去掉转换导致的bug ([b22baa0](https://git.weoa.com/mumblefe/letgo/commits/b22baa00bf0ac41534bcb7992cfd7425374dc35b))
+
+
+
 ## [0.0.5-beta.11](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.9...v0.0.5-beta.11) (2024-7-15)
 
 

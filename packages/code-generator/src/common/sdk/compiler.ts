@@ -79,8 +79,8 @@ function genGlobalCode(usedGlobalVar: string[]): SetupCode {
 
 function genRequest(ctx: Context, filePath: string) {
     return {
-        // 防止 window 被劫持
-        code: `const _win = new globalThis.Function('return this')();
+        // 防止微前端渲染场景 window 被劫持
+        code: `const _win = new Function('return this')();
         _win.letgoRequest = letgoRequest;`,
         importSources: [
             {

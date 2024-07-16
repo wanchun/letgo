@@ -15,32 +15,32 @@ export default defineComponent({
         IconSetter.defaultIcons = icons;
 
         const onReady = () => {
-            project.openDocument({
-                id: 'hello',
-                componentName: 'Component',
-                ref: 'root',
-                fileName: 'hello',
-                props: {},
-                code: {
-                    directories: [],
-                    code: [],
-                },
-            });
             // project.openDocument({
-            //     componentName: 'Page',
             //     id: 'hello',
+            //     componentName: 'Component',
             //     ref: 'root',
+            //     fileName: 'hello',
             //     props: {},
-            //     fileName: 'compText',
             //     code: {
             //         directories: [],
             //         code: [],
             //     },
-            //     isLocked: false,
-            //     condition: true,
-            //     title: '',
-            //     children: [],
             // });
+            project.openDocument({
+                componentName: 'Page',
+                id: 'hello',
+                ref: 'root',
+                props: {},
+                fileName: 'compText',
+                code: {
+                    directories: [],
+                    code: [],
+                },
+                isLocked: false,
+                condition: true,
+                title: '',
+                children: [],
+            });
             console.log('project:', project);
         };
         const options = reactive({

@@ -1,11 +1,11 @@
 import { generate } from 'astring';
-import { innerParse } from './ast';
+import { parseToAst } from './ast';
 
 export function replaceFunctionName(code: string, name: string) {
     if (!code)
         return code;
     try {
-        const ast: any = innerParse(code);
+        const ast: any = parseToAst(code);
         if (ast.body[0].type === 'FunctionDeclaration')
             ast.body[0].id.name = name;
 

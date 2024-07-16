@@ -46,7 +46,7 @@ import {
     mergeScope,
     parseSlotScope,
 } from '../utils';
-import { type PropSchemaMap, type RendererProps, type SlotSchemaMap, getHtmlComp } from './base';
+import { HtmlCompWhitelist, type PropSchemaMap, type RendererProps, type SlotSchemaMap } from './base';
 import { Live } from './live';
 
 export function isNodeData(val: unknown): val is IPublicTypeNodeData | IPublicTypeNodeData[] {
@@ -78,7 +78,7 @@ function render({
     base: Component;
     components: Record<string, Component>;
     blockScope?: MaybeArray<BlockScope | undefined | null>;
-    comp?: Component;
+    comp?: Component | string;
 }) {
     const mergedScope = mergeScope(scope, blockScope);
 
@@ -100,7 +100,7 @@ function render({
     // 若不传入 comp，则根据节点的 componentName 推断
     if (!comp) {
         const { componentName } = schema;
-        comp = components[componentName] || components[`${componentName}Renderer`] || getHtmlComp(componentName);
+        comp = components[componentName] || components[`${componentName}Renderer`] || (HtmlCompWhitelist.includes(componentName) ? componentName : null);
     }
 
     if (!comp)

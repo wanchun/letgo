@@ -5,6 +5,7 @@ import type { RendererProps } from '../core';
 import type { CodeImplType } from '../code-impl/code-impl';
 import { useCodesInstance } from '../code-impl/code-impl';
 import { JavascriptFunctionLive } from '../code-impl';
+import { getVueInstance } from '../utils';
 import { getGlobalContextKey } from './context';
 
 export function createExecuteContext(props: RendererProps) {
@@ -46,17 +47,19 @@ export function createExecuteContext(props: RendererProps) {
             else {
                 compInstances[schema.ref] = ref;
             }
-
-            onUnmounted(() => {
-                if (!schema.loop) {
-                    compInstances[schema.ref] = {};
-                }
-                else {
-                    const index = compInstances[schema.ref].findIndex((item: IPublicTypeComponentInstance) => item === ref);
-                    if (index !== -1)
-                        compInstances[schema.ref].splice(index, 1);
-                }
-            }, ref.$);
+            const instance = getVueInstance(ref);
+            if (instance) {
+                onUnmounted(() => {
+                    if (!schema.loop) {
+                        compInstances[schema.ref] = {};
+                    }
+                    else {
+                        const index = compInstances[schema.ref].findIndex((item: IPublicTypeComponentInstance) => item === ref);
+                        if (index !== -1)
+                            compInstances[schema.ref].splice(index, 1);
+                    }
+                }, instance.$);
+            }
         }
     };
 

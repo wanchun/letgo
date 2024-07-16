@@ -20,7 +20,6 @@ export const Renderer = defineComponent({
     props: {
         schema: {
             type: Object as PropType<IPublicTypeRootSchema>,
-            required: true,
         },
         components: {
             type: Object as PropType<Record<string, Component>>,

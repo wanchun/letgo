@@ -1,23 +1,12 @@
 import type { IPublicTypeComponentSchema, IPublicTypeNpmInfo, IPublicTypeProjectSchema } from '@webank/letgo-types';
 import type { Component } from 'vue';
-import { defineComponent, h } from 'vue';
 import { isESModule, isLowcodeProjectSchema, isVueComponent } from './check-types';
-
-export const HtmlCompWhitelist = ['a', 'img', 'div', 'span', 'svg', 'div', 'span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'label', 'ul', 'li', 'ol', 'pre', 'code', 'blockquote', 'strong', 'em', 'i', 'address', 'article', 'aside', 'details', 'footer', 'header', 'hgroup', 'main', 'nav', 'section', 'summary', 'iframe'];
 
 export function accessLibrary(library: string | Record<string, unknown>) {
     if (typeof library !== 'string')
         return library;
 
-    return (window as any)[library] || generateHtmlComp(library);
-}
-
-export function generateHtmlComp(library: string) {
-    if (HtmlCompWhitelist.includes(library)) {
-        return defineComponent((_, { attrs, slots }) => {
-            return () => h(library, attrs, slots);
-        });
-    }
+    return (window as any)[library];
 }
 
 export function getSubComponent(library: any, paths: string[]) {
@@ -80,10 +69,6 @@ export function buildComponents(
     createComponent: (schema: IPublicTypeProjectSchema<IPublicTypeComponentSchema>) => Component | null,
 ) {
     const components: any = {};
-    // 内置html组件
-    HtmlCompWhitelist.forEach((key) => {
-        components[key] = generateHtmlComp(key);
-    });
 
     Object.keys(componentsMap).forEach((componentName) => {
         let component = componentsMap[componentName];

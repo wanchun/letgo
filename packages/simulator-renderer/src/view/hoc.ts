@@ -314,8 +314,6 @@ export const Hoc = defineComponent({
 
         if (!show)
             return null;
-        if (!comp)
-            return h('div', 'component not found');
 
         if (!loop) {
             const props = buildProps({

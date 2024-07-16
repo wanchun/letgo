@@ -1,10 +1,10 @@
 import type { INodeInstance } from '@webank/letgo-designer';
+import { isVNodeHTMLElement } from '@webank/letgo-renderer';
 import type { ComponentInternalInstance } from 'vue';
 import {
     ComponentRecord,
     getCompRootData,
     isCompRootHTMLElement,
-    isVNodeHTMLElement,
 } from './comp-node';
 
 export function getClosestNodeInstance(

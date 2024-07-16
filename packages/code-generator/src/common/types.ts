@@ -1,4 +1,4 @@
-import type { ICodeItem, IPublicTypeProjectSchema } from '@webank/letgo-types';
+import type { ICodeItem, IPublicTypeProjectSchema, IPublicTypeRootSchema } from '@webank/letgo-types';
 
 export interface GenOptions {
     schema: IPublicTypeProjectSchema;
@@ -15,7 +15,7 @@ export interface GenOptions {
     sdkRenderConfig?: {
         pickClassCode?: boolean;
     };
-    transformGenSchema?: (codeSnippet: SetupCode) => SetupCode;
+    transformGenSchema?: (schema: IPublicTypeRootSchema, codeSnippet: SetupCode) => SetupCode;
     transformSdkJsx?: (code: string) => string;
 }
 

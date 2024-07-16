@@ -53,7 +53,10 @@ export function parseCode(code: string) {
         return item.type === 'ClassDeclaration' && item.id.name === 'Main';
     });
 
-    ancestorWalkAst(code, {
+    if (!mainClassAst)
+        throw new Error('not found Main class');
+
+    ancestorWalkAst(ast, {
         MemberExpression: (node: any, _state: any, ancestor: any[]) => {
             const propName = node.property.name;
             if (['$pageCode', '$globalCode', '$refs'].includes(propName)) {

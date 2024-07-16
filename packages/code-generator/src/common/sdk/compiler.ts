@@ -40,8 +40,8 @@ function genSchema(ctx: Context, rootSchema: IPublicTypeRootSchema): SetupCode {
             importSources: [],
         };
     }
-
-    return ctx.config.transformGenSchema ? ctx.config.transformGenSchema(rootSchema, result) : result;
+    const transformGenSchema = ctx.config.sdkRenderConfig?.transformGenSchema;
+    return transformGenSchema ? transformGenSchema(rootSchema, result) : result;
 }
 
 function genSdkRender(ctx: Context) {
@@ -49,7 +49,8 @@ function genSdkRender(ctx: Context) {
         return <Renderer schema={schema} components={components} />
     }`;
 
-    return ctx.config.transformSdkJsx ? ctx.config.transformSdkJsx(jsxCode) : jsxCode;
+    const transformSdkJsx = ctx.config.sdkRenderConfig?.transformSdkJsx;
+    return transformSdkJsx ? transformSdkJsx(jsxCode) : jsxCode;
 }
 
 function genGlobalCode(usedGlobalVar: string[]): SetupCode {
@@ -78,7 +79,9 @@ function genGlobalCode(usedGlobalVar: string[]): SetupCode {
 
 function genRequest(ctx: Context, filePath: string) {
     return {
-        code: 'window.letgoRequest = letgoRequest;',
+        // 防止 window 被劫持
+        code: `const _win = new globalThis.Function('return this')()[
+        _win.letgoRequest = letgoRequest;`,
         importSources: [
             {
                 type: ImportType.ImportSpecifier,

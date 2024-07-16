@@ -1,6 +1,7 @@
 import type { Component, PropType } from 'vue';
 import { computed, defineComponent, onMounted, provide, reactive, ref, shallowRef } from 'vue';
-import type { IPublicTypeAsset, IPublicTypePageSchema, IPublicTypeProjectSchema } from '@webank/letgo-types';
+import { isLowCodeComponentType } from '@webank/letgo-types';
+import type { IPublicTypeAsset, IPublicTypeComponentSchema, IPublicTypeNpmInfo, IPublicTypePageSchema, IPublicTypeProjectSchema } from '@webank/letgo-types';
 import { AssetLoader, buildComponents } from '@webank/letgo-common';
 import { builtinComponents } from '@webank/letgo-components';
 import { Renderer } from './renderer';
@@ -51,13 +52,13 @@ export const RendererApp = defineComponent({
 
         const libraryAsset: IPublicTypeAsset = [...props.assets];
 
-        const componentsMap: any = {};
+        const componentsMap: Record<string, IPublicTypeNpmInfo | IPublicTypeProjectSchema<IPublicTypeComponentSchema>> = {};
         const libraryMap: Record<string, string> = {};
         const components = shallowRef<Record<string, Component>>({});
         const isReady = ref(false);
 
-        componentsMapArray.forEach((component: any) => {
-            componentsMap[component.componentName] = component;
+        componentsMapArray.forEach((component) => {
+            componentsMap[component.componentName] = isLowCodeComponentType(component) ? component.schema : component;
         });
 
         packages.forEach(({ package: _package, library, urls }) => {

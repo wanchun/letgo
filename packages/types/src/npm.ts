@@ -1,3 +1,4 @@
+import type { IPublicTypeComponentSchema, IPublicTypeProjectSchema } from '..';
 /**
  * npm 源引入完整描述对象
  */
@@ -45,6 +46,10 @@ export interface IPublicTypeLowCodeComponent {
      * 组件名称
      */
     componentName: string;
+    /**
+     * 低代码组件的schema
+     */
+    schema: IPublicTypeProjectSchema<IPublicTypeComponentSchema>;
 }
 
 export type IPublicTypeProCodeComponent = IPublicTypeNpmInfo;

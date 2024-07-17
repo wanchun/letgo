@@ -47,8 +47,7 @@ export class Plugin implements IPlugin {
         this.pluginName = pluginName;
         this.meta = meta;
         this.logger = getLogger({
-            level: 'warn',
-            bizName: `designer:plugin:${pluginName}`,
+            belong: `designer:plugin:${pluginName}`,
         });
         this._ctx = ctx;
         this._options = options;
@@ -91,7 +90,6 @@ export class Plugin implements IPlugin {
     async init(forceInit?: boolean) {
         if (this._inited && !forceInit)
             return;
-        this.logger.log('method init called');
         await this.config.init?.call(undefined, this._ctx, this._options);
         this._inited = true;
     }
@@ -99,7 +97,6 @@ export class Plugin implements IPlugin {
     async destroy() {
         if (!this._inited)
             return;
-        this.logger.log('method destroy called');
         await this.config?.destroy?.call(undefined, this._ctx, this._options);
         this._inited = false;
     }

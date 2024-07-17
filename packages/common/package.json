@@ -17,8 +17,8 @@
         "acorn": "^8.12.0",
         "acorn-walk": "^8.2.0",
         "astring": "^1.8.6",
-        "lodash-es": "^4.17.21",
-        "zen-logger": "^1.1.0"
+        "eventemitter3": "^5.0.1",
+        "lodash-es": "^4.17.21"
     },
     "publishConfig": {
         "access": "public"

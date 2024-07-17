@@ -31,9 +31,13 @@ import {
     isDragNodeObject,
     isLocationData,
 } from '@webank/letgo-types';
+import type {
+    Logger,
+} from '@webank/letgo-common';
 import {
     assetBundle,
     assetItem,
+    getLogger,
     hasOwnProperty,
     isElement,
     markComputed,
@@ -99,6 +103,8 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
 
     readonly project: Project;
 
+    readonly logger: Logger;
+
     readonly designer: Designer;
 
     readonly viewport: Viewport = new Viewport();
@@ -157,6 +163,7 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
         markComputed(this, ['device', 'deviceClassName', 'deviceStyle', 'designMode']);
         this.designer = designer;
         this.project = designer.project;
+        this.logger = getLogger({ belong: 'simulator' });
         this.scroller = new Scroller(this.viewport);
     }
 

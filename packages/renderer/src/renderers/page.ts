@@ -22,7 +22,7 @@ export const PageRenderer = defineComponent({
             }
             else {
                 // eslint-disable-next-line no-new-func
-                DynamicClass = Function('Page', `return (${props.__schema.classCode.trim()})`)(LetgoPageBase);
+                DynamicClass = Function('Page', `${props.__schema.classCode.trim()} \n return Main;`)(LetgoPageBase);
             }
 
             const instance = new DynamicClass({

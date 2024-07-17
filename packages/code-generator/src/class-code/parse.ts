@@ -1,4 +1,4 @@
-import { ancestorWalkAst } from '@webank/letgo-common';
+import { ancestorWalkAst, parseToAst } from '@webank/letgo-common';
 import type { ClassUseCodes } from '../common/types';
 
 function getExpressionMembers(ancestor: any[]): {
@@ -47,11 +47,19 @@ export function parseCode(code: string) {
     }
 
     usedCode.$globalCode.push('$utils', '$context');
+    const ast = parseToAst(code);
 
-    ancestorWalkAst(code, {
+    const mainClassAst = ast.body.find((item) => {
+        return item.type === 'ClassDeclaration' && item.id.name === 'Main';
+    });
+
+    if (!mainClassAst)
+        throw new Error('not found Main class');
+
+    ancestorWalkAst(ast, {
         MemberExpression: (node: any, _state: any, ancestor: any[]) => {
             const propName = node.property.name;
-            if (node.object.type === 'ThisExpression' && ['$pageCode', '$globalCode', '$refs'].includes(propName)) {
+            if (['$pageCode', '$globalCode', '$refs'].includes(propName)) {
                 const { sibling, members } = getExpressionMembers(ancestor);
                 if (members[1])
                     usedCode[propName as keyof typeof usedCode].push(members[1]);
@@ -59,6 +67,11 @@ export function parseCode(code: string) {
                     usedCode[propName as keyof typeof usedCode].push(...sibling);
             }
         },
+
+    });
+
+    // 只在 Main class 找生命周期方法
+    ancestorWalkAst(mainClassAst, {
         MethodDefinition: (node: any, _state: any) => {
             if (node.kind === 'method' && LIFE_CYCLE.includes(node.key.name))
                 classLifeCycle.push(node.key.name);

@@ -1,5 +1,5 @@
 import { generate } from 'astring';
-import type { ExpressionStatement, Program } from 'acorn';
+import type { ExpressionStatement, Node, Program } from 'acorn';
 import { parse } from 'acorn';
 import { ancestor, simple } from 'acorn-walk';
 import {
@@ -17,7 +17,7 @@ import { isNil } from 'lodash-es';
 import { findGlobals, reallyParse } from './find-globals';
 import { ASTParseOptions } from './constants';
 
-export function innerParse(code: string) {
+export function parseToAst(code: string) {
     return parse(code, ASTParseOptions);
 }
 
@@ -25,7 +25,7 @@ export function isFunction(code: string) {
     try {
         if (!code || !code.trim())
             return false;
-        const ast = innerParse(code);
+        const ast = parseToAst(code);
 
         if (ast.body[0].type === 'FunctionDeclaration' || (ast.body[0] as ExpressionStatement).expression?.type === 'ArrowFunctionExpression')
             return true;
@@ -38,13 +38,13 @@ export function isFunction(code: string) {
 }
 
 export function simpleWalkAst(code: string, param: Record<string, any>) {
-    const ast = innerParse(code);
+    const ast = parseToAst(code);
     simple(ast, param);
     return ast;
 }
 
-export function ancestorWalkAst(code: string, param: Record<string, any>) {
-    const ast = innerParse(code);
+export function ancestorWalkAst(code: string | Node, param: Record<string, any>) {
+    const ast = typeof code === 'string' ? parseToAst(code) : code;
     ancestor(ast, param);
 
     return ast;

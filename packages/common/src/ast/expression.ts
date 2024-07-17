@@ -2,7 +2,7 @@ import { generate } from 'astring';
 import { simple } from 'acorn-walk';
 import { isNil } from 'lodash-es';
 import type { ThisExpression } from 'acorn';
-import { innerParse } from './ast';
+import { parseToAst } from './ast';
 
 interface Identifier {
     type: 'Identifier';
@@ -15,7 +15,7 @@ type Callback = (identifier: Identifier) => void;
 
 export function isSyntaxError(code: string): boolean {
     try {
-        innerParse(code);
+        parseToAst(code);
         return false;
     }
     catch (_) {
@@ -24,7 +24,7 @@ export function isSyntaxError(code: string): boolean {
 }
 
 export function transformExpression(code: string, callback: Callback) {
-    const ast = innerParse(code);
+    const ast = parseToAst(code);
 
     simple(ast, {
         Identifier(node) {
@@ -36,7 +36,7 @@ export function transformExpression(code: string, callback: Callback) {
 
 export function transformThisExpression(code: string, callback: (node: ThisExpression) => Identifier) {
     try {
-        const ast = innerParse(code);
+        const ast = parseToAst(code);
 
         simple(ast, {
             ThisExpression(node) {

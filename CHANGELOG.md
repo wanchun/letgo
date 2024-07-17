@@ -1,3 +1,12 @@
+## [0.0.5-beta.14](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.13...v0.0.5-beta.14) (2024-7-17)
+
+
+### Features
+
+* 支持多 class ([#78](https://git.weoa.com/mumblefe/letgo/issues/78)) ([b2dccc4](https://git.weoa.com/mumblefe/letgo/commits/b2dccc4c8c229d0b9e9ec9cc1b90da272b67d27e))
+
+
+
 ## [0.0.5-beta.13](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.12...v0.0.5-beta.13) (2024-07-16)
 
 

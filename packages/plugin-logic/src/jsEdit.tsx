@@ -37,6 +37,7 @@ class Main extends Page {
 export const JsEditView = defineComponent({
     name: 'JsEditView',
     props: {
+        requireConfig: Object,
         designer: {
             type: Object as PropType<Designer>,
         },
@@ -129,6 +130,7 @@ export const JsEditView = defineComponent({
                 <div class="letgo-plg-logic">
                     <MonacoEditor
                         ref={monacoEditorRef}
+                        requireConfig={props.requireConfig}
                         class="letgo-plg-logic__code"
                         height="100%"
                         language="javascript"

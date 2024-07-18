@@ -7,6 +7,7 @@ import { FButton } from '@fesjs/fes-design';
 export const CSSView = defineComponent({
     name: 'CSSView',
     props: {
+        requireConfig: Object,
         designer: {
             type: Object as PropType<Designer>,
         },
@@ -41,6 +42,7 @@ export const CSSView = defineComponent({
                 <div class="letgo-plg-css">
                     <MonacoEditor
                         ref={monacoEditorRef}
+                        requireConfig={props.requireConfig}
                         class="letgo-plg-css__code"
                         language="css"
                         value={currentSchema.value}

@@ -2,6 +2,7 @@ import type { CSSProperties, PropType } from 'vue';
 import { defineComponent, ref, watch } from 'vue';
 import { MonacoEditor } from '@webank/letgo-components';
 import { debounce } from 'lodash-es';
+import { engineConfig } from '@webank/letgo-editor-core';
 import { parseToCssCode, parseToStyleData } from '../../../common';
 
 export const CodeView = defineComponent({
@@ -32,10 +33,16 @@ export const CodeView = defineComponent({
             }
         }, 500);
 
+        const requireConfig = ref();
+        engineConfig.onGot('requireConfig', (requireConfig: Record<string, any>) => {
+            requireConfig.value = requireConfig;
+        });
+
         return () => {
             return (
                 <MonacoEditor
                     ref={monacoEditorRef}
+                    requireConfig={requireConfig.value}
                     options={{
                         fixedOverflowWidgets: true,
                         glyphMargin: false,

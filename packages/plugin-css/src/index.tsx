@@ -9,12 +9,13 @@ let panel: Panel | undefined;
 
 export default definePlugin({
     name: 'PluginCSS',
-    init({ skeleton, designer }) {
+    init({ skeleton, config, designer }) {
+        const requireConfig = config.get('requireConfig');
         panel = skeleton.add({
             type: 'Panel',
             area: 'leftFloatArea',
             name: 'PluginCSSPanel',
-            render: () => <CSSView designer={designer} />,
+            render: () => <CSSView requireConfig={requireConfig} designer={designer} />,
             props: {
                 width: '600',
                 title: '全局样式',

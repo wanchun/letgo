@@ -1,9 +1,10 @@
 import JSON5 from 'json5';
 import type { Monaco } from '@webank/letgo-components';
 import { MonacoEditor } from '@webank/letgo-components';
+import { engineConfig } from '@webank/letgo-editor-core';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { cloneDeep, isEqual, isNil, isUndefined } from 'lodash-es';
-import { computed, defineComponent, onMounted } from 'vue';
+import { computed, defineComponent, onMounted, ref } from 'vue';
 import { commonProps } from '../../common';
 
 const JsonSetterView = defineComponent({
@@ -48,10 +49,16 @@ const JsonSetterView = defineComponent({
             });
         };
 
+        const requireConfig = ref();
+        engineConfig.onGot('requireConfig', (requireConfig: Record<string, any>) => {
+            requireConfig.value = requireConfig;
+        });
+
         return () => {
             return (
                 <MonacoEditor
                     height="180px"
+                    requireConfig={requireConfig.value}
                     options={{
                         glyphMargin: false,
                         lineNumbers: 'off',

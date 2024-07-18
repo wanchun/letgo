@@ -344,6 +344,9 @@ importers:
       '@webank/letgo-designer':
         specifier: ^0.0.5-beta.7
         version: link:../designer
+      '@webank/letgo-editor-core':
+        specifier: ^0.0.4-beta.34
+        version: link:../editor-core
       '@webank/letgo-types':
         specifier: ^0.0.5-beta.4
         version: link:../types

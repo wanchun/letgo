@@ -3,6 +3,8 @@ import { EventEmitter } from 'eventemitter3';
 const emitter = new EventEmitter();
 
 export type Level = 'debug' | 'log' | 'info' | 'warn' | 'error';
+export type LogIdType = 'component' | 'code' | 'static';
+
 interface Options {
     belong: string;
 }
@@ -11,26 +13,21 @@ const defaultOptions: Options = {
     belong: '*',
 };
 
-/**
- * code
- * 1xx 引擎
- * 2xx 插件
- * 3xx 渲染器
- * 8xx 自定义异常
- */
-type LogParams = string | {
+interface LogDetail {
     msg: string | Error;
-    code?: string;
-    [key: string]: string | Error;
-};
+    idType?: LogIdType;
+    id?: string;
+    paths?: string[];
+    content?: string | number;
+    paramIndex?: number;
+}
 
-export interface LogContent {
+type LogParams = string | LogDetail;
+
+export interface LogContent extends LogDetail {
     level: Level;
     belong: string;
-    msg: string | Error;
     time: number;
-    code?: string;
-    [key: string]: string | number | Error;
 }
 
 class Logger {

@@ -9,10 +9,8 @@ import {
     isJSExpression,
     isRestQueryResource,
     isRunFunctionEventHandler,
-    isSetLocalStorageEventHandler,
-    isSetTemporaryStateEventHandler,
 } from '@webank/letgo-types';
-import type { ICodeItem, IEventHandler, IPublicTypeJSFunction } from '@webank/letgo-types';
+import type { ICodeItem, IEventHandler } from '@webank/letgo-types';
 import { isNil } from 'lodash-es';
 import { findGlobals, reallyParse } from './find-globals';
 import { ASTParseOptions } from './constants';
@@ -130,58 +128,4 @@ export function calcDependencies(item: ICodeItem, ctx?: Record<string, any>) {
     catch (_) {
         return [];
     }
-}
-
-export function eventHandlerToJsFunction(item: IEventHandler): IPublicTypeJSFunction {
-    let expression: string;
-    const params: string[] = item.params ? item.params.filter(item => item) : [];
-    if (isRunFunctionEventHandler(item)) {
-        if (item.type === IEnumRunScript.PLAIN)
-            expression = item.funcBody;
-        else
-            expression = `${item.namespace}(...args)`;
-    }
-    else if (item.action === IEnumEventHandlerAction.CONTROL_QUERY) {
-        expression = `${item.namespace}.${item.method}()`;
-    }
-    else if (item.action === IEnumEventHandlerAction.CONTROL_COMPONENT) {
-        expression = `${item.namespace}.${item.method}(...args)`;
-    }
-    else if (isSetTemporaryStateEventHandler(item)) {
-        // param: 0 value, 1: path，因此需要对数组进行倒序
-        params.reverse();
-        expression = `${item.namespace}.${item.method}(...args)`;
-    }
-    else if (isSetLocalStorageEventHandler(item)) {
-        // TODO 支持其他方法
-        if (item.method === 'setValue')
-            expression = `${item.namespace}.${item.method}(...args)`;
-
-        else
-            expression = `${item.namespace}.${item.method}()`;
-    }
-
-    return {
-        type: 'JSFunction',
-        // 需要传下入参
-        value: isFunction(expression) ? expression : `(...args) => {${expression}}`,
-        params,
-    };
-}
-
-export function eventHandlersToJsFunction(handlers: IEventHandler[] = []) {
-    const result: {
-        [key: string]: IPublicTypeJSFunction[];
-    } = {};
-    handlers.forEach((item: IEventHandler) => {
-        const jsFuncs: IPublicTypeJSFunction[] = result[item.name] || [];
-        if (isRunFunctionEventHandler(item) && (item.namespace || item.funcBody))
-            jsFuncs.push(eventHandlerToJsFunction(item));
-
-        else if ((item.namespace && item.method))
-            jsFuncs.push(eventHandlerToJsFunction(item));
-
-        result[item.name] = jsFuncs;
-    });
-    return result;
 }

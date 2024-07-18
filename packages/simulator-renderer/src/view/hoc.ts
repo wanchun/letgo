@@ -1,4 +1,4 @@
-import { eventHandlersToJsFunction, getConvertedExtraKey } from '@webank/letgo-common';
+import { getConvertedExtraKey } from '@webank/letgo-common';
 import type { INode, ISlotNode } from '@webank/letgo-designer';
 import type {
     BlockScope,
@@ -12,6 +12,7 @@ import {
     buildShow,
     buildSlots,
     ensureArray,
+    eventHandlersToJsFunction,
     leafProps,
     mergeScope,
     parseSchema,

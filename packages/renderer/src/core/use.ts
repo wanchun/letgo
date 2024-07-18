@@ -1,4 +1,3 @@
-import { eventHandlersToJsFunction } from '@webank/letgo-common';
 import type { INode, Prop } from '@webank/letgo-designer';
 import type {
     IEventHandler,
@@ -39,7 +38,7 @@ import {
 } from 'vue';
 import type { RendererContext } from '../context';
 import { provideRenderContext, useRendererContext } from '../context';
-import { funcSchemaToFunc, parseExpression, parseSchema } from '../parse';
+import { eventHandlersToJsFunction, funcSchemaToFunc, parseExpression, parseSchema } from '../parse';
 import type { BlockScope, MaybeArray, RuntimeScope } from '../utils';
 import {
     ensureArray,

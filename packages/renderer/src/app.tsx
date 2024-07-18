@@ -1,5 +1,5 @@
 import type { Component, PropType } from 'vue';
-import { computed, defineComponent, onMounted, provide, reactive, ref, shallowRef } from 'vue';
+import { computed, defineComponent, onMounted, provide, reactive, ref, shallowRef, watch } from 'vue';
 import { isLowCodeComponentType } from '@webank/letgo-types';
 import type { IPublicTypeAsset, IPublicTypeComponentSchema, IPublicTypeNpmInfo, IPublicTypePageSchema, IPublicTypeProjectSchema } from '@webank/letgo-types';
 import { AssetLoader, buildComponents } from '@webank/letgo-common';
@@ -68,8 +68,15 @@ export const RendererApp = defineComponent({
         });
 
         const globalContext = reactive<Record<string, any>>({
-            $context: props.projectSchema.config || {},
+            $context: {},
             $utils: {},
+        });
+
+        watch(() => props.projectSchema.config, () => {
+            Object.assign(globalContext.$context, props.projectSchema.config);
+        }, {
+            deep: true,
+            immediate: true,
         });
 
         // 兼容性处理

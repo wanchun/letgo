@@ -1,8 +1,8 @@
 import type { IPublicTypeJSExpression, IPublicTypeJSFunction, IPublicTypeUtils } from '@webank/letgo-types';
 import { isJSExpression, isJSFunction } from '@webank/letgo-types';
-import { executeExpression, findLibExport } from '@webank/letgo-common';
+import { findLibExport } from '@webank/letgo-common';
 import { isFunction, isPlainObject, isString } from 'lodash-es';
-import { executeFunc, funcSchemaToFunc } from './executeFunc';
+import { executeExpression, executeFunc, funcSchemaToFunc } from './execute';
 
 export function parseExpression(schema: IPublicTypeJSExpression, ctx: Record<string, unknown>) {
     try {

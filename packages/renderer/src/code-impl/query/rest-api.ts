@@ -1,7 +1,6 @@
-import { executeExpression } from '@webank/letgo-common';
-
 import { type IRestQueryResource, isJSExpression } from '@webank/letgo-types';
 import { isPlainObject } from 'lodash-es';
+import { evaluateOrReturnInput, executeExpression } from '../../parse';
 import { JavascriptQueryBase } from './base';
 
 function handleHeaders(headers: IRestQueryResource['headers'], ctx: Record<string, any>) {
@@ -33,7 +32,7 @@ export function genRestApiQueryFunc({
                 `);
         return (ctx: Record<string, any>) => {
             return fn(ctx, [
-                /^[\/]?\w+\//.test(api) ? api : executeExpression(api, ctx, true),
+                /^[\/]?\w+\//.test(api) ? api : evaluateOrReturnInput(api, ctx),
                 params,
                 {
                     method,

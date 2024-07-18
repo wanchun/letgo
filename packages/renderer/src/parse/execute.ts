@@ -1,6 +1,32 @@
 import type { IPublicTypeJSFunction } from '@webank/letgo-types';
-import { executeExpression } from '@webank/letgo-common';
+import { isNil } from 'lodash-es';
 import config from '../config';
+
+export function executeExpression(expression: string | null, ctx: Record<string, any> = {}) {
+    if (isNil(expression))
+        return undefined;
+
+    if (expression.trim() === '')
+        return null;
+
+    // eslint-disable-next-line no-new-func
+    const fn = new Function('_ctx', `
+            with(_ctx) {
+                return (${expression});
+            }
+        `);
+
+    return fn.call(ctx.__this, ctx);
+}
+
+export function evaluateOrReturnInput(expression: string | null, ctx?: Record<string, any>) {
+    try {
+        return executeExpression(expression, ctx);
+    }
+    catch (err) {
+        return expression;
+    }
+}
 
 export function funcSchemaToFunc({
     schema,
@@ -27,10 +53,10 @@ export function funcSchemaToFunc({
         return (...args: any[]) => {
             const newCtx = scope ? { ...exeCtx, ...scope } : exeCtx;
             try {
-                const params = (schema.params || []).map(param => executeExpression(param, {
+                const params = (schema.params || []).map(param => evaluateOrReturnInput(param, {
                     ...newCtx,
                     args,
-                }, true));
+                }));
                 return fn.call(exeCtx.__this, newCtx, [...params, ...args]);
             }
             catch (err) {
@@ -47,7 +73,7 @@ export function funcSchemaToFunc({
 
 export function executeFunc(schema: IPublicTypeJSFunction, ctx: Record<string, unknown>) {
     try {
-        const params = schema.params.map(param => executeExpression(param, ctx));
+        const params = schema.params.map(param => evaluateOrReturnInput(param, ctx));
         // eslint-disable-next-line no-new-func
         const fn = new Function('_ctx', 'params', `
         let result;

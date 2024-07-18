@@ -1,5 +1,5 @@
 import type { PropType } from 'vue';
-import { computed, defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref, watch } from 'vue';
 import type { Designer } from '@webank/letgo-designer';
 import { CodeEditor } from '@webank/letgo-components';
 import { FButton } from '@fesjs/fes-design';
@@ -36,6 +36,19 @@ export const JsEditView = defineComponent({
         const { project } = designer;
 
         const tmp = ref((project.currentDocument.classCode || DEFAULT_CLASS_CODE).trim());
+
+        let destroy: () => void;
+        watch(() => project.currentDocument, (doc) => {
+            if (destroy)
+                destroy();
+
+            destroy = doc.onClassCodeChange((val) => {
+                if (tmp.value !== val)
+                    tmp.value = val;
+            });
+        }, {
+            immediate: true,
+        });
 
         const onChange = (val: string) => {
             tmp.value = val;

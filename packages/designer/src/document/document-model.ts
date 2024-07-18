@@ -1,6 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
 import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
-import { markComputed, uniqueId } from '@webank/letgo-common';
+import { markComputed, markShallowReactive, uniqueId } from '@webank/letgo-common';
 import type {
     IPublicModelDocumentModel,
     IPublicTypeComponentSchema,
@@ -109,7 +109,7 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
 
     set classCode(code: string) {
         this.rootNode?.getExtraProp('classCode', true)?.setValue(code);
-        this.emitClassCodeChange();
+        this.emitClassCodeChange(code);
     }
 
     get isActive() {
@@ -193,11 +193,11 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
         };
     }
 
-    emitClassCodeChange() {
-        this.emitter.emit('document.class.code');
+    emitClassCodeChange(val: string) {
+        this.emitter.emit('document.class.code', val);
     }
 
-    onClassCodeChange = (func: () => void) => {
+    onClassCodeChange = (func: (val: string) => void) => {
         return this.onEvent('document.class.code', func);
     };
 

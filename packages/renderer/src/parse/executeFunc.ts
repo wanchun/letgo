@@ -9,7 +9,7 @@ export function funcSchemaToFunc(schema: IPublicTypeJSFunction, ctx: Record<stri
         const fn = new Function('_ctx', 'params', `
         let result;
         with(_ctx) {
-            result = (${schema.value})(...params);
+            result = (${schema.value}).call(this, ...params);
         }
         return result;
 `);
@@ -40,7 +40,7 @@ export function executeFunc(schema: IPublicTypeJSFunction, ctx: Record<string, u
         const fn = new Function('_ctx', 'params', `
         let result;
     with(_ctx) {
-        result = (${schema.value})(...params);
+        result = (${schema.value}).call(this, ...params);
     }
     return result;
 `);

@@ -1,3 +1,12 @@
+## [0.0.5-beta.15](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.14...v0.0.5-beta.15) (2024-07-18)
+
+
+### Bug Fixes
+
+* RenderApp中config改为响应式 ([39b73ad](https://git.weoa.com/mumblefe/letgo/commits/39b73ada57de91dc0053094c31081d2b54e0cc20))
+
+
+
 ## [0.0.5-beta.14](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.13...v0.0.5-beta.14) (2024-7-17)
 
 

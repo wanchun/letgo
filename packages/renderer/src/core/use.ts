@@ -216,7 +216,11 @@ function buildProp({
         return parseExpression(schema, { ...context, ...scope });
     }
     else if (isJSFunction(schema)) {
-        return funcSchemaToFunc(schema, context, scope);
+        return funcSchemaToFunc({
+            schema,
+            exeCtx: context,
+            scope,
+        });
     }
     else if (isJSSlot(schema)) {
         // 处理属性插槽

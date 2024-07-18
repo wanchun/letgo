@@ -67,15 +67,18 @@ export function parseSchema(schema: unknown, ctx?: Record<string, unknown>): unk
 export function buildGlobalUtils(libraryMap: Record<string, string>, utils?: IPublicTypeUtils, ctx?: Record<string, any>) {
     if (utils) {
         return utils.reduce((acc, cur) => {
-            if (cur.type === 'function')
-                acc[cur.name] = funcSchemaToFunc(cur.content, ctx ?? {});
+            if (cur.type === 'function') {
+                acc[cur.name] = funcSchemaToFunc({
+                    schema: cur.content,
+                    exeCtx: ctx ?? {},
+                });
+            }
 
-            else
-                acc[cur.name] = findLibExport(libraryMap, cur.name, cur.content);
+            else { acc[cur.name] = findLibExport(libraryMap, cur.name, cur.content); }
 
             return acc;
         }, {} as {
-            [key: string]: (...args: any[]) => any
+            [key: string]: (...args: any[]) => any;
         });
     }
     return null;

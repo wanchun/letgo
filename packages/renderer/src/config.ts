@@ -1,9 +1,11 @@
 import type { Component } from 'vue';
+import type { Logger } from '@webank/letgo-common';
 import { RENDERER_COMPS } from './renderers';
 
 export type RendererModules = Record<string, Component>;
 
 export class Config {
+    private logger: Logger;
     private renderers: RendererModules = { ...RENDERER_COMPS };
     private configProvider: any = null;
 
@@ -21,6 +23,14 @@ export class Config {
 
     getRenderers() {
         return this.renderers;
+    }
+
+    setLogger(logger: Logger) {
+        this.logger = logger;
+    }
+
+    logError(err: unknown, infoCtx?: Record<string, any>) {
+        //
     }
 }
 

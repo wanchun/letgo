@@ -1,7 +1,18 @@
 import type { IPublicTypeJSFunction } from '@webank/letgo-types';
 import { executeExpression } from '@webank/letgo-common';
+import config from '../config';
 
-export function funcSchemaToFunc(schema: IPublicTypeJSFunction, ctx: Record<string, unknown>, scope?: Record<string, unknown>) {
+export function funcSchemaToFunc({
+    schema,
+    exeCtx,
+    infoCtx,
+    scope,
+}: {
+    schema: IPublicTypeJSFunction;
+    exeCtx: Record<string, unknown>;
+    infoCtx?: Record<string, unknown>;
+    scope?: Record<string, unknown>;
+}) {
     if (!schema.value.trim())
         return undefined;
     try {
@@ -14,21 +25,22 @@ export function funcSchemaToFunc(schema: IPublicTypeJSFunction, ctx: Record<stri
         return result;
 `);
         return (...args: any[]) => {
-            const newCtx = scope ? { ...ctx, ...scope } : ctx;
+            const newCtx = scope ? { ...exeCtx, ...scope } : exeCtx;
             try {
                 const params = (schema.params || []).map(param => executeExpression(param, {
                     ...newCtx,
                     args,
                 }, true));
-                return fn.call(ctx.__this, newCtx, [...params, ...args]);
+                return fn.call(exeCtx.__this, newCtx, [...params, ...args]);
             }
             catch (err) {
-                console.warn(err);
+                config.logError(err, infoCtx);
             }
         };
     }
     catch (err) {
-        console.warn('syntax error: ', schema.value);
+        // syntax error
+        config.logError(err, infoCtx);
         return undefined;
     }
 }

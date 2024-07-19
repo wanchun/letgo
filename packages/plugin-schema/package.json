@@ -16,7 +16,6 @@
         "vue": "^3.3.9"
     },
     "dependencies": {
-        "@codemirror/lang-json": "^6.0.1",
         "@fesjs/fes-design": "^0.8.38",
         "@icon-park/vue-next": "^1.4.2",
         "@webank/letgo-components": "^0.0.5-beta.6",

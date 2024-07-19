@@ -4,11 +4,13 @@ import { javascript, javascriptLanguage } from '@codemirror/lang-javascript';
 import { lintGutter, setDiagnostics } from '@codemirror/lint';
 import {
     Annotation,
+    Compartment,
     EditorState,
 } from '@codemirror/state';
 import {
     EditorView,
     keymap,
+    lineNumbers,
     placeholder,
 } from '@codemirror/view';
 import { vscodeKeymap } from '@replit/codemirror-vscode-keymap';
@@ -21,7 +23,7 @@ import { useOxcWorker } from './use-oxc';
 
 const External = Annotation.define<boolean>();
 
-export function useCodeEditor(props: CodeEditorProps) {
+export function useCodeEditor(props: CodeEditorProps, onEsc: () => void) {
     const container = ref<HTMLElement>();
 
     let editorView: EditorView;
@@ -77,19 +79,30 @@ export function useCodeEditor(props: CodeEditorProps) {
             props.onBlur(updateCoded, focusId);
     };
 
+    const gutter = new Compartment();
+    const lines = lineNumbers();
+
     const genState = () => {
         return EditorState.create({
             doc: props.doc,
             extensions: [
                 basicSetup({
-                    lineNumbers: props.lineNumbers || false,
+                    lineNumbers: false,
                 }),
+                gutter.of(props.lineNumbers ? [lines] : []),
                 keymap.of([
                     ...vscodeKeymap,
                     indentWithTab,
                     {
                         key: 'Delete',
                         shift: deleteLine,
+                    },
+                    {
+                        key: 'Escape',
+                        run: (): boolean => {
+                            onEsc();
+                            return false;
+                        },
                     },
                 ]),
                 theme,
@@ -156,5 +169,21 @@ export function useCodeEditor(props: CodeEditorProps) {
         }
     });
 
-    return [container];
+    function toggleLineNumber(visible: boolean) {
+        if (visible) {
+            editorView.dispatch({
+                effects: gutter.reconfigure([lines]),
+            });
+        }
+        else {
+            editorView.dispatch({
+                effects: gutter.reconfigure([]),
+            });
+        }
+    }
+
+    return {
+        containerRef: container,
+        toggleLineNumber,
+    };
 }

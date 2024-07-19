@@ -27,7 +27,7 @@ class JavascriptComputedEdit implements CodeBaseEdit {
         return {
             id,
             type: IEnumCodeType.JAVASCRIPT_COMPUTED,
-            funcBody: '// Tip: 通过一个变量计算出新的变量，当依赖的变更更新时，新的变量自动更新 \nreturn 5',
+            funcBody: 'return 5',
         };
     }
 }

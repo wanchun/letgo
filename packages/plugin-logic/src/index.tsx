@@ -9,16 +9,17 @@ let panel: Panel | undefined;
 
 export default definePlugin({
     name: 'PluginLogic',
-    init({ skeleton, designer }) {
+    init({ config, skeleton, designer }) {
+        const requireConfig = config.get('requireConfig');
         panel = skeleton.add({
             type: 'Panel',
             area: 'leftFloatArea',
             name: 'PluginLogicPanel',
-            render: () => <JsEditView designer={designer} />,
+            render: () => <JsEditView requireConfig={requireConfig} designer={designer} />,
             props: {
                 width: '600',
                 title: '源码面板',
-                displayDirective: 'show',
+                displayDirective: 'lazyShow',
             },
         });
         widget = skeleton.add({

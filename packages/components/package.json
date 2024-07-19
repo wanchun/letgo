@@ -28,6 +28,7 @@
         "@codemirror/view": "^6.28.4",
         "@fesjs/fes-design": "^0.8.38",
         "@icon-park/vue-next": "^1.4.2",
+        "@monaco-editor/loader": "^1.4.0",
         "@qlin/oxc-wasm-web": "^0.0.3",
         "@replit/codemirror-vscode-keymap": "^6.0.2",
         "@uiw/codemirror-extensions-basic-setup": "^4.22.2",
@@ -40,5 +41,8 @@
     "publishConfig": {
         "access": "public"
     },
-    "typings": "./es/index.d.ts"
+    "typings": "./es/index.d.ts",
+    "devDependencies": {
+        "monaco-editor": "^0.48.0"
+    }
 }

@@ -10,12 +10,13 @@ let panel: Panel | undefined;
 
 export default definePlugin({
     name: 'PluginSchema',
-    init({ skeleton, designer }) {
+    init({ skeleton, config, designer }) {
+        const requireConfig = config.get('requireConfig');
         panel = skeleton.add({
             type: 'Panel',
             area: 'leftFloatArea',
             name: 'PluginSchemaPanel',
-            render: () => <SchemaView designer={designer} />,
+            render: () => <SchemaView requireConfig={requireConfig} designer={designer} />,
             props: {
                 width: 'calc(100% - 48px)',
                 title: 'Schema',

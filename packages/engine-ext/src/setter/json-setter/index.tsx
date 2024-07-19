@@ -1,5 +1,5 @@
-import { json } from '@codemirror/lang-json';
 import JSON5 from 'json5';
+import { json } from '@codemirror/lang-json';
 import { CodeMirror } from '@webank/letgo-components';
 import type { IPublicTypeSetter } from '@webank/letgo-types';
 import { cloneDeep, isEqual, isNil, isUndefined } from 'lodash-es';

@@ -21,12 +21,12 @@ import { commonProps } from '../../common';
 import './index.less';
 
 interface SetterItem {
-    name: string
-    title: string
-    setter: string | IPublicTypeCustomView
-    props?: object | IPublicTypeDynamicSetterProps
-    condition?: (field: SettingField) => boolean
-    defaultValue?: any
+    name: string;
+    title: string;
+    setter: string | IPublicTypeCustomView;
+    props?: object | IPublicTypeDynamicSetterProps;
+    condition?: (field: SettingField) => boolean;
+    defaultValue?: any;
 }
 
 function normalizeSetters(setters?: Array<IPublicTypeSetterType>): SetterItem[] {
@@ -126,13 +126,13 @@ const MixedSetterView = defineComponent({
             let firstDefault;
             for (const setter of setters.value) {
                 if (!setter.condition) {
-                  if (!firstDefault)
-                    firstDefault = setter;
-                  continue;
+                    if (!firstDefault)
+                        firstDefault = setter;
+                    continue;
                 }
                 if (!firstMatched && setter.condition(field))
-                  firstMatched = setter;
-              }
+                    firstMatched = setter;
+            }
             return (firstMatched || firstDefault || setters.value[0])?.name;
         };
 
@@ -207,7 +207,6 @@ const MixedSetterView = defineComponent({
                             onClick={onClick}
                             class={['letgo-setter-mixed__icon', currentSetterName.value === 'ExpressionSetter' && 'letgo-setter-mixed__icon--active']}
                             theme="outline"
-                            size="14"
                         />
                     </FTooltip>
                 );
@@ -224,7 +223,6 @@ const MixedSetterView = defineComponent({
                     <Transform
                         class="letgo-setter-mixed__icon"
                         theme="outline"
-                        size="14"
                     />
                 </FDropdown>
             );

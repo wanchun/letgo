@@ -19,7 +19,7 @@ export default definePlugin({
             name: 'PluginComponentTreePanel',
             render: () => <ContentView editor={editor} designer={designer} />,
             props: {
-                width: 300,
+                width: 266,
                 title: '大纲树',
             },
             defaultFixed: false,

@@ -16,7 +16,7 @@ export default defineComponent({
     setup(props) {
         const isActive = ref(false);
         const isHover = ref(false);
-        const width = ref<number>(400);
+        const width = ref<number>(300);
         let clientX = 0;
         let lasWidth = width.value;
         let timer: number;

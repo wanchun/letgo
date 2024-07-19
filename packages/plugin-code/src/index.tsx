@@ -17,7 +17,7 @@ export default definePlugin({
             area: 'leftFloatArea',
             render: () => <PanelView editor={editor} designer={designer} />,
             props: {
-                width: 300,
+                width: 266,
                 title: '逻辑',
             },
             defaultFixed: false,

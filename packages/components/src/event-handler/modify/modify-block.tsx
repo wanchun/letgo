@@ -1,6 +1,6 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, ref, watch } from 'vue';
-import { FInputNumber, FOption, FSelect } from '@fesjs/fes-design';
+import { FOption, FSelect } from '@fesjs/fes-design';
 import type { IEventHandler, IPublicModelProject } from '@webank/letgo-types';
 import { IEnumEventHandlerAction } from '@webank/letgo-types';
 import { cloneDeep, isEqual } from 'lodash-es';
@@ -122,10 +122,6 @@ export default defineComponent({
                         {renderAction()}
                         <Separator text={firstSeparatorText.value} />
                         <RenderOptions project={props.project} isGlobal={props.isGlobal} componentEvent={innerEditEvent.value} />
-                        {/* <Separator text="高级" />
-                        <Label label="延迟">
-                            <FInputNumber v-model={innerEditEvent.value.waitMs} />
-                        </Label> */}
                     </div>
                 )
             );

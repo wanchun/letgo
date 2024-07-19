@@ -12,8 +12,7 @@ export default defineComponent({
         const tabs = [{
             value: 'general',
             label: '通用',
-        },
-        {
+        }, {
             value: 'advanced',
             label: '高级',
         }];
@@ -24,14 +23,16 @@ export default defineComponent({
 
         const renderTabs = () => {
             return tabs.map((tab) => {
-                return <button class={["letgo-plg-code__query-tab", props.tab === tab.value ? 'letgo-plg-code__query-tab--active' : '']} onClick={() => selectTab(tab)}>{tab.label}</button>;
+                return <div class={['letgo-plg-code__query-tab', props.tab === tab.value ? 'letgo-plg-code__query-tab--active' : '']} onClick={() => selectTab(tab)}>{tab.label}</div>;
             });
         };
 
         return () => {
-            return <div class="letgo-plg-code__query-tabs" >
-                {renderTabs()}
-            </div>;
+            return (
+                <div class="letgo-plg-code__query-tabs">
+                    {renderTabs()}
+                </div>
+            );
         };
     },
 });

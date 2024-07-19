@@ -14,7 +14,7 @@ export default defineComponent({
     setup(props) {
         return () => {
             const { area } = props;
-            return <div>{area.items.map(item => item.content)}</div>;
+            return <div class="letgo-skeleton-workbench__global">{area.items.map(item => item.content)}</div>;
         };
     },
 });

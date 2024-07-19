@@ -134,7 +134,7 @@ const EventSetterView = defineComponent({
             return (
                 <>
                     <div class="letgo-event-setter__header">
-                        <div style="margin: 0; font-size: 14px;">已绑定事件</div>
+                        <div style="margin: 0;">已绑定事件</div>
                         <FButton type="link" onClick={addEvent} size="small">
                             新增
                             <PlusOutlined />

@@ -9,6 +9,9 @@
     font-size: var(--letgo-font-size);
     color: var(--letgo-text-color);
 
+    --f-font-size-base: 12px;
+    --f-padding-large: 12px;
+    
     * {
         box-sizing: border-box;
     }
@@ -34,6 +37,8 @@
         border-bottom: 1px solid var(--letgo-border-color);
         box-shadow: 0 0 12px 0 rgba(14,34,73, .06);
         z-index: 11;
+        --f-font-size-base: 14px;
+        --f-padding-large: 24px;
     }
 
     &__body {
@@ -88,7 +93,7 @@
 
     &__left-float-header {
         font-weight: 500;
-        font-size: 16px;
+        font-size: var(--letgo-font-size-xl);
         padding: 16px;
         display: flex;
         align-items: center;
@@ -150,7 +155,7 @@
 
     &__right {
         height: 100%;
-        width: 400px;
+        width: 300px;
         background-color: #fff;
         flex-shrink: 0;
         position: relative;

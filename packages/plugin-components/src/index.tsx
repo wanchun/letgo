@@ -15,7 +15,7 @@ export default definePlugin({
             name: 'PluginComponentsPanel',
             render: () => <PanelView editor={editor} designer={designer} />,
             props: {
-                width: 300,
+                width: 266,
                 title: '物料',
             },
             defaultFixed: false,

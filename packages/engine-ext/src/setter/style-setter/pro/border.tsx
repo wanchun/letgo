@@ -1,5 +1,5 @@
 import type { CSSProperties, PropType, Ref } from 'vue';
-import { computed, defineComponent, inject, onMounted, ref, watch } from 'vue';
+import { computed, defineComponent, onMounted, ref, watch } from 'vue';
 import { useModel } from '@webank/letgo-common';
 import { FCollapseItem, FGrid, FGridItem, FRadioButton, FRadioGroup, FSelect } from '@fesjs/fes-design';
 import { InputColor, InputUnit, Row } from '../../../component';
@@ -183,7 +183,7 @@ export const BorderView = defineComponent({
         return () => {
             return (
                 <FCollapseItem name="border" title="边框">
-                    <Row label="边框">
+                    <Row labelWidth={40} label="边框">
                         <div class="letgo-setter-style__border">
                             <div class="letgo-setter-style__border-icons">
                                 <span
@@ -255,7 +255,7 @@ export const BorderView = defineComponent({
                             </div>
                         </div>
                     </Row>
-                    <Row label="圆角">
+                    <Row labelWidth={40} label="圆角">
                         <div class="letgo-setter-style__border-radius">
                             {
                                 radiusList.map((type) => {
@@ -276,7 +276,7 @@ export const BorderView = defineComponent({
                             }
                         </div>
                     </Row>
-                    <Row label="阴影">
+                    <Row labelWidth={40} label="阴影">
                         <FGrid gutter={[12, 12]} wrap>
                             <FGridItem span={24}>
                                 <Row label="方向" labelWidth={40} labelAlign="right" margin={false}>

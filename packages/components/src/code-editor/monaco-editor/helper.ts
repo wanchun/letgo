@@ -63,7 +63,7 @@ export const SingleMonacoEditorProps = {
     onBlur: Function as PropType<() => void>,
     onFocus: Function as PropType<() => void>,
     bordered: Boolean,
-    fullScreen: Boolean,
+    fullscreen: Boolean,
 };
 
 export type IGeneralMonacoEditorProps = ExtractPublicPropTypes<typeof GeneralMonacoEditorProps>;

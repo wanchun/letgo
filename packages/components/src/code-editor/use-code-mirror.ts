@@ -17,7 +17,7 @@ import type { CodeEditorProps } from './types';
 
 const External = Annotation.define<boolean>();
 
-export function useCodeMirror(props: CodeEditorProps) {
+export function useCodeMirror(props: CodeEditorProps, onEsc: () => void) {
     const container = ref<HTMLElement>();
 
     let editorView: EditorView;
@@ -46,6 +46,13 @@ export function useCodeMirror(props: CodeEditorProps) {
                     {
                         key: 'Delete',
                         shift: deleteLine,
+                    },
+                    {
+                        key: 'Escape',
+                        run: (): boolean => {
+                            onEsc();
+                            return false;
+                        },
                     },
                 ]),
                 theme,

@@ -54,7 +54,7 @@ export const CodeView = defineComponent({
                     value={initValue.value}
                     onChange={onChange}
                     bordered
-                    fullScreen
+                    fullscreen
                 />
             );
         };

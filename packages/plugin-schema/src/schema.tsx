@@ -51,7 +51,7 @@ export const SchemaView = defineComponent({
                         value={currentSchema.value}
                         onChange={onChange}
                         path="__page_schema.json"
-                        fullScreen
+                        fullscreen
                     >
                     </MonacoEditor>
                     <div class="letgo-plg-schema__action">

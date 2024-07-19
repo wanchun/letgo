@@ -1,5 +1,6 @@
 import type { IDisposable } from 'monaco-editor';
 import { cloneDeep } from 'lodash-es';
+import { watchOnce } from '@vueuse/core';
 import { FullScreenTwo, OffScreenTwo } from '@icon-park/vue-next';
 import { computed, defineComponent, onUnmounted, ref, watch } from 'vue';
 import { FModal } from '@fesjs/fes-design';
@@ -23,19 +24,6 @@ export const MonacoEditor = defineComponent({
             monacoEditor,
         } = useEditor('single', props);
 
-        let subscription: IDisposable;
-        watch(isEditorReady, () => {
-            if (isEditorReady.value) {
-                subscription?.dispose();
-                subscription = monacoEditor.value?.onDidChangeModelContent((event: any) => {
-                    const editorValue = monacoEditor.value?.getModel().getValue();
-
-                    if (props.value !== editorValue)
-                        props.onChange?.(editorValue, event);
-                });
-            }
-        });
-
         watch(isFocused, () => {
             if (isFocused.value)
                 props.onFocus?.();
@@ -54,7 +42,7 @@ export const MonacoEditor = defineComponent({
         const fullScreenStyle = ref({});
         let preOptions: Record<string, any>;
         const toggleFullScreen = () => {
-            if (!props.fullScreen)
+            if (!props.fullscreen)
                 return;
 
             if (!isFullScreen.value) {
@@ -88,6 +76,9 @@ export const MonacoEditor = defineComponent({
             }
         };
 
+        const preventFocus = (event: MouseEvent) => {
+            event.preventDefault();
+        };
         const renderFullScreen = () => {
             if (isFullScreen.value) {
                 return (
@@ -95,6 +86,7 @@ export const MonacoEditor = defineComponent({
                         class="letgo-comp-monaco__screen-icon letgo-comp-monaco__off-screen-icon"
                         size={15}
                         theme="outline"
+                        onMousedown={preventFocus}
                         onClick={toggleFullScreen}
                     >
                     </OffScreenTwo>
@@ -106,11 +98,29 @@ export const MonacoEditor = defineComponent({
                     class="letgo-comp-monaco__screen-icon"
                     size={15}
                     theme="outline"
+                    onMousedown={preventFocus}
                     onClick={toggleFullScreen}
                 >
                 </FullScreenTwo>
             );
         };
+
+        let subscription: IDisposable;
+        watchOnce(isEditorReady, () => {
+            if (isEditorReady.value) {
+                subscription?.dispose();
+                subscription = monacoEditor.value?.onDidChangeModelContent((event: any) => {
+                    const editorValue = monacoEditor.value?.getModel().getValue();
+
+                    if (props.value !== editorValue)
+                        props.onChange?.(editorValue, event);
+                });
+                monacoEditor.value.addCommand(monaco.value.KeyCode.Escape, () => {
+                    if (isFullScreen.value)
+                        toggleFullScreen();
+                });
+            }
+        });
 
         onUnmounted(() => {
             subscription?.dispose();
@@ -166,7 +176,7 @@ export const MonacoEditor = defineComponent({
                         class="letgo-comp-monaco__container"
                         style={isFullScreen.value ? fullScreenStyle.value : innerStyle.value}
                     >
-                        {props.fullScreen && renderFullScreen() }
+                        {props.fullscreen && renderFullScreen() }
                     </div>
                 </div>
 

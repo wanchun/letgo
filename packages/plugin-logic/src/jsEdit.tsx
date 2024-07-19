@@ -1,13 +1,5 @@
 import type { PropType } from 'vue';
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { computed, defineComponent, ref, watch } from 'vue';
-=======
-import { defineComponent, ref } from 'vue';
->>>>>>> 775d4528 (fix: 优化 class code 编辑器)
-=======
-import { computed, defineComponent, ref, watch } from 'vue';
->>>>>>> d85045f4 (fix: 优化代码提示)
 import type { Designer } from '@webank/letgo-designer';
 import { valueToType } from '@webank/letgo-common';
 import type { Monaco } from '@webank/letgo-components';
@@ -137,7 +129,7 @@ export const JsEditView = defineComponent({
                         path="__class_code.js"
                         value={tmp.value}
                         onChange={onChange}
-                        fullScreen
+                        fullscreen
                         editorDidMount={editorDidMount}
                     >
                     </MonacoEditor>

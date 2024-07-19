@@ -1,12 +1,11 @@
 import type { Extension } from '@codemirror/state';
-import { FDrawer } from '@fesjs/fes-design';
-import { FullScreen } from '@icon-park/vue-next';
+import { FullScreenTwo, OffScreenTwo } from '@icon-park/vue-next';
 import type { IPublicModelDocumentModel } from '@webank/letgo-types';
 import type {
     PropType,
-    StyleValue,
 } from 'vue';
 import {
+    computed,
     defineComponent,
     ref,
 } from 'vue';
@@ -52,49 +51,80 @@ export const CodeEditor = defineComponent({
         placeholder: String,
     },
     setup(props, { attrs }) {
-        const [editorRefEl] = useCodeEditor(props);
-        const [fullScreenRef] = useCodeEditor(props);
-        const isFullScreen = ref(false);
+        const { containerRef, toggleLineNumber } = useCodeEditor(props, toggleFullScreen);
+        const innerStyle = computed(() => {
+            return {
+                height: props.height,
+            };
+        });
 
-        const toggleFullScreen = () => {
+        const isFullScreen = ref(false);
+        const fullScreenStyle = ref({});
+        function toggleFullScreen() {
             if (!props.fullscreen)
                 return;
 
-            isFullScreen.value = !isFullScreen.value;
+            if (!isFullScreen.value) {
+                isFullScreen.value = true;
+                fullScreenStyle.value = {
+                    width: 'auto',
+                    height: 'auto',
+                    position: 'fixed',
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    zIndex: 9998,
+                };
+                toggleLineNumber(true);
+            }
+            else {
+                isFullScreen.value = false;
+                toggleLineNumber(props.lineNumbers);
+            }
+        };
+
+        const preventFocus = (event: MouseEvent) => {
+            event.preventDefault();
+        };
+
+        const renderFullScreen = () => {
+            if (isFullScreen.value) {
+                return (
+                    <OffScreenTwo
+                        class="letgo-comp-code__screen-icon letgo-comp-code__off-screen-icon"
+                        size={15}
+                        theme="outline"
+                        onMousedown={preventFocus}
+                        onClick={toggleFullScreen}
+                    >
+                    </OffScreenTwo>
+                );
+            }
+
+            return (
+                <FullScreenTwo
+                    class="letgo-comp-code__screen-icon"
+                    size={15}
+                    theme="outline"
+                    onMousedown={preventFocus}
+                    onClick={toggleFullScreen}
+                >
+                </FullScreenTwo>
+            );
         };
 
         return () => {
             return (
-                <>
+                <div class={['letgo-comp-code', props.bordered && 'is-bordered']}>
                     <div
-                        ref={editorRefEl}
-                        class={[attrs.class, 'letgo-comp-code', props.bordered && 'is-bordered']}
-                        style={attrs.style as StyleValue}
+                        ref={containerRef}
+                        class={[attrs.class, 'letgo-comp-code__container', isFullScreen.value && 'letgo-comp-code__container--fullscreen']}
+                        style={isFullScreen.value ? fullScreenStyle.value : innerStyle.value}
                     >
-                        {props.fullscreen && (
-                            <FullScreen
-                                class="letgo-comp-code__full-icon"
-                                size={14}
-                                theme="outline"
-                                onClick={toggleFullScreen}
-                            >
-                            </FullScreen>
-                        )}
+                        {props.fullscreen && renderFullScreen() }
                     </div>
-                    {props.fullscreen && (isFullScreen.value || fullScreenRef.value) && (
-                        <FDrawer
-                            show={isFullScreen.value}
-                            title="代码编辑"
-                            dimension={800}
-                            contentClass="letgo-comp-code__full-screen"
-                            onCancel={toggleFullScreen}
-                            maskClosable={false}
-                        >
-                            <div ref={fullScreenRef} style={{ height: '100%' }}>
-                            </div>
-                        </FDrawer>
-                    )}
-                </>
+                </div>
             );
         };
     },

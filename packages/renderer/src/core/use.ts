@@ -197,6 +197,7 @@ function buildProp({
     render,
     schema,
     scope,
+    pickPath,
     blockScope,
     prop,
 }: {
@@ -208,6 +209,7 @@ function buildProp({
     ) => VNode | null;
     schema: unknown;
     scope: RuntimeScope;
+    pickPath: (string | number)[];
     blockScope?: BlockScope | null;
     prop?: Prop | null;
 }): any {
@@ -218,6 +220,12 @@ function buildProp({
         return funcSchemaToFunc({
             schema,
             exeCtx: context,
+            infoCtx: {
+                idType: 'component',
+                id: pickPath[0],
+                paths: pickPath.slice(1),
+                content: schema.value,
+            },
             scope,
         });
     }
@@ -262,7 +270,7 @@ function buildProp({
     else if (isArray(schema)) {
         // 属性值为 array，递归处理属性的每一项
         return schema.map((item, idx) =>
-            buildProp({ context, render, schema: item, scope, blockScope, prop: prop?.get(idx, false) }),
+            buildProp({ context, render, schema: item, scope, pickPath: [...pickPath, idx], blockScope, prop: prop?.get(idx, false) }),
         );
     }
     else if (schema && isPlainObject(schema)) {
@@ -273,7 +281,7 @@ function buildProp({
                 return;
             const val = schema[key as keyof typeof schema];
             const childProp = prop?.get(key, false);
-            res[key] = buildProp({ context, render, schema: val, scope, blockScope, prop: childProp });
+            res[key] = buildProp({ context, render, schema: val, scope, pickPath: [...pickPath, key], blockScope, prop: childProp });
         });
         return res;
     }
@@ -292,6 +300,7 @@ function buildRefProp({
     context,
     render,
     schema,
+    pickPath,
     scope,
     blockScope,
     prop,
@@ -303,6 +312,7 @@ function buildRefProp({
         comp?: Component,
     ) => VNode | null;
     schema: unknown;
+    pickPath: (string | number)[];
     scope: RuntimeScope;
     blockScope?: BlockScope | null;
     prop?: Prop | null;
@@ -354,9 +364,9 @@ function buildRefProp({
         };
     }
     else {
-        const propValue = buildProp({ context, render, schema, scope, blockScope, prop });
+        const propValue = buildProp({ context, render, schema, pickPath, scope, blockScope, prop });
         return isString(propValue)
-            ? buildRefProp({ context, render, schema: propValue, scope, blockScope, prop })
+            ? buildRefProp({ context, render, schema: propValue, pickPath, scope, blockScope, prop })
             : propValue;
     }
 }
@@ -438,6 +448,7 @@ function processProp(
  * @param extraProps - 运行时附加属性
  */
 export function buildProps({
+    componentId,
     context,
     scope,
     propsSchema,
@@ -446,6 +457,7 @@ export function buildProps({
     extraProps,
     node,
 }: {
+    componentId: string;
     context: Record<string, unknown>;
     scope: RuntimeScope;
     propsSchema: Record<string, unknown>;
@@ -472,8 +484,24 @@ export function buildProps({
         const schema = processed[propName];
         parsedProps[propName]
             = propName === 'ref'
-                ? buildRefProp({ context, render, schema, scope: mergedScope, blockScope, prop: node?.getProp(propName, false) })
-                : buildProp({ context, render, schema, scope: mergedScope, blockScope, prop: node?.getProp(propName, false) });
+                ? buildRefProp({
+                    context,
+                    render,
+                    schema,
+                    pickPath: [componentId, propName],
+                    scope: mergedScope,
+                    blockScope,
+                    prop: node?.getProp(propName, false),
+                })
+                : buildProp({
+                    context,
+                    render,
+                    schema,
+                    pickPath: [componentId, propName],
+                    scope: mergedScope,
+                    blockScope,
+                    prop: node?.getProp(propName, false),
+                });
     });
 
     // 应用运行时附加的属性值

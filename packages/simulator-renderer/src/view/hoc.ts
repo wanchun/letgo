@@ -311,6 +311,7 @@ export const Hoc = defineComponent({
             executeCtx,
             node,
             renderComp,
+            schema,
         } = this;
 
         if (!show)
@@ -318,6 +319,7 @@ export const Hoc = defineComponent({
 
         if (!loop) {
             const props = buildProps({
+                componentId: schema.id,
                 context: executeCtx,
                 scope: innerScope,
                 propsSchema: compProps,
@@ -341,6 +343,7 @@ export const Hoc = defineComponent({
             loop.map((item, index, arr) => {
                 const blockScope = buildLoopScope(item, index, arr.length);
                 const props = buildProps({
+                    componentId: schema.id,
                     context: executeCtx,
                     scope: innerScope,
                     propsSchema: compProps,

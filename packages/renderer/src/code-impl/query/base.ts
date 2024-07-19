@@ -1,5 +1,5 @@
 import { markShallowReactive } from '@webank/letgo-common';
-import type { IEnumResourceType, IEventHandler, IFailureCondition, IJavascriptQuery, IPublicTypeJSFunction } from '@webank/letgo-types';
+import type { IEnumResourceType, IEventHandler, IJavascriptQuery, IPublicTypeJSFunction } from '@webank/letgo-types';
 import { IEnumCacheType, IEnumCodeType, IEnumRunCondition, isRunFunctionEventHandler } from '@webank/letgo-types';
 import { eventHandlerToJsFunction, funcSchemaToFunc } from '../../parse';
 import { cacheControl, clearCache } from './cache-control';
@@ -87,7 +87,7 @@ export class JavascriptQueryBase {
                         idType: 'code',
                         id: this.id,
                         paths: [eventType, index],
-                        content: jsFunc.value,
+                        content: item,
                     },
                 }));
             }

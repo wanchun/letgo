@@ -14,11 +14,11 @@ const defaultOptions: Options = {
 };
 
 interface LogDetail {
-    msg: string | Error;
+    msg: unknown;
     idType?: LogIdType;
     id?: string;
     paths?: string[];
-    content?: string | number;
+    content?: string | Record<string, any>;
     paramIndex?: number;
 }
 

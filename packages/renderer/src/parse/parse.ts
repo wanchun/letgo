@@ -125,6 +125,12 @@ export function buildGlobalUtils(libraryMap: Record<string, string>, utils?: IPu
                 acc[cur.name] = funcSchemaToFunc({
                     schema: cur.content,
                     exeCtx: ctx ?? {},
+                    infoCtx: {
+                        idType: 'static',
+                        id: '$utils',
+                        paths: [cur.name],
+                        content: cur,
+                    },
                 });
             }
 

@@ -62,6 +62,7 @@ export const Live = defineComponent({
             scope,
             executeCtx,
             renderComp,
+            schema,
         } = this;
 
         if (!show)
@@ -71,6 +72,7 @@ export const Live = defineComponent({
             return h(
                 comp,
                 buildProps({
+                    componentId: schema.id,
                     context: executeCtx,
                     scope,
                     propsSchema: compProps,
@@ -96,6 +98,7 @@ export const Live = defineComponent({
                 return h(
                     comp,
                     buildProps({
+                        componentId: schema.id,
                         context: executeCtx,
                         scope,
                         propsSchema: compProps,

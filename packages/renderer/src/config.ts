@@ -29,8 +29,32 @@ export class Config {
         this.logger = logger;
     }
 
+    logWarn(err: unknown, infoCtx: Record<string, any>) {
+        if (this.logger) {
+            this.logger.warn({
+                msg: err,
+                ...infoCtx,
+            });
+        }
+        else {
+            // eslint-disable-next-line no-console
+            console.log('error context: ', infoCtx);
+            console.warn(err);
+        }
+    }
+
     logError(err: unknown, infoCtx?: Record<string, any>) {
-        //
+        if (this.logger) {
+            this.logger.error({
+                msg: err,
+                ...infoCtx,
+            });
+        }
+        else {
+            // eslint-disable-next-line no-console
+            console.log('error context: ', infoCtx);
+            console.error(err);
+        }
     }
 }
 

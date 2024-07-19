@@ -1,4 +1,3 @@
-import { markShallowReactive } from '@webank/letgo-common';
 import type { IRestQueryResource } from '@webank/letgo-types';
 import { evaluateOrReturnInput, genRestApiQueryFunc } from '@webank/letgo-renderer';
 import { isPlainObject } from 'lodash-es';
@@ -11,12 +10,6 @@ export class RestApiQueryImpl extends JavascriptQueryImpl {
     headers?: IRestQueryResource['headers'];
     constructor(data: IRestQueryResource, deps: string[], ctx: Record<string, any>) {
         super(data, deps, ctx);
-        markShallowReactive(this, {
-            api: data.api,
-            params: data.params,
-            method: data.method,
-            headers: data.headers,
-        });
     }
 
     formatParams(extraParams?: Record<string, any>) {

@@ -34,10 +34,10 @@ export class JavascriptQueryImpl extends JavascriptQueryBase {
 
     changeContent(content: Partial<IJavascriptQuery>) {
         if (content.successEvent)
-            this.successEventInstances = this.eventSchemaToFunc(content.successEvent);
+            this.successEventInstances = this.eventSchemaToFunc(content.successEvent, 'successEvent');
 
         if (content.failureEvent)
-            this.failureEventInstances = this.eventSchemaToFunc(content.failureEvent);
+            this.failureEventInstances = this.eventSchemaToFunc(content.failureEvent, 'failureEvent');
 
         Object.assign(this, content);
 

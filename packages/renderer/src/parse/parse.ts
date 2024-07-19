@@ -74,32 +74,40 @@ export function parseExpression(schema: IPublicTypeJSExpression, ctx: Record<str
     }
 }
 
-export function parseSchema(scope?: Record<string, unknown>): string | undefined;
+export function parseSchema(scope: Record<string, unknown>, pickPath: (string | number)[]): string | undefined;
 export function parseSchema(
     schema: IPublicTypeJSFunction,
+    pickPath: (string | number)[],
     ctx?: Record<string, unknown>,
 ): CallableFunction;
 export function parseSchema(
     schema: IPublicTypeJSExpression,
+    pickPath: (string | number)[],
     ctx?: Record<string, unknown>,
 ): unknown;
 export function parseSchema<T extends object>(
     schema: T,
+    pickPath: (string | number)[],
     ctx: Record<string, unknown>,
 ): Record<string, unknown>;
-export function parseSchema<T>(schema: T, ctx?: Record<string, unknown>): T;
-export function parseSchema(schema: unknown, ctx?: Record<string, unknown>): unknown {
+export function parseSchema<T>(schema: T, pickPath: (string | number)[], ctx?: Record<string, unknown>): T;
+export function parseSchema(schema: unknown, pickPath: (string | number)[], ctx?: Record<string, unknown>): unknown {
     if (isJSExpression(schema)) {
         return parseExpression(schema, ctx);
     }
     else if (isJSFunction(schema)) {
-        return executeFunc(schema, ctx);
+        return executeFunc(schema, ctx, {
+            idType: 'component',
+            id: pickPath[0],
+            paths: pickPath.slice(1),
+            content: schema.value,
+        });
     }
     else if (isString(schema)) {
         return schema.trim();
     }
     else if (Array.isArray(schema)) {
-        return schema.map(item => parseSchema(item, ctx));
+        return schema.map((item, idx) => parseSchema(item, [...pickPath, idx], ctx));
     }
     else if (isFunction(schema)) {
         return schema.bind(ctx);
@@ -111,7 +119,7 @@ export function parseSchema(schema: unknown, ctx?: Record<string, unknown>): unk
         Object.keys(schema).forEach((key) => {
             if (key.startsWith('__'))
                 return;
-            res[key] = parseSchema(schema[key as keyof typeof schema], ctx);
+            res[key] = parseSchema(schema[key as keyof typeof schema], [...pickPath, key], ctx);
         });
         return res;
     }

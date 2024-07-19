@@ -114,7 +114,7 @@ function useLoop(props: LeafProps, ctx: Record<string, any>) {
         loop: computed(() => {
             if (!loop.value)
                 return null;
-            return parseSchema(loop.value, { ...ctx, ...props.scope });
+            return parseSchema(loop.value, [props.schema.id, 'loop'], { ...ctx, ...props.scope });
         }),
         loopArgs,
         updateLoop(value: IPublicTypeCompositeValue): void {

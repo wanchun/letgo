@@ -530,7 +530,7 @@ export function buildLoop(scope: RuntimeScope, ctx: Record<string, any>, schema:
         loop: computed(() => {
             if (!loop.value)
                 return null;
-            return parseSchema(loop.value, { ...ctx, ...scope });
+            return parseSchema(loop.value, [schema.id, 'loop'], { ...ctx, ...scope });
         }),
         loopArgs,
     };
@@ -543,7 +543,7 @@ export function buildShow(scope: RuntimeScope | ComputedRef<RuntimeScope>, ctx: 
         const { value: showCondition } = condition;
         if (typeof showCondition === 'boolean')
             return showCondition;
-        return !!parseSchema(showCondition, { ...toValue(scope), ...ctx });
+        return !!parseSchema(showCondition, [schema.id, 'condition'], { ...toValue(scope), ...ctx });
     });
 
     return {
@@ -667,7 +667,7 @@ export function useRootScope(rendererProps: RendererProps) {
     const instance = getCurrentInstance()!;
 
     // 处理 props
-    const props = parseSchema(propsSchema) ?? {};
+    const props = parseSchema(propsSchema, [schema.id, 'props']) ?? {};
     Object.assign(instance.props, props);
 
     // 处理 css

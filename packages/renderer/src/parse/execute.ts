@@ -53,10 +53,21 @@ export function funcSchemaToFunc({
         return (...args: any[]) => {
             const newCtx = scope ? { ...exeCtx, ...scope } : exeCtx;
             try {
-                const params = (schema.params || []).map(param => evaluateOrReturnInput(param, {
-                    ...newCtx,
-                    args,
-                }));
+                const params = (schema.params || []).map((param, index) => {
+                    try {
+                        return executeExpression(param, {
+                            ...newCtx,
+                            args,
+                        });
+                    }
+                    catch (err) {
+                        config.logError(err, {
+                            ...infoCtx,
+                            paramIndex: index,
+                        });
+                        return param;
+                    }
+                });
                 return fn.call(exeCtx.__this, newCtx, [...params, ...args]);
             }
             catch (err) {
@@ -71,7 +82,7 @@ export function funcSchemaToFunc({
     }
 }
 
-export function executeFunc(schema: IPublicTypeJSFunction, ctx: Record<string, unknown>) {
+export function executeFunc(schema: IPublicTypeJSFunction, ctx: Record<string, unknown>, infoCtx: Record<string, unknown>) {
     try {
         const params = schema.params.map(param => evaluateOrReturnInput(param, ctx));
         // eslint-disable-next-line no-new-func
@@ -85,7 +96,7 @@ export function executeFunc(schema: IPublicTypeJSFunction, ctx: Record<string, u
         return fn.call(ctx.__this, ctx, params);
     }
     catch (err) {
-        console.warn('syntax error: ', schema.value);
+        config.logError(err, infoCtx);
         return undefined;
     }
 }

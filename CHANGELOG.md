@@ -1,3 +1,29 @@
+## [0.0.5-beta.16](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.15...v0.0.5-beta.16) (2024-7-19)
+
+
+### Bug Fixes
+
+* 修复 class code this 问题 ([b67fdd6](https://git.weoa.com/mumblefe/letgo/commits/b67fdd6440bfc42e6d725c8941632c855520a1bf))
+* 修复样式 ([2dc5c9b](https://git.weoa.com/mumblefe/letgo/commits/2dc5c9bd2bf96c5065743674f7b84c2bf1ed0f4e))
+* 修复样式问题 ([1ae4b13](https://git.weoa.com/mumblefe/letgo/commits/1ae4b1382f1ca936ed4201e4928445672c6e741f))
+* 优化 class code 编辑器 ([aaa8403](https://git.weoa.com/mumblefe/letgo/commits/aaa8403453bb2dcd7a181e6e76fb0a0b52d81af0))
+* 优化部分编辑器 ([47aa26a](https://git.weoa.com/mumblefe/letgo/commits/47aa26a62efa5e828916cb8fef55bed9b5e608ef))
+* 优化部门代码 ([623ed93](https://git.weoa.com/mumblefe/letgo/commits/623ed93b806cd4933facb2bc6f0778c0146167d7))
+* 优化代码编辑 ([2fae846](https://git.weoa.com/mumblefe/letgo/commits/2fae846bfa739fa4c55ee762a432a2ebf190c7b1))
+* 优化代码提示 ([f8478db](https://git.weoa.com/mumblefe/letgo/commits/f8478db3f4fd0cbf784cf01918d2800a74d526ea))
+* add code type ([cfa934d](https://git.weoa.com/mumblefe/letgo/commits/cfa934da898f8bf1fdaab31633626d2c1f2db481))
+
+
+### Features
+
+* 优化 style setter ([e1e3b42](https://git.weoa.com/mumblefe/letgo/commits/e1e3b423cf872001cc7aff83918cc8ffdf0fed77))
+* 优化表达式编辑器 ([62e9bc4](https://git.weoa.com/mumblefe/letgo/commits/62e9bc4d59b8ff4ec41e68c732ae07be5690fdfb))
+* refactor editor ([d7bf594](https://git.weoa.com/mumblefe/letgo/commits/d7bf5944848aba943c103058f8da2b719d3d7e2a))
+* requireConfig 可配置 ([31187f4](https://git.weoa.com/mumblefe/letgo/commits/31187f4431022af9d401b6a7f2e76f9588f08fd4))
+* trigger throw error ([5235c29](https://git.weoa.com/mumblefe/letgo/commits/5235c2916f5e818bbd70d54b4b58fe60dbedcb2a))
+
+
+
 ## [0.0.5-beta.15](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.14...v0.0.5-beta.15) (2024-07-18)
 
 

@@ -165,6 +165,7 @@ export class JavascriptQueryBase {
                     this.error = err.toString();
 
                 console.warn(err);
+                throw err;
             }
             finally {
                 this.loading = false;

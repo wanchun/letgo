@@ -450,6 +450,7 @@ class JSQuery {
                     this.error = err.message;
 
                 console.warn(err);
+                throw err;
             } finally {
                 this.loading = false;
             }

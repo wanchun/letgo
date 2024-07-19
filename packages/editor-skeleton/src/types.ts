@@ -62,7 +62,7 @@ export interface IPanelProps {
     height?: number | string;
     maxWidth?: number | string;
     maxHeight?: number | string;
-    displayDirective?: 'if' | 'show';
+    displayDirective?: 'if' | 'show' | 'lazyShow';
 }
 
 export interface IBaseConfig {

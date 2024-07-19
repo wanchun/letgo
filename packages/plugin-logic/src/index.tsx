@@ -19,7 +19,7 @@ export default definePlugin({
             props: {
                 width: '600',
                 title: '源码面板',
-                displayDirective: 'show',
+                displayDirective: 'lazyShow',
             },
         });
         widget = skeleton.add({

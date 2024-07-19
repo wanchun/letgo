@@ -1,5 +1,5 @@
 import type { PropType } from 'vue';
-import { defineComponent } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import type { IPanel } from '../types';
 import './panel.less';
 
@@ -9,16 +9,21 @@ export default defineComponent({
         widget: {
             type: Object as PropType<IPanel>,
         },
-        displayDirective: {
-            type: String as PropType<'if' | 'show'>,
-            default: 'if',
-        },
+        displayDirective: String,
     },
     setup(props) {
         const { widget } = props;
 
+        const hasRendered = ref(false);
+        watch(() => widget.visible, () => {
+            if (widget.visible)
+                hasRendered.value = true;
+        }, {
+            immediate: true,
+        });
+
         return () => {
-            if (!widget.visible && widget.props.displayDirective !== 'show')
+            if (!widget.visible && ((props.displayDirective === 'lazyShow' && !hasRendered.value) || !props.displayDirective || props.displayDirective === 'if'))
                 return;
 
             return (

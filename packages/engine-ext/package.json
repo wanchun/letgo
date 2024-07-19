@@ -19,13 +19,14 @@
         "vue": "^3.3.9"
     },
     "dependencies": {
+        "@codemirror/lang-json": "^6.0.1",
         "@fesjs/fes-design": "^0.8.38",
         "@icon-park/vue-next": "^1.4.2",
         "@webank/letgo-common": "^0.0.5-beta.6",
         "@webank/letgo-components": "^0.0.5-beta.7",
         "@webank/letgo-designer": "^0.0.5-beta.7",
-        "@webank/letgo-types": "^0.0.5-beta.4",
         "@webank/letgo-editor-core": "^0.0.5-beta.6",
+        "@webank/letgo-types": "^0.0.5-beta.4",
         "json5": "^2.2.3",
         "lodash-es": "^4.17.21",
         "naive-ui": "^2.34.4"

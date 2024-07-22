@@ -28,10 +28,6 @@ export class Skeleton {
         return this[skeletonSymbol].bottomArea;
     }
 
-    get globalArea() {
-        return this[skeletonSymbol].globalArea;
-    }
-
     get rightArea() {
         return this[skeletonSymbol].rightArea;
     }

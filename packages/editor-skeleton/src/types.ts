@@ -20,8 +20,7 @@ export type IAreaPosition =
     | 'toolbarArea'
     | 'mainArea'
     | 'bottomArea'
-    | 'leftFloatArea'
-    | 'globalArea';
+    | 'leftFloatArea';
 
 export interface IRenderOption {
     widget: IBaseWidget;
@@ -34,25 +33,6 @@ export interface IWidgetProps {
     align?: 'left' | 'right' | 'bottom' | 'center' | 'top';
     onInit?: (widget: IWidget) => any;
     onClick?: (widget: IWidget) => any;
-}
-
-export interface IModalProps {
-    title?: string;
-    closable?: boolean;
-    mask?: boolean;
-    maskClosable?: boolean;
-    footer?: boolean;
-    okText?: string;
-    cancelText?: string;
-    width?: string | number;
-    top?: string | number;
-    verticalCenter?: boolean;
-    center?: boolean;
-    fullScreen?: boolean;
-    contentClass?: string;
-    getContainer?: () => HTMLElement;
-    onOk?: (widget: IModal) => any;
-    onCancel?: (widget: IModal) => any;
 }
 
 export interface IPanelProps {
@@ -79,25 +59,16 @@ export interface IWidgetConfig extends IBaseConfig {
     props?: IWidgetProps;
 }
 
-export interface IModalConfig extends IBaseConfig {
-    type: 'Modal';
-    props?: IModalProps;
-}
-
 export interface IPanelConfig extends IBaseConfig {
     type: 'Panel';
     props?: IPanelProps;
     defaultFixed?: boolean;
 }
 
-export type IUnionConfig = IWidgetConfig | IModalConfig | IPanelConfig;
+export type IUnionConfig = IWidgetConfig | IPanelConfig;
 
 export function isWidgetConfig(obj: any): obj is IWidgetConfig {
     return obj && obj.type === 'Widget';
-}
-
-export function isModalConfig(obj: any): obj is IModalConfig {
-    return obj && obj.type === 'Modal';
 }
 
 export function isPanelConfig(obj: any): obj is IPanelConfig {
@@ -145,25 +116,11 @@ export interface IWidget extends IBaseWidget {
      */
     readonly content: VNodeChild;
     readonly isWidget: true;
-
     readonly align?: string;
     readonly title: string;
-    readonly linked?: IModal | IPanel;
+    readonly linked?: IPanel;
     readonly onClick?: (widget: IWidget) => void;
     readonly onInit?: (widget: IWidget) => void;
-
-}
-
-export interface IModal extends IBaseWidget {
-    /**
-     * 对应组件
-     */
-    readonly content: VNodeChild;
-    readonly isModal: true;
-    readonly props: IModalProps;
-
-    parent: Area<any, any>;
-    setParent: (parent: Area<any, any>) => void;
 }
 
 export interface IPanel extends IBaseWidget {
@@ -176,20 +133,12 @@ export interface IPanel extends IBaseWidget {
 
 }
 
-export interface IWidgetModel extends IWidget {
-    readonly modal: IModal;
-}
-
 export interface IWidgetPanel extends IWidget {
     readonly panel: IPanel;
 }
 
 export function isWidget(obj: any): obj is IWidget {
     return obj && obj.isWidget;
-}
-
-export function isModal(obj: any): obj is IModal {
-    return obj && obj.isModal;
 }
 
 export function isPanel(obj: any): obj is IPanel {

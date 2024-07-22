@@ -3,27 +3,23 @@ import type { Designer } from '@webank/letgo-designer';
 import type {
     IBaseWidget,
     IEnumSkeletonEvent,
-    IModalConfig,
     IPanelConfig,
     IUnionConfig,
     IWidgetConfig,
 } from './types';
 import {
-    isModalConfig,
     isPanelConfig,
     isWidgetConfig,
 } from './types';
 import { Area } from './area';
-import { Modal, Panel, Widget } from './widget';
+import { Panel, Widget } from './widget';
 
 export type ReturnTypeOfCreateWidget<T> =
     T extends IPanelConfig
         ? Panel
-        : T extends IModalConfig
-            ? Modal
-            : T extends IWidgetConfig
-                ? Widget
-                : never;
+        : T extends IWidgetConfig
+            ? Widget
+            : never;
 
 export class Skeleton {
     readonly leftArea: Area<IWidgetConfig, Widget>;
@@ -33,8 +29,6 @@ export class Skeleton {
     readonly toolbarArea: Area<IWidgetConfig, Widget>;
 
     readonly bottomArea: Area<IWidgetConfig, Widget>;
-
-    readonly globalArea: Area<IModalConfig, Modal>;
 
     readonly rightArea: Area<IPanelConfig, Panel>;
 
@@ -57,9 +51,6 @@ export class Skeleton {
         this.bottomArea = new Area(this, 'bottomArea', (config) => {
             return this.createWidget(config);
         });
-        this.globalArea = new Area(this, 'globalArea', (config) => {
-            return this.createWidget(config);
-        });
         this.rightArea = new Area(this, 'rightArea', (config) => {
             return this.createWidget(config);
         });
@@ -73,10 +64,7 @@ export class Skeleton {
 
     createWidget<T = IUnionConfig>(config: T) {
         let widget;
-        if (isModalConfig(config))
-            widget = new Modal(this, config);
-
-        else if (isPanelConfig(config))
+        if (isPanelConfig(config))
             widget = new Panel(this, config);
 
         else if (isWidgetConfig(config))
@@ -99,8 +87,6 @@ export class Skeleton {
                 return this.leftArea.add(parsedConfig as IWidgetConfig);
             case 'topArea':
                 return this.topArea.add(parsedConfig as IWidgetConfig);
-            case 'globalArea':
-                return this.globalArea.add(parsedConfig as IModalConfig);
             case 'rightArea':
                 return this.rightArea.add(parsedConfig as IPanelConfig);
             case 'toolbarArea':

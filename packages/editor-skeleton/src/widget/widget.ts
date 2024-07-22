@@ -4,7 +4,6 @@ import WidgetView from '../views/widget';
 import type { IWidget, IWidgetConfig } from '../types';
 import type { Skeleton } from '../skeleton';
 import { BaseWidget } from './base';
-import type { Modal } from './modal';
 import type { Panel } from './panel';
 
 export class Widget extends BaseWidget implements IWidget {
@@ -18,7 +17,7 @@ export class Widget extends BaseWidget implements IWidget {
 
     readonly onInit?: (widget: IWidget) => void;
 
-    private _linked?: Modal | Panel;
+    private _linked?: Panel;
 
     get content(): VNodeChild {
         return h(WidgetView, {
@@ -33,7 +32,7 @@ export class Widget extends BaseWidget implements IWidget {
         });
     }
 
-    get linked(): Modal | Panel | undefined {
+    get linked(): Panel | undefined {
         return this._linked;
     }
 
@@ -49,7 +48,7 @@ export class Widget extends BaseWidget implements IWidget {
         this.onInit?.(this);
     }
 
-    link(widget: Modal | Panel) {
+    link(widget: Panel) {
         this._linked = widget;
         return this;
     }

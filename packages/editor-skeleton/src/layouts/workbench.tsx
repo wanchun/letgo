@@ -30,11 +30,10 @@ export default defineComponent({
                         <div class="letgo-skeleton-workbench__center">
                             <Toolbar area={skeleton.toolbarArea} />
                             <MainArea area={skeleton.mainArea} />
-                            <BottomArea area={skeleton.bottomArea} />
                         </div>
                         <RightArea area={skeleton.rightArea} />
                     </div>
-                    <GlobalArea area={skeleton.globalArea} />
+                    <BottomArea area={skeleton.bottomArea} />
                 </div>
             );
         };

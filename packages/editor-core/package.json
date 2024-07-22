@@ -25,7 +25,7 @@
         "strict-event-emitter-types": "^2.0.0"
     },
     "devDependencies": {},
-    "typings": "./es/index.d.ts",
+    "types": "./es/index.d.ts",
     "publishConfig": {
         "access": "public"
     }

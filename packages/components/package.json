@@ -41,7 +41,7 @@
     "publishConfig": {
         "access": "public"
     },
-    "typings": "./es/index.d.ts",
+    "types": "./es/index.d.ts",
     "devDependencies": {
         "monaco-editor": "^0.48.0"
     }

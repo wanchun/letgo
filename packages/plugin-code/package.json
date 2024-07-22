@@ -30,7 +30,7 @@
     "publishConfig": {
         "access": "public"
     },
-    "typings": "./es/index.d.ts",
+    "types": "./es/index.d.ts",
     "devDependencies": {
         "@types/lodash-es": "^4.17.6",
         "vue": "^3.4.14"

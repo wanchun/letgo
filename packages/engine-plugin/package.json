@@ -24,7 +24,7 @@
         "lodash-es": "^4.17.21",
         "semver": "^7.3.5"
     },
-    "typings": "./es/index.d.ts",
+    "types": "./es/index.d.ts",
     "publishConfig": {
         "access": "public"
     }

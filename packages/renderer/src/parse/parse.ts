@@ -2,6 +2,7 @@ import type { IEventHandler, IPublicTypeJSExpression, IPublicTypeJSFunction, IPu
 import { IEnumEventHandlerAction, IEnumRunScript, isJSExpression, isJSFunction, isRunFunctionEventHandler, isSetLocalStorageEventHandler, isSetTemporaryStateEventHandler } from '@webank/letgo-types';
 import { findLibExport } from '@webank/letgo-common';
 import { isFunction, isPlainObject, isString } from 'lodash-es';
+import config from '../config';
 import { executeExpression, executeFunc, funcSchemaToFunc } from './execute';
 
 export function eventHandlerToJsFunction(item: IEventHandler): IPublicTypeJSFunction {
@@ -58,7 +59,7 @@ export function eventHandlersToJsFunction(handlers: IEventHandler[] = []) {
     return result;
 }
 
-export function parseExpression(schema: IPublicTypeJSExpression, ctx: Record<string, unknown>) {
+export function parseExpression(schema: IPublicTypeJSExpression, ctx: Record<string, unknown>, infoCtx?: Record<string, any>) {
     try {
         const result = executeExpression(schema.value, ctx);
 
@@ -69,7 +70,7 @@ export function parseExpression(schema: IPublicTypeJSExpression, ctx: Record<str
         return result;
     }
     catch (err) {
-        console.warn('parseExpression.error', err, schema.value, ctx);
+        config.logError(err, infoCtx);
         return undefined;
     }
 }
@@ -93,7 +94,12 @@ export function parseSchema<T extends object>(
 export function parseSchema<T>(schema: T, pickPath: (string | number)[], ctx?: Record<string, unknown>): T;
 export function parseSchema(schema: unknown, pickPath: (string | number)[], ctx?: Record<string, unknown>): unknown {
     if (isJSExpression(schema)) {
-        return parseExpression(schema, ctx);
+        return parseExpression(schema, ctx, {
+            idType: 'component',
+            id: pickPath[0],
+            paths: pickPath.slice(1),
+            content: schema.value,
+        });
     }
     else if (isJSFunction(schema)) {
         return executeFunc(schema, ctx, {

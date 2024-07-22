@@ -21,7 +21,7 @@ export const Live = defineComponent({
     setup(props) {
         const { executeCtx, onCompGetCtx } = useRendererContext();
 
-        const { renderComp } = useLeaf(toRef(props, 'scope'), executeCtx);
+        const { renderComp } = useLeaf(toRef(props, 'scope'), executeCtx, props.schema.id);
 
         const { show } = buildShow(props.scope, executeCtx, props.schema);
         const { loop, loopArgs } = buildLoop(props.scope, executeCtx, props.schema);

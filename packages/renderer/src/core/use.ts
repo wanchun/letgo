@@ -70,6 +70,7 @@ function render({
     base,
     blockScope,
     comp,
+    componentId,
 }: {
     scope: RuntimeScope;
     context: Record<string, unknown>;
@@ -78,6 +79,7 @@ function render({
     components: Record<string, Component>;
     blockScope?: MaybeArray<BlockScope | undefined | null>;
     comp?: Component | string;
+    componentId?: string;
 }) {
     const mergedScope = mergeScope(scope, blockScope);
 
@@ -89,6 +91,11 @@ function render({
         const result = parseExpression(schema, {
             ...context,
             ...mergedScope,
+        }, {
+            idType: 'component',
+            id: componentId,
+            paths: ['children'],
+            content: schema.value,
         });
         if (result == null)
             return null;
@@ -214,7 +221,12 @@ function buildProp({
     prop?: Prop | null;
 }): any {
     if (isJSExpression(schema)) {
-        return parseExpression(schema, { ...context, ...scope });
+        return parseExpression(schema, { ...context, ...scope }, {
+            idType: 'component',
+            id: pickPath[0],
+            paths: pickPath.slice(1),
+            content: schema.value,
+        });
     }
     else if (isJSFunction(schema)) {
         return funcSchemaToFunc({
@@ -610,7 +622,7 @@ export function buildSlots(
     }, {} as Record<string, Slot>);
 }
 
-export function useLeaf(scope: Ref<RuntimeScope>, context: Record<string, unknown>) {
+export function useLeaf(scope: Ref<RuntimeScope>, context: Record<string, unknown>, componentId: string) {
     const { components, __BASE_COMP } = useRendererContext();
 
     /**
@@ -632,6 +644,7 @@ export function useLeaf(scope: Ref<RuntimeScope>, context: Record<string, unknow
             base: __BASE_COMP || Live,
             blockScope,
             comp,
+            componentId,
         });
     };
 

@@ -151,7 +151,7 @@ export const Hoc = defineComponent({
         const { getNode, onCompGetCtx, executeCtx } = inject(BASE_COMP_CONTEXT);
         const node = props.schema.id ? getNode(props.schema.id) : null;
 
-        const { renderComp } = useLeaf(toRef(props, 'scope'), executeCtx);
+        const { renderComp } = useLeaf(toRef(props, 'scope'), executeCtx, props.schema.id);
 
         const { compProps, updateEvents, compSlots } = useSchema(props, node);
 

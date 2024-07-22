@@ -1,6 +1,6 @@
 import { markShallowReactive } from '@webank/letgo-common';
 import type { IBaseConfig, IBaseWidget } from './types';
-import { isPanel } from './types';
+import { isPanel, isTabPanel } from './types';
 import type { Skeleton } from './skeleton';
 
 export class Area<C extends IBaseConfig, T extends IBaseWidget = IBaseWidget> {
@@ -40,7 +40,7 @@ export class Area<C extends IBaseConfig, T extends IBaseWidget = IBaseWidget> {
         if (nameOrItem && typeof nameOrItem === 'string')
             item = this.get(nameOrItem);
 
-        if (!isPanel(item))
+        if (!(isPanel(item) || isTabPanel(item)))
             item = null;
 
         const currentItem = this._current;
@@ -60,7 +60,7 @@ export class Area<C extends IBaseConfig, T extends IBaseWidget = IBaseWidget> {
         if (nameOrItem && typeof nameOrItem === 'string')
             item = this.get(nameOrItem);
 
-        if (!isPanel(item))
+        if (!(isPanel(item) || isTabPanel(item)))
             item = null;
 
         if (this._current === item)

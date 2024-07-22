@@ -1,0 +1,24 @@
+.letgo-skeleton__tabHeader {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &--disabled {
+        pointer-events: none;
+        opacity: 0.4;
+    }
+    &--active {
+        color: var(--letgo-primary-color);
+        &&::after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -2px;
+            height: 1px;
+            width: 100%;
+            background-color: var(--letgo-primary-color);
+        }
+    }
+}

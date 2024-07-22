@@ -8,7 +8,6 @@ import Toolbar from './toolbar';
 import MainArea from './main-area';
 import BottomArea from './bottom-area';
 import RightArea from './right-area';
-import GlobalArea from './global-area';
 import './workbench.less';
 
 export default defineComponent({

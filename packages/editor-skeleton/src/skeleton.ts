@@ -4,22 +4,26 @@ import type {
     IBaseWidget,
     IEnumSkeletonEvent,
     IPanelConfig,
+    ITabPanelConfig,
     IUnionConfig,
     IWidgetConfig,
 } from './types';
 import {
     isPanelConfig,
+    isTabPanelConfig,
     isWidgetConfig,
 } from './types';
 import { Area } from './area';
-import { Panel, Widget } from './widget';
+import { Panel, TabPanel, Widget } from './widget';
 
 export type ReturnTypeOfCreateWidget<T> =
     T extends IPanelConfig
         ? Panel
-        : T extends IWidgetConfig
-            ? Widget
-            : never;
+        : T extends ITabPanelConfig
+            ? TabPanel
+            : T extends IWidgetConfig
+                ? Widget
+                : never;
 
 export class Skeleton {
     readonly leftArea: Area<IWidgetConfig, Widget>;
@@ -28,7 +32,7 @@ export class Skeleton {
 
     readonly toolbarArea: Area<IWidgetConfig, Widget>;
 
-    readonly bottomArea: Area<IWidgetConfig, Widget>;
+    readonly bottomArea: Area<ITabPanelConfig, TabPanel>;
 
     readonly rightArea: Area<IPanelConfig, Panel>;
 
@@ -64,7 +68,10 @@ export class Skeleton {
 
     createWidget<T = IUnionConfig>(config: T) {
         let widget;
-        if (isPanelConfig(config))
+        if (isTabPanelConfig(config))
+            widget = new TabPanel(this, config);
+
+        else if (isPanelConfig(config))
             widget = new Panel(this, config);
 
         else if (isWidgetConfig(config))
@@ -92,7 +99,7 @@ export class Skeleton {
             case 'toolbarArea':
                 return this.toolbarArea.add(parsedConfig as IWidgetConfig);
             case 'bottomArea':
-                return this.bottomArea.add(parsedConfig as IWidgetConfig);
+                return this.bottomArea.add(parsedConfig as ITabPanelConfig);
             case 'leftFloatArea':
                 return this.leftFloatArea.add(parsedConfig as IPanelConfig);
             case 'mainArea':

@@ -45,6 +45,13 @@ export interface IPanelProps {
     displayDirective?: 'if' | 'show' | 'lazyShow';
 }
 
+export interface ITabPanelProps {
+    title?: string;
+    align?: 'left' | 'right';
+    height?: number;
+    displayDirective?: 'if' | 'show' | 'lazyShow';
+}
+
 export interface IBaseConfig {
     type: string;
     name: string;
@@ -65,7 +72,13 @@ export interface IPanelConfig extends IBaseConfig {
     defaultFixed?: boolean;
 }
 
-export type IUnionConfig = IWidgetConfig | IPanelConfig;
+export interface ITabPanelConfig extends IBaseConfig {
+    type: 'TabPanel';
+    renderHeader: (option: IRenderOption) => VNodeChild;
+    props?: ITabPanelProps;
+}
+
+export type IUnionConfig = IWidgetConfig | IPanelConfig | ITabPanelConfig;
 
 export function isWidgetConfig(obj: any): obj is IWidgetConfig {
     return obj && obj.type === 'Widget';
@@ -73,6 +86,10 @@ export function isWidgetConfig(obj: any): obj is IWidgetConfig {
 
 export function isPanelConfig(obj: any): obj is IPanelConfig {
     return obj && obj.type === 'Panel';
+}
+
+export function isTabPanelConfig(obj: any): obj is ITabPanelConfig {
+    return obj && obj.type === 'TabPanel';
 }
 
 export interface IBaseWidget {
@@ -133,8 +150,14 @@ export interface IPanel extends IBaseWidget {
 
 }
 
-export interface IWidgetPanel extends IWidget {
-    readonly panel: IPanel;
+export interface ITabPanel extends IBaseWidget {
+    /**
+     * 对应组件
+     */
+    readonly label: VNodeChild;
+    readonly header: VNodeChild;
+    readonly isTabPanel: true;
+    readonly align?: string;
 }
 
 export function isWidget(obj: any): obj is IWidget {
@@ -143,4 +166,8 @@ export function isWidget(obj: any): obj is IWidget {
 
 export function isPanel(obj: any): obj is IPanel {
     return obj && obj.isPanel;
+}
+
+export function isTabPanel(obj: any): obj is ITabPanel {
+    return obj && obj.isTabPanel;
 }

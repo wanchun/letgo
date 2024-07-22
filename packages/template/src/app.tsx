@@ -10,6 +10,7 @@ import type { IPublicTypeFieldConfig } from '../../types/es';
 import PluginLogo from './plugins/plugin-logo';
 import PluginPreview from './plugins/plugin-preview-sample';
 import PluginCodeGenerator from './plugins/plugin-code-generator';
+import PluginBottom from './plugins/plugin-test-bottom';
 
 // const injectGroup: IPublicTypeFieldConfig = {
 //     name: 'action',
@@ -43,6 +44,7 @@ plugins.register(PluginUndoRedo, {
 });
 plugins.register(PluginPreview);
 plugins.register(PluginCodeGenerator);
+plugins.register(PluginBottom);
 
 // setTimeout(async () => {
 //     await plugins.delete(PluginCSS.name);

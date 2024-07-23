@@ -1,21 +1,88 @@
 import { type IRestQueryResource, isJSExpression } from '@webank/letgo-types';
 import { isPlainObject } from 'lodash-es';
-import { evaluateOrReturnInput, executeExpression } from '../../parse';
+import { LogIdType } from '@webank/letgo-common';
+import { executeExpression } from '../../parse';
+import config from '../../config';
 import { JavascriptQueryBase } from './base';
 
-function handleHeaders(headers: IRestQueryResource['headers'], ctx: Record<string, any>) {
-    if (isJSExpression(headers))
-        return executeExpression(headers.value, ctx) || {};
+function handleHeaders(headers: IRestQueryResource['headers'], ctx: Record<string, any>, id: string) {
+    if (isJSExpression(headers)) {
+        try {
+            return executeExpression(headers.value, ctx) || {};
+        }
+        catch (err) {
+            config.logError(err, {
+                id,
+                idType: LogIdType.CODE,
+                paths: ['headers'],
+                content: headers.value,
+            });
+            return {};
+        }
+    }
 
     return {};
 }
 
+function getApiPath(api: string, ctx: Record<string, any>, id: string) {
+    try {
+        if (/^[\/]?\w+\//.test(api))
+            return api;
+
+        return executeExpression(api, ctx);
+    }
+    catch (err) {
+        config.logError(err, {
+            id,
+            idType: LogIdType.CODE,
+            paths: ['api'],
+            content: api,
+        });
+        return api;
+    }
+}
+
+export function geRestParam({
+    id,
+    ctx,
+    params,
+    extraParams,
+}: {
+    id: string;
+    ctx: Record<string, any>;
+    params?: string;
+    extraParams?: Record<string, any>;
+}) {
+    let _params: unknown;
+    try {
+        _params = executeExpression(params, ctx);
+    }
+    catch (err) {
+        config.logError(err, {
+            id,
+            idType: LogIdType.CODE,
+            paths: ['params'],
+            content: params,
+        });
+        _params = params;
+    }
+    if (_params == null)
+        return extraParams || null;
+
+    if (isPlainObject(_params) && isPlainObject(extraParams))
+        return { ...(_params as object), ...extraParams };
+
+    return _params;
+}
+
 export function genRestApiQueryFunc({
+    id,
     api,
     params,
     method,
     headers,
 }: {
+    id: string;
     api: string;
     params: Record<string, any>;
     method: string;
@@ -30,13 +97,14 @@ export function genRestApiQueryFunc({
                     }
                     return result;
                 `);
+
         return (ctx: Record<string, any>) => {
             return fn(ctx, [
-                /^[\/]?\w+\//.test(api) ? api : evaluateOrReturnInput(api, ctx),
+                getApiPath(api, ctx, id),
                 params,
                 {
                     method,
-                    headers: headers ? handleHeaders(headers, ctx) : undefined,
+                    headers: headers ? handleHeaders(headers, ctx, id) : undefined,
                 },
             ]);
         };
@@ -58,18 +126,17 @@ export class RestApiQuery extends JavascriptQueryBase {
     }
 
     formatParams(extraParams?: Record<string, any>) {
-        const _params = executeExpression(this.params, this.ctx);
-        if (!_params)
-            return extraParams || null;
-
-        if (isPlainObject(_params) && isPlainObject(extraParams))
-            return { ..._params, ...extraParams };
-
-        return _params;
+        return geRestParam({
+            id: this.id,
+            ctx: this.ctx,
+            params: this.params,
+            extraParams,
+        });
     }
 
     genQueryFn(params?: Record<string, any>) {
         return genRestApiQueryFunc({
+            id: this.id,
             api: this.api,
             method: this.method,
             params,

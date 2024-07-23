@@ -1,6 +1,6 @@
 import type { IEventHandler, IPublicTypeJSExpression, IPublicTypeJSFunction, IPublicTypeUtils } from '@webank/letgo-types';
 import { IEnumEventHandlerAction, IEnumRunScript, isJSExpression, isJSFunction, isRunFunctionEventHandler, isSetLocalStorageEventHandler, isSetTemporaryStateEventHandler } from '@webank/letgo-types';
-import { findLibExport } from '@webank/letgo-common';
+import { LogIdType, findLibExport } from '@webank/letgo-common';
 import { isFunction, isPlainObject, isString } from 'lodash-es';
 import config from '../config';
 import { executeExpression, executeFunc, funcSchemaToFunc } from './execute';
@@ -95,7 +95,7 @@ export function parseSchema<T>(schema: T, pickPath: (string | number)[], ctx?: R
 export function parseSchema(schema: unknown, pickPath: (string | number)[], ctx?: Record<string, unknown>): unknown {
     if (isJSExpression(schema)) {
         return parseExpression(schema, ctx, {
-            idType: 'component',
+            idType: LogIdType.COMPONENT,
             id: pickPath[0],
             paths: pickPath.slice(1),
             content: schema.value,
@@ -103,7 +103,7 @@ export function parseSchema(schema: unknown, pickPath: (string | number)[], ctx?
     }
     else if (isJSFunction(schema)) {
         return executeFunc(schema, ctx, {
-            idType: 'component',
+            idType: LogIdType.COMPONENT,
             id: pickPath[0],
             paths: pickPath.slice(1),
             content: schema.value,
@@ -140,7 +140,7 @@ export function buildGlobalUtils(libraryMap: Record<string, string>, utils?: IPu
                     schema: cur.content,
                     exeCtx: ctx ?? {},
                     infoCtx: {
-                        idType: 'static',
+                        idType: LogIdType.STATIC,
                         id: '$utils',
                         paths: [cur.name],
                         content: cur,

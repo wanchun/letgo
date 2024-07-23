@@ -1,4 +1,4 @@
-import { markShallowReactive } from '@webank/letgo-common';
+import { LogIdType, markShallowReactive } from '@webank/letgo-common';
 import type { IEnumResourceType, IEventHandler, IJavascriptQuery, IPublicTypeJSFunction } from '@webank/letgo-types';
 import { IEnumCacheType, IEnumCodeType, IEnumRunCondition, isRunFunctionEventHandler } from '@webank/letgo-types';
 import { eventHandlerToJsFunction, funcSchemaToFunc } from '../../parse';
@@ -84,7 +84,7 @@ export class JavascriptQueryBase {
                     schema: jsFunc,
                     exeCtx: this.ctx,
                     infoCtx: {
-                        idType: 'code',
+                        idType: LogIdType.CODE,
                         id: this.id,
                         paths: [eventType, index],
                         content: item,

@@ -3,7 +3,11 @@ import { EventEmitter } from 'eventemitter3';
 const emitter = new EventEmitter();
 
 export type Level = 'debug' | 'log' | 'info' | 'warn' | 'error';
-export type LogIdType = 'component' | 'code' | 'static';
+export enum LogIdType {
+    COMPONENT = 'component',
+    CODE = 'code',
+    STATIC = 'static',
+};
 
 interface Options {
     belong: string;

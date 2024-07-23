@@ -36,6 +36,7 @@ import {
     toDisplayString,
     toValue,
 } from 'vue';
+import { LogIdType } from '@webank/letgo-common';
 import type { RendererContext } from '../context';
 import { provideRenderContext, useRendererContext } from '../context';
 import { eventHandlersToJsFunction, funcSchemaToFunc, parseExpression, parseSchema } from '../parse';
@@ -92,7 +93,7 @@ function render({
             ...context,
             ...mergedScope,
         }, {
-            idType: 'component',
+            idType: LogIdType.COMPONENT,
             id: componentId,
             paths: ['children'],
             content: schema.value,
@@ -222,7 +223,7 @@ function buildProp({
 }): any {
     if (isJSExpression(schema)) {
         return parseExpression(schema, { ...context, ...scope }, {
-            idType: 'component',
+            idType: LogIdType.COMPONENT,
             id: pickPath[0],
             paths: pickPath.slice(1),
             content: schema.value,
@@ -233,7 +234,7 @@ function buildProp({
             schema,
             exeCtx: context,
             infoCtx: {
-                idType: 'component',
+                idType: LogIdType.COMPONENT,
                 id: pickPath[0],
                 paths: pickPath.slice(1),
                 content: schema.value,

@@ -1,6 +1,5 @@
 import type { IRestQueryResource } from '@webank/letgo-types';
-import { evaluateOrReturnInput, genRestApiQueryFunc } from '@webank/letgo-renderer';
-import { isPlainObject } from 'lodash-es';
+import { geRestParam, genRestApiQueryFunc } from '@webank/letgo-renderer';
 import { JavascriptQueryImpl } from './base';
 
 export class RestApiQueryImpl extends JavascriptQueryImpl {
@@ -13,18 +12,17 @@ export class RestApiQueryImpl extends JavascriptQueryImpl {
     }
 
     formatParams(extraParams?: Record<string, any>) {
-        const _params = evaluateOrReturnInput(this.params, this.ctx);
-        if (!_params)
-            return extraParams || null;
-
-        if (isPlainObject(_params) && isPlainObject(extraParams))
-            return { ..._params, ...extraParams };
-
-        return _params;
+        return geRestParam({
+            id: this.id,
+            ctx: this.ctx,
+            params: this.params,
+            extraParams,
+        });
     }
 
     genQueryFn(params?: Record<string, any>) {
         return genRestApiQueryFunc({
+            id: this.id,
             api: this.api,
             method: this.method,
             params,

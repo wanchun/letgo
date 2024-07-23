@@ -51,34 +51,13 @@ export const CodeMirror = defineComponent({
             };
         });
 
-        const isFullScreen = ref(false);
-        const fullScreenStyle = ref({});
-        const toggleFullScreen = () => {
-            if (!props.fullscreen)
-                return;
-
-            if (!isFullScreen.value) {
-                isFullScreen.value = true;
-                fullScreenStyle.value = {
-                    width: 'auto',
-                    height: '100%',
-                    position: 'fixed',
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    zIndex: 9998,
-                };
-            }
-            else {
-                isFullScreen.value = false;
-            }
-        };
+        const { containerRef, isFullScreen, fullScreenStyle, toggleFullScreen } = useCodeMirror(props);
 
         // 阻止 icon 获取焦点
         const preventFocus = (event: MouseEvent) => {
             event.preventDefault();
         };
+
         const renderFullScreen = () => {
             if (isFullScreen.value) {
                 return (
@@ -104,10 +83,6 @@ export const CodeMirror = defineComponent({
                 </FullScreenTwo>
             );
         };
-
-        const [containerRef] = useCodeMirror(props, () => {
-            toggleFullScreen();
-        });
 
         return () => {
             return (

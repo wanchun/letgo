@@ -15,7 +15,7 @@ export class Canvas implements IPublicApiCanvas {
     private readonly [clipboardInstanceSymbol]: IPublicModelClipboard;
 
     get isInLiveEditing(): boolean {
-        return Boolean(this[editorSymbol].get('designer')?.project?.simulator?.liveEditing?.editing);
+        return Boolean(this[editorSymbol].get('designer')?.simulator?.liveEditing?.editing);
     }
 
     get clipboard(): IPublicModelClipboard {

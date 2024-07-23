@@ -17,8 +17,10 @@ import type { CodeEditorProps } from './types';
 
 const External = Annotation.define<boolean>();
 
-export function useCodeMirror(props: CodeEditorProps, onEsc: () => void) {
-    const container = ref<HTMLElement>();
+export function useCodeMirror(props: CodeEditorProps) {
+    const containerRef = ref<HTMLElement>();
+    const isFullScreen = ref(false);
+    const fullScreenStyle = ref({});
 
     let editorView: EditorView;
 
@@ -29,6 +31,29 @@ export function useCodeMirror(props: CodeEditorProps, onEsc: () => void) {
         },
         ...props.theme,
     });
+
+    const toggleFullScreen = () => {
+        if (!props.fullscreen)
+            return;
+
+        if (!isFullScreen.value) {
+            isFullScreen.value = true;
+            fullScreenStyle.value = {
+                width: 'auto',
+                height: '100%',
+                position: 'fixed',
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                zIndex: 9998,
+            };
+            editorView?.focus();
+        }
+        else {
+            isFullScreen.value = false;
+        }
+    };
 
     const innerOnChange = (doc: string) => {
         if (isFunction(props.onChange))
@@ -50,7 +75,9 @@ export function useCodeMirror(props: CodeEditorProps, onEsc: () => void) {
                     {
                         key: 'Escape',
                         run: (): boolean => {
-                            onEsc();
+                            if (isFullScreen.value)
+                                toggleFullScreen();
+
                             return false;
                         },
                     },
@@ -80,11 +107,11 @@ export function useCodeMirror(props: CodeEditorProps, onEsc: () => void) {
         });
     };
 
-    watch(container, () => {
-        if (container.value && !editorView) {
+    watch(containerRef, () => {
+        if (containerRef.value && !editorView) {
             editorView = new EditorView({
                 state: genState(),
-                parent: container.value,
+                parent: containerRef.value,
             });
         }
     });
@@ -103,5 +130,10 @@ export function useCodeMirror(props: CodeEditorProps, onEsc: () => void) {
         }
     });
 
-    return [container];
+    return {
+        containerRef,
+        isFullScreen,
+        fullScreenStyle,
+        toggleFullScreen,
+    };
 }

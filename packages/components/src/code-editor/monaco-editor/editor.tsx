@@ -68,6 +68,7 @@ export const MonacoEditor = defineComponent({
                     },
                 });
                 monacoEditor.value?.layout();
+                monacoEditor.value.focus();
             }
             else {
                 isFullScreen.value = false;
@@ -118,6 +119,8 @@ export const MonacoEditor = defineComponent({
                 monacoEditor.value.addCommand(monaco.value.KeyCode.Escape, () => {
                     if (isFullScreen.value)
                         toggleFullScreen();
+
+                    return false;
                 });
             }
         });

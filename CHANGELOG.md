@@ -1,3 +1,18 @@
+## [0.0.5-beta.17](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.16...v0.0.5-beta.17) (2024-7-23)
+
+
+### Bug Fixes
+
+* 去掉GlobalArea ([96ba980](https://git.weoa.com/mumblefe/letgo/commits/96ba98058838d38ae2286aa76f8a1decfd18393b))
+* 修复编辑器全屏ESC丢失节点选中问题 ([f029ca5](https://git.weoa.com/mumblefe/letgo/commits/f029ca5f2b61f0003a509a66290f95034eccae31))
+
+
+### Features
+
+* 重构bottomArea ([61e2f46](https://git.weoa.com/mumblefe/letgo/commits/61e2f469f4f22d7c4138356bca15167facf13b5a))
+
+
+
 ## [0.0.5-beta.16](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.15...v0.0.5-beta.16) (2024-7-19)
 
 

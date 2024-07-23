@@ -29,7 +29,7 @@ export class Config {
         this.logger = logger;
     }
 
-    logWarn(err: unknown, infoCtx: Record<string, any>) {
+    logWarn(err: unknown, infoCtx?: Record<string, any>) {
         if (this.logger) {
             this.logger.warn({
                 msg: err,

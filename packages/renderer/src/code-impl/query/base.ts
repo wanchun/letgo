@@ -2,6 +2,7 @@ import { LogIdType, markShallowReactive } from '@webank/letgo-common';
 import type { IEnumResourceType, IEventHandler, IJavascriptQuery, IPublicTypeJSFunction } from '@webank/letgo-types';
 import { IEnumCacheType, IEnumCodeType, IEnumRunCondition, isRunFunctionEventHandler } from '@webank/letgo-types';
 import { eventHandlerToJsFunction, funcSchemaToFunc } from '../../parse';
+import config from '../../config';
 import { cacheControl, clearCache } from './cache-control';
 
 export class JavascriptQueryBase {
@@ -184,7 +185,10 @@ export class JavascriptQueryBase {
                 else
                     this.error = err.toString();
 
-                console.warn(err);
+                config.logError(err, {
+                    id: this.id,
+                    idType: LogIdType.CODE,
+                });
                 throw err;
             }
             finally {

@@ -1,9 +1,10 @@
 import { isNil } from 'lodash-es';
 import { computed } from 'vue';
 import type { WatchStopHandle } from 'vue';
-import { markReactive } from '@webank/letgo-common';
+import { LogIdType, markReactive } from '@webank/letgo-common';
 import type { IJavascriptComputed } from '@webank/letgo-types';
 import { IEnumCodeType } from '@webank/letgo-types';
+import config from '../config';
 
 export class ComputedLive {
     id: string;
@@ -34,15 +35,18 @@ export class ComputedLive {
         try {
             // eslint-disable-next-line no-new-func
             const fn = new Function('_ctx', `
-            let result;
-            with(_ctx) {
-                result = (() => {${text}})();
-            }
-            return result;
-        `);
+                with(_ctx) {
+                    return (() => {${text}})();
+                }
+            `);
             return fn(this.ctx);
         }
-        catch (_) {
+        catch (err) {
+            config.logError(err, {
+                id: this.id,
+                idType: LogIdType.CODE,
+                content: text,
+            });
             return null;
         }
     }

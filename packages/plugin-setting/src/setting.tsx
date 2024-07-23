@@ -10,7 +10,7 @@ import { Return } from '@icon-park/vue-next';
 import type { IPluginContext } from '@webank/letgo-engine-plugin';
 import { SettingsMain } from './main';
 import Breadcrumb from './breadcrumb';
-import './setting.less'; 
+import './setting.less';
 
 export default defineComponent({
     name: 'PluginSetterPanelView',
@@ -87,7 +87,7 @@ export default defineComponent({
                             name={field.title}
                             value={field.id}
                             key={field.id}
-                            displayDirective="show"
+                            displayDirective="show:lazy"
                         >
                             <FScrollbar class="letgo-plg-setting__pane">
                                 {field.items.map(item =>
@@ -104,7 +104,7 @@ export default defineComponent({
                     <div class="letgo-plg-setting__body">
                         <FTabs key={currentNode.id} modelValue={items[0].id}>
                             {{
-                                default: renderTabs
+                                default: renderTabs,
                             }}
                         </FTabs>
                         {popupList.value.length > 0 && (

@@ -34,8 +34,8 @@ export const CodeView = defineComponent({
         }, 500);
 
         const requireConfig = ref();
-        engineConfig.onGot('requireConfig', (requireConfig: Record<string, any>) => {
-            requireConfig.value = requireConfig;
+        engineConfig.onGot('requireConfig', (config: Record<string, any>) => {
+            requireConfig.value = config;
         });
 
         return () => {

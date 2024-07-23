@@ -38,17 +38,19 @@ export const JsEditView = defineComponent({
         const { designer } = props;
         const { project } = designer;
 
-        const tmp = ref((project.currentDocument.classCode || DEFAULT_CLASS_CODE).trim());
+        const tmp = ref((project.currentDocument?.classCode || DEFAULT_CLASS_CODE).trim());
 
         let destroy: () => void;
         watch(() => project.currentDocument, (doc) => {
             if (destroy)
                 destroy();
 
-            destroy = doc.onClassCodeChange((val) => {
-                if (tmp.value !== val)
-                    tmp.value = val;
-            });
+            if (doc) {
+                destroy = doc.onClassCodeChange((val) => {
+                    if (tmp.value !== val)
+                        tmp.value = val;
+                });
+            }
         }, {
             immediate: true,
         });

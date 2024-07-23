@@ -14,16 +14,16 @@ export default defineComponent({
     setup(props) {
         const { widget } = props;
 
-        const hasRendered = ref(false);
+        let hasRendered = false;
         watch(() => widget.visible, () => {
             if (widget.visible)
-                hasRendered.value = true;
+                hasRendered = true;
         }, {
             immediate: true,
         });
 
         return () => {
-            if (!widget.visible && ((props.displayDirective === 'lazyShow' && !hasRendered.value) || !props.displayDirective || props.displayDirective === 'if'))
+            if (!widget.visible && ((props.displayDirective === 'lazyShow' && !hasRendered) || !props.displayDirective || props.displayDirective === 'if'))
                 return;
 
             return (

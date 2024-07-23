@@ -43,7 +43,13 @@ export function transformThisExpression(code: string, callback: (node: ThisExpre
                 callback(node as ThisExpression);
             },
         });
-        return generate((ast as any).body[0]).replace(';', '');
+
+        const result = generate((ast as any).body[0]);
+
+        if (result.endsWith(';'))
+            return result.slice(0, -1);
+
+        return result;
     }
     catch (err) {
         console.warn(err);

@@ -8,7 +8,7 @@ import {
     isSetTemporaryStateEventHandler,
 } from '@webank/letgo-types';
 import { camelCase } from 'lodash-es';
-import { isFunction } from '@webank/letgo-common';
+import { isFunctionString } from '@webank/letgo-common';
 import { isExpression } from './helper';
 import type { Context } from './types';
 
@@ -32,7 +32,7 @@ function compilerEventHandler(ctx: Context, event: IEventHandler) {
 
     if (isRunFunctionEventHandler(event)) {
         if (event.type === IEnumRunScript.PLAIN) {
-            if (isFunction(event.funcBody))
+            if (isFunctionString(event.funcBody))
                 return event.funcBody;
 
             return `() => {

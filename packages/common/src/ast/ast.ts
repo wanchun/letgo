@@ -19,7 +19,7 @@ export function parseToAst(code: string) {
     return parse(code, ASTParseOptions);
 }
 
-export function isFunction(code: string) {
+export function isFunctionString(code: string) {
     try {
         if (!code || !code.trim())
             return false;

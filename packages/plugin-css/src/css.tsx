@@ -20,12 +20,6 @@ export const CSSView = defineComponent({
             return project.css;
         });
 
-        const tmp = ref(currentSchema.value);
-
-        const onChange = (val: string) => {
-            tmp.value = val;
-        };
-
         const monacoEditorRef = ref();
         const onSave = async () => {
             try {
@@ -46,7 +40,7 @@ export const CSSView = defineComponent({
                         class="letgo-plg-css__code"
                         language="css"
                         value={currentSchema.value}
-                        onChange={onChange}
+                        path="__global__.css"
                     >
                     </MonacoEditor>
                     <div class="letgo-plg-css__action">

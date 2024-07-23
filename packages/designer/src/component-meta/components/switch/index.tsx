@@ -34,7 +34,7 @@ export default defineComponent({
         assets.components.forEach((item) => {
             if (!isComponentDescription(item))
                 return;
-            if (item.devMode !== 'lowCode' && item.category === meta.category && item.group === meta.group && item.title !== meta.title) {
+            if (item.devMode !== 'lowCode' && item.category === meta.category && item.group === meta.group && item.title !== meta.title && item.snippets?.length) {
                 item.snippets.forEach((snippet) => {
                     comps.push({
                         desc: item,

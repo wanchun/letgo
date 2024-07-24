@@ -1,9 +1,14 @@
 import type { IEventHandler, IPublicTypeJSExpression, IPublicTypeJSFunction, IPublicTypeUtils } from '@webank/letgo-types';
 import { IEnumEventHandlerAction, IEnumRunScript, isJSExpression, isJSFunction, isRunFunctionEventHandler, isSetLocalStorageEventHandler, isSetTemporaryStateEventHandler } from '@webank/letgo-types';
-import { LogIdType, findLibExport, isFunctionString } from '@webank/letgo-common';
+import { LogIdType, findLibExport, removeComments } from '@webank/letgo-common';
 import { isFunction, isPlainObject, isString } from 'lodash-es';
 import config from '../config';
 import { executeExpression, executeFunc, funcSchemaToFunc } from './execute';
+
+function isFunctionString(code: string = '') {
+    code = removeComments(code).trim();
+    return /^(function[\s\(]|\(.*\)\s*=>)/.test(code);
+}
 
 export function eventHandlerToJsFunction(item: IEventHandler): IPublicTypeJSFunction {
     let expression: string;

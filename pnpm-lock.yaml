@@ -564,6 +564,21 @@ importers:
         specifier: ^3.4.14
         version: 3.4.21(typescript@5.4.2)
 
+  packages/plugin-devtools:
+    dependencies:
+      '@fesjs/fes-design':
+        specifier: ^0.8.38
+        version: 0.8.38(vue@3.4.21)
+      '@webank/letgo-editor-skeleton':
+        specifier: ^0.0.5-beta.7
+        version: link:../editor-skeleton
+      '@webank/letgo-engine-plugin':
+        specifier: ^0.0.5-beta.6
+        version: link:../engine-plugin
+      vue:
+        specifier: ^3.3.9
+        version: 3.4.21(typescript@5.4.2)
+
   packages/plugin-logic:
     dependencies:
       '@fesjs/fes-design':
@@ -773,6 +788,9 @@ importers:
       '@webank/letgo-plugin-device':
         specifier: workspace:*
         version: link:../plugin-device
+      '@webank/letgo-plugin-devtools':
+        specifier: workspace:*
+        version: link:../plugin-devtools
       '@webank/letgo-plugin-logic':
         specifier: workspace:*
         version: link:../plugin-logic

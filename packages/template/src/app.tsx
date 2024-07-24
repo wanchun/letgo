@@ -6,11 +6,11 @@ import PluginSchema from '@webank/letgo-plugin-schema';
 import PluginUndoRedo from '@webank/letgo-plugin-undo-redo';
 import PluginCSS from '@webank/letgo-plugin-css';
 import PluginLogicEdit from '@webank/letgo-plugin-logic';
+import PluginBottom from '@webank/letgo-plugin-devtools';
 import type { IPublicTypeFieldConfig } from '../../types/es';
 import PluginLogo from './plugins/plugin-logo';
 import PluginPreview from './plugins/plugin-preview-sample';
 import PluginCodeGenerator from './plugins/plugin-code-generator';
-import PluginBottom from './plugins/plugin-test-bottom';
 
 // const injectGroup: IPublicTypeFieldConfig = {
 //     name: 'action',

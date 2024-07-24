@@ -105,7 +105,7 @@ export function calcDependencies(item: ICodeItem, ctx?: Record<string, any>) {
             result = calcJSCodeDependencies(item.initValue ? `(${item.initValue})` : null, ctx);
 
         else if (item.type === IEnumCodeType.JAVASCRIPT_COMPUTED || item.type === IEnumCodeType.JAVASCRIPT_FUNCTION)
-            result = calcJSCodeDependencies(item.funcBody, ctx);
+            result = calcJSCodeDependencies(item.funcBody, ctx).filter(name => item.id !== name); // 过滤自身依赖，可循环调用
 
         if (item.type === IEnumCodeType.JAVASCRIPT_QUERY) {
             if (isRestQueryResource(item)) {

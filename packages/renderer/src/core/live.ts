@@ -4,7 +4,6 @@ import type {
 } from '@webank/letgo-types';
 import type { BlockScope } from '../utils';
 import { useRendererContext } from '../context';
-import config from '../config';
 import {
     buildLoop,
     buildProps,
@@ -85,7 +84,7 @@ export const Live = defineComponent({
         }
 
         if (!Array.isArray(loop)) {
-            config.logWarn(`[vue-renderer]: loop must be array: ${JSON.stringify(loop)}`);
+            console.warn('[vue-renderer]: loop must be array', loop);
             return null;
         }
 

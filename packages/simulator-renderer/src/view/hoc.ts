@@ -43,6 +43,7 @@ import {
     toRef,
 } from 'vue';
 import { BASE_COMP_CONTEXT } from '../constants';
+import { host } from '../host';
 import { createAction } from './centerAction';
 
 /**
@@ -334,7 +335,7 @@ export const Hoc = defineComponent({
         }
 
         if (!Array.isArray(loop)) {
-            console.warn('[vue-renderer]: loop must be array', loop);
+            host.logger.warn(`[vue-renderer]: loop must be array: ${JSON.stringify(loop)}`);
             return null;
         }
 

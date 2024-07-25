@@ -13,6 +13,7 @@ import { relative } from '../options';
 import type { Context, ImportSource, SetupCode } from './types';
 import { ImportType } from './types';
 import { compilerEventHandlers } from './events';
+import { parseFunctionCode } from './parse-function';
 
 export function ensureArray(data?: string | string[]) {
     if (data == null)
@@ -215,8 +216,11 @@ export function genCode(ctx: Context, filePath: string, codeStruct: ICodeStruct,
             codeKeys.push(item.id);
         }
         else if (item.type === IEnumCodeType.JAVASCRIPT_FUNCTION) {
-            codeStr.push(replaceFunctionName(item.funcBody, item.id));
-            codeKeys.push(item.id);
+            const funcCode = parseFunctionCode(item.funcBody, item.id);
+            if (funcCode) {
+                codeStr.push(funcCode);
+                codeKeys.push(item.id);
+            }
         }
         else if (item.type === IEnumCodeType.JAVASCRIPT_QUERY) {
             importSourceMap.set('useJSQuery', {

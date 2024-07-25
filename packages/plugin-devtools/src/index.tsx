@@ -1,5 +1,6 @@
 import { definePlugin } from '@webank/letgo-engine-plugin';
 import type { TabPanel } from '@webank/letgo-editor-skeleton';
+import ToolsHeader from './components/tools-header';
 
 let panel: TabPanel;
 
@@ -11,7 +12,7 @@ export default definePlugin({
             area: 'bottomArea',
             name: 'PluginDevtoolsPanel',
             render: () => <div>111</div>,
-            renderHeader: () => '日志',
+            renderHeader: () => <ToolsHeader />,
             props: {
                 align: 'left',
                 height: 200,

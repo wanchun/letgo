@@ -6,7 +6,7 @@ import PluginSchema from '@webank/letgo-plugin-schema';
 import PluginUndoRedo from '@webank/letgo-plugin-undo-redo';
 import PluginCSS from '@webank/letgo-plugin-css';
 import PluginLogicEdit from '@webank/letgo-plugin-logic';
-import PluginBottom from '@webank/letgo-plugin-devtools';
+import PluginConsole from '@webank/letgo-plugin-console';
 import type { IPublicTypeFieldConfig } from '../../types/es';
 import PluginLogo from './plugins/plugin-logo';
 import PluginPreview from './plugins/plugin-preview-sample';
@@ -44,7 +44,7 @@ plugins.register(PluginUndoRedo, {
 });
 plugins.register(PluginPreview);
 plugins.register(PluginCodeGenerator);
-plugins.register(PluginBottom);
+plugins.register(PluginConsole);
 
 // setTimeout(async () => {
 //     await plugins.delete(PluginCSS.name);

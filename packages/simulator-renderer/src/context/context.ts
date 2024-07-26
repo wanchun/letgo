@@ -1,10 +1,11 @@
 // 构建运行时 context
-import { markClassReactive, traverseNodeSchema } from '@webank/letgo-common';
-import { inject, reactive, shallowReactive, watch } from 'vue';
-import { LetgoPageBase, executeClassPropReactive } from '@webank/letgo-renderer';
+import { traverseNodeSchema } from '@webank/letgo-common';
+import { inject, shallowReactive, watch } from 'vue';
+import { LetgoPageBase } from '@webank/letgo-renderer';
 import { BASE_GLOBAL_CONTEXT } from '../constants';
 import type { DocumentInstance } from '../interface';
 import type { CodeImplType } from '../code-impl/code-impl';
+import { ProxyClass } from './proxy-class';
 
 function createClassInstance(options: {
     code: string;
@@ -67,6 +68,8 @@ export function useContext(codesInstance: Record<string, CodeImplType>, document
         immediate: true,
     });
 
+    const proxyClass = new ProxyClass();
+
     documentInstance.document.onClassCodeChange(() => {
         const instance = documentInstance.document.classCode && createClassInstance({
             code: documentInstance.document.classCode,
@@ -74,12 +77,8 @@ export function useContext(codesInstance: Record<string, CodeImplType>, document
             compInstances,
             codesInstance,
         });
-        if (instance) {
-            executeCtx.__this = markClassReactive(instance, (member) => {
-                return executeClassPropReactive(instance, member);
-            });
-            codesInstance.this = executeCtx.__this;
-        }
+        if (instance)
+            proxyClass.changeTarget(instance);
     });
 
     if (documentInstance.schema.classCode) {
@@ -89,13 +88,11 @@ export function useContext(codesInstance: Record<string, CodeImplType>, document
             compInstances,
             codesInstance,
         });
-        if (instance) {
-            executeCtx.__this = markClassReactive(instance, (member) => {
-                return executeClassPropReactive(instance, member);
-            });
-            codesInstance.this = executeCtx.__this;
-        }
+        if (instance)
+            proxyClass.changeTarget(instance);
     }
+    executeCtx.__this = proxyClass.getThisProxy();
+    codesInstance.this = executeCtx.__this;
 
     return {
         executeCtx,

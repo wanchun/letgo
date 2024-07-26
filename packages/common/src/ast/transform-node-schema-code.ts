@@ -21,6 +21,9 @@ function handleEventDep(events: IEventHandler[], callback: Callback) {
     if (events) {
         for (const event of events) {
             if (isRunFunctionEventHandler(event)) {
+                if (event.namespace)
+                    event.namespace = callback(event.namespace, event, 'JSExpression');
+
                 if (event.type === IEnumRunScript.PLAIN) {
                     event.funcBody = callback(event.funcBody, event, 'JSFunction');
                     continue;

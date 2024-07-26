@@ -1,3 +1,19 @@
+## [0.0.5-beta.18](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.17...v0.0.5-beta.18) (2024-7-26)
+
+
+### Bug Fixes
+
+* 函数代码出码支持剪头函数 ([ddb648f](https://git.weoa.com/mumblefe/letgo/commits/ddb648f84330cd79543b73e4a3ad74db3db90738))
+* 可循环调用自身 ([344725e](https://git.weoa.com/mumblefe/letgo/commits/344725eb70477275381d77db6d45f069794eb0df))
+* 修复 class 出码问题 ([1623f16](https://git.weoa.com/mumblefe/letgo/commits/1623f162f5d6395d1d63ee6ed6fad30e899396b9))
+* 修复 class code 出码对组件实例再次建立响应式问题 ([2dd34cf](https://git.weoa.com/mumblefe/letgo/commits/2dd34cf339c87081b58151a21e2af13169e86010))
+* 修复 class code 出码事件绑定方法的问题 ([b4050a0](https://git.weoa.com/mumblefe/letgo/commits/b4050a0e5d81760a959f571296a6e9f3e57de7f3))
+* 修复 classcode 变更, 导致响应式丢失问题 ([f9a99d4](https://git.weoa.com/mumblefe/letgo/commits/f9a99d41f8a7a47a74cf93d8dbb0bd91f8994eb5))
+* 优化 class code 代码 ([38213d3](https://git.weoa.com/mumblefe/letgo/commits/38213d3c2224e25ce82651a0b59f4c4eb0648bda))
+* class code 状态展示和函数绑定问题 ([6a324bc](https://git.weoa.com/mumblefe/letgo/commits/6a324bcc22dd9edf3e783c66cc4a6c7abda964f2))
+
+
+
 ## [0.0.5-beta.17](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.16...v0.0.5-beta.17) (2024-7-23)
 
 

@@ -1,4 +1,4 @@
-import { defineComponent, inject, reactive } from 'vue';
+import { defineComponent, inject } from 'vue';
 import { Page } from '@webank/letgo-components';
 import { markClassReactive } from '@webank/letgo-common';
 import { rendererProps, useHook, useRenderer } from '../core';
@@ -16,24 +16,30 @@ export const PageRenderer = defineComponent({
         const { renderComp, ctx } = useRenderer(props);
 
         if (!ctx.executeCtx.__this && props.__schema.classCode) {
-            let DynamicClass: any;
-            if (typeof props.__schema.classCode === 'function') {
-                DynamicClass = props.__schema.classCode;
-            }
-            else {
-                // eslint-disable-next-line no-new-func
-                DynamicClass = Function('Page', `${props.__schema.classCode.trim()} \n return Main;`)(LetgoPageBase);
-            }
+            try {
+                let DynamicClass: any;
+                if (typeof props.__schema.classCode === 'function') {
+                    DynamicClass = props.__schema.classCode;
+                }
+                else {
+                    // eslint-disable-next-line no-new-func
+                    DynamicClass = Function('Page', `${props.__schema.classCode.trim()} \n return Main;`)(LetgoPageBase);
+                }
 
-            const instance = new DynamicClass({
-                globalContext,
-                instances: ctx.compInstances,
-                codes: ctx.codeInstances,
-            });
+                const instance = new DynamicClass({
+                    globalContext,
+                    instances: ctx.compInstances,
+                    codes: ctx.codeInstances,
+                });
 
-            ctx.executeCtx.__this = markClassReactive(instance, (member) => {
-                return executeClassPropReactive(instance, member);
-            });
+                ctx.executeCtx.__this = markClassReactive(instance, (member) => {
+                    return executeClassPropReactive(instance, member);
+                });
+            }
+            catch (err) {
+                console.warn('Class Code 实例化失败');
+                console.error(err);
+            }
         }
 
         useHook(ctx.executeCtx);

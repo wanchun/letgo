@@ -12,14 +12,21 @@ function createClassInstance(options: {
     compInstances: Record<string, any>;
     codesInstance: Record<string, any>;
 }) {
-    // eslint-disable-next-line no-new-func
-    const DynamicClass = (new Function('Page', `${options.code.trim()}\n return Main;`))(LetgoPageBase);
+    try {
+        // eslint-disable-next-line no-new-func
+        const DynamicClass = (new Function('Page', `${options.code.trim()}\n return Main;`))(LetgoPageBase);
 
-    return new DynamicClass({
-        globalContext: options.globalContext,
-        instances: options.compInstances,
-        codes: options.codesInstance,
-    });
+        return new DynamicClass({
+            globalContext: options.globalContext,
+            instances: options.compInstances,
+            codes: options.codesInstance,
+        });
+    }
+    catch (err) {
+        console.warn('Class Code 实例化失败');
+        console.error(err);
+        return null;
+    }
 }
 
 export function useContext(codesInstance: Record<string, CodeImplType>, documentInstance: DocumentInstance) {
@@ -61,21 +68,18 @@ export function useContext(codesInstance: Record<string, CodeImplType>, document
     });
 
     documentInstance.document.onClassCodeChange(() => {
-        const instance = documentInstance.document.classCode
-            ? reactive(createClassInstance({
-                code: documentInstance.document.classCode,
-                globalContext,
-                compInstances,
-                codesInstance,
-            }))
-            : null;
-
-        executeCtx.__this = instance
-            ? markClassReactive(instance, (member) => {
+        const instance = documentInstance.document.classCode && createClassInstance({
+            code: documentInstance.document.classCode,
+            globalContext,
+            compInstances,
+            codesInstance,
+        });
+        if (instance) {
+            executeCtx.__this = markClassReactive(instance, (member) => {
                 return executeClassPropReactive(instance, member);
-            })
-            : instance;
-        codesInstance.this = executeCtx.__this;
+            });
+            codesInstance.this = executeCtx.__this;
+        }
     });
 
     if (documentInstance.schema.classCode) {
@@ -85,10 +89,12 @@ export function useContext(codesInstance: Record<string, CodeImplType>, document
             compInstances,
             codesInstance,
         });
-        executeCtx.__this = markClassReactive(instance, (member) => {
-            return executeClassPropReactive(instance, member);
-        });
-        codesInstance.this = executeCtx.__this;
+        if (instance) {
+            executeCtx.__this = markClassReactive(instance, (member) => {
+                return executeClassPropReactive(instance, member);
+            });
+            codesInstance.this = executeCtx.__this;
+        }
     }
 
     return {

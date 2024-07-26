@@ -103,7 +103,7 @@ export function genScript({ ctx, componentMaps, rootSchema, componentRefs, fileN
     const refCodeSnippet = genRefCode(ctx, filePath, componentRefs);
     const codesSnippet = genCode(ctx, filePath, rootSchema.code);
     const hookSnippet = genHook(ctx, filePath, rootSchema.code);
-    const classCodeSnippet = genClassCodeInstance(ctx, rootSchema);
+    const classCodeSnippet = genClassCodeInstance(ctx, rootSchema, filePath);
 
     const codes = [
         globalStateSnippet.code,

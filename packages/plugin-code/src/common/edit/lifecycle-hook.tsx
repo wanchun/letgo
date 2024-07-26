@@ -2,8 +2,8 @@ import type { PropType } from 'vue';
 import { computed, defineComponent } from 'vue';
 import type { ILifecycle } from '@webank/letgo-types';
 import { CodeEditor } from '@webank/letgo-components';
+import { PageLifecycleList } from '@webank/letgo-common';
 import { FSelect } from '@fesjs/fes-design';
-import { IPublicPageLifecycleList } from '@webank/letgo-types';
 import ContentItem from '../content-item';
 import './lifecycle-hook.less';
 
@@ -18,7 +18,7 @@ export const HookEdit = defineComponent({
     setup(props) {
         const hookList = computed(() => {
             if (props.type === 'page') {
-                return IPublicPageLifecycleList.map((item) => {
+                return PageLifecycleList.map((item) => {
                     return {
                         ...item,
                         label: `${item.value} - ${item.label}`,

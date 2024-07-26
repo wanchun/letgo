@@ -13,7 +13,7 @@ export function markClassReactive(target: object, filter?: (key: string) => bool
         acc[cur] = target[cur as keyof typeof target];
         return acc;
     }, {} as Record<string, any>));
-    Object.keys(members).forEach((key) => {
+    members.forEach((key) => {
         Object.defineProperty(target, key, {
             get() {
                 return state[key];

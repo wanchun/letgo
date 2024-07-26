@@ -7,6 +7,7 @@ import {
 import { isNil } from 'lodash-es';
 import { IEnumCodeType } from '@webank/letgo-types';
 import type { Designer } from '@webank/letgo-designer';
+import { getAllMethodAndProperties } from '@webank/letgo-common';
 import FadeInExpandTransition from './fade-in-expand-transition';
 import Tree from './tree/tree';
 import StateHeader from './state-header';
@@ -78,17 +79,30 @@ export default defineComponent({
             return {};
         });
 
+        const getStateData = (content: Record<string, any>, key: string) => {
+            if (key === 'this') {
+                const members = getAllMethodAndProperties(content.this);
+                return members.filter(key => !key.startsWith('$')).reduce((acc, cur) => {
+                    acc[cur] = content.this[cur];
+                    return acc;
+                }, {} as Record<string, any>);
+            }
+
+            return content[key].view;
+        };
+
         const codesState = computed(() => {
             const codesInstance = currentState.value?.codesInstance || {};
             return Object.keys(codesInstance).reduce((acc, cur) => {
                 if (codesInstance[cur].type === IEnumCodeType.LIFECYCLE_HOOK)
                     return acc;
+
                 if (isNil(props.searchText)) {
-                    acc[cur] = codesInstance[cur].view;
+                    acc[cur] = getStateData(codesInstance, cur);
                 }
                 else {
                     if (cur.includes(props.searchText))
-                        acc[cur] = codesInstance[cur].view;
+                        acc[cur] = getStateData(codesInstance, cur);
                 }
 
                 return acc;

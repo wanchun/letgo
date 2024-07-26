@@ -1,4 +1,42 @@
 export const LETGO_CODES = {
+    'shared.js': `
+export function isGetterProp(instance, key) {
+    if (key in instance) {
+        let p = instance;
+        let propDesc;
+        while (p && !propDesc) {
+            propDesc = Object.getOwnPropertyDescriptor(p, key);
+            p = Object.getPrototypeOf(p);
+        }
+        // only getter
+        return !!propDesc && (propDesc.get && !propDesc.set);
+    }
+    return false;
+}
+
+export function getAllMethodAndProperties(obj) {
+    let props = [];
+
+    do {
+        const l = Object.getOwnPropertyNames(obj)
+            .concat(Object.getOwnPropertySymbols(obj).map(s => s.toString()))
+            .sort()
+            .filter((p, i, arr) =>
+                !['constructor', '_globalCtx'].includes(p) // not the constructor
+                && (i === 0 || p !== arr[i - 1]) // not overriding in this prototype
+                && !props.includes(p), // not overridden in a child
+            );
+        props = props.concat(l);
+    }
+    while (
+        // eslint-disable-next-line no-cond-assign
+        (obj = Object.getPrototypeOf(obj)) // walk-up the prototype chain
+        && Object.getPrototypeOf(obj) // not the the Object prototype methods (hasOwnProperty, etc...)
+    );
+
+    return props.reverse();
+}
+    `,
     'letgoConstants.js': `
 export const IEnumRunCondition = {
     MANUAL: 0,
@@ -19,6 +57,32 @@ export const IEnumCacheType = {
 `,
     'reactive.js': `
 import { computed, reactive, shallowReactive } from 'vue';
+import { getAllMethodAndProperties } from './shared.js'
+
+export function markClassReactive(target, filter) {
+    const members = getAllMethodAndProperties(target).filter((member) => {
+        if (filter)
+            return filter(member);
+
+        return true;
+    });
+
+    const state = reactive(members.reduce((acc, cur) => {
+        acc[cur] = target[cur];
+        return acc;
+    }, {}));
+    members.forEach((key) => {
+        Object.defineProperty(target, key, {
+            get() {
+                return state[key];
+            },
+            set(value) {
+                state[key] = value;
+            },
+        });
+    });
+    return target;
+}
 
 export function markShallowReactive(target, properties) {
     const state = shallowReactive(properties);
@@ -529,16 +593,8 @@ import { LetgoGlobalBase } from './globalBase';
 export class LetgoPageBase extends LetgoGlobalBase {
     constructor(ctx) {
         super(ctx.globalCtx);
-        this.compInstances = ctx.instances;
-        this.codeInstances = ctx.codes;
-    }
-
-    get $pageCode() {
-        return this.codeInstances;
-    }
-
-    get $refs() {
-        return this.compInstances;
+        this.$pageCode = ctx.codes;
+        this.$refs = ctx.instances;
     }
 }
     `,

@@ -52,7 +52,7 @@ export function genClassCodeStr(fileStruct: FileStruct) {
     `;
 }
 
-export function genClassCodeInstance(ctx: Context, rootSchema: IPublicTypeRootSchema) {
+export function genClassCodeInstance(ctx: Context, rootSchema: IPublicTypeRootSchema, filePath: string) {
     if (!rootSchema.classCode) {
         return {
             importSources: [],
@@ -66,9 +66,13 @@ export function genClassCodeInstance(ctx: Context, rootSchema: IPublicTypeRootSc
             type: ImportType.ImportSpecifier,
             source: `./${CLASS_FILE_NAME}`,
         }, {
-            imported: 'reactive',
+            imported: 'markClassReactive',
             type: ImportType.ImportSpecifier,
-            source: `vue`,
+            source: relative(filePath, `${ctx.config.letgoDir}/reactive.js`),
+        }, {
+            imported: 'isGetterProp',
+            type: ImportType.ImportSpecifier,
+            source: relative(filePath, `${ctx.config.letgoDir}/shared.js`),
         }].concat(ctx.classLifeCycle.map((item) => {
             return {
                 imported: item,
@@ -77,7 +81,7 @@ export function genClassCodeInstance(ctx: Context, rootSchema: IPublicTypeRootSc
             };
         })),
         code: `
-        const $$ = reactive(new ${CLASS_NAME}({
+        const __instance__ = new ${CLASS_NAME}({
             globalContext: {
                 ${ctx.classUseCodes.$globalCode.join(',\n')}
             },
@@ -87,7 +91,13 @@ export function genClassCodeInstance(ctx: Context, rootSchema: IPublicTypeRootSc
             codes: {
                 ${ctx.classUseCodes.$pageCode.join(',\n')}
             }
-        }))
+        });
+        const $$ = markClassReactive(__instance__, (member) => {
+             if (member === 'globalCtx' || member.startsWith('$') || isGetterProp(__instance__, member) || typeof __instance__[member] === 'function')
+                return false;
+
+            return true;
+        })
         
         ${ctx.classLifeCycle.map((item) => {
             return `${item}($$.${item}.bind($$))`;

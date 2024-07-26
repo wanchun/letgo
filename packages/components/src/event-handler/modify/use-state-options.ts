@@ -1,3 +1,4 @@
+import { PageLifecycleList, getAllMethodAndProperties } from '@webank/letgo-common';
 import { IEnumEventHandlerAction, type IEventHandler, type IPublicModelProject } from '@webank/letgo-types';
 import { isEmpty, isFunction, isPlainObject } from 'lodash-es';
 import { computed } from 'vue';
@@ -114,16 +115,36 @@ export function useStateOptions(props: {
             };
         });
     });
+
+    const classMethods = computed(() => {
+        const instance = props.project.currentDocument?.state.codesInstance.this;
+        if (instance) {
+            const members = getAllMethodAndProperties(instance);
+            return members.filter((member) => {
+                return !member.startsWith('$') && !PageLifecycleList.find(item => item.value === member);
+            }).map((member) => {
+                if (typeof instance[member] === 'function') {
+                    return {
+                        value: `this.${member}`,
+                        label: `this.${member}`,
+                    };
+                }
+                return null;
+            }).filter(Boolean);
+        }
+        return [];
+    });
+
     const functionOptions = computed(() => {
         if (props.isGlobal)
             return globalFunction.value.concat(contextFuncs.value);
 
-        return props.project.currentDocument.code.functions.map((item) => {
+        return classMethods.value.concat(props.project.currentDocument.code.functions.map((item) => {
             return {
                 label: item.id,
                 value: item.id,
             };
-        }).concat(globalFunction.value).concat(contextFuncs.value);
+        }).concat(globalFunction.value).concat(contextFuncs.value));
     });
 
     return {

@@ -77,8 +77,10 @@ export function useContext(codesInstance: Record<string, CodeImplType>, document
             compInstances,
             codesInstance,
         });
-        if (instance)
+        if (instance) {
             proxyClass.changeTarget(instance);
+            codesInstance.this = instance;
+        }
     });
 
     if (documentInstance.schema.classCode) {
@@ -88,11 +90,12 @@ export function useContext(codesInstance: Record<string, CodeImplType>, document
             compInstances,
             codesInstance,
         });
-        if (instance)
+        if (instance) {
             proxyClass.changeTarget(instance);
+            codesInstance.this = instance;
+        }
     }
     executeCtx.__this = proxyClass.getThisProxy();
-    codesInstance.this = executeCtx.__this;
 
     return {
         executeCtx,

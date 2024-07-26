@@ -43,6 +43,9 @@ export class ProxyClass {
     getThisProxy() {
         return new Proxy({}, {
             get: (_, property: string) => {
+                if (typeof property !== 'string')
+                    return this.target[property];
+
                 if (this.cacheRawKeys.has(property))
                     return this.target[property];
 
@@ -61,6 +64,10 @@ export class ProxyClass {
                 }
             },
             set: (_, property: string, value) => {
+                if (typeof property !== 'string') {
+                    this.target[property] = value;
+                    return true;
+                }
                 if (this.cacheRawKeys.has(property))
                     this.target[property] = value;
 

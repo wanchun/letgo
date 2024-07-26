@@ -4,22 +4,3 @@ export enum IPublicEnumPageLifecycle {
     BeforeUnMount = 'onBeforeUnmount',
     UnMounted = 'onUnmounted',
 }
-
-export const IPublicPageLifecycleList = [
-    {
-        value: IPublicEnumPageLifecycle.BeforeMount,
-        label: '挂载前',
-    },
-    {
-        value: IPublicEnumPageLifecycle.Mounted,
-        label: '挂载后',
-    },
-    {
-        value: IPublicEnumPageLifecycle.BeforeUnMount,
-        label: '卸载前',
-    },
-    {
-        value: IPublicEnumPageLifecycle.UnMounted,
-        label: '卸载后',
-    },
-];

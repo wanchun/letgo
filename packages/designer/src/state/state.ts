@@ -15,10 +15,10 @@ export class State implements IPublicModelState {
 
     constructor(docModal: DocumentModel, schema?: IPublicTypeRootSchema) {
         markReactive(this, {
-            componentsInstance: {},
             props: {},
         });
         markShallowReactive(this, {
+            componentsInstance: {},
             codesInstance: {},
         });
         this.designer = docModal.designer;

@@ -1,3 +1,12 @@
+## [0.0.5-beta.19](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.18...v0.0.5-beta.19) (2024-7-27)
+
+
+### Bug Fixes
+
+* 修复性能问题 ([e681c67](https://git.weoa.com/mumblefe/letgo/commits/e681c67e654ca8270098085ca9db46f3d1e9a79f))
+
+
+
 ## [0.0.5-beta.18](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.17...v0.0.5-beta.18) (2024-7-26)
 
 

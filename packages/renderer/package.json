@@ -1,7 +1,7 @@
 {
     "name": "@webank/letgo-renderer",
     "type": "module",
-    "version": "0.0.5-beta.14",
+    "version": "0.0.5-beta.15",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -18,8 +18,8 @@
     "dependencies": {
         "@qlin/request": "^0.2.5",
         "@webank/letgo-common": "^0.0.5-beta.8",
-        "@webank/letgo-components": "^0.0.5-beta.10",
-        "@webank/letgo-designer": "^0.0.5-beta.11",
+        "@webank/letgo-components": "^0.0.5-beta.11",
+        "@webank/letgo-designer": "^0.0.5-beta.12",
         "@webank/letgo-types": "^0.0.5-beta.6",
         "lodash-es": "^4.17.21"
     },

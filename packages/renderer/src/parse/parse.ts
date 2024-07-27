@@ -7,7 +7,7 @@ import { executeExpression, executeFunc, funcSchemaToFunc } from './execute';
 
 function isFunctionString(code: string = '') {
     code = removeComments(code).trim();
-    return /^(function[\s\(]|\(.*\)\s*=>)/.test(code);
+    return /^(async\s+)?(function[\s\(]|\(.*\)\s*=>)/.test(code);
 }
 
 export function eventHandlerToJsFunction(item: IEventHandler): IPublicTypeJSFunction {

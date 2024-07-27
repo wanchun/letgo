@@ -11,6 +11,8 @@ export interface IContextMenuActions {
     addMenuAction: IPublicApiMaterial['addContextMenuOption'];
 
     removeMenuAction: IPublicApiMaterial['removeContextMenuOption'];
+
+    purge: () => void;
 }
 
 export class GlobalContextMenuActions {
@@ -22,7 +24,6 @@ export class GlobalContextMenuActions {
 
     constructor() {
         this.dispose = [];
-
         engineConfig.onGot('enableContextMenu', (enable: boolean) => {
             if (this.enableContextMenu === enable)
                 return;
@@ -83,6 +84,7 @@ export class ContextMenuActions implements IContextMenuActions {
     designer: Designer;
 
     dispose: Function[];
+    listeners: Function[] = [];
 
     enableContextMenu: boolean;
 
@@ -91,16 +93,16 @@ export class ContextMenuActions implements IContextMenuActions {
     constructor(designer: Designer) {
         this.designer = designer;
         this.dispose = [];
-
-        engineConfig.onGot('enableContextMenu', (enable: boolean) => {
+        this.listeners.push(engineConfig.onGot('enableContextMenu', (enable: boolean) => {
             if (this.enableContextMenu === enable)
                 return;
 
             this.enableContextMenu = enable;
             this.dispose.forEach(d => d());
+            this.dispose = [];
             if (enable)
                 this.initEvent();
-        });
+        }));
     }
 
     handleContextMenu = (
@@ -165,5 +167,10 @@ export class ContextMenuActions implements IContextMenuActions {
         const i = this.actions.findIndex(action => action.name === name);
         if (i > -1)
             this.actions.splice(i, 1);
+    }
+
+    purge() {
+        this.listeners.forEach(listener => listener());
+        this.dispose.forEach(dispose => dispose());
     }
 }

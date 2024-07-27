@@ -1,5 +1,5 @@
 import type { CSSProperties, PropType } from 'vue';
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, onBeforeUnmount, ref, watch } from 'vue';
 import { MonacoEditor } from '@webank/letgo-components';
 import { debounce } from 'lodash-es';
 import { engineConfig } from '@webank/letgo-editor-core';
@@ -34,9 +34,10 @@ export const CodeView = defineComponent({
         }, 500);
 
         const requireConfig = ref();
-        engineConfig.onGot('requireConfig', (config: Record<string, any>) => {
+        const destroy = engineConfig.onGot('requireConfig', (config: Record<string, any>) => {
             requireConfig.value = config;
         });
+        onBeforeUnmount(() => { destroy(); });
 
         return () => {
             return (

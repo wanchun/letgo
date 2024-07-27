@@ -5,6 +5,7 @@ import type {
 import {
     defineComponent,
     onBeforeMount,
+    onBeforeUnmount,
     ref,
     shallowReactive,
 } from 'vue';
@@ -56,7 +57,7 @@ export default defineComponent({
             project.setUtils(utils);
         });
 
-        config.onGot('device', (val: string) => {
+        const destroyDeviceListener = config.onGot('device', (val: string) => {
             simulatorProps.device = val;
         });
 
@@ -67,6 +68,10 @@ export default defineComponent({
             Object.assign(simulatorProps, {
                 library: packages || [],
             });
+        });
+
+        onBeforeUnmount(() => {
+            destroyDeviceListener();
         });
 
         return () => {

@@ -1,5 +1,4 @@
 import { TemporaryStateLive } from '@webank/letgo-renderer';
-import { markComputed, markReactive } from '@webank/letgo-common';
 import { clone } from 'lodash-es';
 import { IEnumCodeType, type ITemporaryState } from '@webank/letgo-types';
 import type { WatchStopHandle } from 'vue';
@@ -9,11 +8,6 @@ export class TemporaryStateImpl extends TemporaryStateLive {
     unwatch: WatchStopHandle;
     constructor(data: ITemporaryState, deps: string[], ctx: Record<string, any>) {
         super(data, deps, ctx);
-
-        markReactive(this, {
-            id: this.id,
-        });
-        markComputed(this, ['view']);
 
         this.changeDeps(deps || []);
         this.watchValue();

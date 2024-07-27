@@ -1,4 +1,3 @@
-import { markComputed } from '@webank/letgo-common';
 import type { IJavascriptQuery } from '@webank/letgo-types';
 import { JavascriptQueryBase } from '@webank/letgo-renderer';
 
@@ -6,7 +5,6 @@ import { JavascriptQueryBase } from '@webank/letgo-renderer';
 export class JavascriptQueryImpl extends JavascriptQueryBase {
     constructor(data: IJavascriptQuery, deps: string[], ctx: Record<string, any>) {
         super(data, deps, ctx);
-        markComputed(this, ['view']);
     }
 
     get view() {

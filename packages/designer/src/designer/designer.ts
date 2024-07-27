@@ -438,5 +438,6 @@ export class Designer implements IPublicModelDesigner<Project, DocumentModel, Co
         this._simulator = null;
         this._renderer = null;
         this.clearOffsetObserverList(true);
+        this.contextMenuActions.purge();
     }
 }

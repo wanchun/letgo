@@ -1,5 +1,5 @@
 import { computed } from 'vue';
-import { markComputed, markShallowReactive } from '@webank/letgo-common';
+import { markShallowReactive } from '@webank/letgo-common';
 import type { IJavascriptComputed } from '@webank/letgo-types';
 import { ComputedLive } from '@webank/letgo-renderer';
 
@@ -10,7 +10,6 @@ export class ComputedImpl extends ComputedLive {
         markShallowReactive(this, {
             id: this.id,
         });
-        markComputed(this, ['view']);
     }
 
     changeId(id: string) {

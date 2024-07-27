@@ -11,7 +11,6 @@ export class JavascriptQueryImpl extends JavascriptQueryBase {
 
     get view() {
         return {
-            id: this.id,
             query: this.query,
             enableCaching: this.enableCaching,
             cacheDuration: this.cacheDuration,

@@ -21,7 +21,6 @@ export class TemporaryStateImpl extends TemporaryStateLive {
 
     get view() {
         return {
-            id: this.id,
             value: this.value,
         };
     }

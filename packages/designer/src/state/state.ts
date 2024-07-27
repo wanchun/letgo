@@ -1,4 +1,4 @@
-import { getConvertedExtraKey, markReactive, traverseNodeSchema } from '@webank/letgo-common';
+import { getConvertedExtraKey, markReactive, markShallowReactive, traverseNodeSchema } from '@webank/letgo-common';
 import { debounce } from 'lodash-es';
 import type { IPublicModelState, IPublicTypeComponentRecord, IPublicTypeRootSchema } from '@webank/letgo-types';
 import type { Designer } from '../designer';
@@ -15,9 +15,11 @@ export class State implements IPublicModelState {
 
     constructor(docModal: DocumentModel, schema?: IPublicTypeRootSchema) {
         markReactive(this, {
-            codesInstance: {},
             componentsInstance: {},
             props: {},
+        });
+        markShallowReactive(this, {
+            codesInstance: {},
         });
         this.designer = docModal.designer;
 

@@ -40,7 +40,7 @@ export default defineComponent({
             changeCodeInstanceId,
         } = useCodesInstance();
 
-        const { executeCtx, compInstances } = useContext(codesInstance, props.documentInstance);
+        const { executeCtx, compInstances, classInstance } = useContext(codesInstance, props.documentInstance);
 
         watch(() => props.documentInstance.defaultProps, (val) => {
             executeCtx.props = val || {};
@@ -83,8 +83,11 @@ export default defineComponent({
             offCodeChangedEvent.forEach(fn => fn());
         });
 
-        watch(codesInstance, () => {
-            host.updateCodesInstance(codesInstance);
+        watch([codesInstance, classInstance], () => {
+            host.updateCodesInstance({
+                ...codesInstance,
+                this: classInstance.value,
+            });
         }, {
             immediate: true,
             deep: true,

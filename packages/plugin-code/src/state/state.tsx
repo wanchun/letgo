@@ -94,6 +94,10 @@ export default defineComponent({
         const codesState = computed(() => {
             const codesInstance = currentState.value?.codesInstance || {};
             return Object.keys(codesInstance).reduce((acc, cur) => {
+                const codeState = codesInstance[cur];
+                if (!codeState)
+                    return acc;
+
                 if (codesInstance[cur].type === IEnumCodeType.LIFECYCLE_HOOK)
                     return acc;
 

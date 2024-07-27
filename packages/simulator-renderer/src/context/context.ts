@@ -69,7 +69,7 @@ export function useContext(codesInstance: Record<string, CodeImplType>, document
     });
 
     const proxyClass = new ProxyClass();
-
+    const classInstance = shallowReactive<Record<string, any>>({});
     documentInstance.document.onClassCodeChange(() => {
         const instance = documentInstance.document.classCode && createClassInstance({
             code: documentInstance.document.classCode,
@@ -79,7 +79,7 @@ export function useContext(codesInstance: Record<string, CodeImplType>, document
         });
         if (instance) {
             proxyClass.changeTarget(instance);
-            codesInstance.this = instance;
+            classInstance.value = instance;
         }
     });
 
@@ -92,7 +92,7 @@ export function useContext(codesInstance: Record<string, CodeImplType>, document
         });
         if (instance) {
             proxyClass.changeTarget(instance);
-            codesInstance.this = instance;
+            classInstance.value = instance;
         }
     }
     executeCtx.__this = proxyClass.getThisProxy();
@@ -100,5 +100,6 @@ export function useContext(codesInstance: Record<string, CodeImplType>, document
     return {
         executeCtx,
         compInstances,
+        classInstance,
     };
 }

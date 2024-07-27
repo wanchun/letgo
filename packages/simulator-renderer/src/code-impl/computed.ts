@@ -26,7 +26,6 @@ export class ComputedImpl extends ComputedLive {
 
     get view() {
         return {
-            id: this.id,
             value: this.value,
         };
     }

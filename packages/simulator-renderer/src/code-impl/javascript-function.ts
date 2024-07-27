@@ -16,7 +16,6 @@ export class JavascriptFunctionImpl extends JavascriptFunctionLive {
 
     get view() {
         return {
-            id: this.id,
             funcBody: this.funcBody,
         };
     }

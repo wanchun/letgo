@@ -93,7 +93,7 @@ export function genClassCodeInstance(ctx: Context, rootSchema: IPublicTypeRootSc
             }
         });
         const $$ = markClassReactive(__instance__, (member) => {
-             if (member === 'globalCtx' || member.startsWith('$') || isGetterProp(__instance__, member) || typeof __instance__[member] === 'function')
+             if (member.startsWith('_') || member.startsWith('$') || isGetterProp(__instance__, member) || typeof __instance__[member] === 'function')
                 return false;
 
             return true;

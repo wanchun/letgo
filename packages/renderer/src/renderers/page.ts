@@ -1,10 +1,9 @@
 import { defineComponent, inject } from 'vue';
 import { Page } from '@webank/letgo-components';
-import { markClassReactive } from '@webank/letgo-common';
+import { isReactiveClassProp, markClassReactive } from '@webank/letgo-common';
 import { rendererProps, useHook, useRenderer } from '../core';
 import { LetgoPageBase } from '../class/page-base';
 import { getGlobalContextKey } from '../context';
-import { executeClassPropReactive } from '../class';
 
 export const PageRenderer = defineComponent({
     name: 'PageRenderer',
@@ -33,7 +32,7 @@ export const PageRenderer = defineComponent({
                 });
 
                 ctx.executeCtx.__this = markClassReactive(instance, (member) => {
-                    return executeClassPropReactive(instance, member);
+                    return isReactiveClassProp(instance, member);
                 });
             }
             catch (err) {

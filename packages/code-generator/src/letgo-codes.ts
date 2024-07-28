@@ -570,20 +570,20 @@ import { letgoRequest } from './letgoRequest';
 
 export class LetgoGlobalBase {
     constructor(globalCtx) {
-        this.globalCtx = globalCtx;
+        this._globalCtx = globalCtx;
         this.$request = letgoRequest;
     }
 
     get $utils() {
-        return this.globalCtx.$utils;
+        return this._globalCtx.$utils;
     }
 
     get $context() {
-        return this.globalCtx.$context;
+        return this._globalCtx.$context;
     }
 
     get $globalCode() {
-        return omit(this.globalCtx, '$utils', '$context');
+        return omit(this._globalCtx, '$utils', '$context');
     }
 }
     `,

@@ -48,7 +48,7 @@ export const JsEditView = defineComponent({
             if (doc) {
                 destroy = doc.onClassCodeChange((val) => {
                     if (tmp.value !== val)
-                        tmp.value = val;
+                        tmp.value = val || DEFAULT_CLASS_CODE;
                 });
             }
         }, {

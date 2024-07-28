@@ -1,4 +1,4 @@
-import { executeClassPropReactive } from '@webank/letgo-renderer';
+import { isReactiveClassProp } from '@webank/letgo-common';
 import { isUndefined } from 'lodash-es';
 import { reactive } from 'vue';
 
@@ -52,7 +52,7 @@ export class ProxyClass {
                 if (this.cacheReactiveKeys.has(property))
                     return this.state[property];
 
-                if (executeClassPropReactive(this.target, property)) {
+                if (isReactiveClassProp(this.target, property)) {
                     this.cacheReactiveKeys.add(property);
                     this.state[property] = this.target[property];
                     this.setProxy(property);
@@ -74,7 +74,7 @@ export class ProxyClass {
                 if (this.cacheReactiveKeys.has(property))
                     this.state[property] = value;
 
-                if (executeClassPropReactive(this.target, property)) {
+                if (isReactiveClassProp(this.target, property)) {
                     this.cacheReactiveKeys.add(property);
                     this.setProxy(property);
                     this.state[property] = value;

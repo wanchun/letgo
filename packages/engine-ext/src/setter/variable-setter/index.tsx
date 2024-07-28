@@ -3,6 +3,7 @@ import { computed, defineComponent, onMounted } from 'vue';
 import { isJSExpression } from '@webank/letgo-types';
 import type { IPublicTypeCompositeValue, IPublicTypeSetter } from '@webank/letgo-types';
 import { FSelect } from '@fesjs/fes-design';
+import { getAllMethodAndProperties, isReactiveClassProp } from '@webank/letgo-common';
 import { commonProps } from '../../common';
 
 const VariableSetterView = defineComponent({
@@ -17,7 +18,19 @@ const VariableSetterView = defineComponent({
             props.onMounted?.();
         });
         const stateOptions = computed(() => {
-            return props.node.document.code.temporaryStates.map((item) => {
+            const classInstance = props.node.document.state.classInstance;
+            let variables: { label: string; value: string }[] = [];
+            if (classInstance) {
+                variables = getAllMethodAndProperties(classInstance).filter((member) => {
+                    return isReactiveClassProp(classInstance, member);
+                }).map((member) => {
+                    return {
+                        label: `this.${member}`,
+                        value: `this.${member}`,
+                    };
+                });
+            }
+            return variables.concat(props.node.document.code.temporaryStates.map((item) => {
                 return {
                     label: item.id,
                     value: `${item.id}.value`,
@@ -27,7 +40,7 @@ const VariableSetterView = defineComponent({
                     label: item.id,
                     value: `${item.id}.value`,
                 };
-            }));
+            })));
         });
         const currentValue = computed(() => {
             let val: string;

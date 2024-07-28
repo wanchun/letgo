@@ -1,3 +1,12 @@
+## [0.0.5-beta.22](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.21...v0.0.5-beta.22) (2024-7-28)
+
+
+### Features
+
+* class code 支持绑定变量 ([82e2007](https://git.weoa.com/mumblefe/letgo/commits/82e2007888fb3f68af1687a90476e18f7662f25a))
+
+
+
 ## [0.0.5-beta.21](https://git.weoa.com/mumblefe/letgo/compare/v0.0.5-beta.20...v0.0.5-beta.21) (2024-7-28)
 
 

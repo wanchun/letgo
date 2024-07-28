@@ -4,7 +4,7 @@ import type {
     IPublicTypeProjectSchema,
     ITemporaryState,
 } from '@webank/letgo-types';
-import { genCodeMap, isSyntaxError, isExpression as rawIsExpression, replaceFunctionName, sortState } from '@webank/letgo-common';
+import { genCodeMap, isSyntaxError, isExpression as rawIsExpression, sortState } from '@webank/letgo-common';
 import {
     IEnumCodeType,
     isRestQueryResource,

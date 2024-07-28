@@ -11,6 +11,8 @@ export class JavascriptFunctionImpl extends JavascriptFunctionLive {
             id: data.id,
             funcBody: data.funcBody,
         });
+
+        markComputed(this, ['view']);
     }
 
     get view() {

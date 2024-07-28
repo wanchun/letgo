@@ -12,6 +12,7 @@ export class State implements IPublicModelState {
     props: Record<string, any>;
     componentsInstance: Record<string, any>;
     codesInstance: Record<string, any>;
+    classInstance: Record<string, any>;
 
     constructor(docModal: DocumentModel, schema?: IPublicTypeRootSchema) {
         markReactive(this, {
@@ -71,8 +72,9 @@ export class State implements IPublicModelState {
     initCodesInstanceListen() {
         this.triggerAfterSimulatorReady(() => {
             this.offEvents.push(
-                this.designer.simulator.onUpdateCodesInstance((codesInstance) => {
-                    this.codesInstance = { ...codesInstance };
+                this.designer.simulator.onUpdateCodesInstance(({ __this, ...codesInstance }) => {
+                    this.codesInstance = codesInstance;
+                    this.classInstance = __this;
                 }),
             );
         });

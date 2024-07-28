@@ -32,8 +32,6 @@ export function usePageCodeType(project: IPublicModelProject) {
             path: 'page-code.d.ts',
             code: `
         ${Object.keys(codeInstances).map((key) => {
-            if (key.endsWith('this'))
-                return '';
             return `declare const ${key}: ${valueToType(codeInstances[key as keyof typeof codeInstances])};`;
         }).join('\n')}
         ${Object.keys(refs).map((key) => {
@@ -56,8 +54,6 @@ export function usePageClassType(project: IPublicModelProject) {
             path: 'page-code.d.ts',
             code: `
         ${Object.keys(codeInstances).map((key) => {
-            if (key.endsWith('this'))
-                return '';
             return `declare const ${key}: ${valueToType(codeInstances[key as keyof typeof codeInstances])};`;
         }).join('\n')}
         ${Object.keys(refs).map((key) => {

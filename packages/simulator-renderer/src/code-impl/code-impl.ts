@@ -1,8 +1,8 @@
 import { FMessage } from '@fesjs/fes-design';
-import { reactive } from 'vue';
+import { shallowReactive } from 'vue';
 import { isNil } from 'lodash-es';
 import type { ICodeItem } from '@webank/letgo-types';
-import { IEnumCodeType } from '@webank/letgo-types';
+import { IEnumCodeType, isJavascriptComputed, isJavascriptFunction, isVariableState } from '@webank/letgo-types';
 import { calcDependencies, sortState } from '@webank/letgo-common';
 import { JavascriptQueryImpl, createQueryImpl } from './query';
 import { JavascriptFunctionImpl } from './javascript-function';
@@ -15,7 +15,7 @@ export type CodeImplType = ComputedImpl | TemporaryStateImpl | JavascriptFunctio
 export function useCodesInstance() {
     const dependencyMap = new Map<string, string[]>();
     let codeMap: Map<string, ICodeItem> = new Map();
-    const codesInstance: Record<string, CodeImplType> = reactive({});
+    const codesInstance: Record<string, CodeImplType> = shallowReactive({});
 
     const createCodeInstance = (item: ICodeItem, ctx: Record<string, any>) => {
         if (!dependencyMap.has(item.id))
@@ -62,9 +62,9 @@ export function useCodesInstance() {
 
         const currentInstance = codesInstance[id];
 
-        if ((currentInstance instanceof TemporaryStateImpl && !isNil(content.initValue))
-            || (currentInstance instanceof ComputedImpl && !isNil(content.funcBody))
-            || (currentInstance instanceof JavascriptFunctionImpl && !isNil(content.funcBody))
+        if ((isVariableState(item) && !isNil(content.initValue))
+            || ((isJavascriptComputed(item)) && !isNil(content.funcBody))
+            || (isJavascriptFunction(item) && !isNil(content.funcBody))
             || (currentInstance instanceof JavascriptQueryImpl && !isNil(content.query))
             || (currentInstance instanceof LifecycleHookImpl && !isNil(content.funcBody))
         ) {

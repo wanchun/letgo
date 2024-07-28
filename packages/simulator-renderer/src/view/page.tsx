@@ -83,10 +83,17 @@ export default defineComponent({
             offCodeChangedEvent.forEach(fn => fn());
         });
 
-        watch([codesInstance, classInstance], () => {
+        const viewState = computed(() => {
+            return Object.keys(codesInstance).reduce((acc, cur) => {
+                acc[cur] = codesInstance[cur].view;
+                return acc;
+            }, {} as { [key: string]: any });
+        });
+
+        watch([viewState, classInstance], () => {
             host.updateCodesInstance({
                 ...codesInstance,
-                this: classInstance.value,
+                __this: classInstance.value,
             });
         }, {
             immediate: true,

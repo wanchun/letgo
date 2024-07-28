@@ -156,6 +156,7 @@ export function useScopeVariables(props: {
             const state = currentDocument.state;
             const scope = props.compRef ? currentDocument.state.getCompScope(props.compRef) : {};
             return {
+                classInstance: state?.classInstance,
                 codesInstance: Object.assign({}, state?.codesInstance, currentDocument.project.codesInstance),
                 componentsInstance: state
                     ? Object.keys(state.componentsInstance || {}).reduce((acc, cur) => {
@@ -181,25 +182,24 @@ export function useScopeVariables(props: {
 
 export function useHint(scopeVariables: ComputedRef<Record<string, any>>) {
     const hintOptions = computed(() => {
-        const { codesInstance, componentsInstance, scope, ...otherState } = scopeVariables.value;
+        const { codesInstance, classInstance, componentsInstance, scope, ...otherState } = scopeVariables.value;
         const result: HintPathType[] = [];
+
+        if (classInstance) {
+            result.push({
+                label: 'this',
+                detail: 'Class',
+                type: 'class',
+                value: classInstance,
+            });
+        }
         Object.keys(codesInstance || {}).forEach((key) => {
-            if (key === 'this') {
-                result.push({
-                    label: key,
-                    detail: 'Class',
-                    type: 'class',
-                    value: codesInstance[key],
-                });
-            }
-            else {
-                result.push({
-                    label: key,
-                    detail: capitalize(codesInstance[key].type),
-                    type: 'variable',
-                    value: codesInstance[key].hint || codesInstance[key].view,
-                });
-            }
+            result.push({
+                label: key,
+                detail: capitalize(codesInstance[key].type),
+                type: 'variable',
+                value: codesInstance[key].hint || codesInstance[key].view,
+            });
         });
         Object.keys(scope || {}).forEach((key) => {
             result.push({

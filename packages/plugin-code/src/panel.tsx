@@ -78,7 +78,7 @@ export default defineComponent({
                         <FTabPane
                             name="查看"
                             value="state"
-                            displayDirective="show:lazy"
+                            displayDirective="if"
                         >
                             <FScrollbar>
                                 <State searchText={searchValue.value} designer={props.designer} />

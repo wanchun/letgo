@@ -64,6 +64,9 @@ export function replaceJSFunctionIdentifier(code: string, newName: string, preNa
             });
         }
     });
+    if (ast.body[0].type === 'ExpressionStatement' && ast.body[0].expression.type === 'ArrowFunctionExpression')
+        return generate(ast.body[0].expression);
+
     return generate(ast);
 }
 

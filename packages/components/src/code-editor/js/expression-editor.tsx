@@ -1,5 +1,5 @@
 import { EditorView, minimalSetup } from 'codemirror';
-import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { defineComponent, onBeforeUnmount, onMounted, ref, toRef, watch } from 'vue';
 import { Annotation, EditorState } from '@codemirror/state';
 import type { Diagnostic } from '@codemirror/lint';
 import { lintGutter, setDiagnostics } from '@codemirror/lint';
@@ -65,7 +65,7 @@ export const ExpressionEditor = defineComponent({
 
         const scopeVariables = useScopeVariables(props);
         const { hintOptions } = useHint(scopeVariables);
-        const { updateCode, oxcOutput } = useOxcWorker(props.id);
+        const { updateCode, oxcOutput } = useOxcWorker(toRef(() => props.id));
 
         const Theme = EditorView.theme({
             '&': {

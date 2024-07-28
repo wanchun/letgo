@@ -79,21 +79,18 @@ export default defineComponent({
             return {};
         });
 
-        const getStateData = (content: Record<string, any>, key: string) => {
-            if (key === 'this') {
-                const members = getAllMethodAndProperties(content.this);
-                return members.filter(key => !key.startsWith('$')).reduce((acc, cur) => {
-                    acc[cur] = content.this[cur];
-                    return acc;
-                }, {} as Record<string, any>);
-            }
-
-            return content[key].view;
+        const getClassThisData = (instance: Record<string, any>) => {
+            const members = getAllMethodAndProperties(instance);
+            return members.filter(key => !key.startsWith('$')).reduce((acc, cur) => {
+                acc[cur] = instance[cur];
+                return acc;
+            }, {} as Record<string, any>);
         };
 
         const codesState = computed(() => {
             const codesInstance = currentState.value?.codesInstance || {};
-            return Object.keys(codesInstance).reduce((acc, cur) => {
+
+            const result = Object.keys(codesInstance).reduce((acc, cur) => {
                 const codeState = codesInstance[cur];
                 if (!codeState)
                     return acc;
@@ -102,15 +99,21 @@ export default defineComponent({
                     return acc;
 
                 if (isNil(props.searchText)) {
-                    acc[cur] = getStateData(codesInstance, cur);
+                    acc[cur] = codeState.view;
                 }
                 else {
                     if (cur.includes(props.searchText))
-                        acc[cur] = getStateData(codesInstance, cur);
+                        acc[cur] = codeState.view;
                 }
 
                 return acc;
             }, {} as Record<string, any>);
+
+            const classInstance = currentState.value?.classInstance;
+            if (classInstance)
+                result.this = getClassThisData(classInstance);
+
+            return result;
         });
 
         const componentState = computed(() => {

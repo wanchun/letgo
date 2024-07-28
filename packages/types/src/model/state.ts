@@ -6,6 +6,7 @@ export interface IPublicModelState {
     componentsInstance: Record<string, any>;
 
     codesInstance: Record<string, any>;
+    classInstance: Record<string, any>;
 
     hasStateId: (id: string) => any;
 

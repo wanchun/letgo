@@ -17,6 +17,7 @@
         "strictNullChecks": false,
         "strictPropertyInitialization": false,
         "declaration": true,
+        "declarationMap": true,
         "outDir": "es",
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,

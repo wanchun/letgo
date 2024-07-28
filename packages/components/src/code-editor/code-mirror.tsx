@@ -5,9 +5,9 @@ import type {
     PropType,
 } from 'vue';
 import {
+    Teleport,
     computed,
     defineComponent,
-    ref,
 } from 'vue';
 import './code-editor.less';
 import { useCodeMirror } from './use-code-mirror';
@@ -86,15 +86,17 @@ export const CodeMirror = defineComponent({
 
         return () => {
             return (
-                <div class={['letgo-comp-code', props.bordered && 'is-bordered']}>
-                    <div
-                        ref={containerRef}
-                        class={[attrs.class, 'letgo-comp-code__container', isFullScreen.value && 'letgo-comp-code__container--fullscreen']}
-                        style={isFullScreen.value ? fullScreenStyle.value : innerStyle.value}
-                    >
-                        {props.fullscreen && renderFullScreen() }
+                <Teleport to="body" disabled={!isFullScreen.value}>
+                    <div class={['letgo-comp-code', attrs.class, props.bordered && 'is-bordered']}>
+                        <div
+                            ref={containerRef}
+                            class={['letgo-comp-code__container', isFullScreen.value && 'letgo-comp-code__container--fullscreen']}
+                            style={isFullScreen.value ? fullScreenStyle.value : innerStyle.value}
+                        >
+                            {props.fullscreen && renderFullScreen() }
+                        </div>
                     </div>
-                </div>
+                </Teleport>
             );
         };
     },

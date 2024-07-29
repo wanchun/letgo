@@ -1,3 +1,12 @@
+## [1.0.1](https://github.com/wanchun/letgo/compare/v1.0.0...v1.0.1) (2024-07-29)
+
+
+### Bug Fixes
+
+* 修复setimeout导致导入schema历史记录出错问题 ([90d007c](https://github.com/wanchun/letgo/commit/90d007c817d4b76944facab04ca42120aee85af5))
+
+
+
 # [1.0.0](https://github.com/wanchun/letgo/compare/v0.1.0...v1.0.0) (2024-7-29)
 
 

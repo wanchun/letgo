@@ -16,14 +16,14 @@ import {
 import { vscodeKeymap } from '@replit/codemirror-vscode-keymap';
 import { basicSetup } from '@uiw/codemirror-extensions-basic-setup';
 import { isFunction } from 'lodash-es';
-import { onBeforeUnmount, ref, toRef, watch } from 'vue';
+import { nextTick, onBeforeUnmount, ref, toRef, watch } from 'vue';
 import type { CodeEditorProps } from '../types';
 import { HintTheme, hintPlugin, useHint, useScopeVariables } from './use-hint';
 import { useOxcWorker } from './use-oxc';
 
 const External = Annotation.define<boolean>();
 
-export function useCodeEditor(props: CodeEditorProps, onEsc: () => void) {
+export function useCodeEditor(props: CodeEditorProps) {
     const container = ref<HTMLElement>();
 
     let editorView: EditorView;
@@ -82,6 +82,48 @@ export function useCodeEditor(props: CodeEditorProps, onEsc: () => void) {
     const gutter = new Compartment();
     const lines = lineNumbers();
 
+    function toggleLineNumber(visible: boolean) {
+        if (visible) {
+            editorView.dispatch({
+                effects: gutter.reconfigure([lines]),
+            });
+        }
+        else {
+            editorView.dispatch({
+                effects: gutter.reconfigure([]),
+            });
+        }
+    }
+
+    const isFullScreen = ref(false);
+    const fullScreenStyle = ref({});
+    function toggleFullScreen() {
+        if (!props.fullscreen)
+            return;
+
+        if (!isFullScreen.value) {
+            isFullScreen.value = true;
+            fullScreenStyle.value = {
+                width: 'auto',
+                height: 'auto',
+                position: 'fixed',
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                zIndex: 9998,
+            };
+            toggleLineNumber(true);
+            nextTick(() => {
+                editorView?.focus();
+            });
+        }
+        else {
+            isFullScreen.value = false;
+            toggleLineNumber(props.lineNumbers);
+        }
+    };
+
     const genState = () => {
         return EditorState.create({
             doc: props.doc,
@@ -100,7 +142,9 @@ export function useCodeEditor(props: CodeEditorProps, onEsc: () => void) {
                     {
                         key: 'Escape',
                         run: (): boolean => {
-                            onEsc();
+                            if (isFullScreen.value)
+                                toggleFullScreen();
+
                             return false;
                         },
                     },
@@ -169,21 +213,10 @@ export function useCodeEditor(props: CodeEditorProps, onEsc: () => void) {
         }
     });
 
-    function toggleLineNumber(visible: boolean) {
-        if (visible) {
-            editorView.dispatch({
-                effects: gutter.reconfigure([lines]),
-            });
-        }
-        else {
-            editorView.dispatch({
-                effects: gutter.reconfigure([]),
-            });
-        }
-    }
-
     return {
         containerRef: container,
-        toggleLineNumber,
+        isFullScreen,
+        fullScreenStyle,
+        toggleFullScreen,
     };
 }

@@ -199,22 +199,6 @@ export const BuiltinHotkey = definePlugin({
             sel.clear();
         });
 
-        hotkey.bind('escape', (e: KeyboardEvent, action) => {
-            logger.info(`action ${action} is triggered`);
-
-            if (canvas.isInLiveEditing)
-                return;
-
-            const sel = project.currentDocument?.selection;
-
-            if (isFormEvent(e) || !sel)
-                return;
-
-            e.preventDefault();
-
-            sel.clear();
-        });
-
         // command + c copy  command + x cut
         hotkey.bind(['command+c', 'ctrl+c', 'command+x', 'ctrl+x'], (e, action) => {
             logger.info(`action ${action} is triggered`);

@@ -12,7 +12,7 @@ import {
 import { vscodeKeymap } from '@replit/codemirror-vscode-keymap';
 import { basicSetup } from 'codemirror';
 import { isFunction } from 'lodash-es';
-import { onBeforeUnmount, ref, watch } from 'vue';
+import { nextTick, onBeforeUnmount, ref, watch } from 'vue';
 import type { CodeEditorProps } from './types';
 
 const External = Annotation.define<boolean>();
@@ -48,7 +48,9 @@ export function useCodeMirror(props: CodeEditorProps) {
                 right: 0,
                 zIndex: 9998,
             };
-            editorView?.focus();
+            nextTick(() => {
+                editorView?.focus();
+            });
         }
         else {
             isFullScreen.value = false;

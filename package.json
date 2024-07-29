@@ -7,7 +7,7 @@
     "license": "ISC",
     "repository": {
         "type": "git",
-        "url": "git@git.weoa.com:mumblefe/letgo.git"
+        "url": "git@github.com:wanchun/letgo.git"
     },
     "keywords": [],
     "main": "index.js",

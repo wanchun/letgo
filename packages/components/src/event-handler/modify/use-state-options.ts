@@ -117,7 +117,7 @@ export function useStateOptions(props: {
     });
 
     const classMethods = computed(() => {
-        const instance = props.project.currentDocument?.state.codesInstance.this;
+        const instance = props.project.currentDocument?.state.classInstance;
         if (instance) {
             const members = getAllMethodAndProperties(instance);
             return members.filter((member) => {

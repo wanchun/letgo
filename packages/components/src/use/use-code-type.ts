@@ -48,7 +48,7 @@ export const useSharedPageCodeType = createSharedComposable(usePageCodeType);
 export function usePageClassType(project: IPublicModelProject) {
     const pageCodeType = computed(() => {
         const documentModel = project.currentDocument;
-        const codeInstances = documentModel.state.codesInstance.this;
+        const codeInstances = documentModel.state.classInstance;
         const refs = documentModel.state.codesInstance;
         return {
             path: 'page-code.d.ts',

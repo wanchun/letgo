@@ -28,6 +28,8 @@ export const FunctionEdit = defineComponent({
                         doc={props.codeItem.funcBody}
                         onChange={changeFuncBody}
                         id={props.codeItem.id}
+                        fullscreen={false}
+                        lineNumbers
                     />
                 </div>
             );

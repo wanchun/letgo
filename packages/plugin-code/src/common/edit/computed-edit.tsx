@@ -27,11 +27,14 @@ export const ComputedEdit = defineComponent({
             return (
                 <div class="letgo-comp-logic__computed">
                     <CodeEditor
-                        height="240px"
+                        height="100%"
+                        class="letgo-comp-logic__computed-editor"
                         hints={props.hints}
                         doc={props.codeItem.funcBody}
                         onChange={changeFuncBody}
                         id={props.codeItem.id}
+                        fullscreen={false}
+                        lineNumbers
                     />
                     <p style="font-size: 12px">提示: 用已有变量计算出新的变量, 当依赖的变量更新时，新的变量自动更新</p>
                 </div>

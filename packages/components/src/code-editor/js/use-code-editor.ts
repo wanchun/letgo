@@ -139,7 +139,7 @@ export function useCodeEditor(props: CodeEditorProps) {
                         key: 'Delete',
                         shift: deleteLine,
                     },
-                    {
+                    props.fullscreen && {
                         key: 'Escape',
                         run: (): boolean => {
                             if (isFullScreen.value)
@@ -148,7 +148,7 @@ export function useCodeEditor(props: CodeEditorProps) {
                             return false;
                         },
                     },
-                ]),
+                ].filter(Boolean)),
                 theme,
                 javascript(),
                 ...props.extensions,

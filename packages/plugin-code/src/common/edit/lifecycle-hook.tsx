@@ -53,6 +53,8 @@ export const HookEdit = defineComponent({
                         doc={props.codeItem.funcBody}
                         onChange={changeFuncBody}
                         id={props.codeItem.id}
+                        fullscreen={false}
+                        lineNumbers
                     />
                 </div>
             );

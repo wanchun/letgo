@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "@fesjs/fes-design": "^0.8.38",
+        "@icon-park/vue-next": "^1.4.2",
         "@webank/letgo-common": "^0.0.5-beta.10",
         "@webank/letgo-components": "^0.1.0",
         "@webank/letgo-designer": "^0.0.5-beta.15",

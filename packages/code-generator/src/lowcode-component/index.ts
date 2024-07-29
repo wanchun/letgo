@@ -11,8 +11,8 @@ import { fileStructToLowcodeComponent } from './file-struct';
 import { genComponentMeta } from './meta';
 
 function genComponent(ctx: Context, fileTree: FileTree, options: LowCodeComponentOptions) {
-    const { outDir, schema } = options;
-    const filesStruct = schemaToCode(ctx);
+    const { outDir, schema, transformComponentJsx } = options;
+    const filesStruct = transformComponentJsx ? transformComponentJsx(schemaToCode(ctx)) : schemaToCode(ctx);
 
     const fileStruct = filesStruct[0];
     const rootSchema = findRootSchema(schema, fileStruct.rawFileName) as IPublicTypeComponentSchema;

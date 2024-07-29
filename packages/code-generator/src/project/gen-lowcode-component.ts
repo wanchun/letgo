@@ -8,7 +8,7 @@ import { fileStructToLowcodeComponent } from '../lowcode-component/file-struct';
 import { LOW_COMPONENT_DIR } from '../common/lowcode-component';
 
 export function genLowCodeComponent(ctx: Context, fileTree: FileTree) {
-    const { letgoDir } = ctx.config;
+    const { letgoDir, transformComponentJsx } = ctx.config;
     const components: Record<string, string> = {};
     const componentDir = `${letgoDir}/${LOW_COMPONENT_DIR}`;
     for (const pkg of ctx.schema.packages) {
@@ -22,7 +22,7 @@ export function genLowCodeComponent(ctx: Context, fileTree: FileTree) {
                 codes: genCodeMap(pkg.schema.code),
                 schema: pkg.schema,
             };
-            const filesStruct = schemaToCode(newCtx);
+            const filesStruct = transformComponentJsx ? transformComponentJsx(schemaToCode(newCtx)) : schemaToCode(newCtx);
 
             const fileStruct = filesStruct[0];
             const rootSchema = findRootSchema(pkg.schema, fileStruct.rawFileName) as IPublicTypeComponentSchema;

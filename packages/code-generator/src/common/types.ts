@@ -7,6 +7,7 @@ export interface GenOptions {
     basePackageJSON?: Record<string, any>;
     extraPackageJSON?: Record<string, any>;
     transformJsx?: (filesStruct: FileStruct[]) => FileStruct[];
+    transformComponentJsx?: (filesStruct: FileStruct[]) => FileStruct[];
     globalCodeCallback?: {
         afterConfig?: (params: CallBackParam) => void;
     };

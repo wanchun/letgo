@@ -96,23 +96,12 @@ export function useCodeEditor(props: CodeEditorProps) {
     }
 
     const isFullScreen = ref(false);
-    const fullScreenStyle = ref({});
     function toggleFullScreen() {
         if (!props.fullscreen)
             return;
 
         if (!isFullScreen.value) {
             isFullScreen.value = true;
-            fullScreenStyle.value = {
-                width: 'auto',
-                height: 'auto',
-                position: 'fixed',
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                zIndex: 9998,
-            };
             toggleLineNumber(true);
             nextTick(() => {
                 editorView?.focus();
@@ -139,16 +128,7 @@ export function useCodeEditor(props: CodeEditorProps) {
                         key: 'Delete',
                         shift: deleteLine,
                     },
-                    props.fullscreen && {
-                        key: 'Escape',
-                        run: (): boolean => {
-                            if (isFullScreen.value)
-                                toggleFullScreen();
-
-                            return false;
-                        },
-                    },
-                ].filter(Boolean)),
+                ]),
                 theme,
                 javascript(),
                 ...props.extensions,
@@ -216,7 +196,6 @@ export function useCodeEditor(props: CodeEditorProps) {
     return {
         containerRef: container,
         isFullScreen,
-        fullScreenStyle,
         toggleFullScreen,
     };
 }

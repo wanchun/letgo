@@ -19,6 +19,7 @@
     &__container {
         background-color: #fff;
         &--fullscreen {
+            height: 100%;
             .cm-editor {
                 height: 100% !important;
             }
@@ -33,8 +34,26 @@
         z-index: 1;
     }
     &__off-screen-icon {
-        top: 12px;
+        bottom: 12px;
         right: 12px;
+    }
+}
+
+.letgo-comp-code__full-screen {
+    .letgo-comp-code {
+        height: 100%;
+    }
+    .fes-scrollbar-container {
+        padding: 0;
+    }
+    .fes-scrollbar-content {
+        height: 100%;
+    }
+    .cm-editor {
+        border-radius: 0;
+        border-right: none;
+        border-left: none;
+        height: 100%;
     }
 }
 

@@ -20,7 +20,6 @@ const External = Annotation.define<boolean>();
 export function useCodeMirror(props: CodeEditorProps) {
     const containerRef = ref<HTMLElement>();
     const isFullScreen = ref(false);
-    const fullScreenStyle = ref({});
 
     let editorView: EditorView;
 
@@ -38,16 +37,6 @@ export function useCodeMirror(props: CodeEditorProps) {
 
         if (!isFullScreen.value) {
             isFullScreen.value = true;
-            fullScreenStyle.value = {
-                width: 'auto',
-                height: '100%',
-                position: 'fixed',
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                zIndex: 9998,
-            };
             nextTick(() => {
                 editorView?.focus();
             });
@@ -73,15 +62,6 @@ export function useCodeMirror(props: CodeEditorProps) {
                     {
                         key: 'Delete',
                         shift: deleteLine,
-                    },
-                    {
-                        key: 'Escape',
-                        run: (): boolean => {
-                            if (isFullScreen.value)
-                                toggleFullScreen();
-
-                            return false;
-                        },
                     },
                 ]),
                 theme,
@@ -135,7 +115,6 @@ export function useCodeMirror(props: CodeEditorProps) {
     return {
         containerRef,
         isFullScreen,
-        fullScreenStyle,
         toggleFullScreen,
     };
 }

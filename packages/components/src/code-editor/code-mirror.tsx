@@ -1,5 +1,6 @@
 import type { Extension } from '@codemirror/state';
-import { FullScreenTwo, OffScreenTwo } from '@icon-park/vue-next';
+import { FullScreenTwo } from '@icon-park/vue-next';
+import { FDrawer } from '@fesjs/fes-design';
 import type { IPublicModelDocumentModel } from '@webank/letgo-types';
 import type {
     PropType,
@@ -8,6 +9,7 @@ import {
     Teleport,
     computed,
     defineComponent,
+    ref,
 } from 'vue';
 import './code-editor.less';
 import { useCodeMirror } from './use-code-mirror';
@@ -45,13 +47,16 @@ export const CodeMirror = defineComponent({
         placeholder: String,
     },
     setup(props, { attrs }) {
+        const { containerRef, isFullScreen, toggleFullScreen } = useCodeMirror(props);
+
         const innerStyle = computed(() => {
+            if (isFullScreen.value)
+                return null;
             return {
                 height: props.height,
             };
         });
-
-        const { containerRef, isFullScreen, fullScreenStyle, toggleFullScreen } = useCodeMirror(props);
+        const fullscreenRef = ref();
 
         // 阻止 icon 获取焦点
         const preventFocus = (event: MouseEvent) => {
@@ -59,18 +64,8 @@ export const CodeMirror = defineComponent({
         };
 
         const renderFullScreen = () => {
-            if (isFullScreen.value) {
-                return (
-                    <OffScreenTwo
-                        class="letgo-comp-code__screen-icon letgo-comp-code__off-screen-icon"
-                        size={15}
-                        theme="outline"
-                        onMousedown={preventFocus}
-                        onClick={toggleFullScreen}
-                    >
-                    </OffScreenTwo>
-                );
-            }
+            if (isFullScreen.value)
+                return null;
 
             return (
                 <FullScreenTwo
@@ -86,17 +81,32 @@ export const CodeMirror = defineComponent({
 
         return () => {
             return (
-                <Teleport to="body" disabled={!isFullScreen.value}>
-                    <div class={['letgo-comp-code', attrs.class, props.bordered && 'is-bordered']}>
-                        <div
-                            ref={containerRef}
-                            class={['letgo-comp-code__container', isFullScreen.value && 'letgo-comp-code__container--fullscreen']}
-                            style={isFullScreen.value ? fullScreenStyle.value : innerStyle.value}
-                        >
-                            {props.fullscreen && renderFullScreen() }
+                <>
+                    <Teleport to={fullscreenRef.value} disabled={!fullscreenRef.value || !isFullScreen.value}>
+                        <div class={['letgo-comp-code', attrs.class, props.bordered && 'is-bordered']}>
+                            <div
+                                ref={containerRef}
+                                class={['letgo-comp-code__container', isFullScreen.value && 'letgo-comp-code__container--fullscreen']}
+                                style={innerStyle.value}
+                            >
+                                {props.fullscreen && renderFullScreen() }
+                            </div>
                         </div>
-                    </div>
-                </Teleport>
+                    </Teleport>
+                    {props.fullscreen && isFullScreen.value && (
+                        <FDrawer
+                            show={isFullScreen.value}
+                            title="代码编辑"
+                            dimension={800}
+                            contentClass="letgo-comp-code__full-screen"
+                            onCancel={toggleFullScreen}
+                            maskClosable={false}
+                        >
+                            <div ref={fullscreenRef} style={{ height: '100%' }}>
+                            </div>
+                        </FDrawer>
+                    )}
+                </>
             );
         };
     },

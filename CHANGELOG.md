@@ -1,3 +1,7 @@
+# [1.0.0](https://github.com/wanchun/letgo/compare/v0.1.0...v1.0.0) (2024-7-29)
+
+
+
 # [0.1.0](https://github.com/wanchun/letgo/compare/v0.0.5-beta.22...v0.1.0) (2024-07-29)
 
 

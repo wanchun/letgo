@@ -99,7 +99,7 @@ function handleEventDep(events: IEventHandler[], item: ICodeItem, ctx?: Record<s
     return result;
 }
 
-export function calcDependencies(item: ICodeItem, ctx?: Record<string, any>) {
+export function calcDependencies(item: ICodeItem, ctx?: Record<string, any>, onError?: (err: unknown) => void) {
     try {
         let result: string[] = [];
         if (item.type === IEnumCodeType.TEMPORARY_STATE)
@@ -125,7 +125,10 @@ export function calcDependencies(item: ICodeItem, ctx?: Record<string, any>) {
         }
         return Array.from(new Set(result));
     }
-    catch (_) {
+    catch (err) {
+        if (onError)
+            onError(err);
+
         return [];
     }
 }

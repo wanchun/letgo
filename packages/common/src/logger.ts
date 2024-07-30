@@ -2,7 +2,7 @@ import { EventEmitter } from 'eventemitter3';
 
 const emitter = new EventEmitter();
 
-export type Level = 'debug' | 'log' | 'info' | 'warn' | 'error';
+export type LogLevel = 'debug' | 'log' | 'info' | 'warn' | 'error';
 export enum LogIdType {
     COMPONENT = 'component',
     CODE = 'code',
@@ -29,7 +29,7 @@ interface LogDetail {
 type LogParams = string | LogDetail;
 
 export interface LogContent extends LogDetail {
-    level: Level;
+    level: LogLevel;
     belong: string;
     time: number;
 }
@@ -41,7 +41,7 @@ class Logger {
         this.belong = options.belong;
     }
 
-    private emitLog(level: Level, data: LogParams) {
+    private emitLog(level: LogLevel, data: LogParams) {
         const log: LogContent = {
             level,
             belong: this.belong,

@@ -5,6 +5,10 @@ import ConsolePane from './pane';
 
 let panel: TabPanel;
 
+/**
+ * TODO
+ * 1. 如果日志输出时间比本插件早，那么日志会被静默
+ */
 export default definePlugin({
     name: 'PluginDevtools',
     init({ skeleton }) {

@@ -1,6 +1,7 @@
 import { definePlugin } from '@webank/letgo-engine-plugin';
 import type { TabPanel } from '@webank/letgo-editor-skeleton';
-import ToolsHeader from './components/tools-header';
+import ConsoleTitle from './components/console-title';
+import ConsolePane from './pane';
 
 let panel: TabPanel;
 
@@ -11,8 +12,8 @@ export default definePlugin({
             type: 'TabPanel',
             area: 'bottomArea',
             name: 'PluginDevtoolsPanel',
-            render: () => <div>111</div>,
-            renderHeader: () => <ToolsHeader />,
+            render: () => <ConsolePane />,
+            renderHeader: () => <ConsoleTitle />,
             props: {
                 align: 'left',
                 height: 200,

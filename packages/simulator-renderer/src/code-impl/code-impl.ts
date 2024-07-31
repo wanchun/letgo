@@ -18,14 +18,21 @@ export function useCodesInstance() {
     let codeMap: Map<string, ICodeItem> = new Map();
     const codesInstance: Record<string, CodeImplType> = shallowReactive({});
 
+    const reportError = (item: ICodeItem, err: unknown) => {
+        // variable 改了会立即执行，可以发现语法错误，不需要重复报错
+        if (!isVariableState(item)) {
+            host.logger.error({
+                msg: err,
+                id: item.id,
+                idType: LogIdType.CODE,
+            });
+        }
+    };
+
     const createCodeInstance = (item: ICodeItem, ctx: Record<string, any>) => {
         if (!dependencyMap.has(item.id)) {
             dependencyMap.set(item.id, calcDependencies(item, ctx, (err: unknown) => {
-                host.logger.error({
-                    msg: err,
-                    id: item.id,
-                    idType: LogIdType.CODE,
-                });
+                reportError(item, err);
             }));
         }
 
@@ -77,11 +84,7 @@ export function useCodesInstance() {
             || (currentInstance instanceof LifecycleHookImpl && !isNil(content.funcBody))
         ) {
             const deps = calcDependencies({ ...item, ...content }, ctx, (err: unknown) => {
-                host.logger.error({
-                    msg: err,
-                    id: item.id,
-                    idType: LogIdType.CODE,
-                });
+                reportError(item, err);
             });
             dependencyMap.set(id, deps);
             currentInstance.changeDeps(deps);

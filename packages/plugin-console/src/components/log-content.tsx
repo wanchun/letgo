@@ -28,7 +28,7 @@ export default defineComponent({
             return (
                 <FVirtualList
                     class="letgo-plg-console__content"
-                    dataKey={data => data.id}
+                    dataKey={data => data._id}
                     dataSources={visibleLogList.value}
                     v-slots={{
                         default({ source }: { source: FormattedLog }) {

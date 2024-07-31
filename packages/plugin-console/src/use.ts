@@ -29,9 +29,7 @@ function _useLog() {
 
     const unListener = onLogger((log) => {
         if (log.belong === 'simulator') {
-            console.log(log);
-
-            logList.push(formatLog(log));
+            logList.unshift(formatLog(log));
         }
         else {
             // eslint-disable-next-line no-console

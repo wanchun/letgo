@@ -2,6 +2,7 @@ import type { LogContent } from '@webank/letgo-common';
 import { uniqueId } from '@webank/letgo-common';
 
 export interface FormattedLog extends LogContent {
+    _id: string;
     formattedMsg: string;
 }
 
@@ -27,11 +28,9 @@ function formatMsg(log: LogContent) {
 export function formatLog(log: LogContent): FormattedLog {
     const newLog: FormattedLog = {
         ...log,
+        _id: `${log.id}_${uniqueId('log')}`,
         formattedMsg: formatMsg(log),
     };
-
-    if (!newLog.id)
-        newLog.id = uniqueId('log');
 
     return newLog;
 }

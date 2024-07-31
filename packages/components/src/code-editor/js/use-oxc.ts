@@ -61,7 +61,7 @@ export function useOxcWorker(id: Ref<string>) {
         return files[filename.value];
     });
 
-    const getFormatCode = (fileName?: string) => {
+    const getFormattedCode = (fileName?: string) => {
         const output = files[fileName || filename.value];
         return output?.formatter;
     };
@@ -74,6 +74,6 @@ export function useOxcWorker(id: Ref<string>) {
     return {
         oxcOutput,
         updateCode,
-        getFormatCode,
+        getFormattedCode,
     };
 };

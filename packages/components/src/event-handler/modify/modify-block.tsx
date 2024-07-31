@@ -88,7 +88,7 @@ export default defineComponent({
                 : null;
         };
 
-        const changeAction = (action: string) => {
+        const resetAction = (action: string) => {
             innerEditEvent.value = {
                 ...innerEditEvent.value,
                 ...initOptions[action],
@@ -103,7 +103,7 @@ export default defineComponent({
         const renderAction = () => {
             return (
                 <Label label="动作">
-                    <FSelect appendToContainer={false} v-model={innerEditEvent.value.action} onChange={changeAction}>
+                    <FSelect appendToContainer={false} v-model={innerEditEvent.value.action} onChange={resetAction}>
                         {actionOptions.value.map(action => <FOption value={action.value}>{action.label}</FOption>)}
                     </FSelect>
                 </Label>
@@ -114,6 +114,13 @@ export default defineComponent({
             return item ? `${item.label}选项` : '选项';
         });
 
+        const changeCompEvent = (data: Partial<IEventHandler>) => {
+            innerEditEvent.value = {
+                ...innerEditEvent.value,
+                ...data,
+            };
+        };
+
         return () => {
             return (
                 innerEditEvent.value && (
@@ -121,7 +128,7 @@ export default defineComponent({
                         {renderEvent()}
                         {renderAction()}
                         <Separator text={firstSeparatorText.value} />
-                        <RenderOptions project={props.project} isGlobal={props.isGlobal} componentEvent={innerEditEvent.value} />
+                        <RenderOptions project={props.project} isGlobal={props.isGlobal} componentEvent={innerEditEvent.value} changeCompEvent={changeCompEvent} />
                     </div>
                 )
             );

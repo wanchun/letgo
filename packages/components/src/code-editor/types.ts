@@ -13,7 +13,8 @@ export interface CodeEditorProps {
     extensions?: Extension[];
     id?: string;
     placeholder?: string;
-    onChange?: (doc: string, id?: string) => void;
-    onFocus?: (doc: string, id?: string) => void;
-    onBlur?: (doc: string, id?: string) => void;
+    onChange?: (doc: string) => void;
+    onInput?: (doc: string) => void;
+    onFocus?: (doc: string) => void;
+    onBlur?: (doc: string) => void;
 }

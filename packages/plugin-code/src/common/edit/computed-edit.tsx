@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
-import { computed, defineComponent } from 'vue';
+import { defineComponent } from 'vue';
 import type { IJavascriptComputed } from '@webank/letgo-types';
-import { CodeEditor, useCodeSave } from '@webank/letgo-components';
+import { CodeEditor } from '@webank/letgo-components';
 import './computed-edit.less';
 
 /**
@@ -17,25 +17,21 @@ export const ComputedEdit = defineComponent({
         changeContent: Function as PropType<(id: string, content: Partial<IJavascriptComputed>) => void>,
     },
     setup(props) {
-        const { codeEditorRef, onBlur } = useCodeSave({
-            code: computed(() => props.codeItem.funcBody),
-            save(code) {
-                props.changeContent(props.codeItem.id, {
-                    funcBody: code,
-                });
-            },
-        });
+        const changeFunction = (code: string) => {
+            props.changeContent(props.codeItem.id, {
+                funcBody: code,
+            });
+        };
 
         return () => {
             return (
                 <div class="letgo-comp-logic__computed">
                     <CodeEditor
-                        ref={codeEditorRef}
                         height="100%"
                         class="letgo-comp-logic__computed-editor"
                         hints={props.hints}
                         doc={props.codeItem.funcBody}
-                        onBlur={onBlur}
+                        onChange={changeFunction}
                         id={props.codeItem.id}
                         fullscreen={false}
                         lineNumbers

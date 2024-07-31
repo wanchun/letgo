@@ -1,7 +1,7 @@
 import { ExpressionEditor } from '@webank/letgo-components';
 import type { IPublicTypeCompositeValue, IPublicTypeSetter } from '@webank/letgo-types';
 import { isJSExpression } from '@webank/letgo-types';
-import { debounce, isNil } from 'lodash-es';
+import { isNil } from 'lodash-es';
 import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
 import { commonProps } from '../../common';
@@ -51,7 +51,7 @@ const ExpressionSetterView = defineComponent({
                     documentModel={props.node.document}
                     doc={currentValue.value}
                     placeholder={props.placeholder || 'Please Enter Expression'}
-                    onChange={debounce(changeValue, 500)}
+                    onChange={changeValue}
                     compRef={props.node.ref}
                 />
             );

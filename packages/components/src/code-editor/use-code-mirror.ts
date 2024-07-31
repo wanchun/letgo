@@ -75,18 +75,22 @@ export function useCodeMirror(props: CodeEditorProps) {
                         const doc = v.state.doc.toString();
                         innerOnChange(doc);
                     }
-                    // focus state change
-                    if (v.focusChanged) {
-                        const doc = v.state.sliceDoc();
-                        if (v.view.hasFocus && isFunction(props.onFocus))
-                            props.onFocus(doc);
-
-                        if (!v.view.hasFocus && props.onBlur)
-                            props.onBlur(doc);
-                    }
                 }),
             ].filter(Boolean),
         });
+    };
+
+    const innerFocus = () => {
+        const doc = editorView.state.sliceDoc();
+        if (props.onFocus)
+            props.onFocus(doc);
+    };
+
+    const innerOnBlur = () => {
+        const doc = editorView.state.sliceDoc();
+
+        if (isFunction(props.onBlur))
+            props.onBlur(doc);
     };
 
     watch(containerRef, () => {
@@ -95,10 +99,14 @@ export function useCodeMirror(props: CodeEditorProps) {
                 state: genState(),
                 parent: containerRef.value,
             });
+            editorView.dom.addEventListener('focus', innerFocus, true);
+            editorView.dom.addEventListener('blur', innerOnBlur, true);
         }
     });
 
     onBeforeUnmount(() => {
+        editorView?.dom.removeEventListener('focus', innerFocus, true);
+        editorView?.dom.removeEventListener('blur', innerOnBlur, true);
         editorView?.destroy();
     });
 

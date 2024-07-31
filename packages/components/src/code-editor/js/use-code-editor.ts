@@ -17,6 +17,7 @@ import { vscodeKeymap } from '@replit/codemirror-vscode-keymap';
 import { basicSetup } from '@uiw/codemirror-extensions-basic-setup';
 import { isFunction } from 'lodash-es';
 import { nextTick, onBeforeUnmount, ref, toRef, watch } from 'vue';
+import { useEventListener } from '@vueuse/core';
 import type { CodeEditorProps } from '../types';
 import { HintTheme, hintPlugin, useHint, useScopeVariables } from './use-hint';
 import { useOxcWorker } from './use-oxc';
@@ -30,7 +31,7 @@ export function useCodeEditor(props: CodeEditorProps) {
 
     const scopeVariables = useScopeVariables(props);
     const { hintOptions } = useHint(scopeVariables);
-    const { updateCode, oxcOutput, getFormatCode } = useOxcWorker(toRef(() => props.id));
+    const { updateCode, oxcOutput, getFormattedCode } = useOxcWorker(toRef(() => props.id));
 
     const theme = EditorView.theme({
         ...HintTheme,
@@ -55,11 +56,11 @@ export function useCodeEditor(props: CodeEditorProps) {
         }
     });
 
-    const innerOnChange = (doc: string) => {
+    const innerOnInput = (doc: string) => {
         currentDoc = doc;
         updateCode(doc);
-        if (isFunction(props.onChange))
-            props.onChange(doc);
+        if (isFunction(props.onInput))
+            props.onInput(doc);
     };
 
     const gutter = new Compartment();
@@ -136,7 +137,7 @@ export function useCodeEditor(props: CodeEditorProps) {
                 EditorView.updateListener.of(async (v) => {
                     if (v.docChanged && !v.transactions.some(tr => tr.annotation(External))) {
                         const doc = v.state.doc.toString();
-                        innerOnChange(doc);
+                        innerOnInput(doc);
                     }
                 }),
             ].filter(Boolean),
@@ -151,8 +152,10 @@ export function useCodeEditor(props: CodeEditorProps) {
 
     const innerOnBlur = () => {
         const doc = editorView.state.sliceDoc();
-        const formatCode = getFormatCode();
+        const formatCode = getFormattedCode();
         const updateCoded = formatCode ?? doc;
+        if (updateCoded !== props.doc && isFunction(props.onChange))
+            props.onChange(updateCoded);
 
         if (isFunction(props.onBlur))
             props.onBlur(updateCoded);
@@ -170,7 +173,16 @@ export function useCodeEditor(props: CodeEditorProps) {
         }
     });
 
+    const onLeaving = () => {
+        const doc = getFormattedCode() || editorView?.state.sliceDoc();
+        if (doc !== props.doc && props.onChange)
+            props.onChange(doc);
+    };
+
+    useEventListener(window, 'beforeunload', onLeaving);
+
     onBeforeUnmount(() => {
+        onLeaving();
         editorView?.dom.removeEventListener('focus', innerFocus, true);
         editorView?.dom.removeEventListener('blur', innerOnBlur, true);
         editorView?.destroy();
@@ -190,8 +202,8 @@ export function useCodeEditor(props: CodeEditorProps) {
         containerRef: container,
         isFullScreen,
         toggleFullScreen,
-        getFormatCode: (id?: string) => {
-            return getFormatCode(id) || editorView?.state.sliceDoc();
+        getFormattedCode: (id?: string) => {
+            return getFormattedCode(id) || editorView?.state.sliceDoc();
         },
     };
 }

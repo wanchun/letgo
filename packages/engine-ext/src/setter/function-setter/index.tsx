@@ -1,4 +1,4 @@
-import { CodeEditor } from '@webank/letgo-components';
+import { CodeEditor, useCodeSave } from '@webank/letgo-components';
 import type { IPublicTypeJSFunction, IPublicTypeSetter } from '@webank/letgo-types';
 import { isJSFunction } from '@webank/letgo-types';
 import { isFunction, isUndefined } from 'lodash-es';
@@ -25,28 +25,30 @@ const FunctionSetterView = defineComponent({
                 : props.value?.value;
         });
 
-        const onChange = (val: string) => {
-            try {
-                if (val.trim()) {
+        const { codeEditorRef, onBlur } = useCodeSave({
+            code: currentValue,
+            save(code) {
+                if (code?.trim()) {
                     props.onChange({
                         type: 'JSFunction',
-                        value: val,
+                        value: code,
                     });
                 }
                 else {
                     // 清空
                     props.onChange();
                 }
-            }
-            catch (e) {}
-        };
+            },
+        });
+
         return () => {
             return (
                 <CodeEditor
+                    ref={codeEditorRef}
                     documentModel={props.node.document}
                     doc={currentValue.value}
                     placeholder={props.placeholder || 'Please Enter Function'}
-                    onChange={onChange}
+                    onBlur={onBlur}
                     compRef={props.node.ref}
                 >
                 </CodeEditor>

@@ -1,5 +1,5 @@
 import type { PropType } from 'vue';
-import { defineComponent } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { FVirtualList } from '@fesjs/fes-design';
 import type { LogLevel } from '@webank/letgo-common';
 import { useSharedLog } from '../use';
@@ -8,20 +8,25 @@ import LogItem from './log-item';
 
 import './log-content.less';
 
-// TODO 日志过滤
 export default defineComponent({
     props: {
         visibleLogLevels: Array as PropType<LogLevel[]>,
     },
-    setup() {
+    setup(props) {
         const { logList } = useSharedLog();
+
+        const visibleLogList = computed(() => {
+            return logList.filter((item) => {
+                return props.visibleLogLevels.includes(item.level);
+            });
+        });
 
         return () => {
             return (
                 <FVirtualList
                     class="letgo-plg-console__content"
                     dataKey={data => data.id}
-                    dataSources={logList}
+                    dataSources={visibleLogList.value}
                     v-slots={{
                         default({ source }: { source: FormattedLog }) {
                             return <LogItem log={source} />;

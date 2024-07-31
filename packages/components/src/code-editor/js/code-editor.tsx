@@ -52,8 +52,8 @@ export const CodeEditor = defineComponent({
         id: String,
         placeholder: String,
     },
-    setup(props, { attrs }) {
-        const { containerRef, isFullScreen, toggleFullScreen } = useCodeEditor(props);
+    setup(props, { attrs, expose }) {
+        const { containerRef, isFullScreen, getFormatCode, toggleFullScreen } = useCodeEditor(props);
         const innerStyle = computed(() => {
             if (isFullScreen.value)
                 return null;
@@ -83,6 +83,10 @@ export const CodeEditor = defineComponent({
                 </FullScreenTwo>
             );
         };
+
+        expose({
+            getFormatCode,
+        });
 
         return () => {
             return (

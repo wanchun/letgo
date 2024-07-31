@@ -11,8 +11,10 @@ function isError(e: any): e is Error {
 
 function formatMsg(log: LogContent) {
     let msg = '';
-    if (log.idType)
-        msg += `[${log.id}]: `;
+    if (log.idType) {
+        const paths = log.paths ? `.${log.paths.join('.')}` : '';
+        msg += `[${log.id}${paths}]: `;
+    }
 
     if (isError(log.msg))
         msg += `${log.msg.name} ${log.msg.message}`;

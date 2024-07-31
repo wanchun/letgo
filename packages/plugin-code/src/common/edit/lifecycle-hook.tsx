@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent } from 'vue';
 import type { ILifecycle } from '@webank/letgo-types';
-import { CodeEditor } from '@webank/letgo-components';
+import { CodeEditor, useCodeSave } from '@webank/letgo-components';
 import { PageLifecycleList } from '@webank/letgo-common';
 import { FSelect } from '@fesjs/fes-design';
 import ContentItem from '../content-item';
@@ -28,11 +28,14 @@ export const HookEdit = defineComponent({
             return [];
         });
 
-        const changeFuncBody = (value: string, id: string) => {
-            props.changeContent(id || props.codeItem.id, {
-                funcBody: value,
-            });
-        };
+        const { codeEditorRef, onBlur } = useCodeSave({
+            code: computed(() => props.codeItem.funcBody),
+            save(code) {
+                props.changeContent(props.codeItem.id, {
+                    funcBody: code,
+                });
+            },
+        });
 
         const changeHookName = (value: string) => {
             props.changeContent(props.codeItem.id, {
@@ -47,11 +50,12 @@ export const HookEdit = defineComponent({
                         <FSelect modelValue={props.codeItem.hookName} options={hookList.value} onChange={changeHookName} />
                     </ContentItem>
                     <CodeEditor
+                        ref={codeEditorRef}
                         class="letgo-comp-logic__hook-editor"
                         height="100%"
                         hints={props.hints}
                         doc={props.codeItem.funcBody}
-                        onChange={changeFuncBody}
+                        onBlur={onBlur}
                         id={props.codeItem.id}
                         fullscreen={false}
                         lineNumbers

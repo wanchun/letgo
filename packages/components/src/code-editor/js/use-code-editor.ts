@@ -62,23 +62,6 @@ export function useCodeEditor(props: CodeEditorProps) {
             props.onChange(doc);
     };
 
-    let focusId: string;
-    const innerFocus = (doc: string) => {
-        focusId = props.id;
-        if (props.onFocus)
-            props.onFocus(doc);
-    };
-
-    const innerOnBlur = (doc: string) => {
-        const formatCode = getFormatCode(focusId);
-        const updateCoded = formatCode ?? doc;
-        if (isFunction(props.onChange) && updateCoded !== doc)
-            props.onChange(updateCoded, focusId);
-
-        if (isFunction(props.onBlur))
-            props.onBlur(updateCoded, focusId);
-    };
-
     const gutter = new Compartment();
     const lines = lineNumbers();
 
@@ -155,18 +138,24 @@ export function useCodeEditor(props: CodeEditorProps) {
                         const doc = v.state.doc.toString();
                         innerOnChange(doc);
                     }
-                    // focus state change
-                    if (v.focusChanged) {
-                        const doc = v.state.sliceDoc();
-                        if (v.view.hasFocus)
-                            innerFocus(doc);
-
-                        if (!v.view.hasFocus)
-                            innerOnBlur(doc);
-                    }
                 }),
             ].filter(Boolean),
         });
+    };
+
+    const innerFocus = () => {
+        const doc = editorView.state.sliceDoc();
+        if (props.onFocus)
+            props.onFocus(doc);
+    };
+
+    const innerOnBlur = () => {
+        const doc = editorView.state.sliceDoc();
+        const formatCode = getFormatCode();
+        const updateCoded = formatCode ?? doc;
+
+        if (isFunction(props.onBlur))
+            props.onBlur(updateCoded);
     };
 
     watch(container, () => {
@@ -176,10 +165,14 @@ export function useCodeEditor(props: CodeEditorProps) {
                 state: genState(),
                 parent: container.value,
             });
+            editorView.dom.addEventListener('focus', innerFocus, true);
+            editorView.dom.addEventListener('blur', innerOnBlur, true);
         }
     });
 
     onBeforeUnmount(() => {
+        editorView?.dom.removeEventListener('focus', innerFocus, true);
+        editorView?.dom.removeEventListener('blur', innerOnBlur, true);
         editorView?.destroy();
     });
 
@@ -197,5 +190,8 @@ export function useCodeEditor(props: CodeEditorProps) {
         containerRef: container,
         isFullScreen,
         toggleFullScreen,
+        getFormatCode: (id?: string) => {
+            return getFormatCode(id) || editorView?.state.sliceDoc();
+        },
     };
 }

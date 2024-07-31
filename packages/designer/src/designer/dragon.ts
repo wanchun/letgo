@@ -473,4 +473,8 @@ export class Dragon implements IPublicModelDragon<DocumentModel, INode> {
             this.emitter.off('dragend', func);
         };
     }
+
+    purge() {
+        this.emitter.removeAllListeners();
+    }
 }

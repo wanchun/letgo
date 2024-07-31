@@ -1,6 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
 import { wrapWithEventSwitch } from '@webank/letgo-editor-core';
-import { markComputed, markShallowReactive, uniqueId } from '@webank/letgo-common';
+import { markComputed, uniqueId } from '@webank/letgo-common';
 import type {
     IPublicModelDocumentModel,
     IPublicTypeComponentSchema,
@@ -37,7 +37,6 @@ const componentRefTimes: Record<string, number> = {};
 
 export class DocumentModel implements IPublicModelDocumentModel<Project, ComponentMeta, Selection, INode, State, Code> {
     readonly project: Project;
-
     readonly designer: Designer;
 
     readonly code: Code;
@@ -254,6 +253,7 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
                     componentsMap.push({
                         devMode: 'lowCode',
                         componentName,
+                        schema: node.componentMeta.schema,
                     });
                 }
             }
@@ -437,20 +437,6 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
         this._nodesMap.delete(node.id);
     }
 
-    purge() {
-        this.rootNode?.purge();
-        this.rootNode = null;
-        this.nodes.clear();
-        this._nodesMap.clear();
-        this.code.purge();
-        this.state.purge();
-        this.selection.purge();
-        this.history.purge();
-        this.offNodeRefChange();
-        this.offGlobalStateIdChange();
-        this.emitter.removeAllListeners();
-    }
-
     checkDropTarget(
         dropTarget: INode,
         dragObject: IPublicTypeDragNodeObject<INode> | IPublicTypeDragNodeDataObject,
@@ -507,5 +493,19 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
             config.checkNestingDown(parent, obj)
             && this.checkNestingUp(parent, obj)
         );
+    }
+
+    purge() {
+        this.rootNode?.purge();
+        this.rootNode = null;
+        this.nodes.clear();
+        this._nodesMap.clear();
+        this.code.purge();
+        this.state.purge();
+        this.selection.purge();
+        this.history.purge();
+        this.offNodeRefChange();
+        this.offGlobalStateIdChange();
+        this.emitter.removeAllListeners();
     }
 }

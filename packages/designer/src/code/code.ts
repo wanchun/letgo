@@ -18,9 +18,9 @@ import type { Project } from '../project';
 import { codeBaseEdit } from './code-base';
 
 export class Code implements IPublicModelCode {
+    readonly project: Project;
     private emitter = new EventEmitter();
     codeStruct: ICodeStruct;
-    project: Project;
     codeMap: Map<string, ICodeItem>;
     constructor(project: Project, codeStruct?: ICodeStruct) {
         this.project = project;
@@ -363,6 +363,11 @@ export class Code implements IPublicModelCode {
     }
 
     purge() {
+        this.codeMap.clear();
+        this.codeStruct = {
+            directories: [],
+            code: [],
+        };
         this.emitter.removeAllListeners();
     }
 }

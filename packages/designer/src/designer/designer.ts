@@ -226,12 +226,10 @@ export class Designer implements IPublicModelDesigner<Project, DocumentModel, Co
             this.editor.emit('designer.dragend', e, loc);
         });
 
-        // TODO: 清理
         this.dragon.onDropLocationChange((loc) => {
             this.editor.emit('designer.dropLocation.change', loc);
         });
 
-        // TODO: 清理
         this.project.onCurrentDocumentChange(() => {
             this.editor.emit(
                 'designer.currentDocument.change',
@@ -439,5 +437,17 @@ export class Designer implements IPublicModelDesigner<Project, DocumentModel, Co
         this._renderer = null;
         this.clearOffsetObserverList(true);
         this.contextMenuActions.purge();
+        this.dragon.purge();
+        this.detecting.purge();
+        this.project.purge();
+        this.emitter.removeAllListeners();
+        if (this.selectionDispose) {
+            this.selectionDispose();
+            this.selectionDispose = undefined;
+        }
+        if (this.historyDispose) {
+            this.historyDispose();
+            this.historyDispose = undefined;
+        }
     }
 }

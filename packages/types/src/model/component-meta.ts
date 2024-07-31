@@ -1,9 +1,11 @@
 import type {
     IPublicTypeComponentAction,
+    IPublicTypeComponentSchema,
     IPublicTypeFieldConfig,
     IPublicTypeNodeData,
     IPublicTypeNodeSchema,
     IPublicTypeNpmInfo,
+    IPublicTypeProjectSchema,
     IPublicTypeTransformedComponentMetadata,
 } from '..';
 import type { IPublicModelNode } from './node';
@@ -104,5 +106,7 @@ export interface IPublicModelComponentMeta<
         my: Node,
         target: IPublicTypeNodeSchema | Node | IPublicTypeNodeSchema[],
     ) => boolean;
+
+    readonly schema?: IPublicTypeProjectSchema<IPublicTypeComponentSchema>;
 
 }

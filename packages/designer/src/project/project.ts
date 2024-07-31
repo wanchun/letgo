@@ -336,12 +336,18 @@ export class Project implements IBaseProject<DocumentModel, Code> {
     }
 
     purge() {
+        // 只清掉要换的部分
         this._currentDocument = null;
-
-        if (this.documents.length < 1)
-            return;
-
-        for (let i = this.documents.length - 1; i >= 0; i--)
-            this.documents[i].remove();
+        this.codesInstance = {};
+        this.utilsInstance = {};
+        this.config = {};
+        this.css = '';
+        this.id = '';
+        this.emitter.removeAllListeners();
+        this.code.purge();
+        if (this.documents.length) {
+            for (let i = this.documents.length - 1; i >= 0; i--)
+                this.documents[i].remove();
+        }
     }
 }

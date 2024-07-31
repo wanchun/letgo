@@ -34,6 +34,7 @@ export default definePlugin({
                         <TreeList theme="outline" class="letgo-comp-tree__icon" />
                     </FTooltip>
                 ),
+                index: -999,
             })
             .link(panel);
     },

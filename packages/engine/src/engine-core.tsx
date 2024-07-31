@@ -39,7 +39,7 @@ const { config, designer, plugins, skeleton, material, project, hotkey, setters 
 export { editor, config, designer, plugins, skeleton, material, project, hotkey, setters, registerMetadataTransducer };
 
 // 注册一批内置插件
-(function registerPlugins() {
+function loadBuiltInPlugins() {
     // 注册默认的 setters
     innerPlugins.register({
         name: 'setter_registry',
@@ -56,11 +56,17 @@ export { editor, config, designer, plugins, skeleton, material, project, hotkey,
     innerPlugins.register(PluginSetting);
     innerPlugins.register(DefaultContextMenu);
     innerPlugins.register(BuiltinHotkey);
-})();
 
-export function destroy() {
-    const { project } = designer;
-    project.purge();
+    return async () => {
+        await innerPlugins.delete('setter_registry');
+        await innerPlugins.delete(PluginComponentTree.name);
+        await innerPlugins.delete(PluginComponents.name);
+        await innerPlugins.delete(PluginCode.name);
+        await innerPlugins.delete(PluginDesigner.name);
+        await innerPlugins.delete(PluginSetting.name);
+        await innerPlugins.delete(DefaultContextMenu.name);
+        await innerPlugins.delete(BuiltinHotkey.name);
+    };
 }
 
 export const LetgoEngine = defineComponent({
@@ -73,15 +79,21 @@ export const LetgoEngine = defineComponent({
     setup(props) {
         const isReady = ref(false);
 
+        let unInstall: () => Promise<void>;
+
         onBeforeMount(async () => {
             if (props.options)
                 engineConfig.setEngineOptions(props.options);
 
+            unInstall = loadBuiltInPlugins();
+
             await plugins.init(props.pluginPreference);
 
             isReady.value = true;
+
             props.onReady?.();
         });
+
         watch(() => props.options, () => {
             if (props.options)
                 engineConfig.setEngineOptions(props.options);
@@ -89,7 +101,10 @@ export const LetgoEngine = defineComponent({
             deep: true,
         });
 
-        onBeforeUnmount(destroy);
+        onBeforeUnmount(async () => {
+            await unInstall();
+            designer.purge();
+        });
 
         return () => {
             if (!isReady.value)

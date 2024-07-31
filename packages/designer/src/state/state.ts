@@ -172,6 +172,10 @@ export class State implements IPublicModelState {
     }
 
     purge() {
+        this.props = {};
+        this.componentsInstance = {};
+        this.codesInstance = {};
+        this.classInstance = {};
         this.offEvents.forEach(fn => fn());
     }
 }

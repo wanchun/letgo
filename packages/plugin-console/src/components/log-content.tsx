@@ -2,6 +2,7 @@ import type { PropType } from 'vue';
 import { computed, defineComponent } from 'vue';
 import { FVirtualList } from '@fesjs/fes-design';
 import type { LogLevel } from '@webank/letgo-common';
+import type { Project, Skeleton } from '@webank/letgo-engine-plugin';
 import { useSharedLog } from '../use';
 import type { FormattedLog } from '../log-formatter';
 import LogItem from './log-item';
@@ -11,6 +12,8 @@ import './log-content.less';
 export default defineComponent({
     props: {
         visibleLogLevels: Array as PropType<LogLevel[]>,
+        project: Object as PropType<Project>,
+        skeleton: Object as PropType<Skeleton>,
     },
     setup(props) {
         const { logList } = useSharedLog();
@@ -29,7 +32,7 @@ export default defineComponent({
                     dataSources={visibleLogList.value}
                     v-slots={{
                         default({ source }: { source: FormattedLog }) {
-                            return <LogItem log={source} />;
+                            return <LogItem log={source} skeleton={props.skeleton} project={props.project} />;
                         },
                     }}
                 >

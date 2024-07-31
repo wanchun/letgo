@@ -11,12 +11,12 @@ let panel: TabPanel;
  */
 export default definePlugin({
     name: 'PluginDevtools',
-    init({ skeleton }) {
+    init({ skeleton, project }) {
         panel = skeleton.add({
             type: 'TabPanel',
             area: 'bottomArea',
             name: 'PluginDevtoolsPanel',
-            render: () => <ConsolePane />,
+            render: () => <ConsolePane skeleton={skeleton} project={project} />,
             renderHeader: () => <ConsoleTitle />,
             props: {
                 align: 'left',

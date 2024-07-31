@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent } from 'vue';
 import { Caution, CloseOne, Log } from '@icon-park/vue-next';
-import { type Project, type Skeleton, propSymbol } from '@webank/letgo-engine-plugin';
+import type { Project, Skeleton } from '@webank/letgo-engine-plugin';
 import { LogIdType } from '@webank/letgo-common';
 import type { FormattedLog } from '../log-formatter';
 

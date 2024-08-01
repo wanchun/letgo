@@ -1,5 +1,6 @@
 import type { IRestQueryResource } from '@webank/letgo-types';
 import { geRestParam, genRestApiQueryFunc } from '@webank/letgo-renderer';
+import { markShallowReactive } from '@webank/letgo-common';
 import { JavascriptQueryImpl } from './base';
 
 export class RestApiQueryImpl extends JavascriptQueryImpl {
@@ -9,6 +10,13 @@ export class RestApiQueryImpl extends JavascriptQueryImpl {
     headers?: IRestQueryResource['headers'];
     constructor(data: IRestQueryResource, deps: string[], ctx: Record<string, any>) {
         super(data, deps, ctx);
+
+        markShallowReactive(this, {
+            api: data.api,
+            params: data.params,
+            method: data.method,
+            headers: data.headers,
+        });
     }
 
     formatParams(extraParams?: Record<string, any>) {

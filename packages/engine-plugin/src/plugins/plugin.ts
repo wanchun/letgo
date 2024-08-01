@@ -47,7 +47,7 @@ export class Plugin implements IPlugin {
         this.pluginName = pluginName;
         this.meta = meta;
         this.logger = getLogger({
-            belong: `designer:plugin:${pluginName}`,
+            belong: `plugin:${pluginName}`,
         });
         this._ctx = ctx;
         this._options = options;

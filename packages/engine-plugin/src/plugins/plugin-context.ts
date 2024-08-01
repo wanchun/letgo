@@ -46,7 +46,7 @@ export class PluginContext implements IPluginContext {
         this.config = engineConfig;
         this.plugins = plugins;
         this.logger = getLogger({
-            belong: `designer:plugin:${pluginName}`,
+            belong: `plugin:${pluginName}`,
         });
 
         const enhancePluginContextHook = engineConfig.get(

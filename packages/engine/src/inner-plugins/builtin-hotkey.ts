@@ -355,7 +355,7 @@ export const BuiltinHotkey = definePlugin({
 
             e.preventDefault();
 
-            const currentItem = skeleton.leftFloatArea.items.find(item => item.name === 'CodePanel');
+            const currentItem = skeleton.leftFloatArea.items.find(item => item.name === 'PluginCodePanel');
             if (currentItem)
                 currentItem.toggle();
         });

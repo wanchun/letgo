@@ -1,11 +1,11 @@
 import type { PropType } from 'vue';
-import { defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { Caution, CloseOne, Log } from '@icon-park/vue-next';
 import type { LogLevel } from '@webank/letgo-common';
 import type { Project, Skeleton } from '@webank/letgo-engine-plugin';
 import Tag from './components/tag';
 import LogContent from './components/log-content';
-import { useSharedLog, useSharedPaneVisible } from './use';
+import { useSharedLog } from './use';
 
 import './pane.less';
 
@@ -25,11 +25,6 @@ export default defineComponent({
         };
 
         const { errorCount, warnCount, infoCount, clearAllLog } = useSharedLog();
-        const { paneVisible } = useSharedPaneVisible();
-
-        onMounted(() => {
-            paneVisible.value = true;
-        });
 
         return () => {
             return (

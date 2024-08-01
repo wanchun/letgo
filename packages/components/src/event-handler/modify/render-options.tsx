@@ -18,7 +18,6 @@ export default defineComponent({
         project: Object as PropType<IPublicModelProject>,
         isGlobal: Boolean,
         componentEvent: Object as PropType<IEventHandler>,
-        changeCompEvent: Function as PropType<(data: Partial<IEventHandler>) => void>,
     },
     setup(props) {
         const {

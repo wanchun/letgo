@@ -19,8 +19,10 @@ function formatMsg(log: LogContent) {
 
     if (isError(log.msg))
         msg += `${log.msg.name} ${log.msg.message}`;
-    else
+    else if (typeof log.msg === 'object')
         msg += JSON.stringify(log.msg);
+    else
+        msg += log.msg;
 
     return msg;
 }

@@ -1,18 +1,8 @@
 import { createSharedComposable } from '@vueuse/core';
 import { onLogger } from '@webank/letgo-common';
-import { computed, onUnmounted, ref, shallowReactive } from 'vue';
+import { computed, onUnmounted, shallowReactive } from 'vue';
 import type { FormattedLog } from './log-formatter';
 import { formatLog } from './log-formatter';
-
-function _usePaneVisible() {
-    const paneVisible = ref(false);
-
-    return {
-        paneVisible,
-    };
-}
-
-export const useSharedPaneVisible = createSharedComposable(_usePaneVisible);
 
 function _useLog() {
     const logList = shallowReactive<FormattedLog[]>([]);

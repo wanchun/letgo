@@ -1,23 +1,15 @@
-import { defineComponent, ref, watch } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { FBadge } from '@fesjs/fes-design';
 
 import './console-title.less';
-import { useSharedLog, useSharedPaneVisible } from '../use';
+import { useSharedLog } from '../use';
 
 export default defineComponent({
     setup() {
         const { errorCount } = useSharedLog();
-        const { paneVisible } = useSharedPaneVisible();
 
-        const visibleErrorDot = ref(false);
-
-        watch(paneVisible, (val) => {
-            if (val)
-                visibleErrorDot.value = false;
-        });
-
-        watch(errorCount, (val) => {
-            visibleErrorDot.value = !paneVisible.value && val > 0;
+        const hiddenErrorDot = computed(() => {
+            return errorCount.value <= 0;
         });
 
         return () => {
@@ -26,7 +18,7 @@ export default defineComponent({
                     <FBadge
                         size="small"
                         dot
-                        hidden={!visibleErrorDot.value}
+                        hidden={hiddenErrorDot.value}
                     >
                         Console
                     </FBadge>

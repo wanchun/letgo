@@ -114,13 +114,6 @@ export default defineComponent({
             return item ? `${item.label}选项` : '选项';
         });
 
-        const changeCompEvent = (data: Partial<IEventHandler>) => {
-            innerEditEvent.value = {
-                ...innerEditEvent.value,
-                ...data,
-            };
-        };
-
         return () => {
             return (
                 innerEditEvent.value && (
@@ -128,7 +121,7 @@ export default defineComponent({
                         {renderEvent()}
                         {renderAction()}
                         <Separator text={firstSeparatorText.value} />
-                        <RenderOptions project={props.project} isGlobal={props.isGlobal} componentEvent={innerEditEvent.value} changeCompEvent={changeCompEvent} />
+                        <RenderOptions project={props.project} isGlobal={props.isGlobal} componentEvent={innerEditEvent.value} />
                     </div>
                 )
             );

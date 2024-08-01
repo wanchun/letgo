@@ -226,11 +226,6 @@ export class History<T = IPublicTypeNodeSchema> implements IHistory {
         };
     }
 
-    purge() {
-        this.emitter.removeAllListeners();
-        this.records = [];
-    }
-
     /**
      *
      * @deprecated
@@ -239,6 +234,12 @@ export class History<T = IPublicTypeNodeSchema> implements IHistory {
      */
     isModified() {
         return this.isSavePoint();
+    }
+
+    purge() {
+        this.emitter.removeAllListeners();
+        this.records = [];
+        this.session.purge();
     }
 }
 
@@ -283,5 +284,10 @@ export class Session {
             clearTimeout(this.activeTimer);
 
         this.activeTimer = null;
+    }
+
+    purge() {
+        this._data = null;
+        this.clearTimer();
     }
 }

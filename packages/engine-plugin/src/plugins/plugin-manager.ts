@@ -151,11 +151,12 @@ export class PluginManager implements IPluginManager {
         );
         if (idx === -1)
             return false;
-        const plugin = this.plugins[idx];
-        await plugin.destroy();
 
+        const plugin = this.plugins[idx];
         this.plugins.splice(idx, 1);
-        return this.pluginsMap.delete(pluginName);
+        this.pluginsMap.delete(pluginName);
+        await plugin.destroy();
+        return true;
     }
 
     async init(pluginPreference?: IPluginPreference) {

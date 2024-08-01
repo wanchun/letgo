@@ -461,7 +461,7 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
 
     setupContextMenu() {
         const doc = this.contentDocument!;
-        doc.addEventListener('contextmenu', (e: MouseEvent) => {
+        const handleContextMenu = (e: MouseEvent) => {
             const targetElement = e.target as HTMLElement;
             const nodeInst = this.getNodeInstanceFromElement(targetElement);
             const editor = this.designer?.editor;
@@ -482,6 +482,11 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
                 node,
                 originalEvent: e,
             });
+        };
+        doc.addEventListener('contextmenu', handleContextMenu);
+
+        this.disposes.push(() => {
+            doc.removeEventListener('contextmenu', handleContextMenu);
         });
     }
 
@@ -1100,6 +1105,8 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
         this._iframe = null;
         this._contentWindow = null;
         this._renderer = null;
+        this.scroller.purge();
+        this.viewport.purge();
         this.emitter.removeAllListeners();
         this.disposes.forEach(fn => fn());
     }

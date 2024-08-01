@@ -29,6 +29,8 @@ export class Viewport implements IViewport {
 
     private _scrolling = false;
 
+    private dispose: Array<() => void> = [];
+
     get contentHeight(): number | IPublicTypeAutoFit {
         return this._contentHeight;
     }
@@ -157,7 +159,7 @@ export class Viewport implements IViewport {
         this._scrollY = scrollTarget.top;
 
         let scrollTimer: any;
-        target.addEventListener('scroll', () => {
+        const handleScroll = () => {
             this._scrollX = scrollTarget.left;
             this._scrollY = scrollTarget.top;
             this._scrolling = true;
@@ -167,9 +169,16 @@ export class Viewport implements IViewport {
             scrollTimer = setTimeout(() => {
                 this._scrolling = false;
             }, 80);
-        });
-        target.addEventListener('resize', () => this.touch());
+        };
+        target.addEventListener('scroll', handleScroll);
+        const handleResize = () => this.touch();
+        target.addEventListener('resize', handleResize);
         this._scrollTarget = scrollTarget;
+
+        this.dispose.push(() => {
+            target.removeEventListener('scroll', handleScroll);
+            target.removeEventListener('resize', handleResize);
+        });
     }
 
     toGlobalPoint(point: IPublicTypePoint): IPublicTypePoint {
@@ -192,5 +201,10 @@ export class Viewport implements IViewport {
             clientX: (point.clientX - rect.left) / this.scale,
             clientY: (point.clientY - rect.top) / this.scale,
         };
+    }
+
+    purge() {
+        this._scrollTarget = null;
+        this.dispose.forEach(fn => fn());
     }
 }

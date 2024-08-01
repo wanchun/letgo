@@ -686,9 +686,13 @@ export class Node<Schema extends IPublicTypeNodeSchema = IPublicTypeNodeSchema> 
         this.purged = true;
         this.offEvents.forEach(fn => fn());
         this.props.purge();
+        this.children.purge();
+        this.slots.forEach(slot => slot.purge());
+        this._slots = [];
         this.settingEntry?.purge();
         this.emitter.removeAllListeners();
         this._parent = null;
+        this._slotFor = null;
     }
 }
 

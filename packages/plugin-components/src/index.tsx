@@ -25,6 +25,7 @@ export default definePlugin({
             type: 'Widget',
             name: 'PluginComponentsWidget',
             render: () => <Content />,
+            index: -999,
         }).link(panel);
     },
     destroy({ skeleton }) {

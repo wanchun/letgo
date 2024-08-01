@@ -26,6 +26,8 @@ export default defineComponent({
         const { ctx } = props;
         const { editor, designer, config, project } = ctx;
 
+        const dispose: Array<() => void> = [];
+
         const componentMetadatas = ref();
 
         const simulatorProps: ShallowReactive<{ device?: string; library?: [] }>
@@ -57,21 +59,21 @@ export default defineComponent({
             project.setUtils(utils);
         });
 
-        const destroyDeviceListener = config.onGot('device', (val: string) => {
+        dispose.push(config.onGot('device', (val: string) => {
             simulatorProps.device = val;
-        });
+        }));
 
-        editor.onChange('assets', (assets: IPublicTypeAssetsJson) => {
+        dispose.push(editor.onChange('assets', (assets: IPublicTypeAssetsJson) => {
             const { components, packages, utils } = assets;
             componentMetadatas.value = components || [];
             project.setUtils(utils);
             Object.assign(simulatorProps, {
                 library: packages || [],
             });
-        });
+        }));
 
         onBeforeUnmount(() => {
-            destroyDeviceListener();
+            dispose.forEach(fn => fn());
         });
 
         return () => {

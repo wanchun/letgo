@@ -14,4 +14,10 @@ export default definePlugin({
             },
         });
     },
+    destroy({ skeleton }) {
+        skeleton.remove({
+            name: 'exportCodeButton',
+            area: 'topArea',
+        });
+    },
 });

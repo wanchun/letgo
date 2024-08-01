@@ -88,7 +88,6 @@ export const DesignerView = defineComponent({
 
         onBeforeUnmount(() => {
             off?.();
-            designer.purge();
         });
 
         return () => {

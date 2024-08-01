@@ -22,6 +22,7 @@ import { compilerEventHandlers, funcSchemaToFunc } from '../events';
 import { formatExpression } from '../format-expression';
 import type { Context } from '../types';
 import { compileDirectives } from './directives';
+import { escapeHtml } from './escape-html';
 
 function genPropSlotName(key: string, refName: string) {
     return camelCase(`${refName}_${key}_slots`);
@@ -276,7 +277,7 @@ function compileNodeSchema(ctx: Context, nodeSchema: IPublicTypeNodeData, compon
 }
 
 function compileDOMText(domText: IPublicTypeDOMText) {
-    return domText;
+    return escapeHtml(domText);
 }
 
 function compileSingleNodeData(ctx: Context, nodeData: IPublicTypeNodeData, componentRefs: Set<string>, isRoot = false) {

@@ -9,6 +9,7 @@ import semver from 'semver';
 import enquirer from 'enquirer';
 import { execa } from 'execa';
 
+import { getBranchName } from './git.mjs';
 import { getNeedPubPkg } from './build-shard.mjs';
 
 const { prompt } = enquirer;
@@ -21,15 +22,17 @@ const versionIncrements = ['patch', 'minor', 'major', 'prepatch', 'preminor', 'p
 
 const ROOT_PKG_PATH = join(process.cwd(), 'package.json');
 
+const currentBranch = await getBranchName();
+
 function incVersion(version, i) {
     let _preId = preId || semver.prerelease(version)?.[0];
-    if (!_preId && /pre/.test(i))
+    if (!_preId && (currentBranch.includes('beta') || /pre/.test(i)))
         _preId = 'beta';
 
     return semver.inc(version, i, _preId);
 }
 function autoIncVersion(version) {
-    if (version.includes('-'))
+    if (version.includes('-') || currentBranch.includes('beta'))
         return semver.inc(version, 'prerelease');
 
     return semver.inc(version, 'patch');

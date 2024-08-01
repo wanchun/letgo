@@ -152,13 +152,13 @@ export function useCodeEditor(props: CodeEditorProps) {
 
     const innerOnBlur = () => {
         const doc = editorView.state.sliceDoc();
-        const formatCode = getFormattedCode();
-        const updateCoded = formatCode ?? doc;
-        if (updateCoded !== props.doc && isFunction(props.onChange))
-            props.onChange(updateCoded);
+        const formatCode = getFormattedCode() || doc;
+
+        if (formatCode !== props.doc && isFunction(props.onChange))
+            props.onChange(formatCode);
 
         if (isFunction(props.onBlur))
-            props.onBlur(updateCoded);
+            props.onBlur(formatCode);
     };
 
     watch(container, () => {

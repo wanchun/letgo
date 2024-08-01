@@ -19,14 +19,15 @@ export function useCodesInstance() {
     const codesInstance: Record<string, CodeImplType> = shallowReactive({});
 
     const reportError = (item: ICodeItem, err: unknown) => {
-        // variable 改了会立即执行，可以发现语法错误，不需要重复报错
-        if (!isVariableState(item)) {
-            host.logger.error({
-                msg: err,
-                id: item.id,
-                idType: LogIdType.CODE,
-            });
-        }
+        // variable 和 computed 改了会立即执行，可以发现语法错误，不需要重复报错
+        if (isVariableState(item) || isJavascriptComputed(item))
+            return;
+
+        host.logger.error({
+            msg: err,
+            id: item.id,
+            idType: LogIdType.CODE,
+        });
     };
 
     const createCodeInstance = (item: ICodeItem, ctx: Record<string, any>) => {

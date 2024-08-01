@@ -24,16 +24,18 @@ const ROOT_PKG_PATH = join(process.cwd(), 'package.json');
 
 const currentBranch = await getBranchName();
 
+const isBeta = currentBranch.includes('beta') || currentBranch.includes('release-');
+
 function incVersion(version, i) {
     let _preId = preId || semver.prerelease(version)?.[0];
-    if (!_preId && (currentBranch.includes('beta') || /pre/.test(i)))
+    if (!_preId && (isBeta || /pre/.test(i)))
         _preId = 'beta';
 
     return semver.inc(version, i, _preId);
 }
 function autoIncVersion(version) {
-    if (version.includes('-') || currentBranch.includes('beta'))
-        return semver.inc(version, 'prerelease');
+    if (version.includes('-') || isBeta)
+        return semver.inc(version, 'prerelease', 'beta');
 
     return semver.inc(version, 'patch');
 }

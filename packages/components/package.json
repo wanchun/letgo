@@ -1,7 +1,7 @@
 {
     "name": "@webank/letgo-components",
     "type": "module",
-    "version": "1.0.0",
+    "version": "1.0.1-beta.0",
     "description": "",
     "author": "",
     "license": "ISC",
@@ -33,8 +33,8 @@
         "@replit/codemirror-vscode-keymap": "^6.0.2",
         "@uiw/codemirror-extensions-basic-setup": "^4.22.2",
         "@vueuse/core": "^10.7.1",
-        "@webank/letgo-common": "^1.0.0",
-        "@webank/letgo-types": "^1.0.0",
+        "@webank/letgo-common": "^1.0.1-beta.0",
+        "@webank/letgo-types": "^1.0.1-beta.0",
         "codemirror": "^6.0.1",
         "lodash-es": "^4.17.21"
     },

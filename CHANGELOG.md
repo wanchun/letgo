@@ -1,3 +1,13 @@
+## [1.0.2-beta.0](https://github.com/wanchun/letgo/compare/v1.0.1...v1.0.2-beta.0) (2024-8-1)
+
+
+### Bug Fixes
+
+* 插件名字问题 ([ceea04c](https://github.com/wanchun/letgo/commit/ceea04c4800ada80e3e7c8a068169351a846e9bf))
+* 修复退出编辑器内存/节点/事件不释放问题 ([4225cd9](https://github.com/wanchun/letgo/commit/4225cd9cc84489eb7b61fe05e06d00619673df38))
+
+
+
 ## [1.0.1](https://github.com/wanchun/letgo/compare/v1.0.0...v1.0.1) (2024-07-29)
 
 

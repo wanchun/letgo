@@ -18,7 +18,7 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const { preid: preId, dry: isDryRun } = minimist(process.argv.slice(2));
 const packages = getNeedPubPkg();
 
-const versionIncrements = ['patch', 'minor', 'major', 'prepatch', 'preminor', 'premajor', 'prerelease'];
+const versionIncrements = ['patch', 'minor', 'major', 'prepatch', 'preminor', 'premajor'];
 
 const ROOT_PKG_PATH = join(process.cwd(), 'package.json');
 

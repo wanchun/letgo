@@ -1,4 +1,3 @@
-import { eventHandlersToJsFunction } from '@webank/letgo-common';
 import type { INode, Prop } from '@webank/letgo-designer';
 import type {
     IEventHandler,
@@ -37,9 +36,10 @@ import {
     toDisplayString,
     toValue,
 } from 'vue';
+import { LogIdType } from '@webank/letgo-common';
 import type { RendererContext } from '../context';
 import { provideRenderContext, useRendererContext } from '../context';
-import { funcSchemaToFunc, parseExpression, parseSchema } from '../parse';
+import { eventHandlersToJsFunction, funcSchemaToFunc, parseExpression, parseSchema } from '../parse';
 import type { BlockScope, MaybeArray, RuntimeScope } from '../utils';
 import {
     ensureArray,
@@ -71,6 +71,7 @@ function render({
     base,
     blockScope,
     comp,
+    componentId,
 }: {
     scope: RuntimeScope;
     context: Record<string, unknown>;
@@ -79,6 +80,7 @@ function render({
     components: Record<string, Component>;
     blockScope?: MaybeArray<BlockScope | undefined | null>;
     comp?: Component | string;
+    componentId?: string;
 }) {
     const mergedScope = mergeScope(scope, blockScope);
 
@@ -90,6 +92,11 @@ function render({
         const result = parseExpression(schema, {
             ...context,
             ...mergedScope,
+        }, {
+            idType: LogIdType.COMPONENT,
+            id: componentId,
+            paths: ['children'],
+            content: schema.value,
         });
         if (result == null)
             return null;
@@ -198,6 +205,7 @@ function buildProp({
     render,
     schema,
     scope,
+    pickPath,
     blockScope,
     prop,
 }: {
@@ -209,14 +217,30 @@ function buildProp({
     ) => VNode | null;
     schema: unknown;
     scope: RuntimeScope;
+    pickPath: (string | number)[];
     blockScope?: BlockScope | null;
     prop?: Prop | null;
 }): any {
     if (isJSExpression(schema)) {
-        return parseExpression(schema, { ...context, ...scope });
+        return parseExpression(schema, { ...context, ...scope }, {
+            idType: LogIdType.COMPONENT,
+            id: pickPath[0],
+            paths: pickPath.slice(1),
+            content: schema.value,
+        });
     }
     else if (isJSFunction(schema)) {
-        return funcSchemaToFunc(schema, context, scope);
+        return funcSchemaToFunc({
+            schema,
+            exeCtx: context,
+            infoCtx: {
+                idType: LogIdType.COMPONENT,
+                id: pickPath[0],
+                paths: pickPath.slice(1),
+                content: schema.value,
+            },
+            scope,
+        });
     }
     else if (isJSSlot(schema)) {
         // 处理属性插槽
@@ -259,7 +283,7 @@ function buildProp({
     else if (isArray(schema)) {
         // 属性值为 array，递归处理属性的每一项
         return schema.map((item, idx) =>
-            buildProp({ context, render, schema: item, scope, blockScope, prop: prop?.get(idx, false) }),
+            buildProp({ context, render, schema: item, scope, pickPath: [...pickPath, idx], blockScope, prop: prop?.get(idx, false) }),
         );
     }
     else if (schema && isPlainObject(schema)) {
@@ -270,7 +294,7 @@ function buildProp({
                 return;
             const val = schema[key as keyof typeof schema];
             const childProp = prop?.get(key, false);
-            res[key] = buildProp({ context, render, schema: val, scope, blockScope, prop: childProp });
+            res[key] = buildProp({ context, render, schema: val, scope, pickPath: [...pickPath, key], blockScope, prop: childProp });
         });
         return res;
     }
@@ -289,6 +313,7 @@ function buildRefProp({
     context,
     render,
     schema,
+    pickPath,
     scope,
     blockScope,
     prop,
@@ -300,6 +325,7 @@ function buildRefProp({
         comp?: Component,
     ) => VNode | null;
     schema: unknown;
+    pickPath: (string | number)[];
     scope: RuntimeScope;
     blockScope?: BlockScope | null;
     prop?: Prop | null;
@@ -351,9 +377,9 @@ function buildRefProp({
         };
     }
     else {
-        const propValue = buildProp({ context, render, schema, scope, blockScope, prop });
+        const propValue = buildProp({ context, render, schema, pickPath, scope, blockScope, prop });
         return isString(propValue)
-            ? buildRefProp({ context, render, schema: propValue, scope, blockScope, prop })
+            ? buildRefProp({ context, render, schema: propValue, pickPath, scope, blockScope, prop })
             : propValue;
     }
 }
@@ -435,6 +461,7 @@ function processProp(
  * @param extraProps - 运行时附加属性
  */
 export function buildProps({
+    componentId,
     context,
     scope,
     propsSchema,
@@ -443,6 +470,7 @@ export function buildProps({
     extraProps,
     node,
 }: {
+    componentId: string;
     context: Record<string, unknown>;
     scope: RuntimeScope;
     propsSchema: Record<string, unknown>;
@@ -469,8 +497,24 @@ export function buildProps({
         const schema = processed[propName];
         parsedProps[propName]
             = propName === 'ref'
-                ? buildRefProp({ context, render, schema, scope: mergedScope, blockScope, prop: node?.getProp(propName, false) })
-                : buildProp({ context, render, schema, scope: mergedScope, blockScope, prop: node?.getProp(propName, false) });
+                ? buildRefProp({
+                    context,
+                    render,
+                    schema,
+                    pickPath: [componentId, propName],
+                    scope: mergedScope,
+                    blockScope,
+                    prop: node?.getProp(propName, false),
+                })
+                : buildProp({
+                    context,
+                    render,
+                    schema,
+                    pickPath: [componentId, propName],
+                    scope: mergedScope,
+                    blockScope,
+                    prop: node?.getProp(propName, false),
+                });
     });
 
     // 应用运行时附加的属性值
@@ -499,7 +543,7 @@ export function buildLoop(scope: RuntimeScope, ctx: Record<string, any>, schema:
         loop: computed(() => {
             if (!loop.value)
                 return null;
-            return parseSchema(loop.value, { ...ctx, ...scope });
+            return parseSchema(loop.value, [schema.id, 'loop'], { ...ctx, ...scope });
         }),
         loopArgs,
     };
@@ -512,7 +556,7 @@ export function buildShow(scope: RuntimeScope | ComputedRef<RuntimeScope>, ctx: 
         const { value: showCondition } = condition;
         if (typeof showCondition === 'boolean')
             return showCondition;
-        return !!parseSchema(showCondition, { ...toValue(scope), ...ctx });
+        return !!parseSchema(showCondition, [schema.id, 'condition'], { ...toValue(scope), ...ctx });
     });
 
     return {
@@ -579,7 +623,7 @@ export function buildSlots(
     }, {} as Record<string, Slot>);
 }
 
-export function useLeaf(scope: Ref<RuntimeScope>, context: Record<string, unknown>) {
+export function useLeaf(scope: Ref<RuntimeScope>, context: Record<string, unknown>, componentId: string) {
     const { components, __BASE_COMP } = useRendererContext();
 
     /**
@@ -601,6 +645,7 @@ export function useLeaf(scope: Ref<RuntimeScope>, context: Record<string, unknow
             base: __BASE_COMP || Live,
             blockScope,
             comp,
+            componentId,
         });
     };
 
@@ -636,7 +681,7 @@ export function useRootScope(rendererProps: RendererProps) {
     const instance = getCurrentInstance()!;
 
     // 处理 props
-    const props = parseSchema(propsSchema) ?? {};
+    const props = parseSchema(propsSchema, [schema.id, 'props']) ?? {};
     Object.assign(instance.props, props);
 
     // 处理 css

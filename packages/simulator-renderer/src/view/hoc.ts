@@ -1,4 +1,4 @@
-import { eventHandlersToJsFunction, getConvertedExtraKey } from '@webank/letgo-common';
+import { getConvertedExtraKey } from '@webank/letgo-common';
 import type { INode, ISlotNode } from '@webank/letgo-designer';
 import type {
     BlockScope,
@@ -12,6 +12,7 @@ import {
     buildShow,
     buildSlots,
     ensureArray,
+    eventHandlersToJsFunction,
     leafProps,
     mergeScope,
     parseSchema,
@@ -42,6 +43,7 @@ import {
     toRef,
 } from 'vue';
 import { BASE_COMP_CONTEXT } from '../constants';
+import { host } from '../host';
 import { createAction } from './centerAction';
 
 /**
@@ -113,7 +115,7 @@ function useLoop(props: LeafProps, ctx: Record<string, any>) {
         loop: computed(() => {
             if (!loop.value)
                 return null;
-            return parseSchema(loop.value, { ...ctx, ...props.scope });
+            return parseSchema(loop.value, [props.schema.id, 'loop'], { ...ctx, ...props.scope });
         }),
         loopArgs,
         updateLoop(value: IPublicTypeCompositeValue): void {
@@ -150,7 +152,7 @@ export const Hoc = defineComponent({
         const { getNode, onCompGetCtx, executeCtx } = inject(BASE_COMP_CONTEXT);
         const node = props.schema.id ? getNode(props.schema.id) : null;
 
-        const { renderComp } = useLeaf(toRef(props, 'scope'), executeCtx);
+        const { renderComp } = useLeaf(toRef(props, 'scope'), executeCtx, props.schema.id);
 
         const { compProps, updateEvents, compSlots } = useSchema(props, node);
 
@@ -310,6 +312,7 @@ export const Hoc = defineComponent({
             executeCtx,
             node,
             renderComp,
+            schema,
         } = this;
 
         if (!show)
@@ -317,6 +320,7 @@ export const Hoc = defineComponent({
 
         if (!loop) {
             const props = buildProps({
+                componentId: schema.id,
                 context: executeCtx,
                 scope: innerScope,
                 propsSchema: compProps,
@@ -331,7 +335,7 @@ export const Hoc = defineComponent({
         }
 
         if (!Array.isArray(loop)) {
-            console.warn('[vue-renderer]: loop must be array', loop);
+            host.logger.warn(`[vue-renderer]: loop must be array: ${JSON.stringify(loop)}`);
             return null;
         }
 
@@ -340,6 +344,7 @@ export const Hoc = defineComponent({
             loop.map((item, index, arr) => {
                 const blockScope = buildLoopScope(item, index, arr.length);
                 const props = buildProps({
+                    componentId: schema.id,
                     context: executeCtx,
                     scope: innerScope,
                     propsSchema: compProps,

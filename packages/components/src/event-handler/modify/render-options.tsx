@@ -119,8 +119,8 @@ export default defineComponent({
                         placeholder="// 输入代码，可输入函数体"
                         hints={hints.value}
                         doc={data.funcBody}
-                        onChange={(doc) => {
-                            data.funcBody = doc;
+                        onChange={(code) => {
+                            data.funcBody = code;
                         }}
                         id={data.id}
                     />

@@ -1,0 +1,44 @@
+.letgo-plg-console {
+    font-size: 12px;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 26px;
+        padding: 0 8px;
+        border-bottom: 1px solid var(--letgo-border-color);
+
+        &-left {
+            display: flex;
+            align-items: center;
+        }
+        &-clear {
+            font-size: 14px;
+            cursor: pointer;
+        }
+    }
+
+    &__tag {
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        color: #8c8c8c;
+        border-radius: 3px;
+        padding: 2px 4px;
+        margin-left: 4px;
+        border: 1px solid transparent;
+        cursor: pointer;
+        line-height: 1;
+
+        &:hover {
+            border-color: var(--letgo-border-color);
+        }
+
+        &--active {
+            color: rgba(0, 0, 0, 0.9);
+            border-color: var(--letgo-border-color);
+            background-color: #f6f6f6;
+        }
+    }
+}

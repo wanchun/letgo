@@ -3,6 +3,7 @@ import { watch } from 'vue';
 import type { ICodeItem, ICodeStruct } from '@webank/letgo-types';
 import { IEnumCodeType } from '@webank/letgo-types';
 import { calcDependencies, genCodeMap, sortState } from '@webank/letgo-common';
+import config from '../config';
 import { TemporaryStateLive } from './temporary-state';
 import { ComputedLive } from './computed';
 import type { JavascriptQueryBase } from './query/base';
@@ -70,7 +71,7 @@ export function useCodesInstance({
                 // eslint-disable-next-line no-alert
                 window.alert(err.message);
             else
-                console.error(err);
+                config.logError(err);
         }
     };
 

@@ -13,8 +13,10 @@ import { vscodeKeymap } from '@replit/codemirror-vscode-keymap';
 import type { IPublicModelDocumentModel } from '@webank/letgo-types';
 import type { PropType } from 'vue';
 import { isFunction } from 'lodash-es';
+import { useEventListener } from '@vueuse/core';
 import { HintTheme, hintPlugin, useHint, useScopeVariables } from './use-hint';
 import { useOxcWorker } from './use-oxc';
+
 import './expression-editor.less';
 
 const External = Annotation.define<boolean>();
@@ -52,14 +54,15 @@ export const ExpressionEditor = defineComponent({
         documentModel: Object as PropType<IPublicModelDocumentModel>,
         hints: Object as PropType<Record<string, any>>,
         doc: String,
-        onChange: Function as PropType<(doc: string) => void>,
+        onInput: Function as PropType<(doc: string) => void>,
+        onChange: Function as PropType<(doc: string) => void>, // blur、组件卸载、页面刷新才会调用
         onBlur: Function as PropType<(doc: string) => void>,
         onFocus: Function as PropType<(doc: string) => void>,
         placeholder: String,
         compRef: String,
         id: String,
     },
-    setup(props) {
+    setup(props, { expose }) {
         const editorRefEl = ref();
         let editorView: EditorView;
 
@@ -91,20 +94,11 @@ export const ExpressionEditor = defineComponent({
             }
         });
 
-        const innerOnChange = (doc: string) => {
+        const innerOnInput = (doc: string) => {
             currentDoc = doc;
             updateCode(`(${doc})`);
-            if (isFunction(props.onChange))
-                props.onChange(doc);
-        };
-
-        const innerOnBlur = (doc: string) => {
-            const formattedDoc = oxcOutput.value?.diagnostics?.some(item => item.severity === 'error') ? doc : (formatExpression(oxcOutput.value?.formatter) || doc);
-            if (isFunction(props.onChange) && formattedDoc !== doc)
-                props.onChange(formattedDoc);
-
-            if (isFunction(props.onBlur))
-                props.onBlur(formattedDoc);
+            if (isFunction(props.onInput))
+                props.onInput(doc);
         };
 
         const genState = () => {
@@ -135,26 +129,39 @@ export const ExpressionEditor = defineComponent({
                     EditorView.updateListener.of((v: ViewUpdate) => {
                         if (v.docChanged && !v.transactions.some(tr => tr.annotation(External))) {
                             const doc = v.state.doc.toString();
-                            innerOnChange(doc);
-                        }
-                        // focus state change
-                        if (v.focusChanged) {
-                            const doc = v.state.sliceDoc();
-                            if (v.view.hasFocus && isFunction(props.onFocus))
-                                props.onFocus(doc);
-
-                            if (!v.view.hasFocus)
-                                innerOnBlur(doc);
+                            innerOnInput(doc);
                         }
                     }),
                 ],
             });
         };
+
+        const innerFocus = () => {
+            const doc = editorView.state.sliceDoc();
+            if (props.onFocus)
+                props.onFocus(doc);
+        };
+
+        const innerGetFormattedCode = () => {
+            const doc = editorView.state.sliceDoc();
+            return oxcOutput.value?.diagnostics?.some(item => item.severity === 'error') ? doc : (formatExpression(oxcOutput.value?.formatter) || doc);
+        };
+
+        const innerOnBlur = () => {
+            const doc = innerGetFormattedCode();
+            if (doc !== props.doc && isFunction(props.onChange))
+                props.onChange(doc);
+            if (isFunction(props.onBlur))
+                props.onBlur(doc);
+        };
+
         onMounted(() => {
             editorView = new EditorView({
                 state: genState(),
                 parent: editorRefEl.value,
             });
+            editorView.dom.addEventListener('focus', innerFocus, true);
+            editorView.dom.addEventListener('blur', innerOnBlur, true);
         });
 
         watch(() => props.doc, (value) => {
@@ -167,8 +174,23 @@ export const ExpressionEditor = defineComponent({
             }
         });
 
+        const onLeaving = () => {
+            const doc = innerGetFormattedCode();
+            if (doc !== props.doc && props.onChange)
+                props.onChange(doc);
+        };
+
+        useEventListener(window, 'beforeunload', onLeaving);
+
         onBeforeUnmount(() => {
+            onLeaving();
+            editorView?.dom.removeEventListener('focus', innerFocus, true);
+            editorView?.dom.removeEventListener('blur', innerOnBlur, true);
             editorView?.destroy();
+        });
+
+        expose({
+            getFormattedCode: innerGetFormattedCode,
         });
 
         return () => {

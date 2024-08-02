@@ -8,6 +8,7 @@
     "keywords": [],
     "sideEffects": false,
     "module": "es/index.js",
+    "types": "./es/index.d.ts",
     "files": [
         "es",
         "lib"
@@ -18,6 +19,7 @@
     "dependencies": {
         "@fesjs/fes-design": "^0.8.38",
         "@icon-park/vue-next": "^1.4.2",
+        "@vueuse/core": "^10.7.1",
         "@webank/letgo-common": "^1.0.0",
         "@webank/letgo-components": "^1.0.0",
         "@webank/letgo-designer": "^1.0.1",
@@ -30,7 +32,6 @@
     "publishConfig": {
         "access": "public"
     },
-    "typings": "./es/index.d.ts",
     "devDependencies": {
         "@types/lodash-es": "^4.17.6",
         "vue": "^3.4.14"

@@ -28,9 +28,9 @@ export const HookEdit = defineComponent({
             return [];
         });
 
-        const changeFuncBody = (value: string, id: string) => {
-            props.changeContent(id || props.codeItem.id, {
-                funcBody: value,
+        const changeFunction = (code: string) => {
+            props.changeContent(props.codeItem.id, {
+                funcBody: code,
             });
         };
 
@@ -51,7 +51,7 @@ export const HookEdit = defineComponent({
                         height="100%"
                         hints={props.hints}
                         doc={props.codeItem.funcBody}
-                        onChange={changeFuncBody}
+                        onChange={changeFunction}
                         id={props.codeItem.id}
                         fullscreen={false}
                         lineNumbers

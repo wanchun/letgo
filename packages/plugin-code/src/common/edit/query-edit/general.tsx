@@ -14,9 +14,9 @@ export default defineComponent({
         changeCodeItem: Function as PropType<(content: Partial<IJavascriptQuery>) => void>,
     },
     setup(props) {
-        const changeQuery = (doc: string) => {
+        const changeQuery = (code: string) => {
             props.changeCodeItem({
-                query: doc,
+                query: code,
             });
         };
 

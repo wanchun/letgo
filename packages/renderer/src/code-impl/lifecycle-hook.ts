@@ -1,5 +1,7 @@
 import type { ILifecycle, IPublicEnumPageLifecycle } from '@webank/letgo-types';
 import { IEnumCodeType } from '@webank/letgo-types';
+import { LogIdType } from '@webank/letgo-common';
+import config from '../config';
 
 // 解析执行
 export class LifecycleHookLive {
@@ -38,7 +40,11 @@ export class LifecycleHookLive {
                 return await fn(this.ctx);
             }
             catch (err) {
-                console.warn(err);
+                config.logError(err, {
+                    id: this.id,
+                    idType: LogIdType.CODE,
+                    content: this.funcBody,
+                });
             }
         }
     }

@@ -25,5 +25,5 @@
     "publishConfig": {
         "access": "public"
     },
-    "typings": "./es/index.d.ts"
+    "types": "./es/index.d.ts"
 }

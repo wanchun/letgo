@@ -1,5 +1,7 @@
 import type { IJavascriptFunction } from '@webank/letgo-types';
 import { IEnumCodeType } from '@webank/letgo-types';
+import { LogIdType } from '@webank/letgo-common';
+import config from '../config';
 
 // 解析执行
 export class JavascriptFunctionLive {
@@ -34,7 +36,11 @@ export class JavascriptFunctionLive {
                 return fn(this.ctx, args);
             }
             catch (err) {
-                console.warn(err);
+                config.logError(err, {
+                    id: this.id,
+                    idType: LogIdType.CODE,
+                    content: this.funcBody,
+                });
             }
         }
     }

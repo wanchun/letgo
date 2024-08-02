@@ -3,7 +3,8 @@ import { shallowReactive } from 'vue';
 import { isNil } from 'lodash-es';
 import type { ICodeItem } from '@webank/letgo-types';
 import { IEnumCodeType, isJavascriptComputed, isJavascriptFunction, isVariableState } from '@webank/letgo-types';
-import { calcDependencies, sortState } from '@webank/letgo-common';
+import { LogIdType, calcDependencies, sortState } from '@webank/letgo-common';
+import { host } from '../host';
 import { JavascriptQueryImpl, createQueryImpl } from './query';
 import { JavascriptFunctionImpl } from './javascript-function';
 import { ComputedImpl } from './computed';
@@ -17,9 +18,24 @@ export function useCodesInstance() {
     let codeMap: Map<string, ICodeItem> = new Map();
     const codesInstance: Record<string, CodeImplType> = shallowReactive({});
 
+    const reportError = (item: ICodeItem, err: unknown) => {
+        // variable 和 computed 改了会立即执行，可以发现语法错误，不需要重复报错
+        if (isVariableState(item) || isJavascriptComputed(item))
+            return;
+
+        host.logger.error({
+            msg: err,
+            id: item.id,
+            idType: LogIdType.CODE,
+        });
+    };
+
     const createCodeInstance = (item: ICodeItem, ctx: Record<string, any>) => {
-        if (!dependencyMap.has(item.id))
-            dependencyMap.set(item.id, calcDependencies(item, ctx));
+        if (!dependencyMap.has(item.id)) {
+            dependencyMap.set(item.id, calcDependencies(item, ctx, (err: unknown) => {
+                reportError(item, err);
+            }));
+        }
 
         if (item.type === IEnumCodeType.TEMPORARY_STATE) {
             codesInstance[item.id] = new TemporaryStateImpl(item, dependencyMap.get(item.id), ctx);
@@ -68,7 +84,9 @@ export function useCodesInstance() {
             || (currentInstance instanceof JavascriptQueryImpl && !isNil(content.query))
             || (currentInstance instanceof LifecycleHookImpl && !isNil(content.funcBody))
         ) {
-            const deps = calcDependencies({ ...item, ...content }, ctx);
+            const deps = calcDependencies({ ...item, ...content }, ctx, (err: unknown) => {
+                reportError(item, err);
+            });
             dependencyMap.set(id, deps);
             currentInstance.changeDeps(deps);
         }

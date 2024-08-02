@@ -1,7 +1,9 @@
-import { isNil, isPlainObject, set } from 'lodash-es';
-import { markReactive } from '@webank/letgo-common';
+import { isPlainObject, set } from 'lodash-es';
+import { LogIdType, markReactive } from '@webank/letgo-common';
 import type { ITemporaryState } from '@webank/letgo-types';
 import { IEnumCodeType } from '@webank/letgo-types';
+import { executeExpression } from '../parse';
+import config from '../config';
 
 // 解析执行
 export class TemporaryStateLive {
@@ -30,23 +32,16 @@ export class TemporaryStateLive {
         this.value = this.executeInput(this.initValue);
     }
 
-    executeInput(text?: string) {
-        if (isNil(text))
-            return null;
-
-        if (text.trim() === '')
-            return null;
-
+    executeInput(expression?: string) {
         try {
-            // eslint-disable-next-line no-new-func
-            const fn = new Function('_ctx', `
-                with(_ctx) {
-                    return (${text});
-                }
-            `);
-            return fn(this.ctx);
+            return executeExpression(expression, this.ctx);
         }
-        catch (_) {
+        catch (err) {
+            config.logError(err, {
+                id: this.id,
+                idType: LogIdType.CODE,
+                content: expression,
+            });
             return null;
         }
     }

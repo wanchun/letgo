@@ -98,11 +98,13 @@ export function getUseComponents(
 // TODO scope 放入 codes 或者另外加一个参数
 export function schemaToCode(ctx: Context): FileStruct[] {
     return ctx.schema.componentsTree.map((rootSchema) => {
-        const { classLifeCycle, usedCode } = parseCode(rootSchema.classCode);
+        const componentRefs = getComponentRefs(rootSchema.children);
+        const { classLifeCycle, usedCode } = parseCode(rootSchema.classCode, componentRefs, genCodeMap(rootSchema.code), ctx.codes);
+
         const pageContext: Context = {
             ...ctx,
             codes: genCodeMap(rootSchema.code, new Map(ctx.codes)),
-            refs: getComponentRefs(rootSchema.children),
+            refs: componentRefs,
             classUseCodes: usedCode,
             classLifeCycle,
             useVariables: parseUseVariables(rootSchema, usedCode),

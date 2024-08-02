@@ -1,5 +1,7 @@
 import { ancestorWalkAst, parseToAst } from '@webank/letgo-common';
+import type { ICodeItem } from '@webank/letgo-types';
 import type { ClassUseCodes } from '../common/types';
+import { logError } from '../common/log';
 
 function getExpressionMembers(ancestor: any[]): {
     members: string[];
@@ -31,7 +33,7 @@ function getExpressionMembers(ancestor: any[]): {
 
 const LIFE_CYCLE = ['onBeforeMount', 'onBeforeUnmount', 'onMounted', 'onUnmounted'];
 
-export function parseCode(code: string) {
+export function parseCode(code: string, refs: Set<string>, pageCodeMap: Map<string, ICodeItem>, globalCodeMap: Map<string, ICodeItem> = new Map()) {
     const classLifeCycle: string[] = [];
     const usedCode: ClassUseCodes = {
         $refs: [],
@@ -78,8 +80,45 @@ export function parseCode(code: string) {
         },
     });
 
+    const noExistsRefs = usedCode.$refs.filter((refName) => {
+        return !refs.has(refName);
+    });
+    usedCode.$refs = usedCode.$refs.filter((refName) => {
+        return refs.has(refName);
+    });
+    if (noExistsRefs.length) {
+        logError(
+            `[ classCode ]： 中使用了未定义的 $refs 变量: ${noExistsRefs.join(', ')}`,
+        );
+    }
+
+    const noExitsPageCodes = usedCode.$pageCode.filter((codeId) => {
+        return !pageCodeMap.has(codeId);
+    });
+    usedCode.$pageCode = usedCode.$pageCode.filter((codeId) => {
+        return pageCodeMap.has(codeId);
+    });
+    if (noExitsPageCodes.length) {
+        logError(
+            `[ classCode ]： 中使用了未定义的 $pageCode 变量: ${noExitsPageCodes.join(', ')}`,
+        );
+    }
+
+    const noExitsGlobalCodes = usedCode.$globalCode.filter((codeId) => {
+        return !codeId.startsWith('$') && !globalCodeMap.has(codeId);
+    });
+    usedCode.$globalCode = usedCode.$globalCode.filter((codeId) => {
+        return codeId.startsWith('$') || globalCodeMap.has(codeId);
+    });
+
+    if (noExitsGlobalCodes.length) {
+        logError(
+            `[ classCode ]： 中使用了未定义的 $globalCode 变量: ${noExitsGlobalCodes.join(', ')}`,
+        );
+    }
+
     return {
         classLifeCycle,
         usedCode,
-    }; ;
+    };
 }

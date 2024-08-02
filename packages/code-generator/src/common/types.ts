@@ -1,4 +1,5 @@
 import type { ICodeItem, IPublicTypeProjectSchema, IPublicTypeRootSchema } from '@webank/letgo-types';
+import type { Logger } from './log';
 
 export interface GenOptions {
     schema: IPublicTypeProjectSchema;
@@ -18,6 +19,7 @@ export interface GenOptions {
         transformGenSchema?: (schema: IPublicTypeRootSchema, codeSnippet: SetupCode) => SetupCode;
         transformSdkJsx?: (code: string) => string;
     };
+    logger?: Logger;
 }
 
 export interface LowCodeComponentOptions extends GenOptions {
@@ -99,4 +101,5 @@ export interface Context {
     useVariables?: Set<string>;
     classUseCodes?: ClassUseCodes;
     classLifeCycle?: string[];
+
 }

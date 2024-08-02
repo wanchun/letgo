@@ -18,7 +18,7 @@ function _useLog() {
     });
 
     const unListener = onLogger((log) => {
-        if (['simulator', 'code-generator'].includes(log.belong)) {
+        if (['simulator', 'plugin:PluginCodeGenerator'].includes(log.belong)) {
             const result = formatLog(log);
             if (logList.findIndex(item => item.id === result.id && item.formattedMsg === result.formattedMsg) === -1)
                 logList.unshift(result);

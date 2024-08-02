@@ -7,6 +7,7 @@ import { injectLetgoCode } from '../common/inject-code';
 import { setOptions } from '../options';
 import { findRootSchema } from '../common/helper';
 import { genPackageJSON } from '../common/pkg';
+import { registerLogger } from '../common/log';
 import { fileStructToLowcodeComponent } from './file-struct';
 import { genComponentMeta } from './meta';
 
@@ -35,6 +36,9 @@ function genPkgName(fileName: string) {
 }
 
 export function genLowCodeComponent(_options: LowCodeComponentOptions): FileTree {
+    if (_options.logger)
+        registerLogger(_options.logger);
+
     const options = setOptions({
         outDir: 'src',
         ..._options,

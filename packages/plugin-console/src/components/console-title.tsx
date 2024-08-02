@@ -20,7 +20,7 @@ export default defineComponent({
                         dot
                         hidden={hiddenErrorDot.value}
                     >
-                        Console
+                        日志
                     </FBadge>
                 </div>
             );

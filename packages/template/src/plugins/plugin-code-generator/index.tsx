@@ -3,12 +3,12 @@ import ExportBtn from './export-btn';
 
 export default definePlugin({
     name: 'PluginCodeGenerator',
-    init({ skeleton }) {
+    init({ skeleton, logger }) {
         skeleton.add({
             name: 'exportCodeButton',
             area: 'topArea',
             type: 'Widget',
-            render: () => <ExportBtn />,
+            render: () => <ExportBtn logger={logger} />,
             props: {
                 align: 'right',
             },

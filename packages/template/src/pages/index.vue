@@ -7,6 +7,7 @@ import PluginSchema from '@webank/letgo-plugin-schema';
 import PluginUndoRedo from '@webank/letgo-plugin-undo-redo';
 import PluginCSS from '@webank/letgo-plugin-css';
 import PluginLogicEdit from '@webank/letgo-plugin-logic';
+import PluginBottom from '@webank/letgo-plugin-console';
 import lowcAssets from '../assets/lowcAssets';
 import assets from '../assets/assets';
 import icons from '../assets/icones-bags';
@@ -14,7 +15,6 @@ import page from '../assets/page';
 import PluginLogo from '../plugins/plugin-logo';
 import PluginPreview from '../plugins/plugin-preview-sample';
 import PluginCodeGenerator from '../plugins/plugin-code-generator';
-import PluginBottom from '../plugins/plugin-test-bottom';
 
 plugins.register(PluginCSS);
 plugins.register(PluginLogicEdit);

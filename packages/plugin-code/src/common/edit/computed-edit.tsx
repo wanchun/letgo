@@ -3,12 +3,9 @@ import { defineComponent } from 'vue';
 import type { IJavascriptComputed } from '@webank/letgo-types';
 import { CodeEditor } from '@webank/letgo-components';
 import './computed-edit.less';
+import { debounce } from 'lodash-es';
+import { isSyntaxError } from '@webank/letgo-common';
 
-/**
- * TODO 待实现功能
- * header 区域可编辑 id
- * header 区域可删除/复制
- */
 export const ComputedEdit = defineComponent({
     name: 'ComputedEdit',
     props: {
@@ -23,6 +20,11 @@ export const ComputedEdit = defineComponent({
             });
         };
 
+        const onInput = debounce((val: string) => {
+            if (!isSyntaxError(val))
+                changeFunction(val);
+        }, 300);
+
         return () => {
             return (
                 <div class="letgo-comp-logic__computed">
@@ -31,6 +33,7 @@ export const ComputedEdit = defineComponent({
                         class="letgo-comp-logic__computed-editor"
                         hints={props.hints}
                         doc={props.codeItem.funcBody}
+                        onInput={onInput}
                         onChange={changeFunction}
                         id={props.codeItem.id}
                         fullscreen={false}

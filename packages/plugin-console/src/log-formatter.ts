@@ -11,20 +11,26 @@ function isError(e: any): e is Error {
 }
 
 function formatMsg(log: LogContent) {
-    let msg = '';
+    let prefix = '';
     if (log.idType) {
         const paths = log.paths ? `.${log.paths.join('.')}` : '';
-        msg += `[${log.id}${paths}]: `;
+        prefix += `[ ${log.id}${paths} ]`;
     }
 
     if (isError(log.msg))
-        msg += `${log.msg.name} ${log.msg.message}`;
-    else if (typeof log.msg === 'object')
-        msg += JSON.stringify(log.msg);
-    else
-        msg += log.msg;
+        prefix += ` [ ${log.msg.name} ]：`;
+    else if (prefix)
+        prefix += `：`;
 
-    return msg;
+    let msg: string | unknown;
+    if (isError(log.msg))
+        msg = log.msg.message;
+    else if (typeof log.msg === 'object')
+        msg = JSON.stringify(log.msg);
+    else
+        msg = log.msg;
+
+    return `${prefix} ${msg}`;
 }
 
 export function formatLog(log: LogContent): FormattedLog {

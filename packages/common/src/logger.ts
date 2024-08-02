@@ -10,10 +10,12 @@ export enum LogIdType {
 };
 
 interface Options {
+    outputToConsole?: boolean;
     belong: string;
 }
 
 const defaultOptions: Options = {
+    outputToConsole: false,
     belong: '*',
 };
 
@@ -36,9 +38,11 @@ export interface LogContent extends LogDetail {
 
 class Logger {
     belong: string;
+    outputToConsole: boolean;
     constructor(options: Options) {
         options = { ...defaultOptions, ...options };
         this.belong = options.belong;
+        this.outputToConsole = options.outputToConsole;
     }
 
     private emitLog(level: LogLevel, data: LogParams) {
@@ -48,7 +52,7 @@ class Logger {
             ...(typeof data === 'string' ? { msg: data } : data),
             time: Date.now(),
         };
-        emitter.emit('log', log);
+        emitter.emit('log', log, this.outputToConsole);
     }
 
     debug(data: LogParams): void {
@@ -81,13 +85,13 @@ class Logger {
 
 export { Logger };
 
-export function onLogger(fn: (log: LogContent) => void) {
+export function onLogger(fn: (log: LogContent, outputToConsole: boolean) => void) {
     emitter.on('log', fn);
     return () => {
         emitter.off('log', fn);
     };
 }
 
-export function getLogger(config: { belong: string }): Logger {
+export function getLogger(config: Options): Logger {
     return new Logger(config);
 }

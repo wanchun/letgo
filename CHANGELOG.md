@@ -1,3 +1,12 @@
+## [1.0.2](https://github.com/wanchun/letgo/compare/v1.0.1...v1.0.2) (2024-8-5)
+
+
+### Bug Fixes
+
+* 修复出码样式带 css 变量问题 ([63e3a34](https://github.com/wanchun/letgo/commit/63e3a34fafe0851306066cfd8192c0220f06f98f))
+
+
+
 ## [1.0.1](https://github.com/wanchun/letgo/compare/v1.0.0...v1.0.1) (2024-07-29)
 
 

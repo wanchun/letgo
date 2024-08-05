@@ -53,7 +53,7 @@ function formatProps(key: string | number, value: any, refName: string, path?: s
             ${valueKeys.map((itemKey) => {
                 const val = formatProps(itemKey, value[itemKey], refName, `${path ?? key}_${itemKey}`);
                 if (val != null && val !== '')
-                    return `${itemKey}: ${val}`;
+                    return `'${itemKey}': ${val}`;
 
                 return null;
             }).filter(Boolean).join(', ')}

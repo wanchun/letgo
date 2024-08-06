@@ -40,6 +40,7 @@ export interface IPluginConfigMetaEngineConfig {
 }
 
 export interface IPluginConfigMeta {
+    logToConsole?: boolean;
     preferenceDeclaration?: IPluginPreferenceDeclaration;
     // 依赖插件名
     dependencies?: string[];
@@ -140,4 +141,5 @@ export function isPluginRegisterOptions(
 
 export interface IPluginContextOptions {
     pluginName: string;
+    meta: IPluginConfigMeta;
 }

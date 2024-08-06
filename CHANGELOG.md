@@ -1,3 +1,12 @@
+## [1.0.3](https://github.com/wanchun/letgo/compare/v1.0.2...v1.0.3) (2024-8-6)
+
+
+### Bug Fixes
+
+* class code 切换doc不会更新问题 ([8c303c5](https://github.com/wanchun/letgo/commit/8c303c56d3f2d506c19bbfa28a6d41da8760468b))
+
+
+
 ## [1.0.2](https://github.com/wanchun/letgo/compare/v1.0.1...v1.0.2) (2024-8-5)
 
 

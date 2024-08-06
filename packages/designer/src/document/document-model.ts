@@ -219,6 +219,7 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
         this.classCode = schema.classCode;
         // 等 code 实例化滞以后再实例化 root
         this.rootNode?.importSchema(schema);
+        this.simulator?.rerender();
     }
 
     exportSchema(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Serialize) {

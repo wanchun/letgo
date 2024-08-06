@@ -42,6 +42,8 @@ export const JsEditView = defineComponent({
 
         let destroy: () => void;
         watch(() => project.currentDocument, (doc) => {
+            tmp.value = (doc?.classCode || DEFAULT_CLASS_CODE).trim();
+
             if (destroy)
                 destroy();
 

@@ -118,22 +118,22 @@ export default defineComponent({
             return res;
         });
 
-        // 最近使用
-        const { lastUsedSnippets, addLastUsed, clearLastUsed } = useLastUsed(snippetsRef, 10, props.designer.project as unknown as IPublicModelProject);
+        // // 最近使用
+        // const { lastUsedSnippets, addLastUsed, clearLastUsed } = useLastUsed(snippetsRef, 10, props.designer.project as unknown as IPublicModelProject);
 
         const onSearch = (val: string) => {
             searchText.value = val;
         };
 
-        const unwatch: Array<() => void> = [];
+        let unwatch: Array<() => void> = [];
         onBeforeMount(() => {
             unwatch.push(editor.onChange('assets', (assets) => {
                 assetsRef.value = assets;
             }));
         });
-
         onUnmounted(() => {
             unwatch.forEach(fn => fn());
+            unwatch = [];
         });
 
         const dragonMap = new Map<Element, () => void>();
@@ -153,16 +153,16 @@ export default defineComponent({
                         ...snippet.schema,
                     },
                 };
-                addLastUsed(snippet);
+                // addLastUsed(snippet);
                 return dragTarget;
             });
             dragonMap.set(el, clear);
         };
-
         onUnmounted(() => {
             dragonMap.forEach((clear) => {
                 clear();
             });
+            dragonMap.clear();
         });
 
         const renderSnippet = (snippets: IPublicTypeSnippet[]) => {
@@ -214,28 +214,28 @@ export default defineComponent({
             });
         };
 
-        const renderLastUsedCategory = (index: number) => {
-            if (!lastUsedSnippets.value?.length || index !== 0)
-                return;
-            return (
-                <div class="letgo-components__category">
-                    <div class="letgo-components__title" style="display: flex; align-items: center;">
-                        <div>最近常用</div>
-                        <FButton type="link" size="small" onClick={clearLastUsed}>
-                            <CloseOne theme="outline" size="16" />
-                        </FButton>
-                    </div>
-                    <FGrid
-                        wrap
-                        gutter={[10, 10]}
-                        class="letgo-components__body"
-                        v-show={index === 0}
-                    >
-                        {renderSnippet(lastUsedSnippets.value)}
-                    </FGrid>
-                </div>
-            );
-        };
+        // const renderLastUsedCategory = (index: number) => {
+        //     if (!lastUsedSnippets.value?.length || index !== 0)
+        //         return;
+        //     return (
+        //         <div class="letgo-components__category">
+        //             <div class="letgo-components__title" style="display: flex; align-items: center;">
+        //                 <div>最近常用</div>
+        //                 <FButton type="link" size="small" onClick={clearLastUsed}>
+        //                     <CloseOne theme="outline" size="16" />
+        //                 </FButton>
+        //             </div>
+        //             <FGrid
+        //                 wrap
+        //                 gutter={[10, 10]}
+        //                 class="letgo-components__body"
+        //                 v-show={index === 0}
+        //             >
+        //                 {renderSnippet(lastUsedSnippets.value)}
+        //             </FGrid>
+        //         </div>
+        //     );
+        // };
 
         return () => {
             return (
@@ -261,7 +261,7 @@ export default defineComponent({
                                         displayDirective="show"
                                     >
                                         <FScrollbar>
-                                            {renderLastUsedCategory(index)}
+                                            {/* {renderLastUsedCategory(index)} */}
                                             {renderCategory(group)}
                                         </FScrollbar>
                                     </FTabPane>

@@ -26,7 +26,7 @@ export default defineComponent({
         const { ctx } = props;
         const { editor, designer, config, project } = ctx;
 
-        const dispose: Array<() => void> = [];
+        let dispose: Array<() => void> = [];
 
         const componentMetadatas = ref();
 
@@ -74,6 +74,7 @@ export default defineComponent({
 
         onBeforeUnmount(() => {
             dispose.forEach(fn => fn());
+            dispose = [];
         });
 
         return () => {

@@ -82,6 +82,8 @@ export const LetgoEngine = defineComponent({
         let unInstall: () => Promise<void>;
 
         onBeforeMount(async () => {
+            innerDesigner.setup();
+
             if (props.options)
                 engineConfig.setEngineOptions(props.options);
 
@@ -103,7 +105,7 @@ export const LetgoEngine = defineComponent({
 
         onBeforeUnmount(async () => {
             await unInstall();
-            designer.purge();
+            innerDesigner.purge();
         });
 
         return () => {

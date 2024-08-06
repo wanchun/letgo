@@ -171,6 +171,8 @@ export class ContextMenuActions implements IContextMenuActions {
 
     purge() {
         this.listeners.forEach(listener => listener());
+        this.listeners = [];
         this.dispose.forEach(dispose => dispose());
+        this.dispose = [];
     }
 }

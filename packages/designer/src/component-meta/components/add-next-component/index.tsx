@@ -27,7 +27,7 @@ export default defineComponent({
     },
     setup(props) {
         const { node } = props;
-        const simulator = node.document.simulator;
+        const project = node.document.project;
 
         const searchText: Ref<string> = ref();
 
@@ -58,7 +58,7 @@ export default defineComponent({
             });
         });
 
-        const { addLastUsed, lastUsedSnippets } = useLastUsed(snippetsRef, null, simulator.project);
+        const { addLastUsed, lastUsedSnippets } = useLastUsed(snippetsRef, null, project);
 
         // 下一个推荐的组件
         const nextSnippets = computed(() => {

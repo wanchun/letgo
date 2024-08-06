@@ -71,5 +71,4 @@ export interface IPublicModelDesigner<
 
     createOffsetObserver: (nodeInstance: IPublicTypeNodeSelector<Node>) => IPublicModelOffsetObserver<Node>;
 
-    touchOffsetObserver: () => void;
 }

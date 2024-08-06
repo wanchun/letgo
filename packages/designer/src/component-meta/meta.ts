@@ -21,7 +21,7 @@ import parseJSFunc from '../transducers/parse-func';
 import { parseProps } from '../transducers/parse-props';
 import type { INode } from '../types';
 import AddNextComponent from './components/add-next-component';
-import Switch from './components/switch';
+import SwitchComponent from './components/switch-component';
 
 export function ensureAList(list?: string | string[]): string[] | null {
     if (!list)
@@ -108,13 +108,13 @@ export function getRegisteredMetadataTransducers(): IMetadataTransducer[] {
 }
 
 const builtinComponentActions: IPublicTypeComponentAction[] = [
-    {
-        name: 'next',
-        content: ({ node }: { node: INode }) => {
-            return [h(AddNextComponent, { node })];
-        },
-        important: true,
-    },
+    // {
+    //     name: 'next',
+    //     content: ({ node }: { node: INode }) => {
+    //         return [h(AddNextComponent, { node })];
+    //     },
+    //     important: true,
+    // },
     {
         name: 'copy',
         content: {
@@ -139,7 +139,7 @@ const builtinComponentActions: IPublicTypeComponentAction[] = [
     {
         name: 'switch',
         content: ({ node }: { node: INode }) => {
-            return [h(Switch, { node })];
+            return [h(SwitchComponent, { node })];
         },
         important: true,
     },

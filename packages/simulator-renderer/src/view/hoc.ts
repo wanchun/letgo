@@ -191,10 +191,11 @@ export const Hoc = defineComponent({
 
         // hoc
         if (node) {
-            const disposeFunctions: Array<CallableFunction | undefined> = [];
-            onUnmounted(() =>
-                disposeFunctions.forEach(dispose => dispose?.()),
-            );
+            let disposeFunctions: Array<CallableFunction | undefined> = [];
+            onUnmounted(() => {
+                disposeFunctions.forEach(dispose => dispose?.());
+                disposeFunctions = [];
+            });
             disposeFunctions.push(
                 node.onChildrenChange(() => {
                     const schema = node.exportSchema(IPublicEnumTransformStage.Render);

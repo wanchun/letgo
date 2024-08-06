@@ -5,7 +5,7 @@ import type { Ref } from 'vue';
 export function useOnClickSim(designer: Designer, cb: () => void) {
     const isSimulatorReady: Ref<boolean> = ref(designer.isRendererReady);
 
-    const disposeFunctions: Array<() => void> = [
+    let disposeFunctions: Array<() => void> = [
         designer.onSimulatorReady(() => {
             isSimulatorReady.value = true;
         }),
@@ -24,5 +24,6 @@ export function useOnClickSim(designer: Designer, cb: () => void) {
 
     onBeforeUnmount(() => {
         disposeFunctions.forEach(clear => clear());
+        disposeFunctions = [];
     });
 }

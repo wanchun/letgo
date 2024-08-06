@@ -206,5 +206,6 @@ export class Viewport implements IViewport {
     purge() {
         this._scrollTarget = null;
         this.dispose.forEach(fn => fn());
+        this.dispose = [];
     }
 }

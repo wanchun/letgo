@@ -62,7 +62,7 @@ export default defineComponent({
 
         const isSimulatorReady: Ref<boolean> = ref(designer.isRendererReady);
 
-        const disposeFunctions: Array<() => void> = [
+        let disposeFunctions: Array<() => void> = [
             // 开始拖拽，则关闭 fixed
             designer.dragon.onDragstart(() => {
                 if (area.current?.isFixed)
@@ -87,6 +87,7 @@ export default defineComponent({
 
         onBeforeUnmount(() => {
             disposeFunctions.forEach(clear => clear());
+            disposeFunctions = [];
         });
 
         return () => {

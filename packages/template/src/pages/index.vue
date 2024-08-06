@@ -81,17 +81,43 @@ project.openDocument({
     title: '',
     children: [
         {
-            componentName: 'FButton',
-            id: 'fButton1',
-            ref: 'fButton1',
+            componentName: 'FTable',
+            id: 'fTable4',
+            ref: 'fTable4',
             props: {
-                children: {
-                    type: 'JSExpression',
-                    value: 'variable2.value',
-                    mock: null,
-                },
+                columns: [
+                    {
+                        prop: 'date',
+                        label: '日期',
+                    },
+                    {
+                        prop: 'name',
+                        label: '姓名',
+                    },
+                    {
+                        prop: 'address',
+                        label: '地址',
+                    },
+                ],
+                data: [
+                    {
+                        date: '2016-05-01',
+                        name: '王小虎',
+                        address: '上海市普陀区金沙江路 1516 弄',
+                    },
+                    {
+                        date: '2016-05-02',
+                        name: '王小虎',
+                        address: '上海市普陀区金沙江路 1516 弄',
+                    },
+                    {
+                        date: '2016-05-03',
+                        name: '王小虎',
+                        address: '上海市普陀区金沙江路 1516 弄',
+                    },
+                ],
             },
-            title: '按钮',
+            title: '表格',
             isLocked: false,
             condition: true,
         },

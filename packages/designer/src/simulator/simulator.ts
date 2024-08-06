@@ -1116,6 +1116,7 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
         this.viewport.purge();
         this.emitter.removeAllListeners();
         this.disposes.forEach(fn => fn());
+        this.disposes = [];
     }
 }
 

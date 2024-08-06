@@ -11,7 +11,7 @@ import type {
     IPublicTypeSnippet,
 } from '@webank/letgo-types';
 import { isComponentDescription } from '@webank/letgo-common';
-import type { INode } from '../../types';
+import type { INode } from '../../../types';
 import './switch.less';
 
 interface Component {

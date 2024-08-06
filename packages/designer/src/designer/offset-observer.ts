@@ -1,9 +1,11 @@
-import { markComputed, markShallowReactive, uniqueId } from '@webank/letgo-common';
+import { markShallowReactive, uniqueId } from '@webank/letgo-common';
 import type { IPublicModelOffsetObserver } from '@webank/letgo-types';
 import type { INode, INodeSelector, IViewport } from '../types';
 
 export class OffsetObserver implements IPublicModelOffsetObserver<INode> {
     readonly id = uniqueId('offsetObserver');
+
+    readonly node: INode;
 
     private lastOffsetLeft?: number;
 
@@ -13,7 +15,7 @@ export class OffsetObserver implements IPublicModelOffsetObserver<INode> {
 
     private lastOffsetWidth?: number;
 
-    hasOffset: boolean;
+    private _hasOffset: boolean;
 
     private _height: number;
 
@@ -103,19 +105,21 @@ export class OffsetObserver implements IPublicModelOffsetObserver<INode> {
         return this.viewport.scale;
     }
 
-    private pid: number | undefined;
+    get hasOffset() {
+        return this._hasOffset;
+    }
 
     readonly viewport: IViewport;
 
     private isRoot: boolean;
 
-    readonly node: INode;
+    private dispose: () => void;
 
-    readonly compute: () => void;
+    isPurged = false;
 
-    constructor(readonly nodeInstance: INodeSelector) {
+    constructor(nodeInstance: INodeSelector) {
         markShallowReactive(this, {
-            hasOffset: false,
+            _hasOffset: false,
             _height: 0,
             _width: 0,
             _left: 0,
@@ -124,17 +128,16 @@ export class OffsetObserver implements IPublicModelOffsetObserver<INode> {
             _bottom: 0,
         });
 
-        markComputed(this, ['height', 'width', 'top', 'left', 'bottom', 'right', 'offsetLeft', 'offsetTop', 'offsetHeight', 'offsetWidth', 'scale']);
-
         const { node, instance } = nodeInstance;
-        this.node = node;
         const doc = node.document;
         const simulator = doc.simulator;
         const focusNode = doc.focusNode;
+
+        this.node = node;
         this.isRoot = node.contains(focusNode);
         this.viewport = simulator.viewport;
         if (this.isRoot) {
-            this.hasOffset = true;
+            this._hasOffset = true;
             return;
         }
         if (!instance)
@@ -142,16 +145,13 @@ export class OffsetObserver implements IPublicModelOffsetObserver<INode> {
 
         let pid: number;
         const compute = () => {
-            if (pid !== this.pid)
-                return;
-
             const rect = simulator.computeComponentInstanceRect(
                 instance,
                 node.componentMeta.rootSelector,
             );
 
             if (!rect) {
-                this.hasOffset = false;
+                this._hasOffset = false;
             }
             else if (!this.viewport.scrolling || !this.hasOffset) {
                 this._height = rect.height;
@@ -160,30 +160,25 @@ export class OffsetObserver implements IPublicModelOffsetObserver<INode> {
                 this._top = rect.top;
                 this._right = rect.right;
                 this._bottom = rect.bottom;
-                this.hasOffset = true;
+                this._hasOffset = true;
             }
-            this.pid = (window as any).requestIdleCallback(compute);
-            pid = this.pid;
+            pid = (window as any).requestIdleCallback(compute);
         };
 
-        this.compute = compute;
+        this.dispose = () => {
+            if (pid)
+                (window as any).cancelIdleCallback(pid);
+        };
 
         // try first
         compute();
-        // try second, ensure the dom mounted
-        this.pid = (window as any).requestIdleCallback(compute);
-        pid = this.pid;
     }
 
     purge() {
-        if (this.pid)
-            (window as any).cancelIdleCallback(this.pid);
-
-        this.pid = undefined;
-    }
-
-    isPurged() {
-        return this.pid == null;
+        if (this.isPurged)
+            return;
+        this.dispose?.();
+        this.isPurged = true;
     }
 }
 

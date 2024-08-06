@@ -375,7 +375,6 @@ export class Hotkey implements IHotKey {
     private isActivate = true;
 
     constructor(readonly viewName: string = 'global') {
-        this.mount(window);
     }
 
     activate(activate: boolean): void {

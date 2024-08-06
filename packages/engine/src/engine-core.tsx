@@ -22,10 +22,8 @@ import { BuiltinHotkey } from './inner-plugins/builtin-hotkey';
 import './global.less';
 
 const innerDesigner = new Designer({ editor });
-
 const innerSkeleton = new Skeleton(editor, innerDesigner);
 const innerHotKey = new Hotkey();
-
 const innerPlugins = new PluginManager(innerDesigner, innerSkeleton, innerHotKey).toProxy();
 
 export const version = ENGINE_VERSION_PLACEHOLDER;
@@ -80,8 +78,10 @@ export const LetgoEngine = defineComponent({
         const isReady = ref(false);
 
         let unInstall: () => Promise<void>;
+        let unMount: () => void;
 
         onBeforeMount(async () => {
+            unMount = innerHotKey.mount(window);
             innerDesigner.setup();
 
             if (props.options)
@@ -104,6 +104,7 @@ export const LetgoEngine = defineComponent({
         });
 
         onBeforeUnmount(async () => {
+            unMount();
             await unInstall();
             innerDesigner.purge();
         });

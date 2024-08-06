@@ -108,11 +108,19 @@ export function hex(color: string) {
  * @param styleKey
  */
 export function toLine(styleKey: string) {
+    // 忽略 css 变量
+    if (styleKey.startsWith('-'))
+        return styleKey;
+
     return styleKey.replace(/([A-Z])/g, '-$1').toLowerCase();
 }
 
-export function toHump(name: string) {
-    return name.replace(/\-(\w)/g, (all, letter) => {
+export function toHump(styleKey: string) {
+    // 忽略 css 变量
+    if (styleKey.startsWith('-'))
+        return styleKey;
+
+    return styleKey.replace(/\-(\w)/g, (all, letter) => {
         return letter.toUpperCase();
     });
 }

@@ -1,5 +1,5 @@
 import type { CSSProperties, PropType } from 'vue';
-import { defineComponent, onBeforeUnmount, ref, watch } from 'vue';
+import { defineComponent, onBeforeUnmount, ref } from 'vue';
 import { MonacoEditor } from '@webank/letgo-components';
 import { debounce } from 'lodash-es';
 import { engineConfig } from '@webank/letgo-editor-core';
@@ -15,18 +15,12 @@ export const CodeView = defineComponent({
     setup(props) {
         const initValue = ref(parseToCssCode(props.value));
 
-        watch(() => props.value, () => {
-            initValue.value = parseToCssCode(props.value);
-        });
-
         const monacoEditorRef = ref();
         const onChange = debounce((value: string) => {
             try {
-                if (!monacoEditorRef.value.isSyntaxError()) {
-                    const styleData = parseToStyleData(value);
-                    if (styleData)
-                        props.onStyleChange?.(styleData, false);
-                }
+                const styleData = parseToStyleData(value);
+                if (styleData)
+                    props.onStyleChange?.(styleData, false);
             }
             catch (_) {
                 console.warn(_);

@@ -151,7 +151,6 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
             () => this.exportSchema(IPublicEnumTransformStage.Serialize),
             (schema) => {
                 this.importSchema(schema || rootSchema);
-                this.simulator?.rerender();
             },
             this,
         );

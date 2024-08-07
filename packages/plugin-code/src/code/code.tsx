@@ -4,9 +4,9 @@ import type { Designer } from '@webank/letgo-designer';
 import { InnerGlobalVariables } from '@webank/letgo-common';
 import { isDirectory } from '@webank/letgo-types';
 import type { ICodeItemOrDirectory } from '@webank/letgo-types';
-import { Close, ExpandLeft, ExpandRight } from '@icon-park/vue-next';
 import { CodeList } from '../common';
 import { useOnClickSim } from '../use';
+import CodeHeader from '../common/code-header';
 import CodeEdit from './code-edit';
 
 export default defineComponent({
@@ -49,11 +49,9 @@ export default defineComponent({
             activeItem.value = null;
         });
 
-        const isFullScreen = ref(false);
         const fullscreenStyle = ref();
-        const toggleFullScreen = () => {
-            isFullScreen.value = !isFullScreen.value;
-            if (isFullScreen.value) {
+        const toggleFullscreen = (isFullscreen: boolean) => {
+            if (isFullscreen) {
                 fullscreenStyle.value = {
                     width: '1000px',
                 };
@@ -61,29 +59,6 @@ export default defineComponent({
             else {
                 fullscreenStyle.value = null;
             }
-        };
-        const renderFullScreen = () => {
-            if (isFullScreen.value) {
-                return (
-                    <ExpandRight
-                        class="letgo-plg-code__screen-icon"
-                        size={18}
-                        theme="outline"
-                        onClick={toggleFullScreen}
-                    >
-                    </ExpandRight>
-                );
-            }
-
-            return (
-                <ExpandLeft
-                    class="letgo-plg-code__screen-icon"
-                    size={18}
-                    theme="outline"
-                    onClick={toggleFullScreen}
-                >
-                </ExpandLeft>
-            );
         };
 
         const onClose = () => {
@@ -106,10 +81,7 @@ export default defineComponent({
                         props.rootEl && !isDirectory(activeItem.value) && (
                             <Teleport to={props.rootEl}>
                                 <div v-show={props.currentTab === 'code' && activeItem.value} class="letgo-plg-code__detail" style={fullscreenStyle.value}>
-                                    <div class="letgo-plg-code__header">
-                                        {renderFullScreen()}
-                                        <Close onClick={onClose} size={16} class="letgo-plg-code__header-close" />
-                                    </div>
+                                    <CodeHeader onClose={onClose} toggleFullscreen={toggleFullscreen} />
                                     <CodeEdit project={props.designer.project} codeItem={activeItem.value} />
                                 </div>
                             </Teleport>

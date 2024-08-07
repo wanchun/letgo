@@ -82,7 +82,7 @@ export function genClassCodeInstance(ctx: Context, rootSchema: IPublicTypeRootSc
         })),
         code: `
         const __instance__ = new ${CLASS_NAME}({
-            globalContext: {
+            globalCtx: {
                 ${ctx.classUseCodes.$globalCode.join(',\n')}
             },
             instances: {

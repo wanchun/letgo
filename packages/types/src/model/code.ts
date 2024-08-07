@@ -30,6 +30,8 @@ export interface IPublicModelCode {
 
     addDirectory: (id?: string) => ICodeDirectory;
 
+    hasCodeId: (id?: string) => boolean;
+
     addCodeItem: (item: ICodeItem) => void;
 
     addCodeItemInDirectory: (directoryId: string, typeOrCodeItem: IEnumCodeType | ICodeItem, params?: Record<string, any>) => ICodeItem;

@@ -1,3 +1,51 @@
+# [1.1.0](https://github.com/wanchun/letgo/compare/v1.0.3...v1.1.0) (2024-8-7)
+
+
+### Bug Fixes
+
+* 变量执行添加日志 ([e150cdd](https://github.com/wanchun/letgo/commit/e150cdd3b6d843c21209631f16a7e8dad5adfd6c))
+* 插件名字问题 ([ceea04c](https://github.com/wanchun/letgo/commit/ceea04c4800ada80e3e7c8a068169351a846e9bf))
+* 出码编码 html 特殊字符 ([#84](https://github.com/wanchun/letgo/issues/84)) ([ae34faf](https://github.com/wanchun/letgo/commit/ae34fafce59bb74a0ed6c88bc8d5d938acfec92a))
+* 错误提示 + 代码立刻响应折中 ([6230d51](https://github.com/wanchun/letgo/commit/6230d51c35e98ff13ddba1bc39cfd811b13b5cd4))
+* 更改文案 ([f121858](https://github.com/wanchun/letgo/commit/f1218586531cdeab8dc59c7fda1e80e35ab8144f))
+* 过滤多余的日志 ([ebdf9d9](https://github.com/wanchun/letgo/commit/ebdf9d9d40f8b872eee8afb873ba30d41d5c516e))
+* 解决 importSchema 有重复 id 问题 ([10133ba](https://github.com/wanchun/letgo/commit/10133baacc7ee544e1d586517324ced86202fd18))
+* 解决部分问题 ([2283c2c](https://github.com/wanchun/letgo/commit/2283c2c85b5019f959b3017e75fe178c922927c1))
+* 类型提示问题 ([d7e4c59](https://github.com/wanchun/letgo/commit/d7e4c59e2fd99e5fe64ff857580689c79a6a89c1))
+* 去掉多余带阿米 ([9e30479](https://github.com/wanchun/letgo/commit/9e304792d660d6e676d97391ac106da76a5ea79c))
+* 收敛日志输出 ([eb22136](https://github.com/wanchun/letgo/commit/eb22136bf3c60ff3e554dcb685d7c4d0a3afc9e0))
+* 收敛日志输出 ([bc45196](https://github.com/wanchun/letgo/commit/bc4519682ee04e7413d8d48c709c174195a2bb9c))
+* 添加部分log ([e82675a](https://github.com/wanchun/letgo/commit/e82675adcf7f529e38fc7262763e7c05cff243a2))
+* 修复 style setter 问题 ([#88](https://github.com/wanchun/letgo/issues/88)) ([593a02b](https://github.com/wanchun/letgo/commit/593a02bb9a2946862e8549e36f048e48239786e4))
+* 修复绑定事件问题 ([e01820b](https://github.com/wanchun/letgo/commit/e01820bd318c71b7f8ffff25ad08f13736fd2740))
+* 修复部分问题 ([f93a05c](https://github.com/wanchun/letgo/commit/f93a05c56479dde703dc120d211cfe67cbfc6109))
+* 修复函数判断逻辑 ([8ab5efc](https://github.com/wanchun/letgo/commit/8ab5efcfbea5b70d1423eb0f88264a8b972e46e1))
+* 修复退出编辑器内存/节点/事件不释放问题 ([4225cd9](https://github.com/wanchun/letgo/commit/4225cd9cc84489eb7b61fe05e06d00619673df38))
+* 修复重新 importSchema container 不渲染问题 ([d12c694](https://github.com/wanchun/letgo/commit/d12c6947cb09643efdd226b66e269c17bb92ec18))
+* 优化部分日志 ([85f4c6e](https://github.com/wanchun/letgo/commit/85f4c6e291d6d405c4b26733664e970499396551))
+* 优化代码编辑 ([71fe936](https://github.com/wanchun/letgo/commit/71fe936f1899fcbe8bacc48124158284d24dd5f2))
+* 优化交互 ([03b11e0](https://github.com/wanchun/letgo/commit/03b11e0c61bda98bb1f5eea94ab36698e3df34a9))
+* 优化日志打印 ([8c0e280](https://github.com/wanchun/letgo/commit/8c0e280647f2a824d6d8fb73d67e8bceebd827ef))
+* 优化日志打印 ([ceb4a2e](https://github.com/wanchun/letgo/commit/ceb4a2ec675b612a1302045f807c08f4de46a038))
+* 优化area边框和拖拽效果 ([071d3d6](https://github.com/wanchun/letgo/commit/071d3d6494d24c32fcc0b6eaa2d2e6f0f47442ef))
+* 元素定位 ([f1b18f5](https://github.com/wanchun/letgo/commit/f1b18f54bc81bb859972efdcd2925e750b2369d4))
+* remove history import schema renderer ([195c4af](https://github.com/wanchun/letgo/commit/195c4afd72b77bb5c6174d2bf5baa5721351f667))
+* simulator 添加 logger ([78b4991](https://github.com/wanchun/letgo/commit/78b499151a73cfcdf4db7cf252b3bd05fb29f752))
+
+
+### Features
+
+* 出码添加更友好的异常提示 ([#85](https://github.com/wanchun/letgo/issues/85)) ([f305a43](https://github.com/wanchun/letgo/commit/f305a431f0163ef0dea133bf01a904d3789c69a1))
+* 类型定义支持直接跳转到源码 ([ce4639d](https://github.com/wanchun/letgo/commit/ce4639d5449cb7e787c5d718dbd16dad9e80fd08))
+* 添加 header ([1cb75ca](https://github.com/wanchun/letgo/commit/1cb75cab80c89a3aa0359bc36f1d4df06aba24a2))
+* 添加 UI demo ([7378340](https://github.com/wanchun/letgo/commit/7378340375d7c4d93ad657d52579f41b9e4e1922))
+* 添加组件描述字段 desc ([#86](https://github.com/wanchun/letgo/issues/86)) ([04e35ff](https://github.com/wanchun/letgo/commit/04e35ff8f324c1699991b26ae58d42734a189ab5))
+* 完善日志输出 ([ebffe6e](https://github.com/wanchun/letgo/commit/ebffe6e2cb8a0cf553e0c8d5771cecc4228dc9e0))
+* 优化 renderer, 去除 ast 依赖 ([cc56f09](https://github.com/wanchun/letgo/commit/cc56f099d9752afb3e9f2e56b00a09a575a02bde))
+* parseExpression 添加日志 ([9eded8c](https://github.com/wanchun/letgo/commit/9eded8c5d6bd11b64caa1cc3ce841f5ff71faac6))
+
+
+
 ## [1.0.3](https://github.com/wanchun/letgo/compare/v1.0.2...v1.0.3) (2024-8-6)
 
 

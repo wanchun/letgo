@@ -1,3 +1,14 @@
+## [1.1.1](https://github.com/wanchun/letgo/compare/v1.1.0...v1.1.1) (2024-8-7)
+
+
+### Bug Fixes
+
+* 修复出码问题 ([f209325](https://github.com/wanchun/letgo/commit/f20932561b1862767a7b78269c4b6027cc723837))
+* 修复全局code全屏问题 + project 清理外放给用户 ([0313579](https://github.com/wanchun/letgo/commit/0313579183d619fb98ad3bbd2eaf27bf1ad2af43))
+* 优化清理逻辑 ([7c92ff3](https://github.com/wanchun/letgo/commit/7c92ff3abd354df27ff4c5371187a5b1fe73c229))
+
+
+
 # [1.1.0](https://github.com/wanchun/letgo/compare/v1.0.3...v1.1.0) (2024-8-7)
 
 

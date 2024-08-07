@@ -55,8 +55,4 @@ export class Project {
     setUtils(utils: IPublicTypeUtils) {
         this[projectSymbol].setUtils(utils);
     }
-
-    purge() {
-        return this[projectSymbol].purge();
-    }
 }

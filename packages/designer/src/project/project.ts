@@ -151,6 +151,7 @@ export class Project implements IBaseProject<DocumentModel, Code> {
     }
 
     importSchema(schema?: IPublicTypeProjectSchema, autoOpen?: boolean | string) {
+        this.purge();
         // importSchema new document
         this.data = {
             ...this.data,
@@ -342,7 +343,8 @@ export class Project implements IBaseProject<DocumentModel, Code> {
         this.config = {};
         this.css = '';
         this.id = '';
-        this.emitter.removeAllListeners();
+        // 先注释，避免多实例问题
+        // this.emitter.removeAllListeners();
         this.code.purge();
         if (this.documents.length) {
             for (let i = this.documents.length - 1; i >= 0; i--)

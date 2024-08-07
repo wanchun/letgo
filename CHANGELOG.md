@@ -1,3 +1,12 @@
+## [1.1.2](https://github.com/wanchun/letgo/compare/v1.1.1...v1.1.2) (2024-8-7)
+
+
+### Bug Fixes
+
+* 修复夸页面复制粘贴含全局逻辑导致异常的问题 ([ce851b5](https://github.com/wanchun/letgo/commit/ce851b51c164f423ac759bcb9ba7d85ae705c7bd))
+
+
+
 ## [1.1.1](https://github.com/wanchun/letgo/compare/v1.1.0...v1.1.1) (2024-8-7)
 
 

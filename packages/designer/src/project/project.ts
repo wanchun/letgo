@@ -151,7 +151,6 @@ export class Project implements IBaseProject<DocumentModel, Code> {
     }
 
     importSchema(schema?: IPublicTypeProjectSchema, autoOpen?: boolean | string) {
-        this.purge();
         // importSchema new document
         this.data = {
             ...this.data,

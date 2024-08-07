@@ -132,14 +132,6 @@ export const MonacoEditor = defineComponent({
         });
 
         expose({
-            isSyntaxError() {
-                const model = monacoEditor.value.getModel();
-
-                // 获取模型中的所有标记（包括错误和警告）
-                const markers = monaco.value.editor.getModelMarkers({ owner: model.getLanguageId() });
-                const errors = markers.filter(marker => marker.severity === monaco.value.MarkerSeverity.Error);
-                return errors.length !== 0;
-            },
             async getFormatValue(silent: boolean) {
                 const model = monacoEditor.value.getModel();
 

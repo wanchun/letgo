@@ -4,6 +4,8 @@ import { FScrollbar } from '@fesjs/fes-design';
 import type { ITemporaryState } from '@webank/letgo-types';
 import { ExpressionEditor } from '@webank/letgo-components';
 import './state-edit.less';
+import { debounce } from 'lodash-es';
+import { isSyntaxError } from '@webank/letgo-common';
 
 /**
  * TODO 待实现功能
@@ -36,6 +38,11 @@ export const StateEdit = defineComponent({
             });
         };
 
+        const onInput = debounce((val: string) => {
+            if (!isSyntaxError(val))
+                changeInitValue(val);
+        }, 300);
+
         return () => {
             return (
                 <FScrollbar containerClass="letgo-comp-logic__state">
@@ -47,6 +54,7 @@ export const StateEdit = defineComponent({
                                 hints={props.hints}
                                 doc={props.codeItem.initValue}
                                 onChange={changeInitValue}
+                                onInput={onInput}
                                 id={props.codeItem.id}
                             />
                         </div>

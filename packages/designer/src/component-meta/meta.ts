@@ -3,10 +3,12 @@ import type {
     IPublicModelComponentMeta,
     IPublicTypeComponentAction,
     IPublicTypeComponentMetadata,
+    IPublicTypeComponentSchema,
     IPublicTypeNestingFilter,
     IPublicTypeNodeData,
     IPublicTypeNodeSchema,
     IPublicTypeNpmInfo,
+    IPublicTypeProjectSchema,
     IPublicTypeTransformedComponentMetadata,
 } from '@webank/letgo-types';
 import { EventEmitter } from 'eventemitter3';
@@ -248,6 +250,12 @@ export class ComponentMeta implements IPublicModelComponentMeta<INode> {
 
     childWhitelist?: IPublicTypeNestingFilter | null;
 
+    private _schema?: IPublicTypeProjectSchema<IPublicTypeComponentSchema>;
+
+    get schema() {
+        return this._schema;
+    }
+
     get npm() {
         return this._npm;
     }
@@ -337,6 +345,7 @@ export class ComponentMeta implements IPublicModelComponentMeta<INode> {
         this._title = title;
         this._description = description;
         this._acceptable = false;
+        this._schema = metadata.schema;
 
         const { component } = configure;
         if (component) {

@@ -1,7 +1,4 @@
-import { IPublicEnumTransformStage, definePlugin, project } from '@webank/letgo-engine';
-import { FTooltip } from '@fesjs/fes-design';
-import { EyeOutlined } from '@fesjs/fes-design/icon';
-import { render } from 'vue';
+import { definePlugin } from '@webank/letgo-engine';
 
 export default definePlugin({
     name: 'PluginBottom',
@@ -16,6 +13,12 @@ export default definePlugin({
             },
             render: () => <div>111</div>,
             renderHeader: () => '日志',
+        });
+    },
+    destroy({ skeleton }) {
+        skeleton.remove({
+            name: 'PluginTestSkeleton',
+            area: 'bottomArea',
         });
     },
 });

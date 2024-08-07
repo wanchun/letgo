@@ -1,6 +1,7 @@
-import { request } from '@webank/letgo-renderer';
+import { config, request } from '@webank/letgo-renderer';
 import simulator from './simulator';
 import { warn } from './utils';
+import { host } from './host';
 
 const win = window as any;
 
@@ -9,6 +10,9 @@ if (typeof win !== 'undefined') {
     if (!win.letgoRequest)
         win.letgoRequest = request;
 }
+
+// 注入 logger
+config.setLogger(host.logger);
 
 win.addEventListener('load', () => {
     if (!win.__VUE_HMR_RUNTIME__) {

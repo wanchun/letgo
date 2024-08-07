@@ -8,6 +8,7 @@
     "keywords": [],
     "sideEffects": false,
     "module": "es/index.js",
+    "types": "./es/index.d.ts",
     "files": [
         "es",
         "lib"
@@ -19,6 +20,5 @@
     "devDependencies": {},
     "publishConfig": {
         "access": "public"
-    },
-    "typings": "./es/index.d.ts"
+    }
 }

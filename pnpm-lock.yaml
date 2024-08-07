@@ -119,12 +119,12 @@ importers:
       astring:
         specifier: ^1.8.6
         version: 1.8.6
+      eventemitter3:
+        specifier: ^5.0.1
+        version: 5.0.1
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
-      zen-logger:
-        specifier: ^1.1.0
-        version: 1.1.4
 
   packages/components:
     dependencies:
@@ -399,6 +399,9 @@ importers:
       '@icon-park/vue-next':
         specifier: ^1.4.2
         version: 1.4.2(vue@3.4.21)
+      '@vueuse/core':
+        specifier: ^10.7.1
+        version: 10.9.0(vue@3.4.21)
       '@webank/letgo-common':
         specifier: ^1.0.0
         version: link:../common
@@ -493,6 +496,30 @@ importers:
       '@webank/letgo-types':
         specifier: ^1.0.0
         version: link:../types
+      vue:
+        specifier: ^3.3.9
+        version: 3.4.21(typescript@5.4.2)
+
+  packages/plugin-console:
+    dependencies:
+      '@fesjs/fes-design':
+        specifier: ^0.8.38
+        version: 0.8.38(vue@3.4.21)
+      '@icon-park/vue-next':
+        specifier: ^1.4.2
+        version: 1.4.2(vue@3.4.21)
+      '@vueuse/core':
+        specifier: ^10.7.1
+        version: 10.9.0(vue@3.4.21)
+      '@webank/letgo-common':
+        specifier: ^1.0.0
+        version: link:../common
+      '@webank/letgo-editor-skeleton':
+        specifier: ^1.0.1
+        version: link:../editor-skeleton
+      '@webank/letgo-engine-plugin':
+        specifier: ^1.0.1
+        version: link:../engine-plugin
       vue:
         specifier: ^3.3.9
         version: 3.4.21(typescript@5.4.2)
@@ -770,6 +797,9 @@ importers:
       '@webank/letgo-plugin-code':
         specifier: workspace:*
         version: link:../plugin-code
+      '@webank/letgo-plugin-console':
+        specifier: workspace:*
+        version: link:../plugin-console
       '@webank/letgo-plugin-css':
         specifier: workspace:*
         version: link:../plugin-css
@@ -9575,10 +9605,6 @@ packages:
     optionalDependencies:
       commander: 9.5.0
     dev: true
-
-  /zen-logger@1.1.4:
-    resolution: {integrity: sha512-Aidoas1IyoaJ+wxV0lefJsMtWTMfiKduICtNpni03CRu4GKIuEXd38/CWDQzGNfhhoNfkHKKF1nLOpKcTb4jXw==}
-    dev: false
 
   /zod@3.22.4:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}

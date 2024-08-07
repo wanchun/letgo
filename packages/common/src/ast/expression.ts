@@ -120,28 +120,3 @@ export function isExpression(code: string, isInclude: (name: string) => boolean)
         return false;
     }
 }
-
-// TODO 改成 with 的方式，而不是替换变量
-export function executeExpression(text: string | null, ctx: Record<string, any> = {}, whenErrorReturnRaw = false) {
-    if (isNil(text))
-        return undefined;
-
-    if (text.trim() === '')
-        return null;
-
-    try {
-        // eslint-disable-next-line no-new-func
-        const fn = new Function('_ctx', `
-            with(_ctx) {
-                return (${text});
-            }
-        `);
-
-        return fn.call(ctx.__this, ctx);
-    }
-    catch (_) {
-        if (whenErrorReturnRaw)
-            return text;
-        return undefined;
-    }
-}

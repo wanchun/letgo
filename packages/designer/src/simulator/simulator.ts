@@ -31,9 +31,13 @@ import {
     isDragNodeObject,
     isLocationData,
 } from '@webank/letgo-types';
+import type {
+    Logger,
+} from '@webank/letgo-common';
 import {
     assetBundle,
     assetItem,
+    getLogger,
     hasOwnProperty,
     isElement,
     markComputed,
@@ -99,6 +103,8 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
 
     readonly project: Project;
 
+    readonly logger: Logger;
+
     readonly designer: Designer;
 
     readonly viewport: Viewport = new Viewport();
@@ -157,6 +163,7 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
         markComputed(this, ['device', 'deviceClassName', 'deviceStyle', 'designMode']);
         this.designer = designer;
         this.project = designer.project;
+        this.logger = getLogger({ belong: 'simulator', outputToConsole: true });
         this.scroller = new Scroller(this.viewport);
     }
 
@@ -461,7 +468,7 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
 
     setupContextMenu() {
         const doc = this.contentDocument!;
-        doc.addEventListener('contextmenu', (e: MouseEvent) => {
+        const handleContextMenu = (e: MouseEvent) => {
             const targetElement = e.target as HTMLElement;
             const nodeInst = this.getNodeInstanceFromElement(targetElement);
             const editor = this.designer?.editor;
@@ -482,6 +489,11 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
                 node,
                 originalEvent: e,
             });
+        };
+        doc.addEventListener('contextmenu', handleContextMenu);
+
+        this.disposes.push(() => {
+            doc.removeEventListener('contextmenu', handleContextMenu);
         });
     }
 
@@ -1100,6 +1112,8 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
         this._iframe = null;
         this._contentWindow = null;
         this._renderer = null;
+        this.scroller.purge();
+        this.viewport.purge();
         this.emitter.removeAllListeners();
         this.disposes.forEach(fn => fn());
     }

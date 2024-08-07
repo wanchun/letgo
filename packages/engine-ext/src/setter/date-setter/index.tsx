@@ -1,8 +1,6 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, onMounted } from 'vue';
-import { isJSExpression } from '@webank/letgo-types';
 import type { IPublicTypeJSExpression, IPublicTypeSetter } from '@webank/letgo-types';
-import { executeExpression } from '@webank/letgo-common';
 import { isArray, isNumber, isUndefined } from 'lodash-es';
 import { FDatePicker } from '@fesjs/fes-design';
 import { commonProps } from '../../common';
@@ -52,21 +50,6 @@ const DateSetterView = defineComponent({
             const value = isUndefined(props.value)
                 ? props.defaultValue
                 : props.value;
-
-            if (isArray(value)) {
-                return value.map((val) => {
-                    if (isJSExpression(val))
-                        return (executeExpression(val.value) as any)?.getTime();
-
-                    else if (isNumber(val))
-                        return val;
-
-                    return undefined;
-                }).filter(val => val !== undefined);
-            }
-
-            if (isJSExpression(value))
-                return (executeExpression(value.value) as any)?.getTime();
 
             if (isNumber(value))
                 return value;

@@ -22,7 +22,7 @@ import { Plugin } from './plugin';
 import { PluginContext } from './plugin-context';
 import sequencify from './sequencify';
 
-const logger = getLogger({ level: 'warn', bizName: 'engine:pluginManager' });
+const logger = getLogger({ belong: 'engine:pluginManager' });
 
 export class PluginManager implements IPluginManager {
     readonly editor: Editor;
@@ -74,7 +74,7 @@ export class PluginManager implements IPluginManager {
         }
         const { name: pluginName, meta = {} } = pluginConfig;
         const { preferenceDeclaration, engines } = meta;
-        const ctx = this._getPluginContext({ pluginName });
+        const ctx = this._getPluginContext({ pluginName, meta });
         invariant(pluginName, 'pluginConfig.pluginName required', pluginConfig);
 
         ctx.setPreference(
@@ -92,11 +92,9 @@ export class PluginManager implements IPluginManager {
                 // clear existing plugin
                 const originalPlugin = this.pluginsMap.get(pluginName);
                 logger.log(
-                    'plugin override, originalPlugin with name ',
-                    pluginName,
-                    ' will be destroyed, config:',
-                    originalPlugin?.config,
+                    `plugin override, originalPlugin with name: ${pluginName}, will be destroyed, config: ${originalPlugin?.config}`,
                 );
+
                 originalPlugin?.destroy();
                 this.pluginsMap.delete(pluginName);
             }
@@ -151,11 +149,12 @@ export class PluginManager implements IPluginManager {
         );
         if (idx === -1)
             return false;
-        const plugin = this.plugins[idx];
-        await plugin.destroy();
 
+        const plugin = this.plugins[idx];
         this.plugins.splice(idx, 1);
-        return this.pluginsMap.delete(pluginName);
+        this.pluginsMap.delete(pluginName);
+        await plugin.destroy();
+        return true;
     }
 
     async init(pluginPreference?: IPluginPreference) {
@@ -172,7 +171,7 @@ export class PluginManager implements IPluginManager {
             'plugin dependency missing',
             missingTasks,
         );
-        logger.log('load plugin sequence:', sequence);
+        logger.log(`load plugin sequence:${sequence}`);
 
         for (const pluginName of sequence) {
             try {
@@ -182,7 +181,7 @@ export class PluginManager implements IPluginManager {
                 logger.error(
                     `Failed to init plugin:${pluginName}, it maybe affect those plugins which depend on this.`,
                 );
-                logger.error(e);
+                logger.error(e as Error);
             }
         }
     }

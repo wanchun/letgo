@@ -9,6 +9,7 @@ import semver from 'semver';
 import enquirer from 'enquirer';
 import { execa } from 'execa';
 
+import { getBranchName } from './git.mjs';
 import { getNeedPubPkg } from './build-shard.mjs';
 
 const { prompt } = enquirer;
@@ -17,20 +18,24 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const { preid: preId, dry: isDryRun } = minimist(process.argv.slice(2));
 const packages = getNeedPubPkg();
 
-const versionIncrements = ['patch', 'minor', 'major', 'prepatch', 'preminor', 'premajor', 'prerelease'];
+const versionIncrements = ['patch', 'minor', 'major', 'prepatch', 'preminor', 'premajor'];
 
 const ROOT_PKG_PATH = join(process.cwd(), 'package.json');
 
+const currentBranch = await getBranchName();
+
+const isBeta = currentBranch.includes('beta') || currentBranch.includes('release-');
+
 function incVersion(version, i) {
     let _preId = preId || semver.prerelease(version)?.[0];
-    if (!_preId && /pre/.test(i))
+    if (!_preId && (isBeta || /pre/.test(i)))
         _preId = 'beta';
 
     return semver.inc(version, i, _preId);
 }
 function autoIncVersion(version) {
-    if (version.includes('-'))
-        return semver.inc(version, 'prerelease');
+    if (version.includes('-') || isBeta)
+        return semver.inc(version, 'prerelease', 'beta');
 
     return semver.inc(version, 'patch');
 }

@@ -5,8 +5,8 @@ import { isEqual } from 'lodash-es';
 import type { IJavascriptQuery, IRestQueryResource } from '@webank/letgo-types';
 import { FCheckbox, FInputNumber, FOption, FSelect } from '@fesjs/fes-design';
 import { ExpressionEditor } from '@webank/letgo-components';
-import Category from './category';
 import ContentItem from '../../content-item';
+import Category from './category';
 import './advance.less';
 
 export default defineComponent({
@@ -74,6 +74,7 @@ export default defineComponent({
                 },
             });
         };
+
         const renderHeaders = () => {
             if (isRestQueryResource(props.codeItem)) {
                 return (

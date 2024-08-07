@@ -9,11 +9,11 @@ let widget: Widget | undefined;
 let panel: Panel | undefined;
 
 export default definePlugin({
-    name: 'PluginCodePanel',
+    name: 'PluginCode',
     init({ skeleton, editor, designer }) {
         panel = skeleton.add({
             type: 'Panel',
-            name: 'CodePanel',
+            name: 'PluginCodePanel',
             area: 'leftFloatArea',
             render: () => <PanelView editor={editor} designer={designer} />,
             props: {
@@ -24,7 +24,7 @@ export default definePlugin({
         });
         widget = skeleton.add({
             area: 'leftArea',
-            name: 'CodeWidget',
+            name: 'PluginCodeWidget',
             type: 'Widget',
             render: () => (
                 <FTooltip content="逻辑" placement="right">
@@ -38,6 +38,7 @@ export default definePlugin({
                     </span>
                 </FTooltip>
             ),
+            index: -999,
         }).link(panel);
     },
     destroy({ skeleton }) {

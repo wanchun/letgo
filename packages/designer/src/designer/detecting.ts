@@ -58,4 +58,9 @@ export class Detecting implements IPublicModelDetecting<DocumentModel, INode> {
             this.emitter.off(DETECTING_CHANGE_EVENT, fn);
         };
     }
+
+    purge() {
+        this._current = null;
+        this.emitter.removeAllListeners();
+    }
 }

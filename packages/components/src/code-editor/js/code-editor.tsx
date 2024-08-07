@@ -19,6 +19,7 @@ export const CodeEditor = defineComponent({
         documentModel: Object as PropType<IPublicModelDocumentModel>,
         hints: Object as PropType<Record<string, any>>,
         doc: String,
+        onInput: Function as PropType<(doc: string, id?: string) => void>,
         onChange: Function as PropType<(doc: string, id?: string) => void>,
         onBlur: Function as PropType<(doc: string, id?: string) => void>,
         onFocus: Function as PropType<(doc: string, id?: string) => void>,
@@ -52,8 +53,8 @@ export const CodeEditor = defineComponent({
         id: String,
         placeholder: String,
     },
-    setup(props, { attrs }) {
-        const { containerRef, isFullScreen, toggleFullScreen } = useCodeEditor(props);
+    setup(props, { attrs, expose }) {
+        const { containerRef, isFullScreen, getFormattedCode, toggleFullScreen } = useCodeEditor(props);
         const innerStyle = computed(() => {
             if (isFullScreen.value)
                 return null;
@@ -83,6 +84,10 @@ export const CodeEditor = defineComponent({
                 </FullScreenTwo>
             );
         };
+
+        expose({
+            getFormattedCode,
+        });
 
         return () => {
             return (

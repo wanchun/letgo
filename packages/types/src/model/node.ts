@@ -258,8 +258,6 @@ export interface IBaseModelNode<
      */
     isRoot: () => boolean;
 
-    isModal: () => boolean;
-
     isLeaf: () => boolean;
 
     isSlot: () => boolean;

@@ -8,7 +8,7 @@
     "keywords": [],
     "sideEffects": false,
     "module": "es/index.js",
-    "typings": "./es/index.d.ts",
+    "types": "./es/index.d.ts",
     "files": [
         "es",
         "lib"

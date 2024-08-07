@@ -27,13 +27,14 @@ function transform(codeTemplate: Template, params?: Record<string, any>) {
     });
 }
 
-function genProjectCodes(schema: IPublicTypeProjectSchema) {
+function genProjectCodes(schema: IPublicTypeProjectSchema, logger: Record<string, any>) {
     const fileTree = genProject({
         // isSdkRender: true,
         // sdkRenderConfig: {
         //     pickClassCode: true,
         // },
         schema,
+        logger,
         transformJsx: (filesStruct) => {
             return filesStruct.map((item) => {
                 item.importSources.unshift({
@@ -102,14 +103,17 @@ function _genLowcodeComponent(schema: IPublicTypeProjectSchema) {
 }
 
 export default defineComponent({
-    setup() {
+    props: {
+        logger: Object,
+    },
+    setup(props) {
         const handleGenCode = async () => {
             const schema = project.exportSchema(IPublicEnumTransformStage.Save);
 
             if (isLowcodeComponent(schema))
                 exportZip(_genLowcodeComponent(schema));
             else
-                exportZip(genProjectCodes(schema));
+                exportZip(genProjectCodes(schema, props.logger));
         };
         return () => {
             return (

@@ -8,6 +8,7 @@ import { genPackageJSON } from '../common/pkg';
 import type { Context, FileTree, GenOptions } from '../common/types';
 import { setOptions } from '../options';
 import { CLASS_FILE_NAME, genClassCodeStr } from '../class-code/gen-class-code';
+import { registerLogger } from '../common/log';
 import { toAssemble } from './build';
 import { genLowCodeComponent } from './gen-lowcode-component';
 
@@ -34,6 +35,9 @@ function genGlobalCss(fileTree: FileTree, options: GenOptions) {
 }
 
 export function genProject(_options: GenOptions): FileTree {
+    if (_options.logger)
+        registerLogger(_options.logger);
+
     const options = setOptions(_options);
     const fileTree: FileTree = {};
 

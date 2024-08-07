@@ -25,28 +25,26 @@ const FunctionSetterView = defineComponent({
                 : props.value?.value;
         });
 
-        const onChange = (val: string) => {
-            try {
-                if (val.trim()) {
-                    props.onChange({
-                        type: 'JSFunction',
-                        value: val,
-                    });
-                }
-                else {
-                    // 清空
-                    props.onChange();
-                }
+        const changeFunction = (code: string) => {
+            if (code?.trim()) {
+                props.onChange({
+                    type: 'JSFunction',
+                    value: code,
+                });
             }
-            catch (e) {}
+            else {
+                // 清空
+                props.onChange();
+            }
         };
+
         return () => {
             return (
                 <CodeEditor
                     documentModel={props.node.document}
                     doc={currentValue.value}
                     placeholder={props.placeholder || 'Please Enter Function'}
-                    onChange={onChange}
+                    onChange={changeFunction}
                     compRef={props.node.ref}
                 >
                 </CodeEditor>

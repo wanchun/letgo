@@ -1,7 +1,8 @@
-import { eventHandlersToJsFunction, markShallowReactive } from '@webank/letgo-common';
-import type { IEnumResourceType, IEventHandler, IFailureCondition, IJavascriptQuery } from '@webank/letgo-types';
-import { IEnumCacheType, IEnumCodeType, IEnumRunCondition } from '@webank/letgo-types';
-import { funcSchemaToFunc } from '../../parse';
+import { LogIdType, markShallowReactive } from '@webank/letgo-common';
+import type { IEnumResourceType, IEventHandler, IJavascriptQuery, IPublicTypeJSFunction } from '@webank/letgo-types';
+import { IEnumCacheType, IEnumCodeType, IEnumRunCondition, isRunFunctionEventHandler } from '@webank/letgo-types';
+import { eventHandlerToJsFunction, funcSchemaToFunc } from '../../parse';
+import config from '../../config';
 import { cacheControl, clearCache } from './cache-control';
 
 export class JavascriptQueryBase {
@@ -57,23 +58,43 @@ export class JavascriptQueryBase {
             loading: false,
         });
 
-        this.successEventInstances = this.eventSchemaToFunc(this.successEvent);
-        this.failureEventInstances = this.eventSchemaToFunc(this.failureEvent);
+        this.successEventInstances = this.eventSchemaToFunc(this.successEvent, 'successEvent');
+        this.failureEventInstances = this.eventSchemaToFunc(this.failureEvent, 'failureEvent');
     }
 
     changeDeps(deps: string[]) {
         this.deps = deps;
     }
 
-    eventSchemaToFunc(events: IEventHandler[] = []) {
+    eventSchemaToFunc(events: IEventHandler[] = [], eventType: string) {
         if (!events.length)
             return [];
-        const jsExpressionMap = eventHandlersToJsFunction(events);
-        const jsExpressions = Object.keys(jsExpressionMap).reduce((acc, cur) => {
-            acc = acc.concat(jsExpressionMap[cur]);
-            return acc;
-        }, []);
-        return jsExpressions.map(item => funcSchemaToFunc(item, this.ctx)).filter(Boolean);
+
+        const eventStatements: ReturnType<typeof funcSchemaToFunc>[] = [];
+
+        events.forEach((item: IEventHandler, index: number) => {
+            let jsFunc: IPublicTypeJSFunction;
+            if (isRunFunctionEventHandler(item) && (item.namespace || item.funcBody))
+                jsFunc = eventHandlerToJsFunction(item);
+
+            else if ((item.namespace && item.method))
+                jsFunc = eventHandlerToJsFunction(item);
+
+            if (jsFunc) {
+                eventStatements.push(funcSchemaToFunc({
+                    schema: jsFunc,
+                    exeCtx: this.ctx,
+                    infoCtx: {
+                        idType: LogIdType.CODE,
+                        id: this.id,
+                        paths: [eventType, index],
+                        content: item,
+                    },
+                }));
+            }
+        });
+
+        return eventStatements.filter(Boolean);
     }
 
     timeoutPromise(timeout: number) {
@@ -164,7 +185,10 @@ export class JavascriptQueryBase {
                 else
                     this.error = err.toString();
 
-                console.warn(err);
+                config.logError(err, {
+                    id: this.id,
+                    idType: LogIdType.CODE,
+                });
                 throw err;
             }
             finally {

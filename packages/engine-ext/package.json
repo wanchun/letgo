@@ -34,7 +34,7 @@
     "publishConfig": {
         "access": "public"
     },
-    "typings": "./es/index.d.ts",
+    "types": "./es/index.d.ts",
     "devDependencies": {
         "vue": "^3.4.14"
     }

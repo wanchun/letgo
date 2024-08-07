@@ -162,6 +162,7 @@ export class Selection implements IPublicModelSelection<INode> {
     }
 
     purge() {
+        this._selected = [];
         this.emitter.removeAllListeners();
     }
 }

@@ -18,7 +18,7 @@ export class ScrollTarget implements IPublicModelScrollTarget {
             : this.target.scrollTop;
     }
 
-    scrollTo(options: { left?: number, top?: number }) {
+    scrollTo(options: { left?: number; top?: number }) {
         this.target.scrollTo(options);
     }
 
@@ -69,7 +69,7 @@ export class Scroller implements IPublicModelScroller {
         return target;
     }
 
-    scrollTo(options: { left?: number, top?: number }) {
+    scrollTo(options: { left?: number; top?: number }) {
         this.cancel();
 
         const { scrollTarget } = this;
@@ -123,7 +123,7 @@ export class Scroller implements IPublicModelScroller {
         pid = this.pid;
     }
 
-    scrolling(point: { globalX: number, globalY: number }) {
+    scrolling(point: { globalX: number; globalY: number }) {
         this.cancel();
 
         const { bounds, scale = 1 } = this.scrollable;
@@ -194,5 +194,9 @@ export class Scroller implements IPublicModelScroller {
             cancelAnimationFrame(this.pid);
 
         this.pid = undefined;
+    }
+
+    purge() {
+        this.cancel();
     }
 }

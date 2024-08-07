@@ -178,9 +178,7 @@ export const BuiltinHotkey = definePlugin({
         const { clipboard } = canvas;
 
         // hotkey binding
-        hotkey.bind(['backspace', 'del'], (e: KeyboardEvent, action) => {
-            logger.info(`action ${action} is triggered`);
-
+        hotkey.bind(['backspace', 'del'], (e: KeyboardEvent) => {
             if (canvas.isInLiveEditing)
                 return;
 
@@ -355,7 +353,7 @@ export const BuiltinHotkey = definePlugin({
 
             e.preventDefault();
 
-            const currentItem = skeleton.leftFloatArea.items.find(item => item.name === 'CodePanel');
+            const currentItem = skeleton.leftFloatArea.items.find(item => item.name === 'PluginCodePanel');
             if (currentItem)
                 currentItem.toggle();
         });

@@ -179,6 +179,21 @@ export default function (
                 },
             });
         }
+        if (!isSlot) {
+            advancedGroup.push({
+                name: getConvertedExtraKey('desc'),
+                title: '描述',
+                setter: {
+                    componentName: 'TextareaSetter',
+                    props: {
+                        placeholder: '用于 AI 分析 Schema',
+                    },
+                },
+                extraProps: {
+                    display: 'block',
+                },
+            });
+        }
     }
 
     if (advancedGroup.length > 0) {

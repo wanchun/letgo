@@ -27,4 +27,10 @@ export default definePlugin({
             render: () => <FTooltip content="预览" placement="top"><EyeOutlined size={20} onClick={() => doPreview()}></EyeOutlined></FTooltip>,
         });
     },
+    destroy({ skeleton }) {
+        skeleton.remove({
+            name: 'PluginPreviewSkeleton',
+            area: 'toolbarArea',
+        });
+    },
 });

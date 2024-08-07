@@ -24,6 +24,6 @@
         "forceConsistentCasingInFileNames": true,
         "skipLibCheck": true
     },
-    "files": ["global.d.ts"],
+    "files": ["global.d.ts", "icon-park.d.ts"],
     "exclude": ["**/tests/*", "**/*.test.ts", "**/lib", "**/es", "node_modules"]
 }

@@ -88,7 +88,7 @@ export default defineComponent({
                 : null;
         };
 
-        const changeAction = (action: string) => {
+        const resetAction = (action: string) => {
             innerEditEvent.value = {
                 ...innerEditEvent.value,
                 ...initOptions[action],
@@ -103,7 +103,7 @@ export default defineComponent({
         const renderAction = () => {
             return (
                 <Label label="动作">
-                    <FSelect appendToContainer={false} v-model={innerEditEvent.value.action} onChange={changeAction}>
+                    <FSelect appendToContainer={false} v-model={innerEditEvent.value.action} onChange={resetAction}>
                         {actionOptions.value.map(action => <FOption value={action.value}>{action.label}</FOption>)}
                     </FSelect>
                 </Label>

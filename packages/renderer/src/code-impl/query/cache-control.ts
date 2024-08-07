@@ -1,5 +1,6 @@
 import { isPlainObject, isString } from 'lodash-es';
 import { IEnumCacheType } from '@webank/letgo-types';
+import rendererConfig from '../../config';
 
 const CACHE_KEY_PREFIX = 'letgo-query_';
 
@@ -87,7 +88,7 @@ class RamCache {
                 map.delete(key);
         });
         if (this.data.size > 1000) {
-            console.warn('Request: ram cache is exceed 1000 item, please check cache size');
+            rendererConfig.logWarn('Request: ram cache is exceed 1000 item, please check cache size');
             return;
         }
 
@@ -236,7 +237,7 @@ export async function cacheControl(config: CacheConfig, fn: () => Promise<any>) 
                 setCacheData(key, response, cacheConfig);
             }
             else {
-                console.warn(`[query cache]: ${key} 响应数据无法序列化，无法缓存，请移除相关配置`);
+                rendererConfig.logWarn(`[query cache]: ${key} 响应数据无法序列化，无法缓存，请移除相关配置`);
             }
 
             return response;

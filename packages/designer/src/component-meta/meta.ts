@@ -108,13 +108,13 @@ export function getRegisteredMetadataTransducers(): IMetadataTransducer[] {
 }
 
 const builtinComponentActions: IPublicTypeComponentAction[] = [
-    // {
-    //     name: 'next',
-    //     content: ({ node }: { node: INode }) => {
-    //         return [h(AddNextComponent, { node })];
-    //     },
-    //     important: true,
-    // },
+    {
+        name: 'next',
+        content: ({ node }: { node: INode }) => {
+            return [h(AddNextComponent, { node })];
+        },
+        important: true,
+    },
     {
         name: 'copy',
         content: {

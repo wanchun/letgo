@@ -30,12 +30,12 @@ export const version = ENGINE_VERSION_PLACEHOLDER;
 
 engineConfig.set('ENGINE_VERSION', version);
 
-const { config, designer, plugins, skeleton, material, project, hotkey, setters } = new PluginContext(innerPlugins, {
+const { designer, plugins, skeleton, material, project, hotkey, setters } = new PluginContext(innerPlugins, {
     pluginName: 'CommonPlugin',
     meta: {},
 });
 
-export { editor, config, designer, plugins, skeleton, material, project, hotkey, setters, registerMetadataTransducer };
+export { editor, designer, plugins, skeleton, material, project, hotkey, setters, registerMetadataTransducer };
 
 // 注册一批内置插件
 function loadBuiltInPlugins() {
@@ -107,8 +107,6 @@ export const LetgoEngine = defineComponent({
             await unInstall();
             innerHotKey.purge();
             innerDesigner.purge();
-            engineConfig.purge();
-            editor.purge();
         });
 
         return () => {

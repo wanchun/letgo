@@ -158,7 +158,7 @@ export class Project implements IBaseProject<DocumentModel, Code> {
     }
 
     importSchema(schema?: IPublicTypeProjectSchema, autoOpen?: boolean | string) {
-        this.clearDocument();
+        this.clearDocuments();
         // importSchema new document
         this.data = {
             ...this.data,
@@ -342,7 +342,7 @@ export class Project implements IBaseProject<DocumentModel, Code> {
         };
     }
 
-    clearDocument() {
+    clearDocuments() {
         // 只清掉要换的部分
         this.code.purge();
         this.codesInstance = {};
@@ -360,6 +360,6 @@ export class Project implements IBaseProject<DocumentModel, Code> {
         this.css = '';
         this.id = '';
         this.emitter.removeAllListeners();
-        this.clearDocument();
+        this.clearDocuments();
     }
 }

@@ -36,16 +36,45 @@ export class ContextMenuActions implements IContextMenuActions {
         this.dispose.push(
             engineConfig.onGot('enableContextMenu', (enable: boolean) => {
                 this.enableContextMenu = enable;
-                if (enable)
-                    this.initEvent();
+            }),
+        );
+        this.initEvent();
+    }
+
+    initEvent() {
+        const designer = this.designer;
+
+        this.dispose.push(
+            designer.editor.onEvent('designer.builtinSimulator.contextmenu', ({
+                node,
+                originalEvent,
+            }: {
+                node?: INode;
+                originalEvent: MouseEvent;
+            }) => {
+                if (!this.enableContextMenu)
+                    return;
+
+                originalEvent.stopPropagation();
+                originalEvent.preventDefault();
+
+                if (!node)
+                    node = designer.currentDocument.root;
+
+                // 如果右键的节点不在 当前选中的节点中，选中该节点
+                if (!designer.currentSelection.has(node.id))
+                    designer.currentSelection.select(node.id);
+
+                const nodes = designer.currentSelection.getNodes();
+                this.handleContextMenu(nodes as unknown as IPublicModelNode[], originalEvent);
             }),
         );
     }
 
-    handleContextMenu = (
+    handleContextMenu(
         nodes: IPublicModelNode[],
         event: MouseEvent,
-    ) => {
+    ) {
         const designer = this.designer;
         event.stopPropagation();
         event.preventDefault();
@@ -66,33 +95,6 @@ export class ContextMenuActions implements IContextMenuActions {
         const { destroy } = createContextMenu(menus, event, [simulatorLeft, simulatorTop]);
         this.dispose.push(destroy);
     };
-
-    initEvent() {
-        const designer = this.designer;
-
-        this.dispose.push(
-            designer.editor.onEvent('designer.builtinSimulator.contextmenu', ({
-                node,
-                originalEvent,
-            }: {
-                node?: INode;
-                originalEvent: MouseEvent;
-            }) => {
-                originalEvent.stopPropagation();
-                originalEvent.preventDefault();
-
-                if (!node)
-                    node = designer.currentDocument.root;
-
-                // 如果右键的节点不在 当前选中的节点中，选中该节点
-                if (!designer.currentSelection.has(node.id))
-                    designer.currentSelection.select(node.id);
-
-                const nodes = designer.currentSelection.getNodes();
-                this.handleContextMenu(nodes as unknown as IPublicModelNode[], originalEvent);
-            }),
-        );
-    }
 
     addMenuAction(action: IPublicTypeContextMenuAction) {
         this.actions.push({

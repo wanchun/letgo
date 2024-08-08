@@ -86,7 +86,7 @@ export class Project implements IBaseProject<DocumentModel, Code> {
         markComputed(this, ['extraGlobalState']);
         this.code = new Code(this);
         if (schema)
-            this.importSchema(schema);
+            this.load(schema);
 
         this.setup();
     }
@@ -157,8 +157,7 @@ export class Project implements IBaseProject<DocumentModel, Code> {
         );
     }
 
-    importSchema(schema?: IPublicTypeProjectSchema, autoOpen?: boolean | string) {
-        this.clearDocuments();
+    load(schema?: IPublicTypeProjectSchema, autoOpen?: boolean | string) {
         // importSchema new document
         this.data = {
             ...this.data,
@@ -186,6 +185,28 @@ export class Project implements IBaseProject<DocumentModel, Code> {
                 this.openDocument(autoOpen);
             }
         }
+    }
+
+    importSchema(schema?: IPublicTypeProjectSchema) {
+        this.clearDocuments();
+        this.data = {
+            ...this.data,
+            componentsMap: [],
+            componentsTree: [],
+            ...schema,
+        };
+        this.config = schema?.config || this.config;
+        this.css = schema?.css;
+        if (schema?.id)
+            this.id = schema?.id;
+        this.code.initCode(schema?.code);
+        const documentInstances = this.data.componentsTree.map(data =>
+            this.createDocument(data),
+        );
+        if (documentInstances[0])
+            this.openDocument(documentInstances[0]);
+        else
+            this.designer.simulator?.rerender();
     }
 
     exportSchema(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Save): IPublicTypeProjectSchema {

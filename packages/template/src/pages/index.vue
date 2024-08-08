@@ -55,6 +55,7 @@ IconSetter.defaultIcons = icons;
 //         code: [],
 //     },
 // });
+
 project.openDocument({
     componentName: 'Page',
     id: 'hello',
@@ -123,6 +124,93 @@ project.openDocument({
         },
     ],
 });
+
+setTimeout(() => {
+    // project.currentDocument.importSchema({
+    //     componentName: 'Page',
+    //     id: 'hello',
+    //     ref: 'root',
+    //     props: {},
+    //     fileName: 'compText',
+    //     code: {
+    //         directories: [],
+    //         code: [
+    //             {
+    //                 id: 'variable1',
+    //                 type: 'temporaryState',
+    //                 initValue: 'new Array((10 * 1024 * 40) / 4).fill(0)',
+    //             },
+    //             {
+    //                 id: 'variable2',
+    //                 type: 'temporaryState',
+    //                 initValue: '1',
+    //             },
+    //         ],
+    //     },
+    //     isLocked: false,
+    //     condition: true,
+    //     title: '',
+    //     children: [
+    //         {
+    //             componentName: 'FButton',
+    //             id: 'fButton2',
+    //             ref: 'fButton2',
+    //             props: {
+    //                 children: '按钮',
+    //             },
+    //             title: '按钮',
+    //             isLocked: false,
+    //             condition: true,
+    //         },
+    //     ],
+    // });
+    project.importSchema({
+        id: '1',
+        version: '1.0.0',
+        componentsMap: [],
+        componentsTree: [
+            {
+                componentName: 'Page',
+                id: 'hello',
+                ref: 'root',
+                props: {},
+                fileName: 'compText',
+                code: {
+                    directories: [],
+                    code: [
+                        {
+                            id: 'variable1',
+                            type: 'temporaryState',
+                            initValue: 'new Array((10 * 1024 * 40) / 4).fill(0)',
+                        },
+                        {
+                            id: 'variable2',
+                            type: 'temporaryState',
+                            initValue: '1',
+                        },
+                    ],
+                },
+                isLocked: false,
+                condition: true,
+                title: '',
+                children: [
+                    {
+                        componentName: 'FButton',
+                        id: 'fButton2',
+                        ref: 'fButton2',
+                        props: {
+                            children: '按钮',
+                        },
+                        title: '按钮',
+                        isLocked: false,
+                        condition: true,
+                    },
+                ],
+            },
+        ],
+    });
+}, 2000);
+
 console.log('project:', project);
 
 const options = reactive({

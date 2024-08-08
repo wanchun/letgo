@@ -3,6 +3,9 @@ import ExportBtn from './export-btn';
 
 export default definePlugin({
     name: 'PluginCodeGenerator',
+    meta: {
+        logToConsole: true,
+    },
     init({ skeleton, logger }) {
         skeleton.add({
             name: 'exportCodeButton',

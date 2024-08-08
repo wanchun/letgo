@@ -151,7 +151,6 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
             () => this.exportSchema(IPublicEnumTransformStage.Serialize),
             (schema) => {
                 this.importSchema(schema || rootSchema);
-                this.simulator?.rerender();
             },
             this,
         );
@@ -219,6 +218,7 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
         this.classCode = schema.classCode;
         // 等 code 实例化滞以后再实例化 root
         this.rootNode?.importSchema(schema);
+        this.simulator?.rerender();
     }
 
     exportSchema(stage: IPublicEnumTransformStage = IPublicEnumTransformStage.Serialize) {
@@ -281,8 +281,8 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
     nextId(possibleId: string | undefined, componentName: string) {
         let id = possibleId;
 
-        // 如果没有id，或者id已经被使用，则重新生成一个新的
-        while (!id || this.nodesMap.get(id)) {
+        // 如果id已经被使用，或者没有 id 则重新生成一个新的
+        while (this.nodesMap.get(id) || !id) {
             const count = componentUseTimes[componentName] || 1;
             id = `${camelCase(componentName)}${count}`;
             componentUseTimes[componentName] = count + 1;
@@ -297,8 +297,8 @@ export class DocumentModel implements IPublicModelDocumentModel<Project, Compone
     nextRef(possibleId: string | undefined, componentName: string) {
         let ref = possibleId;
 
-        // 如果没有id，或者id已经被使用，则重新生成一个新的
-        while (!ref || this.state.componentsInstance[ref]) {
+        // 如果id已经被使用，或者没有id，则重新生成一个新的
+        while (this.state.componentsInstance[ref] || !ref) {
             const count = componentRefTimes[componentName] || 1;
             ref = `${camelCase(componentName)}${count}`;
             componentRefTimes[componentName] = count + 1;

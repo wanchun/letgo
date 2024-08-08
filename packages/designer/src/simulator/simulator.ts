@@ -163,7 +163,7 @@ export class Simulator implements ISimulator<IPublicTypeSimulatorProps> {
         markComputed(this, ['device', 'deviceClassName', 'deviceStyle', 'designMode']);
         this.designer = designer;
         this.project = designer.project;
-        this.logger = getLogger({ belong: 'simulator' });
+        this.logger = getLogger({ belong: 'simulator', outputToConsole: true });
         this.scroller = new Scroller(this.viewport);
     }
 

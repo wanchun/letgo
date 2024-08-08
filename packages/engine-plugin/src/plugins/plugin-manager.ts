@@ -74,7 +74,7 @@ export class PluginManager implements IPluginManager {
         }
         const { name: pluginName, meta = {} } = pluginConfig;
         const { preferenceDeclaration, engines } = meta;
-        const ctx = this._getPluginContext({ pluginName });
+        const ctx = this._getPluginContext({ pluginName, meta });
         invariant(pluginName, 'pluginConfig.pluginName required', pluginConfig);
 
         ctx.setPreference(

@@ -17,8 +17,8 @@ function _useLog() {
         return logList.filter(item => item.level === 'info').length;
     });
 
-    const unListener = onLogger((log) => {
-        if (['simulator', 'plugin:PluginCodeGenerator'].includes(log.belong)) {
+    const unListener = onLogger((log, outputToConsole) => {
+        if (outputToConsole) {
             const result = formatLog(log);
             if (logList.findIndex(item => item.id === result.id && item.formattedMsg === result.formattedMsg) === -1)
                 logList.unshift(result);

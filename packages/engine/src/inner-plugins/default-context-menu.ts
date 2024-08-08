@@ -133,15 +133,22 @@ export const DefaultContextMenu = definePlugin({
 
                     const codeMap = genCodeMap(copyData.code);
                     const sortResult = sortState(codeMap);
+                    const hasId = (id: string) => {
+                        return doc.code.hasCodeId(id) || doc.project.code.hasCodeId(id);
+                    };
                     sortResult.forEach((codeId) => {
                         if (copyData.code.code.find(item => item.id === codeId)) {
-                            doc.code.addCodeItem(codeMap.get(codeId));
+                            if (!hasId(codeId))
+                                doc.code.addCodeItem(codeMap.get(codeId));
                         }
                         else {
                             for (const directory of copyData.code.directories) {
                                 if (directory.code.some(item => item.id === codeId)) {
-                                    doc.code.addDirectory(directory.id);
-                                    doc.code.addCodeItemInDirectory(directory.id, codeMap.get(codeId));
+                                    if (!hasId(directory.id))
+                                        doc.code.addDirectory(directory.id);
+
+                                    if (!hasId(codeId))
+                                        doc.code.addCodeItemInDirectory(directory.id, codeMap.get(codeId));
                                 }
                             }
                         }

@@ -12,97 +12,34 @@ export interface IContextMenuActions {
 
     removeMenuAction: IPublicApiMaterial['removeContextMenuOption'];
 
+    setup: () => void;
+
     purge: () => void;
 }
 
-export class GlobalContextMenuActions {
-    enableContextMenu: boolean;
-
-    dispose: Function[];
-
-    contextMenuActionsMap: Map<string, ContextMenuActions> = new Map();
-
-    constructor() {
-        this.dispose = [];
-        engineConfig.onGot('enableContextMenu', (enable: boolean) => {
-            if (this.enableContextMenu === enable)
-                return;
-
-            this.enableContextMenu = enable;
-            this.dispose.forEach(d => d());
-            if (enable)
-                this.initEvent();
-        });
-    }
-
-    handleContextMenu = (
-        event: MouseEvent,
-    ) => {
-        event.stopPropagation();
-        event.preventDefault();
-
-        const actions: IPublicTypeContextMenuAction[] = [];
-        this.contextMenuActionsMap.forEach((contextMenu) => {
-            actions.push(...contextMenu.actions);
-        });
-
-        const menus = parseContextMenuProperties(actions, {
-            nodes: [],
-            event,
-        });
-
-        if (!menus.length)
-            return;
-
-        createContextMenu(menus, event);
-    };
-
-    initEvent() {
-        this.dispose.push(
-            (() => {
-                const handleContextMenu = (e: MouseEvent) => {
-                    this.handleContextMenu(e);
-                };
-
-                document.addEventListener('contextmenu', handleContextMenu);
-
-                return () => {
-                    document.removeEventListener('contextmenu', handleContextMenu);
-                };
-            })(),
-        );
-    }
-
-    registerContextMenuActions(contextMenu: ContextMenuActions) {
-        this.contextMenuActionsMap.set(contextMenu.id, contextMenu);
-    }
-}
-
 export class ContextMenuActions implements IContextMenuActions {
+    readonly designer: Designer;
+
+    readonly id: string = uniqueId('contextMenu');
+
     actions: IPublicTypeContextMenuAction[] = [];
 
-    designer: Designer;
-
-    dispose: Function[];
-    listeners: Function[] = [];
+    dispose: Function[] = [];
 
     enableContextMenu: boolean;
-
-    id: string = uniqueId('contextMenu');
 
     constructor(designer: Designer) {
         this.designer = designer;
-        this.dispose = [];
-        this.listeners.push(engineConfig.onGot('enableContextMenu', (enable: boolean) => {
-            if (this.enableContextMenu === enable)
-                return;
+    }
 
-            this.enableContextMenu = enable;
-            this.dispose.forEach(d => d());
-            this.dispose = [];
-            if (enable)
-                this.initEvent();
-        }));
+    setup() {
+        this.dispose.push(
+            engineConfig.onGot('enableContextMenu', (enable: boolean) => {
+                this.enableContextMenu = enable;
+                if (enable)
+                    this.initEvent();
+            }),
+        );
     }
 
     handleContextMenu = (
@@ -126,7 +63,8 @@ export class ContextMenuActions implements IContextMenuActions {
         if (!menus.length)
             return;
 
-        createContextMenu(menus, event, [simulatorLeft, simulatorTop]);
+        const { destroy } = createContextMenu(menus, event, [simulatorLeft, simulatorTop]);
+        this.dispose.push(destroy);
     };
 
     initEvent() {
@@ -170,9 +108,8 @@ export class ContextMenuActions implements IContextMenuActions {
     }
 
     purge() {
-        this.listeners.forEach(listener => listener());
-        this.listeners = [];
         this.dispose.forEach(dispose => dispose());
         this.dispose = [];
+        this.actions = [];
     }
 }

@@ -179,9 +179,11 @@ export class Designer implements IPublicModelDesigner<Project, DocumentModel, Co
         this.setupProject();
         this.setupSelection();
         this.setupHistory();
+        this.contextMenuActions.setup();
     };
 
     setupProject = () => {
+        this.project.setup();
         this.project.onCurrentDocumentChange(() => {
             this.editor.emit(
                 'designer.currentDocument.change',

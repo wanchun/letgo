@@ -102,8 +102,11 @@ export function createContextMenu(items: MenuItem[], event: MouseEvent, offset?:
     }
 
     function destroy() {
-        render(null, container);
-        container = null;
+        if (container) {
+            render(null, container);
+            container = null;
+        }
+        showContextMenu = null;
     }
 
     function renderContextMenu() {

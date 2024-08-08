@@ -196,6 +196,7 @@ export class EngineConfig {
 
     purge(): void {
         this.config = {};
+        this.waits.clear();
     }
 }
 

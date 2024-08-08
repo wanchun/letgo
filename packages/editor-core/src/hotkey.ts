@@ -374,6 +374,8 @@ export class Hotkey implements IHotKey {
 
     private isActivate = true;
 
+    private dispose: () => void;
+
     constructor(readonly viewName: string = 'global') {
     }
 
@@ -381,13 +383,13 @@ export class Hotkey implements IHotKey {
         this.isActivate = activate;
     }
 
-    mount(window: Window) {
+    setup(window: Window) {
         const { document } = window;
         const handleKeyEvent = this.handleKeyEvent.bind(this);
         document.addEventListener('keypress', handleKeyEvent, false);
         document.addEventListener('keydown', handleKeyEvent, false);
         document.addEventListener('keyup', handleKeyEvent, false);
-        return () => {
+        this.dispose = () => {
             document.removeEventListener('keypress', handleKeyEvent, false);
             document.removeEventListener('keydown', handleKeyEvent, false);
             document.removeEventListener('keyup', handleKeyEvent, false);
@@ -643,5 +645,10 @@ export class Hotkey implements IHotKey {
     private bindMultiple(combinations: string[], callback: IPublicTypeHotkeyCallback, action?: string) {
         for (const item of combinations)
             this.bindSingle(item, callback, action);
+    }
+
+    purge() {
+        this.dispose?.();
+        this.dispose = null;
     }
 }

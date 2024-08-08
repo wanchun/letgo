@@ -32,6 +32,7 @@ engineConfig.set('ENGINE_VERSION', version);
 
 const { config, designer, plugins, skeleton, material, project, hotkey, setters } = new PluginContext(innerPlugins, {
     pluginName: 'CommonPlugin',
+    meta: {},
 });
 
 export { editor, config, designer, plugins, skeleton, material, project, hotkey, setters, registerMetadataTransducer };
@@ -78,10 +79,9 @@ export const LetgoEngine = defineComponent({
         const isReady = ref(false);
 
         let unInstall: () => Promise<void>;
-        let unMount: () => void;
 
         onBeforeMount(async () => {
-            unMount = innerHotKey.mount(window);
+            innerHotKey.setup(window);
             innerDesigner.setup();
 
             if (props.options)
@@ -104,9 +104,11 @@ export const LetgoEngine = defineComponent({
         });
 
         onBeforeUnmount(async () => {
-            unMount();
             await unInstall();
+            innerHotKey.purge();
             innerDesigner.purge();
+            engineConfig.purge();
+            editor.purge();
         });
 
         return () => {

@@ -1,4 +1,4 @@
-import { markShallowReactive, uniqueId } from '@webank/letgo-common';
+import { markComputed, markShallowReactive, uniqueId } from '@webank/letgo-common';
 import type { IPublicModelOffsetObserver } from '@webank/letgo-types';
 import type { INode, INodeSelector, IViewport } from '../types';
 
@@ -127,6 +127,8 @@ export class OffsetObserver implements IPublicModelOffsetObserver<INode> {
             _right: 0,
             _bottom: 0,
         });
+
+        markComputed(this, ['height', 'width', 'top', 'left', 'bottom', 'right', 'offsetLeft', 'offsetTop', 'offsetHeight', 'offsetWidth', 'scale']);
 
         const { node, instance } = nodeInstance;
         const doc = node.document;

@@ -85,7 +85,14 @@ export class Project implements IBaseProject<DocumentModel, Code> {
         });
         markComputed(this, ['extraGlobalState']);
         this.code = new Code(this);
-        this.importSchema(schema);
+        if (schema)
+            this.importSchema(schema);
+
+        this.setup();
+    }
+
+    setup() {
+        this.code.setup();
     }
 
     genCodeId = (type: IEnumCodeType | 'variable' | 'folder'): string => {
@@ -151,7 +158,7 @@ export class Project implements IBaseProject<DocumentModel, Code> {
     }
 
     importSchema(schema?: IPublicTypeProjectSchema, autoOpen?: boolean | string) {
-        this.purge();
+        this.clearDocument();
         // importSchema new document
         this.data = {
             ...this.data,
@@ -335,20 +342,24 @@ export class Project implements IBaseProject<DocumentModel, Code> {
         };
     }
 
-    purge() {
+    clearDocument() {
         // 只清掉要换的部分
-        this._currentDocument = null;
+        this.code.purge();
         this.codesInstance = {};
         this.utilsInstance = {};
-        this.config = {};
-        this.css = '';
-        this.id = '';
-        // 先注释，避免多实例问题
-        // this.emitter.removeAllListeners();
-        this.code.purge();
+        this._currentDocument = null;
         if (this.documents.length) {
             for (let i = this.documents.length - 1; i >= 0; i--)
                 this.documents[i].remove();
         }
+    }
+
+    purge() {
+        // 只清掉要换的部分
+        this.config = {};
+        this.css = '';
+        this.id = '';
+        this.emitter.removeAllListeners();
+        this.clearDocument();
     }
 }

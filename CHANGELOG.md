@@ -1,3 +1,12 @@
+## [1.1.3](https://github.com/wanchun/letgo/compare/v1.1.2...v1.1.3) (2024-8-9)
+
+
+### Bug Fixes
+
+* 修复 query 编辑问题 + condition 出码问题" ([#94](https://github.com/wanchun/letgo/issues/94)) ([483dc68](https://github.com/wanchun/letgo/commit/483dc68ef9785a1f0089882a7c0c743c1e0a4e64))
+
+
+
 ## [1.1.2](https://github.com/wanchun/letgo/compare/v1.1.1...v1.1.2) (2024-8-7)
 
 

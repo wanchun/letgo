@@ -78,6 +78,7 @@ export default defineComponent({
             return (
                 <div>
                     <ContentItem
+                        key={`api_${props.codeItem.id}`}
                         label="请求方法"
                         labelStyle="width: 72px"
                         v-slots={{
@@ -92,6 +93,7 @@ export default defineComponent({
                                             doc={props.codeItem.api}
                                             onBlur={onApiInputBlur}
                                             onChange={changeApiPath}
+                                            id={`api_${props.codeItem.id}`}
                                         />
                                     </div>
                                 );
@@ -100,6 +102,7 @@ export default defineComponent({
                     />
 
                     <ContentItem
+                        key={`params_${props.codeItem.id}`}
                         label="请求参数"
                         labelStyle="width: 72px"
                         v-slots={{
@@ -111,6 +114,7 @@ export default defineComponent({
                                         placeholder="params"
                                         doc={props.codeItem.params}
                                         onChange={changeParams}
+                                        id={`params_${props.codeItem.id}`}
                                     />
                                 );
                             },
@@ -118,6 +122,7 @@ export default defineComponent({
                     />
 
                     <ContentItem
+                        key={`transform_${props.codeItem.id}`}
                         label="数据转换"
                         labelStyle="width: 72px"
                         v-slots={{
@@ -132,7 +137,7 @@ export default defineComponent({
                                             <CodeEditor
                                                 hints={props.hints}
                                                 doc={props.codeItem.transformer}
-                                                id={props.codeItem.id}
+                                                id={`transform_${props.codeItem.id}`}
                                                 onChange={changeTransformer}
                                             />
                                         )

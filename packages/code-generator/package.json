@@ -1,7 +1,7 @@
 {
     "name": "@webank/letgo-code-generator",
     "type": "module",
-    "version": "1.1.2",
+    "version": "1.1.3",
     "description": "letgo code generator",
     "author": "",
     "license": "ISC",
@@ -13,9 +13,9 @@
         "lib"
     ],
     "dependencies": {
-        "@webank/letgo-common": "^1.1.1",
-        "@webank/letgo-components": "^1.1.1",
-        "@webank/letgo-renderer": "^1.1.2",
+        "@webank/letgo-common": "^1.1.2",
+        "@webank/letgo-components": "^1.1.2",
+        "@webank/letgo-renderer": "^1.1.3",
         "@webank/letgo-types": "^1.1.1",
         "acorn": "^8.12.0",
         "jszip": "^3.10.1",

@@ -165,14 +165,9 @@ function wrapCondition(code: string, condition: IPublicTypeCompositeValue, isRoo
             if (isSyntaxError(condition.value))
                 return code;
 
-            if (isRoot) {
-                return `
-                if (${condition.value}) {
-                    return ${code}
-                }
-                return null;
-                `;
-            }
+            if (isRoot)
+                return `(${condition.value}) && ${code}`;
+
             return `{
                 (${condition.value}) && ${code}
             }`;
@@ -210,14 +205,9 @@ function wrapLoop(code: string, nodeSchema: IPublicTypeNodeData, isRoot = false)
         if (!isNil(nodeSchema.condition)) {
             if (isJSExpression(nodeSchema.condition)) {
                 if (nodeSchema.condition.value && !isSyntaxError(nodeSchema.condition.value)) {
-                    if (isRoot) {
-                        return `
-                            if (${nodeSchema.condition.value}) {
-                                return ${result}
-                            }
-                            return null;
-                        `;
-                    }
+                    if (isRoot)
+                        return `(${nodeSchema.condition.value}) && ${result}`;
+
                     return `{${nodeSchema.condition.value} && ${result}}`;
                 }
             }
@@ -317,10 +307,9 @@ function genSlotDirective(ctx: Context, item: IPublicTypeNodeSchema, componentRe
     const slotDefine: Record<string, string> = {};
     const slotChildren = genNodeSchemaChildren(item).filter(item => isJSSlot(item));
     if (slotChildren.length) {
-        const hasMoreComp = slotChildren.length > 1;
         slotDefine.default = `
         () => {
-            return ${wrapFragment(compileNodeData(ctx, slotChildren, componentRefs, !hasMoreComp))}
+            return ${wrapFragment(compileNodeData(ctx, slotChildren, componentRefs, slotChildren.length <= 1))}
         }
         `;
     }
@@ -329,11 +318,15 @@ function genSlotDirective(ctx: Context, item: IPublicTypeNodeSchema, componentRe
         if (isJSSlot(cur)) {
             const slotName = cur.name || key;
             const params = ensureArray(cur.params);
-            const hasMoreComp = Array.isArray(cur.value) && cur.value.length > 1;
+            const slotChildren = ensureArray(cur.value);
+
+            if (slotChildren.length === 0)
+                return;
+
             ctx.scope = ctx.scope.concat(params);
             slotDefine[slotName] = `
             (${params.join(', ')}) => {
-                return ${wrapFragment(compileNodeData(ctx, cur.value, componentRefs, !hasMoreComp))}
+                return ${wrapFragment(compileNodeData(ctx, cur.value, componentRefs, slotChildren.length <= 1))}
             }
             `;
             ctx.scope = ctx.scope.slice(0, ctx.scope.length - params.length);
@@ -365,13 +358,15 @@ export function genSlots(
             return acc;
         }, {} as Record<string, any>), (key: string, value: IPublicTypeJSSlot) => {
             const params = ensureArray(value.params);
-            const hasMoreComp = Array.isArray(value.value) && value.value.length > 1;
+            const slotChildren = ensureArray(value.value);
+
             ctx.scope = ctx.scope.concat(params);
             slots.push(`
             const ${genPropSlotName(key, item.ref)} = (${params.join(', ')}) => {
-                return ${wrapFragment(compileNodeData(ctx, value.value, componentRefs, !hasMoreComp))}
+                return ${wrapFragment(compileNodeData(ctx, value.value, componentRefs, slotChildren.length <= 1))}
             }
             `);
+
             ctx.scope = ctx.scope.slice(0, ctx.scope.length - params.length);
         });
     });

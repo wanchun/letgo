@@ -314,7 +314,7 @@ function genSlotDirective(ctx: Context, item: IPublicTypeNodeSchema, componentRe
     if (slotChildren.length) {
         slotDefine.default = `
         () => {
-            return ${wrapFragment(compileNodeData(ctx, slotChildren, componentRefs, slotChildren.length > 1))}
+            return ${wrapFragment(compileNodeData(ctx, slotChildren, componentRefs, slotChildren.length <= 1))}
         }
         `;
     }
@@ -331,7 +331,7 @@ function genSlotDirective(ctx: Context, item: IPublicTypeNodeSchema, componentRe
             ctx.scope = ctx.scope.concat(params);
             slotDefine[slotName] = `
             (${params.join(', ')}) => {
-                return ${wrapFragment(compileNodeData(ctx, cur.value, componentRefs, slotChildren.length > 1))}
+                return ${wrapFragment(compileNodeData(ctx, cur.value, componentRefs, slotChildren.length <= 1))}
             }
             `;
             ctx.scope = ctx.scope.slice(0, ctx.scope.length - params.length);
@@ -367,10 +367,10 @@ export function genSlots(
 
             ctx.scope = ctx.scope.concat(params);
             slots.push(`
-                const ${genPropSlotName(key, item.ref)} = (${params.join(', ')}) => {
-                    return ${wrapFragment(compileNodeData(ctx, value.value, componentRefs, slotChildren.length > 1))}
-                }
-                `);
+            const ${genPropSlotName(key, item.ref)} = (${params.join(', ')}) => {
+                return ${wrapFragment(compileNodeData(ctx, value.value, componentRefs, slotChildren.length <= 1))}
+            }
+            `);
 
             ctx.scope = ctx.scope.slice(0, ctx.scope.length - params.length);
         });

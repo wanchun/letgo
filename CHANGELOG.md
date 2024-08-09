@@ -1,3 +1,15 @@
+## [1.1.4](https://github.com/wanchun/letgo/compare/v1.1.3...v1.1.4) (2024-8-9)
+
+
+### Bug Fixes
+
+* 优化 condition 的生成 ([9f0f22e](https://github.com/wanchun/letgo/commit/9f0f22ee02671dbe47989a59a88b0714026302ad))
+* 优化代码 ([45b6fce](https://github.com/wanchun/letgo/commit/45b6fce5661592aa1f838d3c962e6ff1bf8b77fe))
+* 修复 condition 问题 ([3e6a1ce](https://github.com/wanchun/letgo/commit/3e6a1ce4ee8a07b265f82c47738d567cd1d01fb0))
+* 修复 query editor 编辑和出码问题 ([a840683](https://github.com/wanchun/letgo/commit/a8406839fee5e51a7c4b11302fb1510becac7121))
+
+
+
 ## [1.1.3](https://github.com/wanchun/letgo/compare/v1.1.2...v1.1.3) (2024-8-9)
 
 

@@ -47,14 +47,15 @@ export class SettingsMain {
         this.setupSelection(this.designer.currentSelection);
         // 监听选中变化
         const setupSelection = this.setupSelection.bind(this);
-        this.editor.on('designer.selection.change', (selection) => {
+        const handleChange = (selection: Selection) => {
             // TODO: selectionChange和node render时机问题，这里应该有更合理的方式
             setTimeout(() => {
                 setupSelection(selection);
             }, 0);
-        });
+        };
+        this.editor.on('designer.selection.change', handleChange);
         this.disposeListener = () => {
-            this.editor.off('designer.selection.change', setupSelection);
+            this.editor.off('designer.selection.change', handleChange);
         };
     }
 
@@ -90,7 +91,9 @@ export class SettingsMain {
     }
 
     purge() {
+        this._settings?.purge();
         this.disposeListener();
         this.emitter.removeAllListeners();
+        this._currentNode = null;
     }
 }

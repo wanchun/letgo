@@ -55,6 +55,7 @@ IconSetter.defaultIcons = icons;
 //         code: [],
 //     },
 // });
+
 project.openDocument({
     componentName: 'Page',
     id: 'hello',
@@ -81,22 +82,135 @@ project.openDocument({
     title: '',
     children: [
         {
-            componentName: 'FButton',
-            id: 'fButton1',
-            ref: 'fButton1',
+            componentName: 'FTable',
+            id: 'fTable4',
+            ref: 'fTable4',
             props: {
-                children: {
-                    type: 'JSExpression',
-                    value: 'variable2.value',
-                    mock: null,
-                },
+                columns: [
+                    {
+                        prop: 'date',
+                        label: '日期',
+                    },
+                    {
+                        prop: 'name',
+                        label: '姓名',
+                    },
+                    {
+                        prop: 'address',
+                        label: '地址',
+                    },
+                ],
+                data: [
+                    {
+                        date: '2016-05-01',
+                        name: '王小虎',
+                        address: '上海市普陀区金沙江路 1516 弄',
+                    },
+                    {
+                        date: '2016-05-02',
+                        name: '王小虎',
+                        address: '上海市普陀区金沙江路 1516 弄',
+                    },
+                    {
+                        date: '2016-05-03',
+                        name: '王小虎',
+                        address: '上海市普陀区金沙江路 1516 弄',
+                    },
+                ],
             },
-            title: '按钮',
+            title: '表格',
             isLocked: false,
             condition: true,
         },
     ],
 });
+
+// setTimeout(() => {
+//     // project.currentDocument.importSchema({
+//     //     componentName: 'Page',
+//     //     id: 'hello',
+//     //     ref: 'root',
+//     //     props: {},
+//     //     fileName: 'compText',
+//     //     code: {
+//     //         directories: [],
+//     //         code: [
+//     //             {
+//     //                 id: 'variable1',
+//     //                 type: 'temporaryState',
+//     //                 initValue: 'new Array((10 * 1024 * 40) / 4).fill(0)',
+//     //             },
+//     //             {
+//     //                 id: 'variable2',
+//     //                 type: 'temporaryState',
+//     //                 initValue: '1',
+//     //             },
+//     //         ],
+//     //     },
+//     //     isLocked: false,
+//     //     condition: true,
+//     //     title: '',
+//     //     children: [
+//     //         {
+//     //             componentName: 'FButton',
+//     //             id: 'fButton2',
+//     //             ref: 'fButton2',
+//     //             props: {
+//     //                 children: '按钮',
+//     //             },
+//     //             title: '按钮',
+//     //             isLocked: false,
+//     //             condition: true,
+//     //         },
+//     //     ],
+//     // });
+//     project.importSchema({
+//         id: '1',
+//         version: '1.0.0',
+//         componentsMap: [],
+//         componentsTree: [
+//             {
+//                 componentName: 'Page',
+//                 id: 'hello',
+//                 ref: 'root',
+//                 props: {},
+//                 fileName: 'compText',
+//                 code: {
+//                     directories: [],
+//                     code: [
+//                         {
+//                             id: 'variable1',
+//                             type: 'temporaryState',
+//                             initValue: 'new Array((10 * 1024 * 40) / 4).fill(0)',
+//                         },
+//                         {
+//                             id: 'variable2',
+//                             type: 'temporaryState',
+//                             initValue: '1',
+//                         },
+//                     ],
+//                 },
+//                 isLocked: false,
+//                 condition: true,
+//                 title: '',
+//                 children: [
+//                     {
+//                         componentName: 'FButton',
+//                         id: 'fButton2',
+//                         ref: 'fButton2',
+//                         props: {
+//                             children: '按钮',
+//                         },
+//                         title: '按钮',
+//                         isLocked: false,
+//                         condition: true,
+//                     },
+//                 ],
+//             },
+//         ],
+//     });
+// }, 2000);
+
 console.log('project:', project);
 
 const options = reactive({

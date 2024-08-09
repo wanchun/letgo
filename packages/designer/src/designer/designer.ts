@@ -171,6 +171,30 @@ export class Designer implements IPublicModelDesigner<Project, DocumentModel, Co
 
         this.contextMenuActions = new ContextMenuActions(this);
 
+        this.editor.emit('designer.init', this);
+    }
+
+    setup = () => {
+        this.setupDragon();
+        this.setupProject();
+        this.setupSelection();
+        this.setupHistory();
+        this.contextMenuActions.setup();
+    };
+
+    setupProject = () => {
+        this.project.setup();
+        this.project.onCurrentDocumentChange(() => {
+            this.editor.emit(
+                'designer.currentDocument.change',
+                this.currentDocument,
+            );
+            this.setupSelection();
+            this.setupHistory();
+        });
+    };
+
+    setupDragon = () => {
         this.dragon.onDrag((e) => {
             if (this.props?.onDrag)
                 this.props.onDrag(e);
@@ -229,21 +253,7 @@ export class Designer implements IPublicModelDesigner<Project, DocumentModel, Co
         this.dragon.onDropLocationChange((loc) => {
             this.editor.emit('designer.dropLocation.change', loc);
         });
-
-        this.project.onCurrentDocumentChange(() => {
-            this.editor.emit(
-                'designer.currentDocument.change',
-                this.currentDocument,
-            );
-            this.setupSelection();
-            this.setupHistory();
-        });
-
-        // TODO: 整理 designer 生命周期事件
-        this.editor.emit('designer.init', this);
-        this.setupSelection();
-        this.setupHistory();
-    }
+    };
 
     setupSelection = () => {
         if (this.selectionDispose) {
@@ -405,26 +415,24 @@ export class Designer implements IPublicModelDesigner<Project, DocumentModel, Co
 
     createOffsetObserver(nodeInstance: INodeSelector) {
         const offsetObserver = createOffsetObserver(nodeInstance);
-        this.clearOffsetObserverList();
+        let l = this.offsetObserverList.length;
+        while (l-- > 0) {
+            if (this.offsetObserverList[l].isPurged)
+                this.offsetObserverList.splice(l, 1);
+        }
         if (offsetObserver)
             this.offsetObserverList.push(offsetObserver);
 
         return offsetObserver;
     }
 
-    private clearOffsetObserverList(force?: boolean) {
+    private clearOffsetObserverList() {
         let l = this.offsetObserverList.length;
-        if (l > 20 || force) {
-            while (l-- > 0) {
-                if (this.offsetObserverList[l].isPurged())
-                    this.offsetObserverList.splice(l, 1);
-            }
+        while (l-- > 0) {
+            if (!this.offsetObserverList[l].isPurged)
+                this.offsetObserverList[l].purge();
         }
-    }
-
-    touchOffsetObserver() {
-        this.clearOffsetObserverList(true);
-        this.offsetObserverList.forEach(item => item.compute());
+        this.offsetObserverList = [];
     }
 
     createSettingEntry(nodes: INode[]) {
@@ -435,8 +443,8 @@ export class Designer implements IPublicModelDesigner<Project, DocumentModel, Co
         // 只清掉要换的部分
         this._simulator = null;
         this._renderer = null;
-        this.clearOffsetObserverList(true);
         this.contextMenuActions.purge();
+        this.clearOffsetObserverList();
         this.dragon.purge();
         this.detecting.purge();
         this.project.purge();

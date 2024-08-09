@@ -171,6 +171,7 @@ function getSuitablePlaceForNode(targetNode: INode, node: INode, ref: any): any 
     return null;
 }
 
+let dispose: Array<() => void> = [];
 export const BuiltinHotkey = definePlugin({
     name: '___builtin_hotkey___',
     init(ctx) {
@@ -178,348 +179,380 @@ export const BuiltinHotkey = definePlugin({
         const { clipboard } = canvas;
 
         // hotkey binding
-        hotkey.bind(['backspace', 'del'], (e: KeyboardEvent) => {
-            if (canvas.isInLiveEditing)
-                return;
+        dispose.push(
+            hotkey.bind(['backspace', 'del'], (e: KeyboardEvent) => {
+                if (canvas.isInLiveEditing)
+                    return;
 
-            const doc = project.currentDocument;
-            if (isFormEvent(e) || !doc)
-                return;
+                const doc = project.currentDocument;
+                if (isFormEvent(e) || !doc)
+                    return;
 
-            e.preventDefault();
+                e.preventDefault();
 
-            const sel = doc.selection;
-            const topItems = sel.getTopNodes();
-            topItems.forEach((node) => {
-                if (node?.canPerformAction('remove'))
-                    node.remove();
-            });
-            sel.clear();
-        });
+                const sel = doc.selection;
+                const topItems = sel.getTopNodes();
+                topItems.forEach((node) => {
+                    if (node?.canPerformAction('remove'))
+                        node.remove();
+                });
+                sel.clear();
+            }),
+        );
 
         // command + c copy  command + x cut
-        hotkey.bind(['command+c', 'ctrl+c', 'command+x', 'ctrl+x'], (e, action) => {
-            logger.info(`action ${action} is triggered`);
-            if (canvas.isInLiveEditing)
-                return;
+        dispose.push(
+            hotkey.bind(['command+c', 'ctrl+c', 'command+x', 'ctrl+x'], (e, action) => {
+                logger.info(`action ${action} is triggered`);
+                if (canvas.isInLiveEditing)
+                    return;
 
-            const doc = project.currentDocument;
-            if (isFormEvent(e) || !doc)
-                return;
+                const doc = project.currentDocument;
+                if (isFormEvent(e) || !doc)
+                    return;
 
-            const anchorValue = document.getSelection()?.anchorNode?.nodeValue;
-            if (anchorValue && typeof anchorValue === 'string')
-                return;
+                const anchorValue = document.getSelection()?.anchorNode?.nodeValue;
+                if (anchorValue && typeof anchorValue === 'string')
+                    return;
 
-            e.preventDefault();
+                e.preventDefault();
 
-            let selected = doc.selection.getTopNodes(true);
-            selected = selected.filter((node) => {
-                return node?.canPerformAction('copy');
-            });
-            if (!selected || selected.length < 1)
-                return;
-
-            const componentsMap = {};
-            const componentsTree = selected.map(item => item?.exportSchema(IPublicEnumTransformStage.Clone));
-
-            // FIXME: clear node.id
-
-            const data = { type: 'nodeSchema', componentsMap, componentsTree };
-
-            clipboard.setData(data);
-
-            const cutMode = action && action.indexOf('x') > 0;
-            if (cutMode) {
-                selected.forEach((node) => {
-                    const parentNode = node?.parent;
-                    parentNode?.select();
-                    node?.remove();
+                let selected = doc.selection.getTopNodes(true);
+                selected = selected.filter((node) => {
+                    return node?.canPerformAction('copy');
                 });
-            }
-        });
+                if (!selected || selected.length < 1)
+                    return;
+
+                const componentsMap = {};
+                const componentsTree = selected.map(item => item?.exportSchema(IPublicEnumTransformStage.Clone));
+
+                // FIXME: clear node.id
+
+                const data = { type: 'nodeSchema', componentsMap, componentsTree };
+
+                clipboard.setData(data);
+
+                const cutMode = action && action.indexOf('x') > 0;
+                if (cutMode) {
+                    selected.forEach((node) => {
+                        const parentNode = node?.parent;
+                        parentNode?.select();
+                        node?.remove();
+                    });
+                }
+            }),
+        );
 
         // command + v paste
-        hotkey.bind(['command+v', 'ctrl+v'], async (e, action) => {
-            logger.info(`action ${action} is triggered`);
-            if (canvas.isInLiveEditing)
-                return;
-
-            const doc = project?.currentDocument;
-            if (isFormEvent(e) || !doc)
-                return;
-
-            const copyData = await getClipboardText(clipboard);
-            const { componentsTree } = copyData;
-            if (componentsTree) {
-                let nodes = componentsTree.map((item) => {
-                    return doc.createNode(item);
-                });
-                const { target, index } = getSuitableInsertion(ctx, nodes) || {};
-                if (!target)
+        dispose.push(
+            hotkey.bind(['command+v', 'ctrl+v'], async (e, action) => {
+                logger.info(`action ${action} is triggered`);
+                if (canvas.isInLiveEditing)
                     return;
 
-                const canAddComponentsTree = nodes.filter((node) => {
-                    const dragNodeObject: IPublicTypeDragNodeObject<INode> = {
-                        type: IPublicEnumDragObject.Node,
-                        nodes: [node],
-                    };
-                    return doc.checkNesting(target, dragNodeObject);
-                });
-                if (canAddComponentsTree.length === 0)
+                const doc = project?.currentDocument;
+                if (isFormEvent(e) || !doc)
                     return;
 
-                nodes = insertChildren(target, canAddComponentsTree, index);
-                if (nodes)
-                    doc.selection.selectAll(nodes.map(o => o.id));
-            }
-        });
+                const copyData = await getClipboardText(clipboard);
+                const { componentsTree } = copyData;
+                if (componentsTree) {
+                    let nodes = componentsTree.map((item) => {
+                        return doc.createNode(item);
+                    });
+                    const { target, index } = getSuitableInsertion(ctx, nodes) || {};
+                    if (!target)
+                        return;
+
+                    const canAddComponentsTree = nodes.filter((node) => {
+                        const dragNodeObject: IPublicTypeDragNodeObject<INode> = {
+                            type: IPublicEnumDragObject.Node,
+                            nodes: [node],
+                        };
+                        return doc.checkNesting(target, dragNodeObject);
+                    });
+                    if (canAddComponentsTree.length === 0)
+                        return;
+
+                    nodes = insertChildren(target, canAddComponentsTree, index);
+                    if (nodes)
+                        doc.selection.selectAll(nodes.map(o => o.id));
+                }
+            }),
+        );
 
         // command + z undo
-        hotkey.bind(['command+z', 'ctrl+z'], (e, action) => {
-            logger.info(`action ${action} is triggered`);
-            if (canvas.isInLiveEditing)
-                return;
+        dispose.push(
+            hotkey.bind(['command+z', 'ctrl+z'], (e, action) => {
+                logger.info(`action ${action} is triggered`);
+                if (canvas.isInLiveEditing)
+                    return;
 
-            const history = project.currentDocument?.history;
-            if (isFormEvent(e) || !history)
-                return;
+                const history = project.currentDocument?.history;
+                if (isFormEvent(e) || !history)
+                    return;
 
-            e.preventDefault();
-            const selection = project.currentDocument?.selection;
-            const curSelected = selection?.selected && Array.from(selection?.selected);
-            history.back();
-            selection?.selectAll(curSelected);
-        });
+                e.preventDefault();
+                const selection = project.currentDocument?.selection;
+                const curSelected = selection?.selected && Array.from(selection?.selected);
+                history.back();
+                selection?.selectAll(curSelected);
+            }),
+        );
 
         // command + shift + z redo
-        hotkey.bind(['command+y', 'ctrl+y', 'command+shift+z'], (e, action) => {
-            logger.info(`action ${action} is triggered`);
-            if (canvas.isInLiveEditing)
-                return;
+        dispose.push(
+            hotkey.bind(['command+y', 'ctrl+y', 'command+shift+z'], (e, action) => {
+                logger.info(`action ${action} is triggered`);
+                if (canvas.isInLiveEditing)
+                    return;
 
-            const history = project.currentDocument?.history;
-            if (isFormEvent(e) || !history)
-                return;
+                const history = project.currentDocument?.history;
+                if (isFormEvent(e) || !history)
+                    return;
 
-            e.preventDefault();
-            const selection = project.currentDocument?.selection;
-            const curSelected = selection?.selected && Array.from(selection?.selected);
-            history.forward();
-            selection?.selectAll(curSelected);
-        });
+                e.preventDefault();
+                const selection = project.currentDocument?.selection;
+                const curSelected = selection?.selected && Array.from(selection?.selected);
+                history.forward();
+                selection?.selectAll(curSelected);
+            }),
+        );
 
         let prePanel: any;
-        hotkey.bind(['command+b', 'ctrl+b'], (e, action) => {
-            logger.info(`action ${action} is triggered`);
-            if (canvas.isInLiveEditing)
-                return;
+        dispose.push(
+            hotkey.bind(['command+b', 'ctrl+b'], (e, action) => {
+                logger.info(`action ${action} is triggered`);
+                if (canvas.isInLiveEditing)
+                    return;
 
-            const history = project.currentDocument?.history;
-            if (isFormEvent(e) || !history)
-                return;
+                const history = project.currentDocument?.history;
+                if (isFormEvent(e) || !history)
+                    return;
 
-            e.preventDefault();
+                e.preventDefault();
 
-            const currentItem = skeleton.leftFloatArea.current || prePanel || skeleton.leftFloatArea.items[0];
-            prePanel = currentItem;
-            prePanel?.toggle();
+                const currentItem = skeleton.leftFloatArea.current || prePanel || skeleton.leftFloatArea.items[0];
+                prePanel = currentItem;
+                prePanel?.toggle();
+            }),
+        );
+        dispose.push(() => {
+            prePanel = undefined;
         });
 
-        hotkey.bind(['command+shift+d'], (e, action) => {
-            logger.info(`action ${action} is triggered`);
-            if (canvas.isInLiveEditing)
-                return;
+        dispose.push(
+            hotkey.bind(['command+shift+d'], (e, action) => {
+                logger.info(`action ${action} is triggered`);
+                if (canvas.isInLiveEditing)
+                    return;
 
-            const history = project.currentDocument?.history;
-            if (isFormEvent(e) || !history)
-                return;
+                const history = project.currentDocument?.history;
+                if (isFormEvent(e) || !history)
+                    return;
 
-            e.preventDefault();
+                e.preventDefault();
 
-            const currentItem = skeleton.leftFloatArea.items.find(item => item.name === 'PluginComponentTreePanel');
-            if (currentItem)
-                currentItem.toggle();
-        });
+                const currentItem = skeleton.leftFloatArea.items.find(item => item.name === 'PluginComponentTreePanel');
+                if (currentItem)
+                    currentItem.toggle();
+            }),
+        );
 
-        hotkey.bind(['command+shift+e'], (e, action) => {
-            logger.info(`action ${action} is triggered`);
-            if (canvas.isInLiveEditing)
-                return;
+        dispose.push(
+            hotkey.bind(['command+shift+e'], (e, action) => {
+                logger.info(`action ${action} is triggered`);
+                if (canvas.isInLiveEditing)
+                    return;
 
-            const history = project.currentDocument?.history;
-            if (isFormEvent(e) || !history)
-                return;
+                const history = project.currentDocument?.history;
+                if (isFormEvent(e) || !history)
+                    return;
 
-            e.preventDefault();
+                e.preventDefault();
 
-            const currentItem = skeleton.leftFloatArea.items.find(item => item.name === 'PluginCodePanel');
-            if (currentItem)
-                currentItem.toggle();
-        });
+                const currentItem = skeleton.leftFloatArea.items.find(item => item.name === 'PluginCodePanel');
+                if (currentItem)
+                    currentItem.toggle();
+            }),
+        );
 
         // sibling selection
-        hotkey.bind(['left', 'right'], (e, action) => {
-            logger.info(`action ${action} is triggered`);
-            if (canvas.isInLiveEditing)
-                return;
+        dispose.push(
+            hotkey.bind(['left', 'right'], (e, action) => {
+                logger.info(`action ${action} is triggered`);
+                if (canvas.isInLiveEditing)
+                    return;
 
-            const doc = project.currentDocument;
-            if (isFormEvent(e) || !doc)
-                return;
+                const doc = project.currentDocument;
+                if (isFormEvent(e) || !doc)
+                    return;
 
-            e.preventDefault();
-            const selected = doc.selection.getTopNodes(true);
-            if (!selected || selected.length < 1)
-                return;
+                e.preventDefault();
+                const selected = doc.selection.getTopNodes(true);
+                if (!selected || selected.length < 1)
+                    return;
 
-            const firstNode = selected[0];
-            const sibling = action === 'left' ? firstNode?.prevSibling : firstNode?.nextSibling;
-            sibling?.select();
-        });
+                const firstNode = selected[0];
+                const sibling = action === 'left' ? firstNode?.prevSibling : firstNode?.nextSibling;
+                sibling?.select();
+            }),
+        );
 
-        hotkey.bind(['up', 'down'], (e, action) => {
-            logger.info(`action ${action} is triggered`);
-            if (canvas.isInLiveEditing)
-                return;
+        dispose.push(
+            hotkey.bind(['up', 'down'], (e, action) => {
+                logger.info(`action ${action} is triggered`);
+                if (canvas.isInLiveEditing)
+                    return;
 
-            const doc = project.currentDocument;
-            if (isFormEvent(e) || !doc)
-                return;
+                const doc = project.currentDocument;
+                if (isFormEvent(e) || !doc)
+                    return;
 
-            e.preventDefault();
-            const selected = doc.selection.getTopNodes(true);
-            if (!selected || selected.length < 1)
-                return;
+                e.preventDefault();
+                const selected = doc.selection.getTopNodes(true);
+                if (!selected || selected.length < 1)
+                    return;
 
-            const firstNode = selected[0];
+                const firstNode = selected[0];
 
-            if (action === 'down') {
-                const next = getNextForSelect(firstNode, true, firstNode?.parent);
-                next?.select();
-            }
-            else if (action === 'up') {
-                const prev = getPrevForSelect(firstNode, true, firstNode?.parent);
-                prev?.select();
-            }
-        });
+                if (action === 'down') {
+                    const next = getNextForSelect(firstNode, true, firstNode?.parent);
+                    next?.select();
+                }
+                else if (action === 'up') {
+                    const prev = getPrevForSelect(firstNode, true, firstNode?.parent);
+                    prev?.select();
+                }
+            }),
+        );
 
-        hotkey.bind(['option+left', 'option+right'], (e, action) => {
-            logger.info(`action ${action} is triggered`);
-            if (canvas.isInLiveEditing)
-                return;
+        dispose.push(
+            hotkey.bind(['option+left', 'option+right'], (e, action) => {
+                logger.info(`action ${action} is triggered`);
+                if (canvas.isInLiveEditing)
+                    return;
 
-            const doc = project.currentDocument;
-            if (isFormEvent(e) || !doc)
-                return;
+                const doc = project.currentDocument;
+                if (isFormEvent(e) || !doc)
+                    return;
 
-            e.preventDefault();
-            const selected = doc.selection.getTopNodes(true);
-            if (!selected || selected.length < 1)
-                return;
+                e.preventDefault();
+                const selected = doc.selection.getTopNodes(true);
+                if (!selected || selected.length < 1)
+                    return;
 
-            // TODO: 此处需要增加判断当前节点是否可被操作移动，原ve里是用 node.canOperating()来判断
-            // TODO: 移动逻辑也需要重新梳理，对于移动目标位置的选择，是否可以移入，需要增加判断
+                // TODO: 此处需要增加判断当前节点是否可被操作移动，原ve里是用 node.canOperating()来判断
+                // TODO: 移动逻辑也需要重新梳理，对于移动目标位置的选择，是否可以移入，需要增加判断
 
-            const firstNode = selected[0];
-            const parent = firstNode?.parent;
-            if (!parent)
-                return;
+                const firstNode = selected[0];
+                const parent = firstNode?.parent;
+                if (!parent)
+                    return;
 
-            const isPrev = action && /(left)$/.test(action);
+                const isPrev = action && /(left)$/.test(action);
 
-            const sibling = isPrev ? firstNode.prevSibling : firstNode.nextSibling;
-            if (sibling) {
-                if (isPrev)
-                    parent.insertBefore(firstNode, sibling);
-                else
-                    parent.insertAfter(firstNode, sibling);
+                const sibling = isPrev ? firstNode.prevSibling : firstNode.nextSibling;
+                if (sibling) {
+                    if (isPrev)
+                        parent.insertBefore(firstNode, sibling);
+                    else
+                        parent.insertAfter(firstNode, sibling);
 
-                firstNode?.select();
-            }
-        });
+                    firstNode?.select();
+                }
+            }),
+        );
 
-        hotkey.bind(['option+up'], (e, action) => {
-            logger.info(`action ${action} is triggered`);
-            if (canvas.isInLiveEditing)
-                return;
+        dispose.push(
+            hotkey.bind(['option+up'], (e, action) => {
+                logger.info(`action ${action} is triggered`);
+                if (canvas.isInLiveEditing)
+                    return;
 
-            const doc = project.currentDocument;
-            if (isFormEvent(e) || !doc)
-                return;
+                const doc = project.currentDocument;
+                if (isFormEvent(e) || !doc)
+                    return;
 
-            e.preventDefault();
-            const selected = doc.selection.getTopNodes(true);
-            if (!selected || selected.length < 1)
-                return;
+                e.preventDefault();
+                const selected = doc.selection.getTopNodes(true);
+                if (!selected || selected.length < 1)
+                    return;
 
-            // TODO: 此处需要增加判断当前节点是否可被操作移动，原ve里是用 node.canOperating()来判断
-            // TODO: 移动逻辑也需要重新梳理，对于移动目标位置的选择，是否可以移入，需要增加判断
+                // TODO: 此处需要增加判断当前节点是否可被操作移动，原ve里是用 node.canOperating()来判断
+                // TODO: 移动逻辑也需要重新梳理，对于移动目标位置的选择，是否可以移入，需要增加判断
 
-            const firstNode = selected[0];
-            const parent = firstNode?.parent;
-            if (!parent)
-                return;
+                const firstNode = selected[0];
+                const parent = firstNode?.parent;
+                if (!parent)
+                    return;
 
-            const sibling = firstNode.prevSibling;
-            if (sibling) {
-                if (sibling.isContainerNode) {
-                    const place = getSuitablePlaceForNode(sibling, firstNode, null);
-                    sibling.insertAfter(firstNode, place.ref);
+                const sibling = firstNode.prevSibling;
+                if (sibling) {
+                    if (sibling.isContainerNode) {
+                        const place = getSuitablePlaceForNode(sibling, firstNode, null);
+                        sibling.insertAfter(firstNode, place.ref);
+                    }
+                    else {
+                        parent.insertBefore(firstNode, sibling);
+                    }
+                    firstNode?.select();
                 }
                 else {
-                    parent.insertBefore(firstNode, sibling);
+                    const place = getSuitablePlaceForNode(parent, firstNode, null); // upwards
+                    if (place) {
+                        place.container.insertBefore(firstNode, place.ref);
+                        firstNode?.select();
+                    }
                 }
-                firstNode?.select();
-            }
-            else {
-                const place = getSuitablePlaceForNode(parent, firstNode, null); // upwards
-                if (place) {
-                    place.container.insertBefore(firstNode, place.ref);
+            }),
+        );
+
+        dispose.push(
+            hotkey.bind(['option+down'], (e, action) => {
+                logger.info(`action ${action} is triggered`);
+                if (canvas.isInLiveEditing)
+                    return;
+
+                const doc = project.currentDocument;
+                if (isFormEvent(e) || !doc)
+                    return;
+
+                e.preventDefault();
+                const selected = doc.selection.getTopNodes(true);
+                if (!selected || selected.length < 1)
+                    return;
+
+                // TODO: 此处需要增加判断当前节点是否可被操作移动，原 ve 里是用 node.canOperating() 来判断
+                // TODO: 移动逻辑也需要重新梳理，对于移动目标位置的选择，是否可以移入，需要增加判断
+
+                const firstNode = selected[0];
+                const parent = firstNode?.parent;
+                if (!parent)
+                    return;
+
+                const sibling = firstNode.nextSibling;
+                if (sibling) {
+                    if (sibling.isContainerNode)
+                        sibling.insertBefore(firstNode, undefined);
+                    else
+                        parent.insertAfter(firstNode, sibling);
+
                     firstNode?.select();
                 }
-            }
-        });
-
-        hotkey.bind(['option+down'], (e, action) => {
-            logger.info(`action ${action} is triggered`);
-            if (canvas.isInLiveEditing)
-                return;
-
-            const doc = project.currentDocument;
-            if (isFormEvent(e) || !doc)
-                return;
-
-            e.preventDefault();
-            const selected = doc.selection.getTopNodes(true);
-            if (!selected || selected.length < 1)
-                return;
-
-            // TODO: 此处需要增加判断当前节点是否可被操作移动，原 ve 里是用 node.canOperating() 来判断
-            // TODO: 移动逻辑也需要重新梳理，对于移动目标位置的选择，是否可以移入，需要增加判断
-
-            const firstNode = selected[0];
-            const parent = firstNode?.parent;
-            if (!parent)
-                return;
-
-            const sibling = firstNode.nextSibling;
-            if (sibling) {
-                if (sibling.isContainerNode)
-                    sibling.insertBefore(firstNode, undefined);
-                else
-                    parent.insertAfter(firstNode, sibling);
-
-                firstNode?.select();
-            }
-            else {
-                const place = getSuitablePlaceForNode(parent, firstNode, null); // upwards
-                if (place) {
-                    place.container.insertAfter(firstNode, place.ref, true);
-                    firstNode?.select();
+                else {
+                    const place = getSuitablePlaceForNode(parent, firstNode, null); // upwards
+                    if (place) {
+                        place.container.insertAfter(firstNode, place.ref, true);
+                        firstNode?.select();
+                    }
                 }
-            }
-        });
+            }),
+        );
     },
-    destroy() {},
+    destroy() {
+        dispose.forEach(fn => fn());
+        dispose = [];
+    },
 });

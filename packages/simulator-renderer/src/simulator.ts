@@ -185,7 +185,7 @@ function createSimulatorRenderer() {
     const components: Ref<Record<string, Component>> = shallowRef({});
     const componentsMap: Ref<Record<string, MixedComponent>> = shallowRef({});
     const documentInstances: Ref<DocumentInstance[]> = shallowRef([]);
-    const disposeFunctions: Array<() => void> = [];
+    let disposeFunctions: Array<() => void> = [];
     const documentInstanceMap = new Map<string, DocumentInstance>();
 
     const assetLoader = new AssetLoader();
@@ -342,6 +342,7 @@ function createSimulatorRenderer() {
     simulator.dispose = () => {
         simulator.app.unmount();
         disposeFunctions.forEach(fn => fn());
+        disposeFunctions = [];
     };
 
     simulator.getCurrentDocument = () => {

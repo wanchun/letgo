@@ -8,8 +8,8 @@ import {
     shallowRef,
 } from 'vue';
 import { FPopper } from '@fesjs/fes-design';
-import { canClickNode } from '../../utils';
-import type { INode } from '../../types';
+import { canClickNode } from '../../../utils';
+import type { INode } from '../../../types';
 import './index.less';
 
 type UnionNode = INode | null;

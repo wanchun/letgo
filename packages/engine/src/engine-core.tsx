@@ -22,21 +22,20 @@ import { BuiltinHotkey } from './inner-plugins/builtin-hotkey';
 import './global.less';
 
 const innerDesigner = new Designer({ editor });
-
 const innerSkeleton = new Skeleton(editor, innerDesigner);
 const innerHotKey = new Hotkey();
-
 const innerPlugins = new PluginManager(innerDesigner, innerSkeleton, innerHotKey).toProxy();
 
 export const version = ENGINE_VERSION_PLACEHOLDER;
 
 engineConfig.set('ENGINE_VERSION', version);
 
-const { config, designer, plugins, skeleton, material, project, hotkey, setters } = new PluginContext(innerPlugins, {
+const { designer, plugins, skeleton, material, project, hotkey, setters } = new PluginContext(innerPlugins, {
     pluginName: 'CommonPlugin',
+    meta: {},
 });
 
-export { editor, config, designer, plugins, skeleton, material, project, hotkey, setters, registerMetadataTransducer };
+export { editor, designer, plugins, skeleton, material, project, hotkey, setters, registerMetadataTransducer };
 
 // 注册一批内置插件
 function loadBuiltInPlugins() {
@@ -82,6 +81,9 @@ export const LetgoEngine = defineComponent({
         let unInstall: () => Promise<void>;
 
         onBeforeMount(async () => {
+            innerHotKey.setup(window);
+            innerDesigner.setup();
+
             if (props.options)
                 engineConfig.setEngineOptions(props.options);
 
@@ -103,7 +105,8 @@ export const LetgoEngine = defineComponent({
 
         onBeforeUnmount(async () => {
             await unInstall();
-            designer.purge();
+            innerHotKey.purge();
+            innerDesigner.purge();
         });
 
         return () => {

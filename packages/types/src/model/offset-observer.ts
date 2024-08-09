@@ -5,37 +5,32 @@ import type {
 export interface IPublicModelOffsetObserver<
     Node = IPublicModelNode,
 > {
-    readonly id: string
+    readonly id: string;
 
-    hasOffset: boolean
+    readonly node: Node;
 
-    get height(): number
+    get hasOffset(): boolean;
 
-    get width(): number
+    get height(): number;
 
-    get top(): number
+    get width(): number;
 
-    get left(): number
+    get top(): number;
 
-    get bottom(): number
+    get left(): number;
 
-    get right(): number
+    get bottom(): number;
 
-    get offsetLeft(): number
+    get right(): number;
 
-    get offsetTop(): number
+    get offsetLeft(): number;
 
-    get offsetHeight(): number
+    get offsetTop(): number;
 
-    get offsetWidth(): number
+    get offsetHeight(): number;
 
-    get scale(): number
+    get offsetWidth(): number;
 
-    readonly node: Node
+    get scale(): number;
 
-    readonly compute: () => void
-
-    purge(): void
-
-    isPurged(): boolean
 }

@@ -12,103 +12,69 @@ export interface IContextMenuActions {
 
     removeMenuAction: IPublicApiMaterial['removeContextMenuOption'];
 
+    setup: () => void;
+
     purge: () => void;
 }
 
-export class GlobalContextMenuActions {
-    enableContextMenu: boolean;
-
-    dispose: Function[];
-
-    contextMenuActionsMap: Map<string, ContextMenuActions> = new Map();
-
-    constructor() {
-        this.dispose = [];
-        engineConfig.onGot('enableContextMenu', (enable: boolean) => {
-            if (this.enableContextMenu === enable)
-                return;
-
-            this.enableContextMenu = enable;
-            this.dispose.forEach(d => d());
-            if (enable)
-                this.initEvent();
-        });
-    }
-
-    handleContextMenu = (
-        event: MouseEvent,
-    ) => {
-        event.stopPropagation();
-        event.preventDefault();
-
-        const actions: IPublicTypeContextMenuAction[] = [];
-        this.contextMenuActionsMap.forEach((contextMenu) => {
-            actions.push(...contextMenu.actions);
-        });
-
-        const menus = parseContextMenuProperties(actions, {
-            nodes: [],
-            event,
-        });
-
-        if (!menus.length)
-            return;
-
-        createContextMenu(menus, event);
-    };
-
-    initEvent() {
-        this.dispose.push(
-            (() => {
-                const handleContextMenu = (e: MouseEvent) => {
-                    this.handleContextMenu(e);
-                };
-
-                document.addEventListener('contextmenu', handleContextMenu);
-
-                return () => {
-                    document.removeEventListener('contextmenu', handleContextMenu);
-                };
-            })(),
-        );
-    }
-
-    registerContextMenuActions(contextMenu: ContextMenuActions) {
-        this.contextMenuActionsMap.set(contextMenu.id, contextMenu);
-    }
-}
-
 export class ContextMenuActions implements IContextMenuActions {
+    readonly designer: Designer;
+
+    readonly id: string = uniqueId('contextMenu');
+
     actions: IPublicTypeContextMenuAction[] = [];
 
-    designer: Designer;
-
-    dispose: Function[];
-    listeners: Function[] = [];
+    dispose: Function[] = [];
 
     enableContextMenu: boolean;
-
-    id: string = uniqueId('contextMenu');
 
     constructor(designer: Designer) {
         this.designer = designer;
-        this.dispose = [];
-        this.listeners.push(engineConfig.onGot('enableContextMenu', (enable: boolean) => {
-            if (this.enableContextMenu === enable)
-                return;
-
-            this.enableContextMenu = enable;
-            this.dispose.forEach(d => d());
-            this.dispose = [];
-            if (enable)
-                this.initEvent();
-        }));
     }
 
-    handleContextMenu = (
+    setup() {
+        this.dispose.push(
+            engineConfig.onGot('enableContextMenu', (enable: boolean) => {
+                this.enableContextMenu = enable;
+            }),
+        );
+        this.initEvent();
+    }
+
+    initEvent() {
+        const designer = this.designer;
+
+        this.dispose.push(
+            designer.editor.onEvent('designer.builtinSimulator.contextmenu', ({
+                node,
+                originalEvent,
+            }: {
+                node?: INode;
+                originalEvent: MouseEvent;
+            }) => {
+                if (!this.enableContextMenu)
+                    return;
+
+                originalEvent.stopPropagation();
+                originalEvent.preventDefault();
+
+                if (!node)
+                    node = designer.currentDocument.root;
+
+                // 如果右键的节点不在 当前选中的节点中，选中该节点
+                if (!designer.currentSelection.has(node.id))
+                    designer.currentSelection.select(node.id);
+
+                const nodes = designer.currentSelection.getNodes();
+                this.handleContextMenu(nodes as unknown as IPublicModelNode[], originalEvent);
+            }),
+        );
+    }
+
+    handleContextMenu(
         nodes: IPublicModelNode[],
         event: MouseEvent,
-    ) => {
+    ) {
         const designer = this.designer;
         event.stopPropagation();
         event.preventDefault();
@@ -126,35 +92,9 @@ export class ContextMenuActions implements IContextMenuActions {
         if (!menus.length)
             return;
 
-        createContextMenu(menus, event, [simulatorLeft, simulatorTop]);
+        const { destroy } = createContextMenu(menus, event, [simulatorLeft, simulatorTop]);
+        this.dispose.push(destroy);
     };
-
-    initEvent() {
-        const designer = this.designer;
-
-        this.dispose.push(
-            designer.editor.onEvent('designer.builtinSimulator.contextmenu', ({
-                node,
-                originalEvent,
-            }: {
-                node?: INode;
-                originalEvent: MouseEvent;
-            }) => {
-                originalEvent.stopPropagation();
-                originalEvent.preventDefault();
-
-                if (!node)
-                    node = designer.currentDocument.root;
-
-                // 如果右键的节点不在 当前选中的节点中，选中该节点
-                if (!designer.currentSelection.has(node.id))
-                    designer.currentSelection.select(node.id);
-
-                const nodes = designer.currentSelection.getNodes();
-                this.handleContextMenu(nodes as unknown as IPublicModelNode[], originalEvent);
-            }),
-        );
-    }
 
     addMenuAction(action: IPublicTypeContextMenuAction) {
         this.actions.push({
@@ -170,7 +110,8 @@ export class ContextMenuActions implements IContextMenuActions {
     }
 
     purge() {
-        this.listeners.forEach(listener => listener());
         this.dispose.forEach(dispose => dispose());
+        this.dispose = [];
+        this.actions = [];
     }
 }

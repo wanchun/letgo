@@ -125,15 +125,15 @@ export default defineComponent({
             searchText.value = val;
         };
 
-        const unwatch: Array<() => void> = [];
+        let unwatch: Array<() => void> = [];
         onBeforeMount(() => {
             unwatch.push(editor.onChange('assets', (assets) => {
                 assetsRef.value = assets;
             }));
         });
-
         onUnmounted(() => {
             unwatch.forEach(fn => fn());
+            unwatch = [];
         });
 
         const dragonMap = new Map<Element, () => void>();
@@ -158,11 +158,11 @@ export default defineComponent({
             });
             dragonMap.set(el, clear);
         };
-
         onUnmounted(() => {
             dragonMap.forEach((clear) => {
                 clear();
             });
+            dragonMap.clear();
         });
 
         const renderSnippet = (snippets: IPublicTypeSnippet[]) => {

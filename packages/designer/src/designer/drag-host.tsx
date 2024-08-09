@@ -20,7 +20,7 @@ export const DragHostView = defineComponent({
 
         const dragon = props.designer.dragon;
 
-        const dispose = [
+        let dispose = [
             dragon.onDragstart((e) => {
                 if (e.originalEvent.type.slice(0, 4) === 'drag')
                     return;
@@ -73,6 +73,7 @@ export const DragHostView = defineComponent({
 
         onBeforeUnmount(() => {
             dispose.forEach(off => off());
+            dispose = [];
         });
 
         return () => {

@@ -74,16 +74,17 @@ function buildCenterAction(node: INode, action?: IPublicTypeComponentAction) {
     return null;
 }
 
-function useSchema(props: LeafProps, node: INode) {
+function useSchema(props: LeafProps, node?: INode) {
     const compProps: {
         [x: string]: unknown;
     } = reactive({});
     const compSlots: SlotSchemaMap = shallowReactive({});
 
-    const result = buildSchema(node.computedSchema, node);
-
-    Object.assign(compProps, result.props);
-    Object.assign(compSlots, result.slots);
+    if (node) {
+        const result = buildSchema(node.computedSchema, node);
+        Object.assign(compProps, result.props);
+        Object.assign(compSlots, result.slots);
+    }
 
     const updateEvents = (events: IEventHandler[], oldEvents?: IEventHandler[]) => {
         (props.schema.events || []).concat(oldEvents || []).forEach((item) => {
@@ -157,9 +158,12 @@ export const Hoc = defineComponent({
         const { compProps, updateEvents, compSlots } = useSchema(props, node);
 
         // 控制显示
-        const dialogControlProp = node.componentMeta.dialogControlProp;
-        if (dialogControlProp)
-            compProps[dialogControlProp] = node.isDialogOpen;
+        let dialogControlProp: string;
+        if (node) {
+            dialogControlProp = node.componentMeta.dialogControlProp;
+            if (dialogControlProp)
+                compProps[dialogControlProp] = node.isDialogOpen;
+        }
 
         const innerScope: ComputedRef<RuntimeScope> = computed(() => {
             if (props.schema.componentName === 'Slot') {
@@ -191,10 +195,11 @@ export const Hoc = defineComponent({
 
         // hoc
         if (node) {
-            const disposeFunctions: Array<CallableFunction | undefined> = [];
-            onUnmounted(() =>
-                disposeFunctions.forEach(dispose => dispose?.()),
-            );
+            let disposeFunctions: Array<CallableFunction | undefined> = [];
+            onUnmounted(() => {
+                disposeFunctions.forEach(dispose => dispose?.());
+                disposeFunctions = [];
+            });
             disposeFunctions.push(
                 node.onChildrenChange(() => {
                     const schema = node.exportSchema(IPublicEnumTransformStage.Render);
@@ -330,8 +335,8 @@ export const Hoc = defineComponent({
                 render: renderComp,
             });
             // slot 的 scope 是内建的，需要往后传
-            const slots = innerBuildSlots(compSlots, node.componentName === 'Slot' ? innerScope : null);
-            return h(comp, props, node.componentMeta.centerAction ? buildCenterAction(node, node.componentMeta.centerAction) : slots);
+            const slots = innerBuildSlots(compSlots, node?.componentName === 'Slot' ? innerScope : null);
+            return h(comp, props, node?.componentMeta.centerAction ? buildCenterAction(node, node?.componentMeta.centerAction) : slots);
         }
 
         if (!Array.isArray(loop)) {

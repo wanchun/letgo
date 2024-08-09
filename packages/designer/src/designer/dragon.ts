@@ -356,16 +356,18 @@ export class Dragon implements IPublicModelDragon<DocumentModel, INode> {
             handleEvents((doc) => {
                 if (isFromDragAPI) {
                     doc.removeEventListener('dragover', move, true);
-                    doc.removeEventListener('dragend', end, true);
                     doc.removeEventListener('drop', drop, true);
+                    doc.removeEventListener('dragend', end, true);
                 }
                 else {
                     doc.removeEventListener('mousemove', move, true);
                     doc.removeEventListener('mouseup', end, true);
+                    if (!newBie) {
+                        doc.removeEventListener('keydown', checkCopy, false);
+                        doc.removeEventListener('keyup', checkCopy, false);
+                    }
                 }
                 doc.removeEventListener('mousedown', end, true);
-                doc.removeEventListener('keydown', checkCopy, false);
-                doc.removeEventListener('keyup', checkCopy, false);
             });
             /* istanbul ignore next */
             if (exception)
@@ -382,16 +384,13 @@ export class Dragon implements IPublicModelDragon<DocumentModel, INode> {
             else {
                 doc.addEventListener('mousemove', move, true);
                 doc.addEventListener('mouseup', end, true);
+                if (!newBie) {
+                    doc.addEventListener('keydown', checkCopy, false);
+                    doc.addEventListener('keyup', checkCopy, false);
+                }
             }
             doc.addEventListener('mousedown', end, true);
         });
-
-        if (!newBie && !isFromDragAPI) {
-            handleEvents((doc) => {
-                doc.addEventListener('keydown', checkCopy, false);
-                doc.addEventListener('keyup', checkCopy, false);
-            });
-        }
     }
 
     /**
@@ -476,5 +475,8 @@ export class Dragon implements IPublicModelDragon<DocumentModel, INode> {
 
     purge() {
         this.emitter.removeAllListeners();
+        this._dragging = false;
+        this._activeSensor = undefined;
+        this._dropLocation = undefined;
     }
 }

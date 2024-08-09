@@ -223,7 +223,7 @@ export class Editor extends EventEmitter implements IPublicEditor {
     }
 
     purge(): void {
-        this.context.clear();
+        this.waits.clear();
         this.removeAllListeners();
     }
 }

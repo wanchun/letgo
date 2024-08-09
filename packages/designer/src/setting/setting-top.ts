@@ -240,6 +240,7 @@ export class SettingTop implements ISettingTop {
 
     purge() {
         this.disposeItems();
+        this._componentMeta = null;
         this._settingFieldMap = {};
         this.emitter.removeAllListeners();
         this.disposeFunctions.forEach(f => f());

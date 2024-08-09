@@ -16,8 +16,8 @@ import {
 } from 'vue';
 import type { OffsetObserver } from '../../designer';
 import type { INode } from '../../types';
-import NodeSelectorView from '../node-selector';
 import type { Simulator } from '../simulator';
+import NodeSelectorView from './node-selector';
 import './borders.less';
 
 export function createAction(content: IPublicTypeComponentActionContent, key: string, node: INode, simulator: Simulator) {
@@ -69,6 +69,23 @@ export const Toolbar = defineComponent({
         },
     },
     setup(props) {
+        const { node } = props.observed;
+
+        const renderAction = () => {
+            const actions: VNodeChild = [];
+            node.componentMeta.availableActions.forEach((action) => {
+                const { important = true, condition, content, name } = action;
+                if (
+                    important
+                    && (typeof condition === 'function'
+                        ? condition(node) !== false
+                        : condition !== false)
+                )
+                    actions.push(createAction(content, name, node, props.simulator));
+            });
+            return actions;
+        };
+
         return () => {
             const { observed } = props;
             const { height, width } = observed.viewport;
@@ -114,22 +131,11 @@ export const Toolbar = defineComponent({
                 )}px`;
                 style.justifyContent = 'flex-start';
             }
-            const { node } = observed;
-            const actions: VNodeChild = [];
-            node.componentMeta.availableActions.forEach((action) => {
-                const { important = true, condition, content, name } = action;
-                if (
-                    important
-                    && (typeof condition === 'function'
-                        ? condition(node) !== false
-                        : condition !== false)
-                )
-                    actions.push(createAction(content, name, node, props.simulator));
-            });
+
             return (
                 <div class="letgo-designer-sim__border-actions" style={style}>
                     <NodeSelectorView node={node} />
-                    {actions}
+                    {renderAction()}
                 </div>
             );
         };
@@ -178,9 +184,7 @@ export const BorderSelectingInstance = defineComponent({
                     style={style}
                 >
                     {!dragging && (
-                        <>
-                            <Toolbar observed={observed} simulator={props.simulator} />
-                        </>
+                        <Toolbar observed={observed} simulator={props.simulator} />
                     )}
                 </div>
             );

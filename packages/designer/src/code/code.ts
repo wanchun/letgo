@@ -58,6 +58,10 @@ export class Code implements IPublicModelCode {
         return this.codeStruct.code;
     }
 
+    setup() {
+
+    }
+
     private findCodes(type: IEnumCodeType) {
         const result: ICodeItem[] = [];
         this.codeStruct.code.forEach((item) => {

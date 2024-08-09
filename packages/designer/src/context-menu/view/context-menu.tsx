@@ -84,9 +84,9 @@ export const ContextMenuView = defineComponent({
         const processedItems = computed(() => {
             return createProcessedItems(props.model);
         });
+
         const visibleItems = computed(() => {
             const processedItem = activeItemPath.value.find(p => p.key === focusedItemInfo.value.parentKey);
-
             return processedItem ? processedItem.items || [] : processedItems.value;
         });
 
@@ -281,7 +281,7 @@ export const ContextMenuView = defineComponent({
             event.preventDefault();
         }
 
-        function isProccessedItemGroup(processedItem: MenuItem) {
+        function isProcessedItemGroup(processedItem: MenuItem) {
             return processedItem && !isEmpty(processedItem.items);
         }
 
@@ -309,7 +309,7 @@ export const ContextMenuView = defineComponent({
             if (event.altKey) {
                 if (focusedItemInfo.value.index !== -1) {
                     const processedItem = visibleItems.value[focusedItemInfo.value.index];
-                    const grouped = isProccessedItemGroup(processedItem);
+                    const grouped = isProcessedItemGroup(processedItem);
 
                     !grouped && onItemChange({ processedItem });
                 }
@@ -340,7 +340,7 @@ export const ContextMenuView = defineComponent({
 
         function onArrowRightKey(event: KeyboardEvent) {
             const processedItem = visibleItems.value[focusedItemInfo.value.index];
-            const grouped = isProccessedItemGroup(processedItem);
+            const grouped = isProcessedItemGroup(processedItem);
 
             if (grouped) {
                 onItemChange({ processedItem });
@@ -368,7 +368,7 @@ export const ContextMenuView = defineComponent({
                     anchorElement ? anchorElement.click() : element && element.click();
 
                 const processedItem = visibleItems.value[focusedItemInfo.value.index];
-                const grouped = isProccessedItemGroup(processedItem);
+                const grouped = isProcessedItemGroup(processedItem);
 
                 !grouped && (focusedItemInfo.value.index = findFirstFocusedItemIndex());
             }
@@ -386,7 +386,7 @@ export const ContextMenuView = defineComponent({
         function onTabKey() {
             if (focusedItemInfo.value.index !== -1) {
                 const processedItem = visibleItems.value[focusedItemInfo.value.index];
-                const grouped = isProccessedItemGroup(processedItem);
+                const grouped = isProcessedItemGroup(processedItem);
 
                 !grouped && onItemChange({ processedItem });
             }
@@ -449,7 +449,7 @@ export const ContextMenuView = defineComponent({
 
         function onItemClick(params: { processedItem: InnerMenuItem; isFocus?: boolean }) {
             const { processedItem } = params;
-            const grouped = isProccessedItemGroup(processedItem);
+            const grouped = isProcessedItemGroup(processedItem);
             const selected = isSelected(processedItem);
 
             if (selected) {

@@ -25,7 +25,7 @@ export default defineComponent({
         const main = new SettingsMain(editor, designer);
 
         onBeforeUnmount(() => {
-            main?.purge();
+            main.purge();
         });
 
         const { popupList, closePopup, closeAllPopup } = usePopup();

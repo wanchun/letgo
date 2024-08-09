@@ -159,33 +159,15 @@ function compileJSExpression(expression: IPublicTypeJSExpression) {
     return `{${formatExpression(expression)}}`;
 }
 
-function hasCondition(condition: IPublicTypeCompositeValue) {
-    if (!isNil(condition)) {
-        if (isJSExpression(condition)) {
-            if (isSyntaxError(condition.value))
-                return false;
-
-            return true;
-        }
-        return false;
-    }
-    return false;
-}
-
 function wrapCondition(code: string, condition: IPublicTypeCompositeValue, isRoot = false) {
     if (!isNil(condition)) {
         if (isJSExpression(condition)) {
             if (isSyntaxError(condition.value))
                 return code;
 
-            if (isRoot) {
-                return `
-                if (${condition.value}) {
-                    return ${code}
-                }
-                return null;
-                `;
-            }
+            if (isRoot)
+                return `(condition.value) && ${code}`;
+
             return `{
                 (${condition.value}) && ${code}
             }`;
@@ -330,20 +312,11 @@ function genSlotDirective(ctx: Context, item: IPublicTypeNodeSchema, componentRe
     const slotDefine: Record<string, string> = {};
     const slotChildren = genNodeSchemaChildren(item).filter(item => isJSSlot(item));
     if (slotChildren.length) {
-        if (slotChildren.length > 1) {
-            slotDefine.default = `
-            () => {
-                return ${wrapFragment(compileNodeData(ctx, slotChildren, componentRefs, false))}
-            }
-            `;
+        slotDefine.default = `
+        () => {
+            return ${wrapFragment(compileNodeData(ctx, slotChildren, componentRefs, slotChildren.length > 1))}
         }
-        else {
-            slotDefine.default = `
-            () => {
-                ${hasCondition(slotChildren[0].condition) ? '' : 'return '} ${wrapFragment(compileNodeData(ctx, slotChildren, componentRefs, true))}
-            }
-            `;
-        }
+        `;
     }
     Object.keys(item.props).forEach((key) => {
         const cur = item.props[key];
@@ -356,20 +329,11 @@ function genSlotDirective(ctx: Context, item: IPublicTypeNodeSchema, componentRe
                 return;
 
             ctx.scope = ctx.scope.concat(params);
-            if (slotChildren.length > 1) {
-                slotDefine[slotName] = `
-                (${params.join(', ')}) => {
-                    return ${wrapFragment(compileNodeData(ctx, cur.value, componentRefs, false))}
-                }
-                `;
+            slotDefine[slotName] = `
+            (${params.join(', ')}) => {
+                return ${wrapFragment(compileNodeData(ctx, cur.value, componentRefs, slotChildren.length > 1))}
             }
-            else if (slotChildren.length === 1) {
-                slotDefine[slotName] = `
-                (${params.join(', ')}) => {
-                    ${hasCondition(slotChildren[0].condition) ? '' : 'return '} ${wrapFragment(compileNodeData(ctx, cur.value, componentRefs, true))}
-                }
-                `;
-            }
+            `;
             ctx.scope = ctx.scope.slice(0, ctx.scope.length - params.length);
         }
     });
@@ -402,20 +366,11 @@ export function genSlots(
             const slotChildren = ensureArray(value.value);
 
             ctx.scope = ctx.scope.concat(params);
-            if (slotChildren.length > 1) {
-                slots.push(`
-                    const ${genPropSlotName(key, item.ref)} = (${params.join(', ')}) => {
-                        return ${wrapFragment(compileNodeData(ctx, value.value, componentRefs, false))}
-                    }
-                    `);
-            }
-            else if (slotChildren.length) {
-                slots.push(`
-                    const ${genPropSlotName(key, item.ref)} = (${params.join(', ')}) => {
-                        ${hasCondition(slotChildren[0].condition) ? '' : 'return '} ${wrapFragment(compileNodeData(ctx, value.value, componentRefs, true))}
-                    }
-                    `);
-            }
+            slots.push(`
+                const ${genPropSlotName(key, item.ref)} = (${params.join(', ')}) => {
+                    return ${wrapFragment(compileNodeData(ctx, value.value, componentRefs, slotChildren.length > 1))}
+                }
+                `);
 
             ctx.scope = ctx.scope.slice(0, ctx.scope.length - params.length);
         });

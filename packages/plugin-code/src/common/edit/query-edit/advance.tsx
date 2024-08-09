@@ -80,6 +80,7 @@ export default defineComponent({
                 return (
                     <ContentItem
                         label="请求头"
+                        key={`header_${props.codeItem.id}`}
                         v-slots={{
                             content: () => {
                                 return (
@@ -89,6 +90,7 @@ export default defineComponent({
                                         placeholder="{}"
                                         doc={(props.codeItem as IRestQueryResource).headers?.value}
                                         onChange={changeHeaders}
+                                        id={`header_${props.codeItem.id}`}
                                     />
                                 );
                             },

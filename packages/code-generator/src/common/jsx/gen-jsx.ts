@@ -166,7 +166,7 @@ function wrapCondition(code: string, condition: IPublicTypeCompositeValue, isRoo
                 return code;
 
             if (isRoot)
-                return `(condition.value) && ${code}`;
+                return `(${condition.value}) && ${code}`;
 
             return `{
                 (${condition.value}) && ${code}
@@ -205,14 +205,9 @@ function wrapLoop(code: string, nodeSchema: IPublicTypeNodeData, isRoot = false)
         if (!isNil(nodeSchema.condition)) {
             if (isJSExpression(nodeSchema.condition)) {
                 if (nodeSchema.condition.value && !isSyntaxError(nodeSchema.condition.value)) {
-                    if (isRoot) {
-                        return `
-                            if (${nodeSchema.condition.value}) {
-                                return ${result}
-                            }
-                            return null;
-                        `;
-                    }
+                    if (isRoot)
+                        return `(${nodeSchema.condition.value}) && ${result}`;
+
                     return `{${nodeSchema.condition.value} && ${result}}`;
                 }
             }

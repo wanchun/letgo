@@ -68,7 +68,7 @@ function handleNodeSchema(node: IPublicTypeNodeSchema, callback: Callback) {
     handleEventDep(node.events, callback);
     traverseNodeProps(node.props, callback);
     if (isJSExpression(node.condition))
-        node.condition = callback(node.condition.value, node.condition, 'JSExpression');
+        node.condition.value = callback(node.condition.value, node.condition, 'JSExpression');
 
     if (isJSExpression(node.loop))
         node.loop.value = callback(node.loop.value, node.loop, 'JSExpression');

@@ -1,3 +1,22 @@
+## [1.1.4-beta.0](https://github.com/wanchun/letgo/compare/v1.1.3...v1.1.4-beta.0) (2024-08-09)
+
+
+### Bug Fixes
+
+* 最近使用组件存在内存泄露 ([9ee540d](https://github.com/wanchun/letgo/commit/9ee540db8a9f07ef6336bf2cd29a5d135708cdcb))
+* 清理内置快捷键 ([2765b1f](https://github.com/wanchun/letgo/commit/2765b1f8d44ac6c74b0295e4fba395815a0bf4cb))
+* 清理快捷键初始化绑定的事件 ([6e75a31](https://github.com/wanchun/letgo/commit/6e75a312cb2c678d7c61268037097f088ab23391))
+* 退出组件时清理editor和config & 修复menuAction的清理问题 ([332c933](https://github.com/wanchun/letgo/commit/332c933b7b6ad92b886731dd12b305383dc406ae))
+
+
+### Features
+
+* 优化project.importSchema逻辑 ([775ef3a](https://github.com/wanchun/letgo/commit/775ef3afaacb1e60cc91297cdedab83de9c2a42c))
+* 暂时不能清理editor和config ([438466e](https://github.com/wanchun/letgo/commit/438466e9c5c0d3d96a9d48e471d3eb20c2005c12))
+* 更新button ([0162b43](https://github.com/wanchun/letgo/commit/0162b436ef7241cbd6b99fad9188421f05e3c94c))
+
+
+
 ## [1.1.3](https://github.com/wanchun/letgo/compare/v1.1.2...v1.1.3) (2024-8-9)
 
 
